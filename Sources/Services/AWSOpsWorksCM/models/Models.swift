@@ -157,7 +157,7 @@ extension AssociateNodeInputBody: Swift.Decodable {
 }
 
 extension AssociateNodeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -183,7 +183,7 @@ public enum AssociateNodeOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension AssociateNodeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AssociateNodeOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -678,7 +678,7 @@ extension CreateBackupInputBody: Swift.Decodable {
 }
 
 extension CreateBackupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -706,7 +706,7 @@ public enum CreateBackupOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension CreateBackupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: CreateBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -1131,7 +1131,7 @@ extension CreateServerInputBody: Swift.Decodable {
 }
 
 extension CreateServerOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1159,7 +1159,7 @@ public enum CreateServerOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension CreateServerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: CreateServerOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -1247,7 +1247,7 @@ extension DeleteBackupInputBody: Swift.Decodable {
 }
 
 extension DeleteBackupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1273,7 +1273,7 @@ public enum DeleteBackupOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteBackupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -1331,7 +1331,7 @@ extension DeleteServerInputBody: Swift.Decodable {
 }
 
 extension DeleteServerOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1357,7 +1357,7 @@ public enum DeleteServerOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteServerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -1395,7 +1395,7 @@ extension DescribeAccountAttributesInputBody: Swift.Decodable {
 }
 
 extension DescribeAccountAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1415,7 +1415,7 @@ public enum DescribeAccountAttributesOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DescribeAccountAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: DescribeAccountAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -1547,7 +1547,7 @@ extension DescribeBackupsInputBody: Swift.Decodable {
 }
 
 extension DescribeBackupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1573,7 +1573,7 @@ public enum DescribeBackupsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DescribeBackupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: DescribeBackupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -1704,7 +1704,7 @@ extension DescribeEventsInputBody: Swift.Decodable {
 }
 
 extension DescribeEventsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1730,7 +1730,7 @@ public enum DescribeEventsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DescribeEventsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: DescribeEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -1850,7 +1850,7 @@ extension DescribeNodeAssociationStatusInputBody: Swift.Decodable {
 }
 
 extension DescribeNodeAssociationStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1874,7 +1874,7 @@ public enum DescribeNodeAssociationStatusOutputError: Swift.Error, Swift.Equatab
 }
 
 extension DescribeNodeAssociationStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: DescribeNodeAssociationStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -2010,7 +2010,7 @@ extension DescribeServersInputBody: Swift.Decodable {
 }
 
 extension DescribeServersOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -2036,7 +2036,7 @@ public enum DescribeServersOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DescribeServersOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: DescribeServersOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -2186,7 +2186,7 @@ extension DisassociateNodeInputBody: Swift.Decodable {
 }
 
 extension DisassociateNodeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -2212,7 +2212,7 @@ public enum DisassociateNodeOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DisassociateNodeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: DisassociateNodeOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -2395,7 +2395,7 @@ extension ExportServerEngineAttributeInputBody: Swift.Decodable {
 }
 
 extension ExportServerEngineAttributeOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -2421,7 +2421,7 @@ public enum ExportServerEngineAttributeOutputError: Swift.Error, Swift.Equatable
 }
 
 extension ExportServerEngineAttributeOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ExportServerEngineAttributeOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -2487,7 +2487,7 @@ extension InvalidNextTokenException {
 }
 
 /// This occurs when the provided nextToken is not valid.
-public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2539,7 +2539,7 @@ extension InvalidStateException {
 }
 
 /// The resource is in a state that does not allow you to perform a specified action.
-public struct InvalidStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2591,7 +2591,7 @@ extension LimitExceededException {
 }
 
 /// The limit of servers or backups has been reached.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2699,7 +2699,7 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
 }
 
 extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -2723,7 +2723,7 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -2872,7 +2872,7 @@ extension ResourceAlreadyExistsException {
 }
 
 /// The requested resource cannot be created because it already exists.
-public struct ResourceAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2924,7 +2924,7 @@ extension ResourceNotFoundException {
 }
 
 /// The requested resource does not exist, or access was denied.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3045,7 +3045,7 @@ extension RestoreServerInputBody: Swift.Decodable {
 }
 
 extension RestoreServerOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -3071,7 +3071,7 @@ public enum RestoreServerOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension RestoreServerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: RestoreServerOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -3627,7 +3627,7 @@ extension StartMaintenanceInputBody: Swift.Decodable {
 }
 
 extension StartMaintenanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -3653,7 +3653,7 @@ public enum StartMaintenanceOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension StartMaintenanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: StartMaintenanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -3823,7 +3823,7 @@ extension TagResourceInputBody: Swift.Decodable {
 }
 
 extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -3849,7 +3849,7 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -3932,7 +3932,7 @@ extension UntagResourceInputBody: Swift.Decodable {
 }
 
 extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -3958,7 +3958,7 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -4041,7 +4041,7 @@ extension UpdateServerEngineAttributesInputBody: Swift.Decodable {
 }
 
 extension UpdateServerEngineAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -4067,7 +4067,7 @@ public enum UpdateServerEngineAttributesOutputError: Swift.Error, Swift.Equatabl
 }
 
 extension UpdateServerEngineAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: UpdateServerEngineAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -4203,7 +4203,7 @@ extension UpdateServerInputBody: Swift.Decodable {
 }
 
 extension UpdateServerOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -4229,7 +4229,7 @@ public enum UpdateServerOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension UpdateServerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: UpdateServerOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -4285,7 +4285,7 @@ extension ValidationException {
 }
 
 /// One or more of the provided request parameters are not valid.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

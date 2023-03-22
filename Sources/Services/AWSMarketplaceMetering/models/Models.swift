@@ -77,7 +77,7 @@ extension BatchMeterUsageInputBody: Swift.Decodable {
 }
 
 extension BatchMeterUsageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -115,7 +115,7 @@ public enum BatchMeterUsageOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension BatchMeterUsageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: BatchMeterUsageOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -200,7 +200,7 @@ extension CustomerNotEntitledException {
 }
 
 /// Exception thrown when the customer does not have a valid subscription for the product.
-public struct CustomerNotEntitledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CustomerNotEntitledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -251,7 +251,7 @@ extension DisabledApiException {
 }
 
 /// The API is disabled in the Region.
-public struct DisabledApiException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DisabledApiException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -302,7 +302,7 @@ extension DuplicateRequestException {
 }
 
 /// A metering record has already been emitted by the same EC2 instance, ECS task, or EKS pod for the given {usageDimension, timestamp} with a different usageQuantity.
-public struct DuplicateRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DuplicateRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -353,7 +353,7 @@ extension ExpiredTokenException {
 }
 
 /// The submitted registration token has expired. This can happen if the buyer's browser takes too long to redirect to your page, the buyer has resubmitted the registration token, or your application has held on to the registration token for too long. Your SaaS registration website should redeem this token as soon as it is submitted by the buyer's browser.
-public struct ExpiredTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ExpiredTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -404,7 +404,7 @@ extension InternalServiceErrorException {
 }
 
 /// An internal error has occurred. Retry your request. If the problem persists, post a message with details on the AWS forums.
-public struct InternalServiceErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalServiceErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -455,7 +455,7 @@ extension InvalidCustomerIdentifierException {
 }
 
 /// You have metered usage for a CustomerIdentifier that does not exist.
-public struct InvalidCustomerIdentifierException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidCustomerIdentifierException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -506,7 +506,7 @@ extension InvalidEndpointRegionException {
 }
 
 /// The endpoint being called is in a AWS Region different from your EC2 instance, ECS task, or EKS pod. The Region of the Metering Service endpoint and the AWS Region of the resource must match.
-public struct InvalidEndpointRegionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidEndpointRegionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -557,7 +557,7 @@ extension InvalidProductCodeException {
 }
 
 /// The product code passed does not match the product code used for publishing the product.
-public struct InvalidProductCodeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidProductCodeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -608,7 +608,7 @@ extension InvalidPublicKeyVersionException {
 }
 
 /// Public Key version is invalid.
-public struct InvalidPublicKeyVersionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidPublicKeyVersionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -659,7 +659,7 @@ extension InvalidRegionException {
 }
 
 /// RegisterUsage must be called in the same AWS Region the ECS task was launched in. This prevents a container from hardcoding a Region (e.g. withRegion(“us-east-1”) when calling RegisterUsage.
-public struct InvalidRegionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRegionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -710,7 +710,7 @@ extension InvalidTagException {
 }
 
 /// The tag is invalid, or the number of tags is greater than 5.
-public struct InvalidTagException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTagException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -761,7 +761,7 @@ extension InvalidTokenException {
 }
 
 /// Registration token is invalid.
-public struct InvalidTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -812,7 +812,7 @@ extension InvalidUsageAllocationsException {
 }
 
 /// The usage allocation objects are invalid, or the number of allocations is greater than 500 for a single usage record.
-public struct InvalidUsageAllocationsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidUsageAllocationsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -863,7 +863,7 @@ extension InvalidUsageDimensionException {
 }
 
 /// The usage dimension does not match one of the UsageDimensions associated with products.
-public struct InvalidUsageDimensionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidUsageDimensionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1020,7 +1020,7 @@ extension MeterUsageInputBody: Swift.Decodable {
 }
 
 extension MeterUsageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1060,7 +1060,7 @@ public enum MeterUsageOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension MeterUsageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: MeterUsageOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -1116,7 +1116,7 @@ extension PlatformNotSupportedException {
 }
 
 /// AWS Marketplace does not support metering usage from the underlying platform. Currently, Amazon ECS, Amazon EKS, and AWS Fargate are supported.
-public struct PlatformNotSupportedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PlatformNotSupportedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1224,7 +1224,7 @@ extension RegisterUsageInputBody: Swift.Decodable {
 }
 
 extension RegisterUsageOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1260,7 +1260,7 @@ public enum RegisterUsageOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension RegisterUsageOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: RegisterUsageOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -1359,7 +1359,7 @@ extension ResolveCustomerInputBody: Swift.Decodable {
 }
 
 extension ResolveCustomerOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1389,7 +1389,7 @@ public enum ResolveCustomerOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ResolveCustomerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ResolveCustomerOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -1513,7 +1513,7 @@ extension ThrottlingException {
 }
 
 /// The calls to the API are throttled.
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1564,7 +1564,7 @@ extension TimestampOutOfBoundsException {
 }
 
 /// The timestamp value passed in the UsageRecord is out of allowed range. For BatchMeterUsage, if any of the records are outside of the allowed range, the entire batch is not processed. You must remove invalid records and try again.
-public struct TimestampOutOfBoundsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TimestampOutOfBoundsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

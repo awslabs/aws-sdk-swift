@@ -31,7 +31,12 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
     Self.MOutput == H.Output {
 
         let originalRequest = input.build()
-        let crtUnsignedRequest = try originalRequest.toHttpRequest()
+        let crtUnsignedRequest: HTTPRequestBase
+        if context.isBidiStreamingEnabled() {
+            crtUnsignedRequest = try originalRequest.toHttp2Request()
+        } else {
+            crtUnsignedRequest = try originalRequest.toHttpRequest()
+        }
 
         guard let credentialsProvider = context.getCredentialsProvider() else {
             throw SdkError<OperationStackError>.client(
@@ -75,6 +80,9 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
             request: crtUnsignedRequest,
             config: signingConfig.toCRTType()
         )
+
+        context.attributes.set(key: HttpContext.requestSignature, value: crtSignedRequest.signature)
+
         let sdkSignedRequest = input.update(from: crtSignedRequest, originalRequest: originalRequest)
 
         return try await next.handle(context: context, input: sdkSignedRequest)

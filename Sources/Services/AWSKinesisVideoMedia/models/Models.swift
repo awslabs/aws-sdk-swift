@@ -19,7 +19,7 @@ extension ClientLimitExceededException {
 }
 
 /// Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client calls. Try making the call later.
-public struct ClientLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ClientLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -70,7 +70,7 @@ extension ConnectionLimitExceededException {
 }
 
 /// Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client connections.
-public struct ConnectionLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConnectionLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -177,7 +177,7 @@ extension GetMediaInputBody: Swift.Decodable {
 }
 
 extension GetMediaOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -209,7 +209,7 @@ public enum GetMediaOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetMediaOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = contentTypeHeaderValue
         } else {
@@ -315,7 +315,7 @@ extension InvalidArgumentException {
 }
 
 /// The value for this input parameter is invalid.
-public struct InvalidArgumentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidArgumentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -366,7 +366,7 @@ extension InvalidEndpointException {
 }
 
 /// Status Code: 400, Caller used wrong endpoint to write data to a stream. On receiving such an exception, the user must call GetDataEndpoint with AccessMode set to "READ" and use the endpoint Kinesis Video returns in the next GetMedia call.
-public struct InvalidEndpointException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidEndpointException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -417,7 +417,7 @@ extension NotAuthorizedException {
 }
 
 /// Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
-public struct NotAuthorizedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NotAuthorizedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -468,7 +468,7 @@ extension ResourceNotFoundException {
 }
 
 /// Status Code: 404, The stream with the given name does not exist.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

@@ -134,7 +134,7 @@ extension BadGatewayException {
 }
 
 /// Either the Amazon Lex bot is still building, or one of the dependent services (Amazon Polly, AWS Lambda) failed with an internal service error.
-public struct BadGatewayException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BadGatewayException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -185,7 +185,7 @@ extension BadRequestException {
 }
 
 /// Request validation failed, there is no usable message in the context, or the bot build failed, is still in progress, or contains unbuilt changes.
-public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -318,7 +318,7 @@ extension ConflictException {
 }
 
 /// Two clients are using the same AWS account, Amazon Lex bot, and user ID.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -429,7 +429,7 @@ extension DeleteSessionInputBody: Swift.Decodable {
 }
 
 extension DeleteSessionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -459,7 +459,7 @@ public enum DeleteSessionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteSessionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: DeleteSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -551,7 +551,7 @@ extension DependencyFailedException {
 /// * If a Lambda function takes longer than 30 seconds to execute.
 ///
 /// * If a fulfillment Lambda function returns a Delegate dialog action without removing any slot values.
-public struct DependencyFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DependencyFailedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -992,7 +992,7 @@ extension GetSessionInputBody: Swift.Decodable {
 }
 
 extension GetSessionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1025,7 +1025,7 @@ extension GetSessionOutputResponse: Swift.CustomDebugStringConvertible {
 }
 
 extension GetSessionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -1316,7 +1316,7 @@ extension InternalFailureException {
 }
 
 /// Internal service error. Retry the call.
-public struct InternalFailureException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalFailureException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1372,7 +1372,7 @@ extension LimitExceededException {
 }
 
 /// Exceeded a limit.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1426,7 +1426,7 @@ extension LoopDetectedException {
 }
 
 /// This exception is not used.
-public struct LoopDetectedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LoopDetectedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1515,7 +1515,7 @@ extension NotAcceptableException {
 }
 
 /// The accept header in the request does not have a valid value.
-public struct NotAcceptableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NotAcceptableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1566,7 +1566,7 @@ extension NotFoundException {
 }
 
 /// The resource (such as the Amazon Lex bot or an alias) that is referred to is not found.
-public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1806,7 +1806,7 @@ extension PostContentInputBody: Swift.Decodable {
 }
 
 extension PostContentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1853,7 +1853,7 @@ extension PostContentOutputResponse: Swift.CustomDebugStringConvertible {
 }
 
 extension PostContentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let activeContextsHeaderValue = httpResponse.headers.value(for: "x-amz-lex-active-contexts") {
             self.activeContexts = try activeContextsHeaderValue.base64DecodedString()
         } else {
@@ -2226,7 +2226,7 @@ extension PostTextInputBody: Swift.Decodable {
 }
 
 extension PostTextOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -2267,7 +2267,7 @@ extension PostTextOutputResponse: Swift.CustomDebugStringConvertible {
 }
 
 extension PostTextOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: PostTextOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -2754,7 +2754,7 @@ extension PutSessionInputBody: Swift.Decodable {
 }
 
 extension PutSessionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -2795,7 +2795,7 @@ extension PutSessionOutputResponse: Swift.CustomDebugStringConvertible {
 }
 
 extension PutSessionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let activeContextsHeaderValue = httpResponse.headers.value(for: "x-amz-lex-active-contexts") {
             self.activeContexts = try activeContextsHeaderValue.base64DecodedString()
         } else {
@@ -2970,7 +2970,7 @@ extension RequestTimeoutException {
 }
 
 /// The input speech is too long.
-public struct RequestTimeoutException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RequestTimeoutException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3133,7 +3133,7 @@ extension UnsupportedMediaTypeException {
 }
 
 /// The Content-Type header (PostContent API) has an invalid value.
-public struct UnsupportedMediaTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnsupportedMediaTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

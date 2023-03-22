@@ -221,6 +221,7 @@ extension MarketplaceMeteringClient: MarketplaceMeteringClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aws-marketplace")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchMeterUsageInput, BatchMeterUsageOutputResponse, BatchMeterUsageOutputError>(id: "batchMeterUsage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchMeterUsageInput, BatchMeterUsageOutputResponse, BatchMeterUsageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchMeterUsageInput, BatchMeterUsageOutputResponse>())
@@ -237,7 +238,7 @@ extension MarketplaceMeteringClient: MarketplaceMeteringClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchMeterUsageOutputResponse, BatchMeterUsageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchMeterUsageOutputResponse, BatchMeterUsageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchMeterUsageOutputResponse, BatchMeterUsageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension MarketplaceMeteringClient: MarketplaceMeteringClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aws-marketplace")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<MeterUsageInput, MeterUsageOutputResponse, MeterUsageOutputError>(id: "meterUsage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MeterUsageInput, MeterUsageOutputResponse, MeterUsageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MeterUsageInput, MeterUsageOutputResponse>())
@@ -273,7 +275,7 @@ extension MarketplaceMeteringClient: MarketplaceMeteringClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MeterUsageOutputResponse, MeterUsageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<MeterUsageOutputResponse, MeterUsageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MeterUsageOutputResponse, MeterUsageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -297,6 +299,7 @@ extension MarketplaceMeteringClient: MarketplaceMeteringClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aws-marketplace")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterUsageInput, RegisterUsageOutputResponse, RegisterUsageOutputError>(id: "registerUsage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterUsageInput, RegisterUsageOutputResponse, RegisterUsageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterUsageInput, RegisterUsageOutputResponse>())
@@ -313,7 +316,7 @@ extension MarketplaceMeteringClient: MarketplaceMeteringClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterUsageOutputResponse, RegisterUsageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RegisterUsageOutputResponse, RegisterUsageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterUsageOutputResponse, RegisterUsageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -333,6 +336,7 @@ extension MarketplaceMeteringClient: MarketplaceMeteringClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aws-marketplace")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResolveCustomerInput, ResolveCustomerOutputResponse, ResolveCustomerOutputError>(id: "resolveCustomer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResolveCustomerInput, ResolveCustomerOutputResponse, ResolveCustomerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResolveCustomerInput, ResolveCustomerOutputResponse>())
@@ -349,7 +353,7 @@ extension MarketplaceMeteringClient: MarketplaceMeteringClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResolveCustomerOutputResponse, ResolveCustomerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ResolveCustomerOutputResponse, ResolveCustomerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResolveCustomerOutputResponse, ResolveCustomerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

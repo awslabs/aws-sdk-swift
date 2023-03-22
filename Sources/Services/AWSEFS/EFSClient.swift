@@ -221,6 +221,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAccessPointInput, CreateAccessPointOutputResponse, CreateAccessPointOutputError>(id: "createAccessPoint")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateAccessPointOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -244,7 +245,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccessPointOutputResponse, CreateAccessPointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAccessPointOutputResponse, CreateAccessPointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessPointOutputResponse, CreateAccessPointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -271,6 +272,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFileSystemInput, CreateFileSystemOutputResponse, CreateFileSystemOutputError>(id: "createFileSystem")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateFileSystemOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -294,7 +296,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFileSystemOutputResponse, CreateFileSystemOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateFileSystemOutputResponse, CreateFileSystemOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFileSystemOutputResponse, CreateFileSystemOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -366,6 +368,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMountTargetInput, CreateMountTargetOutputResponse, CreateMountTargetOutputError>(id: "createMountTarget")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMountTargetInput, CreateMountTargetOutputResponse, CreateMountTargetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMountTargetInput, CreateMountTargetOutputResponse>())
@@ -381,7 +384,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMountTargetOutputResponse, CreateMountTargetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateMountTargetOutputResponse, CreateMountTargetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMountTargetOutputResponse, CreateMountTargetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -431,6 +434,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateReplicationConfigurationInput, CreateReplicationConfigurationOutputResponse, CreateReplicationConfigurationOutputError>(id: "createReplicationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateReplicationConfigurationInput, CreateReplicationConfigurationOutputResponse, CreateReplicationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateReplicationConfigurationInput, CreateReplicationConfigurationOutputResponse>())
@@ -446,7 +450,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReplicationConfigurationOutputResponse, CreateReplicationConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateReplicationConfigurationOutputResponse, CreateReplicationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReplicationConfigurationOutputResponse, CreateReplicationConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -467,6 +471,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTagsInput, CreateTagsOutputResponse, CreateTagsOutputError>(id: "createTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTagsInput, CreateTagsOutputResponse, CreateTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTagsInput, CreateTagsOutputResponse>())
@@ -482,7 +487,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTagsOutputResponse, CreateTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateTagsOutputResponse, CreateTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTagsOutputResponse, CreateTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -502,6 +507,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAccessPointInput, DeleteAccessPointOutputResponse, DeleteAccessPointOutputError>(id: "deleteAccessPoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessPointInput, DeleteAccessPointOutputResponse, DeleteAccessPointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccessPointInput, DeleteAccessPointOutputResponse>())
@@ -514,7 +520,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccessPointOutputResponse, DeleteAccessPointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessPointOutputResponse, DeleteAccessPointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessPointOutputResponse, DeleteAccessPointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -534,6 +540,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFileSystemInput, DeleteFileSystemOutputResponse, DeleteFileSystemOutputError>(id: "deleteFileSystem")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFileSystemInput, DeleteFileSystemOutputResponse, DeleteFileSystemOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFileSystemInput, DeleteFileSystemOutputResponse>())
@@ -546,7 +553,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFileSystemOutputResponse, DeleteFileSystemOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteFileSystemOutputResponse, DeleteFileSystemOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFileSystemOutputResponse, DeleteFileSystemOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -566,6 +573,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFileSystemPolicyInput, DeleteFileSystemPolicyOutputResponse, DeleteFileSystemPolicyOutputError>(id: "deleteFileSystemPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFileSystemPolicyInput, DeleteFileSystemPolicyOutputResponse, DeleteFileSystemPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFileSystemPolicyInput, DeleteFileSystemPolicyOutputResponse>())
@@ -578,7 +586,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFileSystemPolicyOutputResponse, DeleteFileSystemPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteFileSystemPolicyOutputResponse, DeleteFileSystemPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFileSystemPolicyOutputResponse, DeleteFileSystemPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -605,6 +613,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMountTargetInput, DeleteMountTargetOutputResponse, DeleteMountTargetOutputError>(id: "deleteMountTarget")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMountTargetInput, DeleteMountTargetOutputResponse, DeleteMountTargetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMountTargetInput, DeleteMountTargetOutputResponse>())
@@ -617,7 +626,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMountTargetOutputResponse, DeleteMountTargetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteMountTargetOutputResponse, DeleteMountTargetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMountTargetOutputResponse, DeleteMountTargetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -637,6 +646,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteReplicationConfigurationInput, DeleteReplicationConfigurationOutputResponse, DeleteReplicationConfigurationOutputError>(id: "deleteReplicationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReplicationConfigurationInput, DeleteReplicationConfigurationOutputResponse, DeleteReplicationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReplicationConfigurationInput, DeleteReplicationConfigurationOutputResponse>())
@@ -649,7 +659,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReplicationConfigurationOutputResponse, DeleteReplicationConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteReplicationConfigurationOutputResponse, DeleteReplicationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReplicationConfigurationOutputResponse, DeleteReplicationConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -670,6 +680,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTagsInput, DeleteTagsOutputResponse, DeleteTagsOutputError>(id: "deleteTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTagsInput, DeleteTagsOutputResponse, DeleteTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTagsInput, DeleteTagsOutputResponse>())
@@ -685,7 +696,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTagsOutputResponse, DeleteTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteTagsOutputResponse, DeleteTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTagsOutputResponse, DeleteTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -705,6 +716,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAccessPointsInput, DescribeAccessPointsOutputResponse, DescribeAccessPointsOutputError>(id: "describeAccessPoints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccessPointsInput, DescribeAccessPointsOutputResponse, DescribeAccessPointsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccessPointsInput, DescribeAccessPointsOutputResponse>())
@@ -718,7 +730,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccessPointsOutputResponse, DescribeAccessPointsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAccessPointsOutputResponse, DescribeAccessPointsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccessPointsOutputResponse, DescribeAccessPointsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -738,6 +750,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAccountPreferencesInput, DescribeAccountPreferencesOutputResponse, DescribeAccountPreferencesOutputError>(id: "describeAccountPreferences")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountPreferencesInput, DescribeAccountPreferencesOutputResponse, DescribeAccountPreferencesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountPreferencesInput, DescribeAccountPreferencesOutputResponse>())
@@ -753,7 +766,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountPreferencesOutputResponse, DescribeAccountPreferencesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountPreferencesOutputResponse, DescribeAccountPreferencesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountPreferencesOutputResponse, DescribeAccountPreferencesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -773,6 +786,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeBackupPolicyInput, DescribeBackupPolicyOutputResponse, DescribeBackupPolicyOutputError>(id: "describeBackupPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeBackupPolicyInput, DescribeBackupPolicyOutputResponse, DescribeBackupPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeBackupPolicyInput, DescribeBackupPolicyOutputResponse>())
@@ -785,7 +799,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeBackupPolicyOutputResponse, DescribeBackupPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeBackupPolicyOutputResponse, DescribeBackupPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeBackupPolicyOutputResponse, DescribeBackupPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -805,6 +819,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFileSystemPolicyInput, DescribeFileSystemPolicyOutputResponse, DescribeFileSystemPolicyOutputError>(id: "describeFileSystemPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFileSystemPolicyInput, DescribeFileSystemPolicyOutputResponse, DescribeFileSystemPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFileSystemPolicyInput, DescribeFileSystemPolicyOutputResponse>())
@@ -817,7 +832,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFileSystemPolicyOutputResponse, DescribeFileSystemPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeFileSystemPolicyOutputResponse, DescribeFileSystemPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFileSystemPolicyOutputResponse, DescribeFileSystemPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -837,6 +852,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFileSystemsInput, DescribeFileSystemsOutputResponse, DescribeFileSystemsOutputError>(id: "describeFileSystems")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFileSystemsInput, DescribeFileSystemsOutputResponse, DescribeFileSystemsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFileSystemsInput, DescribeFileSystemsOutputResponse>())
@@ -850,7 +866,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFileSystemsOutputResponse, DescribeFileSystemsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeFileSystemsOutputResponse, DescribeFileSystemsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFileSystemsOutputResponse, DescribeFileSystemsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -870,6 +886,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLifecycleConfigurationInput, DescribeLifecycleConfigurationOutputResponse, DescribeLifecycleConfigurationOutputError>(id: "describeLifecycleConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLifecycleConfigurationInput, DescribeLifecycleConfigurationOutputResponse, DescribeLifecycleConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLifecycleConfigurationInput, DescribeLifecycleConfigurationOutputResponse>())
@@ -882,7 +899,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLifecycleConfigurationOutputResponse, DescribeLifecycleConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeLifecycleConfigurationOutputResponse, DescribeLifecycleConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLifecycleConfigurationOutputResponse, DescribeLifecycleConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -906,6 +923,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMountTargetSecurityGroupsInput, DescribeMountTargetSecurityGroupsOutputResponse, DescribeMountTargetSecurityGroupsOutputError>(id: "describeMountTargetSecurityGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMountTargetSecurityGroupsInput, DescribeMountTargetSecurityGroupsOutputResponse, DescribeMountTargetSecurityGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMountTargetSecurityGroupsInput, DescribeMountTargetSecurityGroupsOutputResponse>())
@@ -918,7 +936,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMountTargetSecurityGroupsOutputResponse, DescribeMountTargetSecurityGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeMountTargetSecurityGroupsOutputResponse, DescribeMountTargetSecurityGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMountTargetSecurityGroupsOutputResponse, DescribeMountTargetSecurityGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -938,6 +956,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMountTargetsInput, DescribeMountTargetsOutputResponse, DescribeMountTargetsOutputError>(id: "describeMountTargets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMountTargetsInput, DescribeMountTargetsOutputResponse, DescribeMountTargetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMountTargetsInput, DescribeMountTargetsOutputResponse>())
@@ -951,7 +970,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMountTargetsOutputResponse, DescribeMountTargetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeMountTargetsOutputResponse, DescribeMountTargetsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMountTargetsOutputResponse, DescribeMountTargetsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -971,6 +990,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReplicationConfigurationsInput, DescribeReplicationConfigurationsOutputResponse, DescribeReplicationConfigurationsOutputError>(id: "describeReplicationConfigurations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReplicationConfigurationsInput, DescribeReplicationConfigurationsOutputResponse, DescribeReplicationConfigurationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReplicationConfigurationsInput, DescribeReplicationConfigurationsOutputResponse>())
@@ -984,7 +1004,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReplicationConfigurationsOutputResponse, DescribeReplicationConfigurationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeReplicationConfigurationsOutputResponse, DescribeReplicationConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReplicationConfigurationsOutputResponse, DescribeReplicationConfigurationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1005,6 +1025,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTagsInput, DescribeTagsOutputResponse, DescribeTagsOutputError>(id: "describeTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTagsInput, DescribeTagsOutputResponse, DescribeTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTagsInput, DescribeTagsOutputResponse>())
@@ -1018,7 +1039,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTagsOutputResponse, DescribeTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeTagsOutputResponse, DescribeTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTagsOutputResponse, DescribeTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1038,6 +1059,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1051,7 +1073,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1075,6 +1097,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyMountTargetSecurityGroupsInput, ModifyMountTargetSecurityGroupsOutputResponse, ModifyMountTargetSecurityGroupsOutputError>(id: "modifyMountTargetSecurityGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyMountTargetSecurityGroupsInput, ModifyMountTargetSecurityGroupsOutputResponse, ModifyMountTargetSecurityGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyMountTargetSecurityGroupsInput, ModifyMountTargetSecurityGroupsOutputResponse>())
@@ -1090,7 +1113,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyMountTargetSecurityGroupsOutputResponse, ModifyMountTargetSecurityGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ModifyMountTargetSecurityGroupsOutputResponse, ModifyMountTargetSecurityGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyMountTargetSecurityGroupsOutputResponse, ModifyMountTargetSecurityGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1110,6 +1133,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutAccountPreferencesInput, PutAccountPreferencesOutputResponse, PutAccountPreferencesOutputError>(id: "putAccountPreferences")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAccountPreferencesInput, PutAccountPreferencesOutputResponse, PutAccountPreferencesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAccountPreferencesInput, PutAccountPreferencesOutputResponse>())
@@ -1125,7 +1149,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAccountPreferencesOutputResponse, PutAccountPreferencesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutAccountPreferencesOutputResponse, PutAccountPreferencesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAccountPreferencesOutputResponse, PutAccountPreferencesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1145,6 +1169,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutBackupPolicyInput, PutBackupPolicyOutputResponse, PutBackupPolicyOutputError>(id: "putBackupPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutBackupPolicyInput, PutBackupPolicyOutputResponse, PutBackupPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutBackupPolicyInput, PutBackupPolicyOutputResponse>())
@@ -1160,7 +1185,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutBackupPolicyOutputResponse, PutBackupPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutBackupPolicyOutputResponse, PutBackupPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutBackupPolicyOutputResponse, PutBackupPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1180,6 +1205,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutFileSystemPolicyInput, PutFileSystemPolicyOutputResponse, PutFileSystemPolicyOutputError>(id: "putFileSystemPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFileSystemPolicyInput, PutFileSystemPolicyOutputResponse, PutFileSystemPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFileSystemPolicyInput, PutFileSystemPolicyOutputResponse>())
@@ -1195,7 +1221,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFileSystemPolicyOutputResponse, PutFileSystemPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutFileSystemPolicyOutputResponse, PutFileSystemPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFileSystemPolicyOutputResponse, PutFileSystemPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1229,6 +1255,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutLifecycleConfigurationInput, PutLifecycleConfigurationOutputResponse, PutLifecycleConfigurationOutputError>(id: "putLifecycleConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutLifecycleConfigurationInput, PutLifecycleConfigurationOutputResponse, PutLifecycleConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutLifecycleConfigurationInput, PutLifecycleConfigurationOutputResponse>())
@@ -1244,7 +1271,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutLifecycleConfigurationOutputResponse, PutLifecycleConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutLifecycleConfigurationOutputResponse, PutLifecycleConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutLifecycleConfigurationOutputResponse, PutLifecycleConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1264,6 +1291,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1279,7 +1307,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1299,6 +1327,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1312,7 +1341,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1332,6 +1361,7 @@ extension EFSClient: EFSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "elasticfilesystem")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFileSystemInput, UpdateFileSystemOutputResponse, UpdateFileSystemOutputError>(id: "updateFileSystem")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFileSystemInput, UpdateFileSystemOutputResponse, UpdateFileSystemOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFileSystemInput, UpdateFileSystemOutputResponse>())
@@ -1347,7 +1377,7 @@ extension EFSClient: EFSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFileSystemOutputResponse, UpdateFileSystemOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateFileSystemOutputResponse, UpdateFileSystemOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFileSystemOutputResponse, UpdateFileSystemOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

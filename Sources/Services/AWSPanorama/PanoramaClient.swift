@@ -221,6 +221,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateApplicationInstanceInput, CreateApplicationInstanceOutputResponse, CreateApplicationInstanceOutputError>(id: "createApplicationInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateApplicationInstanceInput, CreateApplicationInstanceOutputResponse, CreateApplicationInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateApplicationInstanceInput, CreateApplicationInstanceOutputResponse>())
@@ -236,7 +237,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateApplicationInstanceOutputResponse, CreateApplicationInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateApplicationInstanceOutputResponse, CreateApplicationInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateApplicationInstanceOutputResponse, CreateApplicationInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateJobForDevicesInput, CreateJobForDevicesOutputResponse, CreateJobForDevicesOutputError>(id: "createJobForDevices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateJobForDevicesInput, CreateJobForDevicesOutputResponse, CreateJobForDevicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateJobForDevicesInput, CreateJobForDevicesOutputResponse>())
@@ -271,7 +273,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateJobForDevicesOutputResponse, CreateJobForDevicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateJobForDevicesOutputResponse, CreateJobForDevicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateJobForDevicesOutputResponse, CreateJobForDevicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -291,6 +293,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateNodeFromTemplateJobInput, CreateNodeFromTemplateJobOutputResponse, CreateNodeFromTemplateJobOutputError>(id: "createNodeFromTemplateJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNodeFromTemplateJobInput, CreateNodeFromTemplateJobOutputResponse, CreateNodeFromTemplateJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNodeFromTemplateJobInput, CreateNodeFromTemplateJobOutputResponse>())
@@ -306,7 +309,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNodeFromTemplateJobOutputResponse, CreateNodeFromTemplateJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateNodeFromTemplateJobOutputResponse, CreateNodeFromTemplateJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNodeFromTemplateJobOutputResponse, CreateNodeFromTemplateJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -326,6 +329,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePackageInput, CreatePackageOutputResponse, CreatePackageOutputError>(id: "createPackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePackageInput, CreatePackageOutputResponse, CreatePackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePackageInput, CreatePackageOutputResponse>())
@@ -341,7 +345,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePackageOutputResponse, CreatePackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePackageOutputResponse, CreatePackageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePackageOutputResponse, CreatePackageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -361,6 +365,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePackageImportJobInput, CreatePackageImportJobOutputResponse, CreatePackageImportJobOutputError>(id: "createPackageImportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePackageImportJobInput, CreatePackageImportJobOutputResponse, CreatePackageImportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePackageImportJobInput, CreatePackageImportJobOutputResponse>())
@@ -376,7 +381,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePackageImportJobOutputResponse, CreatePackageImportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePackageImportJobOutputResponse, CreatePackageImportJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePackageImportJobOutputResponse, CreatePackageImportJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -396,6 +401,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDeviceInput, DeleteDeviceOutputResponse, DeleteDeviceOutputError>(id: "deleteDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDeviceInput, DeleteDeviceOutputResponse, DeleteDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDeviceInput, DeleteDeviceOutputResponse>())
@@ -408,7 +414,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeviceOutputResponse, DeleteDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDeviceOutputResponse, DeleteDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeviceOutputResponse, DeleteDeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -428,6 +434,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePackageInput, DeletePackageOutputResponse, DeletePackageOutputError>(id: "deletePackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePackageInput, DeletePackageOutputResponse, DeletePackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePackageInput, DeletePackageOutputResponse>())
@@ -441,7 +448,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePackageOutputResponse, DeletePackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeletePackageOutputResponse, DeletePackageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePackageOutputResponse, DeletePackageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -461,6 +468,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterPackageVersionInput, DeregisterPackageVersionOutputResponse, DeregisterPackageVersionOutputError>(id: "deregisterPackageVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterPackageVersionInput, DeregisterPackageVersionOutputResponse, DeregisterPackageVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterPackageVersionInput, DeregisterPackageVersionOutputResponse>())
@@ -474,7 +482,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterPackageVersionOutputResponse, DeregisterPackageVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeregisterPackageVersionOutputResponse, DeregisterPackageVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterPackageVersionOutputResponse, DeregisterPackageVersionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -494,6 +502,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeApplicationInstanceInput, DescribeApplicationInstanceOutputResponse, DescribeApplicationInstanceOutputError>(id: "describeApplicationInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeApplicationInstanceInput, DescribeApplicationInstanceOutputResponse, DescribeApplicationInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeApplicationInstanceInput, DescribeApplicationInstanceOutputResponse>())
@@ -506,7 +515,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeApplicationInstanceOutputResponse, DescribeApplicationInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeApplicationInstanceOutputResponse, DescribeApplicationInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeApplicationInstanceOutputResponse, DescribeApplicationInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -526,6 +535,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeApplicationInstanceDetailsInput, DescribeApplicationInstanceDetailsOutputResponse, DescribeApplicationInstanceDetailsOutputError>(id: "describeApplicationInstanceDetails")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeApplicationInstanceDetailsInput, DescribeApplicationInstanceDetailsOutputResponse, DescribeApplicationInstanceDetailsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeApplicationInstanceDetailsInput, DescribeApplicationInstanceDetailsOutputResponse>())
@@ -538,7 +548,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeApplicationInstanceDetailsOutputResponse, DescribeApplicationInstanceDetailsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeApplicationInstanceDetailsOutputResponse, DescribeApplicationInstanceDetailsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeApplicationInstanceDetailsOutputResponse, DescribeApplicationInstanceDetailsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -558,6 +568,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDeviceInput, DescribeDeviceOutputResponse, DescribeDeviceOutputError>(id: "describeDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDeviceInput, DescribeDeviceOutputResponse, DescribeDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDeviceInput, DescribeDeviceOutputResponse>())
@@ -570,7 +581,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDeviceOutputResponse, DescribeDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDeviceOutputResponse, DescribeDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDeviceOutputResponse, DescribeDeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -590,6 +601,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDeviceJobInput, DescribeDeviceJobOutputResponse, DescribeDeviceJobOutputError>(id: "describeDeviceJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDeviceJobInput, DescribeDeviceJobOutputResponse, DescribeDeviceJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDeviceJobInput, DescribeDeviceJobOutputResponse>())
@@ -602,7 +614,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDeviceJobOutputResponse, DescribeDeviceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDeviceJobOutputResponse, DescribeDeviceJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDeviceJobOutputResponse, DescribeDeviceJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -622,6 +634,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeNodeInput, DescribeNodeOutputResponse, DescribeNodeOutputError>(id: "describeNode")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeNodeInput, DescribeNodeOutputResponse, DescribeNodeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeNodeInput, DescribeNodeOutputResponse>())
@@ -635,7 +648,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeNodeOutputResponse, DescribeNodeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeNodeOutputResponse, DescribeNodeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeNodeOutputResponse, DescribeNodeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -655,6 +668,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeNodeFromTemplateJobInput, DescribeNodeFromTemplateJobOutputResponse, DescribeNodeFromTemplateJobOutputError>(id: "describeNodeFromTemplateJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeNodeFromTemplateJobInput, DescribeNodeFromTemplateJobOutputResponse, DescribeNodeFromTemplateJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeNodeFromTemplateJobInput, DescribeNodeFromTemplateJobOutputResponse>())
@@ -667,7 +681,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeNodeFromTemplateJobOutputResponse, DescribeNodeFromTemplateJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeNodeFromTemplateJobOutputResponse, DescribeNodeFromTemplateJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeNodeFromTemplateJobOutputResponse, DescribeNodeFromTemplateJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -687,6 +701,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePackageInput, DescribePackageOutputResponse, DescribePackageOutputError>(id: "describePackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePackageInput, DescribePackageOutputResponse, DescribePackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePackageInput, DescribePackageOutputResponse>())
@@ -699,7 +714,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePackageOutputResponse, DescribePackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribePackageOutputResponse, DescribePackageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePackageOutputResponse, DescribePackageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -719,6 +734,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePackageImportJobInput, DescribePackageImportJobOutputResponse, DescribePackageImportJobOutputError>(id: "describePackageImportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePackageImportJobInput, DescribePackageImportJobOutputResponse, DescribePackageImportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePackageImportJobInput, DescribePackageImportJobOutputResponse>())
@@ -731,7 +747,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePackageImportJobOutputResponse, DescribePackageImportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribePackageImportJobOutputResponse, DescribePackageImportJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePackageImportJobOutputResponse, DescribePackageImportJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -751,6 +767,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePackageVersionInput, DescribePackageVersionOutputResponse, DescribePackageVersionOutputError>(id: "describePackageVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePackageVersionInput, DescribePackageVersionOutputResponse, DescribePackageVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePackageVersionInput, DescribePackageVersionOutputResponse>())
@@ -764,7 +781,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePackageVersionOutputResponse, DescribePackageVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribePackageVersionOutputResponse, DescribePackageVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePackageVersionOutputResponse, DescribePackageVersionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -784,6 +801,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListApplicationInstanceDependenciesInput, ListApplicationInstanceDependenciesOutputResponse, ListApplicationInstanceDependenciesOutputError>(id: "listApplicationInstanceDependencies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApplicationInstanceDependenciesInput, ListApplicationInstanceDependenciesOutputResponse, ListApplicationInstanceDependenciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApplicationInstanceDependenciesInput, ListApplicationInstanceDependenciesOutputResponse>())
@@ -797,7 +815,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListApplicationInstanceDependenciesOutputResponse, ListApplicationInstanceDependenciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListApplicationInstanceDependenciesOutputResponse, ListApplicationInstanceDependenciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApplicationInstanceDependenciesOutputResponse, ListApplicationInstanceDependenciesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -817,6 +835,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListApplicationInstanceNodeInstancesInput, ListApplicationInstanceNodeInstancesOutputResponse, ListApplicationInstanceNodeInstancesOutputError>(id: "listApplicationInstanceNodeInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApplicationInstanceNodeInstancesInput, ListApplicationInstanceNodeInstancesOutputResponse, ListApplicationInstanceNodeInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApplicationInstanceNodeInstancesInput, ListApplicationInstanceNodeInstancesOutputResponse>())
@@ -830,7 +849,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListApplicationInstanceNodeInstancesOutputResponse, ListApplicationInstanceNodeInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListApplicationInstanceNodeInstancesOutputResponse, ListApplicationInstanceNodeInstancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApplicationInstanceNodeInstancesOutputResponse, ListApplicationInstanceNodeInstancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -850,6 +869,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListApplicationInstancesInput, ListApplicationInstancesOutputResponse, ListApplicationInstancesOutputError>(id: "listApplicationInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApplicationInstancesInput, ListApplicationInstancesOutputResponse, ListApplicationInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApplicationInstancesInput, ListApplicationInstancesOutputResponse>())
@@ -863,7 +883,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListApplicationInstancesOutputResponse, ListApplicationInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListApplicationInstancesOutputResponse, ListApplicationInstancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApplicationInstancesOutputResponse, ListApplicationInstancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -883,6 +903,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDevicesInput, ListDevicesOutputResponse, ListDevicesOutputError>(id: "listDevices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevicesInput, ListDevicesOutputResponse, ListDevicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevicesInput, ListDevicesOutputResponse>())
@@ -896,7 +917,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDevicesOutputResponse, ListDevicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDevicesOutputResponse, ListDevicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevicesOutputResponse, ListDevicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -916,6 +937,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDevicesJobsInput, ListDevicesJobsOutputResponse, ListDevicesJobsOutputError>(id: "listDevicesJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevicesJobsInput, ListDevicesJobsOutputResponse, ListDevicesJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevicesJobsInput, ListDevicesJobsOutputResponse>())
@@ -929,7 +951,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDevicesJobsOutputResponse, ListDevicesJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDevicesJobsOutputResponse, ListDevicesJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevicesJobsOutputResponse, ListDevicesJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -949,6 +971,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListNodeFromTemplateJobsInput, ListNodeFromTemplateJobsOutputResponse, ListNodeFromTemplateJobsOutputError>(id: "listNodeFromTemplateJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNodeFromTemplateJobsInput, ListNodeFromTemplateJobsOutputResponse, ListNodeFromTemplateJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNodeFromTemplateJobsInput, ListNodeFromTemplateJobsOutputResponse>())
@@ -962,7 +985,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNodeFromTemplateJobsOutputResponse, ListNodeFromTemplateJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListNodeFromTemplateJobsOutputResponse, ListNodeFromTemplateJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNodeFromTemplateJobsOutputResponse, ListNodeFromTemplateJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -982,6 +1005,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListNodesInput, ListNodesOutputResponse, ListNodesOutputError>(id: "listNodes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNodesInput, ListNodesOutputResponse, ListNodesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNodesInput, ListNodesOutputResponse>())
@@ -995,7 +1019,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNodesOutputResponse, ListNodesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListNodesOutputResponse, ListNodesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNodesOutputResponse, ListNodesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1015,6 +1039,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPackageImportJobsInput, ListPackageImportJobsOutputResponse, ListPackageImportJobsOutputError>(id: "listPackageImportJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPackageImportJobsInput, ListPackageImportJobsOutputResponse, ListPackageImportJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPackageImportJobsInput, ListPackageImportJobsOutputResponse>())
@@ -1028,7 +1053,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPackageImportJobsOutputResponse, ListPackageImportJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPackageImportJobsOutputResponse, ListPackageImportJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPackageImportJobsOutputResponse, ListPackageImportJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1048,6 +1073,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPackagesInput, ListPackagesOutputResponse, ListPackagesOutputError>(id: "listPackages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPackagesInput, ListPackagesOutputResponse, ListPackagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPackagesInput, ListPackagesOutputResponse>())
@@ -1061,7 +1087,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPackagesOutputResponse, ListPackagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPackagesOutputResponse, ListPackagesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPackagesOutputResponse, ListPackagesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1081,6 +1107,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1093,7 +1120,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1113,6 +1140,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ProvisionDeviceInput, ProvisionDeviceOutputResponse, ProvisionDeviceOutputError>(id: "provisionDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ProvisionDeviceInput, ProvisionDeviceOutputResponse, ProvisionDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ProvisionDeviceInput, ProvisionDeviceOutputResponse>())
@@ -1128,7 +1156,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ProvisionDeviceOutputResponse, ProvisionDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ProvisionDeviceOutputResponse, ProvisionDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ProvisionDeviceOutputResponse, ProvisionDeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1148,6 +1176,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterPackageVersionInput, RegisterPackageVersionOutputResponse, RegisterPackageVersionOutputError>(id: "registerPackageVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterPackageVersionInput, RegisterPackageVersionOutputResponse, RegisterPackageVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterPackageVersionInput, RegisterPackageVersionOutputResponse>())
@@ -1163,7 +1192,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterPackageVersionOutputResponse, RegisterPackageVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RegisterPackageVersionOutputResponse, RegisterPackageVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterPackageVersionOutputResponse, RegisterPackageVersionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1183,6 +1212,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveApplicationInstanceInput, RemoveApplicationInstanceOutputResponse, RemoveApplicationInstanceOutputError>(id: "removeApplicationInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveApplicationInstanceInput, RemoveApplicationInstanceOutputResponse, RemoveApplicationInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveApplicationInstanceInput, RemoveApplicationInstanceOutputResponse>())
@@ -1195,7 +1225,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveApplicationInstanceOutputResponse, RemoveApplicationInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RemoveApplicationInstanceOutputResponse, RemoveApplicationInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveApplicationInstanceOutputResponse, RemoveApplicationInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1215,6 +1245,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SignalApplicationInstanceNodeInstancesInput, SignalApplicationInstanceNodeInstancesOutputResponse, SignalApplicationInstanceNodeInstancesOutputError>(id: "signalApplicationInstanceNodeInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SignalApplicationInstanceNodeInstancesInput, SignalApplicationInstanceNodeInstancesOutputResponse, SignalApplicationInstanceNodeInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SignalApplicationInstanceNodeInstancesInput, SignalApplicationInstanceNodeInstancesOutputResponse>())
@@ -1230,7 +1261,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SignalApplicationInstanceNodeInstancesOutputResponse, SignalApplicationInstanceNodeInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SignalApplicationInstanceNodeInstancesOutputResponse, SignalApplicationInstanceNodeInstancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SignalApplicationInstanceNodeInstancesOutputResponse, SignalApplicationInstanceNodeInstancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1250,6 +1281,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1265,7 +1297,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1285,6 +1317,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1298,7 +1331,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1318,6 +1351,7 @@ extension PanoramaClient: PanoramaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "panorama")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDeviceMetadataInput, UpdateDeviceMetadataOutputResponse, UpdateDeviceMetadataOutputError>(id: "updateDeviceMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDeviceMetadataInput, UpdateDeviceMetadataOutputResponse, UpdateDeviceMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDeviceMetadataInput, UpdateDeviceMetadataOutputResponse>())
@@ -1333,7 +1367,7 @@ extension PanoramaClient: PanoramaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDeviceMetadataOutputResponse, UpdateDeviceMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDeviceMetadataOutputResponse, UpdateDeviceMetadataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDeviceMetadataOutputResponse, UpdateDeviceMetadataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

@@ -221,6 +221,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateHttpNamespaceInput, CreateHttpNamespaceOutputResponse, CreateHttpNamespaceOutputError>(id: "createHttpNamespace")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateHttpNamespaceOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -245,7 +246,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHttpNamespaceOutputResponse, CreateHttpNamespaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateHttpNamespaceOutputResponse, CreateHttpNamespaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHttpNamespaceOutputResponse, CreateHttpNamespaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -265,6 +266,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePrivateDnsNamespaceInput, CreatePrivateDnsNamespaceOutputResponse, CreatePrivateDnsNamespaceOutputError>(id: "createPrivateDnsNamespace")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreatePrivateDnsNamespaceOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -289,7 +291,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePrivateDnsNamespaceOutputResponse, CreatePrivateDnsNamespaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePrivateDnsNamespaceOutputResponse, CreatePrivateDnsNamespaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePrivateDnsNamespaceOutputResponse, CreatePrivateDnsNamespaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -309,6 +311,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePublicDnsNamespaceInput, CreatePublicDnsNamespaceOutputResponse, CreatePublicDnsNamespaceOutputError>(id: "createPublicDnsNamespace")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreatePublicDnsNamespaceOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -333,7 +336,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePublicDnsNamespaceOutputResponse, CreatePublicDnsNamespaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePublicDnsNamespaceOutputResponse, CreatePublicDnsNamespaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePublicDnsNamespaceOutputResponse, CreatePublicDnsNamespaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -373,6 +376,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateServiceInput, CreateServiceOutputResponse, CreateServiceOutputError>(id: "createService")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateServiceOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -397,7 +401,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateServiceOutputResponse, CreateServiceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateServiceOutputResponse, CreateServiceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceOutputResponse, CreateServiceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -417,6 +421,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteNamespaceInput, DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>(id: "deleteNamespace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNamespaceInput, DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNamespaceInput, DeleteNamespaceOutputResponse>())
@@ -433,7 +438,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -453,6 +458,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteServiceInput, DeleteServiceOutputResponse, DeleteServiceOutputError>(id: "deleteService")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServiceInput, DeleteServiceOutputResponse, DeleteServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteServiceInput, DeleteServiceOutputResponse>())
@@ -469,7 +475,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServiceOutputResponse, DeleteServiceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteServiceOutputResponse, DeleteServiceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceOutputResponse, DeleteServiceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -489,6 +495,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterInstanceInput, DeregisterInstanceOutputResponse, DeregisterInstanceOutputError>(id: "deregisterInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterInstanceInput, DeregisterInstanceOutputResponse, DeregisterInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterInstanceInput, DeregisterInstanceOutputResponse>())
@@ -505,7 +512,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterInstanceOutputResponse, DeregisterInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeregisterInstanceOutputResponse, DeregisterInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterInstanceOutputResponse, DeregisterInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -525,6 +532,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DiscoverInstancesInput, DiscoverInstancesOutputResponse, DiscoverInstancesOutputError>(id: "discoverInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DiscoverInstancesInput, DiscoverInstancesOutputResponse, DiscoverInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DiscoverInstancesInput, DiscoverInstancesOutputResponse>(hostPrefix: "data-"))
@@ -541,7 +549,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DiscoverInstancesOutputResponse, DiscoverInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DiscoverInstancesOutputResponse, DiscoverInstancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DiscoverInstancesOutputResponse, DiscoverInstancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -561,6 +569,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInstanceInput, GetInstanceOutputResponse, GetInstanceOutputError>(id: "getInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceInput, GetInstanceOutputResponse, GetInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceInput, GetInstanceOutputResponse>())
@@ -577,7 +586,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstanceOutputResponse, GetInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetInstanceOutputResponse, GetInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstanceOutputResponse, GetInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -597,6 +606,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInstancesHealthStatusInput, GetInstancesHealthStatusOutputResponse, GetInstancesHealthStatusOutputError>(id: "getInstancesHealthStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstancesHealthStatusInput, GetInstancesHealthStatusOutputResponse, GetInstancesHealthStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstancesHealthStatusInput, GetInstancesHealthStatusOutputResponse>())
@@ -613,7 +623,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstancesHealthStatusOutputResponse, GetInstancesHealthStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetInstancesHealthStatusOutputResponse, GetInstancesHealthStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstancesHealthStatusOutputResponse, GetInstancesHealthStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -633,6 +643,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetNamespaceInput, GetNamespaceOutputResponse, GetNamespaceOutputError>(id: "getNamespace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNamespaceInput, GetNamespaceOutputResponse, GetNamespaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNamespaceInput, GetNamespaceOutputResponse>())
@@ -649,7 +660,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNamespaceOutputResponse, GetNamespaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetNamespaceOutputResponse, GetNamespaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNamespaceOutputResponse, GetNamespaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -669,6 +680,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetOperationInput, GetOperationOutputResponse, GetOperationOutputError>(id: "getOperation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOperationInput, GetOperationOutputResponse, GetOperationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOperationInput, GetOperationOutputResponse>())
@@ -685,7 +697,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOperationOutputResponse, GetOperationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetOperationOutputResponse, GetOperationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOperationOutputResponse, GetOperationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -705,6 +717,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetServiceInput, GetServiceOutputResponse, GetServiceOutputError>(id: "getService")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceInput, GetServiceOutputResponse, GetServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceInput, GetServiceOutputResponse>())
@@ -721,7 +734,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceOutputResponse, GetServiceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetServiceOutputResponse, GetServiceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceOutputResponse, GetServiceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -741,6 +754,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListInstancesInput, ListInstancesOutputResponse, ListInstancesOutputError>(id: "listInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstancesInput, ListInstancesOutputResponse, ListInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstancesInput, ListInstancesOutputResponse>())
@@ -757,7 +771,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstancesOutputResponse, ListInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListInstancesOutputResponse, ListInstancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstancesOutputResponse, ListInstancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -777,6 +791,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListNamespacesInput, ListNamespacesOutputResponse, ListNamespacesOutputError>(id: "listNamespaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNamespacesInput, ListNamespacesOutputResponse, ListNamespacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNamespacesInput, ListNamespacesOutputResponse>())
@@ -793,7 +808,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNamespacesOutputResponse, ListNamespacesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListNamespacesOutputResponse, ListNamespacesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNamespacesOutputResponse, ListNamespacesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -813,6 +828,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListOperationsInput, ListOperationsOutputResponse, ListOperationsOutputError>(id: "listOperations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOperationsInput, ListOperationsOutputResponse, ListOperationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOperationsInput, ListOperationsOutputResponse>())
@@ -829,7 +845,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOperationsOutputResponse, ListOperationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListOperationsOutputResponse, ListOperationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOperationsOutputResponse, ListOperationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -849,6 +865,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListServicesInput, ListServicesOutputResponse, ListServicesOutputError>(id: "listServices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServicesInput, ListServicesOutputResponse, ListServicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServicesInput, ListServicesOutputResponse>())
@@ -865,7 +882,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServicesOutputResponse, ListServicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListServicesOutputResponse, ListServicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServicesOutputResponse, ListServicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -885,6 +902,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -901,7 +919,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -939,6 +957,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterInstanceInput, RegisterInstanceOutputResponse, RegisterInstanceOutputError>(id: "registerInstance")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<RegisterInstanceOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -963,7 +982,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterInstanceOutputResponse, RegisterInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RegisterInstanceOutputResponse, RegisterInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterInstanceOutputResponse, RegisterInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -983,6 +1002,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -999,7 +1019,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1019,6 +1039,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1035,7 +1056,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1055,6 +1076,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateHttpNamespaceInput, UpdateHttpNamespaceOutputResponse, UpdateHttpNamespaceOutputError>(id: "updateHttpNamespace")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateHttpNamespaceOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1079,7 +1101,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateHttpNamespaceOutputResponse, UpdateHttpNamespaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateHttpNamespaceOutputResponse, UpdateHttpNamespaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateHttpNamespaceOutputResponse, UpdateHttpNamespaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1099,6 +1121,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateInstanceCustomHealthStatusInput, UpdateInstanceCustomHealthStatusOutputResponse, UpdateInstanceCustomHealthStatusOutputError>(id: "updateInstanceCustomHealthStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInstanceCustomHealthStatusInput, UpdateInstanceCustomHealthStatusOutputResponse, UpdateInstanceCustomHealthStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInstanceCustomHealthStatusInput, UpdateInstanceCustomHealthStatusOutputResponse>())
@@ -1115,7 +1138,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInstanceCustomHealthStatusOutputResponse, UpdateInstanceCustomHealthStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateInstanceCustomHealthStatusOutputResponse, UpdateInstanceCustomHealthStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInstanceCustomHealthStatusOutputResponse, UpdateInstanceCustomHealthStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1135,6 +1158,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePrivateDnsNamespaceInput, UpdatePrivateDnsNamespaceOutputResponse, UpdatePrivateDnsNamespaceOutputError>(id: "updatePrivateDnsNamespace")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdatePrivateDnsNamespaceOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1159,7 +1183,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePrivateDnsNamespaceOutputResponse, UpdatePrivateDnsNamespaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdatePrivateDnsNamespaceOutputResponse, UpdatePrivateDnsNamespaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePrivateDnsNamespaceOutputResponse, UpdatePrivateDnsNamespaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1179,6 +1203,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePublicDnsNamespaceInput, UpdatePublicDnsNamespaceOutputResponse, UpdatePublicDnsNamespaceOutputError>(id: "updatePublicDnsNamespace")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdatePublicDnsNamespaceOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1203,7 +1228,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePublicDnsNamespaceOutputResponse, UpdatePublicDnsNamespaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdatePublicDnsNamespaceOutputResponse, UpdatePublicDnsNamespaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePublicDnsNamespaceOutputResponse, UpdatePublicDnsNamespaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1237,6 +1262,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "servicediscovery")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateServiceInput, UpdateServiceOutputResponse, UpdateServiceOutputError>(id: "updateService")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServiceInput, UpdateServiceOutputResponse, UpdateServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServiceInput, UpdateServiceOutputResponse>())
@@ -1253,7 +1279,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServiceOutputResponse, UpdateServiceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateServiceOutputResponse, UpdateServiceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceOutputResponse, UpdateServiceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

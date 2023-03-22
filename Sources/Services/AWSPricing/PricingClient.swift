@@ -221,6 +221,7 @@ extension PricingClient: PricingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "pricing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeServicesInput, DescribeServicesOutputResponse, DescribeServicesOutputError>(id: "describeServices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServicesInput, DescribeServicesOutputResponse, DescribeServicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServicesInput, DescribeServicesOutputResponse>())
@@ -237,7 +238,7 @@ extension PricingClient: PricingClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeServicesOutputResponse, DescribeServicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeServicesOutputResponse, DescribeServicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeServicesOutputResponse, DescribeServicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension PricingClient: PricingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "pricing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAttributeValuesInput, GetAttributeValuesOutputResponse, GetAttributeValuesOutputError>(id: "getAttributeValues")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAttributeValuesInput, GetAttributeValuesOutputResponse, GetAttributeValuesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAttributeValuesInput, GetAttributeValuesOutputResponse>())
@@ -273,7 +275,7 @@ extension PricingClient: PricingClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAttributeValuesOutputResponse, GetAttributeValuesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAttributeValuesOutputResponse, GetAttributeValuesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAttributeValuesOutputResponse, GetAttributeValuesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension PricingClient: PricingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "pricing")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetProductsInput, GetProductsOutputResponse, GetProductsOutputError>(id: "getProducts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProductsInput, GetProductsOutputResponse, GetProductsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProductsInput, GetProductsOutputResponse>())
@@ -309,7 +312,7 @@ extension PricingClient: PricingClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProductsOutputResponse, GetProductsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetProductsOutputResponse, GetProductsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProductsOutputResponse, GetProductsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

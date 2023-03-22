@@ -221,6 +221,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cur")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteReportDefinitionInput, DeleteReportDefinitionOutputResponse, DeleteReportDefinitionOutputError>(id: "deleteReportDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReportDefinitionInput, DeleteReportDefinitionOutputResponse, DeleteReportDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReportDefinitionInput, DeleteReportDefinitionOutputResponse>())
@@ -237,7 +238,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReportDefinitionOutputResponse, DeleteReportDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteReportDefinitionOutputResponse, DeleteReportDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReportDefinitionOutputResponse, DeleteReportDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cur")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReportDefinitionsInput, DescribeReportDefinitionsOutputResponse, DescribeReportDefinitionsOutputError>(id: "describeReportDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReportDefinitionsInput, DescribeReportDefinitionsOutputResponse, DescribeReportDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReportDefinitionsInput, DescribeReportDefinitionsOutputResponse>())
@@ -273,7 +275,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReportDefinitionsOutputResponse, DescribeReportDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeReportDefinitionsOutputResponse, DescribeReportDefinitionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReportDefinitionsOutputResponse, DescribeReportDefinitionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cur")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyReportDefinitionInput, ModifyReportDefinitionOutputResponse, ModifyReportDefinitionOutputError>(id: "modifyReportDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyReportDefinitionInput, ModifyReportDefinitionOutputResponse, ModifyReportDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyReportDefinitionInput, ModifyReportDefinitionOutputResponse>())
@@ -309,7 +312,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyReportDefinitionOutputResponse, ModifyReportDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ModifyReportDefinitionOutputResponse, ModifyReportDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyReportDefinitionOutputResponse, ModifyReportDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -329,6 +332,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cur")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutReportDefinitionInput, PutReportDefinitionOutputResponse, PutReportDefinitionOutputError>(id: "putReportDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutReportDefinitionInput, PutReportDefinitionOutputResponse, PutReportDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutReportDefinitionInput, PutReportDefinitionOutputResponse>())
@@ -345,7 +349,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutReportDefinitionOutputResponse, PutReportDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutReportDefinitionOutputResponse, PutReportDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutReportDefinitionOutputResponse, PutReportDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

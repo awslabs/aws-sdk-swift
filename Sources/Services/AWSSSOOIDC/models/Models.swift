@@ -21,7 +21,7 @@ extension AccessDeniedException {
 }
 
 /// You do not have sufficient access to perform this action.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -81,7 +81,7 @@ extension AuthorizationPendingException {
 }
 
 /// Indicates that a request to authorize a client with an access user session token is pending.
-public struct AuthorizationPendingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AuthorizationPendingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -269,7 +269,7 @@ extension CreateTokenInputBody: Swift.Decodable {
 }
 
 extension CreateTokenOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -311,7 +311,7 @@ public enum CreateTokenOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension CreateTokenOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: CreateTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -409,7 +409,7 @@ extension ExpiredTokenException {
 }
 
 /// Indicates that the token issued by the service is expired and is no longer valid.
-public struct ExpiredTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ExpiredTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -469,7 +469,7 @@ extension InternalServerException {
 }
 
 /// Indicates that an error from the service occurred while trying to process a request.
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -529,7 +529,7 @@ extension InvalidClientException {
 }
 
 /// Indicates that the clientId or clientSecret in the request is invalid. For example, this can occur when a client sends an incorrect clientId or an expired clientSecret.
-public struct InvalidClientException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidClientException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -589,7 +589,7 @@ extension InvalidClientMetadataException {
 }
 
 /// Indicates that the client information sent in the request during registration is invalid.
-public struct InvalidClientMetadataException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidClientMetadataException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -649,7 +649,7 @@ extension InvalidGrantException {
 }
 
 /// Indicates that a request contains an invalid grant. This can occur if a client makes a [CreateToken] request with an invalid grant type.
-public struct InvalidGrantException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidGrantException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -709,7 +709,7 @@ extension InvalidRequestException {
 }
 
 /// Indicates that something is wrong with the input to the request. For example, a required parameter might be missing or out of range.
-public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -769,7 +769,7 @@ extension InvalidScopeException {
 }
 
 /// Indicates that the scope provided in the request is invalid.
-public struct InvalidScopeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidScopeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -896,7 +896,7 @@ extension RegisterClientInputBody: Swift.Decodable {
 }
 
 extension RegisterClientOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -924,7 +924,7 @@ public enum RegisterClientOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension RegisterClientOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: RegisterClientOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -1032,7 +1032,7 @@ extension SlowDownException {
 }
 
 /// Indicates that the client is making the request too frequently and is more than the service can handle.
-public struct SlowDownException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct SlowDownException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1148,7 +1148,7 @@ extension StartDeviceAuthorizationInputBody: Swift.Decodable {
 }
 
 extension StartDeviceAuthorizationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1178,7 +1178,7 @@ public enum StartDeviceAuthorizationOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension StartDeviceAuthorizationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: StartDeviceAuthorizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -1286,7 +1286,7 @@ extension UnauthorizedClientException {
 }
 
 /// Indicates that the client is not currently authorized to make the request. This can happen when a clientId is not issued for a public client.
-public struct UnauthorizedClientException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnauthorizedClientException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1346,7 +1346,7 @@ extension UnsupportedGrantTypeException {
 }
 
 /// Indicates that the grant type in the request is not supported by the service.
-public struct UnsupportedGrantTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnsupportedGrantTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

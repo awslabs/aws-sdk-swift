@@ -230,6 +230,8 @@ extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
+        context.setupBidirectionalStreaming()
         var operation = ClientRuntime.OperationStack<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutputResponse, StartCallAnalyticsStreamTranscriptionOutputError>(id: "startCallAnalyticsStreamTranscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutputResponse, StartCallAnalyticsStreamTranscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutputResponse>())
@@ -246,7 +248,7 @@ extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartCallAnalyticsStreamTranscriptionOutputResponse, StartCallAnalyticsStreamTranscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartCallAnalyticsStreamTranscriptionOutputResponse, StartCallAnalyticsStreamTranscriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartCallAnalyticsStreamTranscriptionOutputResponse, StartCallAnalyticsStreamTranscriptionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -275,6 +277,8 @@ extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
+        context.setupBidirectionalStreaming()
         var operation = ClientRuntime.OperationStack<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutputResponse, StartMedicalStreamTranscriptionOutputError>(id: "startMedicalStreamTranscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutputResponse, StartMedicalStreamTranscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutputResponse>())
@@ -291,7 +295,7 @@ extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMedicalStreamTranscriptionOutputResponse, StartMedicalStreamTranscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartMedicalStreamTranscriptionOutputResponse, StartMedicalStreamTranscriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMedicalStreamTranscriptionOutputResponse, StartMedicalStreamTranscriptionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -320,6 +324,8 @@ extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "transcribe")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
+        context.setupBidirectionalStreaming()
         var operation = ClientRuntime.OperationStack<StartStreamTranscriptionInput, StartStreamTranscriptionOutputResponse, StartStreamTranscriptionOutputError>(id: "startStreamTranscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutputResponse, StartStreamTranscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutputResponse>())
@@ -336,7 +342,7 @@ extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartStreamTranscriptionOutputResponse, StartStreamTranscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartStreamTranscriptionOutputResponse, StartStreamTranscriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartStreamTranscriptionOutputResponse, StartStreamTranscriptionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

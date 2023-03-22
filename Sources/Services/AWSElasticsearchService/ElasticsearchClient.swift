@@ -221,6 +221,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AcceptInboundCrossClusterSearchConnectionInput, AcceptInboundCrossClusterSearchConnectionOutputResponse, AcceptInboundCrossClusterSearchConnectionOutputError>(id: "acceptInboundCrossClusterSearchConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptInboundCrossClusterSearchConnectionInput, AcceptInboundCrossClusterSearchConnectionOutputResponse, AcceptInboundCrossClusterSearchConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptInboundCrossClusterSearchConnectionInput, AcceptInboundCrossClusterSearchConnectionOutputResponse>())
@@ -233,7 +234,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptInboundCrossClusterSearchConnectionOutputResponse, AcceptInboundCrossClusterSearchConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AcceptInboundCrossClusterSearchConnectionOutputResponse, AcceptInboundCrossClusterSearchConnectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptInboundCrossClusterSearchConnectionOutputResponse, AcceptInboundCrossClusterSearchConnectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -253,6 +254,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddTagsInput, AddTagsOutputResponse, AddTagsOutputError>(id: "addTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsInput, AddTagsOutputResponse, AddTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsInput, AddTagsOutputResponse>())
@@ -268,7 +270,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsOutputResponse, AddTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AddTagsOutputResponse, AddTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsOutputResponse, AddTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -288,6 +290,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociatePackageInput, AssociatePackageOutputResponse, AssociatePackageOutputError>(id: "associatePackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociatePackageInput, AssociatePackageOutputResponse, AssociatePackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociatePackageInput, AssociatePackageOutputResponse>())
@@ -300,7 +303,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociatePackageOutputResponse, AssociatePackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociatePackageOutputResponse, AssociatePackageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociatePackageOutputResponse, AssociatePackageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -320,6 +323,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AuthorizeVpcEndpointAccessInput, AuthorizeVpcEndpointAccessOutputResponse, AuthorizeVpcEndpointAccessOutputError>(id: "authorizeVpcEndpointAccess")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AuthorizeVpcEndpointAccessInput, AuthorizeVpcEndpointAccessOutputResponse, AuthorizeVpcEndpointAccessOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AuthorizeVpcEndpointAccessInput, AuthorizeVpcEndpointAccessOutputResponse>())
@@ -335,7 +339,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AuthorizeVpcEndpointAccessOutputResponse, AuthorizeVpcEndpointAccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AuthorizeVpcEndpointAccessOutputResponse, AuthorizeVpcEndpointAccessOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AuthorizeVpcEndpointAccessOutputResponse, AuthorizeVpcEndpointAccessOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -355,6 +359,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelElasticsearchServiceSoftwareUpdateInput, CancelElasticsearchServiceSoftwareUpdateOutputResponse, CancelElasticsearchServiceSoftwareUpdateOutputError>(id: "cancelElasticsearchServiceSoftwareUpdate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelElasticsearchServiceSoftwareUpdateInput, CancelElasticsearchServiceSoftwareUpdateOutputResponse, CancelElasticsearchServiceSoftwareUpdateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelElasticsearchServiceSoftwareUpdateInput, CancelElasticsearchServiceSoftwareUpdateOutputResponse>())
@@ -370,7 +375,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelElasticsearchServiceSoftwareUpdateOutputResponse, CancelElasticsearchServiceSoftwareUpdateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CancelElasticsearchServiceSoftwareUpdateOutputResponse, CancelElasticsearchServiceSoftwareUpdateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelElasticsearchServiceSoftwareUpdateOutputResponse, CancelElasticsearchServiceSoftwareUpdateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -390,6 +395,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateElasticsearchDomainInput, CreateElasticsearchDomainOutputResponse, CreateElasticsearchDomainOutputError>(id: "createElasticsearchDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateElasticsearchDomainInput, CreateElasticsearchDomainOutputResponse, CreateElasticsearchDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateElasticsearchDomainInput, CreateElasticsearchDomainOutputResponse>())
@@ -405,7 +411,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateElasticsearchDomainOutputResponse, CreateElasticsearchDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateElasticsearchDomainOutputResponse, CreateElasticsearchDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateElasticsearchDomainOutputResponse, CreateElasticsearchDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -425,6 +431,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateOutboundCrossClusterSearchConnectionInput, CreateOutboundCrossClusterSearchConnectionOutputResponse, CreateOutboundCrossClusterSearchConnectionOutputError>(id: "createOutboundCrossClusterSearchConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOutboundCrossClusterSearchConnectionInput, CreateOutboundCrossClusterSearchConnectionOutputResponse, CreateOutboundCrossClusterSearchConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateOutboundCrossClusterSearchConnectionInput, CreateOutboundCrossClusterSearchConnectionOutputResponse>())
@@ -440,7 +447,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOutboundCrossClusterSearchConnectionOutputResponse, CreateOutboundCrossClusterSearchConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateOutboundCrossClusterSearchConnectionOutputResponse, CreateOutboundCrossClusterSearchConnectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOutboundCrossClusterSearchConnectionOutputResponse, CreateOutboundCrossClusterSearchConnectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -460,6 +467,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePackageInput, CreatePackageOutputResponse, CreatePackageOutputError>(id: "createPackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePackageInput, CreatePackageOutputResponse, CreatePackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePackageInput, CreatePackageOutputResponse>())
@@ -475,7 +483,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePackageOutputResponse, CreatePackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePackageOutputResponse, CreatePackageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePackageOutputResponse, CreatePackageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -495,6 +503,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateVpcEndpointInput, CreateVpcEndpointOutputResponse, CreateVpcEndpointOutputError>(id: "createVpcEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVpcEndpointInput, CreateVpcEndpointOutputResponse, CreateVpcEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVpcEndpointInput, CreateVpcEndpointOutputResponse>())
@@ -510,7 +519,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVpcEndpointOutputResponse, CreateVpcEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateVpcEndpointOutputResponse, CreateVpcEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVpcEndpointOutputResponse, CreateVpcEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -530,6 +539,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteElasticsearchDomainInput, DeleteElasticsearchDomainOutputResponse, DeleteElasticsearchDomainOutputError>(id: "deleteElasticsearchDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteElasticsearchDomainInput, DeleteElasticsearchDomainOutputResponse, DeleteElasticsearchDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteElasticsearchDomainInput, DeleteElasticsearchDomainOutputResponse>())
@@ -542,7 +552,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteElasticsearchDomainOutputResponse, DeleteElasticsearchDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteElasticsearchDomainOutputResponse, DeleteElasticsearchDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteElasticsearchDomainOutputResponse, DeleteElasticsearchDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -562,6 +572,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteElasticsearchServiceRoleInput, DeleteElasticsearchServiceRoleOutputResponse, DeleteElasticsearchServiceRoleOutputError>(id: "deleteElasticsearchServiceRole")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteElasticsearchServiceRoleInput, DeleteElasticsearchServiceRoleOutputResponse, DeleteElasticsearchServiceRoleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteElasticsearchServiceRoleInput, DeleteElasticsearchServiceRoleOutputResponse>())
@@ -574,7 +585,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteElasticsearchServiceRoleOutputResponse, DeleteElasticsearchServiceRoleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteElasticsearchServiceRoleOutputResponse, DeleteElasticsearchServiceRoleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteElasticsearchServiceRoleOutputResponse, DeleteElasticsearchServiceRoleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -594,6 +605,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteInboundCrossClusterSearchConnectionInput, DeleteInboundCrossClusterSearchConnectionOutputResponse, DeleteInboundCrossClusterSearchConnectionOutputError>(id: "deleteInboundCrossClusterSearchConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInboundCrossClusterSearchConnectionInput, DeleteInboundCrossClusterSearchConnectionOutputResponse, DeleteInboundCrossClusterSearchConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInboundCrossClusterSearchConnectionInput, DeleteInboundCrossClusterSearchConnectionOutputResponse>())
@@ -606,7 +618,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInboundCrossClusterSearchConnectionOutputResponse, DeleteInboundCrossClusterSearchConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteInboundCrossClusterSearchConnectionOutputResponse, DeleteInboundCrossClusterSearchConnectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInboundCrossClusterSearchConnectionOutputResponse, DeleteInboundCrossClusterSearchConnectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -626,6 +638,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteOutboundCrossClusterSearchConnectionInput, DeleteOutboundCrossClusterSearchConnectionOutputResponse, DeleteOutboundCrossClusterSearchConnectionOutputError>(id: "deleteOutboundCrossClusterSearchConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOutboundCrossClusterSearchConnectionInput, DeleteOutboundCrossClusterSearchConnectionOutputResponse, DeleteOutboundCrossClusterSearchConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOutboundCrossClusterSearchConnectionInput, DeleteOutboundCrossClusterSearchConnectionOutputResponse>())
@@ -638,7 +651,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOutboundCrossClusterSearchConnectionOutputResponse, DeleteOutboundCrossClusterSearchConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteOutboundCrossClusterSearchConnectionOutputResponse, DeleteOutboundCrossClusterSearchConnectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOutboundCrossClusterSearchConnectionOutputResponse, DeleteOutboundCrossClusterSearchConnectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -658,6 +671,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePackageInput, DeletePackageOutputResponse, DeletePackageOutputError>(id: "deletePackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePackageInput, DeletePackageOutputResponse, DeletePackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePackageInput, DeletePackageOutputResponse>())
@@ -670,7 +684,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePackageOutputResponse, DeletePackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeletePackageOutputResponse, DeletePackageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePackageOutputResponse, DeletePackageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -690,6 +704,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVpcEndpointInput, DeleteVpcEndpointOutputResponse, DeleteVpcEndpointOutputError>(id: "deleteVpcEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVpcEndpointInput, DeleteVpcEndpointOutputResponse, DeleteVpcEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVpcEndpointInput, DeleteVpcEndpointOutputResponse>())
@@ -702,7 +717,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVpcEndpointOutputResponse, DeleteVpcEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteVpcEndpointOutputResponse, DeleteVpcEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVpcEndpointOutputResponse, DeleteVpcEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -722,6 +737,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutputResponse, DescribeDomainAutoTunesOutputError>(id: "describeDomainAutoTunes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutputResponse, DescribeDomainAutoTunesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutputResponse>())
@@ -737,7 +753,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDomainAutoTunesOutputResponse, DescribeDomainAutoTunesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDomainAutoTunesOutputResponse, DescribeDomainAutoTunesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDomainAutoTunesOutputResponse, DescribeDomainAutoTunesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -757,6 +773,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDomainChangeProgressInput, DescribeDomainChangeProgressOutputResponse, DescribeDomainChangeProgressOutputError>(id: "describeDomainChangeProgress")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDomainChangeProgressInput, DescribeDomainChangeProgressOutputResponse, DescribeDomainChangeProgressOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDomainChangeProgressInput, DescribeDomainChangeProgressOutputResponse>())
@@ -770,7 +787,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDomainChangeProgressOutputResponse, DescribeDomainChangeProgressOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDomainChangeProgressOutputResponse, DescribeDomainChangeProgressOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDomainChangeProgressOutputResponse, DescribeDomainChangeProgressOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -790,6 +807,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeElasticsearchDomainInput, DescribeElasticsearchDomainOutputResponse, DescribeElasticsearchDomainOutputError>(id: "describeElasticsearchDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeElasticsearchDomainInput, DescribeElasticsearchDomainOutputResponse, DescribeElasticsearchDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeElasticsearchDomainInput, DescribeElasticsearchDomainOutputResponse>())
@@ -802,7 +820,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeElasticsearchDomainOutputResponse, DescribeElasticsearchDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeElasticsearchDomainOutputResponse, DescribeElasticsearchDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeElasticsearchDomainOutputResponse, DescribeElasticsearchDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -822,6 +840,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeElasticsearchDomainConfigInput, DescribeElasticsearchDomainConfigOutputResponse, DescribeElasticsearchDomainConfigOutputError>(id: "describeElasticsearchDomainConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeElasticsearchDomainConfigInput, DescribeElasticsearchDomainConfigOutputResponse, DescribeElasticsearchDomainConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeElasticsearchDomainConfigInput, DescribeElasticsearchDomainConfigOutputResponse>())
@@ -834,7 +853,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeElasticsearchDomainConfigOutputResponse, DescribeElasticsearchDomainConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeElasticsearchDomainConfigOutputResponse, DescribeElasticsearchDomainConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeElasticsearchDomainConfigOutputResponse, DescribeElasticsearchDomainConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -854,6 +873,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeElasticsearchDomainsInput, DescribeElasticsearchDomainsOutputResponse, DescribeElasticsearchDomainsOutputError>(id: "describeElasticsearchDomains")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeElasticsearchDomainsInput, DescribeElasticsearchDomainsOutputResponse, DescribeElasticsearchDomainsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeElasticsearchDomainsInput, DescribeElasticsearchDomainsOutputResponse>())
@@ -869,7 +889,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeElasticsearchDomainsOutputResponse, DescribeElasticsearchDomainsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeElasticsearchDomainsOutputResponse, DescribeElasticsearchDomainsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeElasticsearchDomainsOutputResponse, DescribeElasticsearchDomainsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -889,6 +909,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeElasticsearchInstanceTypeLimitsInput, DescribeElasticsearchInstanceTypeLimitsOutputResponse, DescribeElasticsearchInstanceTypeLimitsOutputError>(id: "describeElasticsearchInstanceTypeLimits")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeElasticsearchInstanceTypeLimitsInput, DescribeElasticsearchInstanceTypeLimitsOutputResponse, DescribeElasticsearchInstanceTypeLimitsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeElasticsearchInstanceTypeLimitsInput, DescribeElasticsearchInstanceTypeLimitsOutputResponse>())
@@ -902,7 +923,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeElasticsearchInstanceTypeLimitsOutputResponse, DescribeElasticsearchInstanceTypeLimitsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeElasticsearchInstanceTypeLimitsOutputResponse, DescribeElasticsearchInstanceTypeLimitsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeElasticsearchInstanceTypeLimitsOutputResponse, DescribeElasticsearchInstanceTypeLimitsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -922,6 +943,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeInboundCrossClusterSearchConnectionsInput, DescribeInboundCrossClusterSearchConnectionsOutputResponse, DescribeInboundCrossClusterSearchConnectionsOutputError>(id: "describeInboundCrossClusterSearchConnections")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInboundCrossClusterSearchConnectionsInput, DescribeInboundCrossClusterSearchConnectionsOutputResponse, DescribeInboundCrossClusterSearchConnectionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInboundCrossClusterSearchConnectionsInput, DescribeInboundCrossClusterSearchConnectionsOutputResponse>())
@@ -937,7 +959,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInboundCrossClusterSearchConnectionsOutputResponse, DescribeInboundCrossClusterSearchConnectionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeInboundCrossClusterSearchConnectionsOutputResponse, DescribeInboundCrossClusterSearchConnectionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInboundCrossClusterSearchConnectionsOutputResponse, DescribeInboundCrossClusterSearchConnectionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -957,6 +979,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeOutboundCrossClusterSearchConnectionsInput, DescribeOutboundCrossClusterSearchConnectionsOutputResponse, DescribeOutboundCrossClusterSearchConnectionsOutputError>(id: "describeOutboundCrossClusterSearchConnections")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOutboundCrossClusterSearchConnectionsInput, DescribeOutboundCrossClusterSearchConnectionsOutputResponse, DescribeOutboundCrossClusterSearchConnectionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOutboundCrossClusterSearchConnectionsInput, DescribeOutboundCrossClusterSearchConnectionsOutputResponse>())
@@ -972,7 +995,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOutboundCrossClusterSearchConnectionsOutputResponse, DescribeOutboundCrossClusterSearchConnectionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeOutboundCrossClusterSearchConnectionsOutputResponse, DescribeOutboundCrossClusterSearchConnectionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOutboundCrossClusterSearchConnectionsOutputResponse, DescribeOutboundCrossClusterSearchConnectionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -992,6 +1015,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePackagesInput, DescribePackagesOutputResponse, DescribePackagesOutputError>(id: "describePackages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePackagesInput, DescribePackagesOutputResponse, DescribePackagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePackagesInput, DescribePackagesOutputResponse>())
@@ -1007,7 +1031,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePackagesOutputResponse, DescribePackagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribePackagesOutputResponse, DescribePackagesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePackagesOutputResponse, DescribePackagesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1027,6 +1051,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReservedElasticsearchInstanceOfferingsInput, DescribeReservedElasticsearchInstanceOfferingsOutputResponse, DescribeReservedElasticsearchInstanceOfferingsOutputError>(id: "describeReservedElasticsearchInstanceOfferings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservedElasticsearchInstanceOfferingsInput, DescribeReservedElasticsearchInstanceOfferingsOutputResponse, DescribeReservedElasticsearchInstanceOfferingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservedElasticsearchInstanceOfferingsInput, DescribeReservedElasticsearchInstanceOfferingsOutputResponse>())
@@ -1040,7 +1065,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservedElasticsearchInstanceOfferingsOutputResponse, DescribeReservedElasticsearchInstanceOfferingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeReservedElasticsearchInstanceOfferingsOutputResponse, DescribeReservedElasticsearchInstanceOfferingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservedElasticsearchInstanceOfferingsOutputResponse, DescribeReservedElasticsearchInstanceOfferingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1060,6 +1085,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReservedElasticsearchInstancesInput, DescribeReservedElasticsearchInstancesOutputResponse, DescribeReservedElasticsearchInstancesOutputError>(id: "describeReservedElasticsearchInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservedElasticsearchInstancesInput, DescribeReservedElasticsearchInstancesOutputResponse, DescribeReservedElasticsearchInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservedElasticsearchInstancesInput, DescribeReservedElasticsearchInstancesOutputResponse>())
@@ -1073,7 +1099,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservedElasticsearchInstancesOutputResponse, DescribeReservedElasticsearchInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeReservedElasticsearchInstancesOutputResponse, DescribeReservedElasticsearchInstancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservedElasticsearchInstancesOutputResponse, DescribeReservedElasticsearchInstancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1093,6 +1119,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeVpcEndpointsInput, DescribeVpcEndpointsOutputResponse, DescribeVpcEndpointsOutputError>(id: "describeVpcEndpoints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeVpcEndpointsInput, DescribeVpcEndpointsOutputResponse, DescribeVpcEndpointsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeVpcEndpointsInput, DescribeVpcEndpointsOutputResponse>())
@@ -1108,7 +1135,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeVpcEndpointsOutputResponse, DescribeVpcEndpointsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeVpcEndpointsOutputResponse, DescribeVpcEndpointsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeVpcEndpointsOutputResponse, DescribeVpcEndpointsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1128,6 +1155,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DissociatePackageInput, DissociatePackageOutputResponse, DissociatePackageOutputError>(id: "dissociatePackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DissociatePackageInput, DissociatePackageOutputResponse, DissociatePackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DissociatePackageInput, DissociatePackageOutputResponse>())
@@ -1140,7 +1168,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DissociatePackageOutputResponse, DissociatePackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DissociatePackageOutputResponse, DissociatePackageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DissociatePackageOutputResponse, DissociatePackageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1160,6 +1188,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCompatibleElasticsearchVersionsInput, GetCompatibleElasticsearchVersionsOutputResponse, GetCompatibleElasticsearchVersionsOutputError>(id: "getCompatibleElasticsearchVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCompatibleElasticsearchVersionsInput, GetCompatibleElasticsearchVersionsOutputResponse, GetCompatibleElasticsearchVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCompatibleElasticsearchVersionsInput, GetCompatibleElasticsearchVersionsOutputResponse>())
@@ -1173,7 +1202,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCompatibleElasticsearchVersionsOutputResponse, GetCompatibleElasticsearchVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCompatibleElasticsearchVersionsOutputResponse, GetCompatibleElasticsearchVersionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCompatibleElasticsearchVersionsOutputResponse, GetCompatibleElasticsearchVersionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1193,6 +1222,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutputResponse, GetPackageVersionHistoryOutputError>(id: "getPackageVersionHistory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutputResponse, GetPackageVersionHistoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutputResponse>())
@@ -1206,7 +1236,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPackageVersionHistoryOutputResponse, GetPackageVersionHistoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPackageVersionHistoryOutputResponse, GetPackageVersionHistoryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPackageVersionHistoryOutputResponse, GetPackageVersionHistoryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1226,6 +1256,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetUpgradeHistoryInput, GetUpgradeHistoryOutputResponse, GetUpgradeHistoryOutputError>(id: "getUpgradeHistory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUpgradeHistoryInput, GetUpgradeHistoryOutputResponse, GetUpgradeHistoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUpgradeHistoryInput, GetUpgradeHistoryOutputResponse>())
@@ -1239,7 +1270,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUpgradeHistoryOutputResponse, GetUpgradeHistoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetUpgradeHistoryOutputResponse, GetUpgradeHistoryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUpgradeHistoryOutputResponse, GetUpgradeHistoryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1259,6 +1290,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetUpgradeStatusInput, GetUpgradeStatusOutputResponse, GetUpgradeStatusOutputError>(id: "getUpgradeStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUpgradeStatusInput, GetUpgradeStatusOutputResponse, GetUpgradeStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUpgradeStatusInput, GetUpgradeStatusOutputResponse>())
@@ -1271,7 +1303,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUpgradeStatusOutputResponse, GetUpgradeStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetUpgradeStatusOutputResponse, GetUpgradeStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUpgradeStatusOutputResponse, GetUpgradeStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1291,6 +1323,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDomainNamesInput, ListDomainNamesOutputResponse, ListDomainNamesOutputError>(id: "listDomainNames")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDomainNamesInput, ListDomainNamesOutputResponse, ListDomainNamesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDomainNamesInput, ListDomainNamesOutputResponse>())
@@ -1304,7 +1337,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDomainNamesOutputResponse, ListDomainNamesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDomainNamesOutputResponse, ListDomainNamesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDomainNamesOutputResponse, ListDomainNamesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1324,6 +1357,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDomainsForPackageInput, ListDomainsForPackageOutputResponse, ListDomainsForPackageOutputError>(id: "listDomainsForPackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDomainsForPackageInput, ListDomainsForPackageOutputResponse, ListDomainsForPackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDomainsForPackageInput, ListDomainsForPackageOutputResponse>())
@@ -1337,7 +1371,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDomainsForPackageOutputResponse, ListDomainsForPackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDomainsForPackageOutputResponse, ListDomainsForPackageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDomainsForPackageOutputResponse, ListDomainsForPackageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1357,6 +1391,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListElasticsearchInstanceTypesInput, ListElasticsearchInstanceTypesOutputResponse, ListElasticsearchInstanceTypesOutputError>(id: "listElasticsearchInstanceTypes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListElasticsearchInstanceTypesInput, ListElasticsearchInstanceTypesOutputResponse, ListElasticsearchInstanceTypesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListElasticsearchInstanceTypesInput, ListElasticsearchInstanceTypesOutputResponse>())
@@ -1370,7 +1405,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListElasticsearchInstanceTypesOutputResponse, ListElasticsearchInstanceTypesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListElasticsearchInstanceTypesOutputResponse, ListElasticsearchInstanceTypesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListElasticsearchInstanceTypesOutputResponse, ListElasticsearchInstanceTypesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1390,6 +1425,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListElasticsearchVersionsInput, ListElasticsearchVersionsOutputResponse, ListElasticsearchVersionsOutputError>(id: "listElasticsearchVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListElasticsearchVersionsInput, ListElasticsearchVersionsOutputResponse, ListElasticsearchVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListElasticsearchVersionsInput, ListElasticsearchVersionsOutputResponse>())
@@ -1403,7 +1439,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListElasticsearchVersionsOutputResponse, ListElasticsearchVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListElasticsearchVersionsOutputResponse, ListElasticsearchVersionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListElasticsearchVersionsOutputResponse, ListElasticsearchVersionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1423,6 +1459,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPackagesForDomainInput, ListPackagesForDomainOutputResponse, ListPackagesForDomainOutputError>(id: "listPackagesForDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPackagesForDomainInput, ListPackagesForDomainOutputResponse, ListPackagesForDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPackagesForDomainInput, ListPackagesForDomainOutputResponse>())
@@ -1436,7 +1473,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPackagesForDomainOutputResponse, ListPackagesForDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPackagesForDomainOutputResponse, ListPackagesForDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPackagesForDomainOutputResponse, ListPackagesForDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1456,6 +1493,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsInput, ListTagsOutputResponse, ListTagsOutputError>(id: "listTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsInput, ListTagsOutputResponse, ListTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsInput, ListTagsOutputResponse>())
@@ -1469,7 +1507,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsOutputResponse, ListTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsOutputResponse, ListTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsOutputResponse, ListTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1489,6 +1527,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVpcEndpointAccessInput, ListVpcEndpointAccessOutputResponse, ListVpcEndpointAccessOutputError>(id: "listVpcEndpointAccess")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVpcEndpointAccessInput, ListVpcEndpointAccessOutputResponse, ListVpcEndpointAccessOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVpcEndpointAccessInput, ListVpcEndpointAccessOutputResponse>())
@@ -1502,7 +1541,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVpcEndpointAccessOutputResponse, ListVpcEndpointAccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListVpcEndpointAccessOutputResponse, ListVpcEndpointAccessOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVpcEndpointAccessOutputResponse, ListVpcEndpointAccessOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1522,6 +1561,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVpcEndpointsInput, ListVpcEndpointsOutputResponse, ListVpcEndpointsOutputError>(id: "listVpcEndpoints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVpcEndpointsInput, ListVpcEndpointsOutputResponse, ListVpcEndpointsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVpcEndpointsInput, ListVpcEndpointsOutputResponse>())
@@ -1535,7 +1575,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVpcEndpointsOutputResponse, ListVpcEndpointsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListVpcEndpointsOutputResponse, ListVpcEndpointsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVpcEndpointsOutputResponse, ListVpcEndpointsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1555,6 +1595,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVpcEndpointsForDomainInput, ListVpcEndpointsForDomainOutputResponse, ListVpcEndpointsForDomainOutputError>(id: "listVpcEndpointsForDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVpcEndpointsForDomainInput, ListVpcEndpointsForDomainOutputResponse, ListVpcEndpointsForDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVpcEndpointsForDomainInput, ListVpcEndpointsForDomainOutputResponse>())
@@ -1568,7 +1609,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVpcEndpointsForDomainOutputResponse, ListVpcEndpointsForDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListVpcEndpointsForDomainOutputResponse, ListVpcEndpointsForDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVpcEndpointsForDomainOutputResponse, ListVpcEndpointsForDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1588,6 +1629,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PurchaseReservedElasticsearchInstanceOfferingInput, PurchaseReservedElasticsearchInstanceOfferingOutputResponse, PurchaseReservedElasticsearchInstanceOfferingOutputError>(id: "purchaseReservedElasticsearchInstanceOffering")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurchaseReservedElasticsearchInstanceOfferingInput, PurchaseReservedElasticsearchInstanceOfferingOutputResponse, PurchaseReservedElasticsearchInstanceOfferingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PurchaseReservedElasticsearchInstanceOfferingInput, PurchaseReservedElasticsearchInstanceOfferingOutputResponse>())
@@ -1603,7 +1645,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurchaseReservedElasticsearchInstanceOfferingOutputResponse, PurchaseReservedElasticsearchInstanceOfferingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PurchaseReservedElasticsearchInstanceOfferingOutputResponse, PurchaseReservedElasticsearchInstanceOfferingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurchaseReservedElasticsearchInstanceOfferingOutputResponse, PurchaseReservedElasticsearchInstanceOfferingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1623,6 +1665,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RejectInboundCrossClusterSearchConnectionInput, RejectInboundCrossClusterSearchConnectionOutputResponse, RejectInboundCrossClusterSearchConnectionOutputError>(id: "rejectInboundCrossClusterSearchConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RejectInboundCrossClusterSearchConnectionInput, RejectInboundCrossClusterSearchConnectionOutputResponse, RejectInboundCrossClusterSearchConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RejectInboundCrossClusterSearchConnectionInput, RejectInboundCrossClusterSearchConnectionOutputResponse>())
@@ -1635,7 +1678,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectInboundCrossClusterSearchConnectionOutputResponse, RejectInboundCrossClusterSearchConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RejectInboundCrossClusterSearchConnectionOutputResponse, RejectInboundCrossClusterSearchConnectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectInboundCrossClusterSearchConnectionOutputResponse, RejectInboundCrossClusterSearchConnectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1655,6 +1698,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveTagsInput, RemoveTagsOutputResponse, RemoveTagsOutputError>(id: "removeTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsInput, RemoveTagsOutputResponse, RemoveTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsInput, RemoveTagsOutputResponse>())
@@ -1670,7 +1714,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsOutputResponse, RemoveTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsOutputResponse, RemoveTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsOutputResponse, RemoveTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1690,6 +1734,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RevokeVpcEndpointAccessInput, RevokeVpcEndpointAccessOutputResponse, RevokeVpcEndpointAccessOutputError>(id: "revokeVpcEndpointAccess")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeVpcEndpointAccessInput, RevokeVpcEndpointAccessOutputResponse, RevokeVpcEndpointAccessOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeVpcEndpointAccessInput, RevokeVpcEndpointAccessOutputResponse>())
@@ -1705,7 +1750,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeVpcEndpointAccessOutputResponse, RevokeVpcEndpointAccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RevokeVpcEndpointAccessOutputResponse, RevokeVpcEndpointAccessOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeVpcEndpointAccessOutputResponse, RevokeVpcEndpointAccessOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1725,6 +1770,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartElasticsearchServiceSoftwareUpdateInput, StartElasticsearchServiceSoftwareUpdateOutputResponse, StartElasticsearchServiceSoftwareUpdateOutputError>(id: "startElasticsearchServiceSoftwareUpdate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartElasticsearchServiceSoftwareUpdateInput, StartElasticsearchServiceSoftwareUpdateOutputResponse, StartElasticsearchServiceSoftwareUpdateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartElasticsearchServiceSoftwareUpdateInput, StartElasticsearchServiceSoftwareUpdateOutputResponse>())
@@ -1740,7 +1786,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartElasticsearchServiceSoftwareUpdateOutputResponse, StartElasticsearchServiceSoftwareUpdateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartElasticsearchServiceSoftwareUpdateOutputResponse, StartElasticsearchServiceSoftwareUpdateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartElasticsearchServiceSoftwareUpdateOutputResponse, StartElasticsearchServiceSoftwareUpdateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1760,6 +1806,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateElasticsearchDomainConfigInput, UpdateElasticsearchDomainConfigOutputResponse, UpdateElasticsearchDomainConfigOutputError>(id: "updateElasticsearchDomainConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateElasticsearchDomainConfigInput, UpdateElasticsearchDomainConfigOutputResponse, UpdateElasticsearchDomainConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateElasticsearchDomainConfigInput, UpdateElasticsearchDomainConfigOutputResponse>())
@@ -1775,7 +1822,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateElasticsearchDomainConfigOutputResponse, UpdateElasticsearchDomainConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateElasticsearchDomainConfigOutputResponse, UpdateElasticsearchDomainConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateElasticsearchDomainConfigOutputResponse, UpdateElasticsearchDomainConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1795,6 +1842,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePackageInput, UpdatePackageOutputResponse, UpdatePackageOutputError>(id: "updatePackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePackageInput, UpdatePackageOutputResponse, UpdatePackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePackageInput, UpdatePackageOutputResponse>())
@@ -1810,7 +1858,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePackageOutputResponse, UpdatePackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdatePackageOutputResponse, UpdatePackageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePackageOutputResponse, UpdatePackageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1830,6 +1878,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateVpcEndpointInput, UpdateVpcEndpointOutputResponse, UpdateVpcEndpointOutputError>(id: "updateVpcEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateVpcEndpointInput, UpdateVpcEndpointOutputResponse, UpdateVpcEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateVpcEndpointInput, UpdateVpcEndpointOutputResponse>())
@@ -1845,7 +1894,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVpcEndpointOutputResponse, UpdateVpcEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateVpcEndpointOutputResponse, UpdateVpcEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVpcEndpointOutputResponse, UpdateVpcEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1865,6 +1914,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "es")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpgradeElasticsearchDomainInput, UpgradeElasticsearchDomainOutputResponse, UpgradeElasticsearchDomainOutputError>(id: "upgradeElasticsearchDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpgradeElasticsearchDomainInput, UpgradeElasticsearchDomainOutputResponse, UpgradeElasticsearchDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpgradeElasticsearchDomainInput, UpgradeElasticsearchDomainOutputResponse>())
@@ -1880,7 +1930,7 @@ extension ElasticsearchClient: ElasticsearchClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpgradeElasticsearchDomainOutputResponse, UpgradeElasticsearchDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpgradeElasticsearchDomainOutputResponse, UpgradeElasticsearchDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpgradeElasticsearchDomainOutputResponse, UpgradeElasticsearchDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

@@ -239,6 +239,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAutoPredictorInput, CreateAutoPredictorOutputResponse, CreateAutoPredictorOutputError>(id: "createAutoPredictor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAutoPredictorInput, CreateAutoPredictorOutputResponse, CreateAutoPredictorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAutoPredictorInput, CreateAutoPredictorOutputResponse>())
@@ -255,7 +256,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAutoPredictorOutputResponse, CreateAutoPredictorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAutoPredictorOutputResponse, CreateAutoPredictorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAutoPredictorOutputResponse, CreateAutoPredictorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -284,6 +285,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDatasetInput, CreateDatasetOutputResponse, CreateDatasetOutputError>(id: "createDataset")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDatasetInput, CreateDatasetOutputResponse, CreateDatasetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDatasetInput, CreateDatasetOutputResponse>())
@@ -300,7 +302,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDatasetOutputResponse, CreateDatasetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDatasetOutputResponse, CreateDatasetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDatasetOutputResponse, CreateDatasetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -320,6 +322,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDatasetGroupInput, CreateDatasetGroupOutputResponse, CreateDatasetGroupOutputError>(id: "createDatasetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDatasetGroupInput, CreateDatasetGroupOutputResponse, CreateDatasetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDatasetGroupInput, CreateDatasetGroupOutputResponse>())
@@ -336,7 +339,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDatasetGroupOutputResponse, CreateDatasetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDatasetGroupOutputResponse, CreateDatasetGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDatasetGroupOutputResponse, CreateDatasetGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -356,6 +359,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDatasetImportJobInput, CreateDatasetImportJobOutputResponse, CreateDatasetImportJobOutputError>(id: "createDatasetImportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDatasetImportJobInput, CreateDatasetImportJobOutputResponse, CreateDatasetImportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDatasetImportJobInput, CreateDatasetImportJobOutputResponse>())
@@ -372,7 +376,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDatasetImportJobOutputResponse, CreateDatasetImportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDatasetImportJobOutputResponse, CreateDatasetImportJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDatasetImportJobOutputResponse, CreateDatasetImportJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -436,6 +440,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateExplainabilityInput, CreateExplainabilityOutputResponse, CreateExplainabilityOutputError>(id: "createExplainability")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateExplainabilityInput, CreateExplainabilityOutputResponse, CreateExplainabilityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateExplainabilityInput, CreateExplainabilityOutputResponse>())
@@ -452,7 +457,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateExplainabilityOutputResponse, CreateExplainabilityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateExplainabilityOutputResponse, CreateExplainabilityOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateExplainabilityOutputResponse, CreateExplainabilityOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -472,6 +477,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateExplainabilityExportInput, CreateExplainabilityExportOutputResponse, CreateExplainabilityExportOutputError>(id: "createExplainabilityExport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateExplainabilityExportInput, CreateExplainabilityExportOutputResponse, CreateExplainabilityExportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateExplainabilityExportInput, CreateExplainabilityExportOutputResponse>())
@@ -488,7 +494,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateExplainabilityExportOutputResponse, CreateExplainabilityExportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateExplainabilityExportOutputResponse, CreateExplainabilityExportOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateExplainabilityExportOutputResponse, CreateExplainabilityExportOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -508,6 +514,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateForecastInput, CreateForecastOutputResponse, CreateForecastOutputError>(id: "createForecast")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateForecastInput, CreateForecastOutputResponse, CreateForecastOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateForecastInput, CreateForecastOutputResponse>())
@@ -524,7 +531,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateForecastOutputResponse, CreateForecastOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateForecastOutputResponse, CreateForecastOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateForecastOutputResponse, CreateForecastOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -544,6 +551,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateForecastExportJobInput, CreateForecastExportJobOutputResponse, CreateForecastExportJobOutputError>(id: "createForecastExportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateForecastExportJobInput, CreateForecastExportJobOutputResponse, CreateForecastExportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateForecastExportJobInput, CreateForecastExportJobOutputResponse>())
@@ -560,7 +568,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateForecastExportJobOutputResponse, CreateForecastExportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateForecastExportJobOutputResponse, CreateForecastExportJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateForecastExportJobOutputResponse, CreateForecastExportJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -580,6 +588,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMonitorInput, CreateMonitorOutputResponse, CreateMonitorOutputError>(id: "createMonitor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMonitorInput, CreateMonitorOutputResponse, CreateMonitorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMonitorInput, CreateMonitorOutputResponse>())
@@ -596,7 +605,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMonitorOutputResponse, CreateMonitorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateMonitorOutputResponse, CreateMonitorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMonitorOutputResponse, CreateMonitorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -627,6 +636,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePredictorInput, CreatePredictorOutputResponse, CreatePredictorOutputError>(id: "createPredictor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePredictorInput, CreatePredictorOutputResponse, CreatePredictorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePredictorInput, CreatePredictorOutputResponse>())
@@ -643,7 +653,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePredictorOutputResponse, CreatePredictorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePredictorOutputResponse, CreatePredictorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePredictorOutputResponse, CreatePredictorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -663,6 +673,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePredictorBacktestExportJobInput, CreatePredictorBacktestExportJobOutputResponse, CreatePredictorBacktestExportJobOutputError>(id: "createPredictorBacktestExportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePredictorBacktestExportJobInput, CreatePredictorBacktestExportJobOutputResponse, CreatePredictorBacktestExportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePredictorBacktestExportJobInput, CreatePredictorBacktestExportJobOutputResponse>())
@@ -679,7 +690,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePredictorBacktestExportJobOutputResponse, CreatePredictorBacktestExportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePredictorBacktestExportJobOutputResponse, CreatePredictorBacktestExportJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePredictorBacktestExportJobOutputResponse, CreatePredictorBacktestExportJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -699,6 +710,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWhatIfAnalysisInput, CreateWhatIfAnalysisOutputResponse, CreateWhatIfAnalysisOutputError>(id: "createWhatIfAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWhatIfAnalysisInput, CreateWhatIfAnalysisOutputResponse, CreateWhatIfAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWhatIfAnalysisInput, CreateWhatIfAnalysisOutputResponse>())
@@ -715,7 +727,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWhatIfAnalysisOutputResponse, CreateWhatIfAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateWhatIfAnalysisOutputResponse, CreateWhatIfAnalysisOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWhatIfAnalysisOutputResponse, CreateWhatIfAnalysisOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -735,6 +747,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWhatIfForecastInput, CreateWhatIfForecastOutputResponse, CreateWhatIfForecastOutputError>(id: "createWhatIfForecast")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWhatIfForecastInput, CreateWhatIfForecastOutputResponse, CreateWhatIfForecastOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWhatIfForecastInput, CreateWhatIfForecastOutputResponse>())
@@ -751,7 +764,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWhatIfForecastOutputResponse, CreateWhatIfForecastOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateWhatIfForecastOutputResponse, CreateWhatIfForecastOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWhatIfForecastOutputResponse, CreateWhatIfForecastOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -771,6 +784,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWhatIfForecastExportInput, CreateWhatIfForecastExportOutputResponse, CreateWhatIfForecastExportOutputError>(id: "createWhatIfForecastExport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWhatIfForecastExportInput, CreateWhatIfForecastExportOutputResponse, CreateWhatIfForecastExportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWhatIfForecastExportInput, CreateWhatIfForecastExportOutputResponse>())
@@ -787,7 +801,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWhatIfForecastExportOutputResponse, CreateWhatIfForecastExportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateWhatIfForecastExportOutputResponse, CreateWhatIfForecastExportOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWhatIfForecastExportOutputResponse, CreateWhatIfForecastExportOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -807,6 +821,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDatasetInput, DeleteDatasetOutputResponse, DeleteDatasetOutputError>(id: "deleteDataset")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDatasetInput, DeleteDatasetOutputResponse, DeleteDatasetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDatasetInput, DeleteDatasetOutputResponse>())
@@ -823,7 +838,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDatasetOutputResponse, DeleteDatasetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDatasetOutputResponse, DeleteDatasetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDatasetOutputResponse, DeleteDatasetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -843,6 +858,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDatasetGroupInput, DeleteDatasetGroupOutputResponse, DeleteDatasetGroupOutputError>(id: "deleteDatasetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDatasetGroupInput, DeleteDatasetGroupOutputResponse, DeleteDatasetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDatasetGroupInput, DeleteDatasetGroupOutputResponse>())
@@ -859,7 +875,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDatasetGroupOutputResponse, DeleteDatasetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDatasetGroupOutputResponse, DeleteDatasetGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDatasetGroupOutputResponse, DeleteDatasetGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -879,6 +895,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDatasetImportJobInput, DeleteDatasetImportJobOutputResponse, DeleteDatasetImportJobOutputError>(id: "deleteDatasetImportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDatasetImportJobInput, DeleteDatasetImportJobOutputResponse, DeleteDatasetImportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDatasetImportJobInput, DeleteDatasetImportJobOutputResponse>())
@@ -895,7 +912,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDatasetImportJobOutputResponse, DeleteDatasetImportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDatasetImportJobOutputResponse, DeleteDatasetImportJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDatasetImportJobOutputResponse, DeleteDatasetImportJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -915,6 +932,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteExplainabilityInput, DeleteExplainabilityOutputResponse, DeleteExplainabilityOutputError>(id: "deleteExplainability")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteExplainabilityInput, DeleteExplainabilityOutputResponse, DeleteExplainabilityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteExplainabilityInput, DeleteExplainabilityOutputResponse>())
@@ -931,7 +949,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteExplainabilityOutputResponse, DeleteExplainabilityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteExplainabilityOutputResponse, DeleteExplainabilityOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteExplainabilityOutputResponse, DeleteExplainabilityOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -951,6 +969,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteExplainabilityExportInput, DeleteExplainabilityExportOutputResponse, DeleteExplainabilityExportOutputError>(id: "deleteExplainabilityExport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteExplainabilityExportInput, DeleteExplainabilityExportOutputResponse, DeleteExplainabilityExportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteExplainabilityExportInput, DeleteExplainabilityExportOutputResponse>())
@@ -967,7 +986,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteExplainabilityExportOutputResponse, DeleteExplainabilityExportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteExplainabilityExportOutputResponse, DeleteExplainabilityExportOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteExplainabilityExportOutputResponse, DeleteExplainabilityExportOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -987,6 +1006,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteForecastInput, DeleteForecastOutputResponse, DeleteForecastOutputError>(id: "deleteForecast")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteForecastInput, DeleteForecastOutputResponse, DeleteForecastOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteForecastInput, DeleteForecastOutputResponse>())
@@ -1003,7 +1023,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteForecastOutputResponse, DeleteForecastOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteForecastOutputResponse, DeleteForecastOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteForecastOutputResponse, DeleteForecastOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1023,6 +1043,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteForecastExportJobInput, DeleteForecastExportJobOutputResponse, DeleteForecastExportJobOutputError>(id: "deleteForecastExportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteForecastExportJobInput, DeleteForecastExportJobOutputResponse, DeleteForecastExportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteForecastExportJobInput, DeleteForecastExportJobOutputResponse>())
@@ -1039,7 +1060,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteForecastExportJobOutputResponse, DeleteForecastExportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteForecastExportJobOutputResponse, DeleteForecastExportJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteForecastExportJobOutputResponse, DeleteForecastExportJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1059,6 +1080,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMonitorInput, DeleteMonitorOutputResponse, DeleteMonitorOutputError>(id: "deleteMonitor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMonitorInput, DeleteMonitorOutputResponse, DeleteMonitorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMonitorInput, DeleteMonitorOutputResponse>())
@@ -1075,7 +1097,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMonitorOutputResponse, DeleteMonitorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteMonitorOutputResponse, DeleteMonitorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMonitorOutputResponse, DeleteMonitorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1095,6 +1117,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePredictorInput, DeletePredictorOutputResponse, DeletePredictorOutputError>(id: "deletePredictor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePredictorInput, DeletePredictorOutputResponse, DeletePredictorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePredictorInput, DeletePredictorOutputResponse>())
@@ -1111,7 +1134,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePredictorOutputResponse, DeletePredictorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeletePredictorOutputResponse, DeletePredictorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePredictorOutputResponse, DeletePredictorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1131,6 +1154,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePredictorBacktestExportJobInput, DeletePredictorBacktestExportJobOutputResponse, DeletePredictorBacktestExportJobOutputError>(id: "deletePredictorBacktestExportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePredictorBacktestExportJobInput, DeletePredictorBacktestExportJobOutputResponse, DeletePredictorBacktestExportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePredictorBacktestExportJobInput, DeletePredictorBacktestExportJobOutputResponse>())
@@ -1147,7 +1171,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePredictorBacktestExportJobOutputResponse, DeletePredictorBacktestExportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeletePredictorBacktestExportJobOutputResponse, DeletePredictorBacktestExportJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePredictorBacktestExportJobOutputResponse, DeletePredictorBacktestExportJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1178,6 +1202,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteResourceTreeInput, DeleteResourceTreeOutputResponse, DeleteResourceTreeOutputError>(id: "deleteResourceTree")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourceTreeInput, DeleteResourceTreeOutputResponse, DeleteResourceTreeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourceTreeInput, DeleteResourceTreeOutputResponse>())
@@ -1194,7 +1219,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourceTreeOutputResponse, DeleteResourceTreeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteResourceTreeOutputResponse, DeleteResourceTreeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourceTreeOutputResponse, DeleteResourceTreeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1214,6 +1239,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWhatIfAnalysisInput, DeleteWhatIfAnalysisOutputResponse, DeleteWhatIfAnalysisOutputError>(id: "deleteWhatIfAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWhatIfAnalysisInput, DeleteWhatIfAnalysisOutputResponse, DeleteWhatIfAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWhatIfAnalysisInput, DeleteWhatIfAnalysisOutputResponse>())
@@ -1230,7 +1256,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWhatIfAnalysisOutputResponse, DeleteWhatIfAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteWhatIfAnalysisOutputResponse, DeleteWhatIfAnalysisOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWhatIfAnalysisOutputResponse, DeleteWhatIfAnalysisOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1250,6 +1276,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWhatIfForecastInput, DeleteWhatIfForecastOutputResponse, DeleteWhatIfForecastOutputError>(id: "deleteWhatIfForecast")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWhatIfForecastInput, DeleteWhatIfForecastOutputResponse, DeleteWhatIfForecastOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWhatIfForecastInput, DeleteWhatIfForecastOutputResponse>())
@@ -1266,7 +1293,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWhatIfForecastOutputResponse, DeleteWhatIfForecastOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteWhatIfForecastOutputResponse, DeleteWhatIfForecastOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWhatIfForecastOutputResponse, DeleteWhatIfForecastOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1286,6 +1313,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWhatIfForecastExportInput, DeleteWhatIfForecastExportOutputResponse, DeleteWhatIfForecastExportOutputError>(id: "deleteWhatIfForecastExport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWhatIfForecastExportInput, DeleteWhatIfForecastExportOutputResponse, DeleteWhatIfForecastExportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWhatIfForecastExportInput, DeleteWhatIfForecastExportOutputResponse>())
@@ -1302,7 +1330,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWhatIfForecastExportOutputResponse, DeleteWhatIfForecastExportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteWhatIfForecastExportOutputResponse, DeleteWhatIfForecastExportOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWhatIfForecastExportOutputResponse, DeleteWhatIfForecastExportOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1322,6 +1350,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAutoPredictorInput, DescribeAutoPredictorOutputResponse, DescribeAutoPredictorOutputError>(id: "describeAutoPredictor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAutoPredictorInput, DescribeAutoPredictorOutputResponse, DescribeAutoPredictorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAutoPredictorInput, DescribeAutoPredictorOutputResponse>())
@@ -1338,7 +1367,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAutoPredictorOutputResponse, DescribeAutoPredictorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAutoPredictorOutputResponse, DescribeAutoPredictorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAutoPredictorOutputResponse, DescribeAutoPredictorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1364,6 +1393,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDatasetInput, DescribeDatasetOutputResponse, DescribeDatasetOutputError>(id: "describeDataset")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDatasetInput, DescribeDatasetOutputResponse, DescribeDatasetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDatasetInput, DescribeDatasetOutputResponse>())
@@ -1380,7 +1410,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDatasetOutputResponse, DescribeDatasetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDatasetOutputResponse, DescribeDatasetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDatasetOutputResponse, DescribeDatasetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1408,6 +1438,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDatasetGroupInput, DescribeDatasetGroupOutputResponse, DescribeDatasetGroupOutputError>(id: "describeDatasetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDatasetGroupInput, DescribeDatasetGroupOutputResponse, DescribeDatasetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDatasetGroupInput, DescribeDatasetGroupOutputResponse>())
@@ -1424,7 +1455,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDatasetGroupOutputResponse, DescribeDatasetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDatasetGroupOutputResponse, DescribeDatasetGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDatasetGroupOutputResponse, DescribeDatasetGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1456,6 +1487,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDatasetImportJobInput, DescribeDatasetImportJobOutputResponse, DescribeDatasetImportJobOutputError>(id: "describeDatasetImportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDatasetImportJobInput, DescribeDatasetImportJobOutputResponse, DescribeDatasetImportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDatasetImportJobInput, DescribeDatasetImportJobOutputResponse>())
@@ -1472,7 +1504,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDatasetImportJobOutputResponse, DescribeDatasetImportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDatasetImportJobOutputResponse, DescribeDatasetImportJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDatasetImportJobOutputResponse, DescribeDatasetImportJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1492,6 +1524,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeExplainabilityInput, DescribeExplainabilityOutputResponse, DescribeExplainabilityOutputError>(id: "describeExplainability")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeExplainabilityInput, DescribeExplainabilityOutputResponse, DescribeExplainabilityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeExplainabilityInput, DescribeExplainabilityOutputResponse>())
@@ -1508,7 +1541,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeExplainabilityOutputResponse, DescribeExplainabilityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeExplainabilityOutputResponse, DescribeExplainabilityOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeExplainabilityOutputResponse, DescribeExplainabilityOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1528,6 +1561,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeExplainabilityExportInput, DescribeExplainabilityExportOutputResponse, DescribeExplainabilityExportOutputError>(id: "describeExplainabilityExport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeExplainabilityExportInput, DescribeExplainabilityExportOutputResponse, DescribeExplainabilityExportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeExplainabilityExportInput, DescribeExplainabilityExportOutputResponse>())
@@ -1544,7 +1578,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeExplainabilityExportOutputResponse, DescribeExplainabilityExportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeExplainabilityExportOutputResponse, DescribeExplainabilityExportOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeExplainabilityExportOutputResponse, DescribeExplainabilityExportOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1574,6 +1608,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeForecastInput, DescribeForecastOutputResponse, DescribeForecastOutputError>(id: "describeForecast")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeForecastInput, DescribeForecastOutputResponse, DescribeForecastOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeForecastInput, DescribeForecastOutputResponse>())
@@ -1590,7 +1625,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeForecastOutputResponse, DescribeForecastOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeForecastOutputResponse, DescribeForecastOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeForecastOutputResponse, DescribeForecastOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1618,6 +1653,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeForecastExportJobInput, DescribeForecastExportJobOutputResponse, DescribeForecastExportJobOutputError>(id: "describeForecastExportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeForecastExportJobInput, DescribeForecastExportJobOutputResponse, DescribeForecastExportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeForecastExportJobInput, DescribeForecastExportJobOutputResponse>())
@@ -1634,7 +1670,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeForecastExportJobOutputResponse, DescribeForecastExportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeForecastExportJobOutputResponse, DescribeForecastExportJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeForecastExportJobOutputResponse, DescribeForecastExportJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1668,6 +1704,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMonitorInput, DescribeMonitorOutputResponse, DescribeMonitorOutputError>(id: "describeMonitor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMonitorInput, DescribeMonitorOutputResponse, DescribeMonitorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMonitorInput, DescribeMonitorOutputResponse>())
@@ -1684,7 +1721,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMonitorOutputResponse, DescribeMonitorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeMonitorOutputResponse, DescribeMonitorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMonitorOutputResponse, DescribeMonitorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1716,6 +1753,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePredictorInput, DescribePredictorOutputResponse, DescribePredictorOutputError>(id: "describePredictor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePredictorInput, DescribePredictorOutputResponse, DescribePredictorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePredictorInput, DescribePredictorOutputResponse>())
@@ -1732,7 +1770,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePredictorOutputResponse, DescribePredictorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribePredictorOutputResponse, DescribePredictorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePredictorOutputResponse, DescribePredictorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1760,6 +1798,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePredictorBacktestExportJobInput, DescribePredictorBacktestExportJobOutputResponse, DescribePredictorBacktestExportJobOutputError>(id: "describePredictorBacktestExportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePredictorBacktestExportJobInput, DescribePredictorBacktestExportJobOutputResponse, DescribePredictorBacktestExportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePredictorBacktestExportJobInput, DescribePredictorBacktestExportJobOutputResponse>())
@@ -1776,7 +1815,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePredictorBacktestExportJobOutputResponse, DescribePredictorBacktestExportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribePredictorBacktestExportJobOutputResponse, DescribePredictorBacktestExportJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePredictorBacktestExportJobOutputResponse, DescribePredictorBacktestExportJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1804,6 +1843,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeWhatIfAnalysisInput, DescribeWhatIfAnalysisOutputResponse, DescribeWhatIfAnalysisOutputError>(id: "describeWhatIfAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWhatIfAnalysisInput, DescribeWhatIfAnalysisOutputResponse, DescribeWhatIfAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWhatIfAnalysisInput, DescribeWhatIfAnalysisOutputResponse>())
@@ -1820,7 +1860,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWhatIfAnalysisOutputResponse, DescribeWhatIfAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeWhatIfAnalysisOutputResponse, DescribeWhatIfAnalysisOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWhatIfAnalysisOutputResponse, DescribeWhatIfAnalysisOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1848,6 +1888,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeWhatIfForecastInput, DescribeWhatIfForecastOutputResponse, DescribeWhatIfForecastOutputError>(id: "describeWhatIfForecast")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWhatIfForecastInput, DescribeWhatIfForecastOutputResponse, DescribeWhatIfForecastOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWhatIfForecastInput, DescribeWhatIfForecastOutputResponse>())
@@ -1864,7 +1905,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWhatIfForecastOutputResponse, DescribeWhatIfForecastOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeWhatIfForecastOutputResponse, DescribeWhatIfForecastOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWhatIfForecastOutputResponse, DescribeWhatIfForecastOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1892,6 +1933,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeWhatIfForecastExportInput, DescribeWhatIfForecastExportOutputResponse, DescribeWhatIfForecastExportOutputError>(id: "describeWhatIfForecastExport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWhatIfForecastExportInput, DescribeWhatIfForecastExportOutputResponse, DescribeWhatIfForecastExportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWhatIfForecastExportInput, DescribeWhatIfForecastExportOutputResponse>())
@@ -1908,7 +1950,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWhatIfForecastExportOutputResponse, DescribeWhatIfForecastExportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeWhatIfForecastExportOutputResponse, DescribeWhatIfForecastExportOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWhatIfForecastExportOutputResponse, DescribeWhatIfForecastExportOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1928,6 +1970,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccuracyMetricsInput, GetAccuracyMetricsOutputResponse, GetAccuracyMetricsOutputError>(id: "getAccuracyMetrics")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccuracyMetricsInput, GetAccuracyMetricsOutputResponse, GetAccuracyMetricsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccuracyMetricsInput, GetAccuracyMetricsOutputResponse>())
@@ -1944,7 +1987,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccuracyMetricsOutputResponse, GetAccuracyMetricsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAccuracyMetricsOutputResponse, GetAccuracyMetricsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccuracyMetricsOutputResponse, GetAccuracyMetricsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1964,6 +2007,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDatasetGroupsInput, ListDatasetGroupsOutputResponse, ListDatasetGroupsOutputError>(id: "listDatasetGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDatasetGroupsInput, ListDatasetGroupsOutputResponse, ListDatasetGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDatasetGroupsInput, ListDatasetGroupsOutputResponse>())
@@ -1980,7 +2024,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDatasetGroupsOutputResponse, ListDatasetGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDatasetGroupsOutputResponse, ListDatasetGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDatasetGroupsOutputResponse, ListDatasetGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2000,6 +2044,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDatasetImportJobsInput, ListDatasetImportJobsOutputResponse, ListDatasetImportJobsOutputError>(id: "listDatasetImportJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDatasetImportJobsInput, ListDatasetImportJobsOutputResponse, ListDatasetImportJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDatasetImportJobsInput, ListDatasetImportJobsOutputResponse>())
@@ -2016,7 +2061,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDatasetImportJobsOutputResponse, ListDatasetImportJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDatasetImportJobsOutputResponse, ListDatasetImportJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDatasetImportJobsOutputResponse, ListDatasetImportJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2036,6 +2081,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDatasetsInput, ListDatasetsOutputResponse, ListDatasetsOutputError>(id: "listDatasets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDatasetsInput, ListDatasetsOutputResponse, ListDatasetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDatasetsInput, ListDatasetsOutputResponse>())
@@ -2052,7 +2098,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDatasetsOutputResponse, ListDatasetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDatasetsOutputResponse, ListDatasetsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDatasetsOutputResponse, ListDatasetsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2072,6 +2118,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListExplainabilitiesInput, ListExplainabilitiesOutputResponse, ListExplainabilitiesOutputError>(id: "listExplainabilities")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListExplainabilitiesInput, ListExplainabilitiesOutputResponse, ListExplainabilitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListExplainabilitiesInput, ListExplainabilitiesOutputResponse>())
@@ -2088,7 +2135,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListExplainabilitiesOutputResponse, ListExplainabilitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListExplainabilitiesOutputResponse, ListExplainabilitiesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListExplainabilitiesOutputResponse, ListExplainabilitiesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2108,6 +2155,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListExplainabilityExportsInput, ListExplainabilityExportsOutputResponse, ListExplainabilityExportsOutputError>(id: "listExplainabilityExports")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListExplainabilityExportsInput, ListExplainabilityExportsOutputResponse, ListExplainabilityExportsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListExplainabilityExportsInput, ListExplainabilityExportsOutputResponse>())
@@ -2124,7 +2172,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListExplainabilityExportsOutputResponse, ListExplainabilityExportsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListExplainabilityExportsOutputResponse, ListExplainabilityExportsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListExplainabilityExportsOutputResponse, ListExplainabilityExportsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2144,6 +2192,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListForecastExportJobsInput, ListForecastExportJobsOutputResponse, ListForecastExportJobsOutputError>(id: "listForecastExportJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListForecastExportJobsInput, ListForecastExportJobsOutputResponse, ListForecastExportJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListForecastExportJobsInput, ListForecastExportJobsOutputResponse>())
@@ -2160,7 +2209,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListForecastExportJobsOutputResponse, ListForecastExportJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListForecastExportJobsOutputResponse, ListForecastExportJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListForecastExportJobsOutputResponse, ListForecastExportJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2180,6 +2229,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListForecastsInput, ListForecastsOutputResponse, ListForecastsOutputError>(id: "listForecasts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListForecastsInput, ListForecastsOutputResponse, ListForecastsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListForecastsInput, ListForecastsOutputResponse>())
@@ -2196,7 +2246,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListForecastsOutputResponse, ListForecastsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListForecastsOutputResponse, ListForecastsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListForecastsOutputResponse, ListForecastsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2216,6 +2266,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMonitorEvaluationsInput, ListMonitorEvaluationsOutputResponse, ListMonitorEvaluationsOutputError>(id: "listMonitorEvaluations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMonitorEvaluationsInput, ListMonitorEvaluationsOutputResponse, ListMonitorEvaluationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMonitorEvaluationsInput, ListMonitorEvaluationsOutputResponse>())
@@ -2232,7 +2283,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMonitorEvaluationsOutputResponse, ListMonitorEvaluationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMonitorEvaluationsOutputResponse, ListMonitorEvaluationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMonitorEvaluationsOutputResponse, ListMonitorEvaluationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2252,6 +2303,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMonitorsInput, ListMonitorsOutputResponse, ListMonitorsOutputError>(id: "listMonitors")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMonitorsInput, ListMonitorsOutputResponse, ListMonitorsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMonitorsInput, ListMonitorsOutputResponse>())
@@ -2268,7 +2320,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMonitorsOutputResponse, ListMonitorsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMonitorsOutputResponse, ListMonitorsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMonitorsOutputResponse, ListMonitorsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2288,6 +2340,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPredictorBacktestExportJobsInput, ListPredictorBacktestExportJobsOutputResponse, ListPredictorBacktestExportJobsOutputError>(id: "listPredictorBacktestExportJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPredictorBacktestExportJobsInput, ListPredictorBacktestExportJobsOutputResponse, ListPredictorBacktestExportJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPredictorBacktestExportJobsInput, ListPredictorBacktestExportJobsOutputResponse>())
@@ -2304,7 +2357,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPredictorBacktestExportJobsOutputResponse, ListPredictorBacktestExportJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPredictorBacktestExportJobsOutputResponse, ListPredictorBacktestExportJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPredictorBacktestExportJobsOutputResponse, ListPredictorBacktestExportJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2324,6 +2377,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPredictorsInput, ListPredictorsOutputResponse, ListPredictorsOutputError>(id: "listPredictors")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPredictorsInput, ListPredictorsOutputResponse, ListPredictorsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPredictorsInput, ListPredictorsOutputResponse>())
@@ -2340,7 +2394,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPredictorsOutputResponse, ListPredictorsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPredictorsOutputResponse, ListPredictorsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPredictorsOutputResponse, ListPredictorsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2360,6 +2414,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -2376,7 +2431,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2396,6 +2451,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWhatIfAnalysesInput, ListWhatIfAnalysesOutputResponse, ListWhatIfAnalysesOutputError>(id: "listWhatIfAnalyses")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWhatIfAnalysesInput, ListWhatIfAnalysesOutputResponse, ListWhatIfAnalysesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWhatIfAnalysesInput, ListWhatIfAnalysesOutputResponse>())
@@ -2412,7 +2468,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWhatIfAnalysesOutputResponse, ListWhatIfAnalysesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListWhatIfAnalysesOutputResponse, ListWhatIfAnalysesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWhatIfAnalysesOutputResponse, ListWhatIfAnalysesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2432,6 +2488,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWhatIfForecastExportsInput, ListWhatIfForecastExportsOutputResponse, ListWhatIfForecastExportsOutputError>(id: "listWhatIfForecastExports")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWhatIfForecastExportsInput, ListWhatIfForecastExportsOutputResponse, ListWhatIfForecastExportsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWhatIfForecastExportsInput, ListWhatIfForecastExportsOutputResponse>())
@@ -2448,7 +2505,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWhatIfForecastExportsOutputResponse, ListWhatIfForecastExportsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListWhatIfForecastExportsOutputResponse, ListWhatIfForecastExportsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWhatIfForecastExportsOutputResponse, ListWhatIfForecastExportsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2468,6 +2525,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWhatIfForecastsInput, ListWhatIfForecastsOutputResponse, ListWhatIfForecastsOutputError>(id: "listWhatIfForecasts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWhatIfForecastsInput, ListWhatIfForecastsOutputResponse, ListWhatIfForecastsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWhatIfForecastsInput, ListWhatIfForecastsOutputResponse>())
@@ -2484,7 +2542,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWhatIfForecastsOutputResponse, ListWhatIfForecastsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListWhatIfForecastsOutputResponse, ListWhatIfForecastsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWhatIfForecastsOutputResponse, ListWhatIfForecastsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2504,6 +2562,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResumeResourceInput, ResumeResourceOutputResponse, ResumeResourceOutputError>(id: "resumeResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResumeResourceInput, ResumeResourceOutputResponse, ResumeResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResumeResourceInput, ResumeResourceOutputResponse>())
@@ -2520,7 +2579,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResumeResourceOutputResponse, ResumeResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ResumeResourceOutputResponse, ResumeResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResumeResourceOutputResponse, ResumeResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2554,6 +2613,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopResourceInput, StopResourceOutputResponse, StopResourceOutputError>(id: "stopResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopResourceInput, StopResourceOutputResponse, StopResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopResourceInput, StopResourceOutputResponse>())
@@ -2570,7 +2630,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopResourceOutputResponse, StopResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopResourceOutputResponse, StopResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopResourceOutputResponse, StopResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2590,6 +2650,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -2606,7 +2667,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2626,6 +2687,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -2642,7 +2704,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2662,6 +2724,7 @@ extension ForecastClient: ForecastClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "forecast")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDatasetGroupInput, UpdateDatasetGroupOutputResponse, UpdateDatasetGroupOutputError>(id: "updateDatasetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDatasetGroupInput, UpdateDatasetGroupOutputResponse, UpdateDatasetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDatasetGroupInput, UpdateDatasetGroupOutputResponse>())
@@ -2678,7 +2741,7 @@ extension ForecastClient: ForecastClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDatasetGroupOutputResponse, UpdateDatasetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDatasetGroupOutputResponse, UpdateDatasetGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDatasetGroupOutputResponse, UpdateDatasetGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

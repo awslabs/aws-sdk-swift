@@ -221,6 +221,7 @@ extension GrafanaClient: GrafanaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "grafana")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateLicenseInput, AssociateLicenseOutputResponse, AssociateLicenseOutputError>(id: "associateLicense")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateLicenseInput, AssociateLicenseOutputResponse, AssociateLicenseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateLicenseInput, AssociateLicenseOutputResponse>())
@@ -233,7 +234,7 @@ extension GrafanaClient: GrafanaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateLicenseOutputResponse, AssociateLicenseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateLicenseOutputResponse, AssociateLicenseOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateLicenseOutputResponse, AssociateLicenseOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -253,6 +254,7 @@ extension GrafanaClient: GrafanaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "grafana")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWorkspaceInput, CreateWorkspaceOutputResponse, CreateWorkspaceOutputError>(id: "createWorkspace")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateWorkspaceOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -276,7 +278,7 @@ extension GrafanaClient: GrafanaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorkspaceOutputResponse, CreateWorkspaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateWorkspaceOutputResponse, CreateWorkspaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkspaceOutputResponse, CreateWorkspaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -296,6 +298,7 @@ extension GrafanaClient: GrafanaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "grafana")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWorkspaceApiKeyInput, CreateWorkspaceApiKeyOutputResponse, CreateWorkspaceApiKeyOutputError>(id: "createWorkspaceApiKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorkspaceApiKeyInput, CreateWorkspaceApiKeyOutputResponse, CreateWorkspaceApiKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorkspaceApiKeyInput, CreateWorkspaceApiKeyOutputResponse>())
@@ -311,7 +314,7 @@ extension GrafanaClient: GrafanaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorkspaceApiKeyOutputResponse, CreateWorkspaceApiKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateWorkspaceApiKeyOutputResponse, CreateWorkspaceApiKeyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkspaceApiKeyOutputResponse, CreateWorkspaceApiKeyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -331,6 +334,7 @@ extension GrafanaClient: GrafanaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "grafana")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWorkspaceInput, DeleteWorkspaceOutputResponse, DeleteWorkspaceOutputError>(id: "deleteWorkspace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorkspaceInput, DeleteWorkspaceOutputResponse, DeleteWorkspaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorkspaceInput, DeleteWorkspaceOutputResponse>())
@@ -343,7 +347,7 @@ extension GrafanaClient: GrafanaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWorkspaceOutputResponse, DeleteWorkspaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteWorkspaceOutputResponse, DeleteWorkspaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorkspaceOutputResponse, DeleteWorkspaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -363,6 +367,7 @@ extension GrafanaClient: GrafanaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "grafana")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWorkspaceApiKeyInput, DeleteWorkspaceApiKeyOutputResponse, DeleteWorkspaceApiKeyOutputError>(id: "deleteWorkspaceApiKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorkspaceApiKeyInput, DeleteWorkspaceApiKeyOutputResponse, DeleteWorkspaceApiKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorkspaceApiKeyInput, DeleteWorkspaceApiKeyOutputResponse>())
@@ -375,7 +380,7 @@ extension GrafanaClient: GrafanaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWorkspaceApiKeyOutputResponse, DeleteWorkspaceApiKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteWorkspaceApiKeyOutputResponse, DeleteWorkspaceApiKeyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorkspaceApiKeyOutputResponse, DeleteWorkspaceApiKeyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -395,6 +400,7 @@ extension GrafanaClient: GrafanaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "grafana")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeWorkspaceInput, DescribeWorkspaceOutputResponse, DescribeWorkspaceOutputError>(id: "describeWorkspace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorkspaceInput, DescribeWorkspaceOutputResponse, DescribeWorkspaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorkspaceInput, DescribeWorkspaceOutputResponse>())
@@ -407,7 +413,7 @@ extension GrafanaClient: GrafanaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorkspaceOutputResponse, DescribeWorkspaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeWorkspaceOutputResponse, DescribeWorkspaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorkspaceOutputResponse, DescribeWorkspaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -427,6 +433,7 @@ extension GrafanaClient: GrafanaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "grafana")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeWorkspaceAuthenticationInput, DescribeWorkspaceAuthenticationOutputResponse, DescribeWorkspaceAuthenticationOutputError>(id: "describeWorkspaceAuthentication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorkspaceAuthenticationInput, DescribeWorkspaceAuthenticationOutputResponse, DescribeWorkspaceAuthenticationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorkspaceAuthenticationInput, DescribeWorkspaceAuthenticationOutputResponse>())
@@ -439,7 +446,7 @@ extension GrafanaClient: GrafanaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorkspaceAuthenticationOutputResponse, DescribeWorkspaceAuthenticationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeWorkspaceAuthenticationOutputResponse, DescribeWorkspaceAuthenticationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorkspaceAuthenticationOutputResponse, DescribeWorkspaceAuthenticationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -459,6 +466,7 @@ extension GrafanaClient: GrafanaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "grafana")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeWorkspaceConfigurationInput, DescribeWorkspaceConfigurationOutputResponse, DescribeWorkspaceConfigurationOutputError>(id: "describeWorkspaceConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorkspaceConfigurationInput, DescribeWorkspaceConfigurationOutputResponse, DescribeWorkspaceConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorkspaceConfigurationInput, DescribeWorkspaceConfigurationOutputResponse>())
@@ -471,7 +479,7 @@ extension GrafanaClient: GrafanaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorkspaceConfigurationOutputResponse, DescribeWorkspaceConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeWorkspaceConfigurationOutputResponse, DescribeWorkspaceConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorkspaceConfigurationOutputResponse, DescribeWorkspaceConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -491,6 +499,7 @@ extension GrafanaClient: GrafanaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "grafana")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateLicenseInput, DisassociateLicenseOutputResponse, DisassociateLicenseOutputError>(id: "disassociateLicense")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateLicenseInput, DisassociateLicenseOutputResponse, DisassociateLicenseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateLicenseInput, DisassociateLicenseOutputResponse>())
@@ -503,7 +512,7 @@ extension GrafanaClient: GrafanaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateLicenseOutputResponse, DisassociateLicenseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateLicenseOutputResponse, DisassociateLicenseOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateLicenseOutputResponse, DisassociateLicenseOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -523,6 +532,7 @@ extension GrafanaClient: GrafanaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "grafana")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPermissionsInput, ListPermissionsOutputResponse, ListPermissionsOutputError>(id: "listPermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionsInput, ListPermissionsOutputResponse, ListPermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPermissionsInput, ListPermissionsOutputResponse>())
@@ -536,7 +546,7 @@ extension GrafanaClient: GrafanaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPermissionsOutputResponse, ListPermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPermissionsOutputResponse, ListPermissionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPermissionsOutputResponse, ListPermissionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -556,6 +566,7 @@ extension GrafanaClient: GrafanaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "grafana")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -568,7 +579,7 @@ extension GrafanaClient: GrafanaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -588,6 +599,7 @@ extension GrafanaClient: GrafanaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "grafana")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorkspacesInput, ListWorkspacesOutputResponse, ListWorkspacesOutputError>(id: "listWorkspaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkspacesInput, ListWorkspacesOutputResponse, ListWorkspacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkspacesInput, ListWorkspacesOutputResponse>())
@@ -601,7 +613,7 @@ extension GrafanaClient: GrafanaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorkspacesOutputResponse, ListWorkspacesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListWorkspacesOutputResponse, ListWorkspacesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkspacesOutputResponse, ListWorkspacesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -621,6 +633,7 @@ extension GrafanaClient: GrafanaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "grafana")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -636,7 +649,7 @@ extension GrafanaClient: GrafanaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -656,6 +669,7 @@ extension GrafanaClient: GrafanaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "grafana")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -669,7 +683,7 @@ extension GrafanaClient: GrafanaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -689,6 +703,7 @@ extension GrafanaClient: GrafanaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "grafana")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePermissionsInput, UpdatePermissionsOutputResponse, UpdatePermissionsOutputError>(id: "updatePermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePermissionsInput, UpdatePermissionsOutputResponse, UpdatePermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePermissionsInput, UpdatePermissionsOutputResponse>())
@@ -704,7 +719,7 @@ extension GrafanaClient: GrafanaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePermissionsOutputResponse, UpdatePermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdatePermissionsOutputResponse, UpdatePermissionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePermissionsOutputResponse, UpdatePermissionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -724,6 +739,7 @@ extension GrafanaClient: GrafanaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "grafana")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateWorkspaceInput, UpdateWorkspaceOutputResponse, UpdateWorkspaceOutputError>(id: "updateWorkspace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorkspaceInput, UpdateWorkspaceOutputResponse, UpdateWorkspaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorkspaceInput, UpdateWorkspaceOutputResponse>())
@@ -739,7 +755,7 @@ extension GrafanaClient: GrafanaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWorkspaceOutputResponse, UpdateWorkspaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateWorkspaceOutputResponse, UpdateWorkspaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorkspaceOutputResponse, UpdateWorkspaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -759,6 +775,7 @@ extension GrafanaClient: GrafanaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "grafana")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateWorkspaceAuthenticationInput, UpdateWorkspaceAuthenticationOutputResponse, UpdateWorkspaceAuthenticationOutputError>(id: "updateWorkspaceAuthentication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorkspaceAuthenticationInput, UpdateWorkspaceAuthenticationOutputResponse, UpdateWorkspaceAuthenticationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorkspaceAuthenticationInput, UpdateWorkspaceAuthenticationOutputResponse>())
@@ -774,7 +791,7 @@ extension GrafanaClient: GrafanaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWorkspaceAuthenticationOutputResponse, UpdateWorkspaceAuthenticationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateWorkspaceAuthenticationOutputResponse, UpdateWorkspaceAuthenticationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorkspaceAuthenticationOutputResponse, UpdateWorkspaceAuthenticationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -794,6 +811,7 @@ extension GrafanaClient: GrafanaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "grafana")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateWorkspaceConfigurationInput, UpdateWorkspaceConfigurationOutputResponse, UpdateWorkspaceConfigurationOutputError>(id: "updateWorkspaceConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorkspaceConfigurationInput, UpdateWorkspaceConfigurationOutputResponse, UpdateWorkspaceConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorkspaceConfigurationInput, UpdateWorkspaceConfigurationOutputResponse>())
@@ -809,7 +827,7 @@ extension GrafanaClient: GrafanaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWorkspaceConfigurationOutputResponse, UpdateWorkspaceConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateWorkspaceConfigurationOutputResponse, UpdateWorkspaceConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorkspaceConfigurationOutputResponse, UpdateWorkspaceConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

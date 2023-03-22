@@ -221,6 +221,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchPutPropertyValuesInput, BatchPutPropertyValuesOutputResponse, BatchPutPropertyValuesOutputError>(id: "batchPutPropertyValues")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchPutPropertyValuesInput, BatchPutPropertyValuesOutputResponse, BatchPutPropertyValuesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchPutPropertyValuesInput, BatchPutPropertyValuesOutputResponse>(hostPrefix: "data."))
@@ -236,7 +237,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchPutPropertyValuesOutputResponse, BatchPutPropertyValuesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchPutPropertyValuesOutputResponse, BatchPutPropertyValuesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchPutPropertyValuesOutputResponse, BatchPutPropertyValuesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateComponentTypeInput, CreateComponentTypeOutputResponse, CreateComponentTypeOutputError>(id: "createComponentType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateComponentTypeInput, CreateComponentTypeOutputResponse, CreateComponentTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateComponentTypeInput, CreateComponentTypeOutputResponse>(hostPrefix: "api."))
@@ -271,7 +273,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateComponentTypeOutputResponse, CreateComponentTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateComponentTypeOutputResponse, CreateComponentTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateComponentTypeOutputResponse, CreateComponentTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -291,6 +293,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEntityInput, CreateEntityOutputResponse, CreateEntityOutputError>(id: "createEntity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEntityInput, CreateEntityOutputResponse, CreateEntityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEntityInput, CreateEntityOutputResponse>(hostPrefix: "api."))
@@ -306,7 +309,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEntityOutputResponse, CreateEntityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateEntityOutputResponse, CreateEntityOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEntityOutputResponse, CreateEntityOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -326,6 +329,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSceneInput, CreateSceneOutputResponse, CreateSceneOutputError>(id: "createScene")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSceneInput, CreateSceneOutputResponse, CreateSceneOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSceneInput, CreateSceneOutputResponse>(hostPrefix: "api."))
@@ -341,7 +345,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSceneOutputResponse, CreateSceneOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSceneOutputResponse, CreateSceneOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSceneOutputResponse, CreateSceneOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -361,6 +365,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSyncJobInput, CreateSyncJobOutputResponse, CreateSyncJobOutputError>(id: "createSyncJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSyncJobInput, CreateSyncJobOutputResponse, CreateSyncJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSyncJobInput, CreateSyncJobOutputResponse>(hostPrefix: "api."))
@@ -376,7 +381,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSyncJobOutputResponse, CreateSyncJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSyncJobOutputResponse, CreateSyncJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSyncJobOutputResponse, CreateSyncJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -396,6 +401,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWorkspaceInput, CreateWorkspaceOutputResponse, CreateWorkspaceOutputError>(id: "createWorkspace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorkspaceInput, CreateWorkspaceOutputResponse, CreateWorkspaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorkspaceInput, CreateWorkspaceOutputResponse>(hostPrefix: "api."))
@@ -411,7 +417,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorkspaceOutputResponse, CreateWorkspaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateWorkspaceOutputResponse, CreateWorkspaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkspaceOutputResponse, CreateWorkspaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -431,6 +437,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteComponentTypeInput, DeleteComponentTypeOutputResponse, DeleteComponentTypeOutputError>(id: "deleteComponentType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteComponentTypeInput, DeleteComponentTypeOutputResponse, DeleteComponentTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteComponentTypeInput, DeleteComponentTypeOutputResponse>(hostPrefix: "api."))
@@ -443,7 +450,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteComponentTypeOutputResponse, DeleteComponentTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteComponentTypeOutputResponse, DeleteComponentTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteComponentTypeOutputResponse, DeleteComponentTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -463,6 +470,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEntityInput, DeleteEntityOutputResponse, DeleteEntityOutputError>(id: "deleteEntity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEntityInput, DeleteEntityOutputResponse, DeleteEntityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEntityInput, DeleteEntityOutputResponse>(hostPrefix: "api."))
@@ -476,7 +484,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEntityOutputResponse, DeleteEntityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteEntityOutputResponse, DeleteEntityOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEntityOutputResponse, DeleteEntityOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -496,6 +504,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSceneInput, DeleteSceneOutputResponse, DeleteSceneOutputError>(id: "deleteScene")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSceneInput, DeleteSceneOutputResponse, DeleteSceneOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSceneInput, DeleteSceneOutputResponse>(hostPrefix: "api."))
@@ -508,7 +517,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSceneOutputResponse, DeleteSceneOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSceneOutputResponse, DeleteSceneOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSceneOutputResponse, DeleteSceneOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -528,6 +537,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSyncJobInput, DeleteSyncJobOutputResponse, DeleteSyncJobOutputError>(id: "deleteSyncJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSyncJobInput, DeleteSyncJobOutputResponse, DeleteSyncJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSyncJobInput, DeleteSyncJobOutputResponse>(hostPrefix: "api."))
@@ -540,7 +550,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSyncJobOutputResponse, DeleteSyncJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSyncJobOutputResponse, DeleteSyncJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSyncJobOutputResponse, DeleteSyncJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -560,6 +570,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWorkspaceInput, DeleteWorkspaceOutputResponse, DeleteWorkspaceOutputError>(id: "deleteWorkspace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorkspaceInput, DeleteWorkspaceOutputResponse, DeleteWorkspaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorkspaceInput, DeleteWorkspaceOutputResponse>(hostPrefix: "api."))
@@ -572,7 +583,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWorkspaceOutputResponse, DeleteWorkspaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteWorkspaceOutputResponse, DeleteWorkspaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorkspaceOutputResponse, DeleteWorkspaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -592,6 +603,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExecuteQueryInput, ExecuteQueryOutputResponse, ExecuteQueryOutputError>(id: "executeQuery")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteQueryInput, ExecuteQueryOutputResponse, ExecuteQueryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteQueryInput, ExecuteQueryOutputResponse>(hostPrefix: "api."))
@@ -607,7 +619,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteQueryOutputResponse, ExecuteQueryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExecuteQueryOutputResponse, ExecuteQueryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteQueryOutputResponse, ExecuteQueryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -627,6 +639,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetComponentTypeInput, GetComponentTypeOutputResponse, GetComponentTypeOutputError>(id: "getComponentType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetComponentTypeInput, GetComponentTypeOutputResponse, GetComponentTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetComponentTypeInput, GetComponentTypeOutputResponse>(hostPrefix: "api."))
@@ -639,7 +652,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetComponentTypeOutputResponse, GetComponentTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetComponentTypeOutputResponse, GetComponentTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComponentTypeOutputResponse, GetComponentTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -659,6 +672,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEntityInput, GetEntityOutputResponse, GetEntityOutputError>(id: "getEntity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEntityInput, GetEntityOutputResponse, GetEntityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEntityInput, GetEntityOutputResponse>(hostPrefix: "api."))
@@ -671,7 +685,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEntityOutputResponse, GetEntityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetEntityOutputResponse, GetEntityOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEntityOutputResponse, GetEntityOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -691,6 +705,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPricingPlanInput, GetPricingPlanOutputResponse, GetPricingPlanOutputError>(id: "getPricingPlan")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPricingPlanInput, GetPricingPlanOutputResponse, GetPricingPlanOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPricingPlanInput, GetPricingPlanOutputResponse>(hostPrefix: "api."))
@@ -703,7 +718,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPricingPlanOutputResponse, GetPricingPlanOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPricingPlanOutputResponse, GetPricingPlanOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPricingPlanOutputResponse, GetPricingPlanOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -723,6 +738,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPropertyValueInput, GetPropertyValueOutputResponse, GetPropertyValueOutputError>(id: "getPropertyValue")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPropertyValueInput, GetPropertyValueOutputResponse, GetPropertyValueOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPropertyValueInput, GetPropertyValueOutputResponse>(hostPrefix: "data."))
@@ -738,7 +754,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPropertyValueOutputResponse, GetPropertyValueOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPropertyValueOutputResponse, GetPropertyValueOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPropertyValueOutputResponse, GetPropertyValueOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -758,6 +774,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPropertyValueHistoryInput, GetPropertyValueHistoryOutputResponse, GetPropertyValueHistoryOutputError>(id: "getPropertyValueHistory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPropertyValueHistoryInput, GetPropertyValueHistoryOutputResponse, GetPropertyValueHistoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPropertyValueHistoryInput, GetPropertyValueHistoryOutputResponse>(hostPrefix: "data."))
@@ -773,7 +790,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPropertyValueHistoryOutputResponse, GetPropertyValueHistoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPropertyValueHistoryOutputResponse, GetPropertyValueHistoryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPropertyValueHistoryOutputResponse, GetPropertyValueHistoryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -793,6 +810,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSceneInput, GetSceneOutputResponse, GetSceneOutputError>(id: "getScene")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSceneInput, GetSceneOutputResponse, GetSceneOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSceneInput, GetSceneOutputResponse>(hostPrefix: "api."))
@@ -805,7 +823,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSceneOutputResponse, GetSceneOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSceneOutputResponse, GetSceneOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSceneOutputResponse, GetSceneOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -825,6 +843,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSyncJobInput, GetSyncJobOutputResponse, GetSyncJobOutputError>(id: "getSyncJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSyncJobInput, GetSyncJobOutputResponse, GetSyncJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSyncJobInput, GetSyncJobOutputResponse>(hostPrefix: "api."))
@@ -838,7 +857,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSyncJobOutputResponse, GetSyncJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSyncJobOutputResponse, GetSyncJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSyncJobOutputResponse, GetSyncJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -858,6 +877,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetWorkspaceInput, GetWorkspaceOutputResponse, GetWorkspaceOutputError>(id: "getWorkspace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWorkspaceInput, GetWorkspaceOutputResponse, GetWorkspaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWorkspaceInput, GetWorkspaceOutputResponse>(hostPrefix: "api."))
@@ -870,7 +890,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWorkspaceOutputResponse, GetWorkspaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetWorkspaceOutputResponse, GetWorkspaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWorkspaceOutputResponse, GetWorkspaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -890,6 +910,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListComponentTypesInput, ListComponentTypesOutputResponse, ListComponentTypesOutputError>(id: "listComponentTypes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListComponentTypesInput, ListComponentTypesOutputResponse, ListComponentTypesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListComponentTypesInput, ListComponentTypesOutputResponse>(hostPrefix: "api."))
@@ -905,7 +926,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListComponentTypesOutputResponse, ListComponentTypesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListComponentTypesOutputResponse, ListComponentTypesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListComponentTypesOutputResponse, ListComponentTypesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -925,6 +946,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEntitiesInput, ListEntitiesOutputResponse, ListEntitiesOutputError>(id: "listEntities")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEntitiesInput, ListEntitiesOutputResponse, ListEntitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEntitiesInput, ListEntitiesOutputResponse>(hostPrefix: "api."))
@@ -940,7 +962,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEntitiesOutputResponse, ListEntitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListEntitiesOutputResponse, ListEntitiesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEntitiesOutputResponse, ListEntitiesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -960,6 +982,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListScenesInput, ListScenesOutputResponse, ListScenesOutputError>(id: "listScenes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListScenesInput, ListScenesOutputResponse, ListScenesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListScenesInput, ListScenesOutputResponse>(hostPrefix: "api."))
@@ -975,7 +998,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListScenesOutputResponse, ListScenesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListScenesOutputResponse, ListScenesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListScenesOutputResponse, ListScenesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -995,6 +1018,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSyncJobsInput, ListSyncJobsOutputResponse, ListSyncJobsOutputError>(id: "listSyncJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSyncJobsInput, ListSyncJobsOutputResponse, ListSyncJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSyncJobsInput, ListSyncJobsOutputResponse>(hostPrefix: "api."))
@@ -1010,7 +1034,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSyncJobsOutputResponse, ListSyncJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSyncJobsOutputResponse, ListSyncJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSyncJobsOutputResponse, ListSyncJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1030,6 +1054,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSyncResourcesInput, ListSyncResourcesOutputResponse, ListSyncResourcesOutputError>(id: "listSyncResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSyncResourcesInput, ListSyncResourcesOutputResponse, ListSyncResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSyncResourcesInput, ListSyncResourcesOutputResponse>(hostPrefix: "api."))
@@ -1045,7 +1070,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSyncResourcesOutputResponse, ListSyncResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSyncResourcesOutputResponse, ListSyncResourcesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSyncResourcesOutputResponse, ListSyncResourcesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1065,6 +1090,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(hostPrefix: "api."))
@@ -1080,7 +1106,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1100,6 +1126,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorkspacesInput, ListWorkspacesOutputResponse, ListWorkspacesOutputError>(id: "listWorkspaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkspacesInput, ListWorkspacesOutputResponse, ListWorkspacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkspacesInput, ListWorkspacesOutputResponse>(hostPrefix: "api."))
@@ -1115,7 +1142,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorkspacesOutputResponse, ListWorkspacesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListWorkspacesOutputResponse, ListWorkspacesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkspacesOutputResponse, ListWorkspacesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1135,6 +1162,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>(hostPrefix: "api."))
@@ -1150,7 +1178,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1170,6 +1198,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>(hostPrefix: "api."))
@@ -1183,7 +1212,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1203,6 +1232,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateComponentTypeInput, UpdateComponentTypeOutputResponse, UpdateComponentTypeOutputError>(id: "updateComponentType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateComponentTypeInput, UpdateComponentTypeOutputResponse, UpdateComponentTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateComponentTypeInput, UpdateComponentTypeOutputResponse>(hostPrefix: "api."))
@@ -1218,7 +1248,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateComponentTypeOutputResponse, UpdateComponentTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateComponentTypeOutputResponse, UpdateComponentTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateComponentTypeOutputResponse, UpdateComponentTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1238,6 +1268,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateEntityInput, UpdateEntityOutputResponse, UpdateEntityOutputError>(id: "updateEntity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEntityInput, UpdateEntityOutputResponse, UpdateEntityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEntityInput, UpdateEntityOutputResponse>(hostPrefix: "api."))
@@ -1253,7 +1284,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEntityOutputResponse, UpdateEntityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateEntityOutputResponse, UpdateEntityOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEntityOutputResponse, UpdateEntityOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1273,6 +1304,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePricingPlanInput, UpdatePricingPlanOutputResponse, UpdatePricingPlanOutputError>(id: "updatePricingPlan")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePricingPlanInput, UpdatePricingPlanOutputResponse, UpdatePricingPlanOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePricingPlanInput, UpdatePricingPlanOutputResponse>(hostPrefix: "api."))
@@ -1288,7 +1320,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePricingPlanOutputResponse, UpdatePricingPlanOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdatePricingPlanOutputResponse, UpdatePricingPlanOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePricingPlanOutputResponse, UpdatePricingPlanOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1308,6 +1340,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSceneInput, UpdateSceneOutputResponse, UpdateSceneOutputError>(id: "updateScene")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSceneInput, UpdateSceneOutputResponse, UpdateSceneOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSceneInput, UpdateSceneOutputResponse>(hostPrefix: "api."))
@@ -1323,7 +1356,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSceneOutputResponse, UpdateSceneOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSceneOutputResponse, UpdateSceneOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSceneOutputResponse, UpdateSceneOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1343,6 +1376,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iottwinmaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateWorkspaceInput, UpdateWorkspaceOutputResponse, UpdateWorkspaceOutputError>(id: "updateWorkspace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorkspaceInput, UpdateWorkspaceOutputResponse, UpdateWorkspaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorkspaceInput, UpdateWorkspaceOutputResponse>(hostPrefix: "api."))
@@ -1358,7 +1392,7 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWorkspaceOutputResponse, UpdateWorkspaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateWorkspaceOutputResponse, UpdateWorkspaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorkspaceOutputResponse, UpdateWorkspaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

@@ -221,6 +221,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociatePhoneNumberWithUserInput, AssociatePhoneNumberWithUserOutputResponse, AssociatePhoneNumberWithUserOutputError>(id: "associatePhoneNumberWithUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociatePhoneNumberWithUserInput, AssociatePhoneNumberWithUserOutputResponse, AssociatePhoneNumberWithUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociatePhoneNumberWithUserInput, AssociatePhoneNumberWithUserOutputResponse>())
@@ -237,7 +238,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociatePhoneNumberWithUserOutputResponse, AssociatePhoneNumberWithUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociatePhoneNumberWithUserOutputResponse, AssociatePhoneNumberWithUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociatePhoneNumberWithUserOutputResponse, AssociatePhoneNumberWithUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociatePhoneNumbersWithVoiceConnectorInput, AssociatePhoneNumbersWithVoiceConnectorOutputResponse, AssociatePhoneNumbersWithVoiceConnectorOutputError>(id: "associatePhoneNumbersWithVoiceConnector")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociatePhoneNumbersWithVoiceConnectorInput, AssociatePhoneNumbersWithVoiceConnectorOutputResponse, AssociatePhoneNumbersWithVoiceConnectorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociatePhoneNumbersWithVoiceConnectorInput, AssociatePhoneNumbersWithVoiceConnectorOutputResponse>())
@@ -273,7 +275,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociatePhoneNumbersWithVoiceConnectorOutputResponse, AssociatePhoneNumbersWithVoiceConnectorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociatePhoneNumbersWithVoiceConnectorOutputResponse, AssociatePhoneNumbersWithVoiceConnectorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociatePhoneNumbersWithVoiceConnectorOutputResponse, AssociatePhoneNumbersWithVoiceConnectorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociatePhoneNumbersWithVoiceConnectorGroupInput, AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponse, AssociatePhoneNumbersWithVoiceConnectorGroupOutputError>(id: "associatePhoneNumbersWithVoiceConnectorGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupInput, AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponse, AssociatePhoneNumbersWithVoiceConnectorGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupInput, AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponse>())
@@ -309,7 +312,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponse, AssociatePhoneNumbersWithVoiceConnectorGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponse, AssociatePhoneNumbersWithVoiceConnectorGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponse, AssociatePhoneNumbersWithVoiceConnectorGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -329,6 +332,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateSigninDelegateGroupsWithAccountInput, AssociateSigninDelegateGroupsWithAccountOutputResponse, AssociateSigninDelegateGroupsWithAccountOutputError>(id: "associateSigninDelegateGroupsWithAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateSigninDelegateGroupsWithAccountInput, AssociateSigninDelegateGroupsWithAccountOutputResponse, AssociateSigninDelegateGroupsWithAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateSigninDelegateGroupsWithAccountInput, AssociateSigninDelegateGroupsWithAccountOutputResponse>())
@@ -345,7 +349,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateSigninDelegateGroupsWithAccountOutputResponse, AssociateSigninDelegateGroupsWithAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateSigninDelegateGroupsWithAccountOutputResponse, AssociateSigninDelegateGroupsWithAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateSigninDelegateGroupsWithAccountOutputResponse, AssociateSigninDelegateGroupsWithAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -365,6 +369,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchCreateAttendeeInput, BatchCreateAttendeeOutputResponse, BatchCreateAttendeeOutputError>(id: "batchCreateAttendee")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchCreateAttendeeInput, BatchCreateAttendeeOutputResponse, BatchCreateAttendeeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchCreateAttendeeInput, BatchCreateAttendeeOutputResponse>())
@@ -381,7 +386,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchCreateAttendeeOutputResponse, BatchCreateAttendeeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchCreateAttendeeOutputResponse, BatchCreateAttendeeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchCreateAttendeeOutputResponse, BatchCreateAttendeeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -401,6 +406,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchCreateChannelMembershipInput, BatchCreateChannelMembershipOutputResponse, BatchCreateChannelMembershipOutputError>(id: "batchCreateChannelMembership")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchCreateChannelMembershipInput, BatchCreateChannelMembershipOutputResponse, BatchCreateChannelMembershipOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchCreateChannelMembershipInput, BatchCreateChannelMembershipOutputResponse>(hostPrefix: "messaging-"))
@@ -418,7 +424,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchCreateChannelMembershipOutputResponse, BatchCreateChannelMembershipOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchCreateChannelMembershipOutputResponse, BatchCreateChannelMembershipOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchCreateChannelMembershipOutputResponse, BatchCreateChannelMembershipOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -438,6 +444,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchCreateRoomMembershipInput, BatchCreateRoomMembershipOutputResponse, BatchCreateRoomMembershipOutputError>(id: "batchCreateRoomMembership")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchCreateRoomMembershipInput, BatchCreateRoomMembershipOutputResponse, BatchCreateRoomMembershipOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchCreateRoomMembershipInput, BatchCreateRoomMembershipOutputResponse>())
@@ -454,7 +461,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchCreateRoomMembershipOutputResponse, BatchCreateRoomMembershipOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchCreateRoomMembershipOutputResponse, BatchCreateRoomMembershipOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchCreateRoomMembershipOutputResponse, BatchCreateRoomMembershipOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -474,6 +481,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDeletePhoneNumberInput, BatchDeletePhoneNumberOutputResponse, BatchDeletePhoneNumberOutputError>(id: "batchDeletePhoneNumber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeletePhoneNumberInput, BatchDeletePhoneNumberOutputResponse, BatchDeletePhoneNumberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeletePhoneNumberInput, BatchDeletePhoneNumberOutputResponse>())
@@ -490,7 +498,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeletePhoneNumberOutputResponse, BatchDeletePhoneNumberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchDeletePhoneNumberOutputResponse, BatchDeletePhoneNumberOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeletePhoneNumberOutputResponse, BatchDeletePhoneNumberOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -510,6 +518,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchSuspendUserInput, BatchSuspendUserOutputResponse, BatchSuspendUserOutputError>(id: "batchSuspendUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchSuspendUserInput, BatchSuspendUserOutputResponse, BatchSuspendUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchSuspendUserInput, BatchSuspendUserOutputResponse>())
@@ -526,7 +535,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchSuspendUserOutputResponse, BatchSuspendUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchSuspendUserOutputResponse, BatchSuspendUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchSuspendUserOutputResponse, BatchSuspendUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -546,6 +555,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchUnsuspendUserInput, BatchUnsuspendUserOutputResponse, BatchUnsuspendUserOutputError>(id: "batchUnsuspendUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUnsuspendUserInput, BatchUnsuspendUserOutputResponse, BatchUnsuspendUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUnsuspendUserInput, BatchUnsuspendUserOutputResponse>())
@@ -562,7 +572,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUnsuspendUserOutputResponse, BatchUnsuspendUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchUnsuspendUserOutputResponse, BatchUnsuspendUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUnsuspendUserOutputResponse, BatchUnsuspendUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -582,6 +592,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchUpdatePhoneNumberInput, BatchUpdatePhoneNumberOutputResponse, BatchUpdatePhoneNumberOutputError>(id: "batchUpdatePhoneNumber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdatePhoneNumberInput, BatchUpdatePhoneNumberOutputResponse, BatchUpdatePhoneNumberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdatePhoneNumberInput, BatchUpdatePhoneNumberOutputResponse>())
@@ -598,7 +609,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdatePhoneNumberOutputResponse, BatchUpdatePhoneNumberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchUpdatePhoneNumberOutputResponse, BatchUpdatePhoneNumberOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdatePhoneNumberOutputResponse, BatchUpdatePhoneNumberOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -618,6 +629,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchUpdateUserInput, BatchUpdateUserOutputResponse, BatchUpdateUserOutputError>(id: "batchUpdateUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateUserInput, BatchUpdateUserOutputResponse, BatchUpdateUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdateUserInput, BatchUpdateUserOutputResponse>())
@@ -633,7 +645,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdateUserOutputResponse, BatchUpdateUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchUpdateUserOutputResponse, BatchUpdateUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdateUserOutputResponse, BatchUpdateUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -653,6 +665,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAccountInput, CreateAccountOutputResponse, CreateAccountOutputError>(id: "createAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccountInput, CreateAccountOutputResponse, CreateAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccountInput, CreateAccountOutputResponse>())
@@ -668,7 +681,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccountOutputResponse, CreateAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAccountOutputResponse, CreateAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccountOutputResponse, CreateAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -688,6 +701,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAppInstanceInput, CreateAppInstanceOutputResponse, CreateAppInstanceOutputError>(id: "createAppInstance")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateAppInstanceOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -711,7 +725,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppInstanceOutputResponse, CreateAppInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAppInstanceOutputResponse, CreateAppInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppInstanceOutputResponse, CreateAppInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -738,6 +752,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAppInstanceAdminInput, CreateAppInstanceAdminOutputResponse, CreateAppInstanceAdminOutputError>(id: "createAppInstanceAdmin")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAppInstanceAdminInput, CreateAppInstanceAdminOutputResponse, CreateAppInstanceAdminOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAppInstanceAdminInput, CreateAppInstanceAdminOutputResponse>(hostPrefix: "identity-"))
@@ -753,7 +768,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppInstanceAdminOutputResponse, CreateAppInstanceAdminOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAppInstanceAdminOutputResponse, CreateAppInstanceAdminOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppInstanceAdminOutputResponse, CreateAppInstanceAdminOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -773,6 +788,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAppInstanceUserInput, CreateAppInstanceUserOutputResponse, CreateAppInstanceUserOutputError>(id: "createAppInstanceUser")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateAppInstanceUserOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -796,7 +812,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppInstanceUserOutputResponse, CreateAppInstanceUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAppInstanceUserOutputResponse, CreateAppInstanceUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppInstanceUserOutputResponse, CreateAppInstanceUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -816,6 +832,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAttendeeInput, CreateAttendeeOutputResponse, CreateAttendeeOutputError>(id: "createAttendee")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAttendeeInput, CreateAttendeeOutputResponse, CreateAttendeeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAttendeeInput, CreateAttendeeOutputResponse>())
@@ -831,7 +848,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAttendeeOutputResponse, CreateAttendeeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAttendeeOutputResponse, CreateAttendeeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAttendeeOutputResponse, CreateAttendeeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -851,6 +868,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBotInput, CreateBotOutputResponse, CreateBotOutputError>(id: "createBot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBotInput, CreateBotOutputResponse, CreateBotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBotInput, CreateBotOutputResponse>())
@@ -866,7 +884,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBotOutputResponse, CreateBotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateBotOutputResponse, CreateBotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBotOutputResponse, CreateBotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -886,6 +904,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateChannelInput, CreateChannelOutputResponse, CreateChannelOutputError>(id: "createChannel")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateChannelOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -910,7 +929,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelOutputResponse, CreateChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateChannelOutputResponse, CreateChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelOutputResponse, CreateChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -930,6 +949,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateChannelBanInput, CreateChannelBanOutputResponse, CreateChannelBanOutputError>(id: "createChannelBan")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelBanInput, CreateChannelBanOutputResponse, CreateChannelBanOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateChannelBanInput, CreateChannelBanOutputResponse>(hostPrefix: "messaging-"))
@@ -946,7 +966,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelBanOutputResponse, CreateChannelBanOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateChannelBanOutputResponse, CreateChannelBanOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelBanOutputResponse, CreateChannelBanOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -986,6 +1006,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateChannelMembershipInput, CreateChannelMembershipOutputResponse, CreateChannelMembershipOutputError>(id: "createChannelMembership")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelMembershipInput, CreateChannelMembershipOutputResponse, CreateChannelMembershipOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateChannelMembershipInput, CreateChannelMembershipOutputResponse>(hostPrefix: "messaging-"))
@@ -1002,7 +1023,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelMembershipOutputResponse, CreateChannelMembershipOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateChannelMembershipOutputResponse, CreateChannelMembershipOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelMembershipOutputResponse, CreateChannelMembershipOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1035,6 +1056,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateChannelModeratorInput, CreateChannelModeratorOutputResponse, CreateChannelModeratorOutputError>(id: "createChannelModerator")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelModeratorInput, CreateChannelModeratorOutputResponse, CreateChannelModeratorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateChannelModeratorInput, CreateChannelModeratorOutputResponse>(hostPrefix: "messaging-"))
@@ -1051,7 +1073,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelModeratorOutputResponse, CreateChannelModeratorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateChannelModeratorOutputResponse, CreateChannelModeratorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelModeratorOutputResponse, CreateChannelModeratorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1071,6 +1093,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMediaCapturePipelineInput, CreateMediaCapturePipelineOutputResponse, CreateMediaCapturePipelineOutputError>(id: "createMediaCapturePipeline")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateMediaCapturePipelineOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1094,7 +1117,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMediaCapturePipelineOutputResponse, CreateMediaCapturePipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateMediaCapturePipelineOutputResponse, CreateMediaCapturePipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMediaCapturePipelineOutputResponse, CreateMediaCapturePipelineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1114,6 +1137,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMeetingInput, CreateMeetingOutputResponse, CreateMeetingOutputError>(id: "createMeeting")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateMeetingOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1137,7 +1161,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMeetingOutputResponse, CreateMeetingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateMeetingOutputResponse, CreateMeetingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMeetingOutputResponse, CreateMeetingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1157,6 +1181,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMeetingDialOutInput, CreateMeetingDialOutOutputResponse, CreateMeetingDialOutOutputError>(id: "createMeetingDialOut")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMeetingDialOutInput, CreateMeetingDialOutOutputResponse, CreateMeetingDialOutOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMeetingDialOutInput, CreateMeetingDialOutOutputResponse>())
@@ -1172,7 +1197,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMeetingDialOutOutputResponse, CreateMeetingDialOutOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateMeetingDialOutOutputResponse, CreateMeetingDialOutOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMeetingDialOutOutputResponse, CreateMeetingDialOutOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1192,6 +1217,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMeetingWithAttendeesInput, CreateMeetingWithAttendeesOutputResponse, CreateMeetingWithAttendeesOutputError>(id: "createMeetingWithAttendees")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateMeetingWithAttendeesOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1216,7 +1242,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMeetingWithAttendeesOutputResponse, CreateMeetingWithAttendeesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateMeetingWithAttendeesOutputResponse, CreateMeetingWithAttendeesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMeetingWithAttendeesOutputResponse, CreateMeetingWithAttendeesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1236,6 +1262,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePhoneNumberOrderInput, CreatePhoneNumberOrderOutputResponse, CreatePhoneNumberOrderOutputError>(id: "createPhoneNumberOrder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePhoneNumberOrderInput, CreatePhoneNumberOrderOutputResponse, CreatePhoneNumberOrderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePhoneNumberOrderInput, CreatePhoneNumberOrderOutputResponse>())
@@ -1251,7 +1278,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePhoneNumberOrderOutputResponse, CreatePhoneNumberOrderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePhoneNumberOrderOutputResponse, CreatePhoneNumberOrderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePhoneNumberOrderOutputResponse, CreatePhoneNumberOrderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1271,6 +1298,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateProxySessionInput, CreateProxySessionOutputResponse, CreateProxySessionOutputError>(id: "createProxySession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProxySessionInput, CreateProxySessionOutputResponse, CreateProxySessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProxySessionInput, CreateProxySessionOutputResponse>())
@@ -1286,7 +1314,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProxySessionOutputResponse, CreateProxySessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateProxySessionOutputResponse, CreateProxySessionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProxySessionOutputResponse, CreateProxySessionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1306,6 +1334,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRoomInput, CreateRoomOutputResponse, CreateRoomOutputError>(id: "createRoom")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateRoomOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1329,7 +1358,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRoomOutputResponse, CreateRoomOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateRoomOutputResponse, CreateRoomOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRoomOutputResponse, CreateRoomOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1349,6 +1378,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRoomMembershipInput, CreateRoomMembershipOutputResponse, CreateRoomMembershipOutputError>(id: "createRoomMembership")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRoomMembershipInput, CreateRoomMembershipOutputResponse, CreateRoomMembershipOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRoomMembershipInput, CreateRoomMembershipOutputResponse>())
@@ -1364,7 +1394,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRoomMembershipOutputResponse, CreateRoomMembershipOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateRoomMembershipOutputResponse, CreateRoomMembershipOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRoomMembershipOutputResponse, CreateRoomMembershipOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1384,6 +1414,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSipMediaApplicationInput, CreateSipMediaApplicationOutputResponse, CreateSipMediaApplicationOutputError>(id: "createSipMediaApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSipMediaApplicationInput, CreateSipMediaApplicationOutputResponse, CreateSipMediaApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSipMediaApplicationInput, CreateSipMediaApplicationOutputResponse>())
@@ -1399,7 +1430,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSipMediaApplicationOutputResponse, CreateSipMediaApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSipMediaApplicationOutputResponse, CreateSipMediaApplicationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSipMediaApplicationOutputResponse, CreateSipMediaApplicationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1419,6 +1450,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSipMediaApplicationCallInput, CreateSipMediaApplicationCallOutputResponse, CreateSipMediaApplicationCallOutputError>(id: "createSipMediaApplicationCall")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSipMediaApplicationCallInput, CreateSipMediaApplicationCallOutputResponse, CreateSipMediaApplicationCallOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSipMediaApplicationCallInput, CreateSipMediaApplicationCallOutputResponse>())
@@ -1434,7 +1466,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSipMediaApplicationCallOutputResponse, CreateSipMediaApplicationCallOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSipMediaApplicationCallOutputResponse, CreateSipMediaApplicationCallOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSipMediaApplicationCallOutputResponse, CreateSipMediaApplicationCallOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1454,6 +1486,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSipRuleInput, CreateSipRuleOutputResponse, CreateSipRuleOutputError>(id: "createSipRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSipRuleInput, CreateSipRuleOutputResponse, CreateSipRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSipRuleInput, CreateSipRuleOutputResponse>())
@@ -1469,7 +1502,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSipRuleOutputResponse, CreateSipRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSipRuleOutputResponse, CreateSipRuleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSipRuleOutputResponse, CreateSipRuleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1489,6 +1522,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateUserInput, CreateUserOutputResponse, CreateUserOutputError>(id: "createUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutputResponse, CreateUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserInput, CreateUserOutputResponse>())
@@ -1505,7 +1539,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserOutputResponse, CreateUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateUserOutputResponse, CreateUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserOutputResponse, CreateUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1525,6 +1559,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateVoiceConnectorInput, CreateVoiceConnectorOutputResponse, CreateVoiceConnectorOutputError>(id: "createVoiceConnector")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVoiceConnectorInput, CreateVoiceConnectorOutputResponse, CreateVoiceConnectorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVoiceConnectorInput, CreateVoiceConnectorOutputResponse>())
@@ -1540,7 +1575,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVoiceConnectorOutputResponse, CreateVoiceConnectorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateVoiceConnectorOutputResponse, CreateVoiceConnectorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVoiceConnectorOutputResponse, CreateVoiceConnectorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1560,6 +1595,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateVoiceConnectorGroupInput, CreateVoiceConnectorGroupOutputResponse, CreateVoiceConnectorGroupOutputError>(id: "createVoiceConnectorGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVoiceConnectorGroupInput, CreateVoiceConnectorGroupOutputResponse, CreateVoiceConnectorGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVoiceConnectorGroupInput, CreateVoiceConnectorGroupOutputResponse>())
@@ -1575,7 +1611,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVoiceConnectorGroupOutputResponse, CreateVoiceConnectorGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateVoiceConnectorGroupOutputResponse, CreateVoiceConnectorGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVoiceConnectorGroupOutputResponse, CreateVoiceConnectorGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1595,6 +1631,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAccountInput, DeleteAccountOutputResponse, DeleteAccountOutputError>(id: "deleteAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountInput, DeleteAccountOutputResponse, DeleteAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccountInput, DeleteAccountOutputResponse>())
@@ -1607,7 +1644,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccountOutputResponse, DeleteAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountOutputResponse, DeleteAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountOutputResponse, DeleteAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1627,6 +1664,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAppInstanceInput, DeleteAppInstanceOutputResponse, DeleteAppInstanceOutputError>(id: "deleteAppInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppInstanceInput, DeleteAppInstanceOutputResponse, DeleteAppInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAppInstanceInput, DeleteAppInstanceOutputResponse>(hostPrefix: "identity-"))
@@ -1639,7 +1677,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppInstanceOutputResponse, DeleteAppInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAppInstanceOutputResponse, DeleteAppInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppInstanceOutputResponse, DeleteAppInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1659,6 +1697,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAppInstanceAdminInput, DeleteAppInstanceAdminOutputResponse, DeleteAppInstanceAdminOutputError>(id: "deleteAppInstanceAdmin")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppInstanceAdminInput, DeleteAppInstanceAdminOutputResponse, DeleteAppInstanceAdminOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAppInstanceAdminInput, DeleteAppInstanceAdminOutputResponse>(hostPrefix: "identity-"))
@@ -1671,7 +1710,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppInstanceAdminOutputResponse, DeleteAppInstanceAdminOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAppInstanceAdminOutputResponse, DeleteAppInstanceAdminOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppInstanceAdminOutputResponse, DeleteAppInstanceAdminOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1691,6 +1730,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAppInstanceStreamingConfigurationsInput, DeleteAppInstanceStreamingConfigurationsOutputResponse, DeleteAppInstanceStreamingConfigurationsOutputError>(id: "deleteAppInstanceStreamingConfigurations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppInstanceStreamingConfigurationsInput, DeleteAppInstanceStreamingConfigurationsOutputResponse, DeleteAppInstanceStreamingConfigurationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAppInstanceStreamingConfigurationsInput, DeleteAppInstanceStreamingConfigurationsOutputResponse>())
@@ -1703,7 +1743,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppInstanceStreamingConfigurationsOutputResponse, DeleteAppInstanceStreamingConfigurationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAppInstanceStreamingConfigurationsOutputResponse, DeleteAppInstanceStreamingConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppInstanceStreamingConfigurationsOutputResponse, DeleteAppInstanceStreamingConfigurationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1723,6 +1763,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAppInstanceUserInput, DeleteAppInstanceUserOutputResponse, DeleteAppInstanceUserOutputError>(id: "deleteAppInstanceUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppInstanceUserInput, DeleteAppInstanceUserOutputResponse, DeleteAppInstanceUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAppInstanceUserInput, DeleteAppInstanceUserOutputResponse>(hostPrefix: "identity-"))
@@ -1735,7 +1776,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppInstanceUserOutputResponse, DeleteAppInstanceUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAppInstanceUserOutputResponse, DeleteAppInstanceUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppInstanceUserOutputResponse, DeleteAppInstanceUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1755,6 +1796,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAttendeeInput, DeleteAttendeeOutputResponse, DeleteAttendeeOutputError>(id: "deleteAttendee")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAttendeeInput, DeleteAttendeeOutputResponse, DeleteAttendeeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAttendeeInput, DeleteAttendeeOutputResponse>())
@@ -1767,7 +1809,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAttendeeOutputResponse, DeleteAttendeeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAttendeeOutputResponse, DeleteAttendeeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAttendeeOutputResponse, DeleteAttendeeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1787,6 +1829,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteChannelInput, DeleteChannelOutputResponse, DeleteChannelOutputError>(id: "deleteChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelInput, DeleteChannelOutputResponse, DeleteChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelInput, DeleteChannelOutputResponse>(hostPrefix: "messaging-"))
@@ -1800,7 +1843,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelOutputResponse, DeleteChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelOutputResponse, DeleteChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelOutputResponse, DeleteChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1820,6 +1863,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteChannelBanInput, DeleteChannelBanOutputResponse, DeleteChannelBanOutputError>(id: "deleteChannelBan")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelBanInput, DeleteChannelBanOutputResponse, DeleteChannelBanOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelBanInput, DeleteChannelBanOutputResponse>(hostPrefix: "messaging-"))
@@ -1833,7 +1877,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelBanOutputResponse, DeleteChannelBanOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelBanOutputResponse, DeleteChannelBanOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelBanOutputResponse, DeleteChannelBanOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1853,6 +1897,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteChannelMembershipInput, DeleteChannelMembershipOutputResponse, DeleteChannelMembershipOutputError>(id: "deleteChannelMembership")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelMembershipInput, DeleteChannelMembershipOutputResponse, DeleteChannelMembershipOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelMembershipInput, DeleteChannelMembershipOutputResponse>(hostPrefix: "messaging-"))
@@ -1866,7 +1911,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelMembershipOutputResponse, DeleteChannelMembershipOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelMembershipOutputResponse, DeleteChannelMembershipOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelMembershipOutputResponse, DeleteChannelMembershipOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1886,6 +1931,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteChannelMessageInput, DeleteChannelMessageOutputResponse, DeleteChannelMessageOutputError>(id: "deleteChannelMessage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelMessageInput, DeleteChannelMessageOutputResponse, DeleteChannelMessageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelMessageInput, DeleteChannelMessageOutputResponse>(hostPrefix: "messaging-"))
@@ -1899,7 +1945,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelMessageOutputResponse, DeleteChannelMessageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelMessageOutputResponse, DeleteChannelMessageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelMessageOutputResponse, DeleteChannelMessageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1919,6 +1965,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteChannelModeratorInput, DeleteChannelModeratorOutputResponse, DeleteChannelModeratorOutputError>(id: "deleteChannelModerator")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelModeratorInput, DeleteChannelModeratorOutputResponse, DeleteChannelModeratorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelModeratorInput, DeleteChannelModeratorOutputResponse>(hostPrefix: "messaging-"))
@@ -1932,7 +1979,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelModeratorOutputResponse, DeleteChannelModeratorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelModeratorOutputResponse, DeleteChannelModeratorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelModeratorOutputResponse, DeleteChannelModeratorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1952,6 +1999,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEventsConfigurationInput, DeleteEventsConfigurationOutputResponse, DeleteEventsConfigurationOutputError>(id: "deleteEventsConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEventsConfigurationInput, DeleteEventsConfigurationOutputResponse, DeleteEventsConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEventsConfigurationInput, DeleteEventsConfigurationOutputResponse>())
@@ -1964,7 +2012,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEventsConfigurationOutputResponse, DeleteEventsConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteEventsConfigurationOutputResponse, DeleteEventsConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEventsConfigurationOutputResponse, DeleteEventsConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1984,6 +2032,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMediaCapturePipelineInput, DeleteMediaCapturePipelineOutputResponse, DeleteMediaCapturePipelineOutputError>(id: "deleteMediaCapturePipeline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMediaCapturePipelineInput, DeleteMediaCapturePipelineOutputResponse, DeleteMediaCapturePipelineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMediaCapturePipelineInput, DeleteMediaCapturePipelineOutputResponse>())
@@ -1996,7 +2045,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMediaCapturePipelineOutputResponse, DeleteMediaCapturePipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteMediaCapturePipelineOutputResponse, DeleteMediaCapturePipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMediaCapturePipelineOutputResponse, DeleteMediaCapturePipelineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2016,6 +2065,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMeetingInput, DeleteMeetingOutputResponse, DeleteMeetingOutputError>(id: "deleteMeeting")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMeetingInput, DeleteMeetingOutputResponse, DeleteMeetingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMeetingInput, DeleteMeetingOutputResponse>())
@@ -2028,7 +2078,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMeetingOutputResponse, DeleteMeetingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteMeetingOutputResponse, DeleteMeetingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMeetingOutputResponse, DeleteMeetingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2048,6 +2098,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePhoneNumberInput, DeletePhoneNumberOutputResponse, DeletePhoneNumberOutputError>(id: "deletePhoneNumber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePhoneNumberInput, DeletePhoneNumberOutputResponse, DeletePhoneNumberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePhoneNumberInput, DeletePhoneNumberOutputResponse>())
@@ -2060,7 +2111,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePhoneNumberOutputResponse, DeletePhoneNumberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeletePhoneNumberOutputResponse, DeletePhoneNumberOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePhoneNumberOutputResponse, DeletePhoneNumberOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2080,6 +2131,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteProxySessionInput, DeleteProxySessionOutputResponse, DeleteProxySessionOutputError>(id: "deleteProxySession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProxySessionInput, DeleteProxySessionOutputResponse, DeleteProxySessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProxySessionInput, DeleteProxySessionOutputResponse>())
@@ -2092,7 +2144,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProxySessionOutputResponse, DeleteProxySessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteProxySessionOutputResponse, DeleteProxySessionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProxySessionOutputResponse, DeleteProxySessionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2112,6 +2164,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRoomInput, DeleteRoomOutputResponse, DeleteRoomOutputError>(id: "deleteRoom")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRoomInput, DeleteRoomOutputResponse, DeleteRoomOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRoomInput, DeleteRoomOutputResponse>())
@@ -2124,7 +2177,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRoomOutputResponse, DeleteRoomOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteRoomOutputResponse, DeleteRoomOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRoomOutputResponse, DeleteRoomOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2144,6 +2197,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRoomMembershipInput, DeleteRoomMembershipOutputResponse, DeleteRoomMembershipOutputError>(id: "deleteRoomMembership")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRoomMembershipInput, DeleteRoomMembershipOutputResponse, DeleteRoomMembershipOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRoomMembershipInput, DeleteRoomMembershipOutputResponse>())
@@ -2156,7 +2210,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRoomMembershipOutputResponse, DeleteRoomMembershipOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteRoomMembershipOutputResponse, DeleteRoomMembershipOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRoomMembershipOutputResponse, DeleteRoomMembershipOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2176,6 +2230,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSipMediaApplicationInput, DeleteSipMediaApplicationOutputResponse, DeleteSipMediaApplicationOutputError>(id: "deleteSipMediaApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSipMediaApplicationInput, DeleteSipMediaApplicationOutputResponse, DeleteSipMediaApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSipMediaApplicationInput, DeleteSipMediaApplicationOutputResponse>())
@@ -2188,7 +2243,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSipMediaApplicationOutputResponse, DeleteSipMediaApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSipMediaApplicationOutputResponse, DeleteSipMediaApplicationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSipMediaApplicationOutputResponse, DeleteSipMediaApplicationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2208,6 +2263,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSipRuleInput, DeleteSipRuleOutputResponse, DeleteSipRuleOutputError>(id: "deleteSipRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSipRuleInput, DeleteSipRuleOutputResponse, DeleteSipRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSipRuleInput, DeleteSipRuleOutputResponse>())
@@ -2220,7 +2276,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSipRuleOutputResponse, DeleteSipRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSipRuleOutputResponse, DeleteSipRuleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSipRuleOutputResponse, DeleteSipRuleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2240,6 +2296,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorInput, DeleteVoiceConnectorOutputResponse, DeleteVoiceConnectorOutputError>(id: "deleteVoiceConnector")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorInput, DeleteVoiceConnectorOutputResponse, DeleteVoiceConnectorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorInput, DeleteVoiceConnectorOutputResponse>())
@@ -2252,7 +2309,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorOutputResponse, DeleteVoiceConnectorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorOutputResponse, DeleteVoiceConnectorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorOutputResponse, DeleteVoiceConnectorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2272,6 +2329,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorEmergencyCallingConfigurationInput, DeleteVoiceConnectorEmergencyCallingConfigurationOutputResponse, DeleteVoiceConnectorEmergencyCallingConfigurationOutputError>(id: "deleteVoiceConnectorEmergencyCallingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorEmergencyCallingConfigurationInput, DeleteVoiceConnectorEmergencyCallingConfigurationOutputResponse, DeleteVoiceConnectorEmergencyCallingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorEmergencyCallingConfigurationInput, DeleteVoiceConnectorEmergencyCallingConfigurationOutputResponse>())
@@ -2284,7 +2342,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorEmergencyCallingConfigurationOutputResponse, DeleteVoiceConnectorEmergencyCallingConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorEmergencyCallingConfigurationOutputResponse, DeleteVoiceConnectorEmergencyCallingConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorEmergencyCallingConfigurationOutputResponse, DeleteVoiceConnectorEmergencyCallingConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2304,6 +2362,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorGroupInput, DeleteVoiceConnectorGroupOutputResponse, DeleteVoiceConnectorGroupOutputError>(id: "deleteVoiceConnectorGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorGroupInput, DeleteVoiceConnectorGroupOutputResponse, DeleteVoiceConnectorGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorGroupInput, DeleteVoiceConnectorGroupOutputResponse>())
@@ -2316,7 +2375,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorGroupOutputResponse, DeleteVoiceConnectorGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorGroupOutputResponse, DeleteVoiceConnectorGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorGroupOutputResponse, DeleteVoiceConnectorGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2336,6 +2395,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorOriginationInput, DeleteVoiceConnectorOriginationOutputResponse, DeleteVoiceConnectorOriginationOutputError>(id: "deleteVoiceConnectorOrigination")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorOriginationInput, DeleteVoiceConnectorOriginationOutputResponse, DeleteVoiceConnectorOriginationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorOriginationInput, DeleteVoiceConnectorOriginationOutputResponse>())
@@ -2348,7 +2408,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorOriginationOutputResponse, DeleteVoiceConnectorOriginationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorOriginationOutputResponse, DeleteVoiceConnectorOriginationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorOriginationOutputResponse, DeleteVoiceConnectorOriginationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2368,6 +2428,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorProxyInput, DeleteVoiceConnectorProxyOutputResponse, DeleteVoiceConnectorProxyOutputError>(id: "deleteVoiceConnectorProxy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorProxyInput, DeleteVoiceConnectorProxyOutputResponse, DeleteVoiceConnectorProxyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorProxyInput, DeleteVoiceConnectorProxyOutputResponse>())
@@ -2380,7 +2441,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorProxyOutputResponse, DeleteVoiceConnectorProxyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorProxyOutputResponse, DeleteVoiceConnectorProxyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorProxyOutputResponse, DeleteVoiceConnectorProxyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2400,6 +2461,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorStreamingConfigurationInput, DeleteVoiceConnectorStreamingConfigurationOutputResponse, DeleteVoiceConnectorStreamingConfigurationOutputError>(id: "deleteVoiceConnectorStreamingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorStreamingConfigurationInput, DeleteVoiceConnectorStreamingConfigurationOutputResponse, DeleteVoiceConnectorStreamingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorStreamingConfigurationInput, DeleteVoiceConnectorStreamingConfigurationOutputResponse>())
@@ -2412,7 +2474,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorStreamingConfigurationOutputResponse, DeleteVoiceConnectorStreamingConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorStreamingConfigurationOutputResponse, DeleteVoiceConnectorStreamingConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorStreamingConfigurationOutputResponse, DeleteVoiceConnectorStreamingConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2432,6 +2494,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorTerminationInput, DeleteVoiceConnectorTerminationOutputResponse, DeleteVoiceConnectorTerminationOutputError>(id: "deleteVoiceConnectorTermination")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorTerminationInput, DeleteVoiceConnectorTerminationOutputResponse, DeleteVoiceConnectorTerminationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorTerminationInput, DeleteVoiceConnectorTerminationOutputResponse>())
@@ -2444,7 +2507,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorTerminationOutputResponse, DeleteVoiceConnectorTerminationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorTerminationOutputResponse, DeleteVoiceConnectorTerminationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorTerminationOutputResponse, DeleteVoiceConnectorTerminationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2464,6 +2527,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVoiceConnectorTerminationCredentialsInput, DeleteVoiceConnectorTerminationCredentialsOutputResponse, DeleteVoiceConnectorTerminationCredentialsOutputError>(id: "deleteVoiceConnectorTerminationCredentials")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVoiceConnectorTerminationCredentialsInput, DeleteVoiceConnectorTerminationCredentialsOutputResponse, DeleteVoiceConnectorTerminationCredentialsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVoiceConnectorTerminationCredentialsInput, DeleteVoiceConnectorTerminationCredentialsOutputResponse>())
@@ -2480,7 +2544,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVoiceConnectorTerminationCredentialsOutputResponse, DeleteVoiceConnectorTerminationCredentialsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteVoiceConnectorTerminationCredentialsOutputResponse, DeleteVoiceConnectorTerminationCredentialsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVoiceConnectorTerminationCredentialsOutputResponse, DeleteVoiceConnectorTerminationCredentialsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2500,6 +2564,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAppInstanceInput, DescribeAppInstanceOutputResponse, DescribeAppInstanceOutputError>(id: "describeAppInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppInstanceInput, DescribeAppInstanceOutputResponse, DescribeAppInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppInstanceInput, DescribeAppInstanceOutputResponse>(hostPrefix: "identity-"))
@@ -2512,7 +2577,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppInstanceOutputResponse, DescribeAppInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAppInstanceOutputResponse, DescribeAppInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppInstanceOutputResponse, DescribeAppInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2532,6 +2597,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAppInstanceAdminInput, DescribeAppInstanceAdminOutputResponse, DescribeAppInstanceAdminOutputError>(id: "describeAppInstanceAdmin")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppInstanceAdminInput, DescribeAppInstanceAdminOutputResponse, DescribeAppInstanceAdminOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppInstanceAdminInput, DescribeAppInstanceAdminOutputResponse>(hostPrefix: "identity-"))
@@ -2544,7 +2610,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppInstanceAdminOutputResponse, DescribeAppInstanceAdminOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAppInstanceAdminOutputResponse, DescribeAppInstanceAdminOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppInstanceAdminOutputResponse, DescribeAppInstanceAdminOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2564,6 +2630,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAppInstanceUserInput, DescribeAppInstanceUserOutputResponse, DescribeAppInstanceUserOutputError>(id: "describeAppInstanceUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppInstanceUserInput, DescribeAppInstanceUserOutputResponse, DescribeAppInstanceUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppInstanceUserInput, DescribeAppInstanceUserOutputResponse>(hostPrefix: "identity-"))
@@ -2576,7 +2643,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppInstanceUserOutputResponse, DescribeAppInstanceUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAppInstanceUserOutputResponse, DescribeAppInstanceUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppInstanceUserOutputResponse, DescribeAppInstanceUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2596,6 +2663,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeChannelInput, DescribeChannelOutputResponse, DescribeChannelOutputError>(id: "describeChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelInput, DescribeChannelOutputResponse, DescribeChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeChannelInput, DescribeChannelOutputResponse>(hostPrefix: "messaging-"))
@@ -2609,7 +2677,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelOutputResponse, DescribeChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelOutputResponse, DescribeChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelOutputResponse, DescribeChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2629,6 +2697,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeChannelBanInput, DescribeChannelBanOutputResponse, DescribeChannelBanOutputError>(id: "describeChannelBan")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelBanInput, DescribeChannelBanOutputResponse, DescribeChannelBanOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeChannelBanInput, DescribeChannelBanOutputResponse>(hostPrefix: "messaging-"))
@@ -2642,7 +2711,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelBanOutputResponse, DescribeChannelBanOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelBanOutputResponse, DescribeChannelBanOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelBanOutputResponse, DescribeChannelBanOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2662,6 +2731,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeChannelMembershipInput, DescribeChannelMembershipOutputResponse, DescribeChannelMembershipOutputError>(id: "describeChannelMembership")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelMembershipInput, DescribeChannelMembershipOutputResponse, DescribeChannelMembershipOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeChannelMembershipInput, DescribeChannelMembershipOutputResponse>(hostPrefix: "messaging-"))
@@ -2675,7 +2745,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelMembershipOutputResponse, DescribeChannelMembershipOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelMembershipOutputResponse, DescribeChannelMembershipOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelMembershipOutputResponse, DescribeChannelMembershipOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2695,6 +2765,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeChannelMembershipForAppInstanceUserInput, DescribeChannelMembershipForAppInstanceUserOutputResponse, DescribeChannelMembershipForAppInstanceUserOutputError>(id: "describeChannelMembershipForAppInstanceUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelMembershipForAppInstanceUserInput, DescribeChannelMembershipForAppInstanceUserOutputResponse, DescribeChannelMembershipForAppInstanceUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeChannelMembershipForAppInstanceUserInput, DescribeChannelMembershipForAppInstanceUserOutputResponse>(hostPrefix: "messaging-"))
@@ -2709,7 +2780,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelMembershipForAppInstanceUserOutputResponse, DescribeChannelMembershipForAppInstanceUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelMembershipForAppInstanceUserOutputResponse, DescribeChannelMembershipForAppInstanceUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelMembershipForAppInstanceUserOutputResponse, DescribeChannelMembershipForAppInstanceUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2729,6 +2800,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeChannelModeratedByAppInstanceUserInput, DescribeChannelModeratedByAppInstanceUserOutputResponse, DescribeChannelModeratedByAppInstanceUserOutputError>(id: "describeChannelModeratedByAppInstanceUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelModeratedByAppInstanceUserInput, DescribeChannelModeratedByAppInstanceUserOutputResponse, DescribeChannelModeratedByAppInstanceUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeChannelModeratedByAppInstanceUserInput, DescribeChannelModeratedByAppInstanceUserOutputResponse>(hostPrefix: "messaging-"))
@@ -2743,7 +2815,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelModeratedByAppInstanceUserOutputResponse, DescribeChannelModeratedByAppInstanceUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelModeratedByAppInstanceUserOutputResponse, DescribeChannelModeratedByAppInstanceUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelModeratedByAppInstanceUserOutputResponse, DescribeChannelModeratedByAppInstanceUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2763,6 +2835,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeChannelModeratorInput, DescribeChannelModeratorOutputResponse, DescribeChannelModeratorOutputError>(id: "describeChannelModerator")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelModeratorInput, DescribeChannelModeratorOutputResponse, DescribeChannelModeratorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeChannelModeratorInput, DescribeChannelModeratorOutputResponse>(hostPrefix: "messaging-"))
@@ -2776,7 +2849,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelModeratorOutputResponse, DescribeChannelModeratorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelModeratorOutputResponse, DescribeChannelModeratorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelModeratorOutputResponse, DescribeChannelModeratorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2796,6 +2869,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociatePhoneNumberFromUserInput, DisassociatePhoneNumberFromUserOutputResponse, DisassociatePhoneNumberFromUserOutputError>(id: "disassociatePhoneNumberFromUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociatePhoneNumberFromUserInput, DisassociatePhoneNumberFromUserOutputResponse, DisassociatePhoneNumberFromUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociatePhoneNumberFromUserInput, DisassociatePhoneNumberFromUserOutputResponse>())
@@ -2809,7 +2883,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociatePhoneNumberFromUserOutputResponse, DisassociatePhoneNumberFromUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociatePhoneNumberFromUserOutputResponse, DisassociatePhoneNumberFromUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociatePhoneNumberFromUserOutputResponse, DisassociatePhoneNumberFromUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2829,6 +2903,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociatePhoneNumbersFromVoiceConnectorInput, DisassociatePhoneNumbersFromVoiceConnectorOutputResponse, DisassociatePhoneNumbersFromVoiceConnectorOutputError>(id: "disassociatePhoneNumbersFromVoiceConnector")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociatePhoneNumbersFromVoiceConnectorInput, DisassociatePhoneNumbersFromVoiceConnectorOutputResponse, DisassociatePhoneNumbersFromVoiceConnectorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociatePhoneNumbersFromVoiceConnectorInput, DisassociatePhoneNumbersFromVoiceConnectorOutputResponse>())
@@ -2845,7 +2920,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociatePhoneNumbersFromVoiceConnectorOutputResponse, DisassociatePhoneNumbersFromVoiceConnectorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociatePhoneNumbersFromVoiceConnectorOutputResponse, DisassociatePhoneNumbersFromVoiceConnectorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociatePhoneNumbersFromVoiceConnectorOutputResponse, DisassociatePhoneNumbersFromVoiceConnectorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2865,6 +2940,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociatePhoneNumbersFromVoiceConnectorGroupInput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponse, DisassociatePhoneNumbersFromVoiceConnectorGroupOutputError>(id: "disassociatePhoneNumbersFromVoiceConnectorGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupInput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponse, DisassociatePhoneNumbersFromVoiceConnectorGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupInput, DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponse>())
@@ -2881,7 +2957,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponse, DisassociatePhoneNumbersFromVoiceConnectorGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponse, DisassociatePhoneNumbersFromVoiceConnectorGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponse, DisassociatePhoneNumbersFromVoiceConnectorGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2901,6 +2977,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateSigninDelegateGroupsFromAccountInput, DisassociateSigninDelegateGroupsFromAccountOutputResponse, DisassociateSigninDelegateGroupsFromAccountOutputError>(id: "disassociateSigninDelegateGroupsFromAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateSigninDelegateGroupsFromAccountInput, DisassociateSigninDelegateGroupsFromAccountOutputResponse, DisassociateSigninDelegateGroupsFromAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateSigninDelegateGroupsFromAccountInput, DisassociateSigninDelegateGroupsFromAccountOutputResponse>())
@@ -2917,7 +2994,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateSigninDelegateGroupsFromAccountOutputResponse, DisassociateSigninDelegateGroupsFromAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateSigninDelegateGroupsFromAccountOutputResponse, DisassociateSigninDelegateGroupsFromAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateSigninDelegateGroupsFromAccountOutputResponse, DisassociateSigninDelegateGroupsFromAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2937,6 +3014,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccountInput, GetAccountOutputResponse, GetAccountOutputError>(id: "getAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountInput, GetAccountOutputResponse, GetAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountInput, GetAccountOutputResponse>())
@@ -2949,7 +3027,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountOutputResponse, GetAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAccountOutputResponse, GetAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountOutputResponse, GetAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2969,6 +3047,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccountSettingsInput, GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(id: "getAccountSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountSettingsInput, GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountSettingsInput, GetAccountSettingsOutputResponse>())
@@ -2981,7 +3060,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3001,6 +3080,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAppInstanceRetentionSettingsInput, GetAppInstanceRetentionSettingsOutputResponse, GetAppInstanceRetentionSettingsOutputError>(id: "getAppInstanceRetentionSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAppInstanceRetentionSettingsInput, GetAppInstanceRetentionSettingsOutputResponse, GetAppInstanceRetentionSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAppInstanceRetentionSettingsInput, GetAppInstanceRetentionSettingsOutputResponse>(hostPrefix: "identity-"))
@@ -3013,7 +3093,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAppInstanceRetentionSettingsOutputResponse, GetAppInstanceRetentionSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAppInstanceRetentionSettingsOutputResponse, GetAppInstanceRetentionSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAppInstanceRetentionSettingsOutputResponse, GetAppInstanceRetentionSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3033,6 +3113,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAppInstanceStreamingConfigurationsInput, GetAppInstanceStreamingConfigurationsOutputResponse, GetAppInstanceStreamingConfigurationsOutputError>(id: "getAppInstanceStreamingConfigurations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAppInstanceStreamingConfigurationsInput, GetAppInstanceStreamingConfigurationsOutputResponse, GetAppInstanceStreamingConfigurationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAppInstanceStreamingConfigurationsInput, GetAppInstanceStreamingConfigurationsOutputResponse>())
@@ -3045,7 +3126,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAppInstanceStreamingConfigurationsOutputResponse, GetAppInstanceStreamingConfigurationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAppInstanceStreamingConfigurationsOutputResponse, GetAppInstanceStreamingConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAppInstanceStreamingConfigurationsOutputResponse, GetAppInstanceStreamingConfigurationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3065,6 +3146,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAttendeeInput, GetAttendeeOutputResponse, GetAttendeeOutputError>(id: "getAttendee")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAttendeeInput, GetAttendeeOutputResponse, GetAttendeeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAttendeeInput, GetAttendeeOutputResponse>())
@@ -3077,7 +3159,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAttendeeOutputResponse, GetAttendeeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAttendeeOutputResponse, GetAttendeeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAttendeeOutputResponse, GetAttendeeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3097,6 +3179,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBotInput, GetBotOutputResponse, GetBotOutputError>(id: "getBot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBotInput, GetBotOutputResponse, GetBotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBotInput, GetBotOutputResponse>())
@@ -3109,7 +3192,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBotOutputResponse, GetBotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetBotOutputResponse, GetBotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBotOutputResponse, GetBotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3129,6 +3212,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetChannelMessageInput, GetChannelMessageOutputResponse, GetChannelMessageOutputError>(id: "getChannelMessage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetChannelMessageInput, GetChannelMessageOutputResponse, GetChannelMessageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetChannelMessageInput, GetChannelMessageOutputResponse>(hostPrefix: "messaging-"))
@@ -3142,7 +3226,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetChannelMessageOutputResponse, GetChannelMessageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetChannelMessageOutputResponse, GetChannelMessageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetChannelMessageOutputResponse, GetChannelMessageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3162,6 +3246,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEventsConfigurationInput, GetEventsConfigurationOutputResponse, GetEventsConfigurationOutputError>(id: "getEventsConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEventsConfigurationInput, GetEventsConfigurationOutputResponse, GetEventsConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEventsConfigurationInput, GetEventsConfigurationOutputResponse>())
@@ -3174,7 +3259,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEventsConfigurationOutputResponse, GetEventsConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetEventsConfigurationOutputResponse, GetEventsConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEventsConfigurationOutputResponse, GetEventsConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3194,6 +3279,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetGlobalSettingsInput, GetGlobalSettingsOutputResponse, GetGlobalSettingsOutputError>(id: "getGlobalSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGlobalSettingsInput, GetGlobalSettingsOutputResponse, GetGlobalSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGlobalSettingsInput, GetGlobalSettingsOutputResponse>())
@@ -3206,7 +3292,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGlobalSettingsOutputResponse, GetGlobalSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetGlobalSettingsOutputResponse, GetGlobalSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGlobalSettingsOutputResponse, GetGlobalSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3226,6 +3312,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMediaCapturePipelineInput, GetMediaCapturePipelineOutputResponse, GetMediaCapturePipelineOutputError>(id: "getMediaCapturePipeline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMediaCapturePipelineInput, GetMediaCapturePipelineOutputResponse, GetMediaCapturePipelineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMediaCapturePipelineInput, GetMediaCapturePipelineOutputResponse>())
@@ -3238,7 +3325,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMediaCapturePipelineOutputResponse, GetMediaCapturePipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetMediaCapturePipelineOutputResponse, GetMediaCapturePipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMediaCapturePipelineOutputResponse, GetMediaCapturePipelineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3258,6 +3345,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMeetingInput, GetMeetingOutputResponse, GetMeetingOutputError>(id: "getMeeting")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMeetingInput, GetMeetingOutputResponse, GetMeetingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMeetingInput, GetMeetingOutputResponse>())
@@ -3270,7 +3358,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMeetingOutputResponse, GetMeetingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetMeetingOutputResponse, GetMeetingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMeetingOutputResponse, GetMeetingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3290,6 +3378,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMessagingSessionEndpointInput, GetMessagingSessionEndpointOutputResponse, GetMessagingSessionEndpointOutputError>(id: "getMessagingSessionEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMessagingSessionEndpointInput, GetMessagingSessionEndpointOutputResponse, GetMessagingSessionEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMessagingSessionEndpointInput, GetMessagingSessionEndpointOutputResponse>(hostPrefix: "messaging-"))
@@ -3302,7 +3391,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMessagingSessionEndpointOutputResponse, GetMessagingSessionEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetMessagingSessionEndpointOutputResponse, GetMessagingSessionEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMessagingSessionEndpointOutputResponse, GetMessagingSessionEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3322,6 +3411,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPhoneNumberInput, GetPhoneNumberOutputResponse, GetPhoneNumberOutputError>(id: "getPhoneNumber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPhoneNumberInput, GetPhoneNumberOutputResponse, GetPhoneNumberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPhoneNumberInput, GetPhoneNumberOutputResponse>())
@@ -3334,7 +3424,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPhoneNumberOutputResponse, GetPhoneNumberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPhoneNumberOutputResponse, GetPhoneNumberOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPhoneNumberOutputResponse, GetPhoneNumberOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3354,6 +3444,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPhoneNumberOrderInput, GetPhoneNumberOrderOutputResponse, GetPhoneNumberOrderOutputError>(id: "getPhoneNumberOrder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPhoneNumberOrderInput, GetPhoneNumberOrderOutputResponse, GetPhoneNumberOrderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPhoneNumberOrderInput, GetPhoneNumberOrderOutputResponse>())
@@ -3366,7 +3457,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPhoneNumberOrderOutputResponse, GetPhoneNumberOrderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPhoneNumberOrderOutputResponse, GetPhoneNumberOrderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPhoneNumberOrderOutputResponse, GetPhoneNumberOrderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3386,6 +3477,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPhoneNumberSettingsInput, GetPhoneNumberSettingsOutputResponse, GetPhoneNumberSettingsOutputError>(id: "getPhoneNumberSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPhoneNumberSettingsInput, GetPhoneNumberSettingsOutputResponse, GetPhoneNumberSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPhoneNumberSettingsInput, GetPhoneNumberSettingsOutputResponse>())
@@ -3398,7 +3490,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPhoneNumberSettingsOutputResponse, GetPhoneNumberSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPhoneNumberSettingsOutputResponse, GetPhoneNumberSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPhoneNumberSettingsOutputResponse, GetPhoneNumberSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3418,6 +3510,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetProxySessionInput, GetProxySessionOutputResponse, GetProxySessionOutputError>(id: "getProxySession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProxySessionInput, GetProxySessionOutputResponse, GetProxySessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProxySessionInput, GetProxySessionOutputResponse>())
@@ -3430,7 +3523,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProxySessionOutputResponse, GetProxySessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetProxySessionOutputResponse, GetProxySessionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProxySessionOutputResponse, GetProxySessionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3450,6 +3543,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRetentionSettingsInput, GetRetentionSettingsOutputResponse, GetRetentionSettingsOutputError>(id: "getRetentionSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRetentionSettingsInput, GetRetentionSettingsOutputResponse, GetRetentionSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRetentionSettingsInput, GetRetentionSettingsOutputResponse>())
@@ -3462,7 +3556,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRetentionSettingsOutputResponse, GetRetentionSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRetentionSettingsOutputResponse, GetRetentionSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRetentionSettingsOutputResponse, GetRetentionSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3482,6 +3576,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRoomInput, GetRoomOutputResponse, GetRoomOutputError>(id: "getRoom")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRoomInput, GetRoomOutputResponse, GetRoomOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRoomInput, GetRoomOutputResponse>())
@@ -3494,7 +3589,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRoomOutputResponse, GetRoomOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRoomOutputResponse, GetRoomOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRoomOutputResponse, GetRoomOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3514,6 +3609,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSipMediaApplicationInput, GetSipMediaApplicationOutputResponse, GetSipMediaApplicationOutputError>(id: "getSipMediaApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSipMediaApplicationInput, GetSipMediaApplicationOutputResponse, GetSipMediaApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSipMediaApplicationInput, GetSipMediaApplicationOutputResponse>())
@@ -3526,7 +3622,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSipMediaApplicationOutputResponse, GetSipMediaApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSipMediaApplicationOutputResponse, GetSipMediaApplicationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSipMediaApplicationOutputResponse, GetSipMediaApplicationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3546,6 +3642,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSipMediaApplicationLoggingConfigurationInput, GetSipMediaApplicationLoggingConfigurationOutputResponse, GetSipMediaApplicationLoggingConfigurationOutputError>(id: "getSipMediaApplicationLoggingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSipMediaApplicationLoggingConfigurationInput, GetSipMediaApplicationLoggingConfigurationOutputResponse, GetSipMediaApplicationLoggingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSipMediaApplicationLoggingConfigurationInput, GetSipMediaApplicationLoggingConfigurationOutputResponse>())
@@ -3558,7 +3655,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSipMediaApplicationLoggingConfigurationOutputResponse, GetSipMediaApplicationLoggingConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSipMediaApplicationLoggingConfigurationOutputResponse, GetSipMediaApplicationLoggingConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSipMediaApplicationLoggingConfigurationOutputResponse, GetSipMediaApplicationLoggingConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3578,6 +3675,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSipRuleInput, GetSipRuleOutputResponse, GetSipRuleOutputError>(id: "getSipRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSipRuleInput, GetSipRuleOutputResponse, GetSipRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSipRuleInput, GetSipRuleOutputResponse>())
@@ -3590,7 +3688,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSipRuleOutputResponse, GetSipRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSipRuleOutputResponse, GetSipRuleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSipRuleOutputResponse, GetSipRuleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3610,6 +3708,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetUserInput, GetUserOutputResponse, GetUserOutputError>(id: "getUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserInput, GetUserOutputResponse, GetUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserInput, GetUserOutputResponse>())
@@ -3622,7 +3721,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserOutputResponse, GetUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetUserOutputResponse, GetUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserOutputResponse, GetUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3642,6 +3741,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetUserSettingsInput, GetUserSettingsOutputResponse, GetUserSettingsOutputError>(id: "getUserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserSettingsInput, GetUserSettingsOutputResponse, GetUserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserSettingsInput, GetUserSettingsOutputResponse>())
@@ -3654,7 +3754,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserSettingsOutputResponse, GetUserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetUserSettingsOutputResponse, GetUserSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserSettingsOutputResponse, GetUserSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3674,6 +3774,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVoiceConnectorInput, GetVoiceConnectorOutputResponse, GetVoiceConnectorOutputError>(id: "getVoiceConnector")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorInput, GetVoiceConnectorOutputResponse, GetVoiceConnectorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceConnectorInput, GetVoiceConnectorOutputResponse>())
@@ -3686,7 +3787,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorOutputResponse, GetVoiceConnectorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorOutputResponse, GetVoiceConnectorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorOutputResponse, GetVoiceConnectorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3706,6 +3807,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVoiceConnectorEmergencyCallingConfigurationInput, GetVoiceConnectorEmergencyCallingConfigurationOutputResponse, GetVoiceConnectorEmergencyCallingConfigurationOutputError>(id: "getVoiceConnectorEmergencyCallingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorEmergencyCallingConfigurationInput, GetVoiceConnectorEmergencyCallingConfigurationOutputResponse, GetVoiceConnectorEmergencyCallingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceConnectorEmergencyCallingConfigurationInput, GetVoiceConnectorEmergencyCallingConfigurationOutputResponse>())
@@ -3718,7 +3820,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorEmergencyCallingConfigurationOutputResponse, GetVoiceConnectorEmergencyCallingConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorEmergencyCallingConfigurationOutputResponse, GetVoiceConnectorEmergencyCallingConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorEmergencyCallingConfigurationOutputResponse, GetVoiceConnectorEmergencyCallingConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3738,6 +3840,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVoiceConnectorGroupInput, GetVoiceConnectorGroupOutputResponse, GetVoiceConnectorGroupOutputError>(id: "getVoiceConnectorGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorGroupInput, GetVoiceConnectorGroupOutputResponse, GetVoiceConnectorGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceConnectorGroupInput, GetVoiceConnectorGroupOutputResponse>())
@@ -3750,7 +3853,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorGroupOutputResponse, GetVoiceConnectorGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorGroupOutputResponse, GetVoiceConnectorGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorGroupOutputResponse, GetVoiceConnectorGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3770,6 +3873,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVoiceConnectorLoggingConfigurationInput, GetVoiceConnectorLoggingConfigurationOutputResponse, GetVoiceConnectorLoggingConfigurationOutputError>(id: "getVoiceConnectorLoggingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorLoggingConfigurationInput, GetVoiceConnectorLoggingConfigurationOutputResponse, GetVoiceConnectorLoggingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceConnectorLoggingConfigurationInput, GetVoiceConnectorLoggingConfigurationOutputResponse>())
@@ -3782,7 +3886,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorLoggingConfigurationOutputResponse, GetVoiceConnectorLoggingConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorLoggingConfigurationOutputResponse, GetVoiceConnectorLoggingConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorLoggingConfigurationOutputResponse, GetVoiceConnectorLoggingConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3802,6 +3906,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVoiceConnectorOriginationInput, GetVoiceConnectorOriginationOutputResponse, GetVoiceConnectorOriginationOutputError>(id: "getVoiceConnectorOrigination")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorOriginationInput, GetVoiceConnectorOriginationOutputResponse, GetVoiceConnectorOriginationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceConnectorOriginationInput, GetVoiceConnectorOriginationOutputResponse>())
@@ -3814,7 +3919,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorOriginationOutputResponse, GetVoiceConnectorOriginationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorOriginationOutputResponse, GetVoiceConnectorOriginationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorOriginationOutputResponse, GetVoiceConnectorOriginationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3834,6 +3939,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVoiceConnectorProxyInput, GetVoiceConnectorProxyOutputResponse, GetVoiceConnectorProxyOutputError>(id: "getVoiceConnectorProxy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorProxyInput, GetVoiceConnectorProxyOutputResponse, GetVoiceConnectorProxyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceConnectorProxyInput, GetVoiceConnectorProxyOutputResponse>())
@@ -3846,7 +3952,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorProxyOutputResponse, GetVoiceConnectorProxyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorProxyOutputResponse, GetVoiceConnectorProxyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorProxyOutputResponse, GetVoiceConnectorProxyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3866,6 +3972,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVoiceConnectorStreamingConfigurationInput, GetVoiceConnectorStreamingConfigurationOutputResponse, GetVoiceConnectorStreamingConfigurationOutputError>(id: "getVoiceConnectorStreamingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorStreamingConfigurationInput, GetVoiceConnectorStreamingConfigurationOutputResponse, GetVoiceConnectorStreamingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceConnectorStreamingConfigurationInput, GetVoiceConnectorStreamingConfigurationOutputResponse>())
@@ -3878,7 +3985,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorStreamingConfigurationOutputResponse, GetVoiceConnectorStreamingConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorStreamingConfigurationOutputResponse, GetVoiceConnectorStreamingConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorStreamingConfigurationOutputResponse, GetVoiceConnectorStreamingConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3898,6 +4005,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVoiceConnectorTerminationInput, GetVoiceConnectorTerminationOutputResponse, GetVoiceConnectorTerminationOutputError>(id: "getVoiceConnectorTermination")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorTerminationInput, GetVoiceConnectorTerminationOutputResponse, GetVoiceConnectorTerminationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceConnectorTerminationInput, GetVoiceConnectorTerminationOutputResponse>())
@@ -3910,7 +4018,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorTerminationOutputResponse, GetVoiceConnectorTerminationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorTerminationOutputResponse, GetVoiceConnectorTerminationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorTerminationOutputResponse, GetVoiceConnectorTerminationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3930,6 +4038,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVoiceConnectorTerminationHealthInput, GetVoiceConnectorTerminationHealthOutputResponse, GetVoiceConnectorTerminationHealthOutputError>(id: "getVoiceConnectorTerminationHealth")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceConnectorTerminationHealthInput, GetVoiceConnectorTerminationHealthOutputResponse, GetVoiceConnectorTerminationHealthOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceConnectorTerminationHealthInput, GetVoiceConnectorTerminationHealthOutputResponse>())
@@ -3942,7 +4051,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceConnectorTerminationHealthOutputResponse, GetVoiceConnectorTerminationHealthOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetVoiceConnectorTerminationHealthOutputResponse, GetVoiceConnectorTerminationHealthOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceConnectorTerminationHealthOutputResponse, GetVoiceConnectorTerminationHealthOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3962,6 +4071,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<InviteUsersInput, InviteUsersOutputResponse, InviteUsersOutputError>(id: "inviteUsers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InviteUsersInput, InviteUsersOutputResponse, InviteUsersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InviteUsersInput, InviteUsersOutputResponse>())
@@ -3978,7 +4088,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InviteUsersOutputResponse, InviteUsersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<InviteUsersOutputResponse, InviteUsersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InviteUsersOutputResponse, InviteUsersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3998,6 +4108,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAccountsInput, ListAccountsOutputResponse, ListAccountsOutputError>(id: "listAccounts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountsInput, ListAccountsOutputResponse, ListAccountsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountsInput, ListAccountsOutputResponse>())
@@ -4011,7 +4122,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountsOutputResponse, ListAccountsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAccountsOutputResponse, ListAccountsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountsOutputResponse, ListAccountsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4031,6 +4142,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAppInstanceAdminsInput, ListAppInstanceAdminsOutputResponse, ListAppInstanceAdminsOutputError>(id: "listAppInstanceAdmins")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppInstanceAdminsInput, ListAppInstanceAdminsOutputResponse, ListAppInstanceAdminsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppInstanceAdminsInput, ListAppInstanceAdminsOutputResponse>(hostPrefix: "identity-"))
@@ -4044,7 +4156,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppInstanceAdminsOutputResponse, ListAppInstanceAdminsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAppInstanceAdminsOutputResponse, ListAppInstanceAdminsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppInstanceAdminsOutputResponse, ListAppInstanceAdminsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4064,6 +4176,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAppInstanceUsersInput, ListAppInstanceUsersOutputResponse, ListAppInstanceUsersOutputError>(id: "listAppInstanceUsers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppInstanceUsersInput, ListAppInstanceUsersOutputResponse, ListAppInstanceUsersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppInstanceUsersInput, ListAppInstanceUsersOutputResponse>(hostPrefix: "identity-"))
@@ -4077,7 +4190,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppInstanceUsersOutputResponse, ListAppInstanceUsersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAppInstanceUsersOutputResponse, ListAppInstanceUsersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppInstanceUsersOutputResponse, ListAppInstanceUsersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4097,6 +4210,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAppInstancesInput, ListAppInstancesOutputResponse, ListAppInstancesOutputError>(id: "listAppInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppInstancesInput, ListAppInstancesOutputResponse, ListAppInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppInstancesInput, ListAppInstancesOutputResponse>(hostPrefix: "identity-"))
@@ -4110,7 +4224,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppInstancesOutputResponse, ListAppInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAppInstancesOutputResponse, ListAppInstancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppInstancesOutputResponse, ListAppInstancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4130,6 +4244,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAttendeeTagsInput, ListAttendeeTagsOutputResponse, ListAttendeeTagsOutputError>(id: "listAttendeeTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttendeeTagsInput, ListAttendeeTagsOutputResponse, ListAttendeeTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAttendeeTagsInput, ListAttendeeTagsOutputResponse>())
@@ -4142,7 +4257,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttendeeTagsOutputResponse, ListAttendeeTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAttendeeTagsOutputResponse, ListAttendeeTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttendeeTagsOutputResponse, ListAttendeeTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4162,6 +4277,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAttendeesInput, ListAttendeesOutputResponse, ListAttendeesOutputError>(id: "listAttendees")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttendeesInput, ListAttendeesOutputResponse, ListAttendeesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAttendeesInput, ListAttendeesOutputResponse>())
@@ -4175,7 +4291,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttendeesOutputResponse, ListAttendeesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAttendeesOutputResponse, ListAttendeesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttendeesOutputResponse, ListAttendeesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4195,6 +4311,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListBotsInput, ListBotsOutputResponse, ListBotsOutputError>(id: "listBots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBotsInput, ListBotsOutputResponse, ListBotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBotsInput, ListBotsOutputResponse>())
@@ -4208,7 +4325,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBotsOutputResponse, ListBotsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListBotsOutputResponse, ListBotsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBotsOutputResponse, ListBotsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4228,6 +4345,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListChannelBansInput, ListChannelBansOutputResponse, ListChannelBansOutputError>(id: "listChannelBans")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelBansInput, ListChannelBansOutputResponse, ListChannelBansOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelBansInput, ListChannelBansOutputResponse>(hostPrefix: "messaging-"))
@@ -4242,7 +4360,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelBansOutputResponse, ListChannelBansOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListChannelBansOutputResponse, ListChannelBansOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelBansOutputResponse, ListChannelBansOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4262,6 +4380,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListChannelMembershipsInput, ListChannelMembershipsOutputResponse, ListChannelMembershipsOutputError>(id: "listChannelMemberships")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelMembershipsInput, ListChannelMembershipsOutputResponse, ListChannelMembershipsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelMembershipsInput, ListChannelMembershipsOutputResponse>(hostPrefix: "messaging-"))
@@ -4276,7 +4395,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelMembershipsOutputResponse, ListChannelMembershipsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListChannelMembershipsOutputResponse, ListChannelMembershipsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelMembershipsOutputResponse, ListChannelMembershipsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4296,6 +4415,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListChannelMembershipsForAppInstanceUserInput, ListChannelMembershipsForAppInstanceUserOutputResponse, ListChannelMembershipsForAppInstanceUserOutputError>(id: "listChannelMembershipsForAppInstanceUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelMembershipsForAppInstanceUserInput, ListChannelMembershipsForAppInstanceUserOutputResponse, ListChannelMembershipsForAppInstanceUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelMembershipsForAppInstanceUserInput, ListChannelMembershipsForAppInstanceUserOutputResponse>(hostPrefix: "messaging-"))
@@ -4310,7 +4430,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelMembershipsForAppInstanceUserOutputResponse, ListChannelMembershipsForAppInstanceUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListChannelMembershipsForAppInstanceUserOutputResponse, ListChannelMembershipsForAppInstanceUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelMembershipsForAppInstanceUserOutputResponse, ListChannelMembershipsForAppInstanceUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4330,6 +4450,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListChannelMessagesInput, ListChannelMessagesOutputResponse, ListChannelMessagesOutputError>(id: "listChannelMessages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelMessagesInput, ListChannelMessagesOutputResponse, ListChannelMessagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelMessagesInput, ListChannelMessagesOutputResponse>(hostPrefix: "messaging-"))
@@ -4344,7 +4465,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelMessagesOutputResponse, ListChannelMessagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListChannelMessagesOutputResponse, ListChannelMessagesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelMessagesOutputResponse, ListChannelMessagesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4364,6 +4485,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListChannelModeratorsInput, ListChannelModeratorsOutputResponse, ListChannelModeratorsOutputError>(id: "listChannelModerators")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelModeratorsInput, ListChannelModeratorsOutputResponse, ListChannelModeratorsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelModeratorsInput, ListChannelModeratorsOutputResponse>(hostPrefix: "messaging-"))
@@ -4378,7 +4500,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelModeratorsOutputResponse, ListChannelModeratorsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListChannelModeratorsOutputResponse, ListChannelModeratorsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelModeratorsOutputResponse, ListChannelModeratorsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4405,6 +4527,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListChannelsInput, ListChannelsOutputResponse, ListChannelsOutputError>(id: "listChannels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelsInput, ListChannelsOutputResponse, ListChannelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelsInput, ListChannelsOutputResponse>(hostPrefix: "messaging-"))
@@ -4419,7 +4542,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelsOutputResponse, ListChannelsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListChannelsOutputResponse, ListChannelsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelsOutputResponse, ListChannelsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4439,6 +4562,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListChannelsModeratedByAppInstanceUserInput, ListChannelsModeratedByAppInstanceUserOutputResponse, ListChannelsModeratedByAppInstanceUserOutputError>(id: "listChannelsModeratedByAppInstanceUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelsModeratedByAppInstanceUserInput, ListChannelsModeratedByAppInstanceUserOutputResponse, ListChannelsModeratedByAppInstanceUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelsModeratedByAppInstanceUserInput, ListChannelsModeratedByAppInstanceUserOutputResponse>(hostPrefix: "messaging-"))
@@ -4453,7 +4577,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelsModeratedByAppInstanceUserOutputResponse, ListChannelsModeratedByAppInstanceUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListChannelsModeratedByAppInstanceUserOutputResponse, ListChannelsModeratedByAppInstanceUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelsModeratedByAppInstanceUserOutputResponse, ListChannelsModeratedByAppInstanceUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4473,6 +4597,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutputResponse, ListMediaCapturePipelinesOutputError>(id: "listMediaCapturePipelines")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutputResponse, ListMediaCapturePipelinesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMediaCapturePipelinesInput, ListMediaCapturePipelinesOutputResponse>())
@@ -4486,7 +4611,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMediaCapturePipelinesOutputResponse, ListMediaCapturePipelinesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMediaCapturePipelinesOutputResponse, ListMediaCapturePipelinesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMediaCapturePipelinesOutputResponse, ListMediaCapturePipelinesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4506,6 +4631,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMeetingTagsInput, ListMeetingTagsOutputResponse, ListMeetingTagsOutputError>(id: "listMeetingTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMeetingTagsInput, ListMeetingTagsOutputResponse, ListMeetingTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMeetingTagsInput, ListMeetingTagsOutputResponse>())
@@ -4518,7 +4644,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMeetingTagsOutputResponse, ListMeetingTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMeetingTagsOutputResponse, ListMeetingTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMeetingTagsOutputResponse, ListMeetingTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4538,6 +4664,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMeetingsInput, ListMeetingsOutputResponse, ListMeetingsOutputError>(id: "listMeetings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMeetingsInput, ListMeetingsOutputResponse, ListMeetingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMeetingsInput, ListMeetingsOutputResponse>())
@@ -4551,7 +4678,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMeetingsOutputResponse, ListMeetingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMeetingsOutputResponse, ListMeetingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMeetingsOutputResponse, ListMeetingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4571,6 +4698,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutputResponse, ListPhoneNumberOrdersOutputError>(id: "listPhoneNumberOrders")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutputResponse, ListPhoneNumberOrdersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutputResponse>())
@@ -4584,7 +4712,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPhoneNumberOrdersOutputResponse, ListPhoneNumberOrdersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPhoneNumberOrdersOutputResponse, ListPhoneNumberOrdersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPhoneNumberOrdersOutputResponse, ListPhoneNumberOrdersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4604,6 +4732,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPhoneNumbersInput, ListPhoneNumbersOutputResponse, ListPhoneNumbersOutputError>(id: "listPhoneNumbers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPhoneNumbersInput, ListPhoneNumbersOutputResponse, ListPhoneNumbersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPhoneNumbersInput, ListPhoneNumbersOutputResponse>())
@@ -4617,7 +4746,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPhoneNumbersOutputResponse, ListPhoneNumbersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPhoneNumbersOutputResponse, ListPhoneNumbersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPhoneNumbersOutputResponse, ListPhoneNumbersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4637,6 +4766,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListProxySessionsInput, ListProxySessionsOutputResponse, ListProxySessionsOutputError>(id: "listProxySessions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProxySessionsInput, ListProxySessionsOutputResponse, ListProxySessionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProxySessionsInput, ListProxySessionsOutputResponse>())
@@ -4650,7 +4780,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProxySessionsOutputResponse, ListProxySessionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListProxySessionsOutputResponse, ListProxySessionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProxySessionsOutputResponse, ListProxySessionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4670,6 +4800,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRoomMembershipsInput, ListRoomMembershipsOutputResponse, ListRoomMembershipsOutputError>(id: "listRoomMemberships")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRoomMembershipsInput, ListRoomMembershipsOutputResponse, ListRoomMembershipsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRoomMembershipsInput, ListRoomMembershipsOutputResponse>())
@@ -4683,7 +4814,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRoomMembershipsOutputResponse, ListRoomMembershipsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListRoomMembershipsOutputResponse, ListRoomMembershipsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRoomMembershipsOutputResponse, ListRoomMembershipsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4703,6 +4834,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRoomsInput, ListRoomsOutputResponse, ListRoomsOutputError>(id: "listRooms")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRoomsInput, ListRoomsOutputResponse, ListRoomsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRoomsInput, ListRoomsOutputResponse>())
@@ -4716,7 +4848,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRoomsOutputResponse, ListRoomsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListRoomsOutputResponse, ListRoomsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRoomsOutputResponse, ListRoomsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4736,6 +4868,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutputResponse, ListSipMediaApplicationsOutputError>(id: "listSipMediaApplications")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutputResponse, ListSipMediaApplicationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSipMediaApplicationsInput, ListSipMediaApplicationsOutputResponse>())
@@ -4749,7 +4882,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSipMediaApplicationsOutputResponse, ListSipMediaApplicationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSipMediaApplicationsOutputResponse, ListSipMediaApplicationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSipMediaApplicationsOutputResponse, ListSipMediaApplicationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4769,6 +4902,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSipRulesInput, ListSipRulesOutputResponse, ListSipRulesOutputError>(id: "listSipRules")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSipRulesInput, ListSipRulesOutputResponse, ListSipRulesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSipRulesInput, ListSipRulesOutputResponse>())
@@ -4782,7 +4916,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSipRulesOutputResponse, ListSipRulesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSipRulesOutputResponse, ListSipRulesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSipRulesOutputResponse, ListSipRulesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4802,6 +4936,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSupportedPhoneNumberCountriesInput, ListSupportedPhoneNumberCountriesOutputResponse, ListSupportedPhoneNumberCountriesOutputError>(id: "listSupportedPhoneNumberCountries")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSupportedPhoneNumberCountriesInput, ListSupportedPhoneNumberCountriesOutputResponse, ListSupportedPhoneNumberCountriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSupportedPhoneNumberCountriesInput, ListSupportedPhoneNumberCountriesOutputResponse>())
@@ -4815,7 +4950,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSupportedPhoneNumberCountriesOutputResponse, ListSupportedPhoneNumberCountriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSupportedPhoneNumberCountriesOutputResponse, ListSupportedPhoneNumberCountriesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSupportedPhoneNumberCountriesOutputResponse, ListSupportedPhoneNumberCountriesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4835,6 +4970,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -4848,7 +4984,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4868,6 +5004,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListUsersInput, ListUsersOutputResponse, ListUsersOutputError>(id: "listUsers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUsersInput, ListUsersOutputResponse, ListUsersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUsersInput, ListUsersOutputResponse>())
@@ -4881,7 +5018,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUsersOutputResponse, ListUsersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListUsersOutputResponse, ListUsersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUsersOutputResponse, ListUsersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4901,6 +5038,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutputResponse, ListVoiceConnectorGroupsOutputError>(id: "listVoiceConnectorGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutputResponse, ListVoiceConnectorGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVoiceConnectorGroupsInput, ListVoiceConnectorGroupsOutputResponse>())
@@ -4914,7 +5052,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVoiceConnectorGroupsOutputResponse, ListVoiceConnectorGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListVoiceConnectorGroupsOutputResponse, ListVoiceConnectorGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVoiceConnectorGroupsOutputResponse, ListVoiceConnectorGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4934,6 +5072,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVoiceConnectorTerminationCredentialsInput, ListVoiceConnectorTerminationCredentialsOutputResponse, ListVoiceConnectorTerminationCredentialsOutputError>(id: "listVoiceConnectorTerminationCredentials")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVoiceConnectorTerminationCredentialsInput, ListVoiceConnectorTerminationCredentialsOutputResponse, ListVoiceConnectorTerminationCredentialsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVoiceConnectorTerminationCredentialsInput, ListVoiceConnectorTerminationCredentialsOutputResponse>())
@@ -4946,7 +5085,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVoiceConnectorTerminationCredentialsOutputResponse, ListVoiceConnectorTerminationCredentialsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListVoiceConnectorTerminationCredentialsOutputResponse, ListVoiceConnectorTerminationCredentialsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVoiceConnectorTerminationCredentialsOutputResponse, ListVoiceConnectorTerminationCredentialsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4966,6 +5105,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVoiceConnectorsInput, ListVoiceConnectorsOutputResponse, ListVoiceConnectorsOutputError>(id: "listVoiceConnectors")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVoiceConnectorsInput, ListVoiceConnectorsOutputResponse, ListVoiceConnectorsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVoiceConnectorsInput, ListVoiceConnectorsOutputResponse>())
@@ -4979,7 +5119,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVoiceConnectorsOutputResponse, ListVoiceConnectorsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListVoiceConnectorsOutputResponse, ListVoiceConnectorsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVoiceConnectorsOutputResponse, ListVoiceConnectorsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4999,6 +5139,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<LogoutUserInput, LogoutUserOutputResponse, LogoutUserOutputError>(id: "logoutUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<LogoutUserInput, LogoutUserOutputResponse, LogoutUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<LogoutUserInput, LogoutUserOutputResponse>())
@@ -5012,7 +5153,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<LogoutUserOutputResponse, LogoutUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<LogoutUserOutputResponse, LogoutUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<LogoutUserOutputResponse, LogoutUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5032,6 +5173,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutAppInstanceRetentionSettingsInput, PutAppInstanceRetentionSettingsOutputResponse, PutAppInstanceRetentionSettingsOutputError>(id: "putAppInstanceRetentionSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAppInstanceRetentionSettingsInput, PutAppInstanceRetentionSettingsOutputResponse, PutAppInstanceRetentionSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAppInstanceRetentionSettingsInput, PutAppInstanceRetentionSettingsOutputResponse>(hostPrefix: "identity-"))
@@ -5047,7 +5189,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAppInstanceRetentionSettingsOutputResponse, PutAppInstanceRetentionSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutAppInstanceRetentionSettingsOutputResponse, PutAppInstanceRetentionSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAppInstanceRetentionSettingsOutputResponse, PutAppInstanceRetentionSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5067,6 +5209,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutAppInstanceStreamingConfigurationsInput, PutAppInstanceStreamingConfigurationsOutputResponse, PutAppInstanceStreamingConfigurationsOutputError>(id: "putAppInstanceStreamingConfigurations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAppInstanceStreamingConfigurationsInput, PutAppInstanceStreamingConfigurationsOutputResponse, PutAppInstanceStreamingConfigurationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAppInstanceStreamingConfigurationsInput, PutAppInstanceStreamingConfigurationsOutputResponse>())
@@ -5082,7 +5225,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAppInstanceStreamingConfigurationsOutputResponse, PutAppInstanceStreamingConfigurationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutAppInstanceStreamingConfigurationsOutputResponse, PutAppInstanceStreamingConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAppInstanceStreamingConfigurationsOutputResponse, PutAppInstanceStreamingConfigurationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5102,6 +5245,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutEventsConfigurationInput, PutEventsConfigurationOutputResponse, PutEventsConfigurationOutputError>(id: "putEventsConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutEventsConfigurationInput, PutEventsConfigurationOutputResponse, PutEventsConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutEventsConfigurationInput, PutEventsConfigurationOutputResponse>())
@@ -5117,7 +5261,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutEventsConfigurationOutputResponse, PutEventsConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutEventsConfigurationOutputResponse, PutEventsConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutEventsConfigurationOutputResponse, PutEventsConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5137,6 +5281,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutRetentionSettingsInput, PutRetentionSettingsOutputResponse, PutRetentionSettingsOutputError>(id: "putRetentionSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRetentionSettingsInput, PutRetentionSettingsOutputResponse, PutRetentionSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRetentionSettingsInput, PutRetentionSettingsOutputResponse>())
@@ -5152,7 +5297,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRetentionSettingsOutputResponse, PutRetentionSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutRetentionSettingsOutputResponse, PutRetentionSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRetentionSettingsOutputResponse, PutRetentionSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5172,6 +5317,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutSipMediaApplicationLoggingConfigurationInput, PutSipMediaApplicationLoggingConfigurationOutputResponse, PutSipMediaApplicationLoggingConfigurationOutputError>(id: "putSipMediaApplicationLoggingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSipMediaApplicationLoggingConfigurationInput, PutSipMediaApplicationLoggingConfigurationOutputResponse, PutSipMediaApplicationLoggingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSipMediaApplicationLoggingConfigurationInput, PutSipMediaApplicationLoggingConfigurationOutputResponse>())
@@ -5187,7 +5333,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSipMediaApplicationLoggingConfigurationOutputResponse, PutSipMediaApplicationLoggingConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutSipMediaApplicationLoggingConfigurationOutputResponse, PutSipMediaApplicationLoggingConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSipMediaApplicationLoggingConfigurationOutputResponse, PutSipMediaApplicationLoggingConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5207,6 +5353,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutVoiceConnectorEmergencyCallingConfigurationInput, PutVoiceConnectorEmergencyCallingConfigurationOutputResponse, PutVoiceConnectorEmergencyCallingConfigurationOutputError>(id: "putVoiceConnectorEmergencyCallingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorEmergencyCallingConfigurationInput, PutVoiceConnectorEmergencyCallingConfigurationOutputResponse, PutVoiceConnectorEmergencyCallingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutVoiceConnectorEmergencyCallingConfigurationInput, PutVoiceConnectorEmergencyCallingConfigurationOutputResponse>())
@@ -5222,7 +5369,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorEmergencyCallingConfigurationOutputResponse, PutVoiceConnectorEmergencyCallingConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorEmergencyCallingConfigurationOutputResponse, PutVoiceConnectorEmergencyCallingConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorEmergencyCallingConfigurationOutputResponse, PutVoiceConnectorEmergencyCallingConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5242,6 +5389,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutVoiceConnectorLoggingConfigurationInput, PutVoiceConnectorLoggingConfigurationOutputResponse, PutVoiceConnectorLoggingConfigurationOutputError>(id: "putVoiceConnectorLoggingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorLoggingConfigurationInput, PutVoiceConnectorLoggingConfigurationOutputResponse, PutVoiceConnectorLoggingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutVoiceConnectorLoggingConfigurationInput, PutVoiceConnectorLoggingConfigurationOutputResponse>())
@@ -5257,7 +5405,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorLoggingConfigurationOutputResponse, PutVoiceConnectorLoggingConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorLoggingConfigurationOutputResponse, PutVoiceConnectorLoggingConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorLoggingConfigurationOutputResponse, PutVoiceConnectorLoggingConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5277,6 +5425,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutVoiceConnectorOriginationInput, PutVoiceConnectorOriginationOutputResponse, PutVoiceConnectorOriginationOutputError>(id: "putVoiceConnectorOrigination")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorOriginationInput, PutVoiceConnectorOriginationOutputResponse, PutVoiceConnectorOriginationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutVoiceConnectorOriginationInput, PutVoiceConnectorOriginationOutputResponse>())
@@ -5292,7 +5441,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorOriginationOutputResponse, PutVoiceConnectorOriginationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorOriginationOutputResponse, PutVoiceConnectorOriginationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorOriginationOutputResponse, PutVoiceConnectorOriginationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5312,6 +5461,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutVoiceConnectorProxyInput, PutVoiceConnectorProxyOutputResponse, PutVoiceConnectorProxyOutputError>(id: "putVoiceConnectorProxy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorProxyInput, PutVoiceConnectorProxyOutputResponse, PutVoiceConnectorProxyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutVoiceConnectorProxyInput, PutVoiceConnectorProxyOutputResponse>())
@@ -5327,7 +5477,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorProxyOutputResponse, PutVoiceConnectorProxyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorProxyOutputResponse, PutVoiceConnectorProxyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorProxyOutputResponse, PutVoiceConnectorProxyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5347,6 +5497,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutVoiceConnectorStreamingConfigurationInput, PutVoiceConnectorStreamingConfigurationOutputResponse, PutVoiceConnectorStreamingConfigurationOutputError>(id: "putVoiceConnectorStreamingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorStreamingConfigurationInput, PutVoiceConnectorStreamingConfigurationOutputResponse, PutVoiceConnectorStreamingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutVoiceConnectorStreamingConfigurationInput, PutVoiceConnectorStreamingConfigurationOutputResponse>())
@@ -5362,7 +5513,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorStreamingConfigurationOutputResponse, PutVoiceConnectorStreamingConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorStreamingConfigurationOutputResponse, PutVoiceConnectorStreamingConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorStreamingConfigurationOutputResponse, PutVoiceConnectorStreamingConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5382,6 +5533,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutVoiceConnectorTerminationInput, PutVoiceConnectorTerminationOutputResponse, PutVoiceConnectorTerminationOutputError>(id: "putVoiceConnectorTermination")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorTerminationInput, PutVoiceConnectorTerminationOutputResponse, PutVoiceConnectorTerminationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutVoiceConnectorTerminationInput, PutVoiceConnectorTerminationOutputResponse>())
@@ -5397,7 +5549,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorTerminationOutputResponse, PutVoiceConnectorTerminationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorTerminationOutputResponse, PutVoiceConnectorTerminationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorTerminationOutputResponse, PutVoiceConnectorTerminationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5417,6 +5569,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutVoiceConnectorTerminationCredentialsInput, PutVoiceConnectorTerminationCredentialsOutputResponse, PutVoiceConnectorTerminationCredentialsOutputError>(id: "putVoiceConnectorTerminationCredentials")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutVoiceConnectorTerminationCredentialsInput, PutVoiceConnectorTerminationCredentialsOutputResponse, PutVoiceConnectorTerminationCredentialsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutVoiceConnectorTerminationCredentialsInput, PutVoiceConnectorTerminationCredentialsOutputResponse>())
@@ -5433,7 +5586,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutVoiceConnectorTerminationCredentialsOutputResponse, PutVoiceConnectorTerminationCredentialsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutVoiceConnectorTerminationCredentialsOutputResponse, PutVoiceConnectorTerminationCredentialsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutVoiceConnectorTerminationCredentialsOutputResponse, PutVoiceConnectorTerminationCredentialsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5453,6 +5606,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RedactChannelMessageInput, RedactChannelMessageOutputResponse, RedactChannelMessageOutputError>(id: "redactChannelMessage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RedactChannelMessageInput, RedactChannelMessageOutputResponse, RedactChannelMessageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RedactChannelMessageInput, RedactChannelMessageOutputResponse>(hostPrefix: "messaging-"))
@@ -5467,7 +5621,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RedactChannelMessageOutputResponse, RedactChannelMessageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RedactChannelMessageOutputResponse, RedactChannelMessageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RedactChannelMessageOutputResponse, RedactChannelMessageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5487,6 +5641,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RedactConversationMessageInput, RedactConversationMessageOutputResponse, RedactConversationMessageOutputError>(id: "redactConversationMessage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RedactConversationMessageInput, RedactConversationMessageOutputResponse, RedactConversationMessageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RedactConversationMessageInput, RedactConversationMessageOutputResponse>())
@@ -5500,7 +5655,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RedactConversationMessageOutputResponse, RedactConversationMessageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RedactConversationMessageOutputResponse, RedactConversationMessageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RedactConversationMessageOutputResponse, RedactConversationMessageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5520,6 +5675,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RedactRoomMessageInput, RedactRoomMessageOutputResponse, RedactRoomMessageOutputError>(id: "redactRoomMessage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RedactRoomMessageInput, RedactRoomMessageOutputResponse, RedactRoomMessageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RedactRoomMessageInput, RedactRoomMessageOutputResponse>())
@@ -5533,7 +5689,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RedactRoomMessageOutputResponse, RedactRoomMessageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RedactRoomMessageOutputResponse, RedactRoomMessageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RedactRoomMessageOutputResponse, RedactRoomMessageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5553,6 +5709,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegenerateSecurityTokenInput, RegenerateSecurityTokenOutputResponse, RegenerateSecurityTokenOutputError>(id: "regenerateSecurityToken")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegenerateSecurityTokenInput, RegenerateSecurityTokenOutputResponse, RegenerateSecurityTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegenerateSecurityTokenInput, RegenerateSecurityTokenOutputResponse>())
@@ -5566,7 +5723,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegenerateSecurityTokenOutputResponse, RegenerateSecurityTokenOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RegenerateSecurityTokenOutputResponse, RegenerateSecurityTokenOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegenerateSecurityTokenOutputResponse, RegenerateSecurityTokenOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5586,6 +5743,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResetPersonalPINInput, ResetPersonalPINOutputResponse, ResetPersonalPINOutputError>(id: "resetPersonalPIN")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetPersonalPINInput, ResetPersonalPINOutputResponse, ResetPersonalPINOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetPersonalPINInput, ResetPersonalPINOutputResponse>())
@@ -5599,7 +5757,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetPersonalPINOutputResponse, ResetPersonalPINOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ResetPersonalPINOutputResponse, ResetPersonalPINOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetPersonalPINOutputResponse, ResetPersonalPINOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5619,6 +5777,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RestorePhoneNumberInput, RestorePhoneNumberOutputResponse, RestorePhoneNumberOutputError>(id: "restorePhoneNumber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestorePhoneNumberInput, RestorePhoneNumberOutputResponse, RestorePhoneNumberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestorePhoneNumberInput, RestorePhoneNumberOutputResponse>())
@@ -5632,7 +5791,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestorePhoneNumberOutputResponse, RestorePhoneNumberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RestorePhoneNumberOutputResponse, RestorePhoneNumberOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestorePhoneNumberOutputResponse, RestorePhoneNumberOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5652,6 +5811,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutputResponse, SearchAvailablePhoneNumbersOutputError>(id: "searchAvailablePhoneNumbers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutputResponse, SearchAvailablePhoneNumbersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutputResponse>())
@@ -5665,7 +5825,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchAvailablePhoneNumbersOutputResponse, SearchAvailablePhoneNumbersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchAvailablePhoneNumbersOutputResponse, SearchAvailablePhoneNumbersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchAvailablePhoneNumbersOutputResponse, SearchAvailablePhoneNumbersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5685,6 +5845,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendChannelMessageInput, SendChannelMessageOutputResponse, SendChannelMessageOutputError>(id: "sendChannelMessage")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<SendChannelMessageOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -5709,7 +5870,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendChannelMessageOutputResponse, SendChannelMessageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendChannelMessageOutputResponse, SendChannelMessageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendChannelMessageOutputResponse, SendChannelMessageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5729,6 +5890,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartMeetingTranscriptionInput, StartMeetingTranscriptionOutputResponse, StartMeetingTranscriptionOutputError>(id: "startMeetingTranscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMeetingTranscriptionInput, StartMeetingTranscriptionOutputResponse, StartMeetingTranscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMeetingTranscriptionInput, StartMeetingTranscriptionOutputResponse>())
@@ -5745,7 +5907,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMeetingTranscriptionOutputResponse, StartMeetingTranscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartMeetingTranscriptionOutputResponse, StartMeetingTranscriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMeetingTranscriptionOutputResponse, StartMeetingTranscriptionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5765,6 +5927,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopMeetingTranscriptionInput, StopMeetingTranscriptionOutputResponse, StopMeetingTranscriptionOutputError>(id: "stopMeetingTranscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopMeetingTranscriptionInput, StopMeetingTranscriptionOutputResponse, StopMeetingTranscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopMeetingTranscriptionInput, StopMeetingTranscriptionOutputResponse>())
@@ -5778,7 +5941,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopMeetingTranscriptionOutputResponse, StopMeetingTranscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopMeetingTranscriptionOutputResponse, StopMeetingTranscriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopMeetingTranscriptionOutputResponse, StopMeetingTranscriptionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5798,6 +5961,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagAttendeeInput, TagAttendeeOutputResponse, TagAttendeeOutputError>(id: "tagAttendee")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagAttendeeInput, TagAttendeeOutputResponse, TagAttendeeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagAttendeeInput, TagAttendeeOutputResponse>())
@@ -5814,7 +5978,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagAttendeeOutputResponse, TagAttendeeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagAttendeeOutputResponse, TagAttendeeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagAttendeeOutputResponse, TagAttendeeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5834,6 +5998,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagMeetingInput, TagMeetingOutputResponse, TagMeetingOutputError>(id: "tagMeeting")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagMeetingInput, TagMeetingOutputResponse, TagMeetingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagMeetingInput, TagMeetingOutputResponse>())
@@ -5850,7 +6015,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagMeetingOutputResponse, TagMeetingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagMeetingOutputResponse, TagMeetingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagMeetingOutputResponse, TagMeetingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5870,6 +6035,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -5886,7 +6052,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5906,6 +6072,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagAttendeeInput, UntagAttendeeOutputResponse, UntagAttendeeOutputError>(id: "untagAttendee")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagAttendeeInput, UntagAttendeeOutputResponse, UntagAttendeeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagAttendeeInput, UntagAttendeeOutputResponse>())
@@ -5922,7 +6089,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagAttendeeOutputResponse, UntagAttendeeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagAttendeeOutputResponse, UntagAttendeeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagAttendeeOutputResponse, UntagAttendeeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5942,6 +6109,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagMeetingInput, UntagMeetingOutputResponse, UntagMeetingOutputError>(id: "untagMeeting")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagMeetingInput, UntagMeetingOutputResponse, UntagMeetingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagMeetingInput, UntagMeetingOutputResponse>())
@@ -5958,7 +6126,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagMeetingOutputResponse, UntagMeetingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagMeetingOutputResponse, UntagMeetingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagMeetingOutputResponse, UntagMeetingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5978,6 +6146,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -5994,7 +6163,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6014,6 +6183,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAccountInput, UpdateAccountOutputResponse, UpdateAccountOutputError>(id: "updateAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccountInput, UpdateAccountOutputResponse, UpdateAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccountInput, UpdateAccountOutputResponse>())
@@ -6029,7 +6199,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccountOutputResponse, UpdateAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountOutputResponse, UpdateAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountOutputResponse, UpdateAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6049,6 +6219,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAccountSettingsInput, UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>(id: "updateAccountSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutputResponse>())
@@ -6064,7 +6235,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6084,6 +6255,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAppInstanceInput, UpdateAppInstanceOutputResponse, UpdateAppInstanceOutputError>(id: "updateAppInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAppInstanceInput, UpdateAppInstanceOutputResponse, UpdateAppInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAppInstanceInput, UpdateAppInstanceOutputResponse>(hostPrefix: "identity-"))
@@ -6099,7 +6271,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppInstanceOutputResponse, UpdateAppInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAppInstanceOutputResponse, UpdateAppInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppInstanceOutputResponse, UpdateAppInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6119,6 +6291,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAppInstanceUserInput, UpdateAppInstanceUserOutputResponse, UpdateAppInstanceUserOutputError>(id: "updateAppInstanceUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAppInstanceUserInput, UpdateAppInstanceUserOutputResponse, UpdateAppInstanceUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAppInstanceUserInput, UpdateAppInstanceUserOutputResponse>(hostPrefix: "identity-"))
@@ -6134,7 +6307,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppInstanceUserOutputResponse, UpdateAppInstanceUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAppInstanceUserOutputResponse, UpdateAppInstanceUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppInstanceUserOutputResponse, UpdateAppInstanceUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6154,6 +6327,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBotInput, UpdateBotOutputResponse, UpdateBotOutputError>(id: "updateBot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBotInput, UpdateBotOutputResponse, UpdateBotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBotInput, UpdateBotOutputResponse>())
@@ -6169,7 +6343,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBotOutputResponse, UpdateBotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateBotOutputResponse, UpdateBotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBotOutputResponse, UpdateBotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6189,6 +6363,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateChannelInput, UpdateChannelOutputResponse, UpdateChannelOutputError>(id: "updateChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelInput, UpdateChannelOutputResponse, UpdateChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateChannelInput, UpdateChannelOutputResponse>(hostPrefix: "messaging-"))
@@ -6205,7 +6380,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelOutputResponse, UpdateChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelOutputResponse, UpdateChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelOutputResponse, UpdateChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6225,6 +6400,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateChannelMessageInput, UpdateChannelMessageOutputResponse, UpdateChannelMessageOutputError>(id: "updateChannelMessage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelMessageInput, UpdateChannelMessageOutputResponse, UpdateChannelMessageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateChannelMessageInput, UpdateChannelMessageOutputResponse>(hostPrefix: "messaging-"))
@@ -6241,7 +6417,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelMessageOutputResponse, UpdateChannelMessageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelMessageOutputResponse, UpdateChannelMessageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelMessageOutputResponse, UpdateChannelMessageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6261,6 +6437,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateChannelReadMarkerInput, UpdateChannelReadMarkerOutputResponse, UpdateChannelReadMarkerOutputError>(id: "updateChannelReadMarker")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelReadMarkerInput, UpdateChannelReadMarkerOutputResponse, UpdateChannelReadMarkerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateChannelReadMarkerInput, UpdateChannelReadMarkerOutputResponse>(hostPrefix: "messaging-"))
@@ -6274,7 +6451,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelReadMarkerOutputResponse, UpdateChannelReadMarkerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelReadMarkerOutputResponse, UpdateChannelReadMarkerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelReadMarkerOutputResponse, UpdateChannelReadMarkerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6294,6 +6471,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutputResponse, UpdateGlobalSettingsOutputError>(id: "updateGlobalSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutputResponse, UpdateGlobalSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutputResponse>())
@@ -6309,7 +6487,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGlobalSettingsOutputResponse, UpdateGlobalSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateGlobalSettingsOutputResponse, UpdateGlobalSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGlobalSettingsOutputResponse, UpdateGlobalSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6329,6 +6507,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePhoneNumberInput, UpdatePhoneNumberOutputResponse, UpdatePhoneNumberOutputError>(id: "updatePhoneNumber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutputResponse, UpdatePhoneNumberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutputResponse>())
@@ -6344,7 +6523,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePhoneNumberOutputResponse, UpdatePhoneNumberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdatePhoneNumberOutputResponse, UpdatePhoneNumberOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePhoneNumberOutputResponse, UpdatePhoneNumberOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6364,6 +6543,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePhoneNumberSettingsInput, UpdatePhoneNumberSettingsOutputResponse, UpdatePhoneNumberSettingsOutputError>(id: "updatePhoneNumberSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePhoneNumberSettingsInput, UpdatePhoneNumberSettingsOutputResponse, UpdatePhoneNumberSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePhoneNumberSettingsInput, UpdatePhoneNumberSettingsOutputResponse>())
@@ -6379,7 +6559,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePhoneNumberSettingsOutputResponse, UpdatePhoneNumberSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdatePhoneNumberSettingsOutputResponse, UpdatePhoneNumberSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePhoneNumberSettingsOutputResponse, UpdatePhoneNumberSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6399,6 +6579,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateProxySessionInput, UpdateProxySessionOutputResponse, UpdateProxySessionOutputError>(id: "updateProxySession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProxySessionInput, UpdateProxySessionOutputResponse, UpdateProxySessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProxySessionInput, UpdateProxySessionOutputResponse>())
@@ -6414,7 +6595,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProxySessionOutputResponse, UpdateProxySessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateProxySessionOutputResponse, UpdateProxySessionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProxySessionOutputResponse, UpdateProxySessionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6434,6 +6615,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRoomInput, UpdateRoomOutputResponse, UpdateRoomOutputError>(id: "updateRoom")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRoomInput, UpdateRoomOutputResponse, UpdateRoomOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRoomInput, UpdateRoomOutputResponse>())
@@ -6449,7 +6631,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRoomOutputResponse, UpdateRoomOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateRoomOutputResponse, UpdateRoomOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoomOutputResponse, UpdateRoomOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6469,6 +6651,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRoomMembershipInput, UpdateRoomMembershipOutputResponse, UpdateRoomMembershipOutputError>(id: "updateRoomMembership")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRoomMembershipInput, UpdateRoomMembershipOutputResponse, UpdateRoomMembershipOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRoomMembershipInput, UpdateRoomMembershipOutputResponse>())
@@ -6484,7 +6667,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRoomMembershipOutputResponse, UpdateRoomMembershipOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateRoomMembershipOutputResponse, UpdateRoomMembershipOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoomMembershipOutputResponse, UpdateRoomMembershipOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6504,6 +6687,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSipMediaApplicationInput, UpdateSipMediaApplicationOutputResponse, UpdateSipMediaApplicationOutputError>(id: "updateSipMediaApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSipMediaApplicationInput, UpdateSipMediaApplicationOutputResponse, UpdateSipMediaApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSipMediaApplicationInput, UpdateSipMediaApplicationOutputResponse>())
@@ -6519,7 +6703,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSipMediaApplicationOutputResponse, UpdateSipMediaApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSipMediaApplicationOutputResponse, UpdateSipMediaApplicationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSipMediaApplicationOutputResponse, UpdateSipMediaApplicationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6539,6 +6723,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSipMediaApplicationCallInput, UpdateSipMediaApplicationCallOutputResponse, UpdateSipMediaApplicationCallOutputError>(id: "updateSipMediaApplicationCall")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSipMediaApplicationCallInput, UpdateSipMediaApplicationCallOutputResponse, UpdateSipMediaApplicationCallOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSipMediaApplicationCallInput, UpdateSipMediaApplicationCallOutputResponse>())
@@ -6554,7 +6739,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSipMediaApplicationCallOutputResponse, UpdateSipMediaApplicationCallOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSipMediaApplicationCallOutputResponse, UpdateSipMediaApplicationCallOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSipMediaApplicationCallOutputResponse, UpdateSipMediaApplicationCallOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6574,6 +6759,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSipRuleInput, UpdateSipRuleOutputResponse, UpdateSipRuleOutputError>(id: "updateSipRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSipRuleInput, UpdateSipRuleOutputResponse, UpdateSipRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSipRuleInput, UpdateSipRuleOutputResponse>())
@@ -6589,7 +6775,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSipRuleOutputResponse, UpdateSipRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSipRuleOutputResponse, UpdateSipRuleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSipRuleOutputResponse, UpdateSipRuleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6609,6 +6795,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateUserInput, UpdateUserOutputResponse, UpdateUserOutputError>(id: "updateUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserInput, UpdateUserOutputResponse, UpdateUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserInput, UpdateUserOutputResponse>())
@@ -6624,7 +6811,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserOutputResponse, UpdateUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateUserOutputResponse, UpdateUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserOutputResponse, UpdateUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6644,6 +6831,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateUserSettingsInput, UpdateUserSettingsOutputResponse, UpdateUserSettingsOutputError>(id: "updateUserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutputResponse, UpdateUserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutputResponse>())
@@ -6659,7 +6847,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserSettingsOutputResponse, UpdateUserSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateUserSettingsOutputResponse, UpdateUserSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserSettingsOutputResponse, UpdateUserSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6679,6 +6867,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateVoiceConnectorInput, UpdateVoiceConnectorOutputResponse, UpdateVoiceConnectorOutputError>(id: "updateVoiceConnector")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateVoiceConnectorInput, UpdateVoiceConnectorOutputResponse, UpdateVoiceConnectorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateVoiceConnectorInput, UpdateVoiceConnectorOutputResponse>())
@@ -6694,7 +6883,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVoiceConnectorOutputResponse, UpdateVoiceConnectorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateVoiceConnectorOutputResponse, UpdateVoiceConnectorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVoiceConnectorOutputResponse, UpdateVoiceConnectorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6714,6 +6903,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateVoiceConnectorGroupInput, UpdateVoiceConnectorGroupOutputResponse, UpdateVoiceConnectorGroupOutputError>(id: "updateVoiceConnectorGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateVoiceConnectorGroupInput, UpdateVoiceConnectorGroupOutputResponse, UpdateVoiceConnectorGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateVoiceConnectorGroupInput, UpdateVoiceConnectorGroupOutputResponse>())
@@ -6729,7 +6919,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVoiceConnectorGroupOutputResponse, UpdateVoiceConnectorGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateVoiceConnectorGroupOutputResponse, UpdateVoiceConnectorGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVoiceConnectorGroupOutputResponse, UpdateVoiceConnectorGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6749,6 +6939,7 @@ extension ChimeClient: ChimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "chime")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ValidateE911AddressInput, ValidateE911AddressOutputResponse, ValidateE911AddressOutputError>(id: "validateE911Address")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidateE911AddressInput, ValidateE911AddressOutputResponse, ValidateE911AddressOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ValidateE911AddressInput, ValidateE911AddressOutputResponse>())
@@ -6764,7 +6955,7 @@ extension ChimeClient: ChimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ValidateE911AddressOutputResponse, ValidateE911AddressOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ValidateE911AddressOutputResponse, ValidateE911AddressOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ValidateE911AddressOutputResponse, ValidateE911AddressOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

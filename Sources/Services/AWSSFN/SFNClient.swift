@@ -221,6 +221,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateActivityInput, CreateActivityOutputResponse, CreateActivityOutputError>(id: "createActivity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateActivityInput, CreateActivityOutputResponse, CreateActivityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateActivityInput, CreateActivityOutputResponse>())
@@ -237,7 +238,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateActivityOutputResponse, CreateActivityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateActivityOutputResponse, CreateActivityOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateActivityOutputResponse, CreateActivityOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateStateMachineInput, CreateStateMachineOutputResponse, CreateStateMachineOutputError>(id: "createStateMachine")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStateMachineInput, CreateStateMachineOutputResponse, CreateStateMachineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStateMachineInput, CreateStateMachineOutputResponse>())
@@ -273,7 +275,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStateMachineOutputResponse, CreateStateMachineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateStateMachineOutputResponse, CreateStateMachineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStateMachineOutputResponse, CreateStateMachineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteActivityInput, DeleteActivityOutputResponse, DeleteActivityOutputError>(id: "deleteActivity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteActivityInput, DeleteActivityOutputResponse, DeleteActivityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteActivityInput, DeleteActivityOutputResponse>())
@@ -309,7 +312,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteActivityOutputResponse, DeleteActivityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteActivityOutputResponse, DeleteActivityOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteActivityOutputResponse, DeleteActivityOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -329,6 +332,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteStateMachineInput, DeleteStateMachineOutputResponse, DeleteStateMachineOutputError>(id: "deleteStateMachine")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStateMachineInput, DeleteStateMachineOutputResponse, DeleteStateMachineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStateMachineInput, DeleteStateMachineOutputResponse>())
@@ -345,7 +349,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStateMachineOutputResponse, DeleteStateMachineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteStateMachineOutputResponse, DeleteStateMachineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStateMachineOutputResponse, DeleteStateMachineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -365,6 +369,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeActivityInput, DescribeActivityOutputResponse, DescribeActivityOutputError>(id: "describeActivity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeActivityInput, DescribeActivityOutputResponse, DescribeActivityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeActivityInput, DescribeActivityOutputResponse>())
@@ -381,7 +386,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeActivityOutputResponse, DescribeActivityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeActivityOutputResponse, DescribeActivityOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeActivityOutputResponse, DescribeActivityOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -401,6 +406,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeExecutionInput, DescribeExecutionOutputResponse, DescribeExecutionOutputError>(id: "describeExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeExecutionInput, DescribeExecutionOutputResponse, DescribeExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeExecutionInput, DescribeExecutionOutputResponse>())
@@ -417,7 +423,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeExecutionOutputResponse, DescribeExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeExecutionOutputResponse, DescribeExecutionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeExecutionOutputResponse, DescribeExecutionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -437,6 +443,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMapRunInput, DescribeMapRunOutputResponse, DescribeMapRunOutputError>(id: "describeMapRun")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMapRunInput, DescribeMapRunOutputResponse, DescribeMapRunOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMapRunInput, DescribeMapRunOutputResponse>())
@@ -453,7 +460,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMapRunOutputResponse, DescribeMapRunOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeMapRunOutputResponse, DescribeMapRunOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMapRunOutputResponse, DescribeMapRunOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -473,6 +480,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStateMachineInput, DescribeStateMachineOutputResponse, DescribeStateMachineOutputError>(id: "describeStateMachine")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStateMachineInput, DescribeStateMachineOutputResponse, DescribeStateMachineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStateMachineInput, DescribeStateMachineOutputResponse>())
@@ -489,7 +497,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStateMachineOutputResponse, DescribeStateMachineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeStateMachineOutputResponse, DescribeStateMachineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStateMachineOutputResponse, DescribeStateMachineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -509,6 +517,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStateMachineForExecutionInput, DescribeStateMachineForExecutionOutputResponse, DescribeStateMachineForExecutionOutputError>(id: "describeStateMachineForExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStateMachineForExecutionInput, DescribeStateMachineForExecutionOutputResponse, DescribeStateMachineForExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStateMachineForExecutionInput, DescribeStateMachineForExecutionOutputResponse>())
@@ -525,7 +534,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStateMachineForExecutionOutputResponse, DescribeStateMachineForExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeStateMachineForExecutionOutputResponse, DescribeStateMachineForExecutionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStateMachineForExecutionOutputResponse, DescribeStateMachineForExecutionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -545,6 +554,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetActivityTaskInput, GetActivityTaskOutputResponse, GetActivityTaskOutputError>(id: "getActivityTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetActivityTaskInput, GetActivityTaskOutputResponse, GetActivityTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetActivityTaskInput, GetActivityTaskOutputResponse>())
@@ -561,7 +571,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetActivityTaskOutputResponse, GetActivityTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetActivityTaskOutputResponse, GetActivityTaskOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetActivityTaskOutputResponse, GetActivityTaskOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -581,6 +591,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetExecutionHistoryInput, GetExecutionHistoryOutputResponse, GetExecutionHistoryOutputError>(id: "getExecutionHistory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetExecutionHistoryInput, GetExecutionHistoryOutputResponse, GetExecutionHistoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetExecutionHistoryInput, GetExecutionHistoryOutputResponse>())
@@ -597,7 +608,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetExecutionHistoryOutputResponse, GetExecutionHistoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetExecutionHistoryOutputResponse, GetExecutionHistoryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetExecutionHistoryOutputResponse, GetExecutionHistoryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -617,6 +628,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListActivitiesInput, ListActivitiesOutputResponse, ListActivitiesOutputError>(id: "listActivities")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListActivitiesInput, ListActivitiesOutputResponse, ListActivitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListActivitiesInput, ListActivitiesOutputResponse>())
@@ -633,7 +645,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListActivitiesOutputResponse, ListActivitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListActivitiesOutputResponse, ListActivitiesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListActivitiesOutputResponse, ListActivitiesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -653,6 +665,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListExecutionsInput, ListExecutionsOutputResponse, ListExecutionsOutputError>(id: "listExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListExecutionsInput, ListExecutionsOutputResponse, ListExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListExecutionsInput, ListExecutionsOutputResponse>())
@@ -669,7 +682,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListExecutionsOutputResponse, ListExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListExecutionsOutputResponse, ListExecutionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListExecutionsOutputResponse, ListExecutionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -689,6 +702,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMapRunsInput, ListMapRunsOutputResponse, ListMapRunsOutputError>(id: "listMapRuns")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMapRunsInput, ListMapRunsOutputResponse, ListMapRunsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMapRunsInput, ListMapRunsOutputResponse>())
@@ -705,7 +719,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMapRunsOutputResponse, ListMapRunsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMapRunsOutputResponse, ListMapRunsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMapRunsOutputResponse, ListMapRunsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -725,6 +739,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStateMachinesInput, ListStateMachinesOutputResponse, ListStateMachinesOutputError>(id: "listStateMachines")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStateMachinesInput, ListStateMachinesOutputResponse, ListStateMachinesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStateMachinesInput, ListStateMachinesOutputResponse>())
@@ -741,7 +756,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStateMachinesOutputResponse, ListStateMachinesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListStateMachinesOutputResponse, ListStateMachinesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStateMachinesOutputResponse, ListStateMachinesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -761,6 +776,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -777,7 +793,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -797,6 +813,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendTaskFailureInput, SendTaskFailureOutputResponse, SendTaskFailureOutputError>(id: "sendTaskFailure")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendTaskFailureInput, SendTaskFailureOutputResponse, SendTaskFailureOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendTaskFailureInput, SendTaskFailureOutputResponse>())
@@ -813,7 +830,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendTaskFailureOutputResponse, SendTaskFailureOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendTaskFailureOutputResponse, SendTaskFailureOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendTaskFailureOutputResponse, SendTaskFailureOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -833,6 +850,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendTaskHeartbeatInput, SendTaskHeartbeatOutputResponse, SendTaskHeartbeatOutputError>(id: "sendTaskHeartbeat")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendTaskHeartbeatInput, SendTaskHeartbeatOutputResponse, SendTaskHeartbeatOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendTaskHeartbeatInput, SendTaskHeartbeatOutputResponse>())
@@ -849,7 +867,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendTaskHeartbeatOutputResponse, SendTaskHeartbeatOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendTaskHeartbeatOutputResponse, SendTaskHeartbeatOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendTaskHeartbeatOutputResponse, SendTaskHeartbeatOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -869,6 +887,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendTaskSuccessInput, SendTaskSuccessOutputResponse, SendTaskSuccessOutputError>(id: "sendTaskSuccess")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendTaskSuccessInput, SendTaskSuccessOutputResponse, SendTaskSuccessOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendTaskSuccessInput, SendTaskSuccessOutputResponse>())
@@ -885,7 +904,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendTaskSuccessOutputResponse, SendTaskSuccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendTaskSuccessOutputResponse, SendTaskSuccessOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendTaskSuccessOutputResponse, SendTaskSuccessOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -905,6 +924,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartExecutionInput, StartExecutionOutputResponse, StartExecutionOutputError>(id: "startExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartExecutionInput, StartExecutionOutputResponse, StartExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartExecutionInput, StartExecutionOutputResponse>())
@@ -921,7 +941,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartExecutionOutputResponse, StartExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartExecutionOutputResponse, StartExecutionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartExecutionOutputResponse, StartExecutionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -941,6 +961,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartSyncExecutionInput, StartSyncExecutionOutputResponse, StartSyncExecutionOutputError>(id: "startSyncExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSyncExecutionInput, StartSyncExecutionOutputResponse, StartSyncExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSyncExecutionInput, StartSyncExecutionOutputResponse>(hostPrefix: "sync-"))
@@ -957,7 +978,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSyncExecutionOutputResponse, StartSyncExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartSyncExecutionOutputResponse, StartSyncExecutionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSyncExecutionOutputResponse, StartSyncExecutionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -977,6 +998,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopExecutionInput, StopExecutionOutputResponse, StopExecutionOutputError>(id: "stopExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopExecutionInput, StopExecutionOutputResponse, StopExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopExecutionInput, StopExecutionOutputResponse>())
@@ -993,7 +1015,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopExecutionOutputResponse, StopExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopExecutionOutputResponse, StopExecutionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopExecutionOutputResponse, StopExecutionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1013,6 +1035,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1029,7 +1052,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1049,6 +1072,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1065,7 +1089,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1085,6 +1109,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateMapRunInput, UpdateMapRunOutputResponse, UpdateMapRunOutputError>(id: "updateMapRun")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMapRunInput, UpdateMapRunOutputResponse, UpdateMapRunOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMapRunInput, UpdateMapRunOutputResponse>())
@@ -1101,7 +1126,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMapRunOutputResponse, UpdateMapRunOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateMapRunOutputResponse, UpdateMapRunOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMapRunOutputResponse, UpdateMapRunOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1121,6 +1146,7 @@ extension SFNClient: SFNClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "states")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateStateMachineInput, UpdateStateMachineOutputResponse, UpdateStateMachineOutputError>(id: "updateStateMachine")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStateMachineInput, UpdateStateMachineOutputResponse, UpdateStateMachineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStateMachineInput, UpdateStateMachineOutputResponse>())
@@ -1137,7 +1163,7 @@ extension SFNClient: SFNClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStateMachineOutputResponse, UpdateStateMachineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateStateMachineOutputResponse, UpdateStateMachineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStateMachineOutputResponse, UpdateStateMachineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

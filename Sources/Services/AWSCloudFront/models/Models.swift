@@ -19,7 +19,7 @@ extension AccessDenied {
 }
 
 /// Access denied.
-public struct AccessDenied: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AccessDenied: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -554,7 +554,7 @@ extension AssociateAliasInputBody: Swift.Decodable {
 }
 
 extension AssociateAliasOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -583,7 +583,7 @@ public enum AssociateAliasOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension AssociateAliasOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -609,7 +609,7 @@ extension BatchTooLarge {
 }
 
 /// Invalidation batch specified is too large.
-public struct BatchTooLarge: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BatchTooLarge: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -660,7 +660,7 @@ extension CNAMEAlreadyExists {
 }
 
 /// The CNAME specified is already defined for CloudFront.
-public struct CNAMEAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CNAMEAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1133,7 +1133,7 @@ extension CachePolicyAlreadyExists {
 }
 
 /// A cache policy with this name already exists. You must provide a unique name. To modify an existing cache policy, use UpdateCachePolicy.
-public struct CachePolicyAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CachePolicyAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1503,7 +1503,7 @@ extension CachePolicyInUse {
 }
 
 /// Cannot delete the cache policy because it is attached to one or more cache behaviors.
-public struct CachePolicyInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CachePolicyInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1954,7 +1954,7 @@ extension CannotChangeImmutablePublicKeyFields {
 }
 
 /// You can't change the value of a public key.
-public struct CannotChangeImmutablePublicKeyFields: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CannotChangeImmutablePublicKeyFields: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2114,7 +2114,7 @@ extension CloudFrontOriginAccessIdentityAlreadyExists {
 }
 
 /// If the CallerReference is a value you already sent in a previous request to create an identity but the content of the CloudFrontOriginAccessIdentityConfig is different from the original request, CloudFront returns a CloudFrontOriginAccessIdentityAlreadyExists error.
-public struct CloudFrontOriginAccessIdentityAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CloudFrontOriginAccessIdentityAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2229,7 +2229,7 @@ extension CloudFrontOriginAccessIdentityInUse {
 }
 
 /// The Origin Access Identity specified is already in use.
-public struct CloudFrontOriginAccessIdentityInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct CloudFrontOriginAccessIdentityInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2950,7 +2950,7 @@ extension ContinuousDeploymentPolicyAlreadyExists {
 }
 
 /// A continuous deployment policy with this configuration already exists.
-public struct ContinuousDeploymentPolicyAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ContinuousDeploymentPolicyAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3075,7 +3075,7 @@ extension ContinuousDeploymentPolicyInUse {
 }
 
 /// You cannot delete a continuous deployment policy that is associated with a primary distribution.
-public struct ContinuousDeploymentPolicyInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ContinuousDeploymentPolicyInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3666,7 +3666,7 @@ extension CopyDistributionInputBody: Swift.Decodable {
 }
 
 extension CopyDistributionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -3811,7 +3811,7 @@ public enum CopyDistributionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension CopyDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -3972,7 +3972,7 @@ extension CreateCachePolicyInputBody: Swift.Decodable {
 }
 
 extension CreateCachePolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -4007,7 +4007,7 @@ public enum CreateCachePolicyOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension CreateCachePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -4169,7 +4169,7 @@ extension CreateCloudFrontOriginAccessIdentityInputBody: Swift.Decodable {
 }
 
 extension CreateCloudFrontOriginAccessIdentityOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -4198,7 +4198,7 @@ public enum CreateCloudFrontOriginAccessIdentityOutputError: Swift.Error, Swift.
 }
 
 extension CreateCloudFrontOriginAccessIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -4360,7 +4360,7 @@ extension CreateContinuousDeploymentPolicyInputBody: Swift.Decodable {
 }
 
 extension CreateContinuousDeploymentPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -4391,7 +4391,7 @@ public enum CreateContinuousDeploymentPolicyOutputError: Swift.Error, Swift.Equa
 }
 
 extension CreateContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -4553,7 +4553,7 @@ extension CreateDistributionInputBody: Swift.Decodable {
 }
 
 extension CreateDistributionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -4702,7 +4702,7 @@ public enum CreateDistributionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension CreateDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -4875,7 +4875,7 @@ extension CreateDistributionWithTagsInputBody: Swift.Decodable {
 }
 
 extension CreateDistributionWithTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -5022,7 +5022,7 @@ public enum CreateDistributionWithTagsOutputError: Swift.Error, Swift.Equatable 
 }
 
 extension CreateDistributionWithTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -5184,7 +5184,7 @@ extension CreateFieldLevelEncryptionConfigInputBody: Swift.Decodable {
 }
 
 extension CreateFieldLevelEncryptionConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -5219,7 +5219,7 @@ public enum CreateFieldLevelEncryptionConfigOutputError: Swift.Error, Swift.Equa
 }
 
 extension CreateFieldLevelEncryptionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -5380,7 +5380,7 @@ extension CreateFieldLevelEncryptionProfileInputBody: Swift.Decodable {
 }
 
 extension CreateFieldLevelEncryptionProfileOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -5415,7 +5415,7 @@ public enum CreateFieldLevelEncryptionProfileOutputError: Swift.Error, Swift.Equ
 }
 
 extension CreateFieldLevelEncryptionProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -5576,7 +5576,7 @@ extension CreateFunctionInputBody: Swift.Decodable {
 }
 
 extension CreateFunctionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -5605,7 +5605,7 @@ public enum CreateFunctionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension CreateFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -5775,7 +5775,7 @@ extension CreateInvalidationInputBody: Swift.Decodable {
 }
 
 extension CreateInvalidationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -5808,7 +5808,7 @@ public enum CreateInvalidationOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension CreateInvalidationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
             self.location = locationHeaderValue
         } else {
@@ -5961,7 +5961,7 @@ extension CreateKeyGroupInputBody: Swift.Decodable {
 }
 
 extension CreateKeyGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -5988,7 +5988,7 @@ public enum CreateKeyGroupOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension CreateKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -6157,7 +6157,7 @@ extension CreateMonitoringSubscriptionInputBody: Swift.Decodable {
 }
 
 extension CreateMonitoringSubscriptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -6184,7 +6184,7 @@ public enum CreateMonitoringSubscriptionOutputError: Swift.Error, Swift.Equatabl
 }
 
 extension CreateMonitoringSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.MonitoringSubscription = try responseDecoder.decode(responseBody: data)
             self.monitoringSubscription = output
@@ -6327,7 +6327,7 @@ extension CreateOriginAccessControlInputBody: Swift.Decodable {
 }
 
 extension CreateOriginAccessControlOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -6352,7 +6352,7 @@ public enum CreateOriginAccessControlOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension CreateOriginAccessControlOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -6513,7 +6513,7 @@ extension CreateOriginRequestPolicyInputBody: Swift.Decodable {
 }
 
 extension CreateOriginRequestPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -6548,7 +6548,7 @@ public enum CreateOriginRequestPolicyOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension CreateOriginRequestPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -6709,7 +6709,7 @@ extension CreatePublicKeyInputBody: Swift.Decodable {
 }
 
 extension CreatePublicKeyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -6734,7 +6734,7 @@ public enum CreatePublicKeyOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension CreatePublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -6935,7 +6935,7 @@ extension CreateRealtimeLogConfigInputBody: Swift.Decodable {
 }
 
 extension CreateRealtimeLogConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -6962,7 +6962,7 @@ public enum CreateRealtimeLogConfigOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension CreateRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: CreateRealtimeLogConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -7106,7 +7106,7 @@ extension CreateResponseHeadersPolicyInputBody: Swift.Decodable {
 }
 
 extension CreateResponseHeadersPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -7141,7 +7141,7 @@ public enum CreateResponseHeadersPolicyOutputError: Swift.Error, Swift.Equatable
 }
 
 extension CreateResponseHeadersPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -7303,7 +7303,7 @@ extension CreateStreamingDistributionInputBody: Swift.Decodable {
 }
 
 extension CreateStreamingDistributionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -7348,7 +7348,7 @@ public enum CreateStreamingDistributionOutputError: Swift.Error, Swift.Equatable
 }
 
 extension CreateStreamingDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -7521,7 +7521,7 @@ extension CreateStreamingDistributionWithTagsInputBody: Swift.Decodable {
 }
 
 extension CreateStreamingDistributionWithTagsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -7568,7 +7568,7 @@ public enum CreateStreamingDistributionWithTagsOutputError: Swift.Error, Swift.E
 }
 
 extension CreateStreamingDistributionWithTagsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -8307,7 +8307,7 @@ extension DeleteCachePolicyInputBody: Swift.Decodable {
 }
 
 extension DeleteCachePolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -8338,7 +8338,7 @@ public enum DeleteCachePolicyOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteCachePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -8394,7 +8394,7 @@ extension DeleteCloudFrontOriginAccessIdentityInputBody: Swift.Decodable {
 }
 
 extension DeleteCloudFrontOriginAccessIdentityOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -8423,7 +8423,7 @@ public enum DeleteCloudFrontOriginAccessIdentityOutputError: Swift.Error, Swift.
 }
 
 extension DeleteCloudFrontOriginAccessIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -8478,7 +8478,7 @@ extension DeleteContinuousDeploymentPolicyInputBody: Swift.Decodable {
 }
 
 extension DeleteContinuousDeploymentPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -8509,7 +8509,7 @@ public enum DeleteContinuousDeploymentPolicyOutputError: Swift.Error, Swift.Equa
 }
 
 extension DeleteContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -8584,7 +8584,7 @@ extension DeleteDistributionInputBody: Swift.Decodable {
 }
 
 extension DeleteDistributionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -8613,7 +8613,7 @@ public enum DeleteDistributionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -8668,7 +8668,7 @@ extension DeleteFieldLevelEncryptionConfigInputBody: Swift.Decodable {
 }
 
 extension DeleteFieldLevelEncryptionConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -8697,7 +8697,7 @@ public enum DeleteFieldLevelEncryptionConfigOutputError: Swift.Error, Swift.Equa
 }
 
 extension DeleteFieldLevelEncryptionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -8752,7 +8752,7 @@ extension DeleteFieldLevelEncryptionProfileInputBody: Swift.Decodable {
 }
 
 extension DeleteFieldLevelEncryptionProfileOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -8781,7 +8781,7 @@ public enum DeleteFieldLevelEncryptionProfileOutputError: Swift.Error, Swift.Equ
 }
 
 extension DeleteFieldLevelEncryptionProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -8837,7 +8837,7 @@ extension DeleteFunctionInputBody: Swift.Decodable {
 }
 
 extension DeleteFunctionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -8866,7 +8866,7 @@ public enum DeleteFunctionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -8921,7 +8921,7 @@ extension DeleteKeyGroupInputBody: Swift.Decodable {
 }
 
 extension DeleteKeyGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -8948,7 +8948,7 @@ public enum DeleteKeyGroupOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -8989,7 +8989,7 @@ extension DeleteMonitoringSubscriptionInputBody: Swift.Decodable {
 }
 
 extension DeleteMonitoringSubscriptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -9016,7 +9016,7 @@ public enum DeleteMonitoringSubscriptionOutputError: Swift.Error, Swift.Equatabl
 }
 
 extension DeleteMonitoringSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -9071,7 +9071,7 @@ extension DeleteOriginAccessControlInputBody: Swift.Decodable {
 }
 
 extension DeleteOriginAccessControlOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -9100,7 +9100,7 @@ public enum DeleteOriginAccessControlOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteOriginAccessControlOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -9155,7 +9155,7 @@ extension DeleteOriginRequestPolicyInputBody: Swift.Decodable {
 }
 
 extension DeleteOriginRequestPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -9186,7 +9186,7 @@ public enum DeleteOriginRequestPolicyOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteOriginRequestPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -9241,7 +9241,7 @@ extension DeletePublicKeyInputBody: Swift.Decodable {
 }
 
 extension DeletePublicKeyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -9270,7 +9270,7 @@ public enum DeletePublicKeyOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeletePublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -9356,7 +9356,7 @@ extension DeleteRealtimeLogConfigInputBody: Swift.Decodable {
 }
 
 extension DeleteRealtimeLogConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -9383,7 +9383,7 @@ public enum DeleteRealtimeLogConfigOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -9438,7 +9438,7 @@ extension DeleteResponseHeadersPolicyInputBody: Swift.Decodable {
 }
 
 extension DeleteResponseHeadersPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -9469,7 +9469,7 @@ public enum DeleteResponseHeadersPolicyOutputError: Swift.Error, Swift.Equatable
 }
 
 extension DeleteResponseHeadersPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -9525,7 +9525,7 @@ extension DeleteStreamingDistributionInputBody: Swift.Decodable {
 }
 
 extension DeleteStreamingDistributionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -9554,7 +9554,7 @@ public enum DeleteStreamingDistributionOutputError: Swift.Error, Swift.Equatable
 }
 
 extension DeleteStreamingDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -9612,7 +9612,7 @@ extension DescribeFunctionInputBody: Swift.Decodable {
 }
 
 extension DescribeFunctionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -9635,7 +9635,7 @@ public enum DescribeFunctionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DescribeFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -9868,7 +9868,7 @@ extension DistributionAlreadyExists {
 }
 
 /// The caller reference you attempted to create the distribution with is associated with another distribution.
-public struct DistributionAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DistributionAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10491,7 +10491,7 @@ extension DistributionNotDisabled {
 }
 
 /// The specified CloudFront distribution is not disabled. You must disable the distribution before you can delete it.
-public struct DistributionNotDisabled: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DistributionNotDisabled: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11250,7 +11250,7 @@ extension FieldLevelEncryptionConfigAlreadyExists {
 }
 
 /// The specified configuration for field-level encryption already exists.
-public struct FieldLevelEncryptionConfigAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FieldLevelEncryptionConfigAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11301,7 +11301,7 @@ extension FieldLevelEncryptionConfigInUse {
 }
 
 /// The specified configuration for field-level encryption is in use.
-public struct FieldLevelEncryptionConfigInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FieldLevelEncryptionConfigInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11531,7 +11531,7 @@ extension FieldLevelEncryptionProfileAlreadyExists {
 }
 
 /// The specified profile for field-level encryption already exists.
-public struct FieldLevelEncryptionProfileAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FieldLevelEncryptionProfileAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11667,7 +11667,7 @@ extension FieldLevelEncryptionProfileInUse {
 }
 
 /// The specified profile for field-level encryption is in use.
-public struct FieldLevelEncryptionProfileInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FieldLevelEncryptionProfileInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11822,7 +11822,7 @@ extension FieldLevelEncryptionProfileSizeExceeded {
 }
 
 /// The maximum size of a profile for field-level encryption was exceeded.
-public struct FieldLevelEncryptionProfileSizeExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FieldLevelEncryptionProfileSizeExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12291,7 +12291,7 @@ extension FunctionAlreadyExists {
 }
 
 /// A function with the same name already exists in this Amazon Web Services account. To create a function, you must provide a unique name. To update an existing function, use UpdateFunction.
-public struct FunctionAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FunctionAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12553,7 +12553,7 @@ extension FunctionInUse {
 }
 
 /// Cannot delete the function because it's attached to one or more cache behaviors.
-public struct FunctionInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FunctionInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12821,7 +12821,7 @@ extension FunctionSizeLimitExceeded {
 }
 
 /// The function is too large. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct FunctionSizeLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct FunctionSizeLimitExceeded: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -13139,7 +13139,7 @@ extension GetCachePolicyConfigInputBody: Swift.Decodable {
 }
 
 extension GetCachePolicyConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -13162,7 +13162,7 @@ public enum GetCachePolicyConfigOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetCachePolicyConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -13241,7 +13241,7 @@ extension GetCachePolicyInputBody: Swift.Decodable {
 }
 
 extension GetCachePolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -13264,7 +13264,7 @@ public enum GetCachePolicyOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetCachePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -13344,7 +13344,7 @@ extension GetCloudFrontOriginAccessIdentityConfigInputBody: Swift.Decodable {
 }
 
 extension GetCloudFrontOriginAccessIdentityConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -13367,7 +13367,7 @@ public enum GetCloudFrontOriginAccessIdentityConfigOutputError: Swift.Error, Swi
 }
 
 extension GetCloudFrontOriginAccessIdentityConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -13448,7 +13448,7 @@ extension GetCloudFrontOriginAccessIdentityInputBody: Swift.Decodable {
 }
 
 extension GetCloudFrontOriginAccessIdentityOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -13471,7 +13471,7 @@ public enum GetCloudFrontOriginAccessIdentityOutputError: Swift.Error, Swift.Equ
 }
 
 extension GetCloudFrontOriginAccessIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -13551,7 +13551,7 @@ extension GetContinuousDeploymentPolicyConfigInputBody: Swift.Decodable {
 }
 
 extension GetContinuousDeploymentPolicyConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -13574,7 +13574,7 @@ public enum GetContinuousDeploymentPolicyConfigOutputError: Swift.Error, Swift.E
 }
 
 extension GetContinuousDeploymentPolicyConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -13653,7 +13653,7 @@ extension GetContinuousDeploymentPolicyInputBody: Swift.Decodable {
 }
 
 extension GetContinuousDeploymentPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -13676,7 +13676,7 @@ public enum GetContinuousDeploymentPolicyOutputError: Swift.Error, Swift.Equatab
 }
 
 extension GetContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -13756,7 +13756,7 @@ extension GetDistributionConfigInputBody: Swift.Decodable {
 }
 
 extension GetDistributionConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -13779,7 +13779,7 @@ public enum GetDistributionConfigOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetDistributionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -13860,7 +13860,7 @@ extension GetDistributionInputBody: Swift.Decodable {
 }
 
 extension GetDistributionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -13883,7 +13883,7 @@ public enum GetDistributionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -13963,7 +13963,7 @@ extension GetFieldLevelEncryptionConfigInputBody: Swift.Decodable {
 }
 
 extension GetFieldLevelEncryptionConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -13986,7 +13986,7 @@ public enum GetFieldLevelEncryptionConfigOutputError: Swift.Error, Swift.Equatab
 }
 
 extension GetFieldLevelEncryptionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -14065,7 +14065,7 @@ extension GetFieldLevelEncryptionInputBody: Swift.Decodable {
 }
 
 extension GetFieldLevelEncryptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -14088,7 +14088,7 @@ public enum GetFieldLevelEncryptionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetFieldLevelEncryptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -14167,7 +14167,7 @@ extension GetFieldLevelEncryptionProfileConfigInputBody: Swift.Decodable {
 }
 
 extension GetFieldLevelEncryptionProfileConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -14190,7 +14190,7 @@ public enum GetFieldLevelEncryptionProfileConfigOutputError: Swift.Error, Swift.
 }
 
 extension GetFieldLevelEncryptionProfileConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -14269,7 +14269,7 @@ extension GetFieldLevelEncryptionProfileInputBody: Swift.Decodable {
 }
 
 extension GetFieldLevelEncryptionProfileOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -14292,7 +14292,7 @@ public enum GetFieldLevelEncryptionProfileOutputError: Swift.Error, Swift.Equata
 }
 
 extension GetFieldLevelEncryptionProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -14388,7 +14388,7 @@ extension GetFunctionInputBody: Swift.Decodable {
 }
 
 extension GetFunctionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -14416,7 +14416,7 @@ extension GetFunctionOutputResponse: Swift.CustomDebugStringConvertible {
 }
 
 extension GetFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = contentTypeHeaderValue
         } else {
@@ -14523,7 +14523,7 @@ extension GetInvalidationInputBody: Swift.Decodable {
 }
 
 extension GetInvalidationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -14548,7 +14548,7 @@ public enum GetInvalidationOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetInvalidationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.Invalidation = try responseDecoder.decode(responseBody: data)
             self.invalidation = output
@@ -14619,7 +14619,7 @@ extension GetKeyGroupConfigInputBody: Swift.Decodable {
 }
 
 extension GetKeyGroupConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -14640,7 +14640,7 @@ public enum GetKeyGroupConfigOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetKeyGroupConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -14719,7 +14719,7 @@ extension GetKeyGroupInputBody: Swift.Decodable {
 }
 
 extension GetKeyGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -14740,7 +14740,7 @@ public enum GetKeyGroupOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -14819,7 +14819,7 @@ extension GetMonitoringSubscriptionInputBody: Swift.Decodable {
 }
 
 extension GetMonitoringSubscriptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -14846,7 +14846,7 @@ public enum GetMonitoringSubscriptionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetMonitoringSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.MonitoringSubscription = try responseDecoder.decode(responseBody: data)
             self.monitoringSubscription = output
@@ -14916,7 +14916,7 @@ extension GetOriginAccessControlConfigInputBody: Swift.Decodable {
 }
 
 extension GetOriginAccessControlConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -14939,7 +14939,7 @@ public enum GetOriginAccessControlConfigOutputError: Swift.Error, Swift.Equatabl
 }
 
 extension GetOriginAccessControlConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -15018,7 +15018,7 @@ extension GetOriginAccessControlInputBody: Swift.Decodable {
 }
 
 extension GetOriginAccessControlOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -15041,7 +15041,7 @@ public enum GetOriginAccessControlOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetOriginAccessControlOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -15120,7 +15120,7 @@ extension GetOriginRequestPolicyConfigInputBody: Swift.Decodable {
 }
 
 extension GetOriginRequestPolicyConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -15143,7 +15143,7 @@ public enum GetOriginRequestPolicyConfigOutputError: Swift.Error, Swift.Equatabl
 }
 
 extension GetOriginRequestPolicyConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -15222,7 +15222,7 @@ extension GetOriginRequestPolicyInputBody: Swift.Decodable {
 }
 
 extension GetOriginRequestPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -15245,7 +15245,7 @@ public enum GetOriginRequestPolicyOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetOriginRequestPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -15324,7 +15324,7 @@ extension GetPublicKeyConfigInputBody: Swift.Decodable {
 }
 
 extension GetPublicKeyConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -15347,7 +15347,7 @@ public enum GetPublicKeyConfigOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetPublicKeyConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -15426,7 +15426,7 @@ extension GetPublicKeyInputBody: Swift.Decodable {
 }
 
 extension GetPublicKeyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -15449,7 +15449,7 @@ public enum GetPublicKeyOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -15573,7 +15573,7 @@ extension GetRealtimeLogConfigInputBody: Swift.Decodable {
 }
 
 extension GetRealtimeLogConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -15598,7 +15598,7 @@ public enum GetRealtimeLogConfigOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetRealtimeLogConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -15669,7 +15669,7 @@ extension GetResponseHeadersPolicyConfigInputBody: Swift.Decodable {
 }
 
 extension GetResponseHeadersPolicyConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -15692,7 +15692,7 @@ public enum GetResponseHeadersPolicyConfigOutputError: Swift.Error, Swift.Equata
 }
 
 extension GetResponseHeadersPolicyConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -15771,7 +15771,7 @@ extension GetResponseHeadersPolicyInputBody: Swift.Decodable {
 }
 
 extension GetResponseHeadersPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -15794,7 +15794,7 @@ public enum GetResponseHeadersPolicyOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetResponseHeadersPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -15874,7 +15874,7 @@ extension GetStreamingDistributionConfigInputBody: Swift.Decodable {
 }
 
 extension GetStreamingDistributionConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -15897,7 +15897,7 @@ public enum GetStreamingDistributionConfigOutputError: Swift.Error, Swift.Equata
 }
 
 extension GetStreamingDistributionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -15978,7 +15978,7 @@ extension GetStreamingDistributionInputBody: Swift.Decodable {
 }
 
 extension GetStreamingDistributionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -16001,7 +16001,7 @@ public enum GetStreamingDistributionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetStreamingDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -16222,7 +16222,7 @@ extension IllegalDelete {
 }
 
 /// You cannot delete a managed policy.
-public struct IllegalDelete: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct IllegalDelete: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16273,7 +16273,7 @@ extension IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
 }
 
 /// The specified configuration for field-level encryption can't be associated with the specified cache behavior.
-public struct IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16324,7 +16324,7 @@ extension IllegalOriginAccessConfiguration {
 }
 
 /// An origin cannot contain both an origin access control (OAC) and an origin access identity (OAI).
-public struct IllegalOriginAccessConfiguration: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct IllegalOriginAccessConfiguration: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16375,7 +16375,7 @@ extension IllegalUpdate {
 }
 
 /// The update contains modifications that are not allowed.
-public struct IllegalUpdate: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct IllegalUpdate: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16426,7 +16426,7 @@ extension InconsistentQuantities {
 }
 
 /// The value of Quantity and the size of Items don't match.
-public struct InconsistentQuantities: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InconsistentQuantities: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16477,7 +16477,7 @@ extension InvalidArgument {
 }
 
 /// An argument is invalid.
-public struct InvalidArgument: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidArgument: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16528,7 +16528,7 @@ extension InvalidDefaultRootObject {
 }
 
 /// The default root object file name is too big or contains an invalid character.
-public struct InvalidDefaultRootObject: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidDefaultRootObject: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16579,7 +16579,7 @@ extension InvalidDomainNameForOriginAccessControl {
 }
 
 /// An origin access control is associated with an origin whose domain name is not supported.
-public struct InvalidDomainNameForOriginAccessControl: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidDomainNameForOriginAccessControl: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16630,7 +16630,7 @@ extension InvalidErrorCode {
 }
 
 /// An invalid error code was specified.
-public struct InvalidErrorCode: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidErrorCode: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16681,7 +16681,7 @@ extension InvalidForwardCookies {
 }
 
 /// Your request contains forward cookies option which doesn't match with the expectation for the whitelisted list of cookie names. Either list of cookie names has been specified when not allowed or list of cookie names is missing when expected.
-public struct InvalidForwardCookies: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidForwardCookies: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16732,7 +16732,7 @@ extension InvalidFunctionAssociation {
 }
 
 /// A CloudFront function association is invalid.
-public struct InvalidFunctionAssociation: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidFunctionAssociation: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16783,7 +16783,7 @@ extension InvalidGeoRestrictionParameter {
 }
 
 /// The specified geo restriction parameter is not valid.
-public struct InvalidGeoRestrictionParameter: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidGeoRestrictionParameter: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16834,7 +16834,7 @@ extension InvalidHeadersForS3Origin {
 }
 
 /// The headers specified are not valid for an Amazon S3 origin.
-public struct InvalidHeadersForS3Origin: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidHeadersForS3Origin: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16885,7 +16885,7 @@ extension InvalidIfMatchVersion {
 }
 
 /// The If-Match version is missing or not valid.
-public struct InvalidIfMatchVersion: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidIfMatchVersion: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16936,7 +16936,7 @@ extension InvalidLambdaFunctionAssociation {
 }
 
 /// The specified Lambda@Edge function association is invalid.
-public struct InvalidLambdaFunctionAssociation: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidLambdaFunctionAssociation: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16987,7 +16987,7 @@ extension InvalidLocationCode {
 }
 
 /// The location code specified is not valid.
-public struct InvalidLocationCode: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidLocationCode: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17038,7 +17038,7 @@ extension InvalidMinimumProtocolVersion {
 }
 
 /// The minimum protocol version specified is not valid.
-public struct InvalidMinimumProtocolVersion: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidMinimumProtocolVersion: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17089,7 +17089,7 @@ extension InvalidOrigin {
 }
 
 /// The Amazon S3 origin server specified does not refer to a valid Amazon S3 bucket.
-public struct InvalidOrigin: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidOrigin: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17124,7 +17124,7 @@ extension InvalidOriginAccessControl {
 }
 
 /// The origin access control is not valid.
-public struct InvalidOriginAccessControl: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidOriginAccessControl: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17175,7 +17175,7 @@ extension InvalidOriginAccessIdentity {
 }
 
 /// The origin access identity is not valid or doesn't exist.
-public struct InvalidOriginAccessIdentity: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidOriginAccessIdentity: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17242,7 +17242,7 @@ extension InvalidOriginKeepaliveTimeout {
 }
 
 /// The keep alive timeout specified for the origin is not valid.
-public struct InvalidOriginKeepaliveTimeout: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidOriginKeepaliveTimeout: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17293,7 +17293,7 @@ extension InvalidOriginReadTimeout {
 }
 
 /// The read timeout specified for the origin is not valid.
-public struct InvalidOriginReadTimeout: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidOriginReadTimeout: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17344,7 +17344,7 @@ extension InvalidProtocolSettings {
 }
 
 /// You cannot specify SSLv3 as the minimum protocol version if you only want to support only clients that support Server Name Indication (SNI).
-public struct InvalidProtocolSettings: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidProtocolSettings: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17395,7 +17395,7 @@ extension InvalidQueryStringParameters {
 }
 
 /// The query string parameters specified are not valid.
-public struct InvalidQueryStringParameters: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidQueryStringParameters: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17446,7 +17446,7 @@ extension InvalidRelativePath {
 }
 
 /// The relative path is too big, is not URL-encoded, or does not begin with a slash (/).
-public struct InvalidRelativePath: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRelativePath: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17497,7 +17497,7 @@ extension InvalidRequiredProtocol {
 }
 
 /// This operation requires the HTTPS protocol. Ensure that you specify the HTTPS protocol in your request, or omit the RequiredProtocols element from your distribution configuration.
-public struct InvalidRequiredProtocol: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRequiredProtocol: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17548,7 +17548,7 @@ extension InvalidResponseCode {
 }
 
 /// A response code is not valid.
-public struct InvalidResponseCode: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidResponseCode: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17599,7 +17599,7 @@ extension InvalidTTLOrder {
 }
 
 /// The TTL order specified is not valid.
-public struct InvalidTTLOrder: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTTLOrder: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17650,7 +17650,7 @@ extension InvalidTagging {
 }
 
 /// The tagging specified is not valid.
-public struct InvalidTagging: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTagging: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17701,7 +17701,7 @@ extension InvalidViewerCertificate {
 }
 
 /// A viewer certificate specified is not valid.
-public struct InvalidViewerCertificate: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidViewerCertificate: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17752,7 +17752,7 @@ extension InvalidWebACLId {
 }
 
 /// A web ACL ID specified is not valid. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a. To specify a web ACL created using WAF Classic, use the ACL ID, for example 473e64fd-f30b-4765-81a0-62ad96dd167a.
-public struct InvalidWebACLId: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidWebACLId: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -18326,7 +18326,7 @@ extension KeyGroupAlreadyExists {
 }
 
 /// A key group with this name already exists. You must provide a unique name. To modify an existing key group, use UpdateKeyGroup.
-public struct KeyGroupAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct KeyGroupAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -18984,7 +18984,7 @@ extension ListCachePoliciesInputBody: Swift.Decodable {
 }
 
 extension ListCachePoliciesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -19009,7 +19009,7 @@ public enum ListCachePoliciesOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListCachePoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.CachePolicyList = try responseDecoder.decode(responseBody: data)
             self.cachePolicyList = output
@@ -19097,7 +19097,7 @@ extension ListCloudFrontOriginAccessIdentitiesInputBody: Swift.Decodable {
 }
 
 extension ListCloudFrontOriginAccessIdentitiesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -19118,7 +19118,7 @@ public enum ListCloudFrontOriginAccessIdentitiesOutputError: Swift.Error, Swift.
 }
 
 extension ListCloudFrontOriginAccessIdentitiesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.CloudFrontOriginAccessIdentityList = try responseDecoder.decode(responseBody: data)
             self.cloudFrontOriginAccessIdentityList = output
@@ -19228,7 +19228,7 @@ extension ListConflictingAliasesInputBody: Swift.Decodable {
 }
 
 extension ListConflictingAliasesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -19251,7 +19251,7 @@ public enum ListConflictingAliasesOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListConflictingAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.ConflictingAliasesList = try responseDecoder.decode(responseBody: data)
             self.conflictingAliasesList = output
@@ -19338,7 +19338,7 @@ extension ListContinuousDeploymentPoliciesInputBody: Swift.Decodable {
 }
 
 extension ListContinuousDeploymentPoliciesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -19363,7 +19363,7 @@ public enum ListContinuousDeploymentPoliciesOutputError: Swift.Error, Swift.Equa
 }
 
 extension ListContinuousDeploymentPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.ContinuousDeploymentPolicyList = try responseDecoder.decode(responseBody: data)
             self.continuousDeploymentPolicyList = output
@@ -19458,7 +19458,7 @@ extension ListDistributionsByCachePolicyIdInputBody: Swift.Decodable {
 }
 
 extension ListDistributionsByCachePolicyIdOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -19483,7 +19483,7 @@ public enum ListDistributionsByCachePolicyIdOutputError: Swift.Error, Swift.Equa
 }
 
 extension ListDistributionsByCachePolicyIdOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.DistributionIdList = try responseDecoder.decode(responseBody: data)
             self.distributionIdList = output
@@ -19578,7 +19578,7 @@ extension ListDistributionsByKeyGroupInputBody: Swift.Decodable {
 }
 
 extension ListDistributionsByKeyGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -19601,7 +19601,7 @@ public enum ListDistributionsByKeyGroupOutputError: Swift.Error, Swift.Equatable
 }
 
 extension ListDistributionsByKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.DistributionIdList = try responseDecoder.decode(responseBody: data)
             self.distributionIdList = output
@@ -19696,7 +19696,7 @@ extension ListDistributionsByOriginRequestPolicyIdInputBody: Swift.Decodable {
 }
 
 extension ListDistributionsByOriginRequestPolicyIdOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -19721,7 +19721,7 @@ public enum ListDistributionsByOriginRequestPolicyIdOutputError: Swift.Error, Sw
 }
 
 extension ListDistributionsByOriginRequestPolicyIdOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.DistributionIdList = try responseDecoder.decode(responseBody: data)
             self.distributionIdList = output
@@ -19860,7 +19860,7 @@ extension ListDistributionsByRealtimeLogConfigInputBody: Swift.Decodable {
 }
 
 extension ListDistributionsByRealtimeLogConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -19881,7 +19881,7 @@ public enum ListDistributionsByRealtimeLogConfigOutputError: Swift.Error, Swift.
 }
 
 extension ListDistributionsByRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.DistributionList = try responseDecoder.decode(responseBody: data)
             self.distributionList = output
@@ -19976,7 +19976,7 @@ extension ListDistributionsByResponseHeadersPolicyIdInputBody: Swift.Decodable {
 }
 
 extension ListDistributionsByResponseHeadersPolicyIdOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -20001,7 +20001,7 @@ public enum ListDistributionsByResponseHeadersPolicyIdOutputError: Swift.Error, 
 }
 
 extension ListDistributionsByResponseHeadersPolicyIdOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.DistributionIdList = try responseDecoder.decode(responseBody: data)
             self.distributionIdList = output
@@ -20097,7 +20097,7 @@ extension ListDistributionsByWebACLIdInputBody: Swift.Decodable {
 }
 
 extension ListDistributionsByWebACLIdOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -20120,7 +20120,7 @@ public enum ListDistributionsByWebACLIdOutputError: Swift.Error, Swift.Equatable
 }
 
 extension ListDistributionsByWebACLIdOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.DistributionList = try responseDecoder.decode(responseBody: data)
             self.distributionList = output
@@ -20209,7 +20209,7 @@ extension ListDistributionsInputBody: Swift.Decodable {
 }
 
 extension ListDistributionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -20230,7 +20230,7 @@ public enum ListDistributionsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListDistributionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.DistributionList = try responseDecoder.decode(responseBody: data)
             self.distributionList = output
@@ -20318,7 +20318,7 @@ extension ListFieldLevelEncryptionConfigsInputBody: Swift.Decodable {
 }
 
 extension ListFieldLevelEncryptionConfigsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -20339,7 +20339,7 @@ public enum ListFieldLevelEncryptionConfigsOutputError: Swift.Error, Swift.Equat
 }
 
 extension ListFieldLevelEncryptionConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.FieldLevelEncryptionList = try responseDecoder.decode(responseBody: data)
             self.fieldLevelEncryptionList = output
@@ -20426,7 +20426,7 @@ extension ListFieldLevelEncryptionProfilesInputBody: Swift.Decodable {
 }
 
 extension ListFieldLevelEncryptionProfilesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -20447,7 +20447,7 @@ public enum ListFieldLevelEncryptionProfilesOutputError: Swift.Error, Swift.Equa
 }
 
 extension ListFieldLevelEncryptionProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.FieldLevelEncryptionProfileList = try responseDecoder.decode(responseBody: data)
             self.fieldLevelEncryptionProfileList = output
@@ -20542,7 +20542,7 @@ extension ListFunctionsInputBody: Swift.Decodable {
 }
 
 extension ListFunctionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -20565,7 +20565,7 @@ public enum ListFunctionsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListFunctionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.FunctionList = try responseDecoder.decode(responseBody: data)
             self.functionList = output
@@ -20661,7 +20661,7 @@ extension ListInvalidationsInputBody: Swift.Decodable {
 }
 
 extension ListInvalidationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -20686,7 +20686,7 @@ public enum ListInvalidationsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListInvalidationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.InvalidationList = try responseDecoder.decode(responseBody: data)
             self.invalidationList = output
@@ -20774,7 +20774,7 @@ extension ListKeyGroupsInputBody: Swift.Decodable {
 }
 
 extension ListKeyGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -20795,7 +20795,7 @@ public enum ListKeyGroupsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListKeyGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.KeyGroupList = try responseDecoder.decode(responseBody: data)
             self.keyGroupList = output
@@ -20882,7 +20882,7 @@ extension ListOriginAccessControlsInputBody: Swift.Decodable {
 }
 
 extension ListOriginAccessControlsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -20903,7 +20903,7 @@ public enum ListOriginAccessControlsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListOriginAccessControlsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.OriginAccessControlList = try responseDecoder.decode(responseBody: data)
             self.originAccessControlList = output
@@ -21002,7 +21002,7 @@ extension ListOriginRequestPoliciesInputBody: Swift.Decodable {
 }
 
 extension ListOriginRequestPoliciesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -21027,7 +21027,7 @@ public enum ListOriginRequestPoliciesOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListOriginRequestPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.OriginRequestPolicyList = try responseDecoder.decode(responseBody: data)
             self.originRequestPolicyList = output
@@ -21114,7 +21114,7 @@ extension ListPublicKeysInputBody: Swift.Decodable {
 }
 
 extension ListPublicKeysOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -21135,7 +21135,7 @@ public enum ListPublicKeysOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListPublicKeysOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.PublicKeyList = try responseDecoder.decode(responseBody: data)
             self.publicKeyList = output
@@ -21222,7 +21222,7 @@ extension ListRealtimeLogConfigsInputBody: Swift.Decodable {
 }
 
 extension ListRealtimeLogConfigsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -21247,7 +21247,7 @@ public enum ListRealtimeLogConfigsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListRealtimeLogConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.RealtimeLogConfigs = try responseDecoder.decode(responseBody: data)
             self.realtimeLogConfigs = output
@@ -21346,7 +21346,7 @@ extension ListResponseHeadersPoliciesInputBody: Swift.Decodable {
 }
 
 extension ListResponseHeadersPoliciesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -21371,7 +21371,7 @@ public enum ListResponseHeadersPoliciesOutputError: Swift.Error, Swift.Equatable
 }
 
 extension ListResponseHeadersPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.ResponseHeadersPolicyList = try responseDecoder.decode(responseBody: data)
             self.responseHeadersPolicyList = output
@@ -21459,7 +21459,7 @@ extension ListStreamingDistributionsInputBody: Swift.Decodable {
 }
 
 extension ListStreamingDistributionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -21480,7 +21480,7 @@ public enum ListStreamingDistributionsOutputError: Swift.Error, Swift.Equatable 
 }
 
 extension ListStreamingDistributionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.StreamingDistributionList = try responseDecoder.decode(responseBody: data)
             self.streamingDistributionList = output
@@ -21564,7 +21564,7 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
 }
 
 extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -21591,7 +21591,7 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.Tags = try responseDecoder.decode(responseBody: data)
             self.tags = output
@@ -21828,7 +21828,7 @@ extension MissingBody {
 }
 
 /// This operation requires a body. Ensure that the body is present and the Content-Type header is set.
-public struct MissingBody: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MissingBody: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -21931,7 +21931,7 @@ extension MonitoringSubscriptionAlreadyExists {
 }
 
 /// A monitoring subscription already exists for the specified distribution.
-public struct MonitoringSubscriptionAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MonitoringSubscriptionAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -21982,7 +21982,7 @@ extension NoSuchCachePolicy {
 }
 
 /// The cache policy does not exist.
-public struct NoSuchCachePolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchCachePolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22033,7 +22033,7 @@ extension NoSuchCloudFrontOriginAccessIdentity {
 }
 
 /// The specified origin access identity does not exist.
-public struct NoSuchCloudFrontOriginAccessIdentity: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchCloudFrontOriginAccessIdentity: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22084,7 +22084,7 @@ extension NoSuchContinuousDeploymentPolicy {
 }
 
 /// The continuous deployment policy doesn't exist.
-public struct NoSuchContinuousDeploymentPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchContinuousDeploymentPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22135,7 +22135,7 @@ extension NoSuchDistribution {
 }
 
 /// The specified distribution does not exist.
-public struct NoSuchDistribution: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchDistribution: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22186,7 +22186,7 @@ extension NoSuchFieldLevelEncryptionConfig {
 }
 
 /// The specified configuration for field-level encryption doesn't exist.
-public struct NoSuchFieldLevelEncryptionConfig: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchFieldLevelEncryptionConfig: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22237,7 +22237,7 @@ extension NoSuchFieldLevelEncryptionProfile {
 }
 
 /// The specified profile for field-level encryption doesn't exist.
-public struct NoSuchFieldLevelEncryptionProfile: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchFieldLevelEncryptionProfile: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22288,7 +22288,7 @@ extension NoSuchFunctionExists {
 }
 
 /// The function does not exist.
-public struct NoSuchFunctionExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchFunctionExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22339,7 +22339,7 @@ extension NoSuchInvalidation {
 }
 
 /// The specified invalidation does not exist.
-public struct NoSuchInvalidation: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchInvalidation: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22390,7 +22390,7 @@ extension NoSuchMonitoringSubscription {
 }
 
 /// A monitoring subscription does not exist for the specified distribution.
-public struct NoSuchMonitoringSubscription: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchMonitoringSubscription: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22441,7 +22441,7 @@ extension NoSuchOrigin {
 }
 
 /// No origin exists with the specified Origin Id.
-public struct NoSuchOrigin: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchOrigin: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22476,7 +22476,7 @@ extension NoSuchOriginAccessControl {
 }
 
 /// The origin access control does not exist.
-public struct NoSuchOriginAccessControl: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchOriginAccessControl: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22543,7 +22543,7 @@ extension NoSuchOriginRequestPolicy {
 }
 
 /// The origin request policy does not exist.
-public struct NoSuchOriginRequestPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchOriginRequestPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22594,7 +22594,7 @@ extension NoSuchPublicKey {
 }
 
 /// The specified public key doesn't exist.
-public struct NoSuchPublicKey: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchPublicKey: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22645,7 +22645,7 @@ extension NoSuchRealtimeLogConfig {
 }
 
 /// The real-time log configuration does not exist.
-public struct NoSuchRealtimeLogConfig: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchRealtimeLogConfig: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22696,7 +22696,7 @@ extension NoSuchResource {
 }
 
 /// A resource that was specified is not valid.
-public struct NoSuchResource: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchResource: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22747,7 +22747,7 @@ extension NoSuchResponseHeadersPolicy {
 }
 
 /// The response headers policy does not exist.
-public struct NoSuchResponseHeadersPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchResponseHeadersPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -22798,7 +22798,7 @@ extension NoSuchStreamingDistribution {
 }
 
 /// The specified streaming distribution does not exist.
-public struct NoSuchStreamingDistribution: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NoSuchStreamingDistribution: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -23076,7 +23076,7 @@ extension OriginAccessControlAlreadyExists {
 }
 
 /// An origin access control with the specified parameters already exists.
-public struct OriginAccessControlAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct OriginAccessControlAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -23229,7 +23229,7 @@ extension OriginAccessControlInUse {
 }
 
 /// Cannot delete the origin access control because it's in use by one or more distributions.
-public struct OriginAccessControlInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct OriginAccessControlInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -24152,7 +24152,7 @@ extension OriginRequestPolicyAlreadyExists {
 }
 
 /// An origin request policy with this name already exists. You must provide a unique name. To modify an existing origin request policy, use UpdateOriginRequestPolicy.
-public struct OriginRequestPolicyAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct OriginRequestPolicyAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -24521,7 +24521,7 @@ extension OriginRequestPolicyInUse {
 }
 
 /// Cannot delete the origin request policy because it is attached to one or more cache behaviors.
-public struct OriginRequestPolicyInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct OriginRequestPolicyInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -25304,7 +25304,7 @@ extension PreconditionFailed {
 }
 
 /// The precondition in one or more of the request fields evaluated to false.
-public struct PreconditionFailed: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PreconditionFailed: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -25465,7 +25465,7 @@ extension PublicKeyAlreadyExists {
 }
 
 /// The specified public key already exists.
-public struct PublicKeyAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PublicKeyAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -25601,7 +25601,7 @@ extension PublicKeyInUse {
 }
 
 /// The specified public key is in use.
-public struct PublicKeyInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PublicKeyInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -25882,7 +25882,7 @@ extension PublishFunctionInputBody: Swift.Decodable {
 }
 
 extension PublishFunctionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -25911,7 +25911,7 @@ public enum PublishFunctionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension PublishFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.FunctionSummary = try responseDecoder.decode(responseBody: data)
             self.functionSummary = output
@@ -26093,7 +26093,7 @@ extension QueryArgProfileEmpty {
 }
 
 /// No profile specified for the field-level encryption query argument.
-public struct QueryArgProfileEmpty: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct QueryArgProfileEmpty: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -26530,7 +26530,7 @@ extension RealtimeLogConfigAlreadyExists {
 }
 
 /// A real-time log configuration with this name already exists. You must provide a unique name. To modify an existing real-time log configuration, use UpdateRealtimeLogConfig.
-public struct RealtimeLogConfigAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RealtimeLogConfigAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -26581,7 +26581,7 @@ extension RealtimeLogConfigInUse {
 }
 
 /// Cannot delete the real-time log configuration because it is attached to one or more cache behaviors.
-public struct RealtimeLogConfigInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RealtimeLogConfigInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -26632,7 +26632,7 @@ extension RealtimeLogConfigOwnerMismatch {
 }
 
 /// The specified real-time log configuration belongs to a different Amazon Web Services account.
-public struct RealtimeLogConfigOwnerMismatch: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RealtimeLogConfigOwnerMismatch: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -26933,7 +26933,7 @@ extension ResourceInUse {
 }
 
 /// Cannot delete this resource because it is in use.
-public struct ResourceInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -27463,7 +27463,7 @@ extension ResponseHeadersPolicyAlreadyExists {
 }
 
 /// A response headers policy with this name already exists. You must provide a unique name. To modify an existing response headers policy, use UpdateResponseHeadersPolicy.
-public struct ResponseHeadersPolicyAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResponseHeadersPolicyAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -28083,7 +28083,7 @@ extension ResponseHeadersPolicyInUse {
 }
 
 /// Cannot delete the response headers policy because it is attached to one or more cache behaviors in a CloudFront distribution.
-public struct ResponseHeadersPolicyInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResponseHeadersPolicyInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -29338,7 +29338,7 @@ extension StagingDistributionInUse {
 }
 
 /// A continuous deployment policy for this staging distribution already exists.
-public struct StagingDistributionInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct StagingDistributionInUse: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -29591,7 +29591,7 @@ extension StreamingDistributionAlreadyExists {
 }
 
 /// The caller reference you attempted to create the streaming distribution with is associated with another distribution
-public struct StreamingDistributionAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct StreamingDistributionAlreadyExists: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -29959,7 +29959,7 @@ extension StreamingDistributionNotDisabled {
 }
 
 /// The specified CloudFront distribution is not disabled. You must disable the distribution before you can delete it.
-public struct StreamingDistributionNotDisabled: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct StreamingDistributionNotDisabled: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -30493,7 +30493,7 @@ extension TagResourceInputBody: Swift.Decodable {
 }
 
 extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -30520,7 +30520,7 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -30618,7 +30618,7 @@ extension TestFunctionFailed {
 }
 
 /// The CloudFront function failed.
-public struct TestFunctionFailed: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TestFunctionFailed: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -30766,7 +30766,7 @@ extension TestFunctionInputBody: Swift.Decodable {
 }
 
 extension TestFunctionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -30795,7 +30795,7 @@ public enum TestFunctionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension TestFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: CloudFrontClientTypes.TestResult = try responseDecoder.decode(responseBody: data)
             self.testResult = output
@@ -30967,7 +30967,7 @@ extension TooLongCSPInResponseHeadersPolicy {
 }
 
 /// The length of the Content-Security-Policy header value in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooLongCSPInResponseHeadersPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooLongCSPInResponseHeadersPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31018,7 +31018,7 @@ extension TooManyCacheBehaviors {
 }
 
 /// You cannot create more cache behaviors for the distribution.
-public struct TooManyCacheBehaviors: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyCacheBehaviors: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31069,7 +31069,7 @@ extension TooManyCachePolicies {
 }
 
 /// You have reached the maximum number of cache policies for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyCachePolicies: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyCachePolicies: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31120,7 +31120,7 @@ extension TooManyCertificates {
 }
 
 /// You cannot create anymore custom SSL/TLS certificates.
-public struct TooManyCertificates: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyCertificates: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31171,7 +31171,7 @@ extension TooManyCloudFrontOriginAccessIdentities {
 }
 
 /// Processing your request would cause you to exceed the maximum number of origin access identities allowed.
-public struct TooManyCloudFrontOriginAccessIdentities: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyCloudFrontOriginAccessIdentities: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31222,7 +31222,7 @@ extension TooManyContinuousDeploymentPolicies {
 }
 
 /// You have reached the maximum number of continuous deployment policies for this Amazon Web Services account.
-public struct TooManyContinuousDeploymentPolicies: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyContinuousDeploymentPolicies: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31273,7 +31273,7 @@ extension TooManyCookieNamesInWhiteList {
 }
 
 /// Your request contains more cookie names in the whitelist than are allowed per cache behavior.
-public struct TooManyCookieNamesInWhiteList: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyCookieNamesInWhiteList: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31324,7 +31324,7 @@ extension TooManyCookiesInCachePolicy {
 }
 
 /// The number of cookies in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyCookiesInCachePolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyCookiesInCachePolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31375,7 +31375,7 @@ extension TooManyCookiesInOriginRequestPolicy {
 }
 
 /// The number of cookies in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyCookiesInOriginRequestPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyCookiesInOriginRequestPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31426,7 +31426,7 @@ extension TooManyCustomHeadersInResponseHeadersPolicy {
 }
 
 /// The number of custom headers in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyCustomHeadersInResponseHeadersPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyCustomHeadersInResponseHeadersPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31477,7 +31477,7 @@ extension TooManyDistributionCNAMEs {
 }
 
 /// Your request contains more CNAMEs than are allowed per distribution.
-public struct TooManyDistributionCNAMEs: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyDistributionCNAMEs: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31528,7 +31528,7 @@ extension TooManyDistributions {
 }
 
 /// Processing your request would cause you to exceed the maximum number of distributions allowed.
-public struct TooManyDistributions: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyDistributions: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31563,7 +31563,7 @@ extension TooManyDistributionsAssociatedToCachePolicy {
 }
 
 /// The maximum number of distributions have been associated with the specified cache policy. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyDistributionsAssociatedToCachePolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyDistributionsAssociatedToCachePolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31614,7 +31614,7 @@ extension TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
 }
 
 /// The maximum number of distributions have been associated with the specified configuration for field-level encryption.
-public struct TooManyDistributionsAssociatedToFieldLevelEncryptionConfig: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyDistributionsAssociatedToFieldLevelEncryptionConfig: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31665,7 +31665,7 @@ extension TooManyDistributionsAssociatedToKeyGroup {
 }
 
 /// The number of distributions that reference this key group is more than the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyDistributionsAssociatedToKeyGroup: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyDistributionsAssociatedToKeyGroup: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31716,7 +31716,7 @@ extension TooManyDistributionsAssociatedToOriginAccessControl {
 }
 
 /// The maximum number of distributions have been associated with the specified origin access control. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyDistributionsAssociatedToOriginAccessControl: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyDistributionsAssociatedToOriginAccessControl: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31767,7 +31767,7 @@ extension TooManyDistributionsAssociatedToOriginRequestPolicy {
 }
 
 /// The maximum number of distributions have been associated with the specified origin request policy. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyDistributionsAssociatedToOriginRequestPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyDistributionsAssociatedToOriginRequestPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31818,7 +31818,7 @@ extension TooManyDistributionsAssociatedToResponseHeadersPolicy {
 }
 
 /// The maximum number of distributions have been associated with the specified response headers policy. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyDistributionsAssociatedToResponseHeadersPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyDistributionsAssociatedToResponseHeadersPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31885,7 +31885,7 @@ extension TooManyDistributionsWithFunctionAssociations {
 }
 
 /// You have reached the maximum number of distributions that are associated with a CloudFront function. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyDistributionsWithFunctionAssociations: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyDistributionsWithFunctionAssociations: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31936,7 +31936,7 @@ extension TooManyDistributionsWithLambdaAssociations {
 }
 
 /// Processing your request would cause the maximum number of distributions with Lambda@Edge function associations per owner to be exceeded.
-public struct TooManyDistributionsWithLambdaAssociations: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyDistributionsWithLambdaAssociations: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -31987,7 +31987,7 @@ extension TooManyDistributionsWithSingleFunctionARN {
 }
 
 /// The maximum number of distributions have been associated with the specified Lambda@Edge function.
-public struct TooManyDistributionsWithSingleFunctionARN: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyDistributionsWithSingleFunctionARN: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32038,7 +32038,7 @@ extension TooManyFieldLevelEncryptionConfigs {
 }
 
 /// The maximum number of configurations for field-level encryption have been created.
-public struct TooManyFieldLevelEncryptionConfigs: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyFieldLevelEncryptionConfigs: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32089,7 +32089,7 @@ extension TooManyFieldLevelEncryptionContentTypeProfiles {
 }
 
 /// The maximum number of content type profiles for field-level encryption have been created.
-public struct TooManyFieldLevelEncryptionContentTypeProfiles: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyFieldLevelEncryptionContentTypeProfiles: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32140,7 +32140,7 @@ extension TooManyFieldLevelEncryptionEncryptionEntities {
 }
 
 /// The maximum number of encryption entities for field-level encryption have been created.
-public struct TooManyFieldLevelEncryptionEncryptionEntities: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyFieldLevelEncryptionEncryptionEntities: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32191,7 +32191,7 @@ extension TooManyFieldLevelEncryptionFieldPatterns {
 }
 
 /// The maximum number of field patterns for field-level encryption have been created.
-public struct TooManyFieldLevelEncryptionFieldPatterns: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyFieldLevelEncryptionFieldPatterns: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32242,7 +32242,7 @@ extension TooManyFieldLevelEncryptionProfiles {
 }
 
 /// The maximum number of profiles for field-level encryption have been created.
-public struct TooManyFieldLevelEncryptionProfiles: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyFieldLevelEncryptionProfiles: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32293,7 +32293,7 @@ extension TooManyFieldLevelEncryptionQueryArgProfiles {
 }
 
 /// The maximum number of query arg profiles for field-level encryption have been created.
-public struct TooManyFieldLevelEncryptionQueryArgProfiles: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyFieldLevelEncryptionQueryArgProfiles: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32344,7 +32344,7 @@ extension TooManyFunctionAssociations {
 }
 
 /// You have reached the maximum number of CloudFront function associations for this distribution. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyFunctionAssociations: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyFunctionAssociations: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32395,7 +32395,7 @@ extension TooManyFunctions {
 }
 
 /// You have reached the maximum number of CloudFront functions for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyFunctions: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyFunctions: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32446,7 +32446,7 @@ extension TooManyHeadersInCachePolicy {
 }
 
 /// The number of headers in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyHeadersInCachePolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyHeadersInCachePolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32497,7 +32497,7 @@ extension TooManyHeadersInForwardedValues {
 }
 
 /// Your request contains too many headers in forwarded values.
-public struct TooManyHeadersInForwardedValues: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyHeadersInForwardedValues: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32548,7 +32548,7 @@ extension TooManyHeadersInOriginRequestPolicy {
 }
 
 /// The number of headers in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyHeadersInOriginRequestPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyHeadersInOriginRequestPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32599,7 +32599,7 @@ extension TooManyInvalidationsInProgress {
 }
 
 /// You have exceeded the maximum number of allowable InProgress invalidation batch requests, or invalidation objects.
-public struct TooManyInvalidationsInProgress: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyInvalidationsInProgress: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32650,7 +32650,7 @@ extension TooManyKeyGroups {
 }
 
 /// You have reached the maximum number of key groups for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyKeyGroups: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyKeyGroups: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32685,7 +32685,7 @@ extension TooManyKeyGroupsAssociatedToDistribution {
 }
 
 /// The number of key groups referenced by this distribution is more than the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyKeyGroupsAssociatedToDistribution: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyKeyGroupsAssociatedToDistribution: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32752,7 +32752,7 @@ extension TooManyLambdaFunctionAssociations {
 }
 
 /// Your request contains more Lambda@Edge function associations than are allowed per distribution.
-public struct TooManyLambdaFunctionAssociations: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyLambdaFunctionAssociations: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32803,7 +32803,7 @@ extension TooManyOriginAccessControls {
 }
 
 /// The number of origin access controls in your Amazon Web Services account exceeds the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyOriginAccessControls: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyOriginAccessControls: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32854,7 +32854,7 @@ extension TooManyOriginCustomHeaders {
 }
 
 /// Your request contains too many origin custom headers.
-public struct TooManyOriginCustomHeaders: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyOriginCustomHeaders: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32905,7 +32905,7 @@ extension TooManyOriginGroupsPerDistribution {
 }
 
 /// Processing your request would cause you to exceed the maximum number of origin groups allowed.
-public struct TooManyOriginGroupsPerDistribution: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyOriginGroupsPerDistribution: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -32956,7 +32956,7 @@ extension TooManyOriginRequestPolicies {
 }
 
 /// You have reached the maximum number of origin request policies for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyOriginRequestPolicies: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyOriginRequestPolicies: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -33007,7 +33007,7 @@ extension TooManyOrigins {
 }
 
 /// You cannot create more origins for the distribution.
-public struct TooManyOrigins: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyOrigins: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -33058,7 +33058,7 @@ extension TooManyPublicKeys {
 }
 
 /// The maximum number of public keys for field-level encryption have been created. To create a new public key, delete one of the existing keys.
-public struct TooManyPublicKeys: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyPublicKeys: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -33109,7 +33109,7 @@ extension TooManyPublicKeysInKeyGroup {
 }
 
 /// The number of public keys in this key group is more than the maximum allowed. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyPublicKeysInKeyGroup: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyPublicKeysInKeyGroup: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -33160,7 +33160,7 @@ extension TooManyQueryStringParameters {
 }
 
 /// Your request contains too many query string parameters.
-public struct TooManyQueryStringParameters: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyQueryStringParameters: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -33211,7 +33211,7 @@ extension TooManyQueryStringsInCachePolicy {
 }
 
 /// The number of query strings in the cache policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyQueryStringsInCachePolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyQueryStringsInCachePolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -33262,7 +33262,7 @@ extension TooManyQueryStringsInOriginRequestPolicy {
 }
 
 /// The number of query strings in the origin request policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyQueryStringsInOriginRequestPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyQueryStringsInOriginRequestPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -33313,7 +33313,7 @@ extension TooManyRealtimeLogConfigs {
 }
 
 /// You have reached the maximum number of real-time log configurations for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyRealtimeLogConfigs: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyRealtimeLogConfigs: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -33364,7 +33364,7 @@ extension TooManyRemoveHeadersInResponseHeadersPolicy {
 }
 
 /// The number of headers in RemoveHeadersConfig in the response headers policy exceeds the maximum. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyRemoveHeadersInResponseHeadersPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyRemoveHeadersInResponseHeadersPolicy: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -33415,7 +33415,7 @@ extension TooManyResponseHeadersPolicies {
 }
 
 /// You have reached the maximum number of response headers policies for this Amazon Web Services account. For more information, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) (formerly known as limits) in the Amazon CloudFront Developer Guide.
-public struct TooManyResponseHeadersPolicies: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyResponseHeadersPolicies: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -33466,7 +33466,7 @@ extension TooManyStreamingDistributionCNAMEs {
 }
 
 /// Your request contains more CNAMEs than are allowed per distribution.
-public struct TooManyStreamingDistributionCNAMEs: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyStreamingDistributionCNAMEs: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -33517,7 +33517,7 @@ extension TooManyStreamingDistributions {
 }
 
 /// Processing your request would cause you to exceed the maximum number of streaming distributions allowed.
-public struct TooManyStreamingDistributions: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyStreamingDistributions: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -33568,7 +33568,7 @@ extension TooManyTrustedSigners {
 }
 
 /// Your request contains more trusted signers than are allowed per distribution.
-public struct TooManyTrustedSigners: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyTrustedSigners: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -33692,7 +33692,7 @@ extension TrustedKeyGroupDoesNotExist {
 }
 
 /// The specified key group does not exist.
-public struct TrustedKeyGroupDoesNotExist: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TrustedKeyGroupDoesNotExist: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -33837,7 +33837,7 @@ extension TrustedSignerDoesNotExist {
 }
 
 /// One or more of your trusted signers don't exist.
-public struct TrustedSignerDoesNotExist: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TrustedSignerDoesNotExist: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -33982,7 +33982,7 @@ extension UnsupportedOperation {
 }
 
 /// This operation is not supported in this region.
-public struct UnsupportedOperation: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnsupportedOperation: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -34143,7 +34143,7 @@ extension UntagResourceInputBody: Swift.Decodable {
 }
 
 extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -34170,7 +34170,7 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -34306,7 +34306,7 @@ extension UpdateCachePolicyInputBody: Swift.Decodable {
 }
 
 extension UpdateCachePolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -34347,7 +34347,7 @@ public enum UpdateCachePolicyOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension UpdateCachePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -34522,7 +34522,7 @@ extension UpdateCloudFrontOriginAccessIdentityInputBody: Swift.Decodable {
 }
 
 extension UpdateCloudFrontOriginAccessIdentityOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -34557,7 +34557,7 @@ public enum UpdateCloudFrontOriginAccessIdentityOutputError: Swift.Error, Swift.
 }
 
 extension UpdateCloudFrontOriginAccessIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -34732,7 +34732,7 @@ extension UpdateContinuousDeploymentPolicyInputBody: Swift.Decodable {
 }
 
 extension UpdateContinuousDeploymentPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -34765,7 +34765,7 @@ public enum UpdateContinuousDeploymentPolicyOutputError: Swift.Error, Swift.Equa
 }
 
 extension UpdateContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -34940,7 +34940,7 @@ extension UpdateDistributionInputBody: Swift.Decodable {
 }
 
 extension UpdateDistributionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -35089,7 +35089,7 @@ public enum UpdateDistributionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension UpdateDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -35200,7 +35200,7 @@ extension UpdateDistributionWithStagingConfigInputBody: Swift.Decodable {
 }
 
 extension UpdateDistributionWithStagingConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -35339,7 +35339,7 @@ public enum UpdateDistributionWithStagingConfigOutputError: Swift.Error, Swift.E
 }
 
 extension UpdateDistributionWithStagingConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -35513,7 +35513,7 @@ extension UpdateFieldLevelEncryptionConfigInputBody: Swift.Decodable {
 }
 
 extension UpdateFieldLevelEncryptionConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -35554,7 +35554,7 @@ public enum UpdateFieldLevelEncryptionConfigOutputError: Swift.Error, Swift.Equa
 }
 
 extension UpdateFieldLevelEncryptionConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -35728,7 +35728,7 @@ extension UpdateFieldLevelEncryptionProfileInputBody: Swift.Decodable {
 }
 
 extension UpdateFieldLevelEncryptionProfileOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -35771,7 +35771,7 @@ public enum UpdateFieldLevelEncryptionProfileOutputError: Swift.Error, Swift.Equ
 }
 
 extension UpdateFieldLevelEncryptionProfileOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -35933,7 +35933,7 @@ extension UpdateFunctionInputBody: Swift.Decodable {
 }
 
 extension UpdateFunctionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -35964,7 +35964,7 @@ public enum UpdateFunctionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension UpdateFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETtag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -36138,7 +36138,7 @@ extension UpdateKeyGroupInputBody: Swift.Decodable {
 }
 
 extension UpdateKeyGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -36169,7 +36169,7 @@ public enum UpdateKeyGroupOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension UpdateKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -36343,7 +36343,7 @@ extension UpdateOriginAccessControlInputBody: Swift.Decodable {
 }
 
 extension UpdateOriginAccessControlOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -36376,7 +36376,7 @@ public enum UpdateOriginAccessControlOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension UpdateOriginAccessControlOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -36550,7 +36550,7 @@ extension UpdateOriginRequestPolicyInputBody: Swift.Decodable {
 }
 
 extension UpdateOriginRequestPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -36591,7 +36591,7 @@ public enum UpdateOriginRequestPolicyOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension UpdateOriginRequestPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -36765,7 +36765,7 @@ extension UpdatePublicKeyInputBody: Swift.Decodable {
 }
 
 extension UpdatePublicKeyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -36798,7 +36798,7 @@ public enum UpdatePublicKeyOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension UpdatePublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -36998,7 +36998,7 @@ extension UpdateRealtimeLogConfigInputBody: Swift.Decodable {
 }
 
 extension UpdateRealtimeLogConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -37023,7 +37023,7 @@ public enum UpdateRealtimeLogConfigOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension UpdateRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: UpdateRealtimeLogConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -37189,7 +37189,7 @@ extension UpdateResponseHeadersPolicyInputBody: Swift.Decodable {
 }
 
 extension UpdateResponseHeadersPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -37230,7 +37230,7 @@ public enum UpdateResponseHeadersPolicyOutputError: Swift.Error, Swift.Equatable
 }
 
 extension UpdateResponseHeadersPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {
@@ -37405,7 +37405,7 @@ extension UpdateStreamingDistributionInputBody: Swift.Decodable {
 }
 
 extension UpdateStreamingDistributionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
     }
@@ -37452,7 +37452,7 @@ public enum UpdateStreamingDistributionOutputError: Swift.Error, Swift.Equatable
 }
 
 extension UpdateStreamingDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
             self.eTag = eTagHeaderValue
         } else {

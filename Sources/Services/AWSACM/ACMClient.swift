@@ -221,6 +221,7 @@ extension ACMClient: ACMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddTagsToCertificateInput, AddTagsToCertificateOutputResponse, AddTagsToCertificateOutputError>(id: "addTagsToCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToCertificateInput, AddTagsToCertificateOutputResponse, AddTagsToCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsToCertificateInput, AddTagsToCertificateOutputResponse>())
@@ -237,7 +238,7 @@ extension ACMClient: ACMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsToCertificateOutputResponse, AddTagsToCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AddTagsToCertificateOutputResponse, AddTagsToCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsToCertificateOutputResponse, AddTagsToCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension ACMClient: ACMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCertificateInput, DeleteCertificateOutputResponse, DeleteCertificateOutputError>(id: "deleteCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCertificateInput, DeleteCertificateOutputResponse, DeleteCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCertificateInput, DeleteCertificateOutputResponse>())
@@ -273,7 +275,7 @@ extension ACMClient: ACMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCertificateOutputResponse, DeleteCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteCertificateOutputResponse, DeleteCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCertificateOutputResponse, DeleteCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension ACMClient: ACMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCertificateInput, DescribeCertificateOutputResponse, DescribeCertificateOutputError>(id: "describeCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCertificateInput, DescribeCertificateOutputResponse, DescribeCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCertificateInput, DescribeCertificateOutputResponse>())
@@ -309,7 +312,7 @@ extension ACMClient: ACMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCertificateOutputResponse, DescribeCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeCertificateOutputResponse, DescribeCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCertificateOutputResponse, DescribeCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -329,6 +332,7 @@ extension ACMClient: ACMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExportCertificateInput, ExportCertificateOutputResponse, ExportCertificateOutputError>(id: "exportCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportCertificateInput, ExportCertificateOutputResponse, ExportCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportCertificateInput, ExportCertificateOutputResponse>())
@@ -345,7 +349,7 @@ extension ACMClient: ACMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportCertificateOutputResponse, ExportCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExportCertificateOutputResponse, ExportCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportCertificateOutputResponse, ExportCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -365,6 +369,7 @@ extension ACMClient: ACMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccountConfigurationInput, GetAccountConfigurationOutputResponse, GetAccountConfigurationOutputError>(id: "getAccountConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutputResponse, GetAccountConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutputResponse>())
@@ -381,7 +386,7 @@ extension ACMClient: ACMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountConfigurationOutputResponse, GetAccountConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAccountConfigurationOutputResponse, GetAccountConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountConfigurationOutputResponse, GetAccountConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -401,6 +406,7 @@ extension ACMClient: ACMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCertificateInput, GetCertificateOutputResponse, GetCertificateOutputError>(id: "getCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCertificateInput, GetCertificateOutputResponse, GetCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCertificateInput, GetCertificateOutputResponse>())
@@ -417,7 +423,7 @@ extension ACMClient: ACMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCertificateOutputResponse, GetCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCertificateOutputResponse, GetCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCertificateOutputResponse, GetCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -466,6 +472,7 @@ extension ACMClient: ACMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ImportCertificateInput, ImportCertificateOutputResponse, ImportCertificateOutputError>(id: "importCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportCertificateInput, ImportCertificateOutputResponse, ImportCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportCertificateInput, ImportCertificateOutputResponse>())
@@ -482,7 +489,7 @@ extension ACMClient: ACMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportCertificateOutputResponse, ImportCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ImportCertificateOutputResponse, ImportCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportCertificateOutputResponse, ImportCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -502,6 +509,7 @@ extension ACMClient: ACMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCertificatesInput, ListCertificatesOutputResponse, ListCertificatesOutputError>(id: "listCertificates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCertificatesInput, ListCertificatesOutputResponse, ListCertificatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCertificatesInput, ListCertificatesOutputResponse>())
@@ -518,7 +526,7 @@ extension ACMClient: ACMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCertificatesOutputResponse, ListCertificatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListCertificatesOutputResponse, ListCertificatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCertificatesOutputResponse, ListCertificatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -538,6 +546,7 @@ extension ACMClient: ACMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForCertificateInput, ListTagsForCertificateOutputResponse, ListTagsForCertificateOutputError>(id: "listTagsForCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForCertificateInput, ListTagsForCertificateOutputResponse, ListTagsForCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForCertificateInput, ListTagsForCertificateOutputResponse>())
@@ -554,7 +563,7 @@ extension ACMClient: ACMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForCertificateOutputResponse, ListTagsForCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForCertificateOutputResponse, ListTagsForCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForCertificateOutputResponse, ListTagsForCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -574,6 +583,7 @@ extension ACMClient: ACMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutAccountConfigurationInput, PutAccountConfigurationOutputResponse, PutAccountConfigurationOutputError>(id: "putAccountConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAccountConfigurationInput, PutAccountConfigurationOutputResponse, PutAccountConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAccountConfigurationInput, PutAccountConfigurationOutputResponse>())
@@ -590,7 +600,7 @@ extension ACMClient: ACMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAccountConfigurationOutputResponse, PutAccountConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutAccountConfigurationOutputResponse, PutAccountConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAccountConfigurationOutputResponse, PutAccountConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -610,6 +620,7 @@ extension ACMClient: ACMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutputResponse, RemoveTagsFromCertificateOutputError>(id: "removeTagsFromCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutputResponse, RemoveTagsFromCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutputResponse>())
@@ -626,7 +637,7 @@ extension ACMClient: ACMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsFromCertificateOutputResponse, RemoveTagsFromCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsFromCertificateOutputResponse, RemoveTagsFromCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsFromCertificateOutputResponse, RemoveTagsFromCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -646,6 +657,7 @@ extension ACMClient: ACMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RenewCertificateInput, RenewCertificateOutputResponse, RenewCertificateOutputError>(id: "renewCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RenewCertificateInput, RenewCertificateOutputResponse, RenewCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RenewCertificateInput, RenewCertificateOutputResponse>())
@@ -662,7 +674,7 @@ extension ACMClient: ACMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RenewCertificateOutputResponse, RenewCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RenewCertificateOutputResponse, RenewCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RenewCertificateOutputResponse, RenewCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -682,6 +694,7 @@ extension ACMClient: ACMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RequestCertificateInput, RequestCertificateOutputResponse, RequestCertificateOutputError>(id: "requestCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RequestCertificateInput, RequestCertificateOutputResponse, RequestCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RequestCertificateInput, RequestCertificateOutputResponse>())
@@ -698,7 +711,7 @@ extension ACMClient: ACMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RequestCertificateOutputResponse, RequestCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RequestCertificateOutputResponse, RequestCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RequestCertificateOutputResponse, RequestCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -718,6 +731,7 @@ extension ACMClient: ACMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResendValidationEmailInput, ResendValidationEmailOutputResponse, ResendValidationEmailOutputError>(id: "resendValidationEmail")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResendValidationEmailInput, ResendValidationEmailOutputResponse, ResendValidationEmailOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResendValidationEmailInput, ResendValidationEmailOutputResponse>())
@@ -734,7 +748,7 @@ extension ACMClient: ACMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResendValidationEmailOutputResponse, ResendValidationEmailOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ResendValidationEmailOutputResponse, ResendValidationEmailOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResendValidationEmailOutputResponse, ResendValidationEmailOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -754,6 +768,7 @@ extension ACMClient: ACMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "acm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutputResponse, UpdateCertificateOptionsOutputError>(id: "updateCertificateOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutputResponse, UpdateCertificateOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutputResponse>())
@@ -770,7 +785,7 @@ extension ACMClient: ACMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCertificateOptionsOutputResponse, UpdateCertificateOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateCertificateOptionsOutputResponse, UpdateCertificateOptionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCertificateOptionsOutputResponse, UpdateCertificateOptionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

@@ -123,7 +123,7 @@ extension ChannelInsufficientPermission {
 }
 
 /// The caller's account ID must be the same as the channel owner's account ID.
-public struct ChannelInsufficientPermission: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ChannelInsufficientPermission: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -174,7 +174,7 @@ extension ChannelNotFound {
 }
 
 /// The channel could not be found.
-public struct ChannelNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ChannelNotFound: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -225,7 +225,7 @@ extension ChannelUnsupportedSchema {
 }
 
 /// The schema type of the event is not supported.
-public struct ChannelUnsupportedSchema: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ChannelUnsupportedSchema: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -276,7 +276,7 @@ extension DuplicatedAuditEventId {
 }
 
 /// Two or more entries in the request have the same event ID.
-public struct DuplicatedAuditEventId: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DuplicatedAuditEventId: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -327,7 +327,7 @@ extension InvalidChannelARN {
 }
 
 /// The specified channel ARN is not a valid channel ARN.
-public struct InvalidChannelARN: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidChannelARN: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -450,7 +450,7 @@ extension PutAuditEventsInputBody: Swift.Decodable {
 }
 
 extension PutAuditEventsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -482,7 +482,7 @@ public enum PutAuditEventsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension PutAuditEventsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: PutAuditEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -626,7 +626,7 @@ extension UnsupportedOperationException {
 }
 
 /// The operation requested is not supported in this region or account.
-public struct UnsupportedOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnsupportedOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

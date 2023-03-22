@@ -221,6 +221,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "timestream")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelQueryInput, CancelQueryOutputResponse, CancelQueryOutputError>(id: "cancelQuery")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelQueryInput, CancelQueryOutputResponse, CancelQueryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelQueryInput, CancelQueryOutputResponse>())
@@ -237,7 +238,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelQueryOutputResponse, CancelQueryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CancelQueryOutputResponse, CancelQueryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelQueryOutputResponse, CancelQueryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "timestream")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateScheduledQueryInput, CreateScheduledQueryOutputResponse, CreateScheduledQueryOutputError>(id: "createScheduledQuery")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateScheduledQueryOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -281,7 +283,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateScheduledQueryOutputResponse, CreateScheduledQueryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateScheduledQueryOutputResponse, CreateScheduledQueryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateScheduledQueryOutputResponse, CreateScheduledQueryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -301,6 +303,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "timestream")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteScheduledQueryInput, DeleteScheduledQueryOutputResponse, DeleteScheduledQueryOutputError>(id: "deleteScheduledQuery")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteScheduledQueryInput, DeleteScheduledQueryOutputResponse, DeleteScheduledQueryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteScheduledQueryInput, DeleteScheduledQueryOutputResponse>())
@@ -317,7 +320,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteScheduledQueryOutputResponse, DeleteScheduledQueryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteScheduledQueryOutputResponse, DeleteScheduledQueryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteScheduledQueryOutputResponse, DeleteScheduledQueryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -346,6 +349,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "timestream")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEndpointsInput, DescribeEndpointsOutputResponse, DescribeEndpointsOutputError>(id: "describeEndpoints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEndpointsInput, DescribeEndpointsOutputResponse, DescribeEndpointsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEndpointsInput, DescribeEndpointsOutputResponse>())
@@ -362,7 +366,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEndpointsOutputResponse, DescribeEndpointsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEndpointsOutputResponse, DescribeEndpointsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEndpointsOutputResponse, DescribeEndpointsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -382,6 +386,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "timestream")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeScheduledQueryInput, DescribeScheduledQueryOutputResponse, DescribeScheduledQueryOutputError>(id: "describeScheduledQuery")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeScheduledQueryInput, DescribeScheduledQueryOutputResponse, DescribeScheduledQueryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeScheduledQueryInput, DescribeScheduledQueryOutputResponse>())
@@ -398,7 +403,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeScheduledQueryOutputResponse, DescribeScheduledQueryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeScheduledQueryOutputResponse, DescribeScheduledQueryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeScheduledQueryOutputResponse, DescribeScheduledQueryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -418,6 +423,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "timestream")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExecuteScheduledQueryInput, ExecuteScheduledQueryOutputResponse, ExecuteScheduledQueryOutputError>(id: "executeScheduledQuery")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ExecuteScheduledQueryOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -442,7 +448,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteScheduledQueryOutputResponse, ExecuteScheduledQueryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExecuteScheduledQueryOutputResponse, ExecuteScheduledQueryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteScheduledQueryOutputResponse, ExecuteScheduledQueryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -462,6 +468,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "timestream")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListScheduledQueriesInput, ListScheduledQueriesOutputResponse, ListScheduledQueriesOutputError>(id: "listScheduledQueries")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListScheduledQueriesInput, ListScheduledQueriesOutputResponse, ListScheduledQueriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListScheduledQueriesInput, ListScheduledQueriesOutputResponse>())
@@ -478,7 +485,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListScheduledQueriesOutputResponse, ListScheduledQueriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListScheduledQueriesOutputResponse, ListScheduledQueriesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListScheduledQueriesOutputResponse, ListScheduledQueriesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -498,6 +505,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "timestream")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -514,7 +522,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -534,6 +542,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "timestream")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PrepareQueryInput, PrepareQueryOutputResponse, PrepareQueryOutputError>(id: "prepareQuery")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PrepareQueryInput, PrepareQueryOutputResponse, PrepareQueryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PrepareQueryInput, PrepareQueryOutputResponse>())
@@ -550,7 +559,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PrepareQueryOutputResponse, PrepareQueryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PrepareQueryOutputResponse, PrepareQueryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PrepareQueryOutputResponse, PrepareQueryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -578,6 +587,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "timestream")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<QueryInput, QueryOutputResponse, QueryOutputError>(id: "query")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<QueryOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -602,7 +612,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<QueryOutputResponse, QueryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<QueryOutputResponse, QueryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<QueryOutputResponse, QueryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -622,6 +632,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "timestream")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -638,7 +649,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -658,6 +669,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "timestream")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -674,7 +686,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -694,6 +706,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "timestream")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateScheduledQueryInput, UpdateScheduledQueryOutputResponse, UpdateScheduledQueryOutputError>(id: "updateScheduledQuery")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateScheduledQueryInput, UpdateScheduledQueryOutputResponse, UpdateScheduledQueryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateScheduledQueryInput, UpdateScheduledQueryOutputResponse>())
@@ -710,7 +723,7 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateScheduledQueryOutputResponse, UpdateScheduledQueryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateScheduledQueryOutputResponse, UpdateScheduledQueryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateScheduledQueryOutputResponse, UpdateScheduledQueryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

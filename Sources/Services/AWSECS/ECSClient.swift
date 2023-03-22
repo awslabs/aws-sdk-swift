@@ -221,6 +221,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCapacityProviderInput, CreateCapacityProviderOutputResponse, CreateCapacityProviderOutputError>(id: "createCapacityProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutputResponse, CreateCapacityProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCapacityProviderInput, CreateCapacityProviderOutputResponse>())
@@ -237,7 +238,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCapacityProviderOutputResponse, CreateCapacityProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateCapacityProviderOutputResponse, CreateCapacityProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCapacityProviderOutputResponse, CreateCapacityProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateClusterInput, CreateClusterOutputResponse, CreateClusterOutputError>(id: "createCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateClusterInput, CreateClusterOutputResponse, CreateClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateClusterInput, CreateClusterOutputResponse>())
@@ -273,7 +275,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateClusterOutputResponse, CreateClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateClusterOutputResponse, CreateClusterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateClusterOutputResponse, CreateClusterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -300,6 +302,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateServiceInput, CreateServiceOutputResponse, CreateServiceOutputError>(id: "createService")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateServiceInput, CreateServiceOutputResponse, CreateServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateServiceInput, CreateServiceOutputResponse>())
@@ -316,7 +319,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateServiceOutputResponse, CreateServiceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateServiceOutputResponse, CreateServiceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceOutputResponse, CreateServiceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -336,6 +339,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTaskSetInput, CreateTaskSetOutputResponse, CreateTaskSetOutputError>(id: "createTaskSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTaskSetInput, CreateTaskSetOutputResponse, CreateTaskSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTaskSetInput, CreateTaskSetOutputResponse>())
@@ -352,7 +356,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTaskSetOutputResponse, CreateTaskSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateTaskSetOutputResponse, CreateTaskSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTaskSetOutputResponse, CreateTaskSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -372,6 +376,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAccountSettingInput, DeleteAccountSettingOutputResponse, DeleteAccountSettingOutputError>(id: "deleteAccountSetting")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutputResponse, DeleteAccountSettingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccountSettingInput, DeleteAccountSettingOutputResponse>())
@@ -388,7 +393,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccountSettingOutputResponse, DeleteAccountSettingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountSettingOutputResponse, DeleteAccountSettingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountSettingOutputResponse, DeleteAccountSettingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -408,6 +413,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAttributesInput, DeleteAttributesOutputResponse, DeleteAttributesOutputError>(id: "deleteAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAttributesInput, DeleteAttributesOutputResponse, DeleteAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAttributesInput, DeleteAttributesOutputResponse>())
@@ -424,7 +430,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAttributesOutputResponse, DeleteAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAttributesOutputResponse, DeleteAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAttributesOutputResponse, DeleteAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -444,6 +450,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCapacityProviderInput, DeleteCapacityProviderOutputResponse, DeleteCapacityProviderOutputError>(id: "deleteCapacityProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutputResponse, DeleteCapacityProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCapacityProviderInput, DeleteCapacityProviderOutputResponse>())
@@ -460,7 +467,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCapacityProviderOutputResponse, DeleteCapacityProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteCapacityProviderOutputResponse, DeleteCapacityProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCapacityProviderOutputResponse, DeleteCapacityProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -480,6 +487,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteClusterInput, DeleteClusterOutputResponse, DeleteClusterOutputError>(id: "deleteCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteClusterInput, DeleteClusterOutputResponse, DeleteClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteClusterInput, DeleteClusterOutputResponse>())
@@ -496,7 +504,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteClusterOutputResponse, DeleteClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteClusterOutputResponse, DeleteClusterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteClusterOutputResponse, DeleteClusterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -516,6 +524,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteServiceInput, DeleteServiceOutputResponse, DeleteServiceOutputError>(id: "deleteService")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServiceInput, DeleteServiceOutputResponse, DeleteServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteServiceInput, DeleteServiceOutputResponse>())
@@ -532,7 +541,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServiceOutputResponse, DeleteServiceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteServiceOutputResponse, DeleteServiceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceOutputResponse, DeleteServiceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -552,6 +561,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTaskSetInput, DeleteTaskSetOutputResponse, DeleteTaskSetOutputError>(id: "deleteTaskSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTaskSetInput, DeleteTaskSetOutputResponse, DeleteTaskSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTaskSetInput, DeleteTaskSetOutputResponse>())
@@ -568,7 +578,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTaskSetOutputResponse, DeleteTaskSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteTaskSetOutputResponse, DeleteTaskSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTaskSetOutputResponse, DeleteTaskSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -588,6 +598,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutputResponse, DeregisterContainerInstanceOutputError>(id: "deregisterContainerInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutputResponse, DeregisterContainerInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterContainerInstanceInput, DeregisterContainerInstanceOutputResponse>())
@@ -604,7 +615,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterContainerInstanceOutputResponse, DeregisterContainerInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeregisterContainerInstanceOutputResponse, DeregisterContainerInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterContainerInstanceOutputResponse, DeregisterContainerInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -624,6 +635,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutputResponse, DeregisterTaskDefinitionOutputError>(id: "deregisterTaskDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutputResponse, DeregisterTaskDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterTaskDefinitionInput, DeregisterTaskDefinitionOutputResponse>())
@@ -640,7 +652,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterTaskDefinitionOutputResponse, DeregisterTaskDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeregisterTaskDefinitionOutputResponse, DeregisterTaskDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterTaskDefinitionOutputResponse, DeregisterTaskDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -660,6 +672,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutputResponse, DescribeCapacityProvidersOutputError>(id: "describeCapacityProviders")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutputResponse, DescribeCapacityProvidersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCapacityProvidersInput, DescribeCapacityProvidersOutputResponse>())
@@ -676,7 +689,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCapacityProvidersOutputResponse, DescribeCapacityProvidersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeCapacityProvidersOutputResponse, DescribeCapacityProvidersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCapacityProvidersOutputResponse, DescribeCapacityProvidersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -696,6 +709,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeClustersInput, DescribeClustersOutputResponse, DescribeClustersOutputError>(id: "describeClusters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClustersInput, DescribeClustersOutputResponse, DescribeClustersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClustersInput, DescribeClustersOutputResponse>())
@@ -712,7 +726,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClustersOutputResponse, DescribeClustersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeClustersOutputResponse, DescribeClustersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClustersOutputResponse, DescribeClustersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -732,6 +746,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeContainerInstancesInput, DescribeContainerInstancesOutputResponse, DescribeContainerInstancesOutputError>(id: "describeContainerInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutputResponse, DescribeContainerInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeContainerInstancesInput, DescribeContainerInstancesOutputResponse>())
@@ -748,7 +763,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeContainerInstancesOutputResponse, DescribeContainerInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeContainerInstancesOutputResponse, DescribeContainerInstancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeContainerInstancesOutputResponse, DescribeContainerInstancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -768,6 +783,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeServicesInput, DescribeServicesOutputResponse, DescribeServicesOutputError>(id: "describeServices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServicesInput, DescribeServicesOutputResponse, DescribeServicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServicesInput, DescribeServicesOutputResponse>())
@@ -784,7 +800,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeServicesOutputResponse, DescribeServicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeServicesOutputResponse, DescribeServicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeServicesOutputResponse, DescribeServicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -804,6 +820,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutputResponse, DescribeTaskDefinitionOutputError>(id: "describeTaskDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutputResponse, DescribeTaskDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTaskDefinitionInput, DescribeTaskDefinitionOutputResponse>())
@@ -820,7 +837,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTaskDefinitionOutputResponse, DescribeTaskDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeTaskDefinitionOutputResponse, DescribeTaskDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTaskDefinitionOutputResponse, DescribeTaskDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -840,6 +857,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTaskSetsInput, DescribeTaskSetsOutputResponse, DescribeTaskSetsOutputError>(id: "describeTaskSets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutputResponse, DescribeTaskSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTaskSetsInput, DescribeTaskSetsOutputResponse>())
@@ -856,7 +874,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTaskSetsOutputResponse, DescribeTaskSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeTaskSetsOutputResponse, DescribeTaskSetsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTaskSetsOutputResponse, DescribeTaskSetsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -876,6 +894,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTasksInput, DescribeTasksOutputResponse, DescribeTasksOutputError>(id: "describeTasks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTasksInput, DescribeTasksOutputResponse, DescribeTasksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTasksInput, DescribeTasksOutputResponse>())
@@ -892,7 +911,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTasksOutputResponse, DescribeTasksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeTasksOutputResponse, DescribeTasksOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTasksOutputResponse, DescribeTasksOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -912,6 +931,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DiscoverPollEndpointInput, DiscoverPollEndpointOutputResponse, DiscoverPollEndpointOutputError>(id: "discoverPollEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutputResponse, DiscoverPollEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DiscoverPollEndpointInput, DiscoverPollEndpointOutputResponse>())
@@ -928,7 +948,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DiscoverPollEndpointOutputResponse, DiscoverPollEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DiscoverPollEndpointOutputResponse, DiscoverPollEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DiscoverPollEndpointOutputResponse, DiscoverPollEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -948,6 +968,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExecuteCommandInput, ExecuteCommandOutputResponse, ExecuteCommandOutputError>(id: "executeCommand")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExecuteCommandInput, ExecuteCommandOutputResponse, ExecuteCommandOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExecuteCommandInput, ExecuteCommandOutputResponse>())
@@ -964,7 +985,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteCommandOutputResponse, ExecuteCommandOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExecuteCommandOutputResponse, ExecuteCommandOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteCommandOutputResponse, ExecuteCommandOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -984,6 +1005,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTaskProtectionInput, GetTaskProtectionOutputResponse, GetTaskProtectionOutputError>(id: "getTaskProtection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTaskProtectionInput, GetTaskProtectionOutputResponse, GetTaskProtectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTaskProtectionInput, GetTaskProtectionOutputResponse>())
@@ -1000,7 +1022,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTaskProtectionOutputResponse, GetTaskProtectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetTaskProtectionOutputResponse, GetTaskProtectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTaskProtectionOutputResponse, GetTaskProtectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1020,6 +1042,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAccountSettingsInput, ListAccountSettingsOutputResponse, ListAccountSettingsOutputError>(id: "listAccountSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountSettingsInput, ListAccountSettingsOutputResponse, ListAccountSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountSettingsInput, ListAccountSettingsOutputResponse>())
@@ -1036,7 +1059,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountSettingsOutputResponse, ListAccountSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAccountSettingsOutputResponse, ListAccountSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountSettingsOutputResponse, ListAccountSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1056,6 +1079,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAttributesInput, ListAttributesOutputResponse, ListAttributesOutputError>(id: "listAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttributesInput, ListAttributesOutputResponse, ListAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAttributesInput, ListAttributesOutputResponse>())
@@ -1072,7 +1096,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttributesOutputResponse, ListAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAttributesOutputResponse, ListAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttributesOutputResponse, ListAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1092,6 +1116,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListClustersInput, ListClustersOutputResponse, ListClustersOutputError>(id: "listClusters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListClustersInput, ListClustersOutputResponse, ListClustersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListClustersInput, ListClustersOutputResponse>())
@@ -1108,7 +1133,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListClustersOutputResponse, ListClustersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListClustersOutputResponse, ListClustersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListClustersOutputResponse, ListClustersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1128,6 +1153,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListContainerInstancesInput, ListContainerInstancesOutputResponse, ListContainerInstancesOutputError>(id: "listContainerInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListContainerInstancesInput, ListContainerInstancesOutputResponse, ListContainerInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListContainerInstancesInput, ListContainerInstancesOutputResponse>())
@@ -1144,7 +1170,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListContainerInstancesOutputResponse, ListContainerInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListContainerInstancesOutputResponse, ListContainerInstancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListContainerInstancesOutputResponse, ListContainerInstancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1164,6 +1190,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListServicesInput, ListServicesOutputResponse, ListServicesOutputError>(id: "listServices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServicesInput, ListServicesOutputResponse, ListServicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServicesInput, ListServicesOutputResponse>())
@@ -1180,7 +1207,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServicesOutputResponse, ListServicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListServicesOutputResponse, ListServicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServicesOutputResponse, ListServicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1200,6 +1227,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListServicesByNamespaceInput, ListServicesByNamespaceOutputResponse, ListServicesByNamespaceOutputError>(id: "listServicesByNamespace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutputResponse, ListServicesByNamespaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServicesByNamespaceInput, ListServicesByNamespaceOutputResponse>())
@@ -1216,7 +1244,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServicesByNamespaceOutputResponse, ListServicesByNamespaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListServicesByNamespaceOutputResponse, ListServicesByNamespaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServicesByNamespaceOutputResponse, ListServicesByNamespaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1236,6 +1264,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1252,7 +1281,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1272,6 +1301,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutputResponse, ListTaskDefinitionFamiliesOutputError>(id: "listTaskDefinitionFamilies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutputResponse, ListTaskDefinitionFamiliesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTaskDefinitionFamiliesInput, ListTaskDefinitionFamiliesOutputResponse>())
@@ -1288,7 +1318,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTaskDefinitionFamiliesOutputResponse, ListTaskDefinitionFamiliesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTaskDefinitionFamiliesOutputResponse, ListTaskDefinitionFamiliesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTaskDefinitionFamiliesOutputResponse, ListTaskDefinitionFamiliesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1308,6 +1338,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTaskDefinitionsInput, ListTaskDefinitionsOutputResponse, ListTaskDefinitionsOutputError>(id: "listTaskDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutputResponse, ListTaskDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTaskDefinitionsInput, ListTaskDefinitionsOutputResponse>())
@@ -1324,7 +1355,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTaskDefinitionsOutputResponse, ListTaskDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTaskDefinitionsOutputResponse, ListTaskDefinitionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTaskDefinitionsOutputResponse, ListTaskDefinitionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1344,6 +1375,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTasksInput, ListTasksOutputResponse, ListTasksOutputError>(id: "listTasks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTasksInput, ListTasksOutputResponse, ListTasksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTasksInput, ListTasksOutputResponse>())
@@ -1360,7 +1392,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTasksOutputResponse, ListTasksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTasksOutputResponse, ListTasksOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTasksOutputResponse, ListTasksOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1380,6 +1412,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutAccountSettingInput, PutAccountSettingOutputResponse, PutAccountSettingOutputError>(id: "putAccountSetting")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAccountSettingInput, PutAccountSettingOutputResponse, PutAccountSettingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAccountSettingInput, PutAccountSettingOutputResponse>())
@@ -1396,7 +1429,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAccountSettingOutputResponse, PutAccountSettingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutAccountSettingOutputResponse, PutAccountSettingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAccountSettingOutputResponse, PutAccountSettingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1416,6 +1449,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutputResponse, PutAccountSettingDefaultOutputError>(id: "putAccountSettingDefault")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutputResponse, PutAccountSettingDefaultOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAccountSettingDefaultInput, PutAccountSettingDefaultOutputResponse>())
@@ -1432,7 +1466,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAccountSettingDefaultOutputResponse, PutAccountSettingDefaultOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutAccountSettingDefaultOutputResponse, PutAccountSettingDefaultOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAccountSettingDefaultOutputResponse, PutAccountSettingDefaultOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1452,6 +1486,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutAttributesInput, PutAttributesOutputResponse, PutAttributesOutputError>(id: "putAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAttributesInput, PutAttributesOutputResponse, PutAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAttributesInput, PutAttributesOutputResponse>())
@@ -1468,7 +1503,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAttributesOutputResponse, PutAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutAttributesOutputResponse, PutAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAttributesOutputResponse, PutAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1488,6 +1523,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutputResponse, PutClusterCapacityProvidersOutputError>(id: "putClusterCapacityProviders")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutputResponse, PutClusterCapacityProvidersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutClusterCapacityProvidersInput, PutClusterCapacityProvidersOutputResponse>())
@@ -1504,7 +1540,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutClusterCapacityProvidersOutputResponse, PutClusterCapacityProvidersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutClusterCapacityProvidersOutputResponse, PutClusterCapacityProvidersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutClusterCapacityProvidersOutputResponse, PutClusterCapacityProvidersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1524,6 +1560,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterContainerInstanceInput, RegisterContainerInstanceOutputResponse, RegisterContainerInstanceOutputError>(id: "registerContainerInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutputResponse, RegisterContainerInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterContainerInstanceInput, RegisterContainerInstanceOutputResponse>())
@@ -1540,7 +1577,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterContainerInstanceOutputResponse, RegisterContainerInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RegisterContainerInstanceOutputResponse, RegisterContainerInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterContainerInstanceOutputResponse, RegisterContainerInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1560,6 +1597,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutputResponse, RegisterTaskDefinitionOutputError>(id: "registerTaskDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutputResponse, RegisterTaskDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterTaskDefinitionInput, RegisterTaskDefinitionOutputResponse>())
@@ -1576,7 +1614,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterTaskDefinitionOutputResponse, RegisterTaskDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RegisterTaskDefinitionOutputResponse, RegisterTaskDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterTaskDefinitionOutputResponse, RegisterTaskDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1600,6 +1638,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RunTaskInput, RunTaskOutputResponse, RunTaskOutputError>(id: "runTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RunTaskInput, RunTaskOutputResponse, RunTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RunTaskInput, RunTaskOutputResponse>())
@@ -1616,7 +1655,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RunTaskOutputResponse, RunTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RunTaskOutputResponse, RunTaskOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RunTaskOutputResponse, RunTaskOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1636,6 +1675,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartTaskInput, StartTaskOutputResponse, StartTaskOutputError>(id: "startTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartTaskInput, StartTaskOutputResponse, StartTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartTaskInput, StartTaskOutputResponse>())
@@ -1652,7 +1692,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartTaskOutputResponse, StartTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartTaskOutputResponse, StartTaskOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartTaskOutputResponse, StartTaskOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1672,6 +1712,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopTaskInput, StopTaskOutputResponse, StopTaskOutputError>(id: "stopTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopTaskInput, StopTaskOutputResponse, StopTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopTaskInput, StopTaskOutputResponse>())
@@ -1688,7 +1729,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopTaskOutputResponse, StopTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopTaskOutputResponse, StopTaskOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopTaskOutputResponse, StopTaskOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1708,6 +1749,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutputResponse, SubmitAttachmentStateChangesOutputError>(id: "submitAttachmentStateChanges")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutputResponse, SubmitAttachmentStateChangesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SubmitAttachmentStateChangesInput, SubmitAttachmentStateChangesOutputResponse>())
@@ -1724,7 +1766,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SubmitAttachmentStateChangesOutputResponse, SubmitAttachmentStateChangesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SubmitAttachmentStateChangesOutputResponse, SubmitAttachmentStateChangesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SubmitAttachmentStateChangesOutputResponse, SubmitAttachmentStateChangesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1744,6 +1786,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutputResponse, SubmitContainerStateChangeOutputError>(id: "submitContainerStateChange")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutputResponse, SubmitContainerStateChangeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SubmitContainerStateChangeInput, SubmitContainerStateChangeOutputResponse>())
@@ -1760,7 +1803,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SubmitContainerStateChangeOutputResponse, SubmitContainerStateChangeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SubmitContainerStateChangeOutputResponse, SubmitContainerStateChangeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SubmitContainerStateChangeOutputResponse, SubmitContainerStateChangeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1780,6 +1823,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutputResponse, SubmitTaskStateChangeOutputError>(id: "submitTaskStateChange")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutputResponse, SubmitTaskStateChangeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SubmitTaskStateChangeInput, SubmitTaskStateChangeOutputResponse>())
@@ -1796,7 +1840,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SubmitTaskStateChangeOutputResponse, SubmitTaskStateChangeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SubmitTaskStateChangeOutputResponse, SubmitTaskStateChangeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SubmitTaskStateChangeOutputResponse, SubmitTaskStateChangeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1816,6 +1860,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1832,7 +1877,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1852,6 +1897,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1868,7 +1914,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1888,6 +1934,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateCapacityProviderInput, UpdateCapacityProviderOutputResponse, UpdateCapacityProviderOutputError>(id: "updateCapacityProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutputResponse, UpdateCapacityProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCapacityProviderInput, UpdateCapacityProviderOutputResponse>())
@@ -1904,7 +1951,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCapacityProviderOutputResponse, UpdateCapacityProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateCapacityProviderOutputResponse, UpdateCapacityProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCapacityProviderOutputResponse, UpdateCapacityProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1924,6 +1971,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateClusterInput, UpdateClusterOutputResponse, UpdateClusterOutputError>(id: "updateCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateClusterInput, UpdateClusterOutputResponse, UpdateClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateClusterInput, UpdateClusterOutputResponse>())
@@ -1940,7 +1988,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateClusterOutputResponse, UpdateClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateClusterOutputResponse, UpdateClusterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateClusterOutputResponse, UpdateClusterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1960,6 +2008,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateClusterSettingsInput, UpdateClusterSettingsOutputResponse, UpdateClusterSettingsOutputError>(id: "updateClusterSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutputResponse, UpdateClusterSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateClusterSettingsInput, UpdateClusterSettingsOutputResponse>())
@@ -1976,7 +2025,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateClusterSettingsOutputResponse, UpdateClusterSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateClusterSettingsOutputResponse, UpdateClusterSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateClusterSettingsOutputResponse, UpdateClusterSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1996,6 +2045,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateContainerAgentInput, UpdateContainerAgentOutputResponse, UpdateContainerAgentOutputError>(id: "updateContainerAgent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutputResponse, UpdateContainerAgentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateContainerAgentInput, UpdateContainerAgentOutputResponse>())
@@ -2012,7 +2062,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateContainerAgentOutputResponse, UpdateContainerAgentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateContainerAgentOutputResponse, UpdateContainerAgentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateContainerAgentOutputResponse, UpdateContainerAgentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2039,6 +2089,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutputResponse, UpdateContainerInstancesStateOutputError>(id: "updateContainerInstancesState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutputResponse, UpdateContainerInstancesStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateContainerInstancesStateInput, UpdateContainerInstancesStateOutputResponse>())
@@ -2055,7 +2106,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateContainerInstancesStateOutputResponse, UpdateContainerInstancesStateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateContainerInstancesStateOutputResponse, UpdateContainerInstancesStateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateContainerInstancesStateOutputResponse, UpdateContainerInstancesStateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2107,6 +2158,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateServiceInput, UpdateServiceOutputResponse, UpdateServiceOutputError>(id: "updateService")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServiceInput, UpdateServiceOutputResponse, UpdateServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServiceInput, UpdateServiceOutputResponse>())
@@ -2123,7 +2175,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServiceOutputResponse, UpdateServiceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateServiceOutputResponse, UpdateServiceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceOutputResponse, UpdateServiceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2143,6 +2195,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutputResponse, UpdateServicePrimaryTaskSetOutputError>(id: "updateServicePrimaryTaskSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutputResponse, UpdateServicePrimaryTaskSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServicePrimaryTaskSetInput, UpdateServicePrimaryTaskSetOutputResponse>())
@@ -2159,7 +2212,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServicePrimaryTaskSetOutputResponse, UpdateServicePrimaryTaskSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateServicePrimaryTaskSetOutputResponse, UpdateServicePrimaryTaskSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServicePrimaryTaskSetOutputResponse, UpdateServicePrimaryTaskSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2179,6 +2232,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTaskProtectionInput, UpdateTaskProtectionOutputResponse, UpdateTaskProtectionOutputError>(id: "updateTaskProtection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutputResponse, UpdateTaskProtectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTaskProtectionInput, UpdateTaskProtectionOutputResponse>())
@@ -2195,7 +2249,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTaskProtectionOutputResponse, UpdateTaskProtectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateTaskProtectionOutputResponse, UpdateTaskProtectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTaskProtectionOutputResponse, UpdateTaskProtectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2215,6 +2269,7 @@ extension ECSClient: ECSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecs")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTaskSetInput, UpdateTaskSetOutputResponse, UpdateTaskSetOutputError>(id: "updateTaskSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTaskSetInput, UpdateTaskSetOutputResponse, UpdateTaskSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTaskSetInput, UpdateTaskSetOutputResponse>())
@@ -2231,7 +2286,7 @@ extension ECSClient: ECSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTaskSetOutputResponse, UpdateTaskSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateTaskSetOutputResponse, UpdateTaskSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTaskSetOutputResponse, UpdateTaskSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

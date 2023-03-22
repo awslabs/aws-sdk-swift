@@ -221,6 +221,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDevicePoolInput, CreateDevicePoolOutputResponse, CreateDevicePoolOutputError>(id: "createDevicePool")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDevicePoolInput, CreateDevicePoolOutputResponse, CreateDevicePoolOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDevicePoolInput, CreateDevicePoolOutputResponse>())
@@ -237,7 +238,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDevicePoolOutputResponse, CreateDevicePoolOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDevicePoolOutputResponse, CreateDevicePoolOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDevicePoolOutputResponse, CreateDevicePoolOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateInstanceProfileInput, CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>(id: "createInstanceProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutputResponse>())
@@ -273,7 +275,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateNetworkProfileInput, CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>(id: "createNetworkProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNetworkProfileInput, CreateNetworkProfileOutputResponse>())
@@ -309,7 +312,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -329,6 +332,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateProjectInput, CreateProjectOutputResponse, CreateProjectOutputError>(id: "createProject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProjectInput, CreateProjectOutputResponse, CreateProjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProjectInput, CreateProjectOutputResponse>())
@@ -345,7 +349,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProjectOutputResponse, CreateProjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateProjectOutputResponse, CreateProjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProjectOutputResponse, CreateProjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -365,6 +369,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRemoteAccessSessionInput, CreateRemoteAccessSessionOutputResponse, CreateRemoteAccessSessionOutputError>(id: "createRemoteAccessSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRemoteAccessSessionInput, CreateRemoteAccessSessionOutputResponse, CreateRemoteAccessSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRemoteAccessSessionInput, CreateRemoteAccessSessionOutputResponse>())
@@ -381,7 +386,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRemoteAccessSessionOutputResponse, CreateRemoteAccessSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateRemoteAccessSessionOutputResponse, CreateRemoteAccessSessionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRemoteAccessSessionOutputResponse, CreateRemoteAccessSessionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -401,6 +406,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTestGridProjectInput, CreateTestGridProjectOutputResponse, CreateTestGridProjectOutputError>(id: "createTestGridProject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTestGridProjectInput, CreateTestGridProjectOutputResponse, CreateTestGridProjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTestGridProjectInput, CreateTestGridProjectOutputResponse>())
@@ -417,7 +423,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTestGridProjectOutputResponse, CreateTestGridProjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateTestGridProjectOutputResponse, CreateTestGridProjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTestGridProjectOutputResponse, CreateTestGridProjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -437,6 +443,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTestGridUrlInput, CreateTestGridUrlOutputResponse, CreateTestGridUrlOutputError>(id: "createTestGridUrl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTestGridUrlInput, CreateTestGridUrlOutputResponse, CreateTestGridUrlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTestGridUrlInput, CreateTestGridUrlOutputResponse>())
@@ -453,7 +460,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTestGridUrlOutputResponse, CreateTestGridUrlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateTestGridUrlOutputResponse, CreateTestGridUrlOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTestGridUrlOutputResponse, CreateTestGridUrlOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -473,6 +480,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateUploadInput, CreateUploadOutputResponse, CreateUploadOutputError>(id: "createUpload")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUploadInput, CreateUploadOutputResponse, CreateUploadOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUploadInput, CreateUploadOutputResponse>())
@@ -489,7 +497,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUploadOutputResponse, CreateUploadOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateUploadOutputResponse, CreateUploadOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUploadOutputResponse, CreateUploadOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -509,6 +517,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateVPCEConfigurationInput, CreateVPCEConfigurationOutputResponse, CreateVPCEConfigurationOutputError>(id: "createVPCEConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVPCEConfigurationInput, CreateVPCEConfigurationOutputResponse, CreateVPCEConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVPCEConfigurationInput, CreateVPCEConfigurationOutputResponse>())
@@ -525,7 +534,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVPCEConfigurationOutputResponse, CreateVPCEConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateVPCEConfigurationOutputResponse, CreateVPCEConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVPCEConfigurationOutputResponse, CreateVPCEConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -545,6 +554,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDevicePoolInput, DeleteDevicePoolOutputResponse, DeleteDevicePoolOutputError>(id: "deleteDevicePool")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDevicePoolInput, DeleteDevicePoolOutputResponse, DeleteDevicePoolOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDevicePoolInput, DeleteDevicePoolOutputResponse>())
@@ -561,7 +571,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDevicePoolOutputResponse, DeleteDevicePoolOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDevicePoolOutputResponse, DeleteDevicePoolOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDevicePoolOutputResponse, DeleteDevicePoolOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -581,6 +591,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteInstanceProfileInput, DeleteInstanceProfileOutputResponse, DeleteInstanceProfileOutputError>(id: "deleteInstanceProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutputResponse, DeleteInstanceProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutputResponse>())
@@ -597,7 +608,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInstanceProfileOutputResponse, DeleteInstanceProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteInstanceProfileOutputResponse, DeleteInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInstanceProfileOutputResponse, DeleteInstanceProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -617,6 +628,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteNetworkProfileInput, DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>(id: "deleteNetworkProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutputResponse>())
@@ -633,7 +645,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -653,6 +665,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteProjectInput, DeleteProjectOutputResponse, DeleteProjectOutputError>(id: "deleteProject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProjectInput, DeleteProjectOutputResponse, DeleteProjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProjectInput, DeleteProjectOutputResponse>())
@@ -669,7 +682,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProjectOutputResponse, DeleteProjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteProjectOutputResponse, DeleteProjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProjectOutputResponse, DeleteProjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -689,6 +702,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRemoteAccessSessionInput, DeleteRemoteAccessSessionOutputResponse, DeleteRemoteAccessSessionOutputError>(id: "deleteRemoteAccessSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRemoteAccessSessionInput, DeleteRemoteAccessSessionOutputResponse, DeleteRemoteAccessSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRemoteAccessSessionInput, DeleteRemoteAccessSessionOutputResponse>())
@@ -705,7 +719,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRemoteAccessSessionOutputResponse, DeleteRemoteAccessSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteRemoteAccessSessionOutputResponse, DeleteRemoteAccessSessionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRemoteAccessSessionOutputResponse, DeleteRemoteAccessSessionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -725,6 +739,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRunInput, DeleteRunOutputResponse, DeleteRunOutputError>(id: "deleteRun")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRunInput, DeleteRunOutputResponse, DeleteRunOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRunInput, DeleteRunOutputResponse>())
@@ -741,7 +756,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRunOutputResponse, DeleteRunOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteRunOutputResponse, DeleteRunOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRunOutputResponse, DeleteRunOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -761,6 +776,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTestGridProjectInput, DeleteTestGridProjectOutputResponse, DeleteTestGridProjectOutputError>(id: "deleteTestGridProject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTestGridProjectInput, DeleteTestGridProjectOutputResponse, DeleteTestGridProjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTestGridProjectInput, DeleteTestGridProjectOutputResponse>())
@@ -777,7 +793,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTestGridProjectOutputResponse, DeleteTestGridProjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteTestGridProjectOutputResponse, DeleteTestGridProjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTestGridProjectOutputResponse, DeleteTestGridProjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -797,6 +813,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUploadInput, DeleteUploadOutputResponse, DeleteUploadOutputError>(id: "deleteUpload")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUploadInput, DeleteUploadOutputResponse, DeleteUploadOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUploadInput, DeleteUploadOutputResponse>())
@@ -813,7 +830,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUploadOutputResponse, DeleteUploadOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteUploadOutputResponse, DeleteUploadOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUploadOutputResponse, DeleteUploadOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -833,6 +850,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVPCEConfigurationInput, DeleteVPCEConfigurationOutputResponse, DeleteVPCEConfigurationOutputError>(id: "deleteVPCEConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVPCEConfigurationInput, DeleteVPCEConfigurationOutputResponse, DeleteVPCEConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVPCEConfigurationInput, DeleteVPCEConfigurationOutputResponse>())
@@ -849,7 +867,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVPCEConfigurationOutputResponse, DeleteVPCEConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteVPCEConfigurationOutputResponse, DeleteVPCEConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVPCEConfigurationOutputResponse, DeleteVPCEConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -869,6 +887,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccountSettingsInput, GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(id: "getAccountSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountSettingsInput, GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountSettingsInput, GetAccountSettingsOutputResponse>())
@@ -885,7 +904,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -905,6 +924,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDeviceInput, GetDeviceOutputResponse, GetDeviceOutputError>(id: "getDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceInput, GetDeviceOutputResponse, GetDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceInput, GetDeviceOutputResponse>())
@@ -921,7 +941,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceOutputResponse, GetDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDeviceOutputResponse, GetDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceOutputResponse, GetDeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -941,6 +961,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDeviceInstanceInput, GetDeviceInstanceOutputResponse, GetDeviceInstanceOutputError>(id: "getDeviceInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceInstanceInput, GetDeviceInstanceOutputResponse, GetDeviceInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceInstanceInput, GetDeviceInstanceOutputResponse>())
@@ -957,7 +978,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceInstanceOutputResponse, GetDeviceInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDeviceInstanceOutputResponse, GetDeviceInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceInstanceOutputResponse, GetDeviceInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -977,6 +998,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDevicePoolInput, GetDevicePoolOutputResponse, GetDevicePoolOutputError>(id: "getDevicePool")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDevicePoolInput, GetDevicePoolOutputResponse, GetDevicePoolOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDevicePoolInput, GetDevicePoolOutputResponse>())
@@ -993,7 +1015,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDevicePoolOutputResponse, GetDevicePoolOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDevicePoolOutputResponse, GetDevicePoolOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDevicePoolOutputResponse, GetDevicePoolOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1013,6 +1035,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDevicePoolCompatibilityInput, GetDevicePoolCompatibilityOutputResponse, GetDevicePoolCompatibilityOutputError>(id: "getDevicePoolCompatibility")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDevicePoolCompatibilityInput, GetDevicePoolCompatibilityOutputResponse, GetDevicePoolCompatibilityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDevicePoolCompatibilityInput, GetDevicePoolCompatibilityOutputResponse>())
@@ -1029,7 +1052,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDevicePoolCompatibilityOutputResponse, GetDevicePoolCompatibilityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDevicePoolCompatibilityOutputResponse, GetDevicePoolCompatibilityOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDevicePoolCompatibilityOutputResponse, GetDevicePoolCompatibilityOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1049,6 +1072,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInstanceProfileInput, GetInstanceProfileOutputResponse, GetInstanceProfileOutputError>(id: "getInstanceProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceProfileInput, GetInstanceProfileOutputResponse, GetInstanceProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceProfileInput, GetInstanceProfileOutputResponse>())
@@ -1065,7 +1089,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstanceProfileOutputResponse, GetInstanceProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetInstanceProfileOutputResponse, GetInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstanceProfileOutputResponse, GetInstanceProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1085,6 +1109,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetJobInput, GetJobOutputResponse, GetJobOutputError>(id: "getJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetJobInput, GetJobOutputResponse, GetJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetJobInput, GetJobOutputResponse>())
@@ -1101,7 +1126,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetJobOutputResponse, GetJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetJobOutputResponse, GetJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetJobOutputResponse, GetJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1121,6 +1146,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetNetworkProfileInput, GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>(id: "getNetworkProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkProfileInput, GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkProfileInput, GetNetworkProfileOutputResponse>())
@@ -1137,7 +1163,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1157,6 +1183,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetOfferingStatusInput, GetOfferingStatusOutputResponse, GetOfferingStatusOutputError>(id: "getOfferingStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOfferingStatusInput, GetOfferingStatusOutputResponse, GetOfferingStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOfferingStatusInput, GetOfferingStatusOutputResponse>())
@@ -1173,7 +1200,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOfferingStatusOutputResponse, GetOfferingStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetOfferingStatusOutputResponse, GetOfferingStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOfferingStatusOutputResponse, GetOfferingStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1193,6 +1220,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetProjectInput, GetProjectOutputResponse, GetProjectOutputError>(id: "getProject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProjectInput, GetProjectOutputResponse, GetProjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProjectInput, GetProjectOutputResponse>())
@@ -1209,7 +1237,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProjectOutputResponse, GetProjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetProjectOutputResponse, GetProjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProjectOutputResponse, GetProjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1229,6 +1257,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRemoteAccessSessionInput, GetRemoteAccessSessionOutputResponse, GetRemoteAccessSessionOutputError>(id: "getRemoteAccessSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRemoteAccessSessionInput, GetRemoteAccessSessionOutputResponse, GetRemoteAccessSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRemoteAccessSessionInput, GetRemoteAccessSessionOutputResponse>())
@@ -1245,7 +1274,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRemoteAccessSessionOutputResponse, GetRemoteAccessSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRemoteAccessSessionOutputResponse, GetRemoteAccessSessionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRemoteAccessSessionOutputResponse, GetRemoteAccessSessionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1265,6 +1294,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRunInput, GetRunOutputResponse, GetRunOutputError>(id: "getRun")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRunInput, GetRunOutputResponse, GetRunOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRunInput, GetRunOutputResponse>())
@@ -1281,7 +1311,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRunOutputResponse, GetRunOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRunOutputResponse, GetRunOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRunOutputResponse, GetRunOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1301,6 +1331,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSuiteInput, GetSuiteOutputResponse, GetSuiteOutputError>(id: "getSuite")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSuiteInput, GetSuiteOutputResponse, GetSuiteOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSuiteInput, GetSuiteOutputResponse>())
@@ -1317,7 +1348,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSuiteOutputResponse, GetSuiteOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSuiteOutputResponse, GetSuiteOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSuiteOutputResponse, GetSuiteOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1337,6 +1368,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTestInput, GetTestOutputResponse, GetTestOutputError>(id: "getTest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTestInput, GetTestOutputResponse, GetTestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTestInput, GetTestOutputResponse>())
@@ -1353,7 +1385,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTestOutputResponse, GetTestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetTestOutputResponse, GetTestOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTestOutputResponse, GetTestOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1373,6 +1405,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTestGridProjectInput, GetTestGridProjectOutputResponse, GetTestGridProjectOutputError>(id: "getTestGridProject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTestGridProjectInput, GetTestGridProjectOutputResponse, GetTestGridProjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTestGridProjectInput, GetTestGridProjectOutputResponse>())
@@ -1389,7 +1422,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTestGridProjectOutputResponse, GetTestGridProjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetTestGridProjectOutputResponse, GetTestGridProjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTestGridProjectOutputResponse, GetTestGridProjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1413,6 +1446,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTestGridSessionInput, GetTestGridSessionOutputResponse, GetTestGridSessionOutputError>(id: "getTestGridSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTestGridSessionInput, GetTestGridSessionOutputResponse, GetTestGridSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTestGridSessionInput, GetTestGridSessionOutputResponse>())
@@ -1429,7 +1463,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTestGridSessionOutputResponse, GetTestGridSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetTestGridSessionOutputResponse, GetTestGridSessionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTestGridSessionOutputResponse, GetTestGridSessionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1449,6 +1483,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetUploadInput, GetUploadOutputResponse, GetUploadOutputError>(id: "getUpload")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUploadInput, GetUploadOutputResponse, GetUploadOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUploadInput, GetUploadOutputResponse>())
@@ -1465,7 +1500,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUploadOutputResponse, GetUploadOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetUploadOutputResponse, GetUploadOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUploadOutputResponse, GetUploadOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1485,6 +1520,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVPCEConfigurationInput, GetVPCEConfigurationOutputResponse, GetVPCEConfigurationOutputError>(id: "getVPCEConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVPCEConfigurationInput, GetVPCEConfigurationOutputResponse, GetVPCEConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVPCEConfigurationInput, GetVPCEConfigurationOutputResponse>())
@@ -1501,7 +1537,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVPCEConfigurationOutputResponse, GetVPCEConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetVPCEConfigurationOutputResponse, GetVPCEConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVPCEConfigurationOutputResponse, GetVPCEConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1521,6 +1557,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<InstallToRemoteAccessSessionInput, InstallToRemoteAccessSessionOutputResponse, InstallToRemoteAccessSessionOutputError>(id: "installToRemoteAccessSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InstallToRemoteAccessSessionInput, InstallToRemoteAccessSessionOutputResponse, InstallToRemoteAccessSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InstallToRemoteAccessSessionInput, InstallToRemoteAccessSessionOutputResponse>())
@@ -1537,7 +1574,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InstallToRemoteAccessSessionOutputResponse, InstallToRemoteAccessSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<InstallToRemoteAccessSessionOutputResponse, InstallToRemoteAccessSessionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InstallToRemoteAccessSessionOutputResponse, InstallToRemoteAccessSessionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1557,6 +1594,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListArtifactsInput, ListArtifactsOutputResponse, ListArtifactsOutputError>(id: "listArtifacts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListArtifactsInput, ListArtifactsOutputResponse, ListArtifactsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListArtifactsInput, ListArtifactsOutputResponse>())
@@ -1573,7 +1611,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListArtifactsOutputResponse, ListArtifactsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListArtifactsOutputResponse, ListArtifactsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListArtifactsOutputResponse, ListArtifactsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1593,6 +1631,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDeviceInstancesInput, ListDeviceInstancesOutputResponse, ListDeviceInstancesOutputError>(id: "listDeviceInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeviceInstancesInput, ListDeviceInstancesOutputResponse, ListDeviceInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeviceInstancesInput, ListDeviceInstancesOutputResponse>())
@@ -1609,7 +1648,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeviceInstancesOutputResponse, ListDeviceInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDeviceInstancesOutputResponse, ListDeviceInstancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeviceInstancesOutputResponse, ListDeviceInstancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1629,6 +1668,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDevicePoolsInput, ListDevicePoolsOutputResponse, ListDevicePoolsOutputError>(id: "listDevicePools")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevicePoolsInput, ListDevicePoolsOutputResponse, ListDevicePoolsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevicePoolsInput, ListDevicePoolsOutputResponse>())
@@ -1645,7 +1685,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDevicePoolsOutputResponse, ListDevicePoolsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDevicePoolsOutputResponse, ListDevicePoolsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevicePoolsOutputResponse, ListDevicePoolsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1665,6 +1705,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDevicesInput, ListDevicesOutputResponse, ListDevicesOutputError>(id: "listDevices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevicesInput, ListDevicesOutputResponse, ListDevicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevicesInput, ListDevicesOutputResponse>())
@@ -1681,7 +1722,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDevicesOutputResponse, ListDevicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDevicesOutputResponse, ListDevicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevicesOutputResponse, ListDevicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1701,6 +1742,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListInstanceProfilesInput, ListInstanceProfilesOutputResponse, ListInstanceProfilesOutputError>(id: "listInstanceProfiles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutputResponse, ListInstanceProfilesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutputResponse>())
@@ -1717,7 +1759,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstanceProfilesOutputResponse, ListInstanceProfilesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListInstanceProfilesOutputResponse, ListInstanceProfilesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceProfilesOutputResponse, ListInstanceProfilesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1737,6 +1779,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListJobsInput, ListJobsOutputResponse, ListJobsOutputError>(id: "listJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListJobsInput, ListJobsOutputResponse, ListJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListJobsInput, ListJobsOutputResponse>())
@@ -1753,7 +1796,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListJobsOutputResponse, ListJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListJobsOutputResponse, ListJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListJobsOutputResponse, ListJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1773,6 +1816,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListNetworkProfilesInput, ListNetworkProfilesOutputResponse, ListNetworkProfilesOutputError>(id: "listNetworkProfiles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNetworkProfilesInput, ListNetworkProfilesOutputResponse, ListNetworkProfilesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNetworkProfilesInput, ListNetworkProfilesOutputResponse>())
@@ -1789,7 +1833,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNetworkProfilesOutputResponse, ListNetworkProfilesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListNetworkProfilesOutputResponse, ListNetworkProfilesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNetworkProfilesOutputResponse, ListNetworkProfilesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1809,6 +1853,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListOfferingPromotionsInput, ListOfferingPromotionsOutputResponse, ListOfferingPromotionsOutputError>(id: "listOfferingPromotions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOfferingPromotionsInput, ListOfferingPromotionsOutputResponse, ListOfferingPromotionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOfferingPromotionsInput, ListOfferingPromotionsOutputResponse>())
@@ -1825,7 +1870,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOfferingPromotionsOutputResponse, ListOfferingPromotionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListOfferingPromotionsOutputResponse, ListOfferingPromotionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOfferingPromotionsOutputResponse, ListOfferingPromotionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1845,6 +1890,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListOfferingTransactionsInput, ListOfferingTransactionsOutputResponse, ListOfferingTransactionsOutputError>(id: "listOfferingTransactions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOfferingTransactionsInput, ListOfferingTransactionsOutputResponse, ListOfferingTransactionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOfferingTransactionsInput, ListOfferingTransactionsOutputResponse>())
@@ -1861,7 +1907,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOfferingTransactionsOutputResponse, ListOfferingTransactionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListOfferingTransactionsOutputResponse, ListOfferingTransactionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOfferingTransactionsOutputResponse, ListOfferingTransactionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1881,6 +1927,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListOfferingsInput, ListOfferingsOutputResponse, ListOfferingsOutputError>(id: "listOfferings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOfferingsInput, ListOfferingsOutputResponse, ListOfferingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOfferingsInput, ListOfferingsOutputResponse>())
@@ -1897,7 +1944,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOfferingsOutputResponse, ListOfferingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListOfferingsOutputResponse, ListOfferingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOfferingsOutputResponse, ListOfferingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1917,6 +1964,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListProjectsInput, ListProjectsOutputResponse, ListProjectsOutputError>(id: "listProjects")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProjectsInput, ListProjectsOutputResponse, ListProjectsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProjectsInput, ListProjectsOutputResponse>())
@@ -1933,7 +1981,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProjectsOutputResponse, ListProjectsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListProjectsOutputResponse, ListProjectsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProjectsOutputResponse, ListProjectsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1953,6 +2001,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRemoteAccessSessionsInput, ListRemoteAccessSessionsOutputResponse, ListRemoteAccessSessionsOutputError>(id: "listRemoteAccessSessions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRemoteAccessSessionsInput, ListRemoteAccessSessionsOutputResponse, ListRemoteAccessSessionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRemoteAccessSessionsInput, ListRemoteAccessSessionsOutputResponse>())
@@ -1969,7 +2018,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRemoteAccessSessionsOutputResponse, ListRemoteAccessSessionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListRemoteAccessSessionsOutputResponse, ListRemoteAccessSessionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRemoteAccessSessionsOutputResponse, ListRemoteAccessSessionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1989,6 +2038,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRunsInput, ListRunsOutputResponse, ListRunsOutputError>(id: "listRuns")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRunsInput, ListRunsOutputResponse, ListRunsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRunsInput, ListRunsOutputResponse>())
@@ -2005,7 +2055,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRunsOutputResponse, ListRunsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListRunsOutputResponse, ListRunsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRunsOutputResponse, ListRunsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2025,6 +2075,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSamplesInput, ListSamplesOutputResponse, ListSamplesOutputError>(id: "listSamples")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSamplesInput, ListSamplesOutputResponse, ListSamplesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSamplesInput, ListSamplesOutputResponse>())
@@ -2041,7 +2092,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSamplesOutputResponse, ListSamplesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSamplesOutputResponse, ListSamplesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSamplesOutputResponse, ListSamplesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2061,6 +2112,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSuitesInput, ListSuitesOutputResponse, ListSuitesOutputError>(id: "listSuites")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSuitesInput, ListSuitesOutputResponse, ListSuitesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSuitesInput, ListSuitesOutputResponse>())
@@ -2077,7 +2129,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSuitesOutputResponse, ListSuitesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSuitesOutputResponse, ListSuitesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSuitesOutputResponse, ListSuitesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2097,6 +2149,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -2113,7 +2166,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2133,6 +2186,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTestGridProjectsInput, ListTestGridProjectsOutputResponse, ListTestGridProjectsOutputError>(id: "listTestGridProjects")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTestGridProjectsInput, ListTestGridProjectsOutputResponse, ListTestGridProjectsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTestGridProjectsInput, ListTestGridProjectsOutputResponse>())
@@ -2149,7 +2203,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestGridProjectsOutputResponse, ListTestGridProjectsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTestGridProjectsOutputResponse, ListTestGridProjectsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestGridProjectsOutputResponse, ListTestGridProjectsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2169,6 +2223,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutputResponse, ListTestGridSessionActionsOutputError>(id: "listTestGridSessionActions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutputResponse, ListTestGridSessionActionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTestGridSessionActionsInput, ListTestGridSessionActionsOutputResponse>())
@@ -2185,7 +2240,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestGridSessionActionsOutputResponse, ListTestGridSessionActionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTestGridSessionActionsOutputResponse, ListTestGridSessionActionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestGridSessionActionsOutputResponse, ListTestGridSessionActionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2205,6 +2260,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutputResponse, ListTestGridSessionArtifactsOutputError>(id: "listTestGridSessionArtifacts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutputResponse, ListTestGridSessionArtifactsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTestGridSessionArtifactsInput, ListTestGridSessionArtifactsOutputResponse>())
@@ -2221,7 +2277,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestGridSessionArtifactsOutputResponse, ListTestGridSessionArtifactsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTestGridSessionArtifactsOutputResponse, ListTestGridSessionArtifactsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestGridSessionArtifactsOutputResponse, ListTestGridSessionArtifactsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2241,6 +2297,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTestGridSessionsInput, ListTestGridSessionsOutputResponse, ListTestGridSessionsOutputError>(id: "listTestGridSessions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTestGridSessionsInput, ListTestGridSessionsOutputResponse, ListTestGridSessionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTestGridSessionsInput, ListTestGridSessionsOutputResponse>())
@@ -2257,7 +2314,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestGridSessionsOutputResponse, ListTestGridSessionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTestGridSessionsOutputResponse, ListTestGridSessionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestGridSessionsOutputResponse, ListTestGridSessionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2277,6 +2334,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTestsInput, ListTestsOutputResponse, ListTestsOutputError>(id: "listTests")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTestsInput, ListTestsOutputResponse, ListTestsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTestsInput, ListTestsOutputResponse>())
@@ -2293,7 +2351,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestsOutputResponse, ListTestsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTestsOutputResponse, ListTestsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestsOutputResponse, ListTestsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2313,6 +2371,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListUniqueProblemsInput, ListUniqueProblemsOutputResponse, ListUniqueProblemsOutputError>(id: "listUniqueProblems")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUniqueProblemsInput, ListUniqueProblemsOutputResponse, ListUniqueProblemsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUniqueProblemsInput, ListUniqueProblemsOutputResponse>())
@@ -2329,7 +2388,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUniqueProblemsOutputResponse, ListUniqueProblemsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListUniqueProblemsOutputResponse, ListUniqueProblemsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUniqueProblemsOutputResponse, ListUniqueProblemsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2349,6 +2408,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListUploadsInput, ListUploadsOutputResponse, ListUploadsOutputError>(id: "listUploads")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUploadsInput, ListUploadsOutputResponse, ListUploadsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUploadsInput, ListUploadsOutputResponse>())
@@ -2365,7 +2425,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUploadsOutputResponse, ListUploadsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListUploadsOutputResponse, ListUploadsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUploadsOutputResponse, ListUploadsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2385,6 +2445,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVPCEConfigurationsInput, ListVPCEConfigurationsOutputResponse, ListVPCEConfigurationsOutputError>(id: "listVPCEConfigurations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVPCEConfigurationsInput, ListVPCEConfigurationsOutputResponse, ListVPCEConfigurationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVPCEConfigurationsInput, ListVPCEConfigurationsOutputResponse>())
@@ -2401,7 +2462,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVPCEConfigurationsOutputResponse, ListVPCEConfigurationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListVPCEConfigurationsOutputResponse, ListVPCEConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVPCEConfigurationsOutputResponse, ListVPCEConfigurationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2421,6 +2482,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PurchaseOfferingInput, PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>(id: "purchaseOffering")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurchaseOfferingInput, PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PurchaseOfferingInput, PurchaseOfferingOutputResponse>())
@@ -2437,7 +2499,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurchaseOfferingOutputResponse, PurchaseOfferingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2457,6 +2519,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RenewOfferingInput, RenewOfferingOutputResponse, RenewOfferingOutputError>(id: "renewOffering")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RenewOfferingInput, RenewOfferingOutputResponse, RenewOfferingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RenewOfferingInput, RenewOfferingOutputResponse>())
@@ -2473,7 +2536,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RenewOfferingOutputResponse, RenewOfferingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RenewOfferingOutputResponse, RenewOfferingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RenewOfferingOutputResponse, RenewOfferingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2493,6 +2556,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ScheduleRunInput, ScheduleRunOutputResponse, ScheduleRunOutputError>(id: "scheduleRun")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ScheduleRunInput, ScheduleRunOutputResponse, ScheduleRunOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ScheduleRunInput, ScheduleRunOutputResponse>())
@@ -2509,7 +2573,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ScheduleRunOutputResponse, ScheduleRunOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ScheduleRunOutputResponse, ScheduleRunOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ScheduleRunOutputResponse, ScheduleRunOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2529,6 +2593,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopJobInput, StopJobOutputResponse, StopJobOutputError>(id: "stopJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopJobInput, StopJobOutputResponse, StopJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopJobInput, StopJobOutputResponse>())
@@ -2545,7 +2610,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopJobOutputResponse, StopJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopJobOutputResponse, StopJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopJobOutputResponse, StopJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2565,6 +2630,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopRemoteAccessSessionInput, StopRemoteAccessSessionOutputResponse, StopRemoteAccessSessionOutputError>(id: "stopRemoteAccessSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopRemoteAccessSessionInput, StopRemoteAccessSessionOutputResponse, StopRemoteAccessSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopRemoteAccessSessionInput, StopRemoteAccessSessionOutputResponse>())
@@ -2581,7 +2647,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopRemoteAccessSessionOutputResponse, StopRemoteAccessSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopRemoteAccessSessionOutputResponse, StopRemoteAccessSessionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopRemoteAccessSessionOutputResponse, StopRemoteAccessSessionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2601,6 +2667,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopRunInput, StopRunOutputResponse, StopRunOutputError>(id: "stopRun")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopRunInput, StopRunOutputResponse, StopRunOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopRunInput, StopRunOutputResponse>())
@@ -2617,7 +2684,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopRunOutputResponse, StopRunOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopRunOutputResponse, StopRunOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopRunOutputResponse, StopRunOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2637,6 +2704,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -2653,7 +2721,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2673,6 +2741,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -2689,7 +2758,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2709,6 +2778,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDeviceInstanceInput, UpdateDeviceInstanceOutputResponse, UpdateDeviceInstanceOutputError>(id: "updateDeviceInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDeviceInstanceInput, UpdateDeviceInstanceOutputResponse, UpdateDeviceInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDeviceInstanceInput, UpdateDeviceInstanceOutputResponse>())
@@ -2725,7 +2795,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDeviceInstanceOutputResponse, UpdateDeviceInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDeviceInstanceOutputResponse, UpdateDeviceInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDeviceInstanceOutputResponse, UpdateDeviceInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2745,6 +2815,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDevicePoolInput, UpdateDevicePoolOutputResponse, UpdateDevicePoolOutputError>(id: "updateDevicePool")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDevicePoolInput, UpdateDevicePoolOutputResponse, UpdateDevicePoolOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDevicePoolInput, UpdateDevicePoolOutputResponse>())
@@ -2761,7 +2832,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDevicePoolOutputResponse, UpdateDevicePoolOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDevicePoolOutputResponse, UpdateDevicePoolOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDevicePoolOutputResponse, UpdateDevicePoolOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2781,6 +2852,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateInstanceProfileInput, UpdateInstanceProfileOutputResponse, UpdateInstanceProfileOutputError>(id: "updateInstanceProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInstanceProfileInput, UpdateInstanceProfileOutputResponse, UpdateInstanceProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInstanceProfileInput, UpdateInstanceProfileOutputResponse>())
@@ -2797,7 +2869,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInstanceProfileOutputResponse, UpdateInstanceProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateInstanceProfileOutputResponse, UpdateInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInstanceProfileOutputResponse, UpdateInstanceProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2817,6 +2889,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateNetworkProfileInput, UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>(id: "updateNetworkProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutputResponse>())
@@ -2833,7 +2906,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2853,6 +2926,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateProjectInput, UpdateProjectOutputResponse, UpdateProjectOutputError>(id: "updateProject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProjectInput, UpdateProjectOutputResponse, UpdateProjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProjectInput, UpdateProjectOutputResponse>())
@@ -2869,7 +2943,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProjectOutputResponse, UpdateProjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateProjectOutputResponse, UpdateProjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProjectOutputResponse, UpdateProjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2889,6 +2963,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTestGridProjectInput, UpdateTestGridProjectOutputResponse, UpdateTestGridProjectOutputError>(id: "updateTestGridProject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTestGridProjectInput, UpdateTestGridProjectOutputResponse, UpdateTestGridProjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTestGridProjectInput, UpdateTestGridProjectOutputResponse>())
@@ -2905,7 +2980,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTestGridProjectOutputResponse, UpdateTestGridProjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateTestGridProjectOutputResponse, UpdateTestGridProjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTestGridProjectOutputResponse, UpdateTestGridProjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2925,6 +3000,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateUploadInput, UpdateUploadOutputResponse, UpdateUploadOutputError>(id: "updateUpload")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUploadInput, UpdateUploadOutputResponse, UpdateUploadOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUploadInput, UpdateUploadOutputResponse>())
@@ -2941,7 +3017,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUploadOutputResponse, UpdateUploadOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateUploadOutputResponse, UpdateUploadOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUploadOutputResponse, UpdateUploadOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2961,6 +3037,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "devicefarm")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateVPCEConfigurationInput, UpdateVPCEConfigurationOutputResponse, UpdateVPCEConfigurationOutputError>(id: "updateVPCEConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateVPCEConfigurationInput, UpdateVPCEConfigurationOutputResponse, UpdateVPCEConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateVPCEConfigurationInput, UpdateVPCEConfigurationOutputResponse>())
@@ -2977,7 +3054,7 @@ extension DeviceFarmClient: DeviceFarmClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVPCEConfigurationOutputResponse, UpdateVPCEConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateVPCEConfigurationOutputResponse, UpdateVPCEConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVPCEConfigurationOutputResponse, UpdateVPCEConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

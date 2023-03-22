@@ -221,6 +221,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDiscovererInput, CreateDiscovererOutputResponse, CreateDiscovererOutputError>(id: "createDiscoverer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDiscovererInput, CreateDiscovererOutputResponse, CreateDiscovererOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDiscovererInput, CreateDiscovererOutputResponse>())
@@ -236,7 +237,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDiscovererOutputResponse, CreateDiscovererOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDiscovererOutputResponse, CreateDiscovererOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDiscovererOutputResponse, CreateDiscovererOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRegistryInput, CreateRegistryOutputResponse, CreateRegistryOutputError>(id: "createRegistry")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRegistryInput, CreateRegistryOutputResponse, CreateRegistryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRegistryInput, CreateRegistryOutputResponse>())
@@ -271,7 +273,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRegistryOutputResponse, CreateRegistryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateRegistryOutputResponse, CreateRegistryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRegistryOutputResponse, CreateRegistryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -291,6 +293,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSchemaInput, CreateSchemaOutputResponse, CreateSchemaOutputError>(id: "createSchema")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSchemaInput, CreateSchemaOutputResponse, CreateSchemaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSchemaInput, CreateSchemaOutputResponse>())
@@ -306,7 +309,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSchemaOutputResponse, CreateSchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSchemaOutputResponse, CreateSchemaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSchemaOutputResponse, CreateSchemaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -326,6 +329,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDiscovererInput, DeleteDiscovererOutputResponse, DeleteDiscovererOutputError>(id: "deleteDiscoverer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDiscovererInput, DeleteDiscovererOutputResponse, DeleteDiscovererOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDiscovererInput, DeleteDiscovererOutputResponse>())
@@ -338,7 +342,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDiscovererOutputResponse, DeleteDiscovererOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDiscovererOutputResponse, DeleteDiscovererOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDiscovererOutputResponse, DeleteDiscovererOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -358,6 +362,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRegistryInput, DeleteRegistryOutputResponse, DeleteRegistryOutputError>(id: "deleteRegistry")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRegistryInput, DeleteRegistryOutputResponse, DeleteRegistryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRegistryInput, DeleteRegistryOutputResponse>())
@@ -370,7 +375,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRegistryOutputResponse, DeleteRegistryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteRegistryOutputResponse, DeleteRegistryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRegistryOutputResponse, DeleteRegistryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -390,6 +395,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(id: "deleteResourcePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>())
@@ -403,7 +409,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -423,6 +429,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSchemaInput, DeleteSchemaOutputResponse, DeleteSchemaOutputError>(id: "deleteSchema")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSchemaInput, DeleteSchemaOutputResponse, DeleteSchemaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSchemaInput, DeleteSchemaOutputResponse>())
@@ -435,7 +442,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSchemaOutputResponse, DeleteSchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSchemaOutputResponse, DeleteSchemaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSchemaOutputResponse, DeleteSchemaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -455,6 +462,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSchemaVersionInput, DeleteSchemaVersionOutputResponse, DeleteSchemaVersionOutputError>(id: "deleteSchemaVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSchemaVersionInput, DeleteSchemaVersionOutputResponse, DeleteSchemaVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSchemaVersionInput, DeleteSchemaVersionOutputResponse>())
@@ -467,7 +475,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSchemaVersionOutputResponse, DeleteSchemaVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSchemaVersionOutputResponse, DeleteSchemaVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSchemaVersionOutputResponse, DeleteSchemaVersionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -487,6 +495,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCodeBindingInput, DescribeCodeBindingOutputResponse, DescribeCodeBindingOutputError>(id: "describeCodeBinding")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCodeBindingInput, DescribeCodeBindingOutputResponse, DescribeCodeBindingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCodeBindingInput, DescribeCodeBindingOutputResponse>())
@@ -500,7 +509,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCodeBindingOutputResponse, DescribeCodeBindingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeCodeBindingOutputResponse, DescribeCodeBindingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCodeBindingOutputResponse, DescribeCodeBindingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -520,6 +529,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDiscovererInput, DescribeDiscovererOutputResponse, DescribeDiscovererOutputError>(id: "describeDiscoverer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDiscovererInput, DescribeDiscovererOutputResponse, DescribeDiscovererOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDiscovererInput, DescribeDiscovererOutputResponse>())
@@ -532,7 +542,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDiscovererOutputResponse, DescribeDiscovererOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDiscovererOutputResponse, DescribeDiscovererOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDiscovererOutputResponse, DescribeDiscovererOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -552,6 +562,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRegistryInput, DescribeRegistryOutputResponse, DescribeRegistryOutputError>(id: "describeRegistry")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRegistryInput, DescribeRegistryOutputResponse, DescribeRegistryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRegistryInput, DescribeRegistryOutputResponse>())
@@ -564,7 +575,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRegistryOutputResponse, DescribeRegistryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeRegistryOutputResponse, DescribeRegistryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRegistryOutputResponse, DescribeRegistryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -584,6 +595,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSchemaInput, DescribeSchemaOutputResponse, DescribeSchemaOutputError>(id: "describeSchema")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSchemaInput, DescribeSchemaOutputResponse, DescribeSchemaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSchemaInput, DescribeSchemaOutputResponse>())
@@ -597,7 +609,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSchemaOutputResponse, DescribeSchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeSchemaOutputResponse, DescribeSchemaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSchemaOutputResponse, DescribeSchemaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -616,6 +628,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExportSchemaInput, ExportSchemaOutputResponse, ExportSchemaOutputError>(id: "exportSchema")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportSchemaInput, ExportSchemaOutputResponse, ExportSchemaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportSchemaInput, ExportSchemaOutputResponse>())
@@ -629,7 +642,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportSchemaOutputResponse, ExportSchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExportSchemaOutputResponse, ExportSchemaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportSchemaOutputResponse, ExportSchemaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -649,6 +662,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCodeBindingSourceInput, GetCodeBindingSourceOutputResponse, GetCodeBindingSourceOutputError>(id: "getCodeBindingSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCodeBindingSourceInput, GetCodeBindingSourceOutputResponse, GetCodeBindingSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCodeBindingSourceInput, GetCodeBindingSourceOutputResponse>())
@@ -662,7 +676,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCodeBindingSourceOutputResponse, GetCodeBindingSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCodeBindingSourceOutputResponse, GetCodeBindingSourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCodeBindingSourceOutputResponse, GetCodeBindingSourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -682,6 +696,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDiscoveredSchemaInput, GetDiscoveredSchemaOutputResponse, GetDiscoveredSchemaOutputError>(id: "getDiscoveredSchema")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDiscoveredSchemaInput, GetDiscoveredSchemaOutputResponse, GetDiscoveredSchemaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDiscoveredSchemaInput, GetDiscoveredSchemaOutputResponse>())
@@ -697,7 +712,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDiscoveredSchemaOutputResponse, GetDiscoveredSchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDiscoveredSchemaOutputResponse, GetDiscoveredSchemaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDiscoveredSchemaOutputResponse, GetDiscoveredSchemaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -717,6 +732,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetResourcePolicyInput, GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(id: "getResourcePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourcePolicyInput, GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutputResponse>())
@@ -730,7 +746,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -750,6 +766,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDiscoverersInput, ListDiscoverersOutputResponse, ListDiscoverersOutputError>(id: "listDiscoverers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDiscoverersInput, ListDiscoverersOutputResponse, ListDiscoverersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDiscoverersInput, ListDiscoverersOutputResponse>())
@@ -763,7 +780,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDiscoverersOutputResponse, ListDiscoverersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDiscoverersOutputResponse, ListDiscoverersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDiscoverersOutputResponse, ListDiscoverersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -783,6 +800,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRegistriesInput, ListRegistriesOutputResponse, ListRegistriesOutputError>(id: "listRegistries")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRegistriesInput, ListRegistriesOutputResponse, ListRegistriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRegistriesInput, ListRegistriesOutputResponse>())
@@ -796,7 +814,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRegistriesOutputResponse, ListRegistriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListRegistriesOutputResponse, ListRegistriesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRegistriesOutputResponse, ListRegistriesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -816,6 +834,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSchemaVersionsInput, ListSchemaVersionsOutputResponse, ListSchemaVersionsOutputError>(id: "listSchemaVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSchemaVersionsInput, ListSchemaVersionsOutputResponse, ListSchemaVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSchemaVersionsInput, ListSchemaVersionsOutputResponse>())
@@ -829,7 +848,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSchemaVersionsOutputResponse, ListSchemaVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSchemaVersionsOutputResponse, ListSchemaVersionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSchemaVersionsOutputResponse, ListSchemaVersionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -849,6 +868,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSchemasInput, ListSchemasOutputResponse, ListSchemasOutputError>(id: "listSchemas")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSchemasInput, ListSchemasOutputResponse, ListSchemasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSchemasInput, ListSchemasOutputResponse>())
@@ -862,7 +882,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSchemasOutputResponse, ListSchemasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSchemasOutputResponse, ListSchemasOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSchemasOutputResponse, ListSchemasOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -882,6 +902,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -894,7 +915,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -914,6 +935,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutCodeBindingInput, PutCodeBindingOutputResponse, PutCodeBindingOutputError>(id: "putCodeBinding")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutCodeBindingInput, PutCodeBindingOutputResponse, PutCodeBindingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutCodeBindingInput, PutCodeBindingOutputResponse>())
@@ -927,7 +949,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutCodeBindingOutputResponse, PutCodeBindingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutCodeBindingOutputResponse, PutCodeBindingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutCodeBindingOutputResponse, PutCodeBindingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -947,6 +969,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutResourcePolicyInput, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(id: "putResourcePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>())
@@ -963,7 +986,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -983,6 +1006,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchSchemasInput, SearchSchemasOutputResponse, SearchSchemasOutputError>(id: "searchSchemas")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchSchemasInput, SearchSchemasOutputResponse, SearchSchemasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchSchemasInput, SearchSchemasOutputResponse>())
@@ -996,7 +1020,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchSchemasOutputResponse, SearchSchemasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchSchemasOutputResponse, SearchSchemasOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchSchemasOutputResponse, SearchSchemasOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1016,6 +1040,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartDiscovererInput, StartDiscovererOutputResponse, StartDiscovererOutputError>(id: "startDiscoverer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDiscovererInput, StartDiscovererOutputResponse, StartDiscovererOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDiscovererInput, StartDiscovererOutputResponse>())
@@ -1028,7 +1053,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDiscovererOutputResponse, StartDiscovererOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartDiscovererOutputResponse, StartDiscovererOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDiscovererOutputResponse, StartDiscovererOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1048,6 +1073,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopDiscovererInput, StopDiscovererOutputResponse, StopDiscovererOutputError>(id: "stopDiscoverer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDiscovererInput, StopDiscovererOutputResponse, StopDiscovererOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopDiscovererInput, StopDiscovererOutputResponse>())
@@ -1060,7 +1086,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopDiscovererOutputResponse, StopDiscovererOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopDiscovererOutputResponse, StopDiscovererOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDiscovererOutputResponse, StopDiscovererOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1080,6 +1106,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1095,7 +1122,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1115,6 +1142,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1128,7 +1156,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1148,6 +1176,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDiscovererInput, UpdateDiscovererOutputResponse, UpdateDiscovererOutputError>(id: "updateDiscoverer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDiscovererInput, UpdateDiscovererOutputResponse, UpdateDiscovererOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDiscovererInput, UpdateDiscovererOutputResponse>())
@@ -1163,7 +1192,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDiscovererOutputResponse, UpdateDiscovererOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDiscovererOutputResponse, UpdateDiscovererOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDiscovererOutputResponse, UpdateDiscovererOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1183,6 +1212,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRegistryInput, UpdateRegistryOutputResponse, UpdateRegistryOutputError>(id: "updateRegistry")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRegistryInput, UpdateRegistryOutputResponse, UpdateRegistryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRegistryInput, UpdateRegistryOutputResponse>())
@@ -1198,7 +1228,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRegistryOutputResponse, UpdateRegistryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateRegistryOutputResponse, UpdateRegistryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRegistryOutputResponse, UpdateRegistryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1218,6 +1248,7 @@ extension SchemasClient: SchemasClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "schemas")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSchemaInput, UpdateSchemaOutputResponse, UpdateSchemaOutputError>(id: "updateSchema")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateSchemaOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1241,7 +1272,7 @@ extension SchemasClient: SchemasClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSchemaOutputResponse, UpdateSchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSchemaOutputResponse, UpdateSchemaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSchemaOutputResponse, UpdateSchemaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

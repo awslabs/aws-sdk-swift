@@ -221,6 +221,7 @@ extension PersonalizeRuntimeClient: PersonalizeRuntimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPersonalizedRankingInput, GetPersonalizedRankingOutputResponse, GetPersonalizedRankingOutputError>(id: "getPersonalizedRanking")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPersonalizedRankingInput, GetPersonalizedRankingOutputResponse, GetPersonalizedRankingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPersonalizedRankingInput, GetPersonalizedRankingOutputResponse>())
@@ -236,7 +237,7 @@ extension PersonalizeRuntimeClient: PersonalizeRuntimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPersonalizedRankingOutputResponse, GetPersonalizedRankingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPersonalizedRankingOutputResponse, GetPersonalizedRankingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPersonalizedRankingOutputResponse, GetPersonalizedRankingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -263,6 +264,7 @@ extension PersonalizeRuntimeClient: PersonalizeRuntimeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "personalize")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRecommendationsInput, GetRecommendationsOutputResponse, GetRecommendationsOutputError>(id: "getRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRecommendationsInput, GetRecommendationsOutputResponse, GetRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRecommendationsInput, GetRecommendationsOutputResponse>())
@@ -278,7 +280,7 @@ extension PersonalizeRuntimeClient: PersonalizeRuntimeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRecommendationsOutputResponse, GetRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRecommendationsOutputResponse, GetRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRecommendationsOutputResponse, GetRecommendationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

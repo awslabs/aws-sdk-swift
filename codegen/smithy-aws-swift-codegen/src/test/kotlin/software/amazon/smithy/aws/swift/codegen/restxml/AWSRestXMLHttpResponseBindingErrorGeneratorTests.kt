@@ -39,7 +39,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
         val expectedContents =
             """
             extension GreetingWithErrorsOutputError: ClientRuntime.HttpResponseBinding {
-                public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+                public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
                     let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
                     try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
                 }
@@ -96,7 +96,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """            
-            public struct ComplexXMLError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+            public struct ComplexXMLError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
                 public var _headers: ClientRuntime.Headers?
                 public var _statusCode: ClientRuntime.HttpStatusCode?
                 public var _message: Swift.String?

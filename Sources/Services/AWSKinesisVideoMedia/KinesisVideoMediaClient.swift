@@ -235,6 +235,7 @@ extension KinesisVideoMediaClient: KinesisVideoMediaClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMediaInput, GetMediaOutputResponse, GetMediaOutputError>(id: "getMedia")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMediaInput, GetMediaOutputResponse, GetMediaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMediaInput, GetMediaOutputResponse>())
@@ -250,7 +251,7 @@ extension KinesisVideoMediaClient: KinesisVideoMediaClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMediaOutputResponse, GetMediaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetMediaOutputResponse, GetMediaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMediaOutputResponse, GetMediaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

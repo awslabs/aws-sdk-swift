@@ -221,6 +221,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AcceptQualificationRequestInput, AcceptQualificationRequestOutputResponse, AcceptQualificationRequestOutputError>(id: "acceptQualificationRequest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptQualificationRequestInput, AcceptQualificationRequestOutputResponse, AcceptQualificationRequestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptQualificationRequestInput, AcceptQualificationRequestOutputResponse>())
@@ -237,7 +238,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptQualificationRequestOutputResponse, AcceptQualificationRequestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AcceptQualificationRequestOutputResponse, AcceptQualificationRequestOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptQualificationRequestOutputResponse, AcceptQualificationRequestOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -264,6 +265,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ApproveAssignmentInput, ApproveAssignmentOutputResponse, ApproveAssignmentOutputError>(id: "approveAssignment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ApproveAssignmentInput, ApproveAssignmentOutputResponse, ApproveAssignmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ApproveAssignmentInput, ApproveAssignmentOutputResponse>())
@@ -280,7 +282,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ApproveAssignmentOutputResponse, ApproveAssignmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ApproveAssignmentOutputResponse, ApproveAssignmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ApproveAssignmentOutputResponse, ApproveAssignmentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -300,6 +302,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateQualificationWithWorkerInput, AssociateQualificationWithWorkerOutputResponse, AssociateQualificationWithWorkerOutputError>(id: "associateQualificationWithWorker")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateQualificationWithWorkerInput, AssociateQualificationWithWorkerOutputResponse, AssociateQualificationWithWorkerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateQualificationWithWorkerInput, AssociateQualificationWithWorkerOutputResponse>())
@@ -316,7 +319,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateQualificationWithWorkerOutputResponse, AssociateQualificationWithWorkerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateQualificationWithWorkerOutputResponse, AssociateQualificationWithWorkerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateQualificationWithWorkerOutputResponse, AssociateQualificationWithWorkerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -340,6 +343,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAdditionalAssignmentsForHITInput, CreateAdditionalAssignmentsForHITOutputResponse, CreateAdditionalAssignmentsForHITOutputError>(id: "createAdditionalAssignmentsForHIT")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAdditionalAssignmentsForHITInput, CreateAdditionalAssignmentsForHITOutputResponse, CreateAdditionalAssignmentsForHITOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAdditionalAssignmentsForHITInput, CreateAdditionalAssignmentsForHITOutputResponse>())
@@ -356,7 +360,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAdditionalAssignmentsForHITOutputResponse, CreateAdditionalAssignmentsForHITOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAdditionalAssignmentsForHITOutputResponse, CreateAdditionalAssignmentsForHITOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAdditionalAssignmentsForHITOutputResponse, CreateAdditionalAssignmentsForHITOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -376,6 +380,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateHITInput, CreateHITOutputResponse, CreateHITOutputError>(id: "createHIT")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateHITInput, CreateHITOutputResponse, CreateHITOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateHITInput, CreateHITOutputResponse>())
@@ -392,7 +397,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHITOutputResponse, CreateHITOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateHITOutputResponse, CreateHITOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHITOutputResponse, CreateHITOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -412,6 +417,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateHITTypeInput, CreateHITTypeOutputResponse, CreateHITTypeOutputError>(id: "createHITType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateHITTypeInput, CreateHITTypeOutputResponse, CreateHITTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateHITTypeInput, CreateHITTypeOutputResponse>())
@@ -428,7 +434,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHITTypeOutputResponse, CreateHITTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateHITTypeOutputResponse, CreateHITTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHITTypeOutputResponse, CreateHITTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -448,6 +454,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateHITWithHITTypeInput, CreateHITWithHITTypeOutputResponse, CreateHITWithHITTypeOutputError>(id: "createHITWithHITType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateHITWithHITTypeInput, CreateHITWithHITTypeOutputResponse, CreateHITWithHITTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateHITWithHITTypeInput, CreateHITWithHITTypeOutputResponse>())
@@ -464,7 +471,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHITWithHITTypeOutputResponse, CreateHITWithHITTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateHITWithHITTypeOutputResponse, CreateHITWithHITTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHITWithHITTypeOutputResponse, CreateHITWithHITTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -484,6 +491,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateQualificationTypeInput, CreateQualificationTypeOutputResponse, CreateQualificationTypeOutputError>(id: "createQualificationType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateQualificationTypeInput, CreateQualificationTypeOutputResponse, CreateQualificationTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateQualificationTypeInput, CreateQualificationTypeOutputResponse>())
@@ -500,7 +508,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateQualificationTypeOutputResponse, CreateQualificationTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateQualificationTypeOutputResponse, CreateQualificationTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateQualificationTypeOutputResponse, CreateQualificationTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -520,6 +528,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWorkerBlockInput, CreateWorkerBlockOutputResponse, CreateWorkerBlockOutputError>(id: "createWorkerBlock")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorkerBlockInput, CreateWorkerBlockOutputResponse, CreateWorkerBlockOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorkerBlockInput, CreateWorkerBlockOutputResponse>())
@@ -536,7 +545,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorkerBlockOutputResponse, CreateWorkerBlockOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateWorkerBlockOutputResponse, CreateWorkerBlockOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkerBlockOutputResponse, CreateWorkerBlockOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -564,6 +573,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteHITInput, DeleteHITOutputResponse, DeleteHITOutputError>(id: "deleteHIT")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteHITInput, DeleteHITOutputResponse, DeleteHITOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteHITInput, DeleteHITOutputResponse>())
@@ -580,7 +590,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteHITOutputResponse, DeleteHITOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteHITOutputResponse, DeleteHITOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHITOutputResponse, DeleteHITOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -600,6 +610,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteQualificationTypeInput, DeleteQualificationTypeOutputResponse, DeleteQualificationTypeOutputError>(id: "deleteQualificationType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteQualificationTypeInput, DeleteQualificationTypeOutputResponse, DeleteQualificationTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteQualificationTypeInput, DeleteQualificationTypeOutputResponse>())
@@ -616,7 +627,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteQualificationTypeOutputResponse, DeleteQualificationTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteQualificationTypeOutputResponse, DeleteQualificationTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteQualificationTypeOutputResponse, DeleteQualificationTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -636,6 +647,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWorkerBlockInput, DeleteWorkerBlockOutputResponse, DeleteWorkerBlockOutputError>(id: "deleteWorkerBlock")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorkerBlockInput, DeleteWorkerBlockOutputResponse, DeleteWorkerBlockOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorkerBlockInput, DeleteWorkerBlockOutputResponse>())
@@ -652,7 +664,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWorkerBlockOutputResponse, DeleteWorkerBlockOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteWorkerBlockOutputResponse, DeleteWorkerBlockOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorkerBlockOutputResponse, DeleteWorkerBlockOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -672,6 +684,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateQualificationFromWorkerInput, DisassociateQualificationFromWorkerOutputResponse, DisassociateQualificationFromWorkerOutputError>(id: "disassociateQualificationFromWorker")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateQualificationFromWorkerInput, DisassociateQualificationFromWorkerOutputResponse, DisassociateQualificationFromWorkerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateQualificationFromWorkerInput, DisassociateQualificationFromWorkerOutputResponse>())
@@ -688,7 +701,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateQualificationFromWorkerOutputResponse, DisassociateQualificationFromWorkerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateQualificationFromWorkerOutputResponse, DisassociateQualificationFromWorkerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateQualificationFromWorkerOutputResponse, DisassociateQualificationFromWorkerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -708,6 +721,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccountBalanceInput, GetAccountBalanceOutputResponse, GetAccountBalanceOutputError>(id: "getAccountBalance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountBalanceInput, GetAccountBalanceOutputResponse, GetAccountBalanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountBalanceInput, GetAccountBalanceOutputResponse>())
@@ -724,7 +738,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountBalanceOutputResponse, GetAccountBalanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAccountBalanceOutputResponse, GetAccountBalanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountBalanceOutputResponse, GetAccountBalanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -744,6 +758,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAssignmentInput, GetAssignmentOutputResponse, GetAssignmentOutputError>(id: "getAssignment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAssignmentInput, GetAssignmentOutputResponse, GetAssignmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAssignmentInput, GetAssignmentOutputResponse>())
@@ -760,7 +775,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAssignmentOutputResponse, GetAssignmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAssignmentOutputResponse, GetAssignmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAssignmentOutputResponse, GetAssignmentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -783,6 +798,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFileUploadURLInput, GetFileUploadURLOutputResponse, GetFileUploadURLOutputError>(id: "getFileUploadURL")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFileUploadURLInput, GetFileUploadURLOutputResponse, GetFileUploadURLOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFileUploadURLInput, GetFileUploadURLOutputResponse>())
@@ -799,7 +815,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFileUploadURLOutputResponse, GetFileUploadURLOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetFileUploadURLOutputResponse, GetFileUploadURLOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFileUploadURLOutputResponse, GetFileUploadURLOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -819,6 +835,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetHITInput, GetHITOutputResponse, GetHITOutputError>(id: "getHIT")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetHITInput, GetHITOutputResponse, GetHITOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetHITInput, GetHITOutputResponse>())
@@ -835,7 +852,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHITOutputResponse, GetHITOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetHITOutputResponse, GetHITOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHITOutputResponse, GetHITOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -855,6 +872,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetQualificationScoreInput, GetQualificationScoreOutputResponse, GetQualificationScoreOutputError>(id: "getQualificationScore")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQualificationScoreInput, GetQualificationScoreOutputResponse, GetQualificationScoreOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQualificationScoreInput, GetQualificationScoreOutputResponse>())
@@ -871,7 +889,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQualificationScoreOutputResponse, GetQualificationScoreOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetQualificationScoreOutputResponse, GetQualificationScoreOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQualificationScoreOutputResponse, GetQualificationScoreOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -891,6 +909,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetQualificationTypeInput, GetQualificationTypeOutputResponse, GetQualificationTypeOutputError>(id: "getQualificationType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQualificationTypeInput, GetQualificationTypeOutputResponse, GetQualificationTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQualificationTypeInput, GetQualificationTypeOutputResponse>())
@@ -907,7 +926,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQualificationTypeOutputResponse, GetQualificationTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetQualificationTypeOutputResponse, GetQualificationTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQualificationTypeOutputResponse, GetQualificationTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -927,6 +946,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAssignmentsForHITInput, ListAssignmentsForHITOutputResponse, ListAssignmentsForHITOutputError>(id: "listAssignmentsForHIT")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssignmentsForHITInput, ListAssignmentsForHITOutputResponse, ListAssignmentsForHITOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssignmentsForHITInput, ListAssignmentsForHITOutputResponse>())
@@ -943,7 +963,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAssignmentsForHITOutputResponse, ListAssignmentsForHITOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAssignmentsForHITOutputResponse, ListAssignmentsForHITOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAssignmentsForHITOutputResponse, ListAssignmentsForHITOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -963,6 +983,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListBonusPaymentsInput, ListBonusPaymentsOutputResponse, ListBonusPaymentsOutputError>(id: "listBonusPayments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBonusPaymentsInput, ListBonusPaymentsOutputResponse, ListBonusPaymentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBonusPaymentsInput, ListBonusPaymentsOutputResponse>())
@@ -979,7 +1000,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBonusPaymentsOutputResponse, ListBonusPaymentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListBonusPaymentsOutputResponse, ListBonusPaymentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBonusPaymentsOutputResponse, ListBonusPaymentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -999,6 +1020,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListHITsInput, ListHITsOutputResponse, ListHITsOutputError>(id: "listHITs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHITsInput, ListHITsOutputResponse, ListHITsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHITsInput, ListHITsOutputResponse>())
@@ -1015,7 +1037,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHITsOutputResponse, ListHITsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListHITsOutputResponse, ListHITsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHITsOutputResponse, ListHITsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1035,6 +1057,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListHITsForQualificationTypeInput, ListHITsForQualificationTypeOutputResponse, ListHITsForQualificationTypeOutputError>(id: "listHITsForQualificationType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHITsForQualificationTypeInput, ListHITsForQualificationTypeOutputResponse, ListHITsForQualificationTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHITsForQualificationTypeInput, ListHITsForQualificationTypeOutputResponse>())
@@ -1051,7 +1074,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHITsForQualificationTypeOutputResponse, ListHITsForQualificationTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListHITsForQualificationTypeOutputResponse, ListHITsForQualificationTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHITsForQualificationTypeOutputResponse, ListHITsForQualificationTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1071,6 +1094,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListQualificationRequestsInput, ListQualificationRequestsOutputResponse, ListQualificationRequestsOutputError>(id: "listQualificationRequests")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListQualificationRequestsInput, ListQualificationRequestsOutputResponse, ListQualificationRequestsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListQualificationRequestsInput, ListQualificationRequestsOutputResponse>())
@@ -1087,7 +1111,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListQualificationRequestsOutputResponse, ListQualificationRequestsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListQualificationRequestsOutputResponse, ListQualificationRequestsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQualificationRequestsOutputResponse, ListQualificationRequestsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1107,6 +1131,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListQualificationTypesInput, ListQualificationTypesOutputResponse, ListQualificationTypesOutputError>(id: "listQualificationTypes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListQualificationTypesInput, ListQualificationTypesOutputResponse, ListQualificationTypesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListQualificationTypesInput, ListQualificationTypesOutputResponse>())
@@ -1123,7 +1148,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListQualificationTypesOutputResponse, ListQualificationTypesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListQualificationTypesOutputResponse, ListQualificationTypesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQualificationTypesOutputResponse, ListQualificationTypesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1143,6 +1168,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListReviewPolicyResultsForHITInput, ListReviewPolicyResultsForHITOutputResponse, ListReviewPolicyResultsForHITOutputError>(id: "listReviewPolicyResultsForHIT")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListReviewPolicyResultsForHITInput, ListReviewPolicyResultsForHITOutputResponse, ListReviewPolicyResultsForHITOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListReviewPolicyResultsForHITInput, ListReviewPolicyResultsForHITOutputResponse>())
@@ -1159,7 +1185,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReviewPolicyResultsForHITOutputResponse, ListReviewPolicyResultsForHITOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListReviewPolicyResultsForHITOutputResponse, ListReviewPolicyResultsForHITOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReviewPolicyResultsForHITOutputResponse, ListReviewPolicyResultsForHITOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1179,6 +1205,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListReviewableHITsInput, ListReviewableHITsOutputResponse, ListReviewableHITsOutputError>(id: "listReviewableHITs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListReviewableHITsInput, ListReviewableHITsOutputResponse, ListReviewableHITsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListReviewableHITsInput, ListReviewableHITsOutputResponse>())
@@ -1195,7 +1222,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReviewableHITsOutputResponse, ListReviewableHITsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListReviewableHITsOutputResponse, ListReviewableHITsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReviewableHITsOutputResponse, ListReviewableHITsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1215,6 +1242,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorkerBlocksInput, ListWorkerBlocksOutputResponse, ListWorkerBlocksOutputError>(id: "listWorkerBlocks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkerBlocksInput, ListWorkerBlocksOutputResponse, ListWorkerBlocksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkerBlocksInput, ListWorkerBlocksOutputResponse>())
@@ -1231,7 +1259,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorkerBlocksOutputResponse, ListWorkerBlocksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListWorkerBlocksOutputResponse, ListWorkerBlocksOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkerBlocksOutputResponse, ListWorkerBlocksOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1251,6 +1279,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorkersWithQualificationTypeInput, ListWorkersWithQualificationTypeOutputResponse, ListWorkersWithQualificationTypeOutputError>(id: "listWorkersWithQualificationType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkersWithQualificationTypeInput, ListWorkersWithQualificationTypeOutputResponse, ListWorkersWithQualificationTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkersWithQualificationTypeInput, ListWorkersWithQualificationTypeOutputResponse>())
@@ -1267,7 +1296,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorkersWithQualificationTypeOutputResponse, ListWorkersWithQualificationTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListWorkersWithQualificationTypeOutputResponse, ListWorkersWithQualificationTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkersWithQualificationTypeOutputResponse, ListWorkersWithQualificationTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1287,6 +1316,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<NotifyWorkersInput, NotifyWorkersOutputResponse, NotifyWorkersOutputError>(id: "notifyWorkers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NotifyWorkersInput, NotifyWorkersOutputResponse, NotifyWorkersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NotifyWorkersInput, NotifyWorkersOutputResponse>())
@@ -1303,7 +1333,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<NotifyWorkersOutputResponse, NotifyWorkersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<NotifyWorkersOutputResponse, NotifyWorkersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<NotifyWorkersOutputResponse, NotifyWorkersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1323,6 +1353,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RejectAssignmentInput, RejectAssignmentOutputResponse, RejectAssignmentOutputError>(id: "rejectAssignment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RejectAssignmentInput, RejectAssignmentOutputResponse, RejectAssignmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RejectAssignmentInput, RejectAssignmentOutputResponse>())
@@ -1339,7 +1370,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectAssignmentOutputResponse, RejectAssignmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RejectAssignmentOutputResponse, RejectAssignmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectAssignmentOutputResponse, RejectAssignmentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1359,6 +1390,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RejectQualificationRequestInput, RejectQualificationRequestOutputResponse, RejectQualificationRequestOutputError>(id: "rejectQualificationRequest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RejectQualificationRequestInput, RejectQualificationRequestOutputResponse, RejectQualificationRequestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RejectQualificationRequestInput, RejectQualificationRequestOutputResponse>())
@@ -1375,7 +1407,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectQualificationRequestOutputResponse, RejectQualificationRequestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RejectQualificationRequestOutputResponse, RejectQualificationRequestOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectQualificationRequestOutputResponse, RejectQualificationRequestOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1395,6 +1427,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendBonusInput, SendBonusOutputResponse, SendBonusOutputError>(id: "sendBonus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendBonusInput, SendBonusOutputResponse, SendBonusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendBonusInput, SendBonusOutputResponse>())
@@ -1411,7 +1444,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendBonusOutputResponse, SendBonusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendBonusOutputResponse, SendBonusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendBonusOutputResponse, SendBonusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1431,6 +1464,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendTestEventNotificationInput, SendTestEventNotificationOutputResponse, SendTestEventNotificationOutputError>(id: "sendTestEventNotification")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendTestEventNotificationInput, SendTestEventNotificationOutputResponse, SendTestEventNotificationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendTestEventNotificationInput, SendTestEventNotificationOutputResponse>())
@@ -1447,7 +1481,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendTestEventNotificationOutputResponse, SendTestEventNotificationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendTestEventNotificationOutputResponse, SendTestEventNotificationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendTestEventNotificationOutputResponse, SendTestEventNotificationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1467,6 +1501,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateExpirationForHITInput, UpdateExpirationForHITOutputResponse, UpdateExpirationForHITOutputError>(id: "updateExpirationForHIT")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateExpirationForHITInput, UpdateExpirationForHITOutputResponse, UpdateExpirationForHITOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateExpirationForHITInput, UpdateExpirationForHITOutputResponse>())
@@ -1483,7 +1518,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateExpirationForHITOutputResponse, UpdateExpirationForHITOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateExpirationForHITOutputResponse, UpdateExpirationForHITOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateExpirationForHITOutputResponse, UpdateExpirationForHITOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1503,6 +1538,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateHITReviewStatusInput, UpdateHITReviewStatusOutputResponse, UpdateHITReviewStatusOutputError>(id: "updateHITReviewStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateHITReviewStatusInput, UpdateHITReviewStatusOutputResponse, UpdateHITReviewStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateHITReviewStatusInput, UpdateHITReviewStatusOutputResponse>())
@@ -1519,7 +1555,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateHITReviewStatusOutputResponse, UpdateHITReviewStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateHITReviewStatusOutputResponse, UpdateHITReviewStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateHITReviewStatusOutputResponse, UpdateHITReviewStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1539,6 +1575,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateHITTypeOfHITInput, UpdateHITTypeOfHITOutputResponse, UpdateHITTypeOfHITOutputError>(id: "updateHITTypeOfHIT")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateHITTypeOfHITInput, UpdateHITTypeOfHITOutputResponse, UpdateHITTypeOfHITOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateHITTypeOfHITInput, UpdateHITTypeOfHITOutputResponse>())
@@ -1555,7 +1592,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateHITTypeOfHITOutputResponse, UpdateHITTypeOfHITOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateHITTypeOfHITOutputResponse, UpdateHITTypeOfHITOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateHITTypeOfHITOutputResponse, UpdateHITTypeOfHITOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1575,6 +1612,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateNotificationSettingsInput, UpdateNotificationSettingsOutputResponse, UpdateNotificationSettingsOutputError>(id: "updateNotificationSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNotificationSettingsInput, UpdateNotificationSettingsOutputResponse, UpdateNotificationSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNotificationSettingsInput, UpdateNotificationSettingsOutputResponse>())
@@ -1591,7 +1629,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNotificationSettingsOutputResponse, UpdateNotificationSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateNotificationSettingsOutputResponse, UpdateNotificationSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNotificationSettingsOutputResponse, UpdateNotificationSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1611,6 +1649,7 @@ extension MTurkClient: MTurkClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mturk-requester")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateQualificationTypeInput, UpdateQualificationTypeOutputResponse, UpdateQualificationTypeOutputError>(id: "updateQualificationType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateQualificationTypeInput, UpdateQualificationTypeOutputResponse, UpdateQualificationTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateQualificationTypeInput, UpdateQualificationTypeOutputResponse>())
@@ -1627,7 +1666,7 @@ extension MTurkClient: MTurkClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateQualificationTypeOutputResponse, UpdateQualificationTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateQualificationTypeOutputResponse, UpdateQualificationTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateQualificationTypeOutputResponse, UpdateQualificationTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

@@ -221,6 +221,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddAssociationInput, AddAssociationOutputResponse, AddAssociationOutputError>(id: "addAssociation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddAssociationInput, AddAssociationOutputResponse, AddAssociationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddAssociationInput, AddAssociationOutputResponse>())
@@ -237,7 +238,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddAssociationOutputResponse, AddAssociationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AddAssociationOutputResponse, AddAssociationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddAssociationOutputResponse, AddAssociationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddTagsInput, AddTagsOutputResponse, AddTagsOutputError>(id: "addTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsInput, AddTagsOutputResponse, AddTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsInput, AddTagsOutputResponse>())
@@ -273,7 +275,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsOutputResponse, AddTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AddTagsOutputResponse, AddTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsOutputResponse, AddTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateTrialComponentInput, AssociateTrialComponentOutputResponse, AssociateTrialComponentOutputError>(id: "associateTrialComponent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateTrialComponentInput, AssociateTrialComponentOutputResponse, AssociateTrialComponentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateTrialComponentInput, AssociateTrialComponentOutputResponse>())
@@ -309,7 +312,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateTrialComponentOutputResponse, AssociateTrialComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateTrialComponentOutputResponse, AssociateTrialComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateTrialComponentOutputResponse, AssociateTrialComponentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -329,6 +332,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDescribeModelPackageInput, BatchDescribeModelPackageOutputResponse, BatchDescribeModelPackageOutputError>(id: "batchDescribeModelPackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDescribeModelPackageInput, BatchDescribeModelPackageOutputResponse, BatchDescribeModelPackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDescribeModelPackageInput, BatchDescribeModelPackageOutputResponse>())
@@ -345,7 +349,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDescribeModelPackageOutputResponse, BatchDescribeModelPackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchDescribeModelPackageOutputResponse, BatchDescribeModelPackageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDescribeModelPackageOutputResponse, BatchDescribeModelPackageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -365,6 +369,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateActionInput, CreateActionOutputResponse, CreateActionOutputError>(id: "createAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateActionInput, CreateActionOutputResponse, CreateActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateActionInput, CreateActionOutputResponse>())
@@ -381,7 +386,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateActionOutputResponse, CreateActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateActionOutputResponse, CreateActionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateActionOutputResponse, CreateActionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -401,6 +406,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAlgorithmInput, CreateAlgorithmOutputResponse, CreateAlgorithmOutputError>(id: "createAlgorithm")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAlgorithmInput, CreateAlgorithmOutputResponse, CreateAlgorithmOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAlgorithmInput, CreateAlgorithmOutputResponse>())
@@ -417,7 +423,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAlgorithmOutputResponse, CreateAlgorithmOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAlgorithmOutputResponse, CreateAlgorithmOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAlgorithmOutputResponse, CreateAlgorithmOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -437,6 +443,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAppInput, CreateAppOutputResponse, CreateAppOutputError>(id: "createApp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAppInput, CreateAppOutputResponse, CreateAppOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAppInput, CreateAppOutputResponse>())
@@ -453,7 +460,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppOutputResponse, CreateAppOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAppOutputResponse, CreateAppOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppOutputResponse, CreateAppOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -473,6 +480,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAppImageConfigInput, CreateAppImageConfigOutputResponse, CreateAppImageConfigOutputError>(id: "createAppImageConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAppImageConfigInput, CreateAppImageConfigOutputResponse, CreateAppImageConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAppImageConfigInput, CreateAppImageConfigOutputResponse>())
@@ -489,7 +497,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppImageConfigOutputResponse, CreateAppImageConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAppImageConfigOutputResponse, CreateAppImageConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppImageConfigOutputResponse, CreateAppImageConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -509,6 +517,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateArtifactInput, CreateArtifactOutputResponse, CreateArtifactOutputError>(id: "createArtifact")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateArtifactInput, CreateArtifactOutputResponse, CreateArtifactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateArtifactInput, CreateArtifactOutputResponse>())
@@ -525,7 +534,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateArtifactOutputResponse, CreateArtifactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateArtifactOutputResponse, CreateArtifactOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateArtifactOutputResponse, CreateArtifactOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -545,6 +554,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAutoMLJobInput, CreateAutoMLJobOutputResponse, CreateAutoMLJobOutputError>(id: "createAutoMLJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAutoMLJobInput, CreateAutoMLJobOutputResponse, CreateAutoMLJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAutoMLJobInput, CreateAutoMLJobOutputResponse>())
@@ -561,7 +571,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAutoMLJobOutputResponse, CreateAutoMLJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAutoMLJobOutputResponse, CreateAutoMLJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAutoMLJobOutputResponse, CreateAutoMLJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -581,6 +591,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCodeRepositoryInput, CreateCodeRepositoryOutputResponse, CreateCodeRepositoryOutputError>(id: "createCodeRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCodeRepositoryInput, CreateCodeRepositoryOutputResponse, CreateCodeRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCodeRepositoryInput, CreateCodeRepositoryOutputResponse>())
@@ -597,7 +608,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCodeRepositoryOutputResponse, CreateCodeRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateCodeRepositoryOutputResponse, CreateCodeRepositoryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCodeRepositoryOutputResponse, CreateCodeRepositoryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -628,6 +639,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCompilationJobInput, CreateCompilationJobOutputResponse, CreateCompilationJobOutputError>(id: "createCompilationJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCompilationJobInput, CreateCompilationJobOutputResponse, CreateCompilationJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCompilationJobInput, CreateCompilationJobOutputResponse>())
@@ -644,7 +656,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCompilationJobOutputResponse, CreateCompilationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateCompilationJobOutputResponse, CreateCompilationJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCompilationJobOutputResponse, CreateCompilationJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -664,6 +676,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateContextInput, CreateContextOutputResponse, CreateContextOutputError>(id: "createContext")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateContextInput, CreateContextOutputResponse, CreateContextOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateContextInput, CreateContextOutputResponse>())
@@ -680,7 +693,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateContextOutputResponse, CreateContextOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateContextOutputResponse, CreateContextOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateContextOutputResponse, CreateContextOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -700,6 +713,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDataQualityJobDefinitionInput, CreateDataQualityJobDefinitionOutputResponse, CreateDataQualityJobDefinitionOutputError>(id: "createDataQualityJobDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDataQualityJobDefinitionInput, CreateDataQualityJobDefinitionOutputResponse, CreateDataQualityJobDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDataQualityJobDefinitionInput, CreateDataQualityJobDefinitionOutputResponse>())
@@ -716,7 +730,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDataQualityJobDefinitionOutputResponse, CreateDataQualityJobDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDataQualityJobDefinitionOutputResponse, CreateDataQualityJobDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDataQualityJobDefinitionOutputResponse, CreateDataQualityJobDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -736,6 +750,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDeviceFleetInput, CreateDeviceFleetOutputResponse, CreateDeviceFleetOutputError>(id: "createDeviceFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDeviceFleetInput, CreateDeviceFleetOutputResponse, CreateDeviceFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDeviceFleetInput, CreateDeviceFleetOutputResponse>())
@@ -752,7 +767,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeviceFleetOutputResponse, CreateDeviceFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDeviceFleetOutputResponse, CreateDeviceFleetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeviceFleetOutputResponse, CreateDeviceFleetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -779,6 +794,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDomainInput, CreateDomainOutputResponse, CreateDomainOutputError>(id: "createDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDomainInput, CreateDomainOutputResponse, CreateDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDomainInput, CreateDomainOutputResponse>())
@@ -795,7 +811,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDomainOutputResponse, CreateDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDomainOutputResponse, CreateDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDomainOutputResponse, CreateDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -815,6 +831,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEdgeDeploymentPlanInput, CreateEdgeDeploymentPlanOutputResponse, CreateEdgeDeploymentPlanOutputError>(id: "createEdgeDeploymentPlan")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEdgeDeploymentPlanInput, CreateEdgeDeploymentPlanOutputResponse, CreateEdgeDeploymentPlanOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEdgeDeploymentPlanInput, CreateEdgeDeploymentPlanOutputResponse>())
@@ -831,7 +848,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEdgeDeploymentPlanOutputResponse, CreateEdgeDeploymentPlanOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateEdgeDeploymentPlanOutputResponse, CreateEdgeDeploymentPlanOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEdgeDeploymentPlanOutputResponse, CreateEdgeDeploymentPlanOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -851,6 +868,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEdgeDeploymentStageInput, CreateEdgeDeploymentStageOutputResponse, CreateEdgeDeploymentStageOutputError>(id: "createEdgeDeploymentStage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEdgeDeploymentStageInput, CreateEdgeDeploymentStageOutputResponse, CreateEdgeDeploymentStageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEdgeDeploymentStageInput, CreateEdgeDeploymentStageOutputResponse>())
@@ -867,7 +885,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEdgeDeploymentStageOutputResponse, CreateEdgeDeploymentStageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateEdgeDeploymentStageOutputResponse, CreateEdgeDeploymentStageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEdgeDeploymentStageOutputResponse, CreateEdgeDeploymentStageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -887,6 +905,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEdgePackagingJobInput, CreateEdgePackagingJobOutputResponse, CreateEdgePackagingJobOutputError>(id: "createEdgePackagingJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEdgePackagingJobInput, CreateEdgePackagingJobOutputResponse, CreateEdgePackagingJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEdgePackagingJobInput, CreateEdgePackagingJobOutputResponse>())
@@ -903,7 +922,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEdgePackagingJobOutputResponse, CreateEdgePackagingJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateEdgePackagingJobOutputResponse, CreateEdgePackagingJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEdgePackagingJobOutputResponse, CreateEdgePackagingJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -927,6 +946,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEndpointInput, CreateEndpointOutputResponse, CreateEndpointOutputError>(id: "createEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEndpointInput, CreateEndpointOutputResponse, CreateEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEndpointInput, CreateEndpointOutputResponse>())
@@ -943,7 +963,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEndpointOutputResponse, CreateEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateEndpointOutputResponse, CreateEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEndpointOutputResponse, CreateEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -963,6 +983,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEndpointConfigInput, CreateEndpointConfigOutputResponse, CreateEndpointConfigOutputError>(id: "createEndpointConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEndpointConfigInput, CreateEndpointConfigOutputResponse, CreateEndpointConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEndpointConfigInput, CreateEndpointConfigOutputResponse>())
@@ -979,7 +1000,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEndpointConfigOutputResponse, CreateEndpointConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateEndpointConfigOutputResponse, CreateEndpointConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEndpointConfigOutputResponse, CreateEndpointConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -999,6 +1020,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateExperimentInput, CreateExperimentOutputResponse, CreateExperimentOutputError>(id: "createExperiment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateExperimentInput, CreateExperimentOutputResponse, CreateExperimentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateExperimentInput, CreateExperimentOutputResponse>())
@@ -1015,7 +1037,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateExperimentOutputResponse, CreateExperimentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateExperimentOutputResponse, CreateExperimentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateExperimentOutputResponse, CreateExperimentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1035,6 +1057,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFeatureGroupInput, CreateFeatureGroupOutputResponse, CreateFeatureGroupOutputError>(id: "createFeatureGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFeatureGroupInput, CreateFeatureGroupOutputResponse, CreateFeatureGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFeatureGroupInput, CreateFeatureGroupOutputResponse>())
@@ -1051,7 +1074,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFeatureGroupOutputResponse, CreateFeatureGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateFeatureGroupOutputResponse, CreateFeatureGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFeatureGroupOutputResponse, CreateFeatureGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1071,6 +1094,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFlowDefinitionInput, CreateFlowDefinitionOutputResponse, CreateFlowDefinitionOutputError>(id: "createFlowDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFlowDefinitionInput, CreateFlowDefinitionOutputResponse, CreateFlowDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFlowDefinitionInput, CreateFlowDefinitionOutputResponse>())
@@ -1087,7 +1111,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFlowDefinitionOutputResponse, CreateFlowDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateFlowDefinitionOutputResponse, CreateFlowDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFlowDefinitionOutputResponse, CreateFlowDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1107,6 +1131,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateHubInput, CreateHubOutputResponse, CreateHubOutputError>(id: "createHub")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateHubInput, CreateHubOutputResponse, CreateHubOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateHubInput, CreateHubOutputResponse>())
@@ -1123,7 +1148,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHubOutputResponse, CreateHubOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateHubOutputResponse, CreateHubOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHubOutputResponse, CreateHubOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1143,6 +1168,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateHumanTaskUiInput, CreateHumanTaskUiOutputResponse, CreateHumanTaskUiOutputError>(id: "createHumanTaskUi")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateHumanTaskUiInput, CreateHumanTaskUiOutputResponse, CreateHumanTaskUiOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateHumanTaskUiInput, CreateHumanTaskUiOutputResponse>())
@@ -1159,7 +1185,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHumanTaskUiOutputResponse, CreateHumanTaskUiOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateHumanTaskUiOutputResponse, CreateHumanTaskUiOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHumanTaskUiOutputResponse, CreateHumanTaskUiOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1179,6 +1205,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateHyperParameterTuningJobInput, CreateHyperParameterTuningJobOutputResponse, CreateHyperParameterTuningJobOutputError>(id: "createHyperParameterTuningJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateHyperParameterTuningJobInput, CreateHyperParameterTuningJobOutputResponse, CreateHyperParameterTuningJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateHyperParameterTuningJobInput, CreateHyperParameterTuningJobOutputResponse>())
@@ -1195,7 +1222,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHyperParameterTuningJobOutputResponse, CreateHyperParameterTuningJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateHyperParameterTuningJobOutputResponse, CreateHyperParameterTuningJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHyperParameterTuningJobOutputResponse, CreateHyperParameterTuningJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1215,6 +1242,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateImageInput, CreateImageOutputResponse, CreateImageOutputError>(id: "createImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateImageInput, CreateImageOutputResponse, CreateImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateImageInput, CreateImageOutputResponse>())
@@ -1231,7 +1259,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateImageOutputResponse, CreateImageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateImageOutputResponse, CreateImageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateImageOutputResponse, CreateImageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1251,6 +1279,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateImageVersionInput, CreateImageVersionOutputResponse, CreateImageVersionOutputError>(id: "createImageVersion")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateImageVersionOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1275,7 +1304,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateImageVersionOutputResponse, CreateImageVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateImageVersionOutputResponse, CreateImageVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateImageVersionOutputResponse, CreateImageVersionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1295,6 +1324,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateInferenceExperimentInput, CreateInferenceExperimentOutputResponse, CreateInferenceExperimentOutputError>(id: "createInferenceExperiment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInferenceExperimentInput, CreateInferenceExperimentOutputResponse, CreateInferenceExperimentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInferenceExperimentInput, CreateInferenceExperimentOutputResponse>())
@@ -1311,7 +1341,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInferenceExperimentOutputResponse, CreateInferenceExperimentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateInferenceExperimentOutputResponse, CreateInferenceExperimentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInferenceExperimentOutputResponse, CreateInferenceExperimentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1331,6 +1361,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateInferenceRecommendationsJobInput, CreateInferenceRecommendationsJobOutputResponse, CreateInferenceRecommendationsJobOutputError>(id: "createInferenceRecommendationsJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInferenceRecommendationsJobInput, CreateInferenceRecommendationsJobOutputResponse, CreateInferenceRecommendationsJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInferenceRecommendationsJobInput, CreateInferenceRecommendationsJobOutputResponse>())
@@ -1347,7 +1378,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInferenceRecommendationsJobOutputResponse, CreateInferenceRecommendationsJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateInferenceRecommendationsJobOutputResponse, CreateInferenceRecommendationsJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInferenceRecommendationsJobOutputResponse, CreateInferenceRecommendationsJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1376,6 +1407,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLabelingJobInput, CreateLabelingJobOutputResponse, CreateLabelingJobOutputError>(id: "createLabelingJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLabelingJobInput, CreateLabelingJobOutputResponse, CreateLabelingJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLabelingJobInput, CreateLabelingJobOutputResponse>())
@@ -1392,7 +1424,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLabelingJobOutputResponse, CreateLabelingJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateLabelingJobOutputResponse, CreateLabelingJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLabelingJobOutputResponse, CreateLabelingJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1412,6 +1444,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateModelInput, CreateModelOutputResponse, CreateModelOutputError>(id: "createModel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateModelInput, CreateModelOutputResponse, CreateModelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateModelInput, CreateModelOutputResponse>())
@@ -1428,7 +1461,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateModelOutputResponse, CreateModelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateModelOutputResponse, CreateModelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateModelOutputResponse, CreateModelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1448,6 +1481,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateModelBiasJobDefinitionInput, CreateModelBiasJobDefinitionOutputResponse, CreateModelBiasJobDefinitionOutputError>(id: "createModelBiasJobDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateModelBiasJobDefinitionInput, CreateModelBiasJobDefinitionOutputResponse, CreateModelBiasJobDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateModelBiasJobDefinitionInput, CreateModelBiasJobDefinitionOutputResponse>())
@@ -1464,7 +1498,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateModelBiasJobDefinitionOutputResponse, CreateModelBiasJobDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateModelBiasJobDefinitionOutputResponse, CreateModelBiasJobDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateModelBiasJobDefinitionOutputResponse, CreateModelBiasJobDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1484,6 +1518,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateModelCardInput, CreateModelCardOutputResponse, CreateModelCardOutputError>(id: "createModelCard")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateModelCardInput, CreateModelCardOutputResponse, CreateModelCardOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateModelCardInput, CreateModelCardOutputResponse>())
@@ -1500,7 +1535,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateModelCardOutputResponse, CreateModelCardOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateModelCardOutputResponse, CreateModelCardOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateModelCardOutputResponse, CreateModelCardOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1520,6 +1555,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateModelCardExportJobInput, CreateModelCardExportJobOutputResponse, CreateModelCardExportJobOutputError>(id: "createModelCardExportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateModelCardExportJobInput, CreateModelCardExportJobOutputResponse, CreateModelCardExportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateModelCardExportJobInput, CreateModelCardExportJobOutputResponse>())
@@ -1536,7 +1572,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateModelCardExportJobOutputResponse, CreateModelCardExportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateModelCardExportJobOutputResponse, CreateModelCardExportJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateModelCardExportJobOutputResponse, CreateModelCardExportJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1556,6 +1592,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateModelExplainabilityJobDefinitionInput, CreateModelExplainabilityJobDefinitionOutputResponse, CreateModelExplainabilityJobDefinitionOutputError>(id: "createModelExplainabilityJobDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateModelExplainabilityJobDefinitionInput, CreateModelExplainabilityJobDefinitionOutputResponse, CreateModelExplainabilityJobDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateModelExplainabilityJobDefinitionInput, CreateModelExplainabilityJobDefinitionOutputResponse>())
@@ -1572,7 +1609,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateModelExplainabilityJobDefinitionOutputResponse, CreateModelExplainabilityJobDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateModelExplainabilityJobDefinitionOutputResponse, CreateModelExplainabilityJobDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateModelExplainabilityJobDefinitionOutputResponse, CreateModelExplainabilityJobDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1596,6 +1633,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateModelPackageInput, CreateModelPackageOutputResponse, CreateModelPackageOutputError>(id: "createModelPackage")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateModelPackageOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1620,7 +1658,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateModelPackageOutputResponse, CreateModelPackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateModelPackageOutputResponse, CreateModelPackageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateModelPackageOutputResponse, CreateModelPackageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1640,6 +1678,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateModelPackageGroupInput, CreateModelPackageGroupOutputResponse, CreateModelPackageGroupOutputError>(id: "createModelPackageGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateModelPackageGroupInput, CreateModelPackageGroupOutputResponse, CreateModelPackageGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateModelPackageGroupInput, CreateModelPackageGroupOutputResponse>())
@@ -1656,7 +1695,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateModelPackageGroupOutputResponse, CreateModelPackageGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateModelPackageGroupOutputResponse, CreateModelPackageGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateModelPackageGroupOutputResponse, CreateModelPackageGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1676,6 +1715,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateModelQualityJobDefinitionInput, CreateModelQualityJobDefinitionOutputResponse, CreateModelQualityJobDefinitionOutputError>(id: "createModelQualityJobDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateModelQualityJobDefinitionInput, CreateModelQualityJobDefinitionOutputResponse, CreateModelQualityJobDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateModelQualityJobDefinitionInput, CreateModelQualityJobDefinitionOutputResponse>())
@@ -1692,7 +1732,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateModelQualityJobDefinitionOutputResponse, CreateModelQualityJobDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateModelQualityJobDefinitionOutputResponse, CreateModelQualityJobDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateModelQualityJobDefinitionOutputResponse, CreateModelQualityJobDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1712,6 +1752,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMonitoringScheduleInput, CreateMonitoringScheduleOutputResponse, CreateMonitoringScheduleOutputError>(id: "createMonitoringSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMonitoringScheduleInput, CreateMonitoringScheduleOutputResponse, CreateMonitoringScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMonitoringScheduleInput, CreateMonitoringScheduleOutputResponse>())
@@ -1728,7 +1769,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMonitoringScheduleOutputResponse, CreateMonitoringScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateMonitoringScheduleOutputResponse, CreateMonitoringScheduleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMonitoringScheduleOutputResponse, CreateMonitoringScheduleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1757,6 +1798,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateNotebookInstanceInput, CreateNotebookInstanceOutputResponse, CreateNotebookInstanceOutputError>(id: "createNotebookInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNotebookInstanceInput, CreateNotebookInstanceOutputResponse, CreateNotebookInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNotebookInstanceInput, CreateNotebookInstanceOutputResponse>())
@@ -1773,7 +1815,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNotebookInstanceOutputResponse, CreateNotebookInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateNotebookInstanceOutputResponse, CreateNotebookInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNotebookInstanceOutputResponse, CreateNotebookInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1793,6 +1835,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateNotebookInstanceLifecycleConfigInput, CreateNotebookInstanceLifecycleConfigOutputResponse, CreateNotebookInstanceLifecycleConfigOutputError>(id: "createNotebookInstanceLifecycleConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateNotebookInstanceLifecycleConfigInput, CreateNotebookInstanceLifecycleConfigOutputResponse, CreateNotebookInstanceLifecycleConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateNotebookInstanceLifecycleConfigInput, CreateNotebookInstanceLifecycleConfigOutputResponse>())
@@ -1809,7 +1852,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNotebookInstanceLifecycleConfigOutputResponse, CreateNotebookInstanceLifecycleConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateNotebookInstanceLifecycleConfigOutputResponse, CreateNotebookInstanceLifecycleConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNotebookInstanceLifecycleConfigOutputResponse, CreateNotebookInstanceLifecycleConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1829,6 +1872,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePipelineInput, CreatePipelineOutputResponse, CreatePipelineOutputError>(id: "createPipeline")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreatePipelineOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1853,7 +1897,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePipelineOutputResponse, CreatePipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePipelineOutputResponse, CreatePipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePipelineOutputResponse, CreatePipelineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1873,6 +1917,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePresignedDomainUrlInput, CreatePresignedDomainUrlOutputResponse, CreatePresignedDomainUrlOutputError>(id: "createPresignedDomainUrl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePresignedDomainUrlInput, CreatePresignedDomainUrlOutputResponse, CreatePresignedDomainUrlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePresignedDomainUrlInput, CreatePresignedDomainUrlOutputResponse>())
@@ -1889,7 +1934,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePresignedDomainUrlOutputResponse, CreatePresignedDomainUrlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePresignedDomainUrlOutputResponse, CreatePresignedDomainUrlOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePresignedDomainUrlOutputResponse, CreatePresignedDomainUrlOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1909,6 +1954,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePresignedNotebookInstanceUrlInput, CreatePresignedNotebookInstanceUrlOutputResponse, CreatePresignedNotebookInstanceUrlOutputError>(id: "createPresignedNotebookInstanceUrl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePresignedNotebookInstanceUrlInput, CreatePresignedNotebookInstanceUrlOutputResponse, CreatePresignedNotebookInstanceUrlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePresignedNotebookInstanceUrlInput, CreatePresignedNotebookInstanceUrlOutputResponse>())
@@ -1925,7 +1971,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePresignedNotebookInstanceUrlOutputResponse, CreatePresignedNotebookInstanceUrlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePresignedNotebookInstanceUrlOutputResponse, CreatePresignedNotebookInstanceUrlOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePresignedNotebookInstanceUrlOutputResponse, CreatePresignedNotebookInstanceUrlOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1945,6 +1991,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateProcessingJobInput, CreateProcessingJobOutputResponse, CreateProcessingJobOutputError>(id: "createProcessingJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProcessingJobInput, CreateProcessingJobOutputResponse, CreateProcessingJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProcessingJobInput, CreateProcessingJobOutputResponse>())
@@ -1961,7 +2008,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProcessingJobOutputResponse, CreateProcessingJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateProcessingJobOutputResponse, CreateProcessingJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProcessingJobOutputResponse, CreateProcessingJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1981,6 +2028,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateProjectInput, CreateProjectOutputResponse, CreateProjectOutputError>(id: "createProject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProjectInput, CreateProjectOutputResponse, CreateProjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProjectInput, CreateProjectOutputResponse>())
@@ -1997,7 +2045,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProjectOutputResponse, CreateProjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateProjectOutputResponse, CreateProjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProjectOutputResponse, CreateProjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2017,6 +2065,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSpaceInput, CreateSpaceOutputResponse, CreateSpaceOutputError>(id: "createSpace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSpaceInput, CreateSpaceOutputResponse, CreateSpaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSpaceInput, CreateSpaceOutputResponse>())
@@ -2033,7 +2082,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSpaceOutputResponse, CreateSpaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSpaceOutputResponse, CreateSpaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSpaceOutputResponse, CreateSpaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2053,6 +2102,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateStudioLifecycleConfigInput, CreateStudioLifecycleConfigOutputResponse, CreateStudioLifecycleConfigOutputError>(id: "createStudioLifecycleConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStudioLifecycleConfigInput, CreateStudioLifecycleConfigOutputResponse, CreateStudioLifecycleConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStudioLifecycleConfigInput, CreateStudioLifecycleConfigOutputResponse>())
@@ -2069,7 +2119,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStudioLifecycleConfigOutputResponse, CreateStudioLifecycleConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateStudioLifecycleConfigOutputResponse, CreateStudioLifecycleConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStudioLifecycleConfigOutputResponse, CreateStudioLifecycleConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2112,6 +2162,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTrainingJobInput, CreateTrainingJobOutputResponse, CreateTrainingJobOutputError>(id: "createTrainingJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrainingJobInput, CreateTrainingJobOutputResponse, CreateTrainingJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrainingJobInput, CreateTrainingJobOutputResponse>())
@@ -2128,7 +2179,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrainingJobOutputResponse, CreateTrainingJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateTrainingJobOutputResponse, CreateTrainingJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrainingJobOutputResponse, CreateTrainingJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2161,6 +2212,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTransformJobInput, CreateTransformJobOutputResponse, CreateTransformJobOutputError>(id: "createTransformJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTransformJobInput, CreateTransformJobOutputResponse, CreateTransformJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTransformJobInput, CreateTransformJobOutputResponse>())
@@ -2177,7 +2229,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTransformJobOutputResponse, CreateTransformJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateTransformJobOutputResponse, CreateTransformJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTransformJobOutputResponse, CreateTransformJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2197,6 +2249,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTrialInput, CreateTrialOutputResponse, CreateTrialOutputError>(id: "createTrial")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrialInput, CreateTrialOutputResponse, CreateTrialOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrialInput, CreateTrialOutputResponse>())
@@ -2213,7 +2266,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrialOutputResponse, CreateTrialOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateTrialOutputResponse, CreateTrialOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrialOutputResponse, CreateTrialOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2233,6 +2286,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTrialComponentInput, CreateTrialComponentOutputResponse, CreateTrialComponentOutputError>(id: "createTrialComponent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTrialComponentInput, CreateTrialComponentOutputResponse, CreateTrialComponentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrialComponentInput, CreateTrialComponentOutputResponse>())
@@ -2249,7 +2303,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTrialComponentOutputResponse, CreateTrialComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateTrialComponentOutputResponse, CreateTrialComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTrialComponentOutputResponse, CreateTrialComponentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2269,6 +2323,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateUserProfileInput, CreateUserProfileOutputResponse, CreateUserProfileOutputError>(id: "createUserProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserProfileInput, CreateUserProfileOutputResponse, CreateUserProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserProfileInput, CreateUserProfileOutputResponse>())
@@ -2285,7 +2340,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserProfileOutputResponse, CreateUserProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateUserProfileOutputResponse, CreateUserProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserProfileOutputResponse, CreateUserProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2305,6 +2360,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWorkforceInput, CreateWorkforceOutputResponse, CreateWorkforceOutputError>(id: "createWorkforce")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorkforceInput, CreateWorkforceOutputResponse, CreateWorkforceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorkforceInput, CreateWorkforceOutputResponse>())
@@ -2321,7 +2377,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorkforceOutputResponse, CreateWorkforceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateWorkforceOutputResponse, CreateWorkforceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkforceOutputResponse, CreateWorkforceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2341,6 +2397,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWorkteamInput, CreateWorkteamOutputResponse, CreateWorkteamOutputError>(id: "createWorkteam")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorkteamInput, CreateWorkteamOutputResponse, CreateWorkteamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorkteamInput, CreateWorkteamOutputResponse>())
@@ -2357,7 +2414,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorkteamOutputResponse, CreateWorkteamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateWorkteamOutputResponse, CreateWorkteamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkteamOutputResponse, CreateWorkteamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2377,6 +2434,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteActionInput, DeleteActionOutputResponse, DeleteActionOutputError>(id: "deleteAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteActionInput, DeleteActionOutputResponse, DeleteActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteActionInput, DeleteActionOutputResponse>())
@@ -2393,7 +2451,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteActionOutputResponse, DeleteActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteActionOutputResponse, DeleteActionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteActionOutputResponse, DeleteActionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2413,6 +2471,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAlgorithmInput, DeleteAlgorithmOutputResponse, DeleteAlgorithmOutputError>(id: "deleteAlgorithm")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAlgorithmInput, DeleteAlgorithmOutputResponse, DeleteAlgorithmOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAlgorithmInput, DeleteAlgorithmOutputResponse>())
@@ -2429,7 +2488,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAlgorithmOutputResponse, DeleteAlgorithmOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAlgorithmOutputResponse, DeleteAlgorithmOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAlgorithmOutputResponse, DeleteAlgorithmOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2449,6 +2508,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAppInput, DeleteAppOutputResponse, DeleteAppOutputError>(id: "deleteApp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppInput, DeleteAppOutputResponse, DeleteAppOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAppInput, DeleteAppOutputResponse>())
@@ -2465,7 +2525,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppOutputResponse, DeleteAppOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAppOutputResponse, DeleteAppOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppOutputResponse, DeleteAppOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2485,6 +2545,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAppImageConfigInput, DeleteAppImageConfigOutputResponse, DeleteAppImageConfigOutputError>(id: "deleteAppImageConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppImageConfigInput, DeleteAppImageConfigOutputResponse, DeleteAppImageConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAppImageConfigInput, DeleteAppImageConfigOutputResponse>())
@@ -2501,7 +2562,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppImageConfigOutputResponse, DeleteAppImageConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAppImageConfigOutputResponse, DeleteAppImageConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppImageConfigOutputResponse, DeleteAppImageConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2521,6 +2582,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteArtifactInput, DeleteArtifactOutputResponse, DeleteArtifactOutputError>(id: "deleteArtifact")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteArtifactInput, DeleteArtifactOutputResponse, DeleteArtifactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteArtifactInput, DeleteArtifactOutputResponse>())
@@ -2537,7 +2599,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteArtifactOutputResponse, DeleteArtifactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteArtifactOutputResponse, DeleteArtifactOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteArtifactOutputResponse, DeleteArtifactOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2557,6 +2619,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAssociationInput, DeleteAssociationOutputResponse, DeleteAssociationOutputError>(id: "deleteAssociation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAssociationInput, DeleteAssociationOutputResponse, DeleteAssociationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAssociationInput, DeleteAssociationOutputResponse>())
@@ -2573,7 +2636,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAssociationOutputResponse, DeleteAssociationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAssociationOutputResponse, DeleteAssociationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAssociationOutputResponse, DeleteAssociationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2593,6 +2656,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCodeRepositoryInput, DeleteCodeRepositoryOutputResponse, DeleteCodeRepositoryOutputError>(id: "deleteCodeRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCodeRepositoryInput, DeleteCodeRepositoryOutputResponse, DeleteCodeRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCodeRepositoryInput, DeleteCodeRepositoryOutputResponse>())
@@ -2609,7 +2673,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCodeRepositoryOutputResponse, DeleteCodeRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteCodeRepositoryOutputResponse, DeleteCodeRepositoryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCodeRepositoryOutputResponse, DeleteCodeRepositoryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2629,6 +2693,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteContextInput, DeleteContextOutputResponse, DeleteContextOutputError>(id: "deleteContext")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteContextInput, DeleteContextOutputResponse, DeleteContextOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteContextInput, DeleteContextOutputResponse>())
@@ -2645,7 +2710,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteContextOutputResponse, DeleteContextOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteContextOutputResponse, DeleteContextOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteContextOutputResponse, DeleteContextOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2665,6 +2730,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDataQualityJobDefinitionInput, DeleteDataQualityJobDefinitionOutputResponse, DeleteDataQualityJobDefinitionOutputError>(id: "deleteDataQualityJobDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDataQualityJobDefinitionInput, DeleteDataQualityJobDefinitionOutputResponse, DeleteDataQualityJobDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDataQualityJobDefinitionInput, DeleteDataQualityJobDefinitionOutputResponse>())
@@ -2681,7 +2747,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDataQualityJobDefinitionOutputResponse, DeleteDataQualityJobDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDataQualityJobDefinitionOutputResponse, DeleteDataQualityJobDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDataQualityJobDefinitionOutputResponse, DeleteDataQualityJobDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2701,6 +2767,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDeviceFleetInput, DeleteDeviceFleetOutputResponse, DeleteDeviceFleetOutputError>(id: "deleteDeviceFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDeviceFleetInput, DeleteDeviceFleetOutputResponse, DeleteDeviceFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDeviceFleetInput, DeleteDeviceFleetOutputResponse>())
@@ -2717,7 +2784,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeviceFleetOutputResponse, DeleteDeviceFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDeviceFleetOutputResponse, DeleteDeviceFleetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeviceFleetOutputResponse, DeleteDeviceFleetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2737,6 +2804,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDomainInput, DeleteDomainOutputResponse, DeleteDomainOutputError>(id: "deleteDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDomainInput, DeleteDomainOutputResponse, DeleteDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDomainInput, DeleteDomainOutputResponse>())
@@ -2753,7 +2821,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDomainOutputResponse, DeleteDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDomainOutputResponse, DeleteDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDomainOutputResponse, DeleteDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2773,6 +2841,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEdgeDeploymentPlanInput, DeleteEdgeDeploymentPlanOutputResponse, DeleteEdgeDeploymentPlanOutputError>(id: "deleteEdgeDeploymentPlan")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEdgeDeploymentPlanInput, DeleteEdgeDeploymentPlanOutputResponse, DeleteEdgeDeploymentPlanOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEdgeDeploymentPlanInput, DeleteEdgeDeploymentPlanOutputResponse>())
@@ -2789,7 +2858,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEdgeDeploymentPlanOutputResponse, DeleteEdgeDeploymentPlanOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteEdgeDeploymentPlanOutputResponse, DeleteEdgeDeploymentPlanOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEdgeDeploymentPlanOutputResponse, DeleteEdgeDeploymentPlanOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2809,6 +2878,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEdgeDeploymentStageInput, DeleteEdgeDeploymentStageOutputResponse, DeleteEdgeDeploymentStageOutputError>(id: "deleteEdgeDeploymentStage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEdgeDeploymentStageInput, DeleteEdgeDeploymentStageOutputResponse, DeleteEdgeDeploymentStageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEdgeDeploymentStageInput, DeleteEdgeDeploymentStageOutputResponse>())
@@ -2825,7 +2895,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEdgeDeploymentStageOutputResponse, DeleteEdgeDeploymentStageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteEdgeDeploymentStageOutputResponse, DeleteEdgeDeploymentStageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEdgeDeploymentStageOutputResponse, DeleteEdgeDeploymentStageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2845,6 +2915,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEndpointInput, DeleteEndpointOutputResponse, DeleteEndpointOutputError>(id: "deleteEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEndpointInput, DeleteEndpointOutputResponse, DeleteEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEndpointInput, DeleteEndpointOutputResponse>())
@@ -2861,7 +2932,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEndpointOutputResponse, DeleteEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteEndpointOutputResponse, DeleteEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEndpointOutputResponse, DeleteEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2881,6 +2952,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEndpointConfigInput, DeleteEndpointConfigOutputResponse, DeleteEndpointConfigOutputError>(id: "deleteEndpointConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEndpointConfigInput, DeleteEndpointConfigOutputResponse, DeleteEndpointConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEndpointConfigInput, DeleteEndpointConfigOutputResponse>())
@@ -2897,7 +2969,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEndpointConfigOutputResponse, DeleteEndpointConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteEndpointConfigOutputResponse, DeleteEndpointConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEndpointConfigOutputResponse, DeleteEndpointConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2917,6 +2989,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteExperimentInput, DeleteExperimentOutputResponse, DeleteExperimentOutputError>(id: "deleteExperiment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteExperimentInput, DeleteExperimentOutputResponse, DeleteExperimentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteExperimentInput, DeleteExperimentOutputResponse>())
@@ -2933,7 +3006,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteExperimentOutputResponse, DeleteExperimentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteExperimentOutputResponse, DeleteExperimentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteExperimentOutputResponse, DeleteExperimentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2953,6 +3026,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFeatureGroupInput, DeleteFeatureGroupOutputResponse, DeleteFeatureGroupOutputError>(id: "deleteFeatureGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFeatureGroupInput, DeleteFeatureGroupOutputResponse, DeleteFeatureGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFeatureGroupInput, DeleteFeatureGroupOutputResponse>())
@@ -2969,7 +3043,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFeatureGroupOutputResponse, DeleteFeatureGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteFeatureGroupOutputResponse, DeleteFeatureGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFeatureGroupOutputResponse, DeleteFeatureGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2989,6 +3063,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFlowDefinitionInput, DeleteFlowDefinitionOutputResponse, DeleteFlowDefinitionOutputError>(id: "deleteFlowDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFlowDefinitionInput, DeleteFlowDefinitionOutputResponse, DeleteFlowDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFlowDefinitionInput, DeleteFlowDefinitionOutputResponse>())
@@ -3005,7 +3080,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFlowDefinitionOutputResponse, DeleteFlowDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteFlowDefinitionOutputResponse, DeleteFlowDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFlowDefinitionOutputResponse, DeleteFlowDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3025,6 +3100,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteHubInput, DeleteHubOutputResponse, DeleteHubOutputError>(id: "deleteHub")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteHubInput, DeleteHubOutputResponse, DeleteHubOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteHubInput, DeleteHubOutputResponse>())
@@ -3041,7 +3117,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteHubOutputResponse, DeleteHubOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteHubOutputResponse, DeleteHubOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHubOutputResponse, DeleteHubOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3061,6 +3137,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteHubContentInput, DeleteHubContentOutputResponse, DeleteHubContentOutputError>(id: "deleteHubContent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteHubContentInput, DeleteHubContentOutputResponse, DeleteHubContentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteHubContentInput, DeleteHubContentOutputResponse>())
@@ -3077,7 +3154,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteHubContentOutputResponse, DeleteHubContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteHubContentOutputResponse, DeleteHubContentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHubContentOutputResponse, DeleteHubContentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3097,6 +3174,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteHumanTaskUiInput, DeleteHumanTaskUiOutputResponse, DeleteHumanTaskUiOutputError>(id: "deleteHumanTaskUi")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteHumanTaskUiInput, DeleteHumanTaskUiOutputResponse, DeleteHumanTaskUiOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteHumanTaskUiInput, DeleteHumanTaskUiOutputResponse>())
@@ -3113,7 +3191,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteHumanTaskUiOutputResponse, DeleteHumanTaskUiOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteHumanTaskUiOutputResponse, DeleteHumanTaskUiOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteHumanTaskUiOutputResponse, DeleteHumanTaskUiOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3133,6 +3211,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteImageInput, DeleteImageOutputResponse, DeleteImageOutputError>(id: "deleteImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteImageInput, DeleteImageOutputResponse, DeleteImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteImageInput, DeleteImageOutputResponse>())
@@ -3149,7 +3228,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteImageOutputResponse, DeleteImageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteImageOutputResponse, DeleteImageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteImageOutputResponse, DeleteImageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3169,6 +3248,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteImageVersionInput, DeleteImageVersionOutputResponse, DeleteImageVersionOutputError>(id: "deleteImageVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteImageVersionInput, DeleteImageVersionOutputResponse, DeleteImageVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteImageVersionInput, DeleteImageVersionOutputResponse>())
@@ -3185,7 +3265,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteImageVersionOutputResponse, DeleteImageVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteImageVersionOutputResponse, DeleteImageVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteImageVersionOutputResponse, DeleteImageVersionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3205,6 +3285,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteInferenceExperimentInput, DeleteInferenceExperimentOutputResponse, DeleteInferenceExperimentOutputError>(id: "deleteInferenceExperiment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInferenceExperimentInput, DeleteInferenceExperimentOutputResponse, DeleteInferenceExperimentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInferenceExperimentInput, DeleteInferenceExperimentOutputResponse>())
@@ -3221,7 +3302,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInferenceExperimentOutputResponse, DeleteInferenceExperimentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteInferenceExperimentOutputResponse, DeleteInferenceExperimentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInferenceExperimentOutputResponse, DeleteInferenceExperimentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3241,6 +3322,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteModelInput, DeleteModelOutputResponse, DeleteModelOutputError>(id: "deleteModel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteModelInput, DeleteModelOutputResponse, DeleteModelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteModelInput, DeleteModelOutputResponse>())
@@ -3257,7 +3339,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteModelOutputResponse, DeleteModelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteModelOutputResponse, DeleteModelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteModelOutputResponse, DeleteModelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3277,6 +3359,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteModelBiasJobDefinitionInput, DeleteModelBiasJobDefinitionOutputResponse, DeleteModelBiasJobDefinitionOutputError>(id: "deleteModelBiasJobDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteModelBiasJobDefinitionInput, DeleteModelBiasJobDefinitionOutputResponse, DeleteModelBiasJobDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteModelBiasJobDefinitionInput, DeleteModelBiasJobDefinitionOutputResponse>())
@@ -3293,7 +3376,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteModelBiasJobDefinitionOutputResponse, DeleteModelBiasJobDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteModelBiasJobDefinitionOutputResponse, DeleteModelBiasJobDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteModelBiasJobDefinitionOutputResponse, DeleteModelBiasJobDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3313,6 +3396,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteModelCardInput, DeleteModelCardOutputResponse, DeleteModelCardOutputError>(id: "deleteModelCard")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteModelCardInput, DeleteModelCardOutputResponse, DeleteModelCardOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteModelCardInput, DeleteModelCardOutputResponse>())
@@ -3329,7 +3413,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteModelCardOutputResponse, DeleteModelCardOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteModelCardOutputResponse, DeleteModelCardOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteModelCardOutputResponse, DeleteModelCardOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3349,6 +3433,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteModelExplainabilityJobDefinitionInput, DeleteModelExplainabilityJobDefinitionOutputResponse, DeleteModelExplainabilityJobDefinitionOutputError>(id: "deleteModelExplainabilityJobDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteModelExplainabilityJobDefinitionInput, DeleteModelExplainabilityJobDefinitionOutputResponse, DeleteModelExplainabilityJobDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteModelExplainabilityJobDefinitionInput, DeleteModelExplainabilityJobDefinitionOutputResponse>())
@@ -3365,7 +3450,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteModelExplainabilityJobDefinitionOutputResponse, DeleteModelExplainabilityJobDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteModelExplainabilityJobDefinitionOutputResponse, DeleteModelExplainabilityJobDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteModelExplainabilityJobDefinitionOutputResponse, DeleteModelExplainabilityJobDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3385,6 +3470,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteModelPackageInput, DeleteModelPackageOutputResponse, DeleteModelPackageOutputError>(id: "deleteModelPackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteModelPackageInput, DeleteModelPackageOutputResponse, DeleteModelPackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteModelPackageInput, DeleteModelPackageOutputResponse>())
@@ -3401,7 +3487,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteModelPackageOutputResponse, DeleteModelPackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteModelPackageOutputResponse, DeleteModelPackageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteModelPackageOutputResponse, DeleteModelPackageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3421,6 +3507,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteModelPackageGroupInput, DeleteModelPackageGroupOutputResponse, DeleteModelPackageGroupOutputError>(id: "deleteModelPackageGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteModelPackageGroupInput, DeleteModelPackageGroupOutputResponse, DeleteModelPackageGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteModelPackageGroupInput, DeleteModelPackageGroupOutputResponse>())
@@ -3437,7 +3524,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteModelPackageGroupOutputResponse, DeleteModelPackageGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteModelPackageGroupOutputResponse, DeleteModelPackageGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteModelPackageGroupOutputResponse, DeleteModelPackageGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3457,6 +3544,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteModelPackageGroupPolicyInput, DeleteModelPackageGroupPolicyOutputResponse, DeleteModelPackageGroupPolicyOutputError>(id: "deleteModelPackageGroupPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteModelPackageGroupPolicyInput, DeleteModelPackageGroupPolicyOutputResponse, DeleteModelPackageGroupPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteModelPackageGroupPolicyInput, DeleteModelPackageGroupPolicyOutputResponse>())
@@ -3473,7 +3561,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteModelPackageGroupPolicyOutputResponse, DeleteModelPackageGroupPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteModelPackageGroupPolicyOutputResponse, DeleteModelPackageGroupPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteModelPackageGroupPolicyOutputResponse, DeleteModelPackageGroupPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3493,6 +3581,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteModelQualityJobDefinitionInput, DeleteModelQualityJobDefinitionOutputResponse, DeleteModelQualityJobDefinitionOutputError>(id: "deleteModelQualityJobDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteModelQualityJobDefinitionInput, DeleteModelQualityJobDefinitionOutputResponse, DeleteModelQualityJobDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteModelQualityJobDefinitionInput, DeleteModelQualityJobDefinitionOutputResponse>())
@@ -3509,7 +3598,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteModelQualityJobDefinitionOutputResponse, DeleteModelQualityJobDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteModelQualityJobDefinitionOutputResponse, DeleteModelQualityJobDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteModelQualityJobDefinitionOutputResponse, DeleteModelQualityJobDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3529,6 +3618,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMonitoringScheduleInput, DeleteMonitoringScheduleOutputResponse, DeleteMonitoringScheduleOutputError>(id: "deleteMonitoringSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMonitoringScheduleInput, DeleteMonitoringScheduleOutputResponse, DeleteMonitoringScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMonitoringScheduleInput, DeleteMonitoringScheduleOutputResponse>())
@@ -3545,7 +3635,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMonitoringScheduleOutputResponse, DeleteMonitoringScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteMonitoringScheduleOutputResponse, DeleteMonitoringScheduleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMonitoringScheduleOutputResponse, DeleteMonitoringScheduleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3565,6 +3655,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteNotebookInstanceInput, DeleteNotebookInstanceOutputResponse, DeleteNotebookInstanceOutputError>(id: "deleteNotebookInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNotebookInstanceInput, DeleteNotebookInstanceOutputResponse, DeleteNotebookInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNotebookInstanceInput, DeleteNotebookInstanceOutputResponse>())
@@ -3581,7 +3672,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNotebookInstanceOutputResponse, DeleteNotebookInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteNotebookInstanceOutputResponse, DeleteNotebookInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNotebookInstanceOutputResponse, DeleteNotebookInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3601,6 +3692,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteNotebookInstanceLifecycleConfigInput, DeleteNotebookInstanceLifecycleConfigOutputResponse, DeleteNotebookInstanceLifecycleConfigOutputError>(id: "deleteNotebookInstanceLifecycleConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNotebookInstanceLifecycleConfigInput, DeleteNotebookInstanceLifecycleConfigOutputResponse, DeleteNotebookInstanceLifecycleConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNotebookInstanceLifecycleConfigInput, DeleteNotebookInstanceLifecycleConfigOutputResponse>())
@@ -3617,7 +3709,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNotebookInstanceLifecycleConfigOutputResponse, DeleteNotebookInstanceLifecycleConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteNotebookInstanceLifecycleConfigOutputResponse, DeleteNotebookInstanceLifecycleConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNotebookInstanceLifecycleConfigOutputResponse, DeleteNotebookInstanceLifecycleConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3637,6 +3729,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePipelineInput, DeletePipelineOutputResponse, DeletePipelineOutputError>(id: "deletePipeline")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeletePipelineOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -3661,7 +3754,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePipelineOutputResponse, DeletePipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeletePipelineOutputResponse, DeletePipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePipelineOutputResponse, DeletePipelineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3681,6 +3774,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteProjectInput, DeleteProjectOutputResponse, DeleteProjectOutputError>(id: "deleteProject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProjectInput, DeleteProjectOutputResponse, DeleteProjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProjectInput, DeleteProjectOutputResponse>())
@@ -3697,7 +3791,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProjectOutputResponse, DeleteProjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteProjectOutputResponse, DeleteProjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProjectOutputResponse, DeleteProjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3717,6 +3811,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSpaceInput, DeleteSpaceOutputResponse, DeleteSpaceOutputError>(id: "deleteSpace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSpaceInput, DeleteSpaceOutputResponse, DeleteSpaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSpaceInput, DeleteSpaceOutputResponse>())
@@ -3733,7 +3828,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSpaceOutputResponse, DeleteSpaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSpaceOutputResponse, DeleteSpaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSpaceOutputResponse, DeleteSpaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3753,6 +3848,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteStudioLifecycleConfigInput, DeleteStudioLifecycleConfigOutputResponse, DeleteStudioLifecycleConfigOutputError>(id: "deleteStudioLifecycleConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStudioLifecycleConfigInput, DeleteStudioLifecycleConfigOutputResponse, DeleteStudioLifecycleConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStudioLifecycleConfigInput, DeleteStudioLifecycleConfigOutputResponse>())
@@ -3769,7 +3865,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStudioLifecycleConfigOutputResponse, DeleteStudioLifecycleConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteStudioLifecycleConfigOutputResponse, DeleteStudioLifecycleConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStudioLifecycleConfigOutputResponse, DeleteStudioLifecycleConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3789,6 +3885,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTagsInput, DeleteTagsOutputResponse, DeleteTagsOutputError>(id: "deleteTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTagsInput, DeleteTagsOutputResponse, DeleteTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTagsInput, DeleteTagsOutputResponse>())
@@ -3805,7 +3902,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTagsOutputResponse, DeleteTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteTagsOutputResponse, DeleteTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTagsOutputResponse, DeleteTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3825,6 +3922,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTrialInput, DeleteTrialOutputResponse, DeleteTrialOutputError>(id: "deleteTrial")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTrialInput, DeleteTrialOutputResponse, DeleteTrialOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrialInput, DeleteTrialOutputResponse>())
@@ -3841,7 +3939,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrialOutputResponse, DeleteTrialOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteTrialOutputResponse, DeleteTrialOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrialOutputResponse, DeleteTrialOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3861,6 +3959,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTrialComponentInput, DeleteTrialComponentOutputResponse, DeleteTrialComponentOutputError>(id: "deleteTrialComponent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTrialComponentInput, DeleteTrialComponentOutputResponse, DeleteTrialComponentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrialComponentInput, DeleteTrialComponentOutputResponse>())
@@ -3877,7 +3976,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTrialComponentOutputResponse, DeleteTrialComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteTrialComponentOutputResponse, DeleteTrialComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTrialComponentOutputResponse, DeleteTrialComponentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3897,6 +3996,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUserProfileInput, DeleteUserProfileOutputResponse, DeleteUserProfileOutputError>(id: "deleteUserProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserProfileInput, DeleteUserProfileOutputResponse, DeleteUserProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserProfileInput, DeleteUserProfileOutputResponse>())
@@ -3913,7 +4013,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserProfileOutputResponse, DeleteUserProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteUserProfileOutputResponse, DeleteUserProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserProfileOutputResponse, DeleteUserProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3933,6 +4033,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWorkforceInput, DeleteWorkforceOutputResponse, DeleteWorkforceOutputError>(id: "deleteWorkforce")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorkforceInput, DeleteWorkforceOutputResponse, DeleteWorkforceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorkforceInput, DeleteWorkforceOutputResponse>())
@@ -3949,7 +4050,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWorkforceOutputResponse, DeleteWorkforceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteWorkforceOutputResponse, DeleteWorkforceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorkforceOutputResponse, DeleteWorkforceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3969,6 +4070,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWorkteamInput, DeleteWorkteamOutputResponse, DeleteWorkteamOutputError>(id: "deleteWorkteam")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorkteamInput, DeleteWorkteamOutputResponse, DeleteWorkteamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorkteamInput, DeleteWorkteamOutputResponse>())
@@ -3985,7 +4087,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWorkteamOutputResponse, DeleteWorkteamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteWorkteamOutputResponse, DeleteWorkteamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorkteamOutputResponse, DeleteWorkteamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4005,6 +4107,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterDevicesInput, DeregisterDevicesOutputResponse, DeregisterDevicesOutputError>(id: "deregisterDevices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterDevicesInput, DeregisterDevicesOutputResponse, DeregisterDevicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterDevicesInput, DeregisterDevicesOutputResponse>())
@@ -4021,7 +4124,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterDevicesOutputResponse, DeregisterDevicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeregisterDevicesOutputResponse, DeregisterDevicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterDevicesOutputResponse, DeregisterDevicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4041,6 +4144,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeActionInput, DescribeActionOutputResponse, DescribeActionOutputError>(id: "describeAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeActionInput, DescribeActionOutputResponse, DescribeActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeActionInput, DescribeActionOutputResponse>())
@@ -4057,7 +4161,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeActionOutputResponse, DescribeActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeActionOutputResponse, DescribeActionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeActionOutputResponse, DescribeActionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4077,6 +4181,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAlgorithmInput, DescribeAlgorithmOutputResponse, DescribeAlgorithmOutputError>(id: "describeAlgorithm")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAlgorithmInput, DescribeAlgorithmOutputResponse, DescribeAlgorithmOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAlgorithmInput, DescribeAlgorithmOutputResponse>())
@@ -4093,7 +4198,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAlgorithmOutputResponse, DescribeAlgorithmOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAlgorithmOutputResponse, DescribeAlgorithmOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAlgorithmOutputResponse, DescribeAlgorithmOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4113,6 +4218,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAppInput, DescribeAppOutputResponse, DescribeAppOutputError>(id: "describeApp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppInput, DescribeAppOutputResponse, DescribeAppOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppInput, DescribeAppOutputResponse>())
@@ -4129,7 +4235,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppOutputResponse, DescribeAppOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAppOutputResponse, DescribeAppOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppOutputResponse, DescribeAppOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4149,6 +4255,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAppImageConfigInput, DescribeAppImageConfigOutputResponse, DescribeAppImageConfigOutputError>(id: "describeAppImageConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAppImageConfigInput, DescribeAppImageConfigOutputResponse, DescribeAppImageConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAppImageConfigInput, DescribeAppImageConfigOutputResponse>())
@@ -4165,7 +4272,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppImageConfigOutputResponse, DescribeAppImageConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAppImageConfigOutputResponse, DescribeAppImageConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppImageConfigOutputResponse, DescribeAppImageConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4185,6 +4292,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeArtifactInput, DescribeArtifactOutputResponse, DescribeArtifactOutputError>(id: "describeArtifact")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeArtifactInput, DescribeArtifactOutputResponse, DescribeArtifactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeArtifactInput, DescribeArtifactOutputResponse>())
@@ -4201,7 +4309,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeArtifactOutputResponse, DescribeArtifactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeArtifactOutputResponse, DescribeArtifactOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeArtifactOutputResponse, DescribeArtifactOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4221,6 +4329,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAutoMLJobInput, DescribeAutoMLJobOutputResponse, DescribeAutoMLJobOutputError>(id: "describeAutoMLJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAutoMLJobInput, DescribeAutoMLJobOutputResponse, DescribeAutoMLJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAutoMLJobInput, DescribeAutoMLJobOutputResponse>())
@@ -4237,7 +4346,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAutoMLJobOutputResponse, DescribeAutoMLJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAutoMLJobOutputResponse, DescribeAutoMLJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAutoMLJobOutputResponse, DescribeAutoMLJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4257,6 +4366,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCodeRepositoryInput, DescribeCodeRepositoryOutputResponse, DescribeCodeRepositoryOutputError>(id: "describeCodeRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCodeRepositoryInput, DescribeCodeRepositoryOutputResponse, DescribeCodeRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCodeRepositoryInput, DescribeCodeRepositoryOutputResponse>())
@@ -4273,7 +4383,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCodeRepositoryOutputResponse, DescribeCodeRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeCodeRepositoryOutputResponse, DescribeCodeRepositoryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCodeRepositoryOutputResponse, DescribeCodeRepositoryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4293,6 +4403,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCompilationJobInput, DescribeCompilationJobOutputResponse, DescribeCompilationJobOutputError>(id: "describeCompilationJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCompilationJobInput, DescribeCompilationJobOutputResponse, DescribeCompilationJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCompilationJobInput, DescribeCompilationJobOutputResponse>())
@@ -4309,7 +4420,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCompilationJobOutputResponse, DescribeCompilationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeCompilationJobOutputResponse, DescribeCompilationJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCompilationJobOutputResponse, DescribeCompilationJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4329,6 +4440,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeContextInput, DescribeContextOutputResponse, DescribeContextOutputError>(id: "describeContext")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeContextInput, DescribeContextOutputResponse, DescribeContextOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeContextInput, DescribeContextOutputResponse>())
@@ -4345,7 +4457,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeContextOutputResponse, DescribeContextOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeContextOutputResponse, DescribeContextOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeContextOutputResponse, DescribeContextOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4365,6 +4477,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDataQualityJobDefinitionInput, DescribeDataQualityJobDefinitionOutputResponse, DescribeDataQualityJobDefinitionOutputError>(id: "describeDataQualityJobDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDataQualityJobDefinitionInput, DescribeDataQualityJobDefinitionOutputResponse, DescribeDataQualityJobDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDataQualityJobDefinitionInput, DescribeDataQualityJobDefinitionOutputResponse>())
@@ -4381,7 +4494,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDataQualityJobDefinitionOutputResponse, DescribeDataQualityJobDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDataQualityJobDefinitionOutputResponse, DescribeDataQualityJobDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDataQualityJobDefinitionOutputResponse, DescribeDataQualityJobDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4401,6 +4514,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDeviceInput, DescribeDeviceOutputResponse, DescribeDeviceOutputError>(id: "describeDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDeviceInput, DescribeDeviceOutputResponse, DescribeDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDeviceInput, DescribeDeviceOutputResponse>())
@@ -4417,7 +4531,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDeviceOutputResponse, DescribeDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDeviceOutputResponse, DescribeDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDeviceOutputResponse, DescribeDeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4437,6 +4551,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDeviceFleetInput, DescribeDeviceFleetOutputResponse, DescribeDeviceFleetOutputError>(id: "describeDeviceFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDeviceFleetInput, DescribeDeviceFleetOutputResponse, DescribeDeviceFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDeviceFleetInput, DescribeDeviceFleetOutputResponse>())
@@ -4453,7 +4568,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDeviceFleetOutputResponse, DescribeDeviceFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDeviceFleetOutputResponse, DescribeDeviceFleetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDeviceFleetOutputResponse, DescribeDeviceFleetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4473,6 +4588,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDomainInput, DescribeDomainOutputResponse, DescribeDomainOutputError>(id: "describeDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDomainInput, DescribeDomainOutputResponse, DescribeDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDomainInput, DescribeDomainOutputResponse>())
@@ -4489,7 +4605,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDomainOutputResponse, DescribeDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDomainOutputResponse, DescribeDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDomainOutputResponse, DescribeDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4509,6 +4625,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEdgeDeploymentPlanInput, DescribeEdgeDeploymentPlanOutputResponse, DescribeEdgeDeploymentPlanOutputError>(id: "describeEdgeDeploymentPlan")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEdgeDeploymentPlanInput, DescribeEdgeDeploymentPlanOutputResponse, DescribeEdgeDeploymentPlanOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEdgeDeploymentPlanInput, DescribeEdgeDeploymentPlanOutputResponse>())
@@ -4525,7 +4642,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEdgeDeploymentPlanOutputResponse, DescribeEdgeDeploymentPlanOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEdgeDeploymentPlanOutputResponse, DescribeEdgeDeploymentPlanOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEdgeDeploymentPlanOutputResponse, DescribeEdgeDeploymentPlanOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4545,6 +4662,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEdgePackagingJobInput, DescribeEdgePackagingJobOutputResponse, DescribeEdgePackagingJobOutputError>(id: "describeEdgePackagingJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEdgePackagingJobInput, DescribeEdgePackagingJobOutputResponse, DescribeEdgePackagingJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEdgePackagingJobInput, DescribeEdgePackagingJobOutputResponse>())
@@ -4561,7 +4679,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEdgePackagingJobOutputResponse, DescribeEdgePackagingJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEdgePackagingJobOutputResponse, DescribeEdgePackagingJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEdgePackagingJobOutputResponse, DescribeEdgePackagingJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4581,6 +4699,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEndpointInput, DescribeEndpointOutputResponse, DescribeEndpointOutputError>(id: "describeEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEndpointInput, DescribeEndpointOutputResponse, DescribeEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEndpointInput, DescribeEndpointOutputResponse>())
@@ -4597,7 +4716,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEndpointOutputResponse, DescribeEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEndpointOutputResponse, DescribeEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEndpointOutputResponse, DescribeEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4617,6 +4736,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEndpointConfigInput, DescribeEndpointConfigOutputResponse, DescribeEndpointConfigOutputError>(id: "describeEndpointConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEndpointConfigInput, DescribeEndpointConfigOutputResponse, DescribeEndpointConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEndpointConfigInput, DescribeEndpointConfigOutputResponse>())
@@ -4633,7 +4753,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEndpointConfigOutputResponse, DescribeEndpointConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEndpointConfigOutputResponse, DescribeEndpointConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEndpointConfigOutputResponse, DescribeEndpointConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4653,6 +4773,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeExperimentInput, DescribeExperimentOutputResponse, DescribeExperimentOutputError>(id: "describeExperiment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeExperimentInput, DescribeExperimentOutputResponse, DescribeExperimentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeExperimentInput, DescribeExperimentOutputResponse>())
@@ -4669,7 +4790,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeExperimentOutputResponse, DescribeExperimentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeExperimentOutputResponse, DescribeExperimentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeExperimentOutputResponse, DescribeExperimentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4689,6 +4810,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFeatureGroupInput, DescribeFeatureGroupOutputResponse, DescribeFeatureGroupOutputError>(id: "describeFeatureGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFeatureGroupInput, DescribeFeatureGroupOutputResponse, DescribeFeatureGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFeatureGroupInput, DescribeFeatureGroupOutputResponse>())
@@ -4705,7 +4827,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFeatureGroupOutputResponse, DescribeFeatureGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeFeatureGroupOutputResponse, DescribeFeatureGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFeatureGroupOutputResponse, DescribeFeatureGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4725,6 +4847,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFeatureMetadataInput, DescribeFeatureMetadataOutputResponse, DescribeFeatureMetadataOutputError>(id: "describeFeatureMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFeatureMetadataInput, DescribeFeatureMetadataOutputResponse, DescribeFeatureMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFeatureMetadataInput, DescribeFeatureMetadataOutputResponse>())
@@ -4741,7 +4864,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFeatureMetadataOutputResponse, DescribeFeatureMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeFeatureMetadataOutputResponse, DescribeFeatureMetadataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFeatureMetadataOutputResponse, DescribeFeatureMetadataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4761,6 +4884,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFlowDefinitionInput, DescribeFlowDefinitionOutputResponse, DescribeFlowDefinitionOutputError>(id: "describeFlowDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFlowDefinitionInput, DescribeFlowDefinitionOutputResponse, DescribeFlowDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFlowDefinitionInput, DescribeFlowDefinitionOutputResponse>())
@@ -4777,7 +4901,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFlowDefinitionOutputResponse, DescribeFlowDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeFlowDefinitionOutputResponse, DescribeFlowDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFlowDefinitionOutputResponse, DescribeFlowDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4797,6 +4921,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeHubInput, DescribeHubOutputResponse, DescribeHubOutputError>(id: "describeHub")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHubInput, DescribeHubOutputResponse, DescribeHubOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeHubInput, DescribeHubOutputResponse>())
@@ -4813,7 +4938,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHubOutputResponse, DescribeHubOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeHubOutputResponse, DescribeHubOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeHubOutputResponse, DescribeHubOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4833,6 +4958,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeHubContentInput, DescribeHubContentOutputResponse, DescribeHubContentOutputError>(id: "describeHubContent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHubContentInput, DescribeHubContentOutputResponse, DescribeHubContentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeHubContentInput, DescribeHubContentOutputResponse>())
@@ -4849,7 +4975,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHubContentOutputResponse, DescribeHubContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeHubContentOutputResponse, DescribeHubContentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeHubContentOutputResponse, DescribeHubContentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4869,6 +4995,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeHumanTaskUiInput, DescribeHumanTaskUiOutputResponse, DescribeHumanTaskUiOutputError>(id: "describeHumanTaskUi")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHumanTaskUiInput, DescribeHumanTaskUiOutputResponse, DescribeHumanTaskUiOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeHumanTaskUiInput, DescribeHumanTaskUiOutputResponse>())
@@ -4885,7 +5012,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHumanTaskUiOutputResponse, DescribeHumanTaskUiOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeHumanTaskUiOutputResponse, DescribeHumanTaskUiOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeHumanTaskUiOutputResponse, DescribeHumanTaskUiOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4905,6 +5032,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeHyperParameterTuningJobInput, DescribeHyperParameterTuningJobOutputResponse, DescribeHyperParameterTuningJobOutputError>(id: "describeHyperParameterTuningJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHyperParameterTuningJobInput, DescribeHyperParameterTuningJobOutputResponse, DescribeHyperParameterTuningJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeHyperParameterTuningJobInput, DescribeHyperParameterTuningJobOutputResponse>())
@@ -4921,7 +5049,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHyperParameterTuningJobOutputResponse, DescribeHyperParameterTuningJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeHyperParameterTuningJobOutputResponse, DescribeHyperParameterTuningJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeHyperParameterTuningJobOutputResponse, DescribeHyperParameterTuningJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4941,6 +5069,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeImageInput, DescribeImageOutputResponse, DescribeImageOutputError>(id: "describeImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeImageInput, DescribeImageOutputResponse, DescribeImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeImageInput, DescribeImageOutputResponse>())
@@ -4957,7 +5086,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeImageOutputResponse, DescribeImageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeImageOutputResponse, DescribeImageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeImageOutputResponse, DescribeImageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4977,6 +5106,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeImageVersionInput, DescribeImageVersionOutputResponse, DescribeImageVersionOutputError>(id: "describeImageVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeImageVersionInput, DescribeImageVersionOutputResponse, DescribeImageVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeImageVersionInput, DescribeImageVersionOutputResponse>())
@@ -4993,7 +5123,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeImageVersionOutputResponse, DescribeImageVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeImageVersionOutputResponse, DescribeImageVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeImageVersionOutputResponse, DescribeImageVersionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5013,6 +5143,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeInferenceExperimentInput, DescribeInferenceExperimentOutputResponse, DescribeInferenceExperimentOutputError>(id: "describeInferenceExperiment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInferenceExperimentInput, DescribeInferenceExperimentOutputResponse, DescribeInferenceExperimentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInferenceExperimentInput, DescribeInferenceExperimentOutputResponse>())
@@ -5029,7 +5160,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInferenceExperimentOutputResponse, DescribeInferenceExperimentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeInferenceExperimentOutputResponse, DescribeInferenceExperimentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInferenceExperimentOutputResponse, DescribeInferenceExperimentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5049,6 +5180,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeInferenceRecommendationsJobInput, DescribeInferenceRecommendationsJobOutputResponse, DescribeInferenceRecommendationsJobOutputError>(id: "describeInferenceRecommendationsJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInferenceRecommendationsJobInput, DescribeInferenceRecommendationsJobOutputResponse, DescribeInferenceRecommendationsJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInferenceRecommendationsJobInput, DescribeInferenceRecommendationsJobOutputResponse>())
@@ -5065,7 +5197,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInferenceRecommendationsJobOutputResponse, DescribeInferenceRecommendationsJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeInferenceRecommendationsJobOutputResponse, DescribeInferenceRecommendationsJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInferenceRecommendationsJobOutputResponse, DescribeInferenceRecommendationsJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5085,6 +5217,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLabelingJobInput, DescribeLabelingJobOutputResponse, DescribeLabelingJobOutputError>(id: "describeLabelingJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLabelingJobInput, DescribeLabelingJobOutputResponse, DescribeLabelingJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLabelingJobInput, DescribeLabelingJobOutputResponse>())
@@ -5101,7 +5234,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLabelingJobOutputResponse, DescribeLabelingJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeLabelingJobOutputResponse, DescribeLabelingJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLabelingJobOutputResponse, DescribeLabelingJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5121,6 +5254,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLineageGroupInput, DescribeLineageGroupOutputResponse, DescribeLineageGroupOutputError>(id: "describeLineageGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLineageGroupInput, DescribeLineageGroupOutputResponse, DescribeLineageGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLineageGroupInput, DescribeLineageGroupOutputResponse>())
@@ -5137,7 +5271,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLineageGroupOutputResponse, DescribeLineageGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeLineageGroupOutputResponse, DescribeLineageGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLineageGroupOutputResponse, DescribeLineageGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5157,6 +5291,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeModelInput, DescribeModelOutputResponse, DescribeModelOutputError>(id: "describeModel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeModelInput, DescribeModelOutputResponse, DescribeModelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeModelInput, DescribeModelOutputResponse>())
@@ -5173,7 +5308,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeModelOutputResponse, DescribeModelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeModelOutputResponse, DescribeModelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeModelOutputResponse, DescribeModelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5193,6 +5328,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeModelBiasJobDefinitionInput, DescribeModelBiasJobDefinitionOutputResponse, DescribeModelBiasJobDefinitionOutputError>(id: "describeModelBiasJobDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeModelBiasJobDefinitionInput, DescribeModelBiasJobDefinitionOutputResponse, DescribeModelBiasJobDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeModelBiasJobDefinitionInput, DescribeModelBiasJobDefinitionOutputResponse>())
@@ -5209,7 +5345,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeModelBiasJobDefinitionOutputResponse, DescribeModelBiasJobDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeModelBiasJobDefinitionOutputResponse, DescribeModelBiasJobDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeModelBiasJobDefinitionOutputResponse, DescribeModelBiasJobDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5229,6 +5365,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeModelCardInput, DescribeModelCardOutputResponse, DescribeModelCardOutputError>(id: "describeModelCard")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeModelCardInput, DescribeModelCardOutputResponse, DescribeModelCardOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeModelCardInput, DescribeModelCardOutputResponse>())
@@ -5245,7 +5382,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeModelCardOutputResponse, DescribeModelCardOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeModelCardOutputResponse, DescribeModelCardOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeModelCardOutputResponse, DescribeModelCardOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5265,6 +5402,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeModelCardExportJobInput, DescribeModelCardExportJobOutputResponse, DescribeModelCardExportJobOutputError>(id: "describeModelCardExportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeModelCardExportJobInput, DescribeModelCardExportJobOutputResponse, DescribeModelCardExportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeModelCardExportJobInput, DescribeModelCardExportJobOutputResponse>())
@@ -5281,7 +5419,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeModelCardExportJobOutputResponse, DescribeModelCardExportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeModelCardExportJobOutputResponse, DescribeModelCardExportJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeModelCardExportJobOutputResponse, DescribeModelCardExportJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5301,6 +5439,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeModelExplainabilityJobDefinitionInput, DescribeModelExplainabilityJobDefinitionOutputResponse, DescribeModelExplainabilityJobDefinitionOutputError>(id: "describeModelExplainabilityJobDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeModelExplainabilityJobDefinitionInput, DescribeModelExplainabilityJobDefinitionOutputResponse, DescribeModelExplainabilityJobDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeModelExplainabilityJobDefinitionInput, DescribeModelExplainabilityJobDefinitionOutputResponse>())
@@ -5317,7 +5456,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeModelExplainabilityJobDefinitionOutputResponse, DescribeModelExplainabilityJobDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeModelExplainabilityJobDefinitionOutputResponse, DescribeModelExplainabilityJobDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeModelExplainabilityJobDefinitionOutputResponse, DescribeModelExplainabilityJobDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5337,6 +5476,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeModelPackageInput, DescribeModelPackageOutputResponse, DescribeModelPackageOutputError>(id: "describeModelPackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeModelPackageInput, DescribeModelPackageOutputResponse, DescribeModelPackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeModelPackageInput, DescribeModelPackageOutputResponse>())
@@ -5353,7 +5493,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeModelPackageOutputResponse, DescribeModelPackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeModelPackageOutputResponse, DescribeModelPackageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeModelPackageOutputResponse, DescribeModelPackageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5373,6 +5513,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeModelPackageGroupInput, DescribeModelPackageGroupOutputResponse, DescribeModelPackageGroupOutputError>(id: "describeModelPackageGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeModelPackageGroupInput, DescribeModelPackageGroupOutputResponse, DescribeModelPackageGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeModelPackageGroupInput, DescribeModelPackageGroupOutputResponse>())
@@ -5389,7 +5530,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeModelPackageGroupOutputResponse, DescribeModelPackageGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeModelPackageGroupOutputResponse, DescribeModelPackageGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeModelPackageGroupOutputResponse, DescribeModelPackageGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5409,6 +5550,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeModelQualityJobDefinitionInput, DescribeModelQualityJobDefinitionOutputResponse, DescribeModelQualityJobDefinitionOutputError>(id: "describeModelQualityJobDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeModelQualityJobDefinitionInput, DescribeModelQualityJobDefinitionOutputResponse, DescribeModelQualityJobDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeModelQualityJobDefinitionInput, DescribeModelQualityJobDefinitionOutputResponse>())
@@ -5425,7 +5567,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeModelQualityJobDefinitionOutputResponse, DescribeModelQualityJobDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeModelQualityJobDefinitionOutputResponse, DescribeModelQualityJobDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeModelQualityJobDefinitionOutputResponse, DescribeModelQualityJobDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5445,6 +5587,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMonitoringScheduleInput, DescribeMonitoringScheduleOutputResponse, DescribeMonitoringScheduleOutputError>(id: "describeMonitoringSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMonitoringScheduleInput, DescribeMonitoringScheduleOutputResponse, DescribeMonitoringScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMonitoringScheduleInput, DescribeMonitoringScheduleOutputResponse>())
@@ -5461,7 +5604,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMonitoringScheduleOutputResponse, DescribeMonitoringScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeMonitoringScheduleOutputResponse, DescribeMonitoringScheduleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMonitoringScheduleOutputResponse, DescribeMonitoringScheduleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5481,6 +5624,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutputResponse, DescribeNotebookInstanceOutputError>(id: "describeNotebookInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutputResponse, DescribeNotebookInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutputResponse>())
@@ -5497,7 +5641,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeNotebookInstanceOutputResponse, DescribeNotebookInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeNotebookInstanceOutputResponse, DescribeNotebookInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeNotebookInstanceOutputResponse, DescribeNotebookInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5517,6 +5661,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeNotebookInstanceLifecycleConfigInput, DescribeNotebookInstanceLifecycleConfigOutputResponse, DescribeNotebookInstanceLifecycleConfigOutputError>(id: "describeNotebookInstanceLifecycleConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeNotebookInstanceLifecycleConfigInput, DescribeNotebookInstanceLifecycleConfigOutputResponse, DescribeNotebookInstanceLifecycleConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeNotebookInstanceLifecycleConfigInput, DescribeNotebookInstanceLifecycleConfigOutputResponse>())
@@ -5533,7 +5678,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeNotebookInstanceLifecycleConfigOutputResponse, DescribeNotebookInstanceLifecycleConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeNotebookInstanceLifecycleConfigOutputResponse, DescribeNotebookInstanceLifecycleConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeNotebookInstanceLifecycleConfigOutputResponse, DescribeNotebookInstanceLifecycleConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5553,6 +5698,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePipelineInput, DescribePipelineOutputResponse, DescribePipelineOutputError>(id: "describePipeline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePipelineInput, DescribePipelineOutputResponse, DescribePipelineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePipelineInput, DescribePipelineOutputResponse>())
@@ -5569,7 +5715,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePipelineOutputResponse, DescribePipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribePipelineOutputResponse, DescribePipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePipelineOutputResponse, DescribePipelineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5589,6 +5735,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePipelineDefinitionForExecutionInput, DescribePipelineDefinitionForExecutionOutputResponse, DescribePipelineDefinitionForExecutionOutputError>(id: "describePipelineDefinitionForExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePipelineDefinitionForExecutionInput, DescribePipelineDefinitionForExecutionOutputResponse, DescribePipelineDefinitionForExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePipelineDefinitionForExecutionInput, DescribePipelineDefinitionForExecutionOutputResponse>())
@@ -5605,7 +5752,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePipelineDefinitionForExecutionOutputResponse, DescribePipelineDefinitionForExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribePipelineDefinitionForExecutionOutputResponse, DescribePipelineDefinitionForExecutionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePipelineDefinitionForExecutionOutputResponse, DescribePipelineDefinitionForExecutionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5625,6 +5772,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePipelineExecutionInput, DescribePipelineExecutionOutputResponse, DescribePipelineExecutionOutputError>(id: "describePipelineExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePipelineExecutionInput, DescribePipelineExecutionOutputResponse, DescribePipelineExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePipelineExecutionInput, DescribePipelineExecutionOutputResponse>())
@@ -5641,7 +5789,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePipelineExecutionOutputResponse, DescribePipelineExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribePipelineExecutionOutputResponse, DescribePipelineExecutionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePipelineExecutionOutputResponse, DescribePipelineExecutionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5661,6 +5809,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeProcessingJobInput, DescribeProcessingJobOutputResponse, DescribeProcessingJobOutputError>(id: "describeProcessingJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProcessingJobInput, DescribeProcessingJobOutputResponse, DescribeProcessingJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProcessingJobInput, DescribeProcessingJobOutputResponse>())
@@ -5677,7 +5826,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProcessingJobOutputResponse, DescribeProcessingJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeProcessingJobOutputResponse, DescribeProcessingJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProcessingJobOutputResponse, DescribeProcessingJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5697,6 +5846,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeProjectInput, DescribeProjectOutputResponse, DescribeProjectOutputError>(id: "describeProject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeProjectInput, DescribeProjectOutputResponse, DescribeProjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeProjectInput, DescribeProjectOutputResponse>())
@@ -5713,7 +5863,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeProjectOutputResponse, DescribeProjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeProjectOutputResponse, DescribeProjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeProjectOutputResponse, DescribeProjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5733,6 +5883,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSpaceInput, DescribeSpaceOutputResponse, DescribeSpaceOutputError>(id: "describeSpace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSpaceInput, DescribeSpaceOutputResponse, DescribeSpaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSpaceInput, DescribeSpaceOutputResponse>())
@@ -5749,7 +5900,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSpaceOutputResponse, DescribeSpaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeSpaceOutputResponse, DescribeSpaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSpaceOutputResponse, DescribeSpaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5769,6 +5920,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStudioLifecycleConfigInput, DescribeStudioLifecycleConfigOutputResponse, DescribeStudioLifecycleConfigOutputError>(id: "describeStudioLifecycleConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStudioLifecycleConfigInput, DescribeStudioLifecycleConfigOutputResponse, DescribeStudioLifecycleConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStudioLifecycleConfigInput, DescribeStudioLifecycleConfigOutputResponse>())
@@ -5785,7 +5937,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStudioLifecycleConfigOutputResponse, DescribeStudioLifecycleConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeStudioLifecycleConfigOutputResponse, DescribeStudioLifecycleConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStudioLifecycleConfigOutputResponse, DescribeStudioLifecycleConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5805,6 +5957,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSubscribedWorkteamInput, DescribeSubscribedWorkteamOutputResponse, DescribeSubscribedWorkteamOutputError>(id: "describeSubscribedWorkteam")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSubscribedWorkteamInput, DescribeSubscribedWorkteamOutputResponse, DescribeSubscribedWorkteamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSubscribedWorkteamInput, DescribeSubscribedWorkteamOutputResponse>())
@@ -5821,7 +5974,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSubscribedWorkteamOutputResponse, DescribeSubscribedWorkteamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeSubscribedWorkteamOutputResponse, DescribeSubscribedWorkteamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSubscribedWorkteamOutputResponse, DescribeSubscribedWorkteamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5841,6 +5994,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTrainingJobInput, DescribeTrainingJobOutputResponse, DescribeTrainingJobOutputError>(id: "describeTrainingJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrainingJobInput, DescribeTrainingJobOutputResponse, DescribeTrainingJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrainingJobInput, DescribeTrainingJobOutputResponse>())
@@ -5857,7 +6011,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrainingJobOutputResponse, DescribeTrainingJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeTrainingJobOutputResponse, DescribeTrainingJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrainingJobOutputResponse, DescribeTrainingJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5877,6 +6031,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTransformJobInput, DescribeTransformJobOutputResponse, DescribeTransformJobOutputError>(id: "describeTransformJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTransformJobInput, DescribeTransformJobOutputResponse, DescribeTransformJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTransformJobInput, DescribeTransformJobOutputResponse>())
@@ -5893,7 +6048,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTransformJobOutputResponse, DescribeTransformJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeTransformJobOutputResponse, DescribeTransformJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTransformJobOutputResponse, DescribeTransformJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5913,6 +6068,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTrialInput, DescribeTrialOutputResponse, DescribeTrialOutputError>(id: "describeTrial")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrialInput, DescribeTrialOutputResponse, DescribeTrialOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrialInput, DescribeTrialOutputResponse>())
@@ -5929,7 +6085,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrialOutputResponse, DescribeTrialOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeTrialOutputResponse, DescribeTrialOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrialOutputResponse, DescribeTrialOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5949,6 +6105,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTrialComponentInput, DescribeTrialComponentOutputResponse, DescribeTrialComponentOutputError>(id: "describeTrialComponent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTrialComponentInput, DescribeTrialComponentOutputResponse, DescribeTrialComponentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrialComponentInput, DescribeTrialComponentOutputResponse>())
@@ -5965,7 +6122,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTrialComponentOutputResponse, DescribeTrialComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeTrialComponentOutputResponse, DescribeTrialComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTrialComponentOutputResponse, DescribeTrialComponentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5985,6 +6142,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeUserProfileInput, DescribeUserProfileOutputResponse, DescribeUserProfileOutputError>(id: "describeUserProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUserProfileInput, DescribeUserProfileOutputResponse, DescribeUserProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUserProfileInput, DescribeUserProfileOutputResponse>())
@@ -6001,7 +6159,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUserProfileOutputResponse, DescribeUserProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeUserProfileOutputResponse, DescribeUserProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUserProfileOutputResponse, DescribeUserProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6021,6 +6179,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeWorkforceInput, DescribeWorkforceOutputResponse, DescribeWorkforceOutputError>(id: "describeWorkforce")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorkforceInput, DescribeWorkforceOutputResponse, DescribeWorkforceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorkforceInput, DescribeWorkforceOutputResponse>())
@@ -6037,7 +6196,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorkforceOutputResponse, DescribeWorkforceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeWorkforceOutputResponse, DescribeWorkforceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorkforceOutputResponse, DescribeWorkforceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6057,6 +6216,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeWorkteamInput, DescribeWorkteamOutputResponse, DescribeWorkteamOutputError>(id: "describeWorkteam")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorkteamInput, DescribeWorkteamOutputResponse, DescribeWorkteamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorkteamInput, DescribeWorkteamOutputResponse>())
@@ -6073,7 +6233,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorkteamOutputResponse, DescribeWorkteamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeWorkteamOutputResponse, DescribeWorkteamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorkteamOutputResponse, DescribeWorkteamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6093,6 +6253,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableSagemakerServicecatalogPortfolioInput, DisableSagemakerServicecatalogPortfolioOutputResponse, DisableSagemakerServicecatalogPortfolioOutputError>(id: "disableSagemakerServicecatalogPortfolio")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableSagemakerServicecatalogPortfolioInput, DisableSagemakerServicecatalogPortfolioOutputResponse, DisableSagemakerServicecatalogPortfolioOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableSagemakerServicecatalogPortfolioInput, DisableSagemakerServicecatalogPortfolioOutputResponse>())
@@ -6109,7 +6270,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableSagemakerServicecatalogPortfolioOutputResponse, DisableSagemakerServicecatalogPortfolioOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisableSagemakerServicecatalogPortfolioOutputResponse, DisableSagemakerServicecatalogPortfolioOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableSagemakerServicecatalogPortfolioOutputResponse, DisableSagemakerServicecatalogPortfolioOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6129,6 +6290,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateTrialComponentInput, DisassociateTrialComponentOutputResponse, DisassociateTrialComponentOutputError>(id: "disassociateTrialComponent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateTrialComponentInput, DisassociateTrialComponentOutputResponse, DisassociateTrialComponentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateTrialComponentInput, DisassociateTrialComponentOutputResponse>())
@@ -6145,7 +6307,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateTrialComponentOutputResponse, DisassociateTrialComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateTrialComponentOutputResponse, DisassociateTrialComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateTrialComponentOutputResponse, DisassociateTrialComponentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6165,6 +6327,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableSagemakerServicecatalogPortfolioInput, EnableSagemakerServicecatalogPortfolioOutputResponse, EnableSagemakerServicecatalogPortfolioOutputError>(id: "enableSagemakerServicecatalogPortfolio")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableSagemakerServicecatalogPortfolioInput, EnableSagemakerServicecatalogPortfolioOutputResponse, EnableSagemakerServicecatalogPortfolioOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableSagemakerServicecatalogPortfolioInput, EnableSagemakerServicecatalogPortfolioOutputResponse>())
@@ -6181,7 +6344,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableSagemakerServicecatalogPortfolioOutputResponse, EnableSagemakerServicecatalogPortfolioOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<EnableSagemakerServicecatalogPortfolioOutputResponse, EnableSagemakerServicecatalogPortfolioOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableSagemakerServicecatalogPortfolioOutputResponse, EnableSagemakerServicecatalogPortfolioOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6201,6 +6364,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDeviceFleetReportInput, GetDeviceFleetReportOutputResponse, GetDeviceFleetReportOutputError>(id: "getDeviceFleetReport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceFleetReportInput, GetDeviceFleetReportOutputResponse, GetDeviceFleetReportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceFleetReportInput, GetDeviceFleetReportOutputResponse>())
@@ -6217,7 +6381,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceFleetReportOutputResponse, GetDeviceFleetReportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDeviceFleetReportOutputResponse, GetDeviceFleetReportOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceFleetReportOutputResponse, GetDeviceFleetReportOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6237,6 +6401,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLineageGroupPolicyInput, GetLineageGroupPolicyOutputResponse, GetLineageGroupPolicyOutputError>(id: "getLineageGroupPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLineageGroupPolicyInput, GetLineageGroupPolicyOutputResponse, GetLineageGroupPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLineageGroupPolicyInput, GetLineageGroupPolicyOutputResponse>())
@@ -6253,7 +6418,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLineageGroupPolicyOutputResponse, GetLineageGroupPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetLineageGroupPolicyOutputResponse, GetLineageGroupPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLineageGroupPolicyOutputResponse, GetLineageGroupPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6273,6 +6438,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetModelPackageGroupPolicyInput, GetModelPackageGroupPolicyOutputResponse, GetModelPackageGroupPolicyOutputError>(id: "getModelPackageGroupPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetModelPackageGroupPolicyInput, GetModelPackageGroupPolicyOutputResponse, GetModelPackageGroupPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetModelPackageGroupPolicyInput, GetModelPackageGroupPolicyOutputResponse>())
@@ -6289,7 +6455,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetModelPackageGroupPolicyOutputResponse, GetModelPackageGroupPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetModelPackageGroupPolicyOutputResponse, GetModelPackageGroupPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetModelPackageGroupPolicyOutputResponse, GetModelPackageGroupPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6309,6 +6475,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSagemakerServicecatalogPortfolioStatusInput, GetSagemakerServicecatalogPortfolioStatusOutputResponse, GetSagemakerServicecatalogPortfolioStatusOutputError>(id: "getSagemakerServicecatalogPortfolioStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSagemakerServicecatalogPortfolioStatusInput, GetSagemakerServicecatalogPortfolioStatusOutputResponse, GetSagemakerServicecatalogPortfolioStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSagemakerServicecatalogPortfolioStatusInput, GetSagemakerServicecatalogPortfolioStatusOutputResponse>())
@@ -6325,7 +6492,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSagemakerServicecatalogPortfolioStatusOutputResponse, GetSagemakerServicecatalogPortfolioStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSagemakerServicecatalogPortfolioStatusOutputResponse, GetSagemakerServicecatalogPortfolioStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSagemakerServicecatalogPortfolioStatusOutputResponse, GetSagemakerServicecatalogPortfolioStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6345,6 +6512,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSearchSuggestionsInput, GetSearchSuggestionsOutputResponse, GetSearchSuggestionsOutputError>(id: "getSearchSuggestions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSearchSuggestionsInput, GetSearchSuggestionsOutputResponse, GetSearchSuggestionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSearchSuggestionsInput, GetSearchSuggestionsOutputResponse>())
@@ -6361,7 +6529,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSearchSuggestionsOutputResponse, GetSearchSuggestionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSearchSuggestionsOutputResponse, GetSearchSuggestionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSearchSuggestionsOutputResponse, GetSearchSuggestionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6381,6 +6549,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ImportHubContentInput, ImportHubContentOutputResponse, ImportHubContentOutputError>(id: "importHubContent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportHubContentInput, ImportHubContentOutputResponse, ImportHubContentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportHubContentInput, ImportHubContentOutputResponse>())
@@ -6397,7 +6566,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportHubContentOutputResponse, ImportHubContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ImportHubContentOutputResponse, ImportHubContentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportHubContentOutputResponse, ImportHubContentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6417,6 +6586,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListActionsInput, ListActionsOutputResponse, ListActionsOutputError>(id: "listActions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListActionsInput, ListActionsOutputResponse, ListActionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListActionsInput, ListActionsOutputResponse>())
@@ -6433,7 +6603,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListActionsOutputResponse, ListActionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListActionsOutputResponse, ListActionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListActionsOutputResponse, ListActionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6453,6 +6623,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAlgorithmsInput, ListAlgorithmsOutputResponse, ListAlgorithmsOutputError>(id: "listAlgorithms")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAlgorithmsInput, ListAlgorithmsOutputResponse, ListAlgorithmsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAlgorithmsInput, ListAlgorithmsOutputResponse>())
@@ -6469,7 +6640,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAlgorithmsOutputResponse, ListAlgorithmsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAlgorithmsOutputResponse, ListAlgorithmsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAlgorithmsOutputResponse, ListAlgorithmsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6489,6 +6660,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAliasesInput, ListAliasesOutputResponse, ListAliasesOutputError>(id: "listAliases")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAliasesInput, ListAliasesOutputResponse, ListAliasesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAliasesInput, ListAliasesOutputResponse>())
@@ -6505,7 +6677,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAliasesOutputResponse, ListAliasesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAliasesOutputResponse, ListAliasesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAliasesOutputResponse, ListAliasesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6525,6 +6697,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAppImageConfigsInput, ListAppImageConfigsOutputResponse, ListAppImageConfigsOutputError>(id: "listAppImageConfigs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppImageConfigsInput, ListAppImageConfigsOutputResponse, ListAppImageConfigsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppImageConfigsInput, ListAppImageConfigsOutputResponse>())
@@ -6541,7 +6714,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppImageConfigsOutputResponse, ListAppImageConfigsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAppImageConfigsOutputResponse, ListAppImageConfigsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppImageConfigsOutputResponse, ListAppImageConfigsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6561,6 +6734,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAppsInput, ListAppsOutputResponse, ListAppsOutputError>(id: "listApps")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppsInput, ListAppsOutputResponse, ListAppsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppsInput, ListAppsOutputResponse>())
@@ -6577,7 +6751,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppsOutputResponse, ListAppsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAppsOutputResponse, ListAppsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppsOutputResponse, ListAppsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6597,6 +6771,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListArtifactsInput, ListArtifactsOutputResponse, ListArtifactsOutputError>(id: "listArtifacts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListArtifactsInput, ListArtifactsOutputResponse, ListArtifactsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListArtifactsInput, ListArtifactsOutputResponse>())
@@ -6613,7 +6788,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListArtifactsOutputResponse, ListArtifactsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListArtifactsOutputResponse, ListArtifactsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListArtifactsOutputResponse, ListArtifactsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6633,6 +6808,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAssociationsInput, ListAssociationsOutputResponse, ListAssociationsOutputError>(id: "listAssociations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssociationsInput, ListAssociationsOutputResponse, ListAssociationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssociationsInput, ListAssociationsOutputResponse>())
@@ -6649,7 +6825,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAssociationsOutputResponse, ListAssociationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAssociationsOutputResponse, ListAssociationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAssociationsOutputResponse, ListAssociationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6669,6 +6845,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAutoMLJobsInput, ListAutoMLJobsOutputResponse, ListAutoMLJobsOutputError>(id: "listAutoMLJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAutoMLJobsInput, ListAutoMLJobsOutputResponse, ListAutoMLJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAutoMLJobsInput, ListAutoMLJobsOutputResponse>())
@@ -6685,7 +6862,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAutoMLJobsOutputResponse, ListAutoMLJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAutoMLJobsOutputResponse, ListAutoMLJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAutoMLJobsOutputResponse, ListAutoMLJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6705,6 +6882,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCandidatesForAutoMLJobInput, ListCandidatesForAutoMLJobOutputResponse, ListCandidatesForAutoMLJobOutputError>(id: "listCandidatesForAutoMLJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCandidatesForAutoMLJobInput, ListCandidatesForAutoMLJobOutputResponse, ListCandidatesForAutoMLJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCandidatesForAutoMLJobInput, ListCandidatesForAutoMLJobOutputResponse>())
@@ -6721,7 +6899,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCandidatesForAutoMLJobOutputResponse, ListCandidatesForAutoMLJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListCandidatesForAutoMLJobOutputResponse, ListCandidatesForAutoMLJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCandidatesForAutoMLJobOutputResponse, ListCandidatesForAutoMLJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6741,6 +6919,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCodeRepositoriesInput, ListCodeRepositoriesOutputResponse, ListCodeRepositoriesOutputError>(id: "listCodeRepositories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCodeRepositoriesInput, ListCodeRepositoriesOutputResponse, ListCodeRepositoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCodeRepositoriesInput, ListCodeRepositoriesOutputResponse>())
@@ -6757,7 +6936,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCodeRepositoriesOutputResponse, ListCodeRepositoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListCodeRepositoriesOutputResponse, ListCodeRepositoriesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCodeRepositoriesOutputResponse, ListCodeRepositoriesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6777,6 +6956,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCompilationJobsInput, ListCompilationJobsOutputResponse, ListCompilationJobsOutputError>(id: "listCompilationJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCompilationJobsInput, ListCompilationJobsOutputResponse, ListCompilationJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCompilationJobsInput, ListCompilationJobsOutputResponse>())
@@ -6793,7 +6973,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCompilationJobsOutputResponse, ListCompilationJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListCompilationJobsOutputResponse, ListCompilationJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCompilationJobsOutputResponse, ListCompilationJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6813,6 +6993,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListContextsInput, ListContextsOutputResponse, ListContextsOutputError>(id: "listContexts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListContextsInput, ListContextsOutputResponse, ListContextsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListContextsInput, ListContextsOutputResponse>())
@@ -6829,7 +7010,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListContextsOutputResponse, ListContextsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListContextsOutputResponse, ListContextsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListContextsOutputResponse, ListContextsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6849,6 +7030,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDataQualityJobDefinitionsInput, ListDataQualityJobDefinitionsOutputResponse, ListDataQualityJobDefinitionsOutputError>(id: "listDataQualityJobDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDataQualityJobDefinitionsInput, ListDataQualityJobDefinitionsOutputResponse, ListDataQualityJobDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDataQualityJobDefinitionsInput, ListDataQualityJobDefinitionsOutputResponse>())
@@ -6865,7 +7047,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDataQualityJobDefinitionsOutputResponse, ListDataQualityJobDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDataQualityJobDefinitionsOutputResponse, ListDataQualityJobDefinitionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDataQualityJobDefinitionsOutputResponse, ListDataQualityJobDefinitionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6885,6 +7067,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDeviceFleetsInput, ListDeviceFleetsOutputResponse, ListDeviceFleetsOutputError>(id: "listDeviceFleets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeviceFleetsInput, ListDeviceFleetsOutputResponse, ListDeviceFleetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeviceFleetsInput, ListDeviceFleetsOutputResponse>())
@@ -6901,7 +7084,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeviceFleetsOutputResponse, ListDeviceFleetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDeviceFleetsOutputResponse, ListDeviceFleetsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeviceFleetsOutputResponse, ListDeviceFleetsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6921,6 +7104,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDevicesInput, ListDevicesOutputResponse, ListDevicesOutputError>(id: "listDevices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevicesInput, ListDevicesOutputResponse, ListDevicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevicesInput, ListDevicesOutputResponse>())
@@ -6937,7 +7121,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDevicesOutputResponse, ListDevicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDevicesOutputResponse, ListDevicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevicesOutputResponse, ListDevicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6957,6 +7141,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDomainsInput, ListDomainsOutputResponse, ListDomainsOutputError>(id: "listDomains")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDomainsInput, ListDomainsOutputResponse, ListDomainsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDomainsInput, ListDomainsOutputResponse>())
@@ -6973,7 +7158,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDomainsOutputResponse, ListDomainsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDomainsOutputResponse, ListDomainsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDomainsOutputResponse, ListDomainsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6993,6 +7178,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEdgeDeploymentPlansInput, ListEdgeDeploymentPlansOutputResponse, ListEdgeDeploymentPlansOutputError>(id: "listEdgeDeploymentPlans")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEdgeDeploymentPlansInput, ListEdgeDeploymentPlansOutputResponse, ListEdgeDeploymentPlansOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEdgeDeploymentPlansInput, ListEdgeDeploymentPlansOutputResponse>())
@@ -7009,7 +7195,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEdgeDeploymentPlansOutputResponse, ListEdgeDeploymentPlansOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListEdgeDeploymentPlansOutputResponse, ListEdgeDeploymentPlansOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEdgeDeploymentPlansOutputResponse, ListEdgeDeploymentPlansOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7029,6 +7215,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEdgePackagingJobsInput, ListEdgePackagingJobsOutputResponse, ListEdgePackagingJobsOutputError>(id: "listEdgePackagingJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEdgePackagingJobsInput, ListEdgePackagingJobsOutputResponse, ListEdgePackagingJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEdgePackagingJobsInput, ListEdgePackagingJobsOutputResponse>())
@@ -7045,7 +7232,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEdgePackagingJobsOutputResponse, ListEdgePackagingJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListEdgePackagingJobsOutputResponse, ListEdgePackagingJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEdgePackagingJobsOutputResponse, ListEdgePackagingJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7065,6 +7252,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEndpointConfigsInput, ListEndpointConfigsOutputResponse, ListEndpointConfigsOutputError>(id: "listEndpointConfigs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEndpointConfigsInput, ListEndpointConfigsOutputResponse, ListEndpointConfigsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEndpointConfigsInput, ListEndpointConfigsOutputResponse>())
@@ -7081,7 +7269,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEndpointConfigsOutputResponse, ListEndpointConfigsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListEndpointConfigsOutputResponse, ListEndpointConfigsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEndpointConfigsOutputResponse, ListEndpointConfigsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7101,6 +7289,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEndpointsInput, ListEndpointsOutputResponse, ListEndpointsOutputError>(id: "listEndpoints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEndpointsInput, ListEndpointsOutputResponse, ListEndpointsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEndpointsInput, ListEndpointsOutputResponse>())
@@ -7117,7 +7306,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEndpointsOutputResponse, ListEndpointsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListEndpointsOutputResponse, ListEndpointsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEndpointsOutputResponse, ListEndpointsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7137,6 +7326,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListExperimentsInput, ListExperimentsOutputResponse, ListExperimentsOutputError>(id: "listExperiments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListExperimentsInput, ListExperimentsOutputResponse, ListExperimentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListExperimentsInput, ListExperimentsOutputResponse>())
@@ -7153,7 +7343,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListExperimentsOutputResponse, ListExperimentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListExperimentsOutputResponse, ListExperimentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListExperimentsOutputResponse, ListExperimentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7173,6 +7363,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFeatureGroupsInput, ListFeatureGroupsOutputResponse, ListFeatureGroupsOutputError>(id: "listFeatureGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFeatureGroupsInput, ListFeatureGroupsOutputResponse, ListFeatureGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFeatureGroupsInput, ListFeatureGroupsOutputResponse>())
@@ -7189,7 +7380,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFeatureGroupsOutputResponse, ListFeatureGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListFeatureGroupsOutputResponse, ListFeatureGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFeatureGroupsOutputResponse, ListFeatureGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7209,6 +7400,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFlowDefinitionsInput, ListFlowDefinitionsOutputResponse, ListFlowDefinitionsOutputError>(id: "listFlowDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFlowDefinitionsInput, ListFlowDefinitionsOutputResponse, ListFlowDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFlowDefinitionsInput, ListFlowDefinitionsOutputResponse>())
@@ -7225,7 +7417,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFlowDefinitionsOutputResponse, ListFlowDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListFlowDefinitionsOutputResponse, ListFlowDefinitionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFlowDefinitionsOutputResponse, ListFlowDefinitionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7245,6 +7437,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListHubContentVersionsInput, ListHubContentVersionsOutputResponse, ListHubContentVersionsOutputError>(id: "listHubContentVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHubContentVersionsInput, ListHubContentVersionsOutputResponse, ListHubContentVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHubContentVersionsInput, ListHubContentVersionsOutputResponse>())
@@ -7261,7 +7454,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHubContentVersionsOutputResponse, ListHubContentVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListHubContentVersionsOutputResponse, ListHubContentVersionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHubContentVersionsOutputResponse, ListHubContentVersionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7281,6 +7474,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListHubContentsInput, ListHubContentsOutputResponse, ListHubContentsOutputError>(id: "listHubContents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHubContentsInput, ListHubContentsOutputResponse, ListHubContentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHubContentsInput, ListHubContentsOutputResponse>())
@@ -7297,7 +7491,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHubContentsOutputResponse, ListHubContentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListHubContentsOutputResponse, ListHubContentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHubContentsOutputResponse, ListHubContentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7317,6 +7511,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListHubsInput, ListHubsOutputResponse, ListHubsOutputError>(id: "listHubs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHubsInput, ListHubsOutputResponse, ListHubsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHubsInput, ListHubsOutputResponse>())
@@ -7333,7 +7528,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHubsOutputResponse, ListHubsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListHubsOutputResponse, ListHubsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHubsOutputResponse, ListHubsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7353,6 +7548,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListHumanTaskUisInput, ListHumanTaskUisOutputResponse, ListHumanTaskUisOutputError>(id: "listHumanTaskUis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHumanTaskUisInput, ListHumanTaskUisOutputResponse, ListHumanTaskUisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHumanTaskUisInput, ListHumanTaskUisOutputResponse>())
@@ -7369,7 +7565,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHumanTaskUisOutputResponse, ListHumanTaskUisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListHumanTaskUisOutputResponse, ListHumanTaskUisOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHumanTaskUisOutputResponse, ListHumanTaskUisOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7389,6 +7585,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListHyperParameterTuningJobsInput, ListHyperParameterTuningJobsOutputResponse, ListHyperParameterTuningJobsOutputError>(id: "listHyperParameterTuningJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHyperParameterTuningJobsInput, ListHyperParameterTuningJobsOutputResponse, ListHyperParameterTuningJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHyperParameterTuningJobsInput, ListHyperParameterTuningJobsOutputResponse>())
@@ -7405,7 +7602,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHyperParameterTuningJobsOutputResponse, ListHyperParameterTuningJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListHyperParameterTuningJobsOutputResponse, ListHyperParameterTuningJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHyperParameterTuningJobsOutputResponse, ListHyperParameterTuningJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7425,6 +7622,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListImageVersionsInput, ListImageVersionsOutputResponse, ListImageVersionsOutputError>(id: "listImageVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListImageVersionsInput, ListImageVersionsOutputResponse, ListImageVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListImageVersionsInput, ListImageVersionsOutputResponse>())
@@ -7441,7 +7639,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListImageVersionsOutputResponse, ListImageVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListImageVersionsOutputResponse, ListImageVersionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListImageVersionsOutputResponse, ListImageVersionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7461,6 +7659,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListImagesInput, ListImagesOutputResponse, ListImagesOutputError>(id: "listImages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListImagesInput, ListImagesOutputResponse, ListImagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListImagesInput, ListImagesOutputResponse>())
@@ -7477,7 +7676,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListImagesOutputResponse, ListImagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListImagesOutputResponse, ListImagesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListImagesOutputResponse, ListImagesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7497,6 +7696,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListInferenceExperimentsInput, ListInferenceExperimentsOutputResponse, ListInferenceExperimentsOutputError>(id: "listInferenceExperiments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInferenceExperimentsInput, ListInferenceExperimentsOutputResponse, ListInferenceExperimentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInferenceExperimentsInput, ListInferenceExperimentsOutputResponse>())
@@ -7513,7 +7713,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInferenceExperimentsOutputResponse, ListInferenceExperimentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListInferenceExperimentsOutputResponse, ListInferenceExperimentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInferenceExperimentsOutputResponse, ListInferenceExperimentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7533,6 +7733,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListInferenceRecommendationsJobStepsInput, ListInferenceRecommendationsJobStepsOutputResponse, ListInferenceRecommendationsJobStepsOutputError>(id: "listInferenceRecommendationsJobSteps")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInferenceRecommendationsJobStepsInput, ListInferenceRecommendationsJobStepsOutputResponse, ListInferenceRecommendationsJobStepsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInferenceRecommendationsJobStepsInput, ListInferenceRecommendationsJobStepsOutputResponse>())
@@ -7549,7 +7750,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInferenceRecommendationsJobStepsOutputResponse, ListInferenceRecommendationsJobStepsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListInferenceRecommendationsJobStepsOutputResponse, ListInferenceRecommendationsJobStepsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInferenceRecommendationsJobStepsOutputResponse, ListInferenceRecommendationsJobStepsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7569,6 +7770,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListInferenceRecommendationsJobsInput, ListInferenceRecommendationsJobsOutputResponse, ListInferenceRecommendationsJobsOutputError>(id: "listInferenceRecommendationsJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInferenceRecommendationsJobsInput, ListInferenceRecommendationsJobsOutputResponse, ListInferenceRecommendationsJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInferenceRecommendationsJobsInput, ListInferenceRecommendationsJobsOutputResponse>())
@@ -7585,7 +7787,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInferenceRecommendationsJobsOutputResponse, ListInferenceRecommendationsJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListInferenceRecommendationsJobsOutputResponse, ListInferenceRecommendationsJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInferenceRecommendationsJobsOutputResponse, ListInferenceRecommendationsJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7605,6 +7807,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLabelingJobsInput, ListLabelingJobsOutputResponse, ListLabelingJobsOutputError>(id: "listLabelingJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLabelingJobsInput, ListLabelingJobsOutputResponse, ListLabelingJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLabelingJobsInput, ListLabelingJobsOutputResponse>())
@@ -7621,7 +7824,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLabelingJobsOutputResponse, ListLabelingJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListLabelingJobsOutputResponse, ListLabelingJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLabelingJobsOutputResponse, ListLabelingJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7641,6 +7844,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLabelingJobsForWorkteamInput, ListLabelingJobsForWorkteamOutputResponse, ListLabelingJobsForWorkteamOutputError>(id: "listLabelingJobsForWorkteam")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLabelingJobsForWorkteamInput, ListLabelingJobsForWorkteamOutputResponse, ListLabelingJobsForWorkteamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLabelingJobsForWorkteamInput, ListLabelingJobsForWorkteamOutputResponse>())
@@ -7657,7 +7861,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLabelingJobsForWorkteamOutputResponse, ListLabelingJobsForWorkteamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListLabelingJobsForWorkteamOutputResponse, ListLabelingJobsForWorkteamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLabelingJobsForWorkteamOutputResponse, ListLabelingJobsForWorkteamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7677,6 +7881,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLineageGroupsInput, ListLineageGroupsOutputResponse, ListLineageGroupsOutputError>(id: "listLineageGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLineageGroupsInput, ListLineageGroupsOutputResponse, ListLineageGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLineageGroupsInput, ListLineageGroupsOutputResponse>())
@@ -7693,7 +7898,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLineageGroupsOutputResponse, ListLineageGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListLineageGroupsOutputResponse, ListLineageGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLineageGroupsOutputResponse, ListLineageGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7713,6 +7918,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListModelBiasJobDefinitionsInput, ListModelBiasJobDefinitionsOutputResponse, ListModelBiasJobDefinitionsOutputError>(id: "listModelBiasJobDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListModelBiasJobDefinitionsInput, ListModelBiasJobDefinitionsOutputResponse, ListModelBiasJobDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListModelBiasJobDefinitionsInput, ListModelBiasJobDefinitionsOutputResponse>())
@@ -7729,7 +7935,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListModelBiasJobDefinitionsOutputResponse, ListModelBiasJobDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListModelBiasJobDefinitionsOutputResponse, ListModelBiasJobDefinitionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListModelBiasJobDefinitionsOutputResponse, ListModelBiasJobDefinitionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7749,6 +7955,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListModelCardExportJobsInput, ListModelCardExportJobsOutputResponse, ListModelCardExportJobsOutputError>(id: "listModelCardExportJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListModelCardExportJobsInput, ListModelCardExportJobsOutputResponse, ListModelCardExportJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListModelCardExportJobsInput, ListModelCardExportJobsOutputResponse>())
@@ -7765,7 +7972,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListModelCardExportJobsOutputResponse, ListModelCardExportJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListModelCardExportJobsOutputResponse, ListModelCardExportJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListModelCardExportJobsOutputResponse, ListModelCardExportJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7785,6 +7992,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListModelCardVersionsInput, ListModelCardVersionsOutputResponse, ListModelCardVersionsOutputError>(id: "listModelCardVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListModelCardVersionsInput, ListModelCardVersionsOutputResponse, ListModelCardVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListModelCardVersionsInput, ListModelCardVersionsOutputResponse>())
@@ -7801,7 +8009,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListModelCardVersionsOutputResponse, ListModelCardVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListModelCardVersionsOutputResponse, ListModelCardVersionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListModelCardVersionsOutputResponse, ListModelCardVersionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7821,6 +8029,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListModelCardsInput, ListModelCardsOutputResponse, ListModelCardsOutputError>(id: "listModelCards")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListModelCardsInput, ListModelCardsOutputResponse, ListModelCardsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListModelCardsInput, ListModelCardsOutputResponse>())
@@ -7837,7 +8046,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListModelCardsOutputResponse, ListModelCardsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListModelCardsOutputResponse, ListModelCardsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListModelCardsOutputResponse, ListModelCardsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7857,6 +8066,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListModelExplainabilityJobDefinitionsInput, ListModelExplainabilityJobDefinitionsOutputResponse, ListModelExplainabilityJobDefinitionsOutputError>(id: "listModelExplainabilityJobDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListModelExplainabilityJobDefinitionsInput, ListModelExplainabilityJobDefinitionsOutputResponse, ListModelExplainabilityJobDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListModelExplainabilityJobDefinitionsInput, ListModelExplainabilityJobDefinitionsOutputResponse>())
@@ -7873,7 +8083,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListModelExplainabilityJobDefinitionsOutputResponse, ListModelExplainabilityJobDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListModelExplainabilityJobDefinitionsOutputResponse, ListModelExplainabilityJobDefinitionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListModelExplainabilityJobDefinitionsOutputResponse, ListModelExplainabilityJobDefinitionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7893,6 +8103,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListModelMetadataInput, ListModelMetadataOutputResponse, ListModelMetadataOutputError>(id: "listModelMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListModelMetadataInput, ListModelMetadataOutputResponse, ListModelMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListModelMetadataInput, ListModelMetadataOutputResponse>())
@@ -7909,7 +8120,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListModelMetadataOutputResponse, ListModelMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListModelMetadataOutputResponse, ListModelMetadataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListModelMetadataOutputResponse, ListModelMetadataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7929,6 +8140,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListModelPackageGroupsInput, ListModelPackageGroupsOutputResponse, ListModelPackageGroupsOutputError>(id: "listModelPackageGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListModelPackageGroupsInput, ListModelPackageGroupsOutputResponse, ListModelPackageGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListModelPackageGroupsInput, ListModelPackageGroupsOutputResponse>())
@@ -7945,7 +8157,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListModelPackageGroupsOutputResponse, ListModelPackageGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListModelPackageGroupsOutputResponse, ListModelPackageGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListModelPackageGroupsOutputResponse, ListModelPackageGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -7965,6 +8177,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListModelPackagesInput, ListModelPackagesOutputResponse, ListModelPackagesOutputError>(id: "listModelPackages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListModelPackagesInput, ListModelPackagesOutputResponse, ListModelPackagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListModelPackagesInput, ListModelPackagesOutputResponse>())
@@ -7981,7 +8194,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListModelPackagesOutputResponse, ListModelPackagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListModelPackagesOutputResponse, ListModelPackagesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListModelPackagesOutputResponse, ListModelPackagesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8001,6 +8214,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListModelQualityJobDefinitionsInput, ListModelQualityJobDefinitionsOutputResponse, ListModelQualityJobDefinitionsOutputError>(id: "listModelQualityJobDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListModelQualityJobDefinitionsInput, ListModelQualityJobDefinitionsOutputResponse, ListModelQualityJobDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListModelQualityJobDefinitionsInput, ListModelQualityJobDefinitionsOutputResponse>())
@@ -8017,7 +8231,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListModelQualityJobDefinitionsOutputResponse, ListModelQualityJobDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListModelQualityJobDefinitionsOutputResponse, ListModelQualityJobDefinitionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListModelQualityJobDefinitionsOutputResponse, ListModelQualityJobDefinitionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8037,6 +8251,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListModelsInput, ListModelsOutputResponse, ListModelsOutputError>(id: "listModels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListModelsInput, ListModelsOutputResponse, ListModelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListModelsInput, ListModelsOutputResponse>())
@@ -8053,7 +8268,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListModelsOutputResponse, ListModelsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListModelsOutputResponse, ListModelsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListModelsOutputResponse, ListModelsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8073,6 +8288,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMonitoringAlertHistoryInput, ListMonitoringAlertHistoryOutputResponse, ListMonitoringAlertHistoryOutputError>(id: "listMonitoringAlertHistory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMonitoringAlertHistoryInput, ListMonitoringAlertHistoryOutputResponse, ListMonitoringAlertHistoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMonitoringAlertHistoryInput, ListMonitoringAlertHistoryOutputResponse>())
@@ -8089,7 +8305,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMonitoringAlertHistoryOutputResponse, ListMonitoringAlertHistoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMonitoringAlertHistoryOutputResponse, ListMonitoringAlertHistoryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMonitoringAlertHistoryOutputResponse, ListMonitoringAlertHistoryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8109,6 +8325,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMonitoringAlertsInput, ListMonitoringAlertsOutputResponse, ListMonitoringAlertsOutputError>(id: "listMonitoringAlerts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMonitoringAlertsInput, ListMonitoringAlertsOutputResponse, ListMonitoringAlertsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMonitoringAlertsInput, ListMonitoringAlertsOutputResponse>())
@@ -8125,7 +8342,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMonitoringAlertsOutputResponse, ListMonitoringAlertsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMonitoringAlertsOutputResponse, ListMonitoringAlertsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMonitoringAlertsOutputResponse, ListMonitoringAlertsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8145,6 +8362,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMonitoringExecutionsInput, ListMonitoringExecutionsOutputResponse, ListMonitoringExecutionsOutputError>(id: "listMonitoringExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMonitoringExecutionsInput, ListMonitoringExecutionsOutputResponse, ListMonitoringExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMonitoringExecutionsInput, ListMonitoringExecutionsOutputResponse>())
@@ -8161,7 +8379,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMonitoringExecutionsOutputResponse, ListMonitoringExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMonitoringExecutionsOutputResponse, ListMonitoringExecutionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMonitoringExecutionsOutputResponse, ListMonitoringExecutionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8181,6 +8399,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMonitoringSchedulesInput, ListMonitoringSchedulesOutputResponse, ListMonitoringSchedulesOutputError>(id: "listMonitoringSchedules")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMonitoringSchedulesInput, ListMonitoringSchedulesOutputResponse, ListMonitoringSchedulesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMonitoringSchedulesInput, ListMonitoringSchedulesOutputResponse>())
@@ -8197,7 +8416,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMonitoringSchedulesOutputResponse, ListMonitoringSchedulesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMonitoringSchedulesOutputResponse, ListMonitoringSchedulesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMonitoringSchedulesOutputResponse, ListMonitoringSchedulesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8217,6 +8436,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListNotebookInstanceLifecycleConfigsInput, ListNotebookInstanceLifecycleConfigsOutputResponse, ListNotebookInstanceLifecycleConfigsOutputError>(id: "listNotebookInstanceLifecycleConfigs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNotebookInstanceLifecycleConfigsInput, ListNotebookInstanceLifecycleConfigsOutputResponse, ListNotebookInstanceLifecycleConfigsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNotebookInstanceLifecycleConfigsInput, ListNotebookInstanceLifecycleConfigsOutputResponse>())
@@ -8233,7 +8453,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNotebookInstanceLifecycleConfigsOutputResponse, ListNotebookInstanceLifecycleConfigsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListNotebookInstanceLifecycleConfigsOutputResponse, ListNotebookInstanceLifecycleConfigsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNotebookInstanceLifecycleConfigsOutputResponse, ListNotebookInstanceLifecycleConfigsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8253,6 +8473,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListNotebookInstancesInput, ListNotebookInstancesOutputResponse, ListNotebookInstancesOutputError>(id: "listNotebookInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNotebookInstancesInput, ListNotebookInstancesOutputResponse, ListNotebookInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNotebookInstancesInput, ListNotebookInstancesOutputResponse>())
@@ -8269,7 +8490,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListNotebookInstancesOutputResponse, ListNotebookInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListNotebookInstancesOutputResponse, ListNotebookInstancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListNotebookInstancesOutputResponse, ListNotebookInstancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8289,6 +8510,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPipelineExecutionStepsInput, ListPipelineExecutionStepsOutputResponse, ListPipelineExecutionStepsOutputError>(id: "listPipelineExecutionSteps")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPipelineExecutionStepsInput, ListPipelineExecutionStepsOutputResponse, ListPipelineExecutionStepsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPipelineExecutionStepsInput, ListPipelineExecutionStepsOutputResponse>())
@@ -8305,7 +8527,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPipelineExecutionStepsOutputResponse, ListPipelineExecutionStepsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPipelineExecutionStepsOutputResponse, ListPipelineExecutionStepsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPipelineExecutionStepsOutputResponse, ListPipelineExecutionStepsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8325,6 +8547,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPipelineExecutionsInput, ListPipelineExecutionsOutputResponse, ListPipelineExecutionsOutputError>(id: "listPipelineExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPipelineExecutionsInput, ListPipelineExecutionsOutputResponse, ListPipelineExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPipelineExecutionsInput, ListPipelineExecutionsOutputResponse>())
@@ -8341,7 +8564,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPipelineExecutionsOutputResponse, ListPipelineExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPipelineExecutionsOutputResponse, ListPipelineExecutionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPipelineExecutionsOutputResponse, ListPipelineExecutionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8361,6 +8584,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPipelineParametersForExecutionInput, ListPipelineParametersForExecutionOutputResponse, ListPipelineParametersForExecutionOutputError>(id: "listPipelineParametersForExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPipelineParametersForExecutionInput, ListPipelineParametersForExecutionOutputResponse, ListPipelineParametersForExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPipelineParametersForExecutionInput, ListPipelineParametersForExecutionOutputResponse>())
@@ -8377,7 +8601,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPipelineParametersForExecutionOutputResponse, ListPipelineParametersForExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPipelineParametersForExecutionOutputResponse, ListPipelineParametersForExecutionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPipelineParametersForExecutionOutputResponse, ListPipelineParametersForExecutionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8397,6 +8621,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPipelinesInput, ListPipelinesOutputResponse, ListPipelinesOutputError>(id: "listPipelines")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPipelinesInput, ListPipelinesOutputResponse, ListPipelinesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPipelinesInput, ListPipelinesOutputResponse>())
@@ -8413,7 +8638,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPipelinesOutputResponse, ListPipelinesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPipelinesOutputResponse, ListPipelinesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPipelinesOutputResponse, ListPipelinesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8433,6 +8658,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListProcessingJobsInput, ListProcessingJobsOutputResponse, ListProcessingJobsOutputError>(id: "listProcessingJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProcessingJobsInput, ListProcessingJobsOutputResponse, ListProcessingJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProcessingJobsInput, ListProcessingJobsOutputResponse>())
@@ -8449,7 +8675,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProcessingJobsOutputResponse, ListProcessingJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListProcessingJobsOutputResponse, ListProcessingJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProcessingJobsOutputResponse, ListProcessingJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8469,6 +8695,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListProjectsInput, ListProjectsOutputResponse, ListProjectsOutputError>(id: "listProjects")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProjectsInput, ListProjectsOutputResponse, ListProjectsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProjectsInput, ListProjectsOutputResponse>())
@@ -8485,7 +8712,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProjectsOutputResponse, ListProjectsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListProjectsOutputResponse, ListProjectsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProjectsOutputResponse, ListProjectsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8505,6 +8732,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSpacesInput, ListSpacesOutputResponse, ListSpacesOutputError>(id: "listSpaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSpacesInput, ListSpacesOutputResponse, ListSpacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSpacesInput, ListSpacesOutputResponse>())
@@ -8521,7 +8749,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSpacesOutputResponse, ListSpacesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSpacesOutputResponse, ListSpacesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSpacesOutputResponse, ListSpacesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8541,6 +8769,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStageDevicesInput, ListStageDevicesOutputResponse, ListStageDevicesOutputError>(id: "listStageDevices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStageDevicesInput, ListStageDevicesOutputResponse, ListStageDevicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStageDevicesInput, ListStageDevicesOutputResponse>())
@@ -8557,7 +8786,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStageDevicesOutputResponse, ListStageDevicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListStageDevicesOutputResponse, ListStageDevicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStageDevicesOutputResponse, ListStageDevicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8577,6 +8806,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStudioLifecycleConfigsInput, ListStudioLifecycleConfigsOutputResponse, ListStudioLifecycleConfigsOutputError>(id: "listStudioLifecycleConfigs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStudioLifecycleConfigsInput, ListStudioLifecycleConfigsOutputResponse, ListStudioLifecycleConfigsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStudioLifecycleConfigsInput, ListStudioLifecycleConfigsOutputResponse>())
@@ -8593,7 +8823,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStudioLifecycleConfigsOutputResponse, ListStudioLifecycleConfigsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListStudioLifecycleConfigsOutputResponse, ListStudioLifecycleConfigsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStudioLifecycleConfigsOutputResponse, ListStudioLifecycleConfigsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8613,6 +8843,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSubscribedWorkteamsInput, ListSubscribedWorkteamsOutputResponse, ListSubscribedWorkteamsOutputError>(id: "listSubscribedWorkteams")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSubscribedWorkteamsInput, ListSubscribedWorkteamsOutputResponse, ListSubscribedWorkteamsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSubscribedWorkteamsInput, ListSubscribedWorkteamsOutputResponse>())
@@ -8629,7 +8860,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSubscribedWorkteamsOutputResponse, ListSubscribedWorkteamsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSubscribedWorkteamsOutputResponse, ListSubscribedWorkteamsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSubscribedWorkteamsOutputResponse, ListSubscribedWorkteamsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8649,6 +8880,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsInput, ListTagsOutputResponse, ListTagsOutputError>(id: "listTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsInput, ListTagsOutputResponse, ListTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsInput, ListTagsOutputResponse>())
@@ -8665,7 +8897,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsOutputResponse, ListTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsOutputResponse, ListTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsOutputResponse, ListTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8685,6 +8917,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTrainingJobsInput, ListTrainingJobsOutputResponse, ListTrainingJobsOutputError>(id: "listTrainingJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrainingJobsInput, ListTrainingJobsOutputResponse, ListTrainingJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrainingJobsInput, ListTrainingJobsOutputResponse>())
@@ -8701,7 +8934,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrainingJobsOutputResponse, ListTrainingJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTrainingJobsOutputResponse, ListTrainingJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrainingJobsOutputResponse, ListTrainingJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8721,6 +8954,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTrainingJobsForHyperParameterTuningJobInput, ListTrainingJobsForHyperParameterTuningJobOutputResponse, ListTrainingJobsForHyperParameterTuningJobOutputError>(id: "listTrainingJobsForHyperParameterTuningJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrainingJobsForHyperParameterTuningJobInput, ListTrainingJobsForHyperParameterTuningJobOutputResponse, ListTrainingJobsForHyperParameterTuningJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrainingJobsForHyperParameterTuningJobInput, ListTrainingJobsForHyperParameterTuningJobOutputResponse>())
@@ -8737,7 +8971,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrainingJobsForHyperParameterTuningJobOutputResponse, ListTrainingJobsForHyperParameterTuningJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTrainingJobsForHyperParameterTuningJobOutputResponse, ListTrainingJobsForHyperParameterTuningJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrainingJobsForHyperParameterTuningJobOutputResponse, ListTrainingJobsForHyperParameterTuningJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8757,6 +8991,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTransformJobsInput, ListTransformJobsOutputResponse, ListTransformJobsOutputError>(id: "listTransformJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTransformJobsInput, ListTransformJobsOutputResponse, ListTransformJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTransformJobsInput, ListTransformJobsOutputResponse>())
@@ -8773,7 +9008,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTransformJobsOutputResponse, ListTransformJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTransformJobsOutputResponse, ListTransformJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTransformJobsOutputResponse, ListTransformJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8799,6 +9034,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTrialComponentsInput, ListTrialComponentsOutputResponse, ListTrialComponentsOutputError>(id: "listTrialComponents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrialComponentsInput, ListTrialComponentsOutputResponse, ListTrialComponentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrialComponentsInput, ListTrialComponentsOutputResponse>())
@@ -8815,7 +9051,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrialComponentsOutputResponse, ListTrialComponentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTrialComponentsOutputResponse, ListTrialComponentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrialComponentsOutputResponse, ListTrialComponentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8835,6 +9071,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTrialsInput, ListTrialsOutputResponse, ListTrialsOutputError>(id: "listTrials")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTrialsInput, ListTrialsOutputResponse, ListTrialsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrialsInput, ListTrialsOutputResponse>())
@@ -8851,7 +9088,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTrialsOutputResponse, ListTrialsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTrialsOutputResponse, ListTrialsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTrialsOutputResponse, ListTrialsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8871,6 +9108,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListUserProfilesInput, ListUserProfilesOutputResponse, ListUserProfilesOutputError>(id: "listUserProfiles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserProfilesInput, ListUserProfilesOutputResponse, ListUserProfilesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserProfilesInput, ListUserProfilesOutputResponse>())
@@ -8887,7 +9125,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserProfilesOutputResponse, ListUserProfilesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListUserProfilesOutputResponse, ListUserProfilesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserProfilesOutputResponse, ListUserProfilesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8907,6 +9145,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorkforcesInput, ListWorkforcesOutputResponse, ListWorkforcesOutputError>(id: "listWorkforces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkforcesInput, ListWorkforcesOutputResponse, ListWorkforcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkforcesInput, ListWorkforcesOutputResponse>())
@@ -8923,7 +9162,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorkforcesOutputResponse, ListWorkforcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListWorkforcesOutputResponse, ListWorkforcesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkforcesOutputResponse, ListWorkforcesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8943,6 +9182,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorkteamsInput, ListWorkteamsOutputResponse, ListWorkteamsOutputError>(id: "listWorkteams")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkteamsInput, ListWorkteamsOutputResponse, ListWorkteamsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkteamsInput, ListWorkteamsOutputResponse>())
@@ -8959,7 +9199,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorkteamsOutputResponse, ListWorkteamsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListWorkteamsOutputResponse, ListWorkteamsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkteamsOutputResponse, ListWorkteamsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -8979,6 +9219,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutModelPackageGroupPolicyInput, PutModelPackageGroupPolicyOutputResponse, PutModelPackageGroupPolicyOutputError>(id: "putModelPackageGroupPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutModelPackageGroupPolicyInput, PutModelPackageGroupPolicyOutputResponse, PutModelPackageGroupPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutModelPackageGroupPolicyInput, PutModelPackageGroupPolicyOutputResponse>())
@@ -8995,7 +9236,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutModelPackageGroupPolicyOutputResponse, PutModelPackageGroupPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutModelPackageGroupPolicyOutputResponse, PutModelPackageGroupPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutModelPackageGroupPolicyOutputResponse, PutModelPackageGroupPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9015,6 +9256,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<QueryLineageInput, QueryLineageOutputResponse, QueryLineageOutputError>(id: "queryLineage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<QueryLineageInput, QueryLineageOutputResponse, QueryLineageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<QueryLineageInput, QueryLineageOutputResponse>())
@@ -9031,7 +9273,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<QueryLineageOutputResponse, QueryLineageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<QueryLineageOutputResponse, QueryLineageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<QueryLineageOutputResponse, QueryLineageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9051,6 +9293,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterDevicesInput, RegisterDevicesOutputResponse, RegisterDevicesOutputError>(id: "registerDevices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterDevicesInput, RegisterDevicesOutputResponse, RegisterDevicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterDevicesInput, RegisterDevicesOutputResponse>())
@@ -9067,7 +9310,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterDevicesOutputResponse, RegisterDevicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RegisterDevicesOutputResponse, RegisterDevicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterDevicesOutputResponse, RegisterDevicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9087,6 +9330,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RenderUiTemplateInput, RenderUiTemplateOutputResponse, RenderUiTemplateOutputError>(id: "renderUiTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RenderUiTemplateInput, RenderUiTemplateOutputResponse, RenderUiTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RenderUiTemplateInput, RenderUiTemplateOutputResponse>())
@@ -9103,7 +9347,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RenderUiTemplateOutputResponse, RenderUiTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RenderUiTemplateOutputResponse, RenderUiTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RenderUiTemplateOutputResponse, RenderUiTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9123,6 +9367,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RetryPipelineExecutionInput, RetryPipelineExecutionOutputResponse, RetryPipelineExecutionOutputError>(id: "retryPipelineExecution")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<RetryPipelineExecutionOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -9147,7 +9392,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RetryPipelineExecutionOutputResponse, RetryPipelineExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RetryPipelineExecutionOutputResponse, RetryPipelineExecutionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RetryPipelineExecutionOutputResponse, RetryPipelineExecutionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9167,6 +9412,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchInput, SearchOutputResponse, SearchOutputError>(id: "search")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchInput, SearchOutputResponse, SearchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchInput, SearchOutputResponse>())
@@ -9183,7 +9429,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchOutputResponse, SearchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchOutputResponse, SearchOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchOutputResponse, SearchOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9203,6 +9449,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendPipelineExecutionStepFailureInput, SendPipelineExecutionStepFailureOutputResponse, SendPipelineExecutionStepFailureOutputError>(id: "sendPipelineExecutionStepFailure")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<SendPipelineExecutionStepFailureOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -9227,7 +9474,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendPipelineExecutionStepFailureOutputResponse, SendPipelineExecutionStepFailureOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendPipelineExecutionStepFailureOutputResponse, SendPipelineExecutionStepFailureOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendPipelineExecutionStepFailureOutputResponse, SendPipelineExecutionStepFailureOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9247,6 +9494,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendPipelineExecutionStepSuccessInput, SendPipelineExecutionStepSuccessOutputResponse, SendPipelineExecutionStepSuccessOutputError>(id: "sendPipelineExecutionStepSuccess")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<SendPipelineExecutionStepSuccessOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -9271,7 +9519,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendPipelineExecutionStepSuccessOutputResponse, SendPipelineExecutionStepSuccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendPipelineExecutionStepSuccessOutputResponse, SendPipelineExecutionStepSuccessOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendPipelineExecutionStepSuccessOutputResponse, SendPipelineExecutionStepSuccessOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9291,6 +9539,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartEdgeDeploymentStageInput, StartEdgeDeploymentStageOutputResponse, StartEdgeDeploymentStageOutputError>(id: "startEdgeDeploymentStage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartEdgeDeploymentStageInput, StartEdgeDeploymentStageOutputResponse, StartEdgeDeploymentStageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartEdgeDeploymentStageInput, StartEdgeDeploymentStageOutputResponse>())
@@ -9307,7 +9556,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartEdgeDeploymentStageOutputResponse, StartEdgeDeploymentStageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartEdgeDeploymentStageOutputResponse, StartEdgeDeploymentStageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartEdgeDeploymentStageOutputResponse, StartEdgeDeploymentStageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9327,6 +9576,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartInferenceExperimentInput, StartInferenceExperimentOutputResponse, StartInferenceExperimentOutputError>(id: "startInferenceExperiment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartInferenceExperimentInput, StartInferenceExperimentOutputResponse, StartInferenceExperimentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartInferenceExperimentInput, StartInferenceExperimentOutputResponse>())
@@ -9343,7 +9593,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartInferenceExperimentOutputResponse, StartInferenceExperimentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartInferenceExperimentOutputResponse, StartInferenceExperimentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartInferenceExperimentOutputResponse, StartInferenceExperimentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9363,6 +9613,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartMonitoringScheduleInput, StartMonitoringScheduleOutputResponse, StartMonitoringScheduleOutputError>(id: "startMonitoringSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMonitoringScheduleInput, StartMonitoringScheduleOutputResponse, StartMonitoringScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMonitoringScheduleInput, StartMonitoringScheduleOutputResponse>())
@@ -9379,7 +9630,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMonitoringScheduleOutputResponse, StartMonitoringScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartMonitoringScheduleOutputResponse, StartMonitoringScheduleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMonitoringScheduleOutputResponse, StartMonitoringScheduleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9399,6 +9650,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartNotebookInstanceInput, StartNotebookInstanceOutputResponse, StartNotebookInstanceOutputError>(id: "startNotebookInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartNotebookInstanceInput, StartNotebookInstanceOutputResponse, StartNotebookInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartNotebookInstanceInput, StartNotebookInstanceOutputResponse>())
@@ -9415,7 +9667,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartNotebookInstanceOutputResponse, StartNotebookInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartNotebookInstanceOutputResponse, StartNotebookInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartNotebookInstanceOutputResponse, StartNotebookInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9435,6 +9687,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartPipelineExecutionInput, StartPipelineExecutionOutputResponse, StartPipelineExecutionOutputError>(id: "startPipelineExecution")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartPipelineExecutionOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -9459,7 +9712,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartPipelineExecutionOutputResponse, StartPipelineExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartPipelineExecutionOutputResponse, StartPipelineExecutionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartPipelineExecutionOutputResponse, StartPipelineExecutionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9479,6 +9732,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopAutoMLJobInput, StopAutoMLJobOutputResponse, StopAutoMLJobOutputError>(id: "stopAutoMLJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopAutoMLJobInput, StopAutoMLJobOutputResponse, StopAutoMLJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopAutoMLJobInput, StopAutoMLJobOutputResponse>())
@@ -9495,7 +9749,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopAutoMLJobOutputResponse, StopAutoMLJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopAutoMLJobOutputResponse, StopAutoMLJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopAutoMLJobOutputResponse, StopAutoMLJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9515,6 +9769,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopCompilationJobInput, StopCompilationJobOutputResponse, StopCompilationJobOutputError>(id: "stopCompilationJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopCompilationJobInput, StopCompilationJobOutputResponse, StopCompilationJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopCompilationJobInput, StopCompilationJobOutputResponse>())
@@ -9531,7 +9786,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopCompilationJobOutputResponse, StopCompilationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopCompilationJobOutputResponse, StopCompilationJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopCompilationJobOutputResponse, StopCompilationJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9551,6 +9806,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopEdgeDeploymentStageInput, StopEdgeDeploymentStageOutputResponse, StopEdgeDeploymentStageOutputError>(id: "stopEdgeDeploymentStage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopEdgeDeploymentStageInput, StopEdgeDeploymentStageOutputResponse, StopEdgeDeploymentStageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopEdgeDeploymentStageInput, StopEdgeDeploymentStageOutputResponse>())
@@ -9567,7 +9823,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopEdgeDeploymentStageOutputResponse, StopEdgeDeploymentStageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopEdgeDeploymentStageOutputResponse, StopEdgeDeploymentStageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopEdgeDeploymentStageOutputResponse, StopEdgeDeploymentStageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9587,6 +9843,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopEdgePackagingJobInput, StopEdgePackagingJobOutputResponse, StopEdgePackagingJobOutputError>(id: "stopEdgePackagingJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopEdgePackagingJobInput, StopEdgePackagingJobOutputResponse, StopEdgePackagingJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopEdgePackagingJobInput, StopEdgePackagingJobOutputResponse>())
@@ -9603,7 +9860,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopEdgePackagingJobOutputResponse, StopEdgePackagingJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopEdgePackagingJobOutputResponse, StopEdgePackagingJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopEdgePackagingJobOutputResponse, StopEdgePackagingJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9623,6 +9880,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopHyperParameterTuningJobInput, StopHyperParameterTuningJobOutputResponse, StopHyperParameterTuningJobOutputError>(id: "stopHyperParameterTuningJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopHyperParameterTuningJobInput, StopHyperParameterTuningJobOutputResponse, StopHyperParameterTuningJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopHyperParameterTuningJobInput, StopHyperParameterTuningJobOutputResponse>())
@@ -9639,7 +9897,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopHyperParameterTuningJobOutputResponse, StopHyperParameterTuningJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopHyperParameterTuningJobOutputResponse, StopHyperParameterTuningJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopHyperParameterTuningJobOutputResponse, StopHyperParameterTuningJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9659,6 +9917,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopInferenceExperimentInput, StopInferenceExperimentOutputResponse, StopInferenceExperimentOutputError>(id: "stopInferenceExperiment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopInferenceExperimentInput, StopInferenceExperimentOutputResponse, StopInferenceExperimentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopInferenceExperimentInput, StopInferenceExperimentOutputResponse>())
@@ -9675,7 +9934,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopInferenceExperimentOutputResponse, StopInferenceExperimentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopInferenceExperimentOutputResponse, StopInferenceExperimentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopInferenceExperimentOutputResponse, StopInferenceExperimentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9695,6 +9954,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopInferenceRecommendationsJobInput, StopInferenceRecommendationsJobOutputResponse, StopInferenceRecommendationsJobOutputError>(id: "stopInferenceRecommendationsJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopInferenceRecommendationsJobInput, StopInferenceRecommendationsJobOutputResponse, StopInferenceRecommendationsJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopInferenceRecommendationsJobInput, StopInferenceRecommendationsJobOutputResponse>())
@@ -9711,7 +9971,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopInferenceRecommendationsJobOutputResponse, StopInferenceRecommendationsJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopInferenceRecommendationsJobOutputResponse, StopInferenceRecommendationsJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopInferenceRecommendationsJobOutputResponse, StopInferenceRecommendationsJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9731,6 +9991,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopLabelingJobInput, StopLabelingJobOutputResponse, StopLabelingJobOutputError>(id: "stopLabelingJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopLabelingJobInput, StopLabelingJobOutputResponse, StopLabelingJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopLabelingJobInput, StopLabelingJobOutputResponse>())
@@ -9747,7 +10008,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopLabelingJobOutputResponse, StopLabelingJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopLabelingJobOutputResponse, StopLabelingJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopLabelingJobOutputResponse, StopLabelingJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9767,6 +10028,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopMonitoringScheduleInput, StopMonitoringScheduleOutputResponse, StopMonitoringScheduleOutputError>(id: "stopMonitoringSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopMonitoringScheduleInput, StopMonitoringScheduleOutputResponse, StopMonitoringScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopMonitoringScheduleInput, StopMonitoringScheduleOutputResponse>())
@@ -9783,7 +10045,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopMonitoringScheduleOutputResponse, StopMonitoringScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopMonitoringScheduleOutputResponse, StopMonitoringScheduleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopMonitoringScheduleOutputResponse, StopMonitoringScheduleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9803,6 +10065,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopNotebookInstanceInput, StopNotebookInstanceOutputResponse, StopNotebookInstanceOutputError>(id: "stopNotebookInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopNotebookInstanceInput, StopNotebookInstanceOutputResponse, StopNotebookInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopNotebookInstanceInput, StopNotebookInstanceOutputResponse>())
@@ -9819,7 +10082,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopNotebookInstanceOutputResponse, StopNotebookInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopNotebookInstanceOutputResponse, StopNotebookInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopNotebookInstanceOutputResponse, StopNotebookInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9839,6 +10102,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopPipelineExecutionInput, StopPipelineExecutionOutputResponse, StopPipelineExecutionOutputError>(id: "stopPipelineExecution")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StopPipelineExecutionOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -9863,7 +10127,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopPipelineExecutionOutputResponse, StopPipelineExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopPipelineExecutionOutputResponse, StopPipelineExecutionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopPipelineExecutionOutputResponse, StopPipelineExecutionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9883,6 +10147,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopProcessingJobInput, StopProcessingJobOutputResponse, StopProcessingJobOutputError>(id: "stopProcessingJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopProcessingJobInput, StopProcessingJobOutputResponse, StopProcessingJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopProcessingJobInput, StopProcessingJobOutputResponse>())
@@ -9899,7 +10164,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopProcessingJobOutputResponse, StopProcessingJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopProcessingJobOutputResponse, StopProcessingJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopProcessingJobOutputResponse, StopProcessingJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9919,6 +10184,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopTrainingJobInput, StopTrainingJobOutputResponse, StopTrainingJobOutputError>(id: "stopTrainingJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopTrainingJobInput, StopTrainingJobOutputResponse, StopTrainingJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopTrainingJobInput, StopTrainingJobOutputResponse>())
@@ -9935,7 +10201,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopTrainingJobOutputResponse, StopTrainingJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopTrainingJobOutputResponse, StopTrainingJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopTrainingJobOutputResponse, StopTrainingJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9955,6 +10221,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopTransformJobInput, StopTransformJobOutputResponse, StopTransformJobOutputError>(id: "stopTransformJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopTransformJobInput, StopTransformJobOutputResponse, StopTransformJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopTransformJobInput, StopTransformJobOutputResponse>())
@@ -9971,7 +10238,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopTransformJobOutputResponse, StopTransformJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopTransformJobOutputResponse, StopTransformJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopTransformJobOutputResponse, StopTransformJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -9991,6 +10258,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateActionInput, UpdateActionOutputResponse, UpdateActionOutputError>(id: "updateAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateActionInput, UpdateActionOutputResponse, UpdateActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateActionInput, UpdateActionOutputResponse>())
@@ -10007,7 +10275,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateActionOutputResponse, UpdateActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateActionOutputResponse, UpdateActionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateActionOutputResponse, UpdateActionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10027,6 +10295,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAppImageConfigInput, UpdateAppImageConfigOutputResponse, UpdateAppImageConfigOutputError>(id: "updateAppImageConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAppImageConfigInput, UpdateAppImageConfigOutputResponse, UpdateAppImageConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAppImageConfigInput, UpdateAppImageConfigOutputResponse>())
@@ -10043,7 +10312,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppImageConfigOutputResponse, UpdateAppImageConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAppImageConfigOutputResponse, UpdateAppImageConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppImageConfigOutputResponse, UpdateAppImageConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10063,6 +10332,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateArtifactInput, UpdateArtifactOutputResponse, UpdateArtifactOutputError>(id: "updateArtifact")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateArtifactInput, UpdateArtifactOutputResponse, UpdateArtifactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateArtifactInput, UpdateArtifactOutputResponse>())
@@ -10079,7 +10349,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateArtifactOutputResponse, UpdateArtifactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateArtifactOutputResponse, UpdateArtifactOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateArtifactOutputResponse, UpdateArtifactOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10099,6 +10369,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateCodeRepositoryInput, UpdateCodeRepositoryOutputResponse, UpdateCodeRepositoryOutputError>(id: "updateCodeRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCodeRepositoryInput, UpdateCodeRepositoryOutputResponse, UpdateCodeRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCodeRepositoryInput, UpdateCodeRepositoryOutputResponse>())
@@ -10115,7 +10386,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCodeRepositoryOutputResponse, UpdateCodeRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateCodeRepositoryOutputResponse, UpdateCodeRepositoryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCodeRepositoryOutputResponse, UpdateCodeRepositoryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10135,6 +10406,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateContextInput, UpdateContextOutputResponse, UpdateContextOutputError>(id: "updateContext")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateContextInput, UpdateContextOutputResponse, UpdateContextOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateContextInput, UpdateContextOutputResponse>())
@@ -10151,7 +10423,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateContextOutputResponse, UpdateContextOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateContextOutputResponse, UpdateContextOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateContextOutputResponse, UpdateContextOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10171,6 +10443,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDeviceFleetInput, UpdateDeviceFleetOutputResponse, UpdateDeviceFleetOutputError>(id: "updateDeviceFleet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDeviceFleetInput, UpdateDeviceFleetOutputResponse, UpdateDeviceFleetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDeviceFleetInput, UpdateDeviceFleetOutputResponse>())
@@ -10187,7 +10460,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDeviceFleetOutputResponse, UpdateDeviceFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDeviceFleetOutputResponse, UpdateDeviceFleetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDeviceFleetOutputResponse, UpdateDeviceFleetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10207,6 +10480,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDevicesInput, UpdateDevicesOutputResponse, UpdateDevicesOutputError>(id: "updateDevices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDevicesInput, UpdateDevicesOutputResponse, UpdateDevicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDevicesInput, UpdateDevicesOutputResponse>())
@@ -10223,7 +10497,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDevicesOutputResponse, UpdateDevicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDevicesOutputResponse, UpdateDevicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDevicesOutputResponse, UpdateDevicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10243,6 +10517,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDomainInput, UpdateDomainOutputResponse, UpdateDomainOutputError>(id: "updateDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDomainInput, UpdateDomainOutputResponse, UpdateDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDomainInput, UpdateDomainOutputResponse>())
@@ -10259,7 +10534,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDomainOutputResponse, UpdateDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDomainOutputResponse, UpdateDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDomainOutputResponse, UpdateDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10279,6 +10554,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateEndpointInput, UpdateEndpointOutputResponse, UpdateEndpointOutputError>(id: "updateEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEndpointInput, UpdateEndpointOutputResponse, UpdateEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEndpointInput, UpdateEndpointOutputResponse>())
@@ -10295,7 +10571,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEndpointOutputResponse, UpdateEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateEndpointOutputResponse, UpdateEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEndpointOutputResponse, UpdateEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10315,6 +10591,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateEndpointWeightsAndCapacitiesInput, UpdateEndpointWeightsAndCapacitiesOutputResponse, UpdateEndpointWeightsAndCapacitiesOutputError>(id: "updateEndpointWeightsAndCapacities")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEndpointWeightsAndCapacitiesInput, UpdateEndpointWeightsAndCapacitiesOutputResponse, UpdateEndpointWeightsAndCapacitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEndpointWeightsAndCapacitiesInput, UpdateEndpointWeightsAndCapacitiesOutputResponse>())
@@ -10331,7 +10608,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEndpointWeightsAndCapacitiesOutputResponse, UpdateEndpointWeightsAndCapacitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateEndpointWeightsAndCapacitiesOutputResponse, UpdateEndpointWeightsAndCapacitiesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEndpointWeightsAndCapacitiesOutputResponse, UpdateEndpointWeightsAndCapacitiesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10351,6 +10628,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateExperimentInput, UpdateExperimentOutputResponse, UpdateExperimentOutputError>(id: "updateExperiment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateExperimentInput, UpdateExperimentOutputResponse, UpdateExperimentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateExperimentInput, UpdateExperimentOutputResponse>())
@@ -10367,7 +10645,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateExperimentOutputResponse, UpdateExperimentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateExperimentOutputResponse, UpdateExperimentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateExperimentOutputResponse, UpdateExperimentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10387,6 +10665,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFeatureGroupInput, UpdateFeatureGroupOutputResponse, UpdateFeatureGroupOutputError>(id: "updateFeatureGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFeatureGroupInput, UpdateFeatureGroupOutputResponse, UpdateFeatureGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFeatureGroupInput, UpdateFeatureGroupOutputResponse>())
@@ -10403,7 +10682,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFeatureGroupOutputResponse, UpdateFeatureGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateFeatureGroupOutputResponse, UpdateFeatureGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFeatureGroupOutputResponse, UpdateFeatureGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10423,6 +10702,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFeatureMetadataInput, UpdateFeatureMetadataOutputResponse, UpdateFeatureMetadataOutputError>(id: "updateFeatureMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFeatureMetadataInput, UpdateFeatureMetadataOutputResponse, UpdateFeatureMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFeatureMetadataInput, UpdateFeatureMetadataOutputResponse>())
@@ -10439,7 +10719,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFeatureMetadataOutputResponse, UpdateFeatureMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateFeatureMetadataOutputResponse, UpdateFeatureMetadataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFeatureMetadataOutputResponse, UpdateFeatureMetadataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10459,6 +10739,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateHubInput, UpdateHubOutputResponse, UpdateHubOutputError>(id: "updateHub")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateHubInput, UpdateHubOutputResponse, UpdateHubOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateHubInput, UpdateHubOutputResponse>())
@@ -10475,7 +10756,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateHubOutputResponse, UpdateHubOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateHubOutputResponse, UpdateHubOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateHubOutputResponse, UpdateHubOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10495,6 +10776,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateImageInput, UpdateImageOutputResponse, UpdateImageOutputError>(id: "updateImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateImageInput, UpdateImageOutputResponse, UpdateImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateImageInput, UpdateImageOutputResponse>())
@@ -10511,7 +10793,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateImageOutputResponse, UpdateImageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateImageOutputResponse, UpdateImageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateImageOutputResponse, UpdateImageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10531,6 +10813,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateImageVersionInput, UpdateImageVersionOutputResponse, UpdateImageVersionOutputError>(id: "updateImageVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateImageVersionInput, UpdateImageVersionOutputResponse, UpdateImageVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateImageVersionInput, UpdateImageVersionOutputResponse>())
@@ -10547,7 +10830,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateImageVersionOutputResponse, UpdateImageVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateImageVersionOutputResponse, UpdateImageVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateImageVersionOutputResponse, UpdateImageVersionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10567,6 +10850,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateInferenceExperimentInput, UpdateInferenceExperimentOutputResponse, UpdateInferenceExperimentOutputError>(id: "updateInferenceExperiment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInferenceExperimentInput, UpdateInferenceExperimentOutputResponse, UpdateInferenceExperimentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInferenceExperimentInput, UpdateInferenceExperimentOutputResponse>())
@@ -10583,7 +10867,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInferenceExperimentOutputResponse, UpdateInferenceExperimentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateInferenceExperimentOutputResponse, UpdateInferenceExperimentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInferenceExperimentOutputResponse, UpdateInferenceExperimentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10603,6 +10887,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateModelCardInput, UpdateModelCardOutputResponse, UpdateModelCardOutputError>(id: "updateModelCard")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateModelCardInput, UpdateModelCardOutputResponse, UpdateModelCardOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateModelCardInput, UpdateModelCardOutputResponse>())
@@ -10619,7 +10904,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateModelCardOutputResponse, UpdateModelCardOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateModelCardOutputResponse, UpdateModelCardOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateModelCardOutputResponse, UpdateModelCardOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10639,6 +10924,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateModelPackageInput, UpdateModelPackageOutputResponse, UpdateModelPackageOutputError>(id: "updateModelPackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateModelPackageInput, UpdateModelPackageOutputResponse, UpdateModelPackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateModelPackageInput, UpdateModelPackageOutputResponse>())
@@ -10655,7 +10941,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateModelPackageOutputResponse, UpdateModelPackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateModelPackageOutputResponse, UpdateModelPackageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateModelPackageOutputResponse, UpdateModelPackageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10675,6 +10961,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateMonitoringAlertInput, UpdateMonitoringAlertOutputResponse, UpdateMonitoringAlertOutputError>(id: "updateMonitoringAlert")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMonitoringAlertInput, UpdateMonitoringAlertOutputResponse, UpdateMonitoringAlertOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMonitoringAlertInput, UpdateMonitoringAlertOutputResponse>())
@@ -10691,7 +10978,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMonitoringAlertOutputResponse, UpdateMonitoringAlertOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateMonitoringAlertOutputResponse, UpdateMonitoringAlertOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMonitoringAlertOutputResponse, UpdateMonitoringAlertOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10711,6 +10998,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateMonitoringScheduleInput, UpdateMonitoringScheduleOutputResponse, UpdateMonitoringScheduleOutputError>(id: "updateMonitoringSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMonitoringScheduleInput, UpdateMonitoringScheduleOutputResponse, UpdateMonitoringScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMonitoringScheduleInput, UpdateMonitoringScheduleOutputResponse>())
@@ -10727,7 +11015,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMonitoringScheduleOutputResponse, UpdateMonitoringScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateMonitoringScheduleOutputResponse, UpdateMonitoringScheduleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMonitoringScheduleOutputResponse, UpdateMonitoringScheduleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10747,6 +11035,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateNotebookInstanceInput, UpdateNotebookInstanceOutputResponse, UpdateNotebookInstanceOutputError>(id: "updateNotebookInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNotebookInstanceInput, UpdateNotebookInstanceOutputResponse, UpdateNotebookInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNotebookInstanceInput, UpdateNotebookInstanceOutputResponse>())
@@ -10763,7 +11052,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNotebookInstanceOutputResponse, UpdateNotebookInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateNotebookInstanceOutputResponse, UpdateNotebookInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNotebookInstanceOutputResponse, UpdateNotebookInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10783,6 +11072,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateNotebookInstanceLifecycleConfigInput, UpdateNotebookInstanceLifecycleConfigOutputResponse, UpdateNotebookInstanceLifecycleConfigOutputError>(id: "updateNotebookInstanceLifecycleConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNotebookInstanceLifecycleConfigInput, UpdateNotebookInstanceLifecycleConfigOutputResponse, UpdateNotebookInstanceLifecycleConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNotebookInstanceLifecycleConfigInput, UpdateNotebookInstanceLifecycleConfigOutputResponse>())
@@ -10799,7 +11089,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNotebookInstanceLifecycleConfigOutputResponse, UpdateNotebookInstanceLifecycleConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateNotebookInstanceLifecycleConfigOutputResponse, UpdateNotebookInstanceLifecycleConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNotebookInstanceLifecycleConfigOutputResponse, UpdateNotebookInstanceLifecycleConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10819,6 +11109,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePipelineInput, UpdatePipelineOutputResponse, UpdatePipelineOutputError>(id: "updatePipeline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePipelineInput, UpdatePipelineOutputResponse, UpdatePipelineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePipelineInput, UpdatePipelineOutputResponse>())
@@ -10835,7 +11126,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePipelineOutputResponse, UpdatePipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdatePipelineOutputResponse, UpdatePipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePipelineOutputResponse, UpdatePipelineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10855,6 +11146,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePipelineExecutionInput, UpdatePipelineExecutionOutputResponse, UpdatePipelineExecutionOutputError>(id: "updatePipelineExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePipelineExecutionInput, UpdatePipelineExecutionOutputResponse, UpdatePipelineExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePipelineExecutionInput, UpdatePipelineExecutionOutputResponse>())
@@ -10871,7 +11163,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePipelineExecutionOutputResponse, UpdatePipelineExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdatePipelineExecutionOutputResponse, UpdatePipelineExecutionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePipelineExecutionOutputResponse, UpdatePipelineExecutionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10891,6 +11183,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateProjectInput, UpdateProjectOutputResponse, UpdateProjectOutputError>(id: "updateProject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProjectInput, UpdateProjectOutputResponse, UpdateProjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProjectInput, UpdateProjectOutputResponse>())
@@ -10907,7 +11200,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProjectOutputResponse, UpdateProjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateProjectOutputResponse, UpdateProjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProjectOutputResponse, UpdateProjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10927,6 +11220,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSpaceInput, UpdateSpaceOutputResponse, UpdateSpaceOutputError>(id: "updateSpace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSpaceInput, UpdateSpaceOutputResponse, UpdateSpaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSpaceInput, UpdateSpaceOutputResponse>())
@@ -10943,7 +11237,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSpaceOutputResponse, UpdateSpaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSpaceOutputResponse, UpdateSpaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSpaceOutputResponse, UpdateSpaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10963,6 +11257,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTrainingJobInput, UpdateTrainingJobOutputResponse, UpdateTrainingJobOutputError>(id: "updateTrainingJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTrainingJobInput, UpdateTrainingJobOutputResponse, UpdateTrainingJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTrainingJobInput, UpdateTrainingJobOutputResponse>())
@@ -10979,7 +11274,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrainingJobOutputResponse, UpdateTrainingJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateTrainingJobOutputResponse, UpdateTrainingJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrainingJobOutputResponse, UpdateTrainingJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -10999,6 +11294,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTrialInput, UpdateTrialOutputResponse, UpdateTrialOutputError>(id: "updateTrial")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTrialInput, UpdateTrialOutputResponse, UpdateTrialOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTrialInput, UpdateTrialOutputResponse>())
@@ -11015,7 +11311,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrialOutputResponse, UpdateTrialOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateTrialOutputResponse, UpdateTrialOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrialOutputResponse, UpdateTrialOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -11035,6 +11331,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTrialComponentInput, UpdateTrialComponentOutputResponse, UpdateTrialComponentOutputError>(id: "updateTrialComponent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTrialComponentInput, UpdateTrialComponentOutputResponse, UpdateTrialComponentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTrialComponentInput, UpdateTrialComponentOutputResponse>())
@@ -11051,7 +11348,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTrialComponentOutputResponse, UpdateTrialComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateTrialComponentOutputResponse, UpdateTrialComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTrialComponentOutputResponse, UpdateTrialComponentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -11071,6 +11368,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateUserProfileInput, UpdateUserProfileOutputResponse, UpdateUserProfileOutputError>(id: "updateUserProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserProfileInput, UpdateUserProfileOutputResponse, UpdateUserProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserProfileInput, UpdateUserProfileOutputResponse>())
@@ -11087,7 +11385,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserProfileOutputResponse, UpdateUserProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateUserProfileOutputResponse, UpdateUserProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserProfileOutputResponse, UpdateUserProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -11107,6 +11405,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateWorkforceInput, UpdateWorkforceOutputResponse, UpdateWorkforceOutputError>(id: "updateWorkforce")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorkforceInput, UpdateWorkforceOutputResponse, UpdateWorkforceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorkforceInput, UpdateWorkforceOutputResponse>())
@@ -11123,7 +11422,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWorkforceOutputResponse, UpdateWorkforceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateWorkforceOutputResponse, UpdateWorkforceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorkforceOutputResponse, UpdateWorkforceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -11143,6 +11442,7 @@ extension SageMakerClient: SageMakerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateWorkteamInput, UpdateWorkteamOutputResponse, UpdateWorkteamOutputError>(id: "updateWorkteam")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorkteamInput, UpdateWorkteamOutputResponse, UpdateWorkteamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorkteamInput, UpdateWorkteamOutputResponse>())
@@ -11159,7 +11459,7 @@ extension SageMakerClient: SageMakerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWorkteamOutputResponse, UpdateWorkteamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateWorkteamOutputResponse, UpdateWorkteamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorkteamOutputResponse, UpdateWorkteamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

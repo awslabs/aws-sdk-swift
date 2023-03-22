@@ -34,6 +34,7 @@ class AWSQueryOperationStackTest {
                       .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
+                      .build()
         var operation = ClientRuntime.OperationStack<NoInputAndOutputInput, NoInputAndOutputOutputResponse, NoInputAndOutputOutputError>(id: "noInputAndOutput")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NoInputAndOutputInput, NoInputAndOutputOutputResponse, NoInputAndOutputOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NoInputAndOutputInput, NoInputAndOutputOutputResponse>())
@@ -47,7 +48,7 @@ class AWSQueryOperationStackTest {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<NoInputAndOutputOutputResponse, NoInputAndOutputOutputError>(retryer: config.retryer))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<NoInputAndOutputOutputResponse, NoInputAndOutputOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<NoInputAndOutputOutputResponse, NoInputAndOutputOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }"""
         contents.shouldContainOnlyOnce(expectedContents)

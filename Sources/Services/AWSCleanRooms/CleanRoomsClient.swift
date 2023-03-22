@@ -221,6 +221,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchGetSchemaInput, BatchGetSchemaOutputResponse, BatchGetSchemaOutputError>(id: "batchGetSchema")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetSchemaInput, BatchGetSchemaOutputResponse, BatchGetSchemaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetSchemaInput, BatchGetSchemaOutputResponse>())
@@ -236,7 +237,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetSchemaOutputResponse, BatchGetSchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchGetSchemaOutputResponse, BatchGetSchemaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetSchemaOutputResponse, BatchGetSchemaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCollaborationInput, CreateCollaborationOutputResponse, CreateCollaborationOutputError>(id: "createCollaboration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCollaborationInput, CreateCollaborationOutputResponse, CreateCollaborationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCollaborationInput, CreateCollaborationOutputResponse>())
@@ -271,7 +273,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCollaborationOutputResponse, CreateCollaborationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateCollaborationOutputResponse, CreateCollaborationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCollaborationOutputResponse, CreateCollaborationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -291,6 +293,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateConfiguredTableInput, CreateConfiguredTableOutputResponse, CreateConfiguredTableOutputError>(id: "createConfiguredTable")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConfiguredTableInput, CreateConfiguredTableOutputResponse, CreateConfiguredTableOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConfiguredTableInput, CreateConfiguredTableOutputResponse>())
@@ -306,7 +309,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConfiguredTableOutputResponse, CreateConfiguredTableOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateConfiguredTableOutputResponse, CreateConfiguredTableOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfiguredTableOutputResponse, CreateConfiguredTableOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -326,6 +329,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateConfiguredTableAnalysisRuleInput, CreateConfiguredTableAnalysisRuleOutputResponse, CreateConfiguredTableAnalysisRuleOutputError>(id: "createConfiguredTableAnalysisRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConfiguredTableAnalysisRuleInput, CreateConfiguredTableAnalysisRuleOutputResponse, CreateConfiguredTableAnalysisRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConfiguredTableAnalysisRuleInput, CreateConfiguredTableAnalysisRuleOutputResponse>())
@@ -341,7 +345,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConfiguredTableAnalysisRuleOutputResponse, CreateConfiguredTableAnalysisRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateConfiguredTableAnalysisRuleOutputResponse, CreateConfiguredTableAnalysisRuleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfiguredTableAnalysisRuleOutputResponse, CreateConfiguredTableAnalysisRuleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -361,6 +365,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateConfiguredTableAssociationInput, CreateConfiguredTableAssociationOutputResponse, CreateConfiguredTableAssociationOutputError>(id: "createConfiguredTableAssociation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConfiguredTableAssociationInput, CreateConfiguredTableAssociationOutputResponse, CreateConfiguredTableAssociationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConfiguredTableAssociationInput, CreateConfiguredTableAssociationOutputResponse>())
@@ -376,7 +381,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConfiguredTableAssociationOutputResponse, CreateConfiguredTableAssociationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateConfiguredTableAssociationOutputResponse, CreateConfiguredTableAssociationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfiguredTableAssociationOutputResponse, CreateConfiguredTableAssociationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -396,6 +401,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMembershipInput, CreateMembershipOutputResponse, CreateMembershipOutputError>(id: "createMembership")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMembershipInput, CreateMembershipOutputResponse, CreateMembershipOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMembershipInput, CreateMembershipOutputResponse>())
@@ -411,7 +417,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMembershipOutputResponse, CreateMembershipOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateMembershipOutputResponse, CreateMembershipOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMembershipOutputResponse, CreateMembershipOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -431,6 +437,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCollaborationInput, DeleteCollaborationOutputResponse, DeleteCollaborationOutputError>(id: "deleteCollaboration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCollaborationInput, DeleteCollaborationOutputResponse, DeleteCollaborationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCollaborationInput, DeleteCollaborationOutputResponse>())
@@ -443,7 +450,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCollaborationOutputResponse, DeleteCollaborationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteCollaborationOutputResponse, DeleteCollaborationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCollaborationOutputResponse, DeleteCollaborationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -463,6 +470,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteConfiguredTableInput, DeleteConfiguredTableOutputResponse, DeleteConfiguredTableOutputError>(id: "deleteConfiguredTable")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfiguredTableInput, DeleteConfiguredTableOutputResponse, DeleteConfiguredTableOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfiguredTableInput, DeleteConfiguredTableOutputResponse>())
@@ -475,7 +483,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfiguredTableOutputResponse, DeleteConfiguredTableOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteConfiguredTableOutputResponse, DeleteConfiguredTableOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfiguredTableOutputResponse, DeleteConfiguredTableOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -495,6 +503,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteConfiguredTableAnalysisRuleInput, DeleteConfiguredTableAnalysisRuleOutputResponse, DeleteConfiguredTableAnalysisRuleOutputError>(id: "deleteConfiguredTableAnalysisRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfiguredTableAnalysisRuleInput, DeleteConfiguredTableAnalysisRuleOutputResponse, DeleteConfiguredTableAnalysisRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfiguredTableAnalysisRuleInput, DeleteConfiguredTableAnalysisRuleOutputResponse>())
@@ -507,7 +516,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfiguredTableAnalysisRuleOutputResponse, DeleteConfiguredTableAnalysisRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteConfiguredTableAnalysisRuleOutputResponse, DeleteConfiguredTableAnalysisRuleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfiguredTableAnalysisRuleOutputResponse, DeleteConfiguredTableAnalysisRuleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -527,6 +536,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteConfiguredTableAssociationInput, DeleteConfiguredTableAssociationOutputResponse, DeleteConfiguredTableAssociationOutputError>(id: "deleteConfiguredTableAssociation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfiguredTableAssociationInput, DeleteConfiguredTableAssociationOutputResponse, DeleteConfiguredTableAssociationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfiguredTableAssociationInput, DeleteConfiguredTableAssociationOutputResponse>())
@@ -539,7 +549,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfiguredTableAssociationOutputResponse, DeleteConfiguredTableAssociationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteConfiguredTableAssociationOutputResponse, DeleteConfiguredTableAssociationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfiguredTableAssociationOutputResponse, DeleteConfiguredTableAssociationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -559,6 +569,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMemberInput, DeleteMemberOutputResponse, DeleteMemberOutputError>(id: "deleteMember")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMemberInput, DeleteMemberOutputResponse, DeleteMemberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMemberInput, DeleteMemberOutputResponse>())
@@ -571,7 +582,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMemberOutputResponse, DeleteMemberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteMemberOutputResponse, DeleteMemberOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMemberOutputResponse, DeleteMemberOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -591,6 +602,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMembershipInput, DeleteMembershipOutputResponse, DeleteMembershipOutputError>(id: "deleteMembership")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMembershipInput, DeleteMembershipOutputResponse, DeleteMembershipOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMembershipInput, DeleteMembershipOutputResponse>())
@@ -603,7 +615,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMembershipOutputResponse, DeleteMembershipOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteMembershipOutputResponse, DeleteMembershipOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMembershipOutputResponse, DeleteMembershipOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -623,6 +635,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCollaborationInput, GetCollaborationOutputResponse, GetCollaborationOutputError>(id: "getCollaboration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCollaborationInput, GetCollaborationOutputResponse, GetCollaborationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCollaborationInput, GetCollaborationOutputResponse>())
@@ -635,7 +648,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCollaborationOutputResponse, GetCollaborationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCollaborationOutputResponse, GetCollaborationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCollaborationOutputResponse, GetCollaborationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -655,6 +668,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetConfiguredTableInput, GetConfiguredTableOutputResponse, GetConfiguredTableOutputError>(id: "getConfiguredTable")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConfiguredTableInput, GetConfiguredTableOutputResponse, GetConfiguredTableOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConfiguredTableInput, GetConfiguredTableOutputResponse>())
@@ -667,7 +681,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConfiguredTableOutputResponse, GetConfiguredTableOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetConfiguredTableOutputResponse, GetConfiguredTableOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConfiguredTableOutputResponse, GetConfiguredTableOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -687,6 +701,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetConfiguredTableAnalysisRuleInput, GetConfiguredTableAnalysisRuleOutputResponse, GetConfiguredTableAnalysisRuleOutputError>(id: "getConfiguredTableAnalysisRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConfiguredTableAnalysisRuleInput, GetConfiguredTableAnalysisRuleOutputResponse, GetConfiguredTableAnalysisRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConfiguredTableAnalysisRuleInput, GetConfiguredTableAnalysisRuleOutputResponse>())
@@ -699,7 +714,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConfiguredTableAnalysisRuleOutputResponse, GetConfiguredTableAnalysisRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetConfiguredTableAnalysisRuleOutputResponse, GetConfiguredTableAnalysisRuleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConfiguredTableAnalysisRuleOutputResponse, GetConfiguredTableAnalysisRuleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -719,6 +734,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetConfiguredTableAssociationInput, GetConfiguredTableAssociationOutputResponse, GetConfiguredTableAssociationOutputError>(id: "getConfiguredTableAssociation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConfiguredTableAssociationInput, GetConfiguredTableAssociationOutputResponse, GetConfiguredTableAssociationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConfiguredTableAssociationInput, GetConfiguredTableAssociationOutputResponse>())
@@ -731,7 +747,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConfiguredTableAssociationOutputResponse, GetConfiguredTableAssociationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetConfiguredTableAssociationOutputResponse, GetConfiguredTableAssociationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConfiguredTableAssociationOutputResponse, GetConfiguredTableAssociationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -751,6 +767,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMembershipInput, GetMembershipOutputResponse, GetMembershipOutputError>(id: "getMembership")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMembershipInput, GetMembershipOutputResponse, GetMembershipOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMembershipInput, GetMembershipOutputResponse>())
@@ -763,7 +780,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMembershipOutputResponse, GetMembershipOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetMembershipOutputResponse, GetMembershipOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMembershipOutputResponse, GetMembershipOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -783,6 +800,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetProtectedQueryInput, GetProtectedQueryOutputResponse, GetProtectedQueryOutputError>(id: "getProtectedQuery")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProtectedQueryInput, GetProtectedQueryOutputResponse, GetProtectedQueryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProtectedQueryInput, GetProtectedQueryOutputResponse>())
@@ -795,7 +813,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProtectedQueryOutputResponse, GetProtectedQueryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetProtectedQueryOutputResponse, GetProtectedQueryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProtectedQueryOutputResponse, GetProtectedQueryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -815,6 +833,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSchemaInput, GetSchemaOutputResponse, GetSchemaOutputError>(id: "getSchema")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSchemaInput, GetSchemaOutputResponse, GetSchemaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSchemaInput, GetSchemaOutputResponse>())
@@ -827,7 +846,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSchemaOutputResponse, GetSchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSchemaOutputResponse, GetSchemaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSchemaOutputResponse, GetSchemaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -847,6 +866,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSchemaAnalysisRuleInput, GetSchemaAnalysisRuleOutputResponse, GetSchemaAnalysisRuleOutputError>(id: "getSchemaAnalysisRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSchemaAnalysisRuleInput, GetSchemaAnalysisRuleOutputResponse, GetSchemaAnalysisRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSchemaAnalysisRuleInput, GetSchemaAnalysisRuleOutputResponse>())
@@ -859,7 +879,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSchemaAnalysisRuleOutputResponse, GetSchemaAnalysisRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSchemaAnalysisRuleOutputResponse, GetSchemaAnalysisRuleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSchemaAnalysisRuleOutputResponse, GetSchemaAnalysisRuleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -879,6 +899,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCollaborationsInput, ListCollaborationsOutputResponse, ListCollaborationsOutputError>(id: "listCollaborations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCollaborationsInput, ListCollaborationsOutputResponse, ListCollaborationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCollaborationsInput, ListCollaborationsOutputResponse>())
@@ -892,7 +913,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCollaborationsOutputResponse, ListCollaborationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListCollaborationsOutputResponse, ListCollaborationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCollaborationsOutputResponse, ListCollaborationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -912,6 +933,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListConfiguredTableAssociationsInput, ListConfiguredTableAssociationsOutputResponse, ListConfiguredTableAssociationsOutputError>(id: "listConfiguredTableAssociations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConfiguredTableAssociationsInput, ListConfiguredTableAssociationsOutputResponse, ListConfiguredTableAssociationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConfiguredTableAssociationsInput, ListConfiguredTableAssociationsOutputResponse>())
@@ -925,7 +947,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConfiguredTableAssociationsOutputResponse, ListConfiguredTableAssociationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListConfiguredTableAssociationsOutputResponse, ListConfiguredTableAssociationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConfiguredTableAssociationsOutputResponse, ListConfiguredTableAssociationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -945,6 +967,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListConfiguredTablesInput, ListConfiguredTablesOutputResponse, ListConfiguredTablesOutputError>(id: "listConfiguredTables")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConfiguredTablesInput, ListConfiguredTablesOutputResponse, ListConfiguredTablesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConfiguredTablesInput, ListConfiguredTablesOutputResponse>())
@@ -958,7 +981,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConfiguredTablesOutputResponse, ListConfiguredTablesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListConfiguredTablesOutputResponse, ListConfiguredTablesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConfiguredTablesOutputResponse, ListConfiguredTablesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -978,6 +1001,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMembersInput, ListMembersOutputResponse, ListMembersOutputError>(id: "listMembers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMembersInput, ListMembersOutputResponse, ListMembersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMembersInput, ListMembersOutputResponse>())
@@ -991,7 +1015,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMembersOutputResponse, ListMembersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMembersOutputResponse, ListMembersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMembersOutputResponse, ListMembersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1011,6 +1035,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMembershipsInput, ListMembershipsOutputResponse, ListMembershipsOutputError>(id: "listMemberships")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMembershipsInput, ListMembershipsOutputResponse, ListMembershipsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMembershipsInput, ListMembershipsOutputResponse>())
@@ -1024,7 +1049,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMembershipsOutputResponse, ListMembershipsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMembershipsOutputResponse, ListMembershipsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMembershipsOutputResponse, ListMembershipsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1044,6 +1069,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListProtectedQueriesInput, ListProtectedQueriesOutputResponse, ListProtectedQueriesOutputError>(id: "listProtectedQueries")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProtectedQueriesInput, ListProtectedQueriesOutputResponse, ListProtectedQueriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProtectedQueriesInput, ListProtectedQueriesOutputResponse>())
@@ -1057,7 +1083,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProtectedQueriesOutputResponse, ListProtectedQueriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListProtectedQueriesOutputResponse, ListProtectedQueriesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProtectedQueriesOutputResponse, ListProtectedQueriesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1077,6 +1103,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSchemasInput, ListSchemasOutputResponse, ListSchemasOutputError>(id: "listSchemas")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSchemasInput, ListSchemasOutputResponse, ListSchemasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSchemasInput, ListSchemasOutputResponse>())
@@ -1090,7 +1117,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSchemasOutputResponse, ListSchemasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSchemasOutputResponse, ListSchemasOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSchemasOutputResponse, ListSchemasOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1110,6 +1137,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartProtectedQueryInput, StartProtectedQueryOutputResponse, StartProtectedQueryOutputError>(id: "startProtectedQuery")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartProtectedQueryInput, StartProtectedQueryOutputResponse, StartProtectedQueryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartProtectedQueryInput, StartProtectedQueryOutputResponse>())
@@ -1125,7 +1153,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartProtectedQueryOutputResponse, StartProtectedQueryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartProtectedQueryOutputResponse, StartProtectedQueryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartProtectedQueryOutputResponse, StartProtectedQueryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1145,6 +1173,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateCollaborationInput, UpdateCollaborationOutputResponse, UpdateCollaborationOutputError>(id: "updateCollaboration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCollaborationInput, UpdateCollaborationOutputResponse, UpdateCollaborationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCollaborationInput, UpdateCollaborationOutputResponse>())
@@ -1160,7 +1189,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCollaborationOutputResponse, UpdateCollaborationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateCollaborationOutputResponse, UpdateCollaborationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCollaborationOutputResponse, UpdateCollaborationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1180,6 +1209,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateConfiguredTableInput, UpdateConfiguredTableOutputResponse, UpdateConfiguredTableOutputError>(id: "updateConfiguredTable")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConfiguredTableInput, UpdateConfiguredTableOutputResponse, UpdateConfiguredTableOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConfiguredTableInput, UpdateConfiguredTableOutputResponse>())
@@ -1195,7 +1225,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConfiguredTableOutputResponse, UpdateConfiguredTableOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateConfiguredTableOutputResponse, UpdateConfiguredTableOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConfiguredTableOutputResponse, UpdateConfiguredTableOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1215,6 +1245,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateConfiguredTableAnalysisRuleInput, UpdateConfiguredTableAnalysisRuleOutputResponse, UpdateConfiguredTableAnalysisRuleOutputError>(id: "updateConfiguredTableAnalysisRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConfiguredTableAnalysisRuleInput, UpdateConfiguredTableAnalysisRuleOutputResponse, UpdateConfiguredTableAnalysisRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConfiguredTableAnalysisRuleInput, UpdateConfiguredTableAnalysisRuleOutputResponse>())
@@ -1230,7 +1261,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConfiguredTableAnalysisRuleOutputResponse, UpdateConfiguredTableAnalysisRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateConfiguredTableAnalysisRuleOutputResponse, UpdateConfiguredTableAnalysisRuleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConfiguredTableAnalysisRuleOutputResponse, UpdateConfiguredTableAnalysisRuleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1250,6 +1281,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateConfiguredTableAssociationInput, UpdateConfiguredTableAssociationOutputResponse, UpdateConfiguredTableAssociationOutputError>(id: "updateConfiguredTableAssociation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConfiguredTableAssociationInput, UpdateConfiguredTableAssociationOutputResponse, UpdateConfiguredTableAssociationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConfiguredTableAssociationInput, UpdateConfiguredTableAssociationOutputResponse>())
@@ -1265,7 +1297,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConfiguredTableAssociationOutputResponse, UpdateConfiguredTableAssociationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateConfiguredTableAssociationOutputResponse, UpdateConfiguredTableAssociationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConfiguredTableAssociationOutputResponse, UpdateConfiguredTableAssociationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1285,6 +1317,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateMembershipInput, UpdateMembershipOutputResponse, UpdateMembershipOutputError>(id: "updateMembership")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMembershipInput, UpdateMembershipOutputResponse, UpdateMembershipOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMembershipInput, UpdateMembershipOutputResponse>())
@@ -1300,7 +1333,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMembershipOutputResponse, UpdateMembershipOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateMembershipOutputResponse, UpdateMembershipOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMembershipOutputResponse, UpdateMembershipOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1320,6 +1353,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cleanrooms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateProtectedQueryInput, UpdateProtectedQueryOutputResponse, UpdateProtectedQueryOutputError>(id: "updateProtectedQuery")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProtectedQueryInput, UpdateProtectedQueryOutputResponse, UpdateProtectedQueryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProtectedQueryInput, UpdateProtectedQueryOutputResponse>())
@@ -1335,7 +1369,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProtectedQueryOutputResponse, UpdateProtectedQueryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateProtectedQueryOutputResponse, UpdateProtectedQueryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProtectedQueryOutputResponse, UpdateProtectedQueryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

@@ -221,6 +221,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutputResponse, AssociateEntitiesToExperienceOutputError>(id: "associateEntitiesToExperience")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutputResponse, AssociateEntitiesToExperienceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateEntitiesToExperienceInput, AssociateEntitiesToExperienceOutputResponse>())
@@ -237,7 +238,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateEntitiesToExperienceOutputResponse, AssociateEntitiesToExperienceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateEntitiesToExperienceOutputResponse, AssociateEntitiesToExperienceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateEntitiesToExperienceOutputResponse, AssociateEntitiesToExperienceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutputResponse, AssociatePersonasToEntitiesOutputError>(id: "associatePersonasToEntities")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutputResponse, AssociatePersonasToEntitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociatePersonasToEntitiesInput, AssociatePersonasToEntitiesOutputResponse>())
@@ -273,7 +275,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociatePersonasToEntitiesOutputResponse, AssociatePersonasToEntitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociatePersonasToEntitiesOutputResponse, AssociatePersonasToEntitiesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociatePersonasToEntitiesOutputResponse, AssociatePersonasToEntitiesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDeleteDocumentInput, BatchDeleteDocumentOutputResponse, BatchDeleteDocumentOutputError>(id: "batchDeleteDocument")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutputResponse, BatchDeleteDocumentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutputResponse>())
@@ -309,7 +312,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteDocumentOutputResponse, BatchDeleteDocumentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteDocumentOutputResponse, BatchDeleteDocumentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteDocumentOutputResponse, BatchDeleteDocumentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -329,6 +332,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutputResponse, BatchGetDocumentStatusOutputError>(id: "batchGetDocumentStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutputResponse, BatchGetDocumentStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetDocumentStatusInput, BatchGetDocumentStatusOutputResponse>())
@@ -345,7 +349,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetDocumentStatusOutputResponse, BatchGetDocumentStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchGetDocumentStatusOutputResponse, BatchGetDocumentStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetDocumentStatusOutputResponse, BatchGetDocumentStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -365,6 +369,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchPutDocumentInput, BatchPutDocumentOutputResponse, BatchPutDocumentOutputError>(id: "batchPutDocument")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchPutDocumentInput, BatchPutDocumentOutputResponse, BatchPutDocumentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchPutDocumentInput, BatchPutDocumentOutputResponse>())
@@ -381,7 +386,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchPutDocumentOutputResponse, BatchPutDocumentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchPutDocumentOutputResponse, BatchPutDocumentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchPutDocumentOutputResponse, BatchPutDocumentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -401,6 +406,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutputResponse, ClearQuerySuggestionsOutputError>(id: "clearQuerySuggestions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutputResponse, ClearQuerySuggestionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ClearQuerySuggestionsInput, ClearQuerySuggestionsOutputResponse>())
@@ -417,7 +423,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ClearQuerySuggestionsOutputResponse, ClearQuerySuggestionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ClearQuerySuggestionsOutputResponse, ClearQuerySuggestionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ClearQuerySuggestionsOutputResponse, ClearQuerySuggestionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -437,6 +443,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAccessControlConfigurationInput, CreateAccessControlConfigurationOutputResponse, CreateAccessControlConfigurationOutputError>(id: "createAccessControlConfiguration")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateAccessControlConfigurationOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -461,7 +468,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccessControlConfigurationOutputResponse, CreateAccessControlConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAccessControlConfigurationOutputResponse, CreateAccessControlConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessControlConfigurationOutputResponse, CreateAccessControlConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -481,6 +488,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDataSourceInput, CreateDataSourceOutputResponse, CreateDataSourceOutputError>(id: "createDataSource")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateDataSourceOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -505,7 +513,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDataSourceOutputResponse, CreateDataSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDataSourceOutputResponse, CreateDataSourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDataSourceOutputResponse, CreateDataSourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -525,6 +533,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateExperienceInput, CreateExperienceOutputResponse, CreateExperienceOutputError>(id: "createExperience")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateExperienceOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -549,7 +558,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateExperienceOutputResponse, CreateExperienceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateExperienceOutputResponse, CreateExperienceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateExperienceOutputResponse, CreateExperienceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -569,6 +578,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFaqInput, CreateFaqOutputResponse, CreateFaqOutputError>(id: "createFaq")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateFaqOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -593,7 +603,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFaqOutputResponse, CreateFaqOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateFaqOutputResponse, CreateFaqOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFaqOutputResponse, CreateFaqOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -613,6 +623,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateIndexInput, CreateIndexOutputResponse, CreateIndexOutputError>(id: "createIndex")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateIndexOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -637,7 +648,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIndexOutputResponse, CreateIndexOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateIndexOutputResponse, CreateIndexOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIndexOutputResponse, CreateIndexOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -657,6 +668,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateQuerySuggestionsBlockListInput, CreateQuerySuggestionsBlockListOutputResponse, CreateQuerySuggestionsBlockListOutputError>(id: "createQuerySuggestionsBlockList")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateQuerySuggestionsBlockListOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -681,7 +693,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateQuerySuggestionsBlockListOutputResponse, CreateQuerySuggestionsBlockListOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateQuerySuggestionsBlockListOutputResponse, CreateQuerySuggestionsBlockListOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateQuerySuggestionsBlockListOutputResponse, CreateQuerySuggestionsBlockListOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -701,6 +713,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateThesaurusInput, CreateThesaurusOutputResponse, CreateThesaurusOutputError>(id: "createThesaurus")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateThesaurusOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -725,7 +738,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateThesaurusOutputResponse, CreateThesaurusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateThesaurusOutputResponse, CreateThesaurusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateThesaurusOutputResponse, CreateThesaurusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -745,6 +758,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutputResponse, DeleteAccessControlConfigurationOutputError>(id: "deleteAccessControlConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutputResponse, DeleteAccessControlConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccessControlConfigurationInput, DeleteAccessControlConfigurationOutputResponse>())
@@ -761,7 +775,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccessControlConfigurationOutputResponse, DeleteAccessControlConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessControlConfigurationOutputResponse, DeleteAccessControlConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessControlConfigurationOutputResponse, DeleteAccessControlConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -781,6 +795,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDataSourceInput, DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>(id: "deleteDataSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDataSourceInput, DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDataSourceInput, DeleteDataSourceOutputResponse>())
@@ -797,7 +812,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDataSourceOutputResponse, DeleteDataSourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -817,6 +832,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteExperienceInput, DeleteExperienceOutputResponse, DeleteExperienceOutputError>(id: "deleteExperience")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteExperienceInput, DeleteExperienceOutputResponse, DeleteExperienceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteExperienceInput, DeleteExperienceOutputResponse>())
@@ -833,7 +849,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteExperienceOutputResponse, DeleteExperienceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteExperienceOutputResponse, DeleteExperienceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteExperienceOutputResponse, DeleteExperienceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -853,6 +869,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFaqInput, DeleteFaqOutputResponse, DeleteFaqOutputError>(id: "deleteFaq")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFaqInput, DeleteFaqOutputResponse, DeleteFaqOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFaqInput, DeleteFaqOutputResponse>())
@@ -869,7 +886,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFaqOutputResponse, DeleteFaqOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteFaqOutputResponse, DeleteFaqOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFaqOutputResponse, DeleteFaqOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -889,6 +906,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteIndexInput, DeleteIndexOutputResponse, DeleteIndexOutputError>(id: "deleteIndex")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIndexInput, DeleteIndexOutputResponse, DeleteIndexOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIndexInput, DeleteIndexOutputResponse>())
@@ -905,7 +923,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIndexOutputResponse, DeleteIndexOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteIndexOutputResponse, DeleteIndexOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIndexOutputResponse, DeleteIndexOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -925,6 +943,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePrincipalMappingInput, DeletePrincipalMappingOutputResponse, DeletePrincipalMappingOutputError>(id: "deletePrincipalMapping")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutputResponse, DeletePrincipalMappingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePrincipalMappingInput, DeletePrincipalMappingOutputResponse>())
@@ -941,7 +960,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePrincipalMappingOutputResponse, DeletePrincipalMappingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeletePrincipalMappingOutputResponse, DeletePrincipalMappingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePrincipalMappingOutputResponse, DeletePrincipalMappingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -961,6 +980,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutputResponse, DeleteQuerySuggestionsBlockListOutputError>(id: "deleteQuerySuggestionsBlockList")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutputResponse, DeleteQuerySuggestionsBlockListOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteQuerySuggestionsBlockListInput, DeleteQuerySuggestionsBlockListOutputResponse>())
@@ -977,7 +997,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteQuerySuggestionsBlockListOutputResponse, DeleteQuerySuggestionsBlockListOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteQuerySuggestionsBlockListOutputResponse, DeleteQuerySuggestionsBlockListOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteQuerySuggestionsBlockListOutputResponse, DeleteQuerySuggestionsBlockListOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -997,6 +1017,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteThesaurusInput, DeleteThesaurusOutputResponse, DeleteThesaurusOutputError>(id: "deleteThesaurus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteThesaurusInput, DeleteThesaurusOutputResponse, DeleteThesaurusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteThesaurusInput, DeleteThesaurusOutputResponse>())
@@ -1013,7 +1034,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteThesaurusOutputResponse, DeleteThesaurusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteThesaurusOutputResponse, DeleteThesaurusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteThesaurusOutputResponse, DeleteThesaurusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1033,6 +1054,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutputResponse, DescribeAccessControlConfigurationOutputError>(id: "describeAccessControlConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutputResponse, DescribeAccessControlConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccessControlConfigurationInput, DescribeAccessControlConfigurationOutputResponse>())
@@ -1049,7 +1071,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccessControlConfigurationOutputResponse, DescribeAccessControlConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAccessControlConfigurationOutputResponse, DescribeAccessControlConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccessControlConfigurationOutputResponse, DescribeAccessControlConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1069,6 +1091,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDataSourceInput, DescribeDataSourceOutputResponse, DescribeDataSourceOutputError>(id: "describeDataSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDataSourceInput, DescribeDataSourceOutputResponse, DescribeDataSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDataSourceInput, DescribeDataSourceOutputResponse>())
@@ -1085,7 +1108,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDataSourceOutputResponse, DescribeDataSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDataSourceOutputResponse, DescribeDataSourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDataSourceOutputResponse, DescribeDataSourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1105,6 +1128,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeExperienceInput, DescribeExperienceOutputResponse, DescribeExperienceOutputError>(id: "describeExperience")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeExperienceInput, DescribeExperienceOutputResponse, DescribeExperienceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeExperienceInput, DescribeExperienceOutputResponse>())
@@ -1121,7 +1145,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeExperienceOutputResponse, DescribeExperienceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeExperienceOutputResponse, DescribeExperienceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeExperienceOutputResponse, DescribeExperienceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1141,6 +1165,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFaqInput, DescribeFaqOutputResponse, DescribeFaqOutputError>(id: "describeFaq")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFaqInput, DescribeFaqOutputResponse, DescribeFaqOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFaqInput, DescribeFaqOutputResponse>())
@@ -1157,7 +1182,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFaqOutputResponse, DescribeFaqOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeFaqOutputResponse, DescribeFaqOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFaqOutputResponse, DescribeFaqOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1177,6 +1202,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeIndexInput, DescribeIndexOutputResponse, DescribeIndexOutputError>(id: "describeIndex")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIndexInput, DescribeIndexOutputResponse, DescribeIndexOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIndexInput, DescribeIndexOutputResponse>())
@@ -1193,7 +1219,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeIndexOutputResponse, DescribeIndexOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeIndexOutputResponse, DescribeIndexOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeIndexOutputResponse, DescribeIndexOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1213,6 +1239,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePrincipalMappingInput, DescribePrincipalMappingOutputResponse, DescribePrincipalMappingOutputError>(id: "describePrincipalMapping")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutputResponse, DescribePrincipalMappingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePrincipalMappingInput, DescribePrincipalMappingOutputResponse>())
@@ -1229,7 +1256,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePrincipalMappingOutputResponse, DescribePrincipalMappingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribePrincipalMappingOutputResponse, DescribePrincipalMappingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePrincipalMappingOutputResponse, DescribePrincipalMappingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1249,6 +1276,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutputResponse, DescribeQuerySuggestionsBlockListOutputError>(id: "describeQuerySuggestionsBlockList")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutputResponse, DescribeQuerySuggestionsBlockListOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeQuerySuggestionsBlockListInput, DescribeQuerySuggestionsBlockListOutputResponse>())
@@ -1265,7 +1293,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeQuerySuggestionsBlockListOutputResponse, DescribeQuerySuggestionsBlockListOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeQuerySuggestionsBlockListOutputResponse, DescribeQuerySuggestionsBlockListOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeQuerySuggestionsBlockListOutputResponse, DescribeQuerySuggestionsBlockListOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1285,6 +1313,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutputResponse, DescribeQuerySuggestionsConfigOutputError>(id: "describeQuerySuggestionsConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutputResponse, DescribeQuerySuggestionsConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeQuerySuggestionsConfigInput, DescribeQuerySuggestionsConfigOutputResponse>())
@@ -1301,7 +1330,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeQuerySuggestionsConfigOutputResponse, DescribeQuerySuggestionsConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeQuerySuggestionsConfigOutputResponse, DescribeQuerySuggestionsConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeQuerySuggestionsConfigOutputResponse, DescribeQuerySuggestionsConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1321,6 +1350,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeThesaurusInput, DescribeThesaurusOutputResponse, DescribeThesaurusOutputError>(id: "describeThesaurus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeThesaurusInput, DescribeThesaurusOutputResponse, DescribeThesaurusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeThesaurusInput, DescribeThesaurusOutputResponse>())
@@ -1337,7 +1367,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeThesaurusOutputResponse, DescribeThesaurusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeThesaurusOutputResponse, DescribeThesaurusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeThesaurusOutputResponse, DescribeThesaurusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1357,6 +1387,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutputResponse, DisassociateEntitiesFromExperienceOutputError>(id: "disassociateEntitiesFromExperience")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutputResponse, DisassociateEntitiesFromExperienceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateEntitiesFromExperienceInput, DisassociateEntitiesFromExperienceOutputResponse>())
@@ -1373,7 +1404,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateEntitiesFromExperienceOutputResponse, DisassociateEntitiesFromExperienceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateEntitiesFromExperienceOutputResponse, DisassociateEntitiesFromExperienceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateEntitiesFromExperienceOutputResponse, DisassociateEntitiesFromExperienceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1393,6 +1424,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutputResponse, DisassociatePersonasFromEntitiesOutputError>(id: "disassociatePersonasFromEntities")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutputResponse, DisassociatePersonasFromEntitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociatePersonasFromEntitiesInput, DisassociatePersonasFromEntitiesOutputResponse>())
@@ -1409,7 +1441,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociatePersonasFromEntitiesOutputResponse, DisassociatePersonasFromEntitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociatePersonasFromEntitiesOutputResponse, DisassociatePersonasFromEntitiesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociatePersonasFromEntitiesOutputResponse, DisassociatePersonasFromEntitiesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1429,6 +1461,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetQuerySuggestionsInput, GetQuerySuggestionsOutputResponse, GetQuerySuggestionsOutputError>(id: "getQuerySuggestions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutputResponse, GetQuerySuggestionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQuerySuggestionsInput, GetQuerySuggestionsOutputResponse>())
@@ -1445,7 +1478,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetQuerySuggestionsOutputResponse, GetQuerySuggestionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetQuerySuggestionsOutputResponse, GetQuerySuggestionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetQuerySuggestionsOutputResponse, GetQuerySuggestionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1465,6 +1498,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSnapshotsInput, GetSnapshotsOutputResponse, GetSnapshotsOutputError>(id: "getSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSnapshotsInput, GetSnapshotsOutputResponse, GetSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSnapshotsInput, GetSnapshotsOutputResponse>())
@@ -1481,7 +1515,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSnapshotsOutputResponse, GetSnapshotsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSnapshotsOutputResponse, GetSnapshotsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSnapshotsOutputResponse, GetSnapshotsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1501,6 +1535,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutputResponse, ListAccessControlConfigurationsOutputError>(id: "listAccessControlConfigurations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutputResponse, ListAccessControlConfigurationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutputResponse>())
@@ -1517,7 +1552,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccessControlConfigurationsOutputResponse, ListAccessControlConfigurationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAccessControlConfigurationsOutputResponse, ListAccessControlConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessControlConfigurationsOutputResponse, ListAccessControlConfigurationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1537,6 +1572,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutputResponse, ListDataSourceSyncJobsOutputError>(id: "listDataSourceSyncJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutputResponse, ListDataSourceSyncJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutputResponse>())
@@ -1553,7 +1589,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDataSourceSyncJobsOutputResponse, ListDataSourceSyncJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDataSourceSyncJobsOutputResponse, ListDataSourceSyncJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDataSourceSyncJobsOutputResponse, ListDataSourceSyncJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1573,6 +1609,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDataSourcesInput, ListDataSourcesOutputResponse, ListDataSourcesOutputError>(id: "listDataSources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDataSourcesInput, ListDataSourcesOutputResponse, ListDataSourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDataSourcesInput, ListDataSourcesOutputResponse>())
@@ -1589,7 +1626,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDataSourcesOutputResponse, ListDataSourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDataSourcesOutputResponse, ListDataSourcesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDataSourcesOutputResponse, ListDataSourcesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1609,6 +1646,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEntityPersonasInput, ListEntityPersonasOutputResponse, ListEntityPersonasOutputError>(id: "listEntityPersonas")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEntityPersonasInput, ListEntityPersonasOutputResponse, ListEntityPersonasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEntityPersonasInput, ListEntityPersonasOutputResponse>())
@@ -1625,7 +1663,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEntityPersonasOutputResponse, ListEntityPersonasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListEntityPersonasOutputResponse, ListEntityPersonasOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEntityPersonasOutputResponse, ListEntityPersonasOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1645,6 +1683,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListExperienceEntitiesInput, ListExperienceEntitiesOutputResponse, ListExperienceEntitiesOutputError>(id: "listExperienceEntities")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutputResponse, ListExperienceEntitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListExperienceEntitiesInput, ListExperienceEntitiesOutputResponse>())
@@ -1661,7 +1700,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListExperienceEntitiesOutputResponse, ListExperienceEntitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListExperienceEntitiesOutputResponse, ListExperienceEntitiesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListExperienceEntitiesOutputResponse, ListExperienceEntitiesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1681,6 +1720,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListExperiencesInput, ListExperiencesOutputResponse, ListExperiencesOutputError>(id: "listExperiences")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListExperiencesInput, ListExperiencesOutputResponse, ListExperiencesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListExperiencesInput, ListExperiencesOutputResponse>())
@@ -1697,7 +1737,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListExperiencesOutputResponse, ListExperiencesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListExperiencesOutputResponse, ListExperiencesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListExperiencesOutputResponse, ListExperiencesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1717,6 +1757,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFaqsInput, ListFaqsOutputResponse, ListFaqsOutputError>(id: "listFaqs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFaqsInput, ListFaqsOutputResponse, ListFaqsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFaqsInput, ListFaqsOutputResponse>())
@@ -1733,7 +1774,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFaqsOutputResponse, ListFaqsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListFaqsOutputResponse, ListFaqsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFaqsOutputResponse, ListFaqsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1753,6 +1794,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutputResponse, ListGroupsOlderThanOrderingIdOutputError>(id: "listGroupsOlderThanOrderingId")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutputResponse, ListGroupsOlderThanOrderingIdOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutputResponse>())
@@ -1769,7 +1811,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupsOlderThanOrderingIdOutputResponse, ListGroupsOlderThanOrderingIdOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListGroupsOlderThanOrderingIdOutputResponse, ListGroupsOlderThanOrderingIdOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupsOlderThanOrderingIdOutputResponse, ListGroupsOlderThanOrderingIdOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1789,6 +1831,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListIndicesInput, ListIndicesOutputResponse, ListIndicesOutputError>(id: "listIndices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIndicesInput, ListIndicesOutputResponse, ListIndicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIndicesInput, ListIndicesOutputResponse>())
@@ -1805,7 +1848,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIndicesOutputResponse, ListIndicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListIndicesOutputResponse, ListIndicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIndicesOutputResponse, ListIndicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1825,6 +1868,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutputResponse, ListQuerySuggestionsBlockListsOutputError>(id: "listQuerySuggestionsBlockLists")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutputResponse, ListQuerySuggestionsBlockListsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutputResponse>())
@@ -1841,7 +1885,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListQuerySuggestionsBlockListsOutputResponse, ListQuerySuggestionsBlockListsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListQuerySuggestionsBlockListsOutputResponse, ListQuerySuggestionsBlockListsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListQuerySuggestionsBlockListsOutputResponse, ListQuerySuggestionsBlockListsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1861,6 +1905,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1877,7 +1922,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1897,6 +1942,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListThesauriInput, ListThesauriOutputResponse, ListThesauriOutputError>(id: "listThesauri")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListThesauriInput, ListThesauriOutputResponse, ListThesauriOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListThesauriInput, ListThesauriOutputResponse>())
@@ -1913,7 +1959,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListThesauriOutputResponse, ListThesauriOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListThesauriOutputResponse, ListThesauriOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListThesauriOutputResponse, ListThesauriOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1933,6 +1979,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutPrincipalMappingInput, PutPrincipalMappingOutputResponse, PutPrincipalMappingOutputError>(id: "putPrincipalMapping")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutputResponse, PutPrincipalMappingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutPrincipalMappingInput, PutPrincipalMappingOutputResponse>())
@@ -1949,7 +1996,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutPrincipalMappingOutputResponse, PutPrincipalMappingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutPrincipalMappingOutputResponse, PutPrincipalMappingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutPrincipalMappingOutputResponse, PutPrincipalMappingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1978,6 +2025,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<QueryInput, QueryOutputResponse, QueryOutputError>(id: "query")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<QueryInput, QueryOutputResponse, QueryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<QueryInput, QueryOutputResponse>())
@@ -1994,7 +2042,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<QueryOutputResponse, QueryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<QueryOutputResponse, QueryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<QueryOutputResponse, QueryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2014,6 +2062,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutputResponse, StartDataSourceSyncJobOutputError>(id: "startDataSourceSyncJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutputResponse, StartDataSourceSyncJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutputResponse>())
@@ -2030,7 +2079,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDataSourceSyncJobOutputResponse, StartDataSourceSyncJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartDataSourceSyncJobOutputResponse, StartDataSourceSyncJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDataSourceSyncJobOutputResponse, StartDataSourceSyncJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2050,6 +2099,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutputResponse, StopDataSourceSyncJobOutputError>(id: "stopDataSourceSyncJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutputResponse, StopDataSourceSyncJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutputResponse>())
@@ -2066,7 +2116,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopDataSourceSyncJobOutputResponse, StopDataSourceSyncJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopDataSourceSyncJobOutputResponse, StopDataSourceSyncJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDataSourceSyncJobOutputResponse, StopDataSourceSyncJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2086,6 +2136,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SubmitFeedbackInput, SubmitFeedbackOutputResponse, SubmitFeedbackOutputError>(id: "submitFeedback")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SubmitFeedbackInput, SubmitFeedbackOutputResponse, SubmitFeedbackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SubmitFeedbackInput, SubmitFeedbackOutputResponse>())
@@ -2102,7 +2153,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SubmitFeedbackOutputResponse, SubmitFeedbackOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SubmitFeedbackOutputResponse, SubmitFeedbackOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SubmitFeedbackOutputResponse, SubmitFeedbackOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2122,6 +2173,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -2138,7 +2190,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2158,6 +2210,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -2174,7 +2227,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2194,6 +2247,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutputResponse, UpdateAccessControlConfigurationOutputError>(id: "updateAccessControlConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutputResponse, UpdateAccessControlConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccessControlConfigurationInput, UpdateAccessControlConfigurationOutputResponse>())
@@ -2210,7 +2264,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccessControlConfigurationOutputResponse, UpdateAccessControlConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAccessControlConfigurationOutputResponse, UpdateAccessControlConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccessControlConfigurationOutputResponse, UpdateAccessControlConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2230,6 +2284,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDataSourceInput, UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>(id: "updateDataSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDataSourceInput, UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDataSourceInput, UpdateDataSourceOutputResponse>())
@@ -2246,7 +2301,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDataSourceOutputResponse, UpdateDataSourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2266,6 +2321,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateExperienceInput, UpdateExperienceOutputResponse, UpdateExperienceOutputError>(id: "updateExperience")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateExperienceInput, UpdateExperienceOutputResponse, UpdateExperienceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateExperienceInput, UpdateExperienceOutputResponse>())
@@ -2282,7 +2338,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateExperienceOutputResponse, UpdateExperienceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateExperienceOutputResponse, UpdateExperienceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateExperienceOutputResponse, UpdateExperienceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2302,6 +2358,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateIndexInput, UpdateIndexOutputResponse, UpdateIndexOutputError>(id: "updateIndex")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIndexInput, UpdateIndexOutputResponse, UpdateIndexOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIndexInput, UpdateIndexOutputResponse>())
@@ -2318,7 +2375,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateIndexOutputResponse, UpdateIndexOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateIndexOutputResponse, UpdateIndexOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIndexOutputResponse, UpdateIndexOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2338,6 +2395,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutputResponse, UpdateQuerySuggestionsBlockListOutputError>(id: "updateQuerySuggestionsBlockList")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutputResponse, UpdateQuerySuggestionsBlockListOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateQuerySuggestionsBlockListInput, UpdateQuerySuggestionsBlockListOutputResponse>())
@@ -2354,7 +2412,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateQuerySuggestionsBlockListOutputResponse, UpdateQuerySuggestionsBlockListOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateQuerySuggestionsBlockListOutputResponse, UpdateQuerySuggestionsBlockListOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateQuerySuggestionsBlockListOutputResponse, UpdateQuerySuggestionsBlockListOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2374,6 +2432,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutputResponse, UpdateQuerySuggestionsConfigOutputError>(id: "updateQuerySuggestionsConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutputResponse, UpdateQuerySuggestionsConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateQuerySuggestionsConfigInput, UpdateQuerySuggestionsConfigOutputResponse>())
@@ -2390,7 +2449,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateQuerySuggestionsConfigOutputResponse, UpdateQuerySuggestionsConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateQuerySuggestionsConfigOutputResponse, UpdateQuerySuggestionsConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateQuerySuggestionsConfigOutputResponse, UpdateQuerySuggestionsConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2410,6 +2469,7 @@ extension KendraClient: KendraClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kendra")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateThesaurusInput, UpdateThesaurusOutputResponse, UpdateThesaurusOutputError>(id: "updateThesaurus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateThesaurusInput, UpdateThesaurusOutputResponse, UpdateThesaurusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateThesaurusInput, UpdateThesaurusOutputResponse>())
@@ -2426,7 +2486,7 @@ extension KendraClient: KendraClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateThesaurusOutputResponse, UpdateThesaurusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateThesaurusOutputResponse, UpdateThesaurusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateThesaurusOutputResponse, UpdateThesaurusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

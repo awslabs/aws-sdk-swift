@@ -230,6 +230,7 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDeliveryStreamInput, CreateDeliveryStreamOutputResponse, CreateDeliveryStreamOutputError>(id: "createDeliveryStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDeliveryStreamInput, CreateDeliveryStreamOutputResponse, CreateDeliveryStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDeliveryStreamInput, CreateDeliveryStreamOutputResponse>())
@@ -246,7 +247,7 @@ extension FirehoseClient: FirehoseClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeliveryStreamOutputResponse, CreateDeliveryStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDeliveryStreamOutputResponse, CreateDeliveryStreamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeliveryStreamOutputResponse, CreateDeliveryStreamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -266,6 +267,7 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDeliveryStreamInput, DeleteDeliveryStreamOutputResponse, DeleteDeliveryStreamOutputError>(id: "deleteDeliveryStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDeliveryStreamInput, DeleteDeliveryStreamOutputResponse, DeleteDeliveryStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDeliveryStreamInput, DeleteDeliveryStreamOutputResponse>())
@@ -282,7 +284,7 @@ extension FirehoseClient: FirehoseClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeliveryStreamOutputResponse, DeleteDeliveryStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDeliveryStreamOutputResponse, DeleteDeliveryStreamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeliveryStreamOutputResponse, DeleteDeliveryStreamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -302,6 +304,7 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDeliveryStreamInput, DescribeDeliveryStreamOutputResponse, DescribeDeliveryStreamOutputError>(id: "describeDeliveryStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDeliveryStreamInput, DescribeDeliveryStreamOutputResponse, DescribeDeliveryStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDeliveryStreamInput, DescribeDeliveryStreamOutputResponse>())
@@ -318,7 +321,7 @@ extension FirehoseClient: FirehoseClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDeliveryStreamOutputResponse, DescribeDeliveryStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDeliveryStreamOutputResponse, DescribeDeliveryStreamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDeliveryStreamOutputResponse, DescribeDeliveryStreamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -338,6 +341,7 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDeliveryStreamsInput, ListDeliveryStreamsOutputResponse, ListDeliveryStreamsOutputError>(id: "listDeliveryStreams")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeliveryStreamsInput, ListDeliveryStreamsOutputResponse, ListDeliveryStreamsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeliveryStreamsInput, ListDeliveryStreamsOutputResponse>())
@@ -354,7 +358,7 @@ extension FirehoseClient: FirehoseClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeliveryStreamsOutputResponse, ListDeliveryStreamsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDeliveryStreamsOutputResponse, ListDeliveryStreamsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeliveryStreamsOutputResponse, ListDeliveryStreamsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -374,6 +378,7 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForDeliveryStreamInput, ListTagsForDeliveryStreamOutputResponse, ListTagsForDeliveryStreamOutputError>(id: "listTagsForDeliveryStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForDeliveryStreamInput, ListTagsForDeliveryStreamOutputResponse, ListTagsForDeliveryStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForDeliveryStreamInput, ListTagsForDeliveryStreamOutputResponse>())
@@ -390,7 +395,7 @@ extension FirehoseClient: FirehoseClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForDeliveryStreamOutputResponse, ListTagsForDeliveryStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForDeliveryStreamOutputResponse, ListTagsForDeliveryStreamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForDeliveryStreamOutputResponse, ListTagsForDeliveryStreamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -410,6 +415,7 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutRecordInput, PutRecordOutputResponse, PutRecordOutputError>(id: "putRecord")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRecordInput, PutRecordOutputResponse, PutRecordOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRecordInput, PutRecordOutputResponse>())
@@ -426,7 +432,7 @@ extension FirehoseClient: FirehoseClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRecordOutputResponse, PutRecordOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutRecordOutputResponse, PutRecordOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRecordOutputResponse, PutRecordOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -446,6 +452,7 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutRecordBatchInput, PutRecordBatchOutputResponse, PutRecordBatchOutputError>(id: "putRecordBatch")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRecordBatchInput, PutRecordBatchOutputResponse, PutRecordBatchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRecordBatchInput, PutRecordBatchOutputResponse>())
@@ -462,7 +469,7 @@ extension FirehoseClient: FirehoseClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRecordBatchOutputResponse, PutRecordBatchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutRecordBatchOutputResponse, PutRecordBatchOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRecordBatchOutputResponse, PutRecordBatchOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -482,6 +489,7 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartDeliveryStreamEncryptionInput, StartDeliveryStreamEncryptionOutputResponse, StartDeliveryStreamEncryptionOutputError>(id: "startDeliveryStreamEncryption")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDeliveryStreamEncryptionInput, StartDeliveryStreamEncryptionOutputResponse, StartDeliveryStreamEncryptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDeliveryStreamEncryptionInput, StartDeliveryStreamEncryptionOutputResponse>())
@@ -498,7 +506,7 @@ extension FirehoseClient: FirehoseClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDeliveryStreamEncryptionOutputResponse, StartDeliveryStreamEncryptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartDeliveryStreamEncryptionOutputResponse, StartDeliveryStreamEncryptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDeliveryStreamEncryptionOutputResponse, StartDeliveryStreamEncryptionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -518,6 +526,7 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopDeliveryStreamEncryptionInput, StopDeliveryStreamEncryptionOutputResponse, StopDeliveryStreamEncryptionOutputError>(id: "stopDeliveryStreamEncryption")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDeliveryStreamEncryptionInput, StopDeliveryStreamEncryptionOutputResponse, StopDeliveryStreamEncryptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopDeliveryStreamEncryptionInput, StopDeliveryStreamEncryptionOutputResponse>())
@@ -534,7 +543,7 @@ extension FirehoseClient: FirehoseClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopDeliveryStreamEncryptionOutputResponse, StopDeliveryStreamEncryptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopDeliveryStreamEncryptionOutputResponse, StopDeliveryStreamEncryptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDeliveryStreamEncryptionOutputResponse, StopDeliveryStreamEncryptionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -554,6 +563,7 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagDeliveryStreamInput, TagDeliveryStreamOutputResponse, TagDeliveryStreamOutputError>(id: "tagDeliveryStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagDeliveryStreamInput, TagDeliveryStreamOutputResponse, TagDeliveryStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagDeliveryStreamInput, TagDeliveryStreamOutputResponse>())
@@ -570,7 +580,7 @@ extension FirehoseClient: FirehoseClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagDeliveryStreamOutputResponse, TagDeliveryStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagDeliveryStreamOutputResponse, TagDeliveryStreamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagDeliveryStreamOutputResponse, TagDeliveryStreamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -590,6 +600,7 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagDeliveryStreamInput, UntagDeliveryStreamOutputResponse, UntagDeliveryStreamOutputError>(id: "untagDeliveryStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagDeliveryStreamInput, UntagDeliveryStreamOutputResponse, UntagDeliveryStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagDeliveryStreamInput, UntagDeliveryStreamOutputResponse>())
@@ -606,7 +617,7 @@ extension FirehoseClient: FirehoseClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagDeliveryStreamOutputResponse, UntagDeliveryStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagDeliveryStreamOutputResponse, UntagDeliveryStreamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagDeliveryStreamOutputResponse, UntagDeliveryStreamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -626,6 +637,7 @@ extension FirehoseClient: FirehoseClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "firehose")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDestinationInput, UpdateDestinationOutputResponse, UpdateDestinationOutputError>(id: "updateDestination")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDestinationInput, UpdateDestinationOutputResponse, UpdateDestinationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDestinationInput, UpdateDestinationOutputResponse>())
@@ -642,7 +654,7 @@ extension FirehoseClient: FirehoseClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDestinationOutputResponse, UpdateDestinationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDestinationOutputResponse, UpdateDestinationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDestinationOutputResponse, UpdateDestinationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

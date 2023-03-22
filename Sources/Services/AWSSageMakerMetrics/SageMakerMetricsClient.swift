@@ -221,6 +221,7 @@ extension SageMakerMetricsClient: SageMakerMetricsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sagemaker")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchPutMetricsInput, BatchPutMetricsOutputResponse, BatchPutMetricsOutputError>(id: "batchPutMetrics")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchPutMetricsInput, BatchPutMetricsOutputResponse, BatchPutMetricsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchPutMetricsInput, BatchPutMetricsOutputResponse>())
@@ -236,7 +237,7 @@ extension SageMakerMetricsClient: SageMakerMetricsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchPutMetricsOutputResponse, BatchPutMetricsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchPutMetricsOutputResponse, BatchPutMetricsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchPutMetricsOutputResponse, BatchPutMetricsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

@@ -221,6 +221,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateAdminAccountInput, AssociateAdminAccountOutputResponse, AssociateAdminAccountOutputError>(id: "associateAdminAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateAdminAccountInput, AssociateAdminAccountOutputResponse, AssociateAdminAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateAdminAccountInput, AssociateAdminAccountOutputResponse>())
@@ -237,7 +238,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateAdminAccountOutputResponse, AssociateAdminAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateAdminAccountOutputResponse, AssociateAdminAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateAdminAccountOutputResponse, AssociateAdminAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateThirdPartyFirewallInput, AssociateThirdPartyFirewallOutputResponse, AssociateThirdPartyFirewallOutputError>(id: "associateThirdPartyFirewall")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateThirdPartyFirewallInput, AssociateThirdPartyFirewallOutputResponse, AssociateThirdPartyFirewallOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateThirdPartyFirewallInput, AssociateThirdPartyFirewallOutputResponse>())
@@ -273,7 +275,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateThirdPartyFirewallOutputResponse, AssociateThirdPartyFirewallOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateThirdPartyFirewallOutputResponse, AssociateThirdPartyFirewallOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateThirdPartyFirewallOutputResponse, AssociateThirdPartyFirewallOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchAssociateResourceInput, BatchAssociateResourceOutputResponse, BatchAssociateResourceOutputError>(id: "batchAssociateResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchAssociateResourceInput, BatchAssociateResourceOutputResponse, BatchAssociateResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchAssociateResourceInput, BatchAssociateResourceOutputResponse>())
@@ -309,7 +312,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchAssociateResourceOutputResponse, BatchAssociateResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchAssociateResourceOutputResponse, BatchAssociateResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchAssociateResourceOutputResponse, BatchAssociateResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -329,6 +332,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDisassociateResourceInput, BatchDisassociateResourceOutputResponse, BatchDisassociateResourceOutputError>(id: "batchDisassociateResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDisassociateResourceInput, BatchDisassociateResourceOutputResponse, BatchDisassociateResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDisassociateResourceInput, BatchDisassociateResourceOutputResponse>())
@@ -345,7 +349,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDisassociateResourceOutputResponse, BatchDisassociateResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchDisassociateResourceOutputResponse, BatchDisassociateResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDisassociateResourceOutputResponse, BatchDisassociateResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -365,6 +369,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAppsListInput, DeleteAppsListOutputResponse, DeleteAppsListOutputError>(id: "deleteAppsList")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAppsListInput, DeleteAppsListOutputResponse, DeleteAppsListOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAppsListInput, DeleteAppsListOutputResponse>())
@@ -381,7 +386,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppsListOutputResponse, DeleteAppsListOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAppsListOutputResponse, DeleteAppsListOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppsListOutputResponse, DeleteAppsListOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -401,6 +406,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteNotificationChannelInput, DeleteNotificationChannelOutputResponse, DeleteNotificationChannelOutputError>(id: "deleteNotificationChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNotificationChannelInput, DeleteNotificationChannelOutputResponse, DeleteNotificationChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNotificationChannelInput, DeleteNotificationChannelOutputResponse>())
@@ -417,7 +423,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNotificationChannelOutputResponse, DeleteNotificationChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteNotificationChannelOutputResponse, DeleteNotificationChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNotificationChannelOutputResponse, DeleteNotificationChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -437,6 +443,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePolicyInput, DeletePolicyOutputResponse, DeletePolicyOutputError>(id: "deletePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePolicyInput, DeletePolicyOutputResponse, DeletePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePolicyInput, DeletePolicyOutputResponse>())
@@ -453,7 +460,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePolicyOutputResponse, DeletePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeletePolicyOutputResponse, DeletePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyOutputResponse, DeletePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -473,6 +480,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteProtocolsListInput, DeleteProtocolsListOutputResponse, DeleteProtocolsListOutputError>(id: "deleteProtocolsList")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProtocolsListInput, DeleteProtocolsListOutputResponse, DeleteProtocolsListOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProtocolsListInput, DeleteProtocolsListOutputResponse>())
@@ -489,7 +497,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProtocolsListOutputResponse, DeleteProtocolsListOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteProtocolsListOutputResponse, DeleteProtocolsListOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProtocolsListOutputResponse, DeleteProtocolsListOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -509,6 +517,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteResourceSetInput, DeleteResourceSetOutputResponse, DeleteResourceSetOutputError>(id: "deleteResourceSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourceSetInput, DeleteResourceSetOutputResponse, DeleteResourceSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourceSetInput, DeleteResourceSetOutputResponse>())
@@ -525,7 +534,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourceSetOutputResponse, DeleteResourceSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteResourceSetOutputResponse, DeleteResourceSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourceSetOutputResponse, DeleteResourceSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -545,6 +554,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateAdminAccountInput, DisassociateAdminAccountOutputResponse, DisassociateAdminAccountOutputError>(id: "disassociateAdminAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateAdminAccountInput, DisassociateAdminAccountOutputResponse, DisassociateAdminAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateAdminAccountInput, DisassociateAdminAccountOutputResponse>())
@@ -561,7 +571,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateAdminAccountOutputResponse, DisassociateAdminAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateAdminAccountOutputResponse, DisassociateAdminAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateAdminAccountOutputResponse, DisassociateAdminAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -581,6 +591,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateThirdPartyFirewallInput, DisassociateThirdPartyFirewallOutputResponse, DisassociateThirdPartyFirewallOutputError>(id: "disassociateThirdPartyFirewall")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateThirdPartyFirewallInput, DisassociateThirdPartyFirewallOutputResponse, DisassociateThirdPartyFirewallOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateThirdPartyFirewallInput, DisassociateThirdPartyFirewallOutputResponse>())
@@ -597,7 +608,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateThirdPartyFirewallOutputResponse, DisassociateThirdPartyFirewallOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateThirdPartyFirewallOutputResponse, DisassociateThirdPartyFirewallOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateThirdPartyFirewallOutputResponse, DisassociateThirdPartyFirewallOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -617,6 +628,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAdminAccountInput, GetAdminAccountOutputResponse, GetAdminAccountOutputError>(id: "getAdminAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAdminAccountInput, GetAdminAccountOutputResponse, GetAdminAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAdminAccountInput, GetAdminAccountOutputResponse>())
@@ -633,7 +645,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAdminAccountOutputResponse, GetAdminAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAdminAccountOutputResponse, GetAdminAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAdminAccountOutputResponse, GetAdminAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -653,6 +665,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAppsListInput, GetAppsListOutputResponse, GetAppsListOutputError>(id: "getAppsList")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAppsListInput, GetAppsListOutputResponse, GetAppsListOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAppsListInput, GetAppsListOutputResponse>())
@@ -669,7 +682,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAppsListOutputResponse, GetAppsListOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAppsListOutputResponse, GetAppsListOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAppsListOutputResponse, GetAppsListOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -697,6 +710,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetComplianceDetailInput, GetComplianceDetailOutputResponse, GetComplianceDetailOutputError>(id: "getComplianceDetail")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetComplianceDetailInput, GetComplianceDetailOutputResponse, GetComplianceDetailOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetComplianceDetailInput, GetComplianceDetailOutputResponse>())
@@ -713,7 +727,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetComplianceDetailOutputResponse, GetComplianceDetailOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetComplianceDetailOutputResponse, GetComplianceDetailOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComplianceDetailOutputResponse, GetComplianceDetailOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -733,6 +747,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetNotificationChannelInput, GetNotificationChannelOutputResponse, GetNotificationChannelOutputError>(id: "getNotificationChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNotificationChannelInput, GetNotificationChannelOutputResponse, GetNotificationChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNotificationChannelInput, GetNotificationChannelOutputResponse>())
@@ -749,7 +764,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNotificationChannelOutputResponse, GetNotificationChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetNotificationChannelOutputResponse, GetNotificationChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNotificationChannelOutputResponse, GetNotificationChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -769,6 +784,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPolicyInput, GetPolicyOutputResponse, GetPolicyOutputError>(id: "getPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPolicyInput, GetPolicyOutputResponse, GetPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPolicyInput, GetPolicyOutputResponse>())
@@ -785,7 +801,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyOutputResponse, GetPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPolicyOutputResponse, GetPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyOutputResponse, GetPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -805,6 +821,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetProtectionStatusInput, GetProtectionStatusOutputResponse, GetProtectionStatusOutputError>(id: "getProtectionStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProtectionStatusInput, GetProtectionStatusOutputResponse, GetProtectionStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProtectionStatusInput, GetProtectionStatusOutputResponse>())
@@ -821,7 +838,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProtectionStatusOutputResponse, GetProtectionStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetProtectionStatusOutputResponse, GetProtectionStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProtectionStatusOutputResponse, GetProtectionStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -841,6 +858,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetProtocolsListInput, GetProtocolsListOutputResponse, GetProtocolsListOutputError>(id: "getProtocolsList")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProtocolsListInput, GetProtocolsListOutputResponse, GetProtocolsListOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProtocolsListInput, GetProtocolsListOutputResponse>())
@@ -857,7 +875,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProtocolsListOutputResponse, GetProtocolsListOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetProtocolsListOutputResponse, GetProtocolsListOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProtocolsListOutputResponse, GetProtocolsListOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -877,6 +895,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetResourceSetInput, GetResourceSetOutputResponse, GetResourceSetOutputError>(id: "getResourceSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceSetInput, GetResourceSetOutputResponse, GetResourceSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceSetInput, GetResourceSetOutputResponse>())
@@ -893,7 +912,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceSetOutputResponse, GetResourceSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetResourceSetOutputResponse, GetResourceSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceSetOutputResponse, GetResourceSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -913,6 +932,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetThirdPartyFirewallAssociationStatusInput, GetThirdPartyFirewallAssociationStatusOutputResponse, GetThirdPartyFirewallAssociationStatusOutputError>(id: "getThirdPartyFirewallAssociationStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetThirdPartyFirewallAssociationStatusInput, GetThirdPartyFirewallAssociationStatusOutputResponse, GetThirdPartyFirewallAssociationStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetThirdPartyFirewallAssociationStatusInput, GetThirdPartyFirewallAssociationStatusOutputResponse>())
@@ -929,7 +949,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetThirdPartyFirewallAssociationStatusOutputResponse, GetThirdPartyFirewallAssociationStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetThirdPartyFirewallAssociationStatusOutputResponse, GetThirdPartyFirewallAssociationStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetThirdPartyFirewallAssociationStatusOutputResponse, GetThirdPartyFirewallAssociationStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -949,6 +969,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetViolationDetailsInput, GetViolationDetailsOutputResponse, GetViolationDetailsOutputError>(id: "getViolationDetails")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetViolationDetailsInput, GetViolationDetailsOutputResponse, GetViolationDetailsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetViolationDetailsInput, GetViolationDetailsOutputResponse>())
@@ -965,7 +986,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetViolationDetailsOutputResponse, GetViolationDetailsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetViolationDetailsOutputResponse, GetViolationDetailsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetViolationDetailsOutputResponse, GetViolationDetailsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -985,6 +1006,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAppsListsInput, ListAppsListsOutputResponse, ListAppsListsOutputError>(id: "listAppsLists")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppsListsInput, ListAppsListsOutputResponse, ListAppsListsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppsListsInput, ListAppsListsOutputResponse>())
@@ -1001,7 +1023,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppsListsOutputResponse, ListAppsListsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAppsListsOutputResponse, ListAppsListsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppsListsOutputResponse, ListAppsListsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1021,6 +1043,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListComplianceStatusInput, ListComplianceStatusOutputResponse, ListComplianceStatusOutputError>(id: "listComplianceStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListComplianceStatusInput, ListComplianceStatusOutputResponse, ListComplianceStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListComplianceStatusInput, ListComplianceStatusOutputResponse>())
@@ -1037,7 +1060,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListComplianceStatusOutputResponse, ListComplianceStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListComplianceStatusOutputResponse, ListComplianceStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListComplianceStatusOutputResponse, ListComplianceStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1057,6 +1080,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutputResponse, ListDiscoveredResourcesOutputError>(id: "listDiscoveredResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutputResponse, ListDiscoveredResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutputResponse>())
@@ -1073,7 +1097,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDiscoveredResourcesOutputResponse, ListDiscoveredResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDiscoveredResourcesOutputResponse, ListDiscoveredResourcesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDiscoveredResourcesOutputResponse, ListDiscoveredResourcesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1093,6 +1117,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMemberAccountsInput, ListMemberAccountsOutputResponse, ListMemberAccountsOutputError>(id: "listMemberAccounts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMemberAccountsInput, ListMemberAccountsOutputResponse, ListMemberAccountsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMemberAccountsInput, ListMemberAccountsOutputResponse>())
@@ -1109,7 +1134,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMemberAccountsOutputResponse, ListMemberAccountsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMemberAccountsOutputResponse, ListMemberAccountsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMemberAccountsOutputResponse, ListMemberAccountsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1129,6 +1154,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPoliciesInput, ListPoliciesOutputResponse, ListPoliciesOutputError>(id: "listPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPoliciesInput, ListPoliciesOutputResponse, ListPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPoliciesInput, ListPoliciesOutputResponse>())
@@ -1145,7 +1171,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPoliciesOutputResponse, ListPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPoliciesOutputResponse, ListPoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoliciesOutputResponse, ListPoliciesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1165,6 +1191,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListProtocolsListsInput, ListProtocolsListsOutputResponse, ListProtocolsListsOutputError>(id: "listProtocolsLists")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProtocolsListsInput, ListProtocolsListsOutputResponse, ListProtocolsListsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProtocolsListsInput, ListProtocolsListsOutputResponse>())
@@ -1181,7 +1208,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProtocolsListsOutputResponse, ListProtocolsListsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListProtocolsListsOutputResponse, ListProtocolsListsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProtocolsListsOutputResponse, ListProtocolsListsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1201,6 +1228,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListResourceSetResourcesInput, ListResourceSetResourcesOutputResponse, ListResourceSetResourcesOutputError>(id: "listResourceSetResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceSetResourcesInput, ListResourceSetResourcesOutputResponse, ListResourceSetResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceSetResourcesInput, ListResourceSetResourcesOutputResponse>())
@@ -1217,7 +1245,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceSetResourcesOutputResponse, ListResourceSetResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListResourceSetResourcesOutputResponse, ListResourceSetResourcesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceSetResourcesOutputResponse, ListResourceSetResourcesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1237,6 +1265,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListResourceSetsInput, ListResourceSetsOutputResponse, ListResourceSetsOutputError>(id: "listResourceSets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceSetsInput, ListResourceSetsOutputResponse, ListResourceSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceSetsInput, ListResourceSetsOutputResponse>())
@@ -1253,7 +1282,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceSetsOutputResponse, ListResourceSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListResourceSetsOutputResponse, ListResourceSetsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceSetsOutputResponse, ListResourceSetsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1273,6 +1302,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1289,7 +1319,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1309,6 +1339,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListThirdPartyFirewallFirewallPoliciesInput, ListThirdPartyFirewallFirewallPoliciesOutputResponse, ListThirdPartyFirewallFirewallPoliciesOutputError>(id: "listThirdPartyFirewallFirewallPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListThirdPartyFirewallFirewallPoliciesInput, ListThirdPartyFirewallFirewallPoliciesOutputResponse, ListThirdPartyFirewallFirewallPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListThirdPartyFirewallFirewallPoliciesInput, ListThirdPartyFirewallFirewallPoliciesOutputResponse>())
@@ -1325,7 +1356,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListThirdPartyFirewallFirewallPoliciesOutputResponse, ListThirdPartyFirewallFirewallPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListThirdPartyFirewallFirewallPoliciesOutputResponse, ListThirdPartyFirewallFirewallPoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListThirdPartyFirewallFirewallPoliciesOutputResponse, ListThirdPartyFirewallFirewallPoliciesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1345,6 +1376,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutAppsListInput, PutAppsListOutputResponse, PutAppsListOutputError>(id: "putAppsList")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAppsListInput, PutAppsListOutputResponse, PutAppsListOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAppsListInput, PutAppsListOutputResponse>())
@@ -1361,7 +1393,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAppsListOutputResponse, PutAppsListOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutAppsListOutputResponse, PutAppsListOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAppsListOutputResponse, PutAppsListOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1381,6 +1413,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutNotificationChannelInput, PutNotificationChannelOutputResponse, PutNotificationChannelOutputError>(id: "putNotificationChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutNotificationChannelInput, PutNotificationChannelOutputResponse, PutNotificationChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutNotificationChannelInput, PutNotificationChannelOutputResponse>())
@@ -1397,7 +1430,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutNotificationChannelOutputResponse, PutNotificationChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutNotificationChannelOutputResponse, PutNotificationChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutNotificationChannelOutputResponse, PutNotificationChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1432,6 +1465,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutPolicyInput, PutPolicyOutputResponse, PutPolicyOutputError>(id: "putPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutPolicyInput, PutPolicyOutputResponse, PutPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutPolicyInput, PutPolicyOutputResponse>())
@@ -1448,7 +1482,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutPolicyOutputResponse, PutPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutPolicyOutputResponse, PutPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutPolicyOutputResponse, PutPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1468,6 +1502,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutProtocolsListInput, PutProtocolsListOutputResponse, PutProtocolsListOutputError>(id: "putProtocolsList")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutProtocolsListInput, PutProtocolsListOutputResponse, PutProtocolsListOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutProtocolsListInput, PutProtocolsListOutputResponse>())
@@ -1484,7 +1519,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutProtocolsListOutputResponse, PutProtocolsListOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutProtocolsListOutputResponse, PutProtocolsListOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutProtocolsListOutputResponse, PutProtocolsListOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1504,6 +1539,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutResourceSetInput, PutResourceSetOutputResponse, PutResourceSetOutputError>(id: "putResourceSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourceSetInput, PutResourceSetOutputResponse, PutResourceSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourceSetInput, PutResourceSetOutputResponse>())
@@ -1520,7 +1556,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourceSetOutputResponse, PutResourceSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutResourceSetOutputResponse, PutResourceSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourceSetOutputResponse, PutResourceSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1540,6 +1576,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1556,7 +1593,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1576,6 +1613,7 @@ extension FMSClient: FMSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "fms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1592,7 +1630,7 @@ extension FMSClient: FMSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

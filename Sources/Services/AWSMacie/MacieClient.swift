@@ -221,6 +221,7 @@ extension MacieClient: MacieClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateMemberAccountInput, AssociateMemberAccountOutputResponse, AssociateMemberAccountOutputError>(id: "associateMemberAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateMemberAccountInput, AssociateMemberAccountOutputResponse, AssociateMemberAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateMemberAccountInput, AssociateMemberAccountOutputResponse>())
@@ -237,7 +238,7 @@ extension MacieClient: MacieClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateMemberAccountOutputResponse, AssociateMemberAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateMemberAccountOutputResponse, AssociateMemberAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateMemberAccountOutputResponse, AssociateMemberAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension MacieClient: MacieClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateS3ResourcesInput, AssociateS3ResourcesOutputResponse, AssociateS3ResourcesOutputError>(id: "associateS3Resources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateS3ResourcesInput, AssociateS3ResourcesOutputResponse, AssociateS3ResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateS3ResourcesInput, AssociateS3ResourcesOutputResponse>())
@@ -273,7 +275,7 @@ extension MacieClient: MacieClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateS3ResourcesOutputResponse, AssociateS3ResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateS3ResourcesOutputResponse, AssociateS3ResourcesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateS3ResourcesOutputResponse, AssociateS3ResourcesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension MacieClient: MacieClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateMemberAccountInput, DisassociateMemberAccountOutputResponse, DisassociateMemberAccountOutputError>(id: "disassociateMemberAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateMemberAccountInput, DisassociateMemberAccountOutputResponse, DisassociateMemberAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateMemberAccountInput, DisassociateMemberAccountOutputResponse>())
@@ -309,7 +312,7 @@ extension MacieClient: MacieClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateMemberAccountOutputResponse, DisassociateMemberAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateMemberAccountOutputResponse, DisassociateMemberAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateMemberAccountOutputResponse, DisassociateMemberAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -329,6 +332,7 @@ extension MacieClient: MacieClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateS3ResourcesInput, DisassociateS3ResourcesOutputResponse, DisassociateS3ResourcesOutputError>(id: "disassociateS3Resources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateS3ResourcesInput, DisassociateS3ResourcesOutputResponse, DisassociateS3ResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateS3ResourcesInput, DisassociateS3ResourcesOutputResponse>())
@@ -345,7 +349,7 @@ extension MacieClient: MacieClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateS3ResourcesOutputResponse, DisassociateS3ResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateS3ResourcesOutputResponse, DisassociateS3ResourcesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateS3ResourcesOutputResponse, DisassociateS3ResourcesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -365,6 +369,7 @@ extension MacieClient: MacieClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMemberAccountsInput, ListMemberAccountsOutputResponse, ListMemberAccountsOutputError>(id: "listMemberAccounts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMemberAccountsInput, ListMemberAccountsOutputResponse, ListMemberAccountsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMemberAccountsInput, ListMemberAccountsOutputResponse>())
@@ -381,7 +386,7 @@ extension MacieClient: MacieClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMemberAccountsOutputResponse, ListMemberAccountsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMemberAccountsOutputResponse, ListMemberAccountsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMemberAccountsOutputResponse, ListMemberAccountsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -401,6 +406,7 @@ extension MacieClient: MacieClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListS3ResourcesInput, ListS3ResourcesOutputResponse, ListS3ResourcesOutputError>(id: "listS3Resources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListS3ResourcesInput, ListS3ResourcesOutputResponse, ListS3ResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListS3ResourcesInput, ListS3ResourcesOutputResponse>())
@@ -417,7 +423,7 @@ extension MacieClient: MacieClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListS3ResourcesOutputResponse, ListS3ResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListS3ResourcesOutputResponse, ListS3ResourcesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListS3ResourcesOutputResponse, ListS3ResourcesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -437,6 +443,7 @@ extension MacieClient: MacieClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateS3ResourcesInput, UpdateS3ResourcesOutputResponse, UpdateS3ResourcesOutputError>(id: "updateS3Resources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateS3ResourcesInput, UpdateS3ResourcesOutputResponse, UpdateS3ResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateS3ResourcesInput, UpdateS3ResourcesOutputResponse>())
@@ -453,7 +460,7 @@ extension MacieClient: MacieClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateS3ResourcesOutputResponse, UpdateS3ResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateS3ResourcesOutputResponse, UpdateS3ResourcesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateS3ResourcesOutputResponse, UpdateS3ResourcesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

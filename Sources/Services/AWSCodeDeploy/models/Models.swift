@@ -89,7 +89,7 @@ extension AddTagsToOnPremisesInstancesInputBody: Swift.Decodable {
 }
 
 extension AddTagsToOnPremisesInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -123,7 +123,7 @@ public enum AddTagsToOnPremisesInstancesOutputError: Swift.Error, Swift.Equatabl
 }
 
 extension AddTagsToOnPremisesInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -255,7 +255,7 @@ extension AlarmsLimitExceededException {
 }
 
 /// The maximum number of alarms for a deployment group (10) was exceeded.
-public struct AlarmsLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AlarmsLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -352,7 +352,7 @@ extension ApplicationAlreadyExistsException {
 }
 
 /// An application with the specified name with the IAM user or Amazon Web Services account already exists.
-public struct ApplicationAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ApplicationAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -404,7 +404,7 @@ extension ApplicationDoesNotExistException {
 }
 
 /// The application does not exist with the IAM user or Amazon Web Services account.
-public struct ApplicationDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ApplicationDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -541,7 +541,7 @@ extension ApplicationLimitExceededException {
 }
 
 /// More applications were attempted to be created than are allowed.
-public struct ApplicationLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ApplicationLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -593,7 +593,7 @@ extension ApplicationNameRequiredException {
 }
 
 /// The minimum number of required application names was not specified.
-public struct ApplicationNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ApplicationNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -680,7 +680,7 @@ extension ArnNotSupportedException {
 }
 
 /// The specified ARN is not supported. For example, it might be an ARN for a resource that is not expected.
-public struct ArnNotSupportedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ArnNotSupportedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -927,7 +927,7 @@ extension BatchGetApplicationRevisionsInputBody: Swift.Decodable {
 }
 
 extension BatchGetApplicationRevisionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -959,7 +959,7 @@ public enum BatchGetApplicationRevisionsOutputError: Swift.Error, Swift.Equatabl
 }
 
 extension BatchGetApplicationRevisionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: BatchGetApplicationRevisionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -1090,7 +1090,7 @@ extension BatchGetApplicationsInputBody: Swift.Decodable {
 }
 
 extension BatchGetApplicationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1118,7 +1118,7 @@ public enum BatchGetApplicationsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension BatchGetApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: BatchGetApplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -1242,7 +1242,7 @@ extension BatchGetDeploymentGroupsInputBody: Swift.Decodable {
 }
 
 extension BatchGetDeploymentGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1276,7 +1276,7 @@ public enum BatchGetDeploymentGroupsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension BatchGetDeploymentGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: BatchGetDeploymentGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -1410,7 +1410,7 @@ extension BatchGetDeploymentInstancesInputBody: Swift.Decodable {
 }
 
 extension BatchGetDeploymentInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1444,7 +1444,7 @@ public enum BatchGetDeploymentInstancesOutputError: Swift.Error, Swift.Equatable
 }
 
 extension BatchGetDeploymentInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: BatchGetDeploymentInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -1583,7 +1583,7 @@ extension BatchGetDeploymentTargetsInputBody: Swift.Decodable {
 }
 
 extension BatchGetDeploymentTargetsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1621,7 +1621,7 @@ public enum BatchGetDeploymentTargetsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension BatchGetDeploymentTargetsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: BatchGetDeploymentTargetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -1739,7 +1739,7 @@ extension BatchGetDeploymentsInputBody: Swift.Decodable {
 }
 
 extension BatchGetDeploymentsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1765,7 +1765,7 @@ public enum BatchGetDeploymentsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension BatchGetDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: BatchGetDeploymentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -1876,7 +1876,7 @@ extension BatchGetOnPremisesInstancesInputBody: Swift.Decodable {
 }
 
 extension BatchGetOnPremisesInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -1902,7 +1902,7 @@ public enum BatchGetOnPremisesInstancesOutputError: Swift.Error, Swift.Equatable
 }
 
 extension BatchGetOnPremisesInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: BatchGetOnPremisesInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -1968,7 +1968,7 @@ extension BatchLimitExceededException {
 }
 
 /// The maximum number of names or IDs allowed for this request (100) was exceeded.
-public struct BatchLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BatchLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2124,7 +2124,7 @@ extension BucketNameFilterRequiredException {
 }
 
 /// A bucket name is required, but was not provided.
-public struct BucketNameFilterRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BucketNameFilterRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2402,7 +2402,7 @@ extension ContinueDeploymentInputBody: Swift.Decodable {
 }
 
 extension ContinueDeploymentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -2438,7 +2438,7 @@ public enum ContinueDeploymentOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ContinueDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -2533,7 +2533,7 @@ extension CreateApplicationInputBody: Swift.Decodable {
 }
 
 extension CreateApplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -2565,7 +2565,7 @@ public enum CreateApplicationOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension CreateApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: CreateApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -2698,7 +2698,7 @@ extension CreateDeploymentConfigInputBody: Swift.Decodable {
 }
 
 extension CreateDeploymentConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -2732,7 +2732,7 @@ public enum CreateDeploymentConfigOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension CreateDeploymentConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: CreateDeploymentConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -3100,7 +3100,7 @@ extension CreateDeploymentGroupInputBody: Swift.Decodable {
 }
 
 extension CreateDeploymentGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -3186,7 +3186,7 @@ public enum CreateDeploymentGroupOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension CreateDeploymentGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: CreateDeploymentGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -3402,7 +3402,7 @@ extension CreateDeploymentInputBody: Swift.Decodable {
 }
 
 extension CreateDeploymentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -3474,7 +3474,7 @@ public enum CreateDeploymentOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension CreateDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: CreateDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -3564,7 +3564,7 @@ extension DeleteApplicationInputBody: Swift.Decodable {
 }
 
 extension DeleteApplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -3590,7 +3590,7 @@ public enum DeleteApplicationOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -3649,7 +3649,7 @@ extension DeleteDeploymentConfigInputBody: Swift.Decodable {
 }
 
 extension DeleteDeploymentConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -3677,7 +3677,7 @@ public enum DeleteDeploymentConfigOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteDeploymentConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -3749,7 +3749,7 @@ extension DeleteDeploymentGroupInputBody: Swift.Decodable {
 }
 
 extension DeleteDeploymentGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -3779,7 +3779,7 @@ public enum DeleteDeploymentGroupOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteDeploymentGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: DeleteDeploymentGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -3877,7 +3877,7 @@ extension DeleteGitHubAccountTokenInputBody: Swift.Decodable {
 }
 
 extension DeleteGitHubAccountTokenOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -3907,7 +3907,7 @@ public enum DeleteGitHubAccountTokenOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteGitHubAccountTokenOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: DeleteGitHubAccountTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -3995,7 +3995,7 @@ extension DeleteResourcesByExternalIdInputBody: Swift.Decodable {
 }
 
 extension DeleteResourcesByExternalIdOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -4015,7 +4015,7 @@ public enum DeleteResourcesByExternalIdOutputError: Swift.Error, Swift.Equatable
 }
 
 extension DeleteResourcesByExternalIdOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -4041,7 +4041,7 @@ extension DeploymentAlreadyCompletedException {
 }
 
 /// The deployment is already complete.
-public struct DeploymentAlreadyCompletedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DeploymentAlreadyCompletedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4093,7 +4093,7 @@ extension DeploymentConfigAlreadyExistsException {
 }
 
 /// A deployment configuration with the specified name with the IAM user or Amazon Web Services account already exists.
-public struct DeploymentConfigAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DeploymentConfigAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4145,7 +4145,7 @@ extension DeploymentConfigDoesNotExistException {
 }
 
 /// The deployment configuration does not exist with the IAM user or Amazon Web Services account.
-public struct DeploymentConfigDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DeploymentConfigDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4197,7 +4197,7 @@ extension DeploymentConfigInUseException {
 }
 
 /// The deployment configuration is still in use.
-public struct DeploymentConfigInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DeploymentConfigInUseException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4334,7 +4334,7 @@ extension DeploymentConfigLimitExceededException {
 }
 
 /// The deployment configurations limit was exceeded.
-public struct DeploymentConfigLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DeploymentConfigLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4386,7 +4386,7 @@ extension DeploymentConfigNameRequiredException {
 }
 
 /// The deployment configuration name was not specified.
-public struct DeploymentConfigNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DeploymentConfigNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4485,7 +4485,7 @@ extension DeploymentDoesNotExistException {
 }
 
 /// The deployment with the IAM user or Amazon Web Services account does not exist.
-public struct DeploymentDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DeploymentDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4537,7 +4537,7 @@ extension DeploymentGroupAlreadyExistsException {
 }
 
 /// A deployment group with the specified name with the IAM user or Amazon Web Services account already exists.
-public struct DeploymentGroupAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DeploymentGroupAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4589,7 +4589,7 @@ extension DeploymentGroupDoesNotExistException {
 }
 
 /// The named deployment group with the IAM user or Amazon Web Services account does not exist.
-public struct DeploymentGroupDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DeploymentGroupDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4946,7 +4946,7 @@ extension DeploymentGroupLimitExceededException {
 }
 
 /// The deployment groups limit was exceeded.
-public struct DeploymentGroupLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DeploymentGroupLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -4998,7 +4998,7 @@ extension DeploymentGroupNameRequiredException {
 }
 
 /// The deployment group name was not specified.
-public struct DeploymentGroupNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DeploymentGroupNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5050,7 +5050,7 @@ extension DeploymentIdRequiredException {
 }
 
 /// At least one deployment ID must be specified.
-public struct DeploymentIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DeploymentIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5454,7 +5454,7 @@ extension DeploymentIsNotInReadyStateException {
 }
 
 /// The deployment does not have a status of Ready and can't continue yet.
-public struct DeploymentIsNotInReadyStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DeploymentIsNotInReadyStateException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5506,7 +5506,7 @@ extension DeploymentLimitExceededException {
 }
 
 /// The number of allowed deployments was exceeded.
-public struct DeploymentLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DeploymentLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5558,7 +5558,7 @@ extension DeploymentNotStartedException {
 }
 
 /// The specified deployment has not started.
-public struct DeploymentNotStartedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DeploymentNotStartedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -5978,7 +5978,7 @@ extension DeploymentTargetDoesNotExistException {
 }
 
 /// The provided target ID does not belong to the attempted deployment.
-public struct DeploymentTargetDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DeploymentTargetDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6030,7 +6030,7 @@ extension DeploymentTargetIdRequiredException {
 }
 
 /// A deployment target ID was not provided.
-public struct DeploymentTargetIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DeploymentTargetIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6082,7 +6082,7 @@ extension DeploymentTargetListSizeExceededException {
 }
 
 /// The maximum number of targets that can be associated with an Amazon ECS or Lambda deployment was exceeded. The target list of both types of deployments must have exactly one item. This exception does not apply to EC2/On-premises deployments.
-public struct DeploymentTargetListSizeExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DeploymentTargetListSizeExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6269,7 +6269,7 @@ extension DeregisterOnPremisesInstanceInputBody: Swift.Decodable {
 }
 
 extension DeregisterOnPremisesInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -6293,7 +6293,7 @@ public enum DeregisterOnPremisesInstanceOutputError: Swift.Error, Swift.Equatabl
 }
 
 extension DeregisterOnPremisesInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -6319,7 +6319,7 @@ extension DescriptionTooLongException {
 }
 
 /// The description is too long.
-public struct DescriptionTooLongException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct DescriptionTooLongException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6648,7 +6648,7 @@ extension ECSServiceMappingLimitExceededException {
 }
 
 /// The Amazon ECS service is associated with more than one deployment groups. An Amazon ECS service can be associated with only one deployment group.
-public struct ECSServiceMappingLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ECSServiceMappingLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -7319,7 +7319,7 @@ extension GetApplicationInputBody: Swift.Decodable {
 }
 
 extension GetApplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -7345,7 +7345,7 @@ public enum GetApplicationOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -7448,7 +7448,7 @@ extension GetApplicationRevisionInputBody: Swift.Decodable {
 }
 
 extension GetApplicationRevisionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -7480,7 +7480,7 @@ public enum GetApplicationRevisionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetApplicationRevisionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetApplicationRevisionOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -7590,7 +7590,7 @@ extension GetDeploymentConfigInputBody: Swift.Decodable {
 }
 
 extension GetDeploymentConfigOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -7618,7 +7618,7 @@ public enum GetDeploymentConfigOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetDeploymentConfigOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetDeploymentConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -7721,7 +7721,7 @@ extension GetDeploymentGroupInputBody: Swift.Decodable {
 }
 
 extension GetDeploymentGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -7755,7 +7755,7 @@ public enum GetDeploymentGroupOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetDeploymentGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetDeploymentGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -7907,7 +7907,7 @@ extension GetDeploymentInstanceInputBody: Swift.Decodable {
 }
 
 extension GetDeploymentInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -7941,7 +7941,7 @@ public enum GetDeploymentInstanceOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetDeploymentInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetDeploymentInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -7983,7 +7983,7 @@ extension GetDeploymentInstanceOutputResponseBody: Swift.Decodable {
 }
 
 extension GetDeploymentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -8009,7 +8009,7 @@ public enum GetDeploymentOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -8109,7 +8109,7 @@ extension GetDeploymentTargetInputBody: Swift.Decodable {
 }
 
 extension GetDeploymentTargetOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -8145,7 +8145,7 @@ public enum GetDeploymentTargetOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetDeploymentTargetOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetDeploymentTargetOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -8234,7 +8234,7 @@ extension GetOnPremisesInstanceInputBody: Swift.Decodable {
 }
 
 extension GetOnPremisesInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -8260,7 +8260,7 @@ public enum GetOnPremisesInstanceOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetOnPremisesInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetOnPremisesInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -8317,7 +8317,7 @@ extension GitHubAccountTokenDoesNotExistException {
 }
 
 /// No GitHub account connection exists with the named specified in the call.
-public struct GitHubAccountTokenDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct GitHubAccountTokenDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8369,7 +8369,7 @@ extension GitHubAccountTokenNameRequiredException {
 }
 
 /// The call is missing a required GitHub account connection name.
-public struct GitHubAccountTokenNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct GitHubAccountTokenNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8537,7 +8537,7 @@ extension IamArnRequiredException {
 }
 
 /// No IAM ARN was included in the request. You must use an IAM session ARN or IAM user ARN in the request.
-public struct IamArnRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct IamArnRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8589,7 +8589,7 @@ extension IamSessionArnAlreadyRegisteredException {
 }
 
 /// The request included an IAM session ARN that has already been used to register a different instance.
-public struct IamSessionArnAlreadyRegisteredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct IamSessionArnAlreadyRegisteredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8641,7 +8641,7 @@ extension IamUserArnAlreadyRegisteredException {
 }
 
 /// The specified IAM user ARN is already registered with an on-premises instance.
-public struct IamUserArnAlreadyRegisteredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct IamUserArnAlreadyRegisteredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8693,7 +8693,7 @@ extension IamUserArnRequiredException {
 }
 
 /// An IAM user ARN was not specified.
-public struct IamUserArnRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct IamUserArnRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8778,7 +8778,7 @@ extension InstanceDoesNotExistException {
 
 /// The specified instance does not exist in the deployment group.
 @available(*, deprecated, message: "This exception is deprecated, use DeploymentTargetDoesNotExistException instead.")
-public struct InstanceDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InstanceDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8831,7 +8831,7 @@ extension InstanceIdRequiredException {
 
 /// The instance ID was not specified.
 @available(*, deprecated, message: "This exception is deprecated, use DeploymentTargetIdRequiredException instead.")
-public struct InstanceIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InstanceIdRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -8990,7 +8990,7 @@ extension InstanceLimitExceededException {
 }
 
 /// The maximum number of allowed on-premises instances in a single call was exceeded.
-public struct InstanceLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InstanceLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9042,7 +9042,7 @@ extension InstanceNameAlreadyRegisteredException {
 }
 
 /// The specified on-premises instance name is already registered.
-public struct InstanceNameAlreadyRegisteredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InstanceNameAlreadyRegisteredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9094,7 +9094,7 @@ extension InstanceNameRequiredException {
 }
 
 /// An on-premises instance name was not specified.
-public struct InstanceNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InstanceNameRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9146,7 +9146,7 @@ extension InstanceNotRegisteredException {
 }
 
 /// The specified on-premises instance is not registered.
-public struct InstanceNotRegisteredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InstanceNotRegisteredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9510,7 +9510,7 @@ extension InvalidAlarmConfigException {
 /// * Two alarms with the same name have been specified.
 ///
 /// * The alarm configuration is enabled, but the alarm list is empty.
-public struct InvalidAlarmConfigException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidAlarmConfigException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9562,7 +9562,7 @@ extension InvalidApplicationNameException {
 }
 
 /// The application name was specified in an invalid format.
-public struct InvalidApplicationNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidApplicationNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9614,7 +9614,7 @@ extension InvalidArnException {
 }
 
 /// The specified ARN is not in a valid format.
-public struct InvalidArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9666,7 +9666,7 @@ extension InvalidAutoRollbackConfigException {
 }
 
 /// The automatic rollback configuration was specified in an invalid format. For example, automatic rollback is enabled, but an invalid triggering event type or no event types were listed.
-public struct InvalidAutoRollbackConfigException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidAutoRollbackConfigException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9718,7 +9718,7 @@ extension InvalidAutoScalingGroupException {
 }
 
 /// The Auto Scaling group was specified in an invalid format or does not exist.
-public struct InvalidAutoScalingGroupException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidAutoScalingGroupException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9770,7 +9770,7 @@ extension InvalidBlueGreenDeploymentConfigurationException {
 }
 
 /// The configuration for the blue/green deployment group was provided in an invalid format. For information about deployment configuration format, see [CreateDeploymentConfig].
-public struct InvalidBlueGreenDeploymentConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidBlueGreenDeploymentConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9822,7 +9822,7 @@ extension InvalidBucketNameFilterException {
 }
 
 /// The bucket name either doesn't exist or was specified in an invalid format.
-public struct InvalidBucketNameFilterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidBucketNameFilterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9874,7 +9874,7 @@ extension InvalidComputePlatformException {
 }
 
 /// The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
-public struct InvalidComputePlatformException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidComputePlatformException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9926,7 +9926,7 @@ extension InvalidDeployedStateFilterException {
 }
 
 /// The deployed state filter was specified in an invalid format.
-public struct InvalidDeployedStateFilterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidDeployedStateFilterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -9978,7 +9978,7 @@ extension InvalidDeploymentConfigNameException {
 }
 
 /// The deployment configuration name was specified in an invalid format.
-public struct InvalidDeploymentConfigNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidDeploymentConfigNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10030,7 +10030,7 @@ extension InvalidDeploymentGroupNameException {
 }
 
 /// The deployment group name was specified in an invalid format.
-public struct InvalidDeploymentGroupNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidDeploymentGroupNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10082,7 +10082,7 @@ extension InvalidDeploymentIdException {
 }
 
 /// At least one of the deployment IDs was specified in an invalid format.
-public struct InvalidDeploymentIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidDeploymentIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10134,7 +10134,7 @@ extension InvalidDeploymentInstanceTypeException {
 }
 
 /// An instance type was specified for an in-place deployment. Instance types are supported for blue/green deployments only.
-public struct InvalidDeploymentInstanceTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidDeploymentInstanceTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10186,7 +10186,7 @@ extension InvalidDeploymentStatusException {
 }
 
 /// The specified deployment status doesn't exist or cannot be determined.
-public struct InvalidDeploymentStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidDeploymentStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10238,7 +10238,7 @@ extension InvalidDeploymentStyleException {
 }
 
 /// An invalid deployment style was specified. Valid deployment types include "IN_PLACE" and "BLUE_GREEN." Valid deployment options include "WITH_TRAFFIC_CONTROL" and "WITHOUT_TRAFFIC_CONTROL."
-public struct InvalidDeploymentStyleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidDeploymentStyleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10290,7 +10290,7 @@ extension InvalidDeploymentTargetIdException {
 }
 
 /// The target ID provided was not valid.
-public struct InvalidDeploymentTargetIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidDeploymentTargetIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10342,7 +10342,7 @@ extension InvalidDeploymentWaitTypeException {
 }
 
 /// The wait type is invalid.
-public struct InvalidDeploymentWaitTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidDeploymentWaitTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10394,7 +10394,7 @@ extension InvalidEC2TagCombinationException {
 }
 
 /// A call was submitted that specified both Ec2TagFilters and Ec2TagSet, but only one of these data types can be used in a single call.
-public struct InvalidEC2TagCombinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidEC2TagCombinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10446,7 +10446,7 @@ extension InvalidEC2TagException {
 }
 
 /// The tag was specified in an invalid format.
-public struct InvalidEC2TagException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidEC2TagException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10498,7 +10498,7 @@ extension InvalidECSServiceException {
 }
 
 /// The Amazon ECS service identifier is not valid.
-public struct InvalidECSServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidECSServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10550,7 +10550,7 @@ extension InvalidExternalIdException {
 }
 
 /// The external ID was specified in an invalid format.
-public struct InvalidExternalIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidExternalIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10602,7 +10602,7 @@ extension InvalidFileExistsBehaviorException {
 }
 
 /// An invalid fileExistsBehavior option was specified to determine how CodeDeploy handles files or directories that already exist in a deployment target location, but weren't part of the previous successful deployment. Valid values include "DISALLOW," "OVERWRITE," and "RETAIN."
-public struct InvalidFileExistsBehaviorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidFileExistsBehaviorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10654,7 +10654,7 @@ extension InvalidGitHubAccountTokenException {
 }
 
 /// The GitHub token is not valid.
-public struct InvalidGitHubAccountTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidGitHubAccountTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10706,7 +10706,7 @@ extension InvalidGitHubAccountTokenNameException {
 }
 
 /// The format of the specified GitHub account connection name is invalid.
-public struct InvalidGitHubAccountTokenNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidGitHubAccountTokenNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10758,7 +10758,7 @@ extension InvalidIamSessionArnException {
 }
 
 /// The IAM session ARN was specified in an invalid format.
-public struct InvalidIamSessionArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidIamSessionArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10810,7 +10810,7 @@ extension InvalidIamUserArnException {
 }
 
 /// The IAM user ARN was specified in an invalid format.
-public struct InvalidIamUserArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidIamUserArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10862,7 +10862,7 @@ extension InvalidIgnoreApplicationStopFailuresValueException {
 }
 
 /// The IgnoreApplicationStopFailures value is invalid. For Lambda deployments, false is expected. For EC2/On-premises deployments, true or false is expected.
-public struct InvalidIgnoreApplicationStopFailuresValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidIgnoreApplicationStopFailuresValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10914,7 +10914,7 @@ extension InvalidInputException {
 }
 
 /// The input was specified in an invalid format.
-public struct InvalidInputException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidInputException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -10966,7 +10966,7 @@ extension InvalidInstanceNameException {
 }
 
 /// The on-premises instance name was specified in an invalid format.
-public struct InvalidInstanceNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidInstanceNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11018,7 +11018,7 @@ extension InvalidInstanceStatusException {
 }
 
 /// The specified instance status does not exist.
-public struct InvalidInstanceStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidInstanceStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11070,7 +11070,7 @@ extension InvalidInstanceTypeException {
 }
 
 /// An invalid instance type was specified for instances in a blue/green deployment. Valid values include "Blue" for an original environment and "Green" for a replacement environment.
-public struct InvalidInstanceTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidInstanceTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11122,7 +11122,7 @@ extension InvalidKeyPrefixFilterException {
 }
 
 /// The specified key prefix filter was specified in an invalid format.
-public struct InvalidKeyPrefixFilterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidKeyPrefixFilterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11174,7 +11174,7 @@ extension InvalidLifecycleEventHookExecutionIdException {
 }
 
 /// A lifecycle event hook is invalid. Review the hooks section in your AppSpec file to ensure the lifecycle events and hooks functions are valid.
-public struct InvalidLifecycleEventHookExecutionIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidLifecycleEventHookExecutionIdException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11226,7 +11226,7 @@ extension InvalidLifecycleEventHookExecutionStatusException {
 }
 
 /// The result of a Lambda validation function that verifies a lifecycle event is invalid. It should return Succeeded or Failed.
-public struct InvalidLifecycleEventHookExecutionStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidLifecycleEventHookExecutionStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11278,7 +11278,7 @@ extension InvalidLoadBalancerInfoException {
 }
 
 /// An invalid load balancer name, or no load balancer name, was specified.
-public struct InvalidLoadBalancerInfoException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidLoadBalancerInfoException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11330,7 +11330,7 @@ extension InvalidMinimumHealthyHostValueException {
 }
 
 /// The minimum healthy instance value was specified in an invalid format.
-public struct InvalidMinimumHealthyHostValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidMinimumHealthyHostValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11382,7 +11382,7 @@ extension InvalidNextTokenException {
 }
 
 /// The next token was specified in an invalid format.
-public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11434,7 +11434,7 @@ extension InvalidOnPremisesTagCombinationException {
 }
 
 /// A call was submitted that specified both OnPremisesTagFilters and OnPremisesTagSet, but only one of these data types can be used in a single call.
-public struct InvalidOnPremisesTagCombinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidOnPremisesTagCombinationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11486,7 +11486,7 @@ extension InvalidOperationException {
 }
 
 /// An invalid operation was detected.
-public struct InvalidOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11538,7 +11538,7 @@ extension InvalidRegistrationStatusException {
 }
 
 /// The registration status was specified in an invalid format.
-public struct InvalidRegistrationStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRegistrationStatusException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11590,7 +11590,7 @@ extension InvalidRevisionException {
 }
 
 /// The revision was specified in an invalid format.
-public struct InvalidRevisionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRevisionException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11642,7 +11642,7 @@ extension InvalidRoleException {
 }
 
 /// The service role ARN was specified in an invalid format. Or, if an Auto Scaling group was specified, the specified service role does not grant the appropriate permissions to Amazon EC2 Auto Scaling.
-public struct InvalidRoleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidRoleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11694,7 +11694,7 @@ extension InvalidSortByException {
 }
 
 /// The column name to sort by is either not present or was specified in an invalid format.
-public struct InvalidSortByException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidSortByException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11746,7 +11746,7 @@ extension InvalidSortOrderException {
 }
 
 /// The sort order was specified in an invalid format.
-public struct InvalidSortOrderException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidSortOrderException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11798,7 +11798,7 @@ extension InvalidTagException {
 }
 
 /// The tag was specified in an invalid format.
-public struct InvalidTagException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTagException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11850,7 +11850,7 @@ extension InvalidTagFilterException {
 }
 
 /// The tag filter was specified in an invalid format.
-public struct InvalidTagFilterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTagFilterException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11902,7 +11902,7 @@ extension InvalidTagsToAddException {
 }
 
 /// The specified tags are not valid.
-public struct InvalidTagsToAddException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTagsToAddException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -11954,7 +11954,7 @@ extension InvalidTargetFilterNameException {
 }
 
 /// The target filter name is invalid.
-public struct InvalidTargetFilterNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTargetFilterNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12006,7 +12006,7 @@ extension InvalidTargetGroupPairException {
 }
 
 /// A target group pair associated with this deployment is not valid.
-public struct InvalidTargetGroupPairException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTargetGroupPairException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12066,7 +12066,7 @@ extension InvalidTargetInstancesException {
 /// * The combined length of the tag names exceeded the limit.
 ///
 /// * A specified tag is not currently applied to any instances.
-public struct InvalidTargetInstancesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTargetInstancesException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12118,7 +12118,7 @@ extension InvalidTimeRangeException {
 }
 
 /// The specified time range was specified in an invalid format.
-public struct InvalidTimeRangeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTimeRangeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12170,7 +12170,7 @@ extension InvalidTrafficRoutingConfigurationException {
 }
 
 /// The configuration that specifies how traffic is routed during a deployment is invalid.
-public struct InvalidTrafficRoutingConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTrafficRoutingConfigurationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12222,7 +12222,7 @@ extension InvalidTriggerConfigException {
 }
 
 /// The trigger was specified in an invalid format.
-public struct InvalidTriggerConfigException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidTriggerConfigException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12274,7 +12274,7 @@ extension InvalidUpdateOutdatedInstancesOnlyValueException {
 }
 
 /// The UpdateOutdatedInstancesOnly value is invalid. For Lambda deployments, false is expected. For EC2/On-premises deployments, true or false is expected.
-public struct InvalidUpdateOutdatedInstancesOnlyValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidUpdateOutdatedInstancesOnlyValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12704,7 +12704,7 @@ extension LifecycleEventAlreadyCompletedException {
 }
 
 /// An attempt to return the status of an already completed lifecycle event occurred.
-public struct LifecycleEventAlreadyCompletedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LifecycleEventAlreadyCompletedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12800,7 +12800,7 @@ extension LifecycleHookLimitExceededException {
 }
 
 /// The limit for lifecycle hooks was exceeded.
-public struct LifecycleHookLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LifecycleHookLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -12979,7 +12979,7 @@ extension ListApplicationRevisionsInputBody: Swift.Decodable {
 }
 
 extension ListApplicationRevisionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -13019,7 +13019,7 @@ public enum ListApplicationRevisionsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListApplicationRevisionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListApplicationRevisionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -13127,7 +13127,7 @@ extension ListApplicationsInputBody: Swift.Decodable {
 }
 
 extension ListApplicationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -13149,7 +13149,7 @@ public enum ListApplicationsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListApplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -13257,7 +13257,7 @@ extension ListDeploymentConfigsInputBody: Swift.Decodable {
 }
 
 extension ListDeploymentConfigsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -13279,7 +13279,7 @@ public enum ListDeploymentConfigsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListDeploymentConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListDeploymentConfigsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -13400,7 +13400,7 @@ extension ListDeploymentGroupsInputBody: Swift.Decodable {
 }
 
 extension ListDeploymentGroupsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -13428,7 +13428,7 @@ public enum ListDeploymentGroupsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListDeploymentGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListDeploymentGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -13619,7 +13619,7 @@ extension ListDeploymentInstancesInputBody: Swift.Decodable {
 }
 
 extension ListDeploymentInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -13659,7 +13659,7 @@ public enum ListDeploymentInstancesOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListDeploymentInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListDeploymentInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -13816,7 +13816,7 @@ extension ListDeploymentTargetsInputBody: Swift.Decodable {
 }
 
 extension ListDeploymentTargetsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -13852,7 +13852,7 @@ public enum ListDeploymentTargetsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListDeploymentTargetsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListDeploymentTargetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -14043,7 +14043,7 @@ extension ListDeploymentsInputBody: Swift.Decodable {
 }
 
 extension ListDeploymentsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -14085,7 +14085,7 @@ public enum ListDeploymentsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListDeploymentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -14193,7 +14193,7 @@ extension ListGitHubAccountTokenNamesInputBody: Swift.Decodable {
 }
 
 extension ListGitHubAccountTokenNamesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -14219,7 +14219,7 @@ public enum ListGitHubAccountTokenNamesOutputError: Swift.Error, Swift.Equatable
 }
 
 extension ListGitHubAccountTokenNamesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListGitHubAccountTokenNamesOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -14367,7 +14367,7 @@ extension ListOnPremisesInstancesInputBody: Swift.Decodable {
 }
 
 extension ListOnPremisesInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -14393,7 +14393,7 @@ public enum ListOnPremisesInstancesOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListOnPremisesInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListOnPremisesInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -14548,7 +14548,7 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
 }
 
 extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -14574,7 +14574,7 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -14824,7 +14824,7 @@ extension MultipleIamArnsProvidedException {
 }
 
 /// Both an IAM user ARN and an IAM session ARN were included in the request. Use only one ARN type.
-public struct MultipleIamArnsProvidedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct MultipleIamArnsProvidedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -14935,7 +14935,7 @@ extension OperationNotSupportedException {
 }
 
 /// The API used does not support the deployment.
-public struct OperationNotSupportedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct OperationNotSupportedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15074,7 +15074,7 @@ extension PutLifecycleEventHookExecutionStatusInputBody: Swift.Decodable {
 }
 
 extension PutLifecycleEventHookExecutionStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -15108,7 +15108,7 @@ public enum PutLifecycleEventHookExecutionStatusOutputError: Swift.Error, Swift.
 }
 
 extension PutLifecycleEventHookExecutionStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: PutLifecycleEventHookExecutionStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -15268,7 +15268,7 @@ extension RegisterApplicationRevisionInputBody: Swift.Decodable {
 }
 
 extension RegisterApplicationRevisionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -15300,7 +15300,7 @@ public enum RegisterApplicationRevisionOutputError: Swift.Error, Swift.Equatable
 }
 
 extension RegisterApplicationRevisionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -15383,7 +15383,7 @@ extension RegisterOnPremisesInstanceInputBody: Swift.Decodable {
 }
 
 extension RegisterOnPremisesInstanceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -15423,7 +15423,7 @@ public enum RegisterOnPremisesInstanceOutputError: Swift.Error, Swift.Equatable 
 }
 
 extension RegisterOnPremisesInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -15608,7 +15608,7 @@ extension RemoveTagsFromOnPremisesInstancesInputBody: Swift.Decodable {
 }
 
 extension RemoveTagsFromOnPremisesInstancesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -15642,7 +15642,7 @@ public enum RemoveTagsFromOnPremisesInstancesOutputError: Swift.Error, Swift.Equ
 }
 
 extension RemoveTagsFromOnPremisesInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -15668,7 +15668,7 @@ extension ResourceArnRequiredException {
 }
 
 /// The ARN of a resource is required, but was not found.
-public struct ResourceArnRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceArnRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15720,7 +15720,7 @@ extension ResourceValidationException {
 }
 
 /// The specified resource could not be validated.
-public struct ResourceValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15772,7 +15772,7 @@ extension RevisionDoesNotExistException {
 }
 
 /// The named revision does not exist with the IAM user or Amazon Web Services account.
-public struct RevisionDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RevisionDoesNotExistException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15991,7 +15991,7 @@ extension RevisionRequiredException {
 }
 
 /// The revision ID was not specified.
-public struct RevisionRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RevisionRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16043,7 +16043,7 @@ extension RoleRequiredException {
 }
 
 /// The role ID was not specified.
-public struct RoleRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct RoleRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16262,7 +16262,7 @@ extension SkipWaitTimeForInstanceTerminationInputBody: Swift.Decodable {
 }
 
 extension SkipWaitTimeForInstanceTerminationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -16294,7 +16294,7 @@ public enum SkipWaitTimeForInstanceTerminationOutputError: Swift.Error, Swift.Eq
 }
 
 extension SkipWaitTimeForInstanceTerminationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -16397,7 +16397,7 @@ extension StopDeploymentInputBody: Swift.Decodable {
 }
 
 extension StopDeploymentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -16429,7 +16429,7 @@ public enum StopDeploymentOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension StopDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: StopDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -16673,7 +16673,7 @@ extension TagLimitExceededException {
 }
 
 /// The maximum allowed number of tags was exceeded.
-public struct TagLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TagLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16725,7 +16725,7 @@ extension TagRequiredException {
 }
 
 /// A tag was not specified.
-public struct TagRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TagRequiredException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -16834,7 +16834,7 @@ extension TagResourceInputBody: Swift.Decodable {
 }
 
 extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -16870,7 +16870,7 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -16896,7 +16896,7 @@ extension TagSetListLimitExceededException {
 }
 
 /// The number of tag groups included in the tag set list exceeded the maximum allowed limit of 3.
-public struct TagSetListLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TagSetListLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17240,7 +17240,7 @@ extension ThrottlingException {
 }
 
 /// An API function was called too frequently.
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17687,7 +17687,7 @@ extension TriggerTargetsLimitExceededException {
 }
 
 /// The maximum allowed number of triggers was exceeded.
-public struct TriggerTargetsLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TriggerTargetsLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17739,7 +17739,7 @@ extension UnsupportedActionForDeploymentTypeException {
 }
 
 /// A call was submitted that is not supported for the specified deployment type.
-public struct UnsupportedActionForDeploymentTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct UnsupportedActionForDeploymentTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -17848,7 +17848,7 @@ extension UntagResourceInputBody: Swift.Decodable {
 }
 
 extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -17884,7 +17884,7 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -17954,7 +17954,7 @@ extension UpdateApplicationInputBody: Swift.Decodable {
 }
 
 extension UpdateApplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -17982,7 +17982,7 @@ public enum UpdateApplicationOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension UpdateApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -18310,7 +18310,7 @@ extension UpdateDeploymentGroupInputBody: Swift.Decodable {
 }
 
 extension UpdateDeploymentGroupOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -18392,7 +18392,7 @@ public enum UpdateDeploymentGroupOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension UpdateDeploymentGroupOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: UpdateDeploymentGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)

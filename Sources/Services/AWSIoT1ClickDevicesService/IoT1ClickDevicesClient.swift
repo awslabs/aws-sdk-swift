@@ -221,6 +221,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iot1click")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ClaimDevicesByClaimCodeInput, ClaimDevicesByClaimCodeOutputResponse, ClaimDevicesByClaimCodeOutputError>(id: "claimDevicesByClaimCode")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ClaimDevicesByClaimCodeInput, ClaimDevicesByClaimCodeOutputResponse, ClaimDevicesByClaimCodeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ClaimDevicesByClaimCodeInput, ClaimDevicesByClaimCodeOutputResponse>())
@@ -233,7 +234,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ClaimDevicesByClaimCodeOutputResponse, ClaimDevicesByClaimCodeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ClaimDevicesByClaimCodeOutputResponse, ClaimDevicesByClaimCodeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ClaimDevicesByClaimCodeOutputResponse, ClaimDevicesByClaimCodeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -253,6 +254,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iot1click")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDeviceInput, DescribeDeviceOutputResponse, DescribeDeviceOutputError>(id: "describeDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDeviceInput, DescribeDeviceOutputResponse, DescribeDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDeviceInput, DescribeDeviceOutputResponse>())
@@ -265,7 +267,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDeviceOutputResponse, DescribeDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDeviceOutputResponse, DescribeDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDeviceOutputResponse, DescribeDeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -285,6 +287,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iot1click")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<FinalizeDeviceClaimInput, FinalizeDeviceClaimOutputResponse, FinalizeDeviceClaimOutputError>(id: "finalizeDeviceClaim")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<FinalizeDeviceClaimInput, FinalizeDeviceClaimOutputResponse, FinalizeDeviceClaimOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<FinalizeDeviceClaimInput, FinalizeDeviceClaimOutputResponse>())
@@ -300,7 +303,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<FinalizeDeviceClaimOutputResponse, FinalizeDeviceClaimOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<FinalizeDeviceClaimOutputResponse, FinalizeDeviceClaimOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<FinalizeDeviceClaimOutputResponse, FinalizeDeviceClaimOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -320,6 +323,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iot1click")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDeviceMethodsInput, GetDeviceMethodsOutputResponse, GetDeviceMethodsOutputError>(id: "getDeviceMethods")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceMethodsInput, GetDeviceMethodsOutputResponse, GetDeviceMethodsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceMethodsInput, GetDeviceMethodsOutputResponse>())
@@ -332,7 +336,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceMethodsOutputResponse, GetDeviceMethodsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDeviceMethodsOutputResponse, GetDeviceMethodsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceMethodsOutputResponse, GetDeviceMethodsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -352,6 +356,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iot1click")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<InitiateDeviceClaimInput, InitiateDeviceClaimOutputResponse, InitiateDeviceClaimOutputError>(id: "initiateDeviceClaim")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InitiateDeviceClaimInput, InitiateDeviceClaimOutputResponse, InitiateDeviceClaimOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InitiateDeviceClaimInput, InitiateDeviceClaimOutputResponse>())
@@ -364,7 +369,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InitiateDeviceClaimOutputResponse, InitiateDeviceClaimOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<InitiateDeviceClaimOutputResponse, InitiateDeviceClaimOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InitiateDeviceClaimOutputResponse, InitiateDeviceClaimOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -384,6 +389,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iot1click")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<InvokeDeviceMethodInput, InvokeDeviceMethodOutputResponse, InvokeDeviceMethodOutputError>(id: "invokeDeviceMethod")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InvokeDeviceMethodInput, InvokeDeviceMethodOutputResponse, InvokeDeviceMethodOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InvokeDeviceMethodInput, InvokeDeviceMethodOutputResponse>())
@@ -399,7 +405,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InvokeDeviceMethodOutputResponse, InvokeDeviceMethodOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<InvokeDeviceMethodOutputResponse, InvokeDeviceMethodOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InvokeDeviceMethodOutputResponse, InvokeDeviceMethodOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -419,6 +425,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iot1click")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDeviceEventsInput, ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>(id: "listDeviceEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeviceEventsInput, ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeviceEventsInput, ListDeviceEventsOutputResponse>())
@@ -432,7 +439,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -452,6 +459,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iot1click")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDevicesInput, ListDevicesOutputResponse, ListDevicesOutputError>(id: "listDevices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevicesInput, ListDevicesOutputResponse, ListDevicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevicesInput, ListDevicesOutputResponse>())
@@ -465,7 +473,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDevicesOutputResponse, ListDevicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDevicesOutputResponse, ListDevicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevicesOutputResponse, ListDevicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -485,6 +493,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iot1click")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -497,7 +506,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -517,6 +526,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iot1click")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -532,7 +542,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -552,6 +562,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iot1click")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UnclaimDeviceInput, UnclaimDeviceOutputResponse, UnclaimDeviceOutputError>(id: "unclaimDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UnclaimDeviceInput, UnclaimDeviceOutputResponse, UnclaimDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UnclaimDeviceInput, UnclaimDeviceOutputResponse>())
@@ -564,7 +575,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UnclaimDeviceOutputResponse, UnclaimDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UnclaimDeviceOutputResponse, UnclaimDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UnclaimDeviceOutputResponse, UnclaimDeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -584,6 +595,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iot1click")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -597,7 +609,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -617,6 +629,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iot1click")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDeviceStateInput, UpdateDeviceStateOutputResponse, UpdateDeviceStateOutputError>(id: "updateDeviceState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDeviceStateInput, UpdateDeviceStateOutputResponse, UpdateDeviceStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDeviceStateInput, UpdateDeviceStateOutputResponse>())
@@ -632,7 +645,7 @@ extension IoT1ClickDevicesClient: IoT1ClickDevicesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDeviceStateOutputResponse, UpdateDeviceStateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDeviceStateOutputResponse, UpdateDeviceStateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDeviceStateOutputResponse, UpdateDeviceStateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

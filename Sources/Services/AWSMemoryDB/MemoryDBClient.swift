@@ -221,6 +221,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchUpdateClusterInput, BatchUpdateClusterOutputResponse, BatchUpdateClusterOutputError>(id: "batchUpdateCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateClusterInput, BatchUpdateClusterOutputResponse, BatchUpdateClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdateClusterInput, BatchUpdateClusterOutputResponse>())
@@ -237,7 +238,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdateClusterOutputResponse, BatchUpdateClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchUpdateClusterOutputResponse, BatchUpdateClusterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdateClusterOutputResponse, BatchUpdateClusterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CopySnapshotInput, CopySnapshotOutputResponse, CopySnapshotOutputError>(id: "copySnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopySnapshotInput, CopySnapshotOutputResponse, CopySnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopySnapshotInput, CopySnapshotOutputResponse>())
@@ -273,7 +275,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopySnapshotOutputResponse, CopySnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CopySnapshotOutputResponse, CopySnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopySnapshotOutputResponse, CopySnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateACLInput, CreateACLOutputResponse, CreateACLOutputError>(id: "createACL")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateACLInput, CreateACLOutputResponse, CreateACLOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateACLInput, CreateACLOutputResponse>())
@@ -309,7 +312,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateACLOutputResponse, CreateACLOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateACLOutputResponse, CreateACLOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateACLOutputResponse, CreateACLOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -329,6 +332,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateClusterInput, CreateClusterOutputResponse, CreateClusterOutputError>(id: "createCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateClusterInput, CreateClusterOutputResponse, CreateClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateClusterInput, CreateClusterOutputResponse>())
@@ -345,7 +349,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateClusterOutputResponse, CreateClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateClusterOutputResponse, CreateClusterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateClusterOutputResponse, CreateClusterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -365,6 +369,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateParameterGroupInput, CreateParameterGroupOutputResponse, CreateParameterGroupOutputError>(id: "createParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateParameterGroupInput, CreateParameterGroupOutputResponse, CreateParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateParameterGroupInput, CreateParameterGroupOutputResponse>())
@@ -381,7 +386,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateParameterGroupOutputResponse, CreateParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateParameterGroupOutputResponse, CreateParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateParameterGroupOutputResponse, CreateParameterGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -401,6 +406,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSnapshotInput, CreateSnapshotOutputResponse, CreateSnapshotOutputError>(id: "createSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse, CreateSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse>())
@@ -417,7 +423,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -437,6 +443,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSubnetGroupInput, CreateSubnetGroupOutputResponse, CreateSubnetGroupOutputError>(id: "createSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSubnetGroupInput, CreateSubnetGroupOutputResponse, CreateSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSubnetGroupInput, CreateSubnetGroupOutputResponse>())
@@ -453,7 +460,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSubnetGroupOutputResponse, CreateSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSubnetGroupOutputResponse, CreateSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSubnetGroupOutputResponse, CreateSubnetGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -473,6 +480,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateUserInput, CreateUserOutputResponse, CreateUserOutputError>(id: "createUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutputResponse, CreateUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserInput, CreateUserOutputResponse>())
@@ -489,7 +497,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserOutputResponse, CreateUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateUserOutputResponse, CreateUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserOutputResponse, CreateUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -509,6 +517,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteACLInput, DeleteACLOutputResponse, DeleteACLOutputError>(id: "deleteACL")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteACLInput, DeleteACLOutputResponse, DeleteACLOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteACLInput, DeleteACLOutputResponse>())
@@ -525,7 +534,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteACLOutputResponse, DeleteACLOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteACLOutputResponse, DeleteACLOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteACLOutputResponse, DeleteACLOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -545,6 +554,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteClusterInput, DeleteClusterOutputResponse, DeleteClusterOutputError>(id: "deleteCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteClusterInput, DeleteClusterOutputResponse, DeleteClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteClusterInput, DeleteClusterOutputResponse>())
@@ -561,7 +571,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteClusterOutputResponse, DeleteClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteClusterOutputResponse, DeleteClusterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteClusterOutputResponse, DeleteClusterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -581,6 +591,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteParameterGroupInput, DeleteParameterGroupOutputResponse, DeleteParameterGroupOutputError>(id: "deleteParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteParameterGroupInput, DeleteParameterGroupOutputResponse, DeleteParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteParameterGroupInput, DeleteParameterGroupOutputResponse>())
@@ -597,7 +608,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteParameterGroupOutputResponse, DeleteParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteParameterGroupOutputResponse, DeleteParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteParameterGroupOutputResponse, DeleteParameterGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -617,6 +628,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSnapshotInput, DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(id: "deleteSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSnapshotInput, DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSnapshotInput, DeleteSnapshotOutputResponse>())
@@ -633,7 +645,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -653,6 +665,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSubnetGroupInput, DeleteSubnetGroupOutputResponse, DeleteSubnetGroupOutputError>(id: "deleteSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSubnetGroupInput, DeleteSubnetGroupOutputResponse, DeleteSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSubnetGroupInput, DeleteSubnetGroupOutputResponse>())
@@ -669,7 +682,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSubnetGroupOutputResponse, DeleteSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSubnetGroupOutputResponse, DeleteSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSubnetGroupOutputResponse, DeleteSubnetGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -689,6 +702,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>(id: "deleteUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutputResponse>())
@@ -705,7 +719,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserOutputResponse, DeleteUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -725,6 +739,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeACLsInput, DescribeACLsOutputResponse, DescribeACLsOutputError>(id: "describeACLs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeACLsInput, DescribeACLsOutputResponse, DescribeACLsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeACLsInput, DescribeACLsOutputResponse>())
@@ -741,7 +756,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeACLsOutputResponse, DescribeACLsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeACLsOutputResponse, DescribeACLsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeACLsOutputResponse, DescribeACLsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -761,6 +776,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeClustersInput, DescribeClustersOutputResponse, DescribeClustersOutputError>(id: "describeClusters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClustersInput, DescribeClustersOutputResponse, DescribeClustersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClustersInput, DescribeClustersOutputResponse>())
@@ -777,7 +793,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClustersOutputResponse, DescribeClustersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeClustersOutputResponse, DescribeClustersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClustersOutputResponse, DescribeClustersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -797,6 +813,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEngineVersionsInput, DescribeEngineVersionsOutputResponse, DescribeEngineVersionsOutputError>(id: "describeEngineVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEngineVersionsInput, DescribeEngineVersionsOutputResponse, DescribeEngineVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEngineVersionsInput, DescribeEngineVersionsOutputResponse>())
@@ -813,7 +830,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEngineVersionsOutputResponse, DescribeEngineVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEngineVersionsOutputResponse, DescribeEngineVersionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEngineVersionsOutputResponse, DescribeEngineVersionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -833,6 +850,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>(id: "describeEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventsInput, DescribeEventsOutputResponse>())
@@ -849,7 +867,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -869,6 +887,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeParameterGroupsInput, DescribeParameterGroupsOutputResponse, DescribeParameterGroupsOutputError>(id: "describeParameterGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeParameterGroupsInput, DescribeParameterGroupsOutputResponse, DescribeParameterGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeParameterGroupsInput, DescribeParameterGroupsOutputResponse>())
@@ -885,7 +904,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeParameterGroupsOutputResponse, DescribeParameterGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeParameterGroupsOutputResponse, DescribeParameterGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeParameterGroupsOutputResponse, DescribeParameterGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -905,6 +924,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeParametersInput, DescribeParametersOutputResponse, DescribeParametersOutputError>(id: "describeParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeParametersInput, DescribeParametersOutputResponse, DescribeParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeParametersInput, DescribeParametersOutputResponse>())
@@ -921,7 +941,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeParametersOutputResponse, DescribeParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeParametersOutputResponse, DescribeParametersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeParametersOutputResponse, DescribeParametersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -941,6 +961,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReservedNodesInput, DescribeReservedNodesOutputResponse, DescribeReservedNodesOutputError>(id: "describeReservedNodes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservedNodesInput, DescribeReservedNodesOutputResponse, DescribeReservedNodesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservedNodesInput, DescribeReservedNodesOutputResponse>())
@@ -957,7 +978,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservedNodesOutputResponse, DescribeReservedNodesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeReservedNodesOutputResponse, DescribeReservedNodesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservedNodesOutputResponse, DescribeReservedNodesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -977,6 +998,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutputResponse, DescribeReservedNodesOfferingsOutputError>(id: "describeReservedNodesOfferings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutputResponse, DescribeReservedNodesOfferingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutputResponse>())
@@ -993,7 +1015,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservedNodesOfferingsOutputResponse, DescribeReservedNodesOfferingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeReservedNodesOfferingsOutputResponse, DescribeReservedNodesOfferingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservedNodesOfferingsOutputResponse, DescribeReservedNodesOfferingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1013,6 +1035,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>(id: "describeServiceUpdates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutputResponse>())
@@ -1029,7 +1052,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1049,6 +1072,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(id: "describeSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse>())
@@ -1065,7 +1089,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1085,6 +1109,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSubnetGroupsInput, DescribeSubnetGroupsOutputResponse, DescribeSubnetGroupsOutputError>(id: "describeSubnetGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSubnetGroupsInput, DescribeSubnetGroupsOutputResponse, DescribeSubnetGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSubnetGroupsInput, DescribeSubnetGroupsOutputResponse>())
@@ -1101,7 +1126,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSubnetGroupsOutputResponse, DescribeSubnetGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeSubnetGroupsOutputResponse, DescribeSubnetGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSubnetGroupsOutputResponse, DescribeSubnetGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1121,6 +1146,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeUsersInput, DescribeUsersOutputResponse, DescribeUsersOutputError>(id: "describeUsers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUsersInput, DescribeUsersOutputResponse, DescribeUsersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUsersInput, DescribeUsersOutputResponse>())
@@ -1137,7 +1163,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeUsersOutputResponse, DescribeUsersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeUsersOutputResponse, DescribeUsersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeUsersOutputResponse, DescribeUsersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1157,6 +1183,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<FailoverShardInput, FailoverShardOutputResponse, FailoverShardOutputError>(id: "failoverShard")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<FailoverShardInput, FailoverShardOutputResponse, FailoverShardOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<FailoverShardInput, FailoverShardOutputResponse>())
@@ -1173,7 +1200,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<FailoverShardOutputResponse, FailoverShardOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<FailoverShardOutputResponse, FailoverShardOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<FailoverShardOutputResponse, FailoverShardOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1193,6 +1220,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAllowedNodeTypeUpdatesInput, ListAllowedNodeTypeUpdatesOutputResponse, ListAllowedNodeTypeUpdatesOutputError>(id: "listAllowedNodeTypeUpdates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAllowedNodeTypeUpdatesInput, ListAllowedNodeTypeUpdatesOutputResponse, ListAllowedNodeTypeUpdatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAllowedNodeTypeUpdatesInput, ListAllowedNodeTypeUpdatesOutputResponse>())
@@ -1209,7 +1237,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAllowedNodeTypeUpdatesOutputResponse, ListAllowedNodeTypeUpdatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAllowedNodeTypeUpdatesOutputResponse, ListAllowedNodeTypeUpdatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAllowedNodeTypeUpdatesOutputResponse, ListAllowedNodeTypeUpdatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1229,6 +1257,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsInput, ListTagsOutputResponse, ListTagsOutputError>(id: "listTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsInput, ListTagsOutputResponse, ListTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsInput, ListTagsOutputResponse>())
@@ -1245,7 +1274,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsOutputResponse, ListTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsOutputResponse, ListTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsOutputResponse, ListTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1265,6 +1294,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PurchaseReservedNodesOfferingInput, PurchaseReservedNodesOfferingOutputResponse, PurchaseReservedNodesOfferingOutputError>(id: "purchaseReservedNodesOffering")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurchaseReservedNodesOfferingInput, PurchaseReservedNodesOfferingOutputResponse, PurchaseReservedNodesOfferingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PurchaseReservedNodesOfferingInput, PurchaseReservedNodesOfferingOutputResponse>())
@@ -1281,7 +1311,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurchaseReservedNodesOfferingOutputResponse, PurchaseReservedNodesOfferingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PurchaseReservedNodesOfferingOutputResponse, PurchaseReservedNodesOfferingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurchaseReservedNodesOfferingOutputResponse, PurchaseReservedNodesOfferingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1301,6 +1331,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResetParameterGroupInput, ResetParameterGroupOutputResponse, ResetParameterGroupOutputError>(id: "resetParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetParameterGroupInput, ResetParameterGroupOutputResponse, ResetParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetParameterGroupInput, ResetParameterGroupOutputResponse>())
@@ -1317,7 +1348,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetParameterGroupOutputResponse, ResetParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ResetParameterGroupOutputResponse, ResetParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetParameterGroupOutputResponse, ResetParameterGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1337,6 +1368,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1353,7 +1385,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1373,6 +1405,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1389,7 +1422,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1409,6 +1442,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateACLInput, UpdateACLOutputResponse, UpdateACLOutputError>(id: "updateACL")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateACLInput, UpdateACLOutputResponse, UpdateACLOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateACLInput, UpdateACLOutputResponse>())
@@ -1425,7 +1459,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateACLOutputResponse, UpdateACLOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateACLOutputResponse, UpdateACLOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateACLOutputResponse, UpdateACLOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1445,6 +1479,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateClusterInput, UpdateClusterOutputResponse, UpdateClusterOutputError>(id: "updateCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateClusterInput, UpdateClusterOutputResponse, UpdateClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateClusterInput, UpdateClusterOutputResponse>())
@@ -1461,7 +1496,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateClusterOutputResponse, UpdateClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateClusterOutputResponse, UpdateClusterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateClusterOutputResponse, UpdateClusterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1481,6 +1516,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateParameterGroupInput, UpdateParameterGroupOutputResponse, UpdateParameterGroupOutputError>(id: "updateParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateParameterGroupInput, UpdateParameterGroupOutputResponse, UpdateParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateParameterGroupInput, UpdateParameterGroupOutputResponse>())
@@ -1497,7 +1533,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateParameterGroupOutputResponse, UpdateParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateParameterGroupOutputResponse, UpdateParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateParameterGroupOutputResponse, UpdateParameterGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1517,6 +1553,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSubnetGroupInput, UpdateSubnetGroupOutputResponse, UpdateSubnetGroupOutputError>(id: "updateSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSubnetGroupInput, UpdateSubnetGroupOutputResponse, UpdateSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSubnetGroupInput, UpdateSubnetGroupOutputResponse>())
@@ -1533,7 +1570,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSubnetGroupOutputResponse, UpdateSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSubnetGroupOutputResponse, UpdateSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSubnetGroupOutputResponse, UpdateSubnetGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1553,6 +1590,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "memorydb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateUserInput, UpdateUserOutputResponse, UpdateUserOutputError>(id: "updateUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserInput, UpdateUserOutputResponse, UpdateUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserInput, UpdateUserOutputResponse>())
@@ -1569,7 +1607,7 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserOutputResponse, UpdateUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateUserOutputResponse, UpdateUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserOutputResponse, UpdateUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

@@ -221,6 +221,7 @@ extension MarketplaceEntitlementClient: MarketplaceEntitlementClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aws-marketplace")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEntitlementsInput, GetEntitlementsOutputResponse, GetEntitlementsOutputError>(id: "getEntitlements")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEntitlementsInput, GetEntitlementsOutputResponse, GetEntitlementsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEntitlementsInput, GetEntitlementsOutputResponse>())
@@ -237,7 +238,7 @@ extension MarketplaceEntitlementClient: MarketplaceEntitlementClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEntitlementsOutputResponse, GetEntitlementsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetEntitlementsOutputResponse, GetEntitlementsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEntitlementsOutputResponse, GetEntitlementsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

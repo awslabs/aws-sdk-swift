@@ -19,7 +19,7 @@ extension AuthException {
 }
 
 /// Either your AWS credentials are not valid or you do not have access to the EC2 instance.
-public struct AuthException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AuthException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -70,7 +70,7 @@ extension EC2InstanceNotFoundException {
 }
 
 /// The specified instance was not found.
-public struct EC2InstanceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EC2InstanceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -121,7 +121,7 @@ extension EC2InstanceStateInvalidException {
 }
 
 /// Unable to connect because the instance is not in a valid state. Connecting to a stopped or terminated instance is not supported. If the instance is stopped, start your instance, and try to connect again.
-public struct EC2InstanceStateInvalidException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EC2InstanceStateInvalidException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -172,7 +172,7 @@ extension EC2InstanceTypeInvalidException {
 }
 
 /// The instance type is not supported for connecting via the serial console. Only Nitro instance types are currently supported.
-public struct EC2InstanceTypeInvalidException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EC2InstanceTypeInvalidException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -223,7 +223,7 @@ extension EC2InstanceUnavailableException {
 }
 
 /// The instance is currently unavailable. Wait a few minutes and try again.
-public struct EC2InstanceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct EC2InstanceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -274,7 +274,7 @@ extension InvalidArgsException {
 }
 
 /// One of the parameters is not valid.
-public struct InvalidArgsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InvalidArgsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -395,7 +395,7 @@ extension SendSSHPublicKeyInputBody: Swift.Decodable {
 }
 
 extension SendSSHPublicKeyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -429,7 +429,7 @@ public enum SendSSHPublicKeyOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension SendSSHPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: SendSSHPublicKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -552,7 +552,7 @@ extension SendSerialConsoleSSHPublicKeyInputBody: Swift.Decodable {
 }
 
 extension SendSerialConsoleSSHPublicKeyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -594,7 +594,7 @@ public enum SendSerialConsoleSSHPublicKeyOutputError: Swift.Error, Swift.Equatab
 }
 
 extension SendSerialConsoleSSHPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: SendSerialConsoleSSHPublicKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -660,7 +660,7 @@ extension SerialConsoleAccessDisabledException {
 }
 
 /// Your account is not authorized to use the EC2 Serial Console. To authorize your account, run the EnableSerialConsoleAccess API. For more information, see [EnableSerialConsoleAccess](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_EnableSerialConsoleAccess.html) in the Amazon EC2 API Reference.
-public struct SerialConsoleAccessDisabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct SerialConsoleAccessDisabledException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -711,7 +711,7 @@ extension SerialConsoleSessionLimitExceededException {
 }
 
 /// The instance currently has 1 active serial console session. Only 1 session is supported at a time.
-public struct SerialConsoleSessionLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct SerialConsoleSessionLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -762,7 +762,7 @@ extension SerialConsoleSessionUnavailableException {
 }
 
 /// Unable to start a serial console session. Please try again.
-public struct SerialConsoleSessionUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct SerialConsoleSessionUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -813,7 +813,7 @@ extension ServiceException {
 }
 
 /// The service encountered an error. Follow the instructions in the error message and try again.
-public struct ServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ServiceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -864,7 +864,7 @@ extension ThrottlingException {
 }
 
 /// The requests were made too frequently and have been throttled. Wait a while and try again. To increase the limit on your request frequency, contact AWS Support.
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

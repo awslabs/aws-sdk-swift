@@ -221,6 +221,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(id: "addTagsToResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse>())
@@ -237,7 +238,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>(id: "applyPendingMaintenanceAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutputResponse>())
@@ -273,7 +275,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelReplicationTaskAssessmentRunInput, CancelReplicationTaskAssessmentRunOutputResponse, CancelReplicationTaskAssessmentRunOutputError>(id: "cancelReplicationTaskAssessmentRun")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelReplicationTaskAssessmentRunInput, CancelReplicationTaskAssessmentRunOutputResponse, CancelReplicationTaskAssessmentRunOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelReplicationTaskAssessmentRunInput, CancelReplicationTaskAssessmentRunOutputResponse>())
@@ -309,7 +312,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelReplicationTaskAssessmentRunOutputResponse, CancelReplicationTaskAssessmentRunOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CancelReplicationTaskAssessmentRunOutputResponse, CancelReplicationTaskAssessmentRunOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelReplicationTaskAssessmentRunOutputResponse, CancelReplicationTaskAssessmentRunOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -329,6 +332,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEndpointInput, CreateEndpointOutputResponse, CreateEndpointOutputError>(id: "createEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEndpointInput, CreateEndpointOutputResponse, CreateEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEndpointInput, CreateEndpointOutputResponse>())
@@ -345,7 +349,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEndpointOutputResponse, CreateEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateEndpointOutputResponse, CreateEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEndpointOutputResponse, CreateEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -365,6 +369,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEventSubscriptionInput, CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>(id: "createEventSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutputResponse>())
@@ -381,7 +386,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -401,6 +406,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFleetAdvisorCollectorInput, CreateFleetAdvisorCollectorOutputResponse, CreateFleetAdvisorCollectorOutputError>(id: "createFleetAdvisorCollector")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFleetAdvisorCollectorInput, CreateFleetAdvisorCollectorOutputResponse, CreateFleetAdvisorCollectorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFleetAdvisorCollectorInput, CreateFleetAdvisorCollectorOutputResponse>())
@@ -417,7 +423,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFleetAdvisorCollectorOutputResponse, CreateFleetAdvisorCollectorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateFleetAdvisorCollectorOutputResponse, CreateFleetAdvisorCollectorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFleetAdvisorCollectorOutputResponse, CreateFleetAdvisorCollectorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -437,6 +443,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateReplicationInstanceInput, CreateReplicationInstanceOutputResponse, CreateReplicationInstanceOutputError>(id: "createReplicationInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateReplicationInstanceInput, CreateReplicationInstanceOutputResponse, CreateReplicationInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateReplicationInstanceInput, CreateReplicationInstanceOutputResponse>())
@@ -453,7 +460,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReplicationInstanceOutputResponse, CreateReplicationInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateReplicationInstanceOutputResponse, CreateReplicationInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReplicationInstanceOutputResponse, CreateReplicationInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -473,6 +480,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateReplicationSubnetGroupInput, CreateReplicationSubnetGroupOutputResponse, CreateReplicationSubnetGroupOutputError>(id: "createReplicationSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateReplicationSubnetGroupInput, CreateReplicationSubnetGroupOutputResponse, CreateReplicationSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateReplicationSubnetGroupInput, CreateReplicationSubnetGroupOutputResponse>())
@@ -489,7 +497,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReplicationSubnetGroupOutputResponse, CreateReplicationSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateReplicationSubnetGroupOutputResponse, CreateReplicationSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReplicationSubnetGroupOutputResponse, CreateReplicationSubnetGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -509,6 +517,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateReplicationTaskInput, CreateReplicationTaskOutputResponse, CreateReplicationTaskOutputError>(id: "createReplicationTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateReplicationTaskInput, CreateReplicationTaskOutputResponse, CreateReplicationTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateReplicationTaskInput, CreateReplicationTaskOutputResponse>())
@@ -525,7 +534,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReplicationTaskOutputResponse, CreateReplicationTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateReplicationTaskOutputResponse, CreateReplicationTaskOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReplicationTaskOutputResponse, CreateReplicationTaskOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -545,6 +554,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCertificateInput, DeleteCertificateOutputResponse, DeleteCertificateOutputError>(id: "deleteCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCertificateInput, DeleteCertificateOutputResponse, DeleteCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCertificateInput, DeleteCertificateOutputResponse>())
@@ -561,7 +571,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCertificateOutputResponse, DeleteCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteCertificateOutputResponse, DeleteCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCertificateOutputResponse, DeleteCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -581,6 +591,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteConnectionInput, DeleteConnectionOutputResponse, DeleteConnectionOutputError>(id: "deleteConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConnectionInput, DeleteConnectionOutputResponse, DeleteConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConnectionInput, DeleteConnectionOutputResponse>())
@@ -597,7 +608,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConnectionOutputResponse, DeleteConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteConnectionOutputResponse, DeleteConnectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConnectionOutputResponse, DeleteConnectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -617,6 +628,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEndpointInput, DeleteEndpointOutputResponse, DeleteEndpointOutputError>(id: "deleteEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEndpointInput, DeleteEndpointOutputResponse, DeleteEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEndpointInput, DeleteEndpointOutputResponse>())
@@ -633,7 +645,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEndpointOutputResponse, DeleteEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteEndpointOutputResponse, DeleteEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEndpointOutputResponse, DeleteEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -653,6 +665,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>(id: "deleteEventSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutputResponse>())
@@ -669,7 +682,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -689,6 +702,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFleetAdvisorCollectorInput, DeleteFleetAdvisorCollectorOutputResponse, DeleteFleetAdvisorCollectorOutputError>(id: "deleteFleetAdvisorCollector")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFleetAdvisorCollectorInput, DeleteFleetAdvisorCollectorOutputResponse, DeleteFleetAdvisorCollectorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFleetAdvisorCollectorInput, DeleteFleetAdvisorCollectorOutputResponse>())
@@ -705,7 +719,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFleetAdvisorCollectorOutputResponse, DeleteFleetAdvisorCollectorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteFleetAdvisorCollectorOutputResponse, DeleteFleetAdvisorCollectorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFleetAdvisorCollectorOutputResponse, DeleteFleetAdvisorCollectorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -725,6 +739,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFleetAdvisorDatabasesInput, DeleteFleetAdvisorDatabasesOutputResponse, DeleteFleetAdvisorDatabasesOutputError>(id: "deleteFleetAdvisorDatabases")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFleetAdvisorDatabasesInput, DeleteFleetAdvisorDatabasesOutputResponse, DeleteFleetAdvisorDatabasesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFleetAdvisorDatabasesInput, DeleteFleetAdvisorDatabasesOutputResponse>())
@@ -741,7 +756,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFleetAdvisorDatabasesOutputResponse, DeleteFleetAdvisorDatabasesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteFleetAdvisorDatabasesOutputResponse, DeleteFleetAdvisorDatabasesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFleetAdvisorDatabasesOutputResponse, DeleteFleetAdvisorDatabasesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -761,6 +776,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteReplicationInstanceInput, DeleteReplicationInstanceOutputResponse, DeleteReplicationInstanceOutputError>(id: "deleteReplicationInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReplicationInstanceInput, DeleteReplicationInstanceOutputResponse, DeleteReplicationInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReplicationInstanceInput, DeleteReplicationInstanceOutputResponse>())
@@ -777,7 +793,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReplicationInstanceOutputResponse, DeleteReplicationInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteReplicationInstanceOutputResponse, DeleteReplicationInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReplicationInstanceOutputResponse, DeleteReplicationInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -797,6 +813,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteReplicationSubnetGroupInput, DeleteReplicationSubnetGroupOutputResponse, DeleteReplicationSubnetGroupOutputError>(id: "deleteReplicationSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReplicationSubnetGroupInput, DeleteReplicationSubnetGroupOutputResponse, DeleteReplicationSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReplicationSubnetGroupInput, DeleteReplicationSubnetGroupOutputResponse>())
@@ -813,7 +830,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReplicationSubnetGroupOutputResponse, DeleteReplicationSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteReplicationSubnetGroupOutputResponse, DeleteReplicationSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReplicationSubnetGroupOutputResponse, DeleteReplicationSubnetGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -833,6 +850,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteReplicationTaskInput, DeleteReplicationTaskOutputResponse, DeleteReplicationTaskOutputError>(id: "deleteReplicationTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReplicationTaskInput, DeleteReplicationTaskOutputResponse, DeleteReplicationTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReplicationTaskInput, DeleteReplicationTaskOutputResponse>())
@@ -849,7 +867,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReplicationTaskOutputResponse, DeleteReplicationTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteReplicationTaskOutputResponse, DeleteReplicationTaskOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReplicationTaskOutputResponse, DeleteReplicationTaskOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -869,6 +887,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteReplicationTaskAssessmentRunInput, DeleteReplicationTaskAssessmentRunOutputResponse, DeleteReplicationTaskAssessmentRunOutputError>(id: "deleteReplicationTaskAssessmentRun")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReplicationTaskAssessmentRunInput, DeleteReplicationTaskAssessmentRunOutputResponse, DeleteReplicationTaskAssessmentRunOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReplicationTaskAssessmentRunInput, DeleteReplicationTaskAssessmentRunOutputResponse>())
@@ -885,7 +904,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReplicationTaskAssessmentRunOutputResponse, DeleteReplicationTaskAssessmentRunOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteReplicationTaskAssessmentRunOutputResponse, DeleteReplicationTaskAssessmentRunOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReplicationTaskAssessmentRunOutputResponse, DeleteReplicationTaskAssessmentRunOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -905,6 +924,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAccountAttributesInput, DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>(id: "describeAccountAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutputResponse>())
@@ -921,7 +941,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountAttributesOutputResponse, DescribeAccountAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -941,6 +961,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeApplicableIndividualAssessmentsInput, DescribeApplicableIndividualAssessmentsOutputResponse, DescribeApplicableIndividualAssessmentsOutputError>(id: "describeApplicableIndividualAssessments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeApplicableIndividualAssessmentsInput, DescribeApplicableIndividualAssessmentsOutputResponse, DescribeApplicableIndividualAssessmentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeApplicableIndividualAssessmentsInput, DescribeApplicableIndividualAssessmentsOutputResponse>())
@@ -957,7 +978,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeApplicableIndividualAssessmentsOutputResponse, DescribeApplicableIndividualAssessmentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeApplicableIndividualAssessmentsOutputResponse, DescribeApplicableIndividualAssessmentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeApplicableIndividualAssessmentsOutputResponse, DescribeApplicableIndividualAssessmentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -977,6 +998,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCertificatesInput, DescribeCertificatesOutputResponse, DescribeCertificatesOutputError>(id: "describeCertificates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCertificatesInput, DescribeCertificatesOutputResponse, DescribeCertificatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCertificatesInput, DescribeCertificatesOutputResponse>())
@@ -993,7 +1015,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCertificatesOutputResponse, DescribeCertificatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeCertificatesOutputResponse, DescribeCertificatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCertificatesOutputResponse, DescribeCertificatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1013,6 +1035,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeConnectionsInput, DescribeConnectionsOutputResponse, DescribeConnectionsOutputError>(id: "describeConnections")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConnectionsInput, DescribeConnectionsOutputResponse, DescribeConnectionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConnectionsInput, DescribeConnectionsOutputResponse>())
@@ -1029,7 +1052,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConnectionsOutputResponse, DescribeConnectionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeConnectionsOutputResponse, DescribeConnectionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConnectionsOutputResponse, DescribeConnectionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1049,6 +1072,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEndpointSettingsInput, DescribeEndpointSettingsOutputResponse, DescribeEndpointSettingsOutputError>(id: "describeEndpointSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEndpointSettingsInput, DescribeEndpointSettingsOutputResponse, DescribeEndpointSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEndpointSettingsInput, DescribeEndpointSettingsOutputResponse>())
@@ -1065,7 +1089,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEndpointSettingsOutputResponse, DescribeEndpointSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEndpointSettingsOutputResponse, DescribeEndpointSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEndpointSettingsOutputResponse, DescribeEndpointSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1085,6 +1109,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEndpointTypesInput, DescribeEndpointTypesOutputResponse, DescribeEndpointTypesOutputError>(id: "describeEndpointTypes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEndpointTypesInput, DescribeEndpointTypesOutputResponse, DescribeEndpointTypesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEndpointTypesInput, DescribeEndpointTypesOutputResponse>())
@@ -1101,7 +1126,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEndpointTypesOutputResponse, DescribeEndpointTypesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEndpointTypesOutputResponse, DescribeEndpointTypesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEndpointTypesOutputResponse, DescribeEndpointTypesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1121,6 +1146,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEndpointsInput, DescribeEndpointsOutputResponse, DescribeEndpointsOutputError>(id: "describeEndpoints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEndpointsInput, DescribeEndpointsOutputResponse, DescribeEndpointsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEndpointsInput, DescribeEndpointsOutputResponse>())
@@ -1137,7 +1163,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEndpointsOutputResponse, DescribeEndpointsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEndpointsOutputResponse, DescribeEndpointsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEndpointsOutputResponse, DescribeEndpointsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1157,6 +1183,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventCategoriesInput, DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>(id: "describeEventCategories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutputResponse>())
@@ -1173,7 +1200,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1193,6 +1220,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>(id: "describeEventSubscriptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse>())
@@ -1209,7 +1237,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1229,6 +1257,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>(id: "describeEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventsInput, DescribeEventsOutputResponse>())
@@ -1245,7 +1274,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1265,6 +1294,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFleetAdvisorCollectorsInput, DescribeFleetAdvisorCollectorsOutputResponse, DescribeFleetAdvisorCollectorsOutputError>(id: "describeFleetAdvisorCollectors")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFleetAdvisorCollectorsInput, DescribeFleetAdvisorCollectorsOutputResponse, DescribeFleetAdvisorCollectorsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFleetAdvisorCollectorsInput, DescribeFleetAdvisorCollectorsOutputResponse>())
@@ -1281,7 +1311,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFleetAdvisorCollectorsOutputResponse, DescribeFleetAdvisorCollectorsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeFleetAdvisorCollectorsOutputResponse, DescribeFleetAdvisorCollectorsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFleetAdvisorCollectorsOutputResponse, DescribeFleetAdvisorCollectorsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1301,6 +1331,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFleetAdvisorDatabasesInput, DescribeFleetAdvisorDatabasesOutputResponse, DescribeFleetAdvisorDatabasesOutputError>(id: "describeFleetAdvisorDatabases")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFleetAdvisorDatabasesInput, DescribeFleetAdvisorDatabasesOutputResponse, DescribeFleetAdvisorDatabasesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFleetAdvisorDatabasesInput, DescribeFleetAdvisorDatabasesOutputResponse>())
@@ -1317,7 +1348,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFleetAdvisorDatabasesOutputResponse, DescribeFleetAdvisorDatabasesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeFleetAdvisorDatabasesOutputResponse, DescribeFleetAdvisorDatabasesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFleetAdvisorDatabasesOutputResponse, DescribeFleetAdvisorDatabasesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1337,6 +1368,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFleetAdvisorLsaAnalysisInput, DescribeFleetAdvisorLsaAnalysisOutputResponse, DescribeFleetAdvisorLsaAnalysisOutputError>(id: "describeFleetAdvisorLsaAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFleetAdvisorLsaAnalysisInput, DescribeFleetAdvisorLsaAnalysisOutputResponse, DescribeFleetAdvisorLsaAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFleetAdvisorLsaAnalysisInput, DescribeFleetAdvisorLsaAnalysisOutputResponse>())
@@ -1353,7 +1385,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFleetAdvisorLsaAnalysisOutputResponse, DescribeFleetAdvisorLsaAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeFleetAdvisorLsaAnalysisOutputResponse, DescribeFleetAdvisorLsaAnalysisOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFleetAdvisorLsaAnalysisOutputResponse, DescribeFleetAdvisorLsaAnalysisOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1373,6 +1405,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFleetAdvisorSchemaObjectSummaryInput, DescribeFleetAdvisorSchemaObjectSummaryOutputResponse, DescribeFleetAdvisorSchemaObjectSummaryOutputError>(id: "describeFleetAdvisorSchemaObjectSummary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFleetAdvisorSchemaObjectSummaryInput, DescribeFleetAdvisorSchemaObjectSummaryOutputResponse, DescribeFleetAdvisorSchemaObjectSummaryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFleetAdvisorSchemaObjectSummaryInput, DescribeFleetAdvisorSchemaObjectSummaryOutputResponse>())
@@ -1389,7 +1422,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFleetAdvisorSchemaObjectSummaryOutputResponse, DescribeFleetAdvisorSchemaObjectSummaryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeFleetAdvisorSchemaObjectSummaryOutputResponse, DescribeFleetAdvisorSchemaObjectSummaryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFleetAdvisorSchemaObjectSummaryOutputResponse, DescribeFleetAdvisorSchemaObjectSummaryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1409,6 +1442,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFleetAdvisorSchemasInput, DescribeFleetAdvisorSchemasOutputResponse, DescribeFleetAdvisorSchemasOutputError>(id: "describeFleetAdvisorSchemas")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFleetAdvisorSchemasInput, DescribeFleetAdvisorSchemasOutputResponse, DescribeFleetAdvisorSchemasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFleetAdvisorSchemasInput, DescribeFleetAdvisorSchemasOutputResponse>())
@@ -1425,7 +1459,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFleetAdvisorSchemasOutputResponse, DescribeFleetAdvisorSchemasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeFleetAdvisorSchemasOutputResponse, DescribeFleetAdvisorSchemasOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFleetAdvisorSchemasOutputResponse, DescribeFleetAdvisorSchemasOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1445,6 +1479,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeOrderableReplicationInstancesInput, DescribeOrderableReplicationInstancesOutputResponse, DescribeOrderableReplicationInstancesOutputError>(id: "describeOrderableReplicationInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrderableReplicationInstancesInput, DescribeOrderableReplicationInstancesOutputResponse, DescribeOrderableReplicationInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrderableReplicationInstancesInput, DescribeOrderableReplicationInstancesOutputResponse>())
@@ -1461,7 +1496,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrderableReplicationInstancesOutputResponse, DescribeOrderableReplicationInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeOrderableReplicationInstancesOutputResponse, DescribeOrderableReplicationInstancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrderableReplicationInstancesOutputResponse, DescribeOrderableReplicationInstancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1481,6 +1516,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>(id: "describePendingMaintenanceActions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutputResponse>())
@@ -1497,7 +1533,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1517,6 +1553,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRefreshSchemasStatusInput, DescribeRefreshSchemasStatusOutputResponse, DescribeRefreshSchemasStatusOutputError>(id: "describeRefreshSchemasStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRefreshSchemasStatusInput, DescribeRefreshSchemasStatusOutputResponse, DescribeRefreshSchemasStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRefreshSchemasStatusInput, DescribeRefreshSchemasStatusOutputResponse>())
@@ -1533,7 +1570,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRefreshSchemasStatusOutputResponse, DescribeRefreshSchemasStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeRefreshSchemasStatusOutputResponse, DescribeRefreshSchemasStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRefreshSchemasStatusOutputResponse, DescribeRefreshSchemasStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1553,6 +1590,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReplicationInstanceTaskLogsInput, DescribeReplicationInstanceTaskLogsOutputResponse, DescribeReplicationInstanceTaskLogsOutputError>(id: "describeReplicationInstanceTaskLogs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReplicationInstanceTaskLogsInput, DescribeReplicationInstanceTaskLogsOutputResponse, DescribeReplicationInstanceTaskLogsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReplicationInstanceTaskLogsInput, DescribeReplicationInstanceTaskLogsOutputResponse>())
@@ -1569,7 +1607,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReplicationInstanceTaskLogsOutputResponse, DescribeReplicationInstanceTaskLogsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeReplicationInstanceTaskLogsOutputResponse, DescribeReplicationInstanceTaskLogsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReplicationInstanceTaskLogsOutputResponse, DescribeReplicationInstanceTaskLogsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1589,6 +1627,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutputResponse, DescribeReplicationInstancesOutputError>(id: "describeReplicationInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutputResponse, DescribeReplicationInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReplicationInstancesInput, DescribeReplicationInstancesOutputResponse>())
@@ -1605,7 +1644,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReplicationInstancesOutputResponse, DescribeReplicationInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeReplicationInstancesOutputResponse, DescribeReplicationInstancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReplicationInstancesOutputResponse, DescribeReplicationInstancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1625,6 +1664,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReplicationSubnetGroupsInput, DescribeReplicationSubnetGroupsOutputResponse, DescribeReplicationSubnetGroupsOutputError>(id: "describeReplicationSubnetGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReplicationSubnetGroupsInput, DescribeReplicationSubnetGroupsOutputResponse, DescribeReplicationSubnetGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReplicationSubnetGroupsInput, DescribeReplicationSubnetGroupsOutputResponse>())
@@ -1641,7 +1681,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReplicationSubnetGroupsOutputResponse, DescribeReplicationSubnetGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeReplicationSubnetGroupsOutputResponse, DescribeReplicationSubnetGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReplicationSubnetGroupsOutputResponse, DescribeReplicationSubnetGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1661,6 +1701,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReplicationTaskAssessmentResultsInput, DescribeReplicationTaskAssessmentResultsOutputResponse, DescribeReplicationTaskAssessmentResultsOutputError>(id: "describeReplicationTaskAssessmentResults")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReplicationTaskAssessmentResultsInput, DescribeReplicationTaskAssessmentResultsOutputResponse, DescribeReplicationTaskAssessmentResultsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReplicationTaskAssessmentResultsInput, DescribeReplicationTaskAssessmentResultsOutputResponse>())
@@ -1677,7 +1718,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReplicationTaskAssessmentResultsOutputResponse, DescribeReplicationTaskAssessmentResultsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeReplicationTaskAssessmentResultsOutputResponse, DescribeReplicationTaskAssessmentResultsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReplicationTaskAssessmentResultsOutputResponse, DescribeReplicationTaskAssessmentResultsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1697,6 +1738,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReplicationTaskAssessmentRunsInput, DescribeReplicationTaskAssessmentRunsOutputResponse, DescribeReplicationTaskAssessmentRunsOutputError>(id: "describeReplicationTaskAssessmentRuns")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReplicationTaskAssessmentRunsInput, DescribeReplicationTaskAssessmentRunsOutputResponse, DescribeReplicationTaskAssessmentRunsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReplicationTaskAssessmentRunsInput, DescribeReplicationTaskAssessmentRunsOutputResponse>())
@@ -1713,7 +1755,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReplicationTaskAssessmentRunsOutputResponse, DescribeReplicationTaskAssessmentRunsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeReplicationTaskAssessmentRunsOutputResponse, DescribeReplicationTaskAssessmentRunsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReplicationTaskAssessmentRunsOutputResponse, DescribeReplicationTaskAssessmentRunsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1733,6 +1775,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReplicationTaskIndividualAssessmentsInput, DescribeReplicationTaskIndividualAssessmentsOutputResponse, DescribeReplicationTaskIndividualAssessmentsOutputError>(id: "describeReplicationTaskIndividualAssessments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReplicationTaskIndividualAssessmentsInput, DescribeReplicationTaskIndividualAssessmentsOutputResponse, DescribeReplicationTaskIndividualAssessmentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReplicationTaskIndividualAssessmentsInput, DescribeReplicationTaskIndividualAssessmentsOutputResponse>())
@@ -1749,7 +1792,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReplicationTaskIndividualAssessmentsOutputResponse, DescribeReplicationTaskIndividualAssessmentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeReplicationTaskIndividualAssessmentsOutputResponse, DescribeReplicationTaskIndividualAssessmentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReplicationTaskIndividualAssessmentsOutputResponse, DescribeReplicationTaskIndividualAssessmentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1769,6 +1812,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReplicationTasksInput, DescribeReplicationTasksOutputResponse, DescribeReplicationTasksOutputError>(id: "describeReplicationTasks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReplicationTasksInput, DescribeReplicationTasksOutputResponse, DescribeReplicationTasksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReplicationTasksInput, DescribeReplicationTasksOutputResponse>())
@@ -1785,7 +1829,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReplicationTasksOutputResponse, DescribeReplicationTasksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeReplicationTasksOutputResponse, DescribeReplicationTasksOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReplicationTasksOutputResponse, DescribeReplicationTasksOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1805,6 +1849,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSchemasInput, DescribeSchemasOutputResponse, DescribeSchemasOutputError>(id: "describeSchemas")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSchemasInput, DescribeSchemasOutputResponse, DescribeSchemasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSchemasInput, DescribeSchemasOutputResponse>())
@@ -1821,7 +1866,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSchemasOutputResponse, DescribeSchemasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeSchemasOutputResponse, DescribeSchemasOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSchemasOutputResponse, DescribeSchemasOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1841,6 +1886,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTableStatisticsInput, DescribeTableStatisticsOutputResponse, DescribeTableStatisticsOutputError>(id: "describeTableStatistics")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTableStatisticsInput, DescribeTableStatisticsOutputResponse, DescribeTableStatisticsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTableStatisticsInput, DescribeTableStatisticsOutputResponse>())
@@ -1857,7 +1903,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTableStatisticsOutputResponse, DescribeTableStatisticsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeTableStatisticsOutputResponse, DescribeTableStatisticsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTableStatisticsOutputResponse, DescribeTableStatisticsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1877,6 +1923,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ImportCertificateInput, ImportCertificateOutputResponse, ImportCertificateOutputError>(id: "importCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportCertificateInput, ImportCertificateOutputResponse, ImportCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportCertificateInput, ImportCertificateOutputResponse>())
@@ -1893,7 +1940,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportCertificateOutputResponse, ImportCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ImportCertificateOutputResponse, ImportCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportCertificateOutputResponse, ImportCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1913,6 +1960,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1929,7 +1977,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1949,6 +1997,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyEndpointInput, ModifyEndpointOutputResponse, ModifyEndpointOutputError>(id: "modifyEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyEndpointInput, ModifyEndpointOutputResponse, ModifyEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyEndpointInput, ModifyEndpointOutputResponse>())
@@ -1965,7 +2014,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyEndpointOutputResponse, ModifyEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ModifyEndpointOutputResponse, ModifyEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyEndpointOutputResponse, ModifyEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1985,6 +2034,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>(id: "modifyEventSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutputResponse>())
@@ -2001,7 +2051,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2021,6 +2071,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyReplicationInstanceInput, ModifyReplicationInstanceOutputResponse, ModifyReplicationInstanceOutputError>(id: "modifyReplicationInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyReplicationInstanceInput, ModifyReplicationInstanceOutputResponse, ModifyReplicationInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyReplicationInstanceInput, ModifyReplicationInstanceOutputResponse>())
@@ -2037,7 +2088,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyReplicationInstanceOutputResponse, ModifyReplicationInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ModifyReplicationInstanceOutputResponse, ModifyReplicationInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyReplicationInstanceOutputResponse, ModifyReplicationInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2057,6 +2108,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyReplicationSubnetGroupInput, ModifyReplicationSubnetGroupOutputResponse, ModifyReplicationSubnetGroupOutputError>(id: "modifyReplicationSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyReplicationSubnetGroupInput, ModifyReplicationSubnetGroupOutputResponse, ModifyReplicationSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyReplicationSubnetGroupInput, ModifyReplicationSubnetGroupOutputResponse>())
@@ -2073,7 +2125,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyReplicationSubnetGroupOutputResponse, ModifyReplicationSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ModifyReplicationSubnetGroupOutputResponse, ModifyReplicationSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyReplicationSubnetGroupOutputResponse, ModifyReplicationSubnetGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2093,6 +2145,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyReplicationTaskInput, ModifyReplicationTaskOutputResponse, ModifyReplicationTaskOutputError>(id: "modifyReplicationTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyReplicationTaskInput, ModifyReplicationTaskOutputResponse, ModifyReplicationTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyReplicationTaskInput, ModifyReplicationTaskOutputResponse>())
@@ -2109,7 +2162,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyReplicationTaskOutputResponse, ModifyReplicationTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ModifyReplicationTaskOutputResponse, ModifyReplicationTaskOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyReplicationTaskOutputResponse, ModifyReplicationTaskOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2129,6 +2182,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<MoveReplicationTaskInput, MoveReplicationTaskOutputResponse, MoveReplicationTaskOutputError>(id: "moveReplicationTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MoveReplicationTaskInput, MoveReplicationTaskOutputResponse, MoveReplicationTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MoveReplicationTaskInput, MoveReplicationTaskOutputResponse>())
@@ -2145,7 +2199,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MoveReplicationTaskOutputResponse, MoveReplicationTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<MoveReplicationTaskOutputResponse, MoveReplicationTaskOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MoveReplicationTaskOutputResponse, MoveReplicationTaskOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2165,6 +2219,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RebootReplicationInstanceInput, RebootReplicationInstanceOutputResponse, RebootReplicationInstanceOutputError>(id: "rebootReplicationInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebootReplicationInstanceInput, RebootReplicationInstanceOutputResponse, RebootReplicationInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebootReplicationInstanceInput, RebootReplicationInstanceOutputResponse>())
@@ -2181,7 +2236,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RebootReplicationInstanceOutputResponse, RebootReplicationInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RebootReplicationInstanceOutputResponse, RebootReplicationInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RebootReplicationInstanceOutputResponse, RebootReplicationInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2201,6 +2256,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RefreshSchemasInput, RefreshSchemasOutputResponse, RefreshSchemasOutputError>(id: "refreshSchemas")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RefreshSchemasInput, RefreshSchemasOutputResponse, RefreshSchemasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RefreshSchemasInput, RefreshSchemasOutputResponse>())
@@ -2217,7 +2273,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RefreshSchemasOutputResponse, RefreshSchemasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RefreshSchemasOutputResponse, RefreshSchemasOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RefreshSchemasOutputResponse, RefreshSchemasOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2237,6 +2293,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ReloadTablesInput, ReloadTablesOutputResponse, ReloadTablesOutputError>(id: "reloadTables")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReloadTablesInput, ReloadTablesOutputResponse, ReloadTablesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReloadTablesInput, ReloadTablesOutputResponse>())
@@ -2253,7 +2310,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReloadTablesOutputResponse, ReloadTablesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ReloadTablesOutputResponse, ReloadTablesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReloadTablesOutputResponse, ReloadTablesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2273,6 +2330,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(id: "removeTagsFromResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse>())
@@ -2289,7 +2347,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2309,6 +2367,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RunFleetAdvisorLsaAnalysisInput, RunFleetAdvisorLsaAnalysisOutputResponse, RunFleetAdvisorLsaAnalysisOutputError>(id: "runFleetAdvisorLsaAnalysis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RunFleetAdvisorLsaAnalysisInput, RunFleetAdvisorLsaAnalysisOutputResponse, RunFleetAdvisorLsaAnalysisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RunFleetAdvisorLsaAnalysisInput, RunFleetAdvisorLsaAnalysisOutputResponse>())
@@ -2325,7 +2384,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RunFleetAdvisorLsaAnalysisOutputResponse, RunFleetAdvisorLsaAnalysisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RunFleetAdvisorLsaAnalysisOutputResponse, RunFleetAdvisorLsaAnalysisOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RunFleetAdvisorLsaAnalysisOutputResponse, RunFleetAdvisorLsaAnalysisOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2345,6 +2404,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartReplicationTaskInput, StartReplicationTaskOutputResponse, StartReplicationTaskOutputError>(id: "startReplicationTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartReplicationTaskInput, StartReplicationTaskOutputResponse, StartReplicationTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartReplicationTaskInput, StartReplicationTaskOutputResponse>())
@@ -2361,7 +2421,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartReplicationTaskOutputResponse, StartReplicationTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartReplicationTaskOutputResponse, StartReplicationTaskOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartReplicationTaskOutputResponse, StartReplicationTaskOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2388,6 +2448,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartReplicationTaskAssessmentInput, StartReplicationTaskAssessmentOutputResponse, StartReplicationTaskAssessmentOutputError>(id: "startReplicationTaskAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartReplicationTaskAssessmentInput, StartReplicationTaskAssessmentOutputResponse, StartReplicationTaskAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartReplicationTaskAssessmentInput, StartReplicationTaskAssessmentOutputResponse>())
@@ -2404,7 +2465,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartReplicationTaskAssessmentOutputResponse, StartReplicationTaskAssessmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartReplicationTaskAssessmentOutputResponse, StartReplicationTaskAssessmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartReplicationTaskAssessmentOutputResponse, StartReplicationTaskAssessmentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2424,6 +2485,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartReplicationTaskAssessmentRunInput, StartReplicationTaskAssessmentRunOutputResponse, StartReplicationTaskAssessmentRunOutputError>(id: "startReplicationTaskAssessmentRun")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartReplicationTaskAssessmentRunInput, StartReplicationTaskAssessmentRunOutputResponse, StartReplicationTaskAssessmentRunOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartReplicationTaskAssessmentRunInput, StartReplicationTaskAssessmentRunOutputResponse>())
@@ -2440,7 +2502,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartReplicationTaskAssessmentRunOutputResponse, StartReplicationTaskAssessmentRunOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartReplicationTaskAssessmentRunOutputResponse, StartReplicationTaskAssessmentRunOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartReplicationTaskAssessmentRunOutputResponse, StartReplicationTaskAssessmentRunOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2460,6 +2522,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopReplicationTaskInput, StopReplicationTaskOutputResponse, StopReplicationTaskOutputError>(id: "stopReplicationTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopReplicationTaskInput, StopReplicationTaskOutputResponse, StopReplicationTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopReplicationTaskInput, StopReplicationTaskOutputResponse>())
@@ -2476,7 +2539,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopReplicationTaskOutputResponse, StopReplicationTaskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopReplicationTaskOutputResponse, StopReplicationTaskOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopReplicationTaskOutputResponse, StopReplicationTaskOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2496,6 +2559,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TestConnectionInput, TestConnectionOutputResponse, TestConnectionOutputError>(id: "testConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestConnectionInput, TestConnectionOutputResponse, TestConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestConnectionInput, TestConnectionOutputResponse>())
@@ -2512,7 +2576,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestConnectionOutputResponse, TestConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TestConnectionOutputResponse, TestConnectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestConnectionOutputResponse, TestConnectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2532,6 +2596,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "dms")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSubscriptionsToEventBridgeInput, UpdateSubscriptionsToEventBridgeOutputResponse, UpdateSubscriptionsToEventBridgeOutputError>(id: "updateSubscriptionsToEventBridge")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSubscriptionsToEventBridgeInput, UpdateSubscriptionsToEventBridgeOutputResponse, UpdateSubscriptionsToEventBridgeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSubscriptionsToEventBridgeInput, UpdateSubscriptionsToEventBridgeOutputResponse>())
@@ -2548,7 +2613,7 @@ extension DatabaseMigrationClient: DatabaseMigrationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSubscriptionsToEventBridgeOutputResponse, UpdateSubscriptionsToEventBridgeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSubscriptionsToEventBridgeOutputResponse, UpdateSubscriptionsToEventBridgeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSubscriptionsToEventBridgeOutputResponse, UpdateSubscriptionsToEventBridgeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

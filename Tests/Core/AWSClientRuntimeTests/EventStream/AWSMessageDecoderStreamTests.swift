@@ -14,7 +14,7 @@ final class AWSMessageDecoderStreamTests: XCTestCase {
         let bufferedStream = BufferedStream(data: validMessageDataWithAllHeaders + validMessageDataEmptyPayload + validMessageDataNoHeaders,
                                             isClosed: true)
         let messageDecoder = AWSEventStream.AWSMessageDecoder()
-        let sut = AWSEventStream.AWSMessageDecoderStream<TestEvent>(stream: bufferedStream,
+        let sut = EventStream.DefaultMessageDecoderStream<TestEvent>(stream: bufferedStream,
                                                                       messageDecoder: messageDecoder,
                                                                       responseDecoder: JSONDecoder())
 

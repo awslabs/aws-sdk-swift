@@ -221,6 +221,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateContainerInput, CreateContainerOutputResponse, CreateContainerOutputError>(id: "createContainer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateContainerInput, CreateContainerOutputResponse, CreateContainerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateContainerInput, CreateContainerOutputResponse>())
@@ -237,7 +238,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateContainerOutputResponse, CreateContainerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateContainerOutputResponse, CreateContainerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateContainerOutputResponse, CreateContainerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteContainerInput, DeleteContainerOutputResponse, DeleteContainerOutputError>(id: "deleteContainer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteContainerInput, DeleteContainerOutputResponse, DeleteContainerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteContainerInput, DeleteContainerOutputResponse>())
@@ -273,7 +275,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteContainerOutputResponse, DeleteContainerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteContainerOutputResponse, DeleteContainerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteContainerOutputResponse, DeleteContainerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteContainerPolicyInput, DeleteContainerPolicyOutputResponse, DeleteContainerPolicyOutputError>(id: "deleteContainerPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteContainerPolicyInput, DeleteContainerPolicyOutputResponse, DeleteContainerPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteContainerPolicyInput, DeleteContainerPolicyOutputResponse>())
@@ -309,7 +312,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteContainerPolicyOutputResponse, DeleteContainerPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteContainerPolicyOutputResponse, DeleteContainerPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteContainerPolicyOutputResponse, DeleteContainerPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -329,6 +332,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCorsPolicyInput, DeleteCorsPolicyOutputResponse, DeleteCorsPolicyOutputError>(id: "deleteCorsPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCorsPolicyInput, DeleteCorsPolicyOutputResponse, DeleteCorsPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCorsPolicyInput, DeleteCorsPolicyOutputResponse>())
@@ -345,7 +349,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCorsPolicyOutputResponse, DeleteCorsPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteCorsPolicyOutputResponse, DeleteCorsPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCorsPolicyOutputResponse, DeleteCorsPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -365,6 +369,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutputResponse, DeleteLifecyclePolicyOutputError>(id: "deleteLifecyclePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutputResponse, DeleteLifecyclePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutputResponse>())
@@ -381,7 +386,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLifecyclePolicyOutputResponse, DeleteLifecyclePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteLifecyclePolicyOutputResponse, DeleteLifecyclePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLifecyclePolicyOutputResponse, DeleteLifecyclePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -401,6 +406,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMetricPolicyInput, DeleteMetricPolicyOutputResponse, DeleteMetricPolicyOutputError>(id: "deleteMetricPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMetricPolicyInput, DeleteMetricPolicyOutputResponse, DeleteMetricPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMetricPolicyInput, DeleteMetricPolicyOutputResponse>())
@@ -417,7 +423,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMetricPolicyOutputResponse, DeleteMetricPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteMetricPolicyOutputResponse, DeleteMetricPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMetricPolicyOutputResponse, DeleteMetricPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -437,6 +443,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeContainerInput, DescribeContainerOutputResponse, DescribeContainerOutputError>(id: "describeContainer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeContainerInput, DescribeContainerOutputResponse, DescribeContainerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeContainerInput, DescribeContainerOutputResponse>())
@@ -453,7 +460,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeContainerOutputResponse, DescribeContainerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeContainerOutputResponse, DescribeContainerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeContainerOutputResponse, DescribeContainerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -473,6 +480,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetContainerPolicyInput, GetContainerPolicyOutputResponse, GetContainerPolicyOutputError>(id: "getContainerPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContainerPolicyInput, GetContainerPolicyOutputResponse, GetContainerPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContainerPolicyInput, GetContainerPolicyOutputResponse>())
@@ -489,7 +497,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContainerPolicyOutputResponse, GetContainerPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContainerPolicyOutputResponse, GetContainerPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContainerPolicyOutputResponse, GetContainerPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -509,6 +517,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCorsPolicyInput, GetCorsPolicyOutputResponse, GetCorsPolicyOutputError>(id: "getCorsPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCorsPolicyInput, GetCorsPolicyOutputResponse, GetCorsPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCorsPolicyInput, GetCorsPolicyOutputResponse>())
@@ -525,7 +534,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCorsPolicyOutputResponse, GetCorsPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCorsPolicyOutputResponse, GetCorsPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCorsPolicyOutputResponse, GetCorsPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -545,6 +554,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLifecyclePolicyInput, GetLifecyclePolicyOutputResponse, GetLifecyclePolicyOutputError>(id: "getLifecyclePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutputResponse, GetLifecyclePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutputResponse>())
@@ -561,7 +571,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLifecyclePolicyOutputResponse, GetLifecyclePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetLifecyclePolicyOutputResponse, GetLifecyclePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLifecyclePolicyOutputResponse, GetLifecyclePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -581,6 +591,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMetricPolicyInput, GetMetricPolicyOutputResponse, GetMetricPolicyOutputError>(id: "getMetricPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMetricPolicyInput, GetMetricPolicyOutputResponse, GetMetricPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMetricPolicyInput, GetMetricPolicyOutputResponse>())
@@ -597,7 +608,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMetricPolicyOutputResponse, GetMetricPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetMetricPolicyOutputResponse, GetMetricPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMetricPolicyOutputResponse, GetMetricPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -617,6 +628,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListContainersInput, ListContainersOutputResponse, ListContainersOutputError>(id: "listContainers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListContainersInput, ListContainersOutputResponse, ListContainersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListContainersInput, ListContainersOutputResponse>())
@@ -633,7 +645,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListContainersOutputResponse, ListContainersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListContainersOutputResponse, ListContainersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListContainersOutputResponse, ListContainersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -653,6 +665,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -669,7 +682,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -689,6 +702,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutContainerPolicyInput, PutContainerPolicyOutputResponse, PutContainerPolicyOutputError>(id: "putContainerPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutContainerPolicyInput, PutContainerPolicyOutputResponse, PutContainerPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutContainerPolicyInput, PutContainerPolicyOutputResponse>())
@@ -705,7 +719,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutContainerPolicyOutputResponse, PutContainerPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutContainerPolicyOutputResponse, PutContainerPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutContainerPolicyOutputResponse, PutContainerPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -725,6 +739,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutCorsPolicyInput, PutCorsPolicyOutputResponse, PutCorsPolicyOutputError>(id: "putCorsPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutCorsPolicyInput, PutCorsPolicyOutputResponse, PutCorsPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutCorsPolicyInput, PutCorsPolicyOutputResponse>())
@@ -741,7 +756,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutCorsPolicyOutputResponse, PutCorsPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutCorsPolicyOutputResponse, PutCorsPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutCorsPolicyOutputResponse, PutCorsPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -761,6 +776,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutLifecyclePolicyInput, PutLifecyclePolicyOutputResponse, PutLifecyclePolicyOutputError>(id: "putLifecyclePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutputResponse, PutLifecyclePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutLifecyclePolicyInput, PutLifecyclePolicyOutputResponse>())
@@ -777,7 +793,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutLifecyclePolicyOutputResponse, PutLifecyclePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutLifecyclePolicyOutputResponse, PutLifecyclePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutLifecyclePolicyOutputResponse, PutLifecyclePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -797,6 +813,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutMetricPolicyInput, PutMetricPolicyOutputResponse, PutMetricPolicyOutputError>(id: "putMetricPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutMetricPolicyInput, PutMetricPolicyOutputResponse, PutMetricPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutMetricPolicyInput, PutMetricPolicyOutputResponse>())
@@ -813,7 +830,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutMetricPolicyOutputResponse, PutMetricPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutMetricPolicyOutputResponse, PutMetricPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutMetricPolicyOutputResponse, PutMetricPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -833,6 +850,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartAccessLoggingInput, StartAccessLoggingOutputResponse, StartAccessLoggingOutputError>(id: "startAccessLogging")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartAccessLoggingInput, StartAccessLoggingOutputResponse, StartAccessLoggingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartAccessLoggingInput, StartAccessLoggingOutputResponse>())
@@ -849,7 +867,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartAccessLoggingOutputResponse, StartAccessLoggingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartAccessLoggingOutputResponse, StartAccessLoggingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartAccessLoggingOutputResponse, StartAccessLoggingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -869,6 +887,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopAccessLoggingInput, StopAccessLoggingOutputResponse, StopAccessLoggingOutputError>(id: "stopAccessLogging")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopAccessLoggingInput, StopAccessLoggingOutputResponse, StopAccessLoggingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopAccessLoggingInput, StopAccessLoggingOutputResponse>())
@@ -885,7 +904,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopAccessLoggingOutputResponse, StopAccessLoggingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopAccessLoggingOutputResponse, StopAccessLoggingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopAccessLoggingOutputResponse, StopAccessLoggingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -905,6 +924,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -921,7 +941,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -941,6 +961,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediastore")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -957,7 +978,7 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

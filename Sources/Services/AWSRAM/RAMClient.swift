@@ -221,6 +221,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AcceptResourceShareInvitationInput, AcceptResourceShareInvitationOutputResponse, AcceptResourceShareInvitationOutputError>(id: "acceptResourceShareInvitation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptResourceShareInvitationInput, AcceptResourceShareInvitationOutputResponse, AcceptResourceShareInvitationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptResourceShareInvitationInput, AcceptResourceShareInvitationOutputResponse>())
@@ -236,7 +237,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptResourceShareInvitationOutputResponse, AcceptResourceShareInvitationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AcceptResourceShareInvitationOutputResponse, AcceptResourceShareInvitationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptResourceShareInvitationOutputResponse, AcceptResourceShareInvitationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateResourceShareInput, AssociateResourceShareOutputResponse, AssociateResourceShareOutputError>(id: "associateResourceShare")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateResourceShareInput, AssociateResourceShareOutputResponse, AssociateResourceShareOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateResourceShareInput, AssociateResourceShareOutputResponse>())
@@ -271,7 +273,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateResourceShareOutputResponse, AssociateResourceShareOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateResourceShareOutputResponse, AssociateResourceShareOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateResourceShareOutputResponse, AssociateResourceShareOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -291,6 +293,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateResourceSharePermissionInput, AssociateResourceSharePermissionOutputResponse, AssociateResourceSharePermissionOutputError>(id: "associateResourceSharePermission")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateResourceSharePermissionInput, AssociateResourceSharePermissionOutputResponse, AssociateResourceSharePermissionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateResourceSharePermissionInput, AssociateResourceSharePermissionOutputResponse>())
@@ -306,7 +309,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateResourceSharePermissionOutputResponse, AssociateResourceSharePermissionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateResourceSharePermissionOutputResponse, AssociateResourceSharePermissionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateResourceSharePermissionOutputResponse, AssociateResourceSharePermissionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -326,6 +329,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateResourceShareInput, CreateResourceShareOutputResponse, CreateResourceShareOutputError>(id: "createResourceShare")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateResourceShareInput, CreateResourceShareOutputResponse, CreateResourceShareOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateResourceShareInput, CreateResourceShareOutputResponse>())
@@ -341,7 +345,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateResourceShareOutputResponse, CreateResourceShareOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateResourceShareOutputResponse, CreateResourceShareOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateResourceShareOutputResponse, CreateResourceShareOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -361,6 +365,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteResourceShareInput, DeleteResourceShareOutputResponse, DeleteResourceShareOutputError>(id: "deleteResourceShare")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourceShareInput, DeleteResourceShareOutputResponse, DeleteResourceShareOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourceShareInput, DeleteResourceShareOutputResponse>())
@@ -374,7 +379,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourceShareOutputResponse, DeleteResourceShareOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteResourceShareOutputResponse, DeleteResourceShareOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourceShareOutputResponse, DeleteResourceShareOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -394,6 +399,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateResourceShareInput, DisassociateResourceShareOutputResponse, DisassociateResourceShareOutputError>(id: "disassociateResourceShare")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateResourceShareInput, DisassociateResourceShareOutputResponse, DisassociateResourceShareOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateResourceShareInput, DisassociateResourceShareOutputResponse>())
@@ -409,7 +415,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateResourceShareOutputResponse, DisassociateResourceShareOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateResourceShareOutputResponse, DisassociateResourceShareOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateResourceShareOutputResponse, DisassociateResourceShareOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -429,6 +435,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateResourceSharePermissionInput, DisassociateResourceSharePermissionOutputResponse, DisassociateResourceSharePermissionOutputError>(id: "disassociateResourceSharePermission")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateResourceSharePermissionInput, DisassociateResourceSharePermissionOutputResponse, DisassociateResourceSharePermissionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateResourceSharePermissionInput, DisassociateResourceSharePermissionOutputResponse>())
@@ -444,7 +451,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateResourceSharePermissionOutputResponse, DisassociateResourceSharePermissionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateResourceSharePermissionOutputResponse, DisassociateResourceSharePermissionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateResourceSharePermissionOutputResponse, DisassociateResourceSharePermissionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -464,6 +471,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableSharingWithAwsOrganizationInput, EnableSharingWithAwsOrganizationOutputResponse, EnableSharingWithAwsOrganizationOutputError>(id: "enableSharingWithAwsOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableSharingWithAwsOrganizationInput, EnableSharingWithAwsOrganizationOutputResponse, EnableSharingWithAwsOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableSharingWithAwsOrganizationInput, EnableSharingWithAwsOrganizationOutputResponse>())
@@ -476,7 +484,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableSharingWithAwsOrganizationOutputResponse, EnableSharingWithAwsOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<EnableSharingWithAwsOrganizationOutputResponse, EnableSharingWithAwsOrganizationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableSharingWithAwsOrganizationOutputResponse, EnableSharingWithAwsOrganizationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -496,6 +504,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPermissionInput, GetPermissionOutputResponse, GetPermissionOutputError>(id: "getPermission")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPermissionInput, GetPermissionOutputResponse, GetPermissionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPermissionInput, GetPermissionOutputResponse>())
@@ -511,7 +520,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPermissionOutputResponse, GetPermissionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPermissionOutputResponse, GetPermissionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPermissionOutputResponse, GetPermissionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -531,6 +540,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetResourcePoliciesInput, GetResourcePoliciesOutputResponse, GetResourcePoliciesOutputError>(id: "getResourcePolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutputResponse, GetResourcePoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutputResponse>())
@@ -546,7 +556,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourcePoliciesOutputResponse, GetResourcePoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetResourcePoliciesOutputResponse, GetResourcePoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourcePoliciesOutputResponse, GetResourcePoliciesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -566,6 +576,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetResourceShareAssociationsInput, GetResourceShareAssociationsOutputResponse, GetResourceShareAssociationsOutputError>(id: "getResourceShareAssociations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceShareAssociationsInput, GetResourceShareAssociationsOutputResponse, GetResourceShareAssociationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceShareAssociationsInput, GetResourceShareAssociationsOutputResponse>())
@@ -581,7 +592,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceShareAssociationsOutputResponse, GetResourceShareAssociationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetResourceShareAssociationsOutputResponse, GetResourceShareAssociationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceShareAssociationsOutputResponse, GetResourceShareAssociationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -601,6 +612,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetResourceShareInvitationsInput, GetResourceShareInvitationsOutputResponse, GetResourceShareInvitationsOutputError>(id: "getResourceShareInvitations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceShareInvitationsInput, GetResourceShareInvitationsOutputResponse, GetResourceShareInvitationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceShareInvitationsInput, GetResourceShareInvitationsOutputResponse>())
@@ -616,7 +628,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceShareInvitationsOutputResponse, GetResourceShareInvitationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetResourceShareInvitationsOutputResponse, GetResourceShareInvitationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceShareInvitationsOutputResponse, GetResourceShareInvitationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -636,6 +648,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetResourceSharesInput, GetResourceSharesOutputResponse, GetResourceSharesOutputError>(id: "getResourceShares")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceSharesInput, GetResourceSharesOutputResponse, GetResourceSharesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceSharesInput, GetResourceSharesOutputResponse>())
@@ -651,7 +664,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceSharesOutputResponse, GetResourceSharesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetResourceSharesOutputResponse, GetResourceSharesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceSharesOutputResponse, GetResourceSharesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -671,6 +684,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPendingInvitationResourcesInput, ListPendingInvitationResourcesOutputResponse, ListPendingInvitationResourcesOutputError>(id: "listPendingInvitationResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPendingInvitationResourcesInput, ListPendingInvitationResourcesOutputResponse, ListPendingInvitationResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPendingInvitationResourcesInput, ListPendingInvitationResourcesOutputResponse>())
@@ -686,7 +700,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPendingInvitationResourcesOutputResponse, ListPendingInvitationResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPendingInvitationResourcesOutputResponse, ListPendingInvitationResourcesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPendingInvitationResourcesOutputResponse, ListPendingInvitationResourcesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -706,6 +720,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPermissionVersionsInput, ListPermissionVersionsOutputResponse, ListPermissionVersionsOutputError>(id: "listPermissionVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionVersionsInput, ListPermissionVersionsOutputResponse, ListPermissionVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPermissionVersionsInput, ListPermissionVersionsOutputResponse>())
@@ -721,7 +736,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPermissionVersionsOutputResponse, ListPermissionVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPermissionVersionsOutputResponse, ListPermissionVersionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPermissionVersionsOutputResponse, ListPermissionVersionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -741,6 +756,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPermissionsInput, ListPermissionsOutputResponse, ListPermissionsOutputError>(id: "listPermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionsInput, ListPermissionsOutputResponse, ListPermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPermissionsInput, ListPermissionsOutputResponse>())
@@ -756,7 +772,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPermissionsOutputResponse, ListPermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPermissionsOutputResponse, ListPermissionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPermissionsOutputResponse, ListPermissionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -776,6 +792,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPrincipalsInput, ListPrincipalsOutputResponse, ListPrincipalsOutputError>(id: "listPrincipals")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPrincipalsInput, ListPrincipalsOutputResponse, ListPrincipalsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPrincipalsInput, ListPrincipalsOutputResponse>())
@@ -791,7 +808,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPrincipalsOutputResponse, ListPrincipalsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPrincipalsOutputResponse, ListPrincipalsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPrincipalsOutputResponse, ListPrincipalsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -811,6 +828,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListResourceSharePermissionsInput, ListResourceSharePermissionsOutputResponse, ListResourceSharePermissionsOutputError>(id: "listResourceSharePermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceSharePermissionsInput, ListResourceSharePermissionsOutputResponse, ListResourceSharePermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceSharePermissionsInput, ListResourceSharePermissionsOutputResponse>())
@@ -826,7 +844,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceSharePermissionsOutputResponse, ListResourceSharePermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListResourceSharePermissionsOutputResponse, ListResourceSharePermissionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceSharePermissionsOutputResponse, ListResourceSharePermissionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -846,6 +864,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListResourceTypesInput, ListResourceTypesOutputResponse, ListResourceTypesOutputError>(id: "listResourceTypes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceTypesInput, ListResourceTypesOutputResponse, ListResourceTypesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceTypesInput, ListResourceTypesOutputResponse>())
@@ -861,7 +880,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceTypesOutputResponse, ListResourceTypesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListResourceTypesOutputResponse, ListResourceTypesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceTypesOutputResponse, ListResourceTypesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -881,6 +900,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListResourcesInput, ListResourcesOutputResponse, ListResourcesOutputError>(id: "listResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourcesInput, ListResourcesOutputResponse, ListResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourcesInput, ListResourcesOutputResponse>())
@@ -896,7 +916,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourcesOutputResponse, ListResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListResourcesOutputResponse, ListResourcesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourcesOutputResponse, ListResourcesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -916,6 +936,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PromoteResourceShareCreatedFromPolicyInput, PromoteResourceShareCreatedFromPolicyOutputResponse, PromoteResourceShareCreatedFromPolicyOutputError>(id: "promoteResourceShareCreatedFromPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PromoteResourceShareCreatedFromPolicyInput, PromoteResourceShareCreatedFromPolicyOutputResponse, PromoteResourceShareCreatedFromPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PromoteResourceShareCreatedFromPolicyInput, PromoteResourceShareCreatedFromPolicyOutputResponse>())
@@ -929,7 +950,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PromoteResourceShareCreatedFromPolicyOutputResponse, PromoteResourceShareCreatedFromPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PromoteResourceShareCreatedFromPolicyOutputResponse, PromoteResourceShareCreatedFromPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PromoteResourceShareCreatedFromPolicyOutputResponse, PromoteResourceShareCreatedFromPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -949,6 +970,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RejectResourceShareInvitationInput, RejectResourceShareInvitationOutputResponse, RejectResourceShareInvitationOutputError>(id: "rejectResourceShareInvitation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RejectResourceShareInvitationInput, RejectResourceShareInvitationOutputResponse, RejectResourceShareInvitationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RejectResourceShareInvitationInput, RejectResourceShareInvitationOutputResponse>())
@@ -964,7 +986,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectResourceShareInvitationOutputResponse, RejectResourceShareInvitationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RejectResourceShareInvitationOutputResponse, RejectResourceShareInvitationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectResourceShareInvitationOutputResponse, RejectResourceShareInvitationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -984,6 +1006,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -999,7 +1022,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1019,6 +1042,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1034,7 +1058,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1054,6 +1078,7 @@ extension RAMClient: RAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ram")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateResourceShareInput, UpdateResourceShareOutputResponse, UpdateResourceShareOutputError>(id: "updateResourceShare")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResourceShareInput, UpdateResourceShareOutputResponse, UpdateResourceShareOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateResourceShareInput, UpdateResourceShareOutputResponse>())
@@ -1069,7 +1094,7 @@ extension RAMClient: RAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResourceShareOutputResponse, UpdateResourceShareOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateResourceShareOutputResponse, UpdateResourceShareOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResourceShareOutputResponse, UpdateResourceShareOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

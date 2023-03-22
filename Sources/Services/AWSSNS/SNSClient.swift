@@ -217,6 +217,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddPermissionInput, AddPermissionOutputResponse, AddPermissionOutputError>(id: "addPermission")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddPermissionInput, AddPermissionOutputResponse, AddPermissionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddPermissionInput, AddPermissionOutputResponse>())
@@ -232,7 +233,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddPermissionOutputResponse, AddPermissionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AddPermissionOutputResponse, AddPermissionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddPermissionOutputResponse, AddPermissionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -252,6 +253,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CheckIfPhoneNumberIsOptedOutInput, CheckIfPhoneNumberIsOptedOutOutputResponse, CheckIfPhoneNumberIsOptedOutOutputError>(id: "checkIfPhoneNumberIsOptedOut")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CheckIfPhoneNumberIsOptedOutInput, CheckIfPhoneNumberIsOptedOutOutputResponse, CheckIfPhoneNumberIsOptedOutOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CheckIfPhoneNumberIsOptedOutInput, CheckIfPhoneNumberIsOptedOutOutputResponse>())
@@ -267,7 +269,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CheckIfPhoneNumberIsOptedOutOutputResponse, CheckIfPhoneNumberIsOptedOutOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CheckIfPhoneNumberIsOptedOutOutputResponse, CheckIfPhoneNumberIsOptedOutOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CheckIfPhoneNumberIsOptedOutOutputResponse, CheckIfPhoneNumberIsOptedOutOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -287,6 +289,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ConfirmSubscriptionInput, ConfirmSubscriptionOutputResponse, ConfirmSubscriptionOutputError>(id: "confirmSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfirmSubscriptionInput, ConfirmSubscriptionOutputResponse, ConfirmSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfirmSubscriptionInput, ConfirmSubscriptionOutputResponse>())
@@ -302,7 +305,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConfirmSubscriptionOutputResponse, ConfirmSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ConfirmSubscriptionOutputResponse, ConfirmSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConfirmSubscriptionOutputResponse, ConfirmSubscriptionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -339,6 +342,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePlatformApplicationInput, CreatePlatformApplicationOutputResponse, CreatePlatformApplicationOutputError>(id: "createPlatformApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePlatformApplicationInput, CreatePlatformApplicationOutputResponse, CreatePlatformApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePlatformApplicationInput, CreatePlatformApplicationOutputResponse>())
@@ -354,7 +358,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePlatformApplicationOutputResponse, CreatePlatformApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePlatformApplicationOutputResponse, CreatePlatformApplicationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePlatformApplicationOutputResponse, CreatePlatformApplicationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -374,6 +378,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePlatformEndpointInput, CreatePlatformEndpointOutputResponse, CreatePlatformEndpointOutputError>(id: "createPlatformEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePlatformEndpointInput, CreatePlatformEndpointOutputResponse, CreatePlatformEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePlatformEndpointInput, CreatePlatformEndpointOutputResponse>())
@@ -389,7 +394,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePlatformEndpointOutputResponse, CreatePlatformEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePlatformEndpointOutputResponse, CreatePlatformEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePlatformEndpointOutputResponse, CreatePlatformEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -409,6 +414,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSMSSandboxPhoneNumberInput, CreateSMSSandboxPhoneNumberOutputResponse, CreateSMSSandboxPhoneNumberOutputError>(id: "createSMSSandboxPhoneNumber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSMSSandboxPhoneNumberInput, CreateSMSSandboxPhoneNumberOutputResponse, CreateSMSSandboxPhoneNumberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSMSSandboxPhoneNumberInput, CreateSMSSandboxPhoneNumberOutputResponse>())
@@ -424,7 +430,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSMSSandboxPhoneNumberOutputResponse, CreateSMSSandboxPhoneNumberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSMSSandboxPhoneNumberOutputResponse, CreateSMSSandboxPhoneNumberOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSMSSandboxPhoneNumberOutputResponse, CreateSMSSandboxPhoneNumberOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -444,6 +450,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTopicInput, CreateTopicOutputResponse, CreateTopicOutputError>(id: "createTopic")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTopicInput, CreateTopicOutputResponse, CreateTopicOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTopicInput, CreateTopicOutputResponse>())
@@ -459,7 +466,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTopicOutputResponse, CreateTopicOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateTopicOutputResponse, CreateTopicOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTopicOutputResponse, CreateTopicOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -479,6 +486,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEndpointInput, DeleteEndpointOutputResponse, DeleteEndpointOutputError>(id: "deleteEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEndpointInput, DeleteEndpointOutputResponse, DeleteEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEndpointInput, DeleteEndpointOutputResponse>())
@@ -494,7 +502,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEndpointOutputResponse, DeleteEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteEndpointOutputResponse, DeleteEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEndpointOutputResponse, DeleteEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -514,6 +522,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePlatformApplicationInput, DeletePlatformApplicationOutputResponse, DeletePlatformApplicationOutputError>(id: "deletePlatformApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePlatformApplicationInput, DeletePlatformApplicationOutputResponse, DeletePlatformApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePlatformApplicationInput, DeletePlatformApplicationOutputResponse>())
@@ -529,7 +538,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePlatformApplicationOutputResponse, DeletePlatformApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeletePlatformApplicationOutputResponse, DeletePlatformApplicationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePlatformApplicationOutputResponse, DeletePlatformApplicationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -549,6 +558,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSMSSandboxPhoneNumberInput, DeleteSMSSandboxPhoneNumberOutputResponse, DeleteSMSSandboxPhoneNumberOutputError>(id: "deleteSMSSandboxPhoneNumber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSMSSandboxPhoneNumberInput, DeleteSMSSandboxPhoneNumberOutputResponse, DeleteSMSSandboxPhoneNumberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSMSSandboxPhoneNumberInput, DeleteSMSSandboxPhoneNumberOutputResponse>())
@@ -564,7 +574,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSMSSandboxPhoneNumberOutputResponse, DeleteSMSSandboxPhoneNumberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSMSSandboxPhoneNumberOutputResponse, DeleteSMSSandboxPhoneNumberOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSMSSandboxPhoneNumberOutputResponse, DeleteSMSSandboxPhoneNumberOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -584,6 +594,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTopicInput, DeleteTopicOutputResponse, DeleteTopicOutputError>(id: "deleteTopic")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTopicInput, DeleteTopicOutputResponse, DeleteTopicOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTopicInput, DeleteTopicOutputResponse>())
@@ -599,7 +610,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTopicOutputResponse, DeleteTopicOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteTopicOutputResponse, DeleteTopicOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTopicOutputResponse, DeleteTopicOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -619,6 +630,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutputResponse, GetDataProtectionPolicyOutputError>(id: "getDataProtectionPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutputResponse, GetDataProtectionPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutputResponse>())
@@ -634,7 +646,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDataProtectionPolicyOutputResponse, GetDataProtectionPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDataProtectionPolicyOutputResponse, GetDataProtectionPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDataProtectionPolicyOutputResponse, GetDataProtectionPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -654,6 +666,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEndpointAttributesInput, GetEndpointAttributesOutputResponse, GetEndpointAttributesOutputError>(id: "getEndpointAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEndpointAttributesInput, GetEndpointAttributesOutputResponse, GetEndpointAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEndpointAttributesInput, GetEndpointAttributesOutputResponse>())
@@ -669,7 +682,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEndpointAttributesOutputResponse, GetEndpointAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetEndpointAttributesOutputResponse, GetEndpointAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEndpointAttributesOutputResponse, GetEndpointAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -689,6 +702,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPlatformApplicationAttributesInput, GetPlatformApplicationAttributesOutputResponse, GetPlatformApplicationAttributesOutputError>(id: "getPlatformApplicationAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPlatformApplicationAttributesInput, GetPlatformApplicationAttributesOutputResponse, GetPlatformApplicationAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPlatformApplicationAttributesInput, GetPlatformApplicationAttributesOutputResponse>())
@@ -704,7 +718,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPlatformApplicationAttributesOutputResponse, GetPlatformApplicationAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPlatformApplicationAttributesOutputResponse, GetPlatformApplicationAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPlatformApplicationAttributesOutputResponse, GetPlatformApplicationAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -724,6 +738,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSMSAttributesInput, GetSMSAttributesOutputResponse, GetSMSAttributesOutputError>(id: "getSMSAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSMSAttributesInput, GetSMSAttributesOutputResponse, GetSMSAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSMSAttributesInput, GetSMSAttributesOutputResponse>())
@@ -739,7 +754,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSMSAttributesOutputResponse, GetSMSAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSMSAttributesOutputResponse, GetSMSAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSMSAttributesOutputResponse, GetSMSAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -759,6 +774,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSMSSandboxAccountStatusInput, GetSMSSandboxAccountStatusOutputResponse, GetSMSSandboxAccountStatusOutputError>(id: "getSMSSandboxAccountStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSMSSandboxAccountStatusInput, GetSMSSandboxAccountStatusOutputResponse, GetSMSSandboxAccountStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSMSSandboxAccountStatusInput, GetSMSSandboxAccountStatusOutputResponse>())
@@ -774,7 +790,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSMSSandboxAccountStatusOutputResponse, GetSMSSandboxAccountStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSMSSandboxAccountStatusOutputResponse, GetSMSSandboxAccountStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSMSSandboxAccountStatusOutputResponse, GetSMSSandboxAccountStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -794,6 +810,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSubscriptionAttributesInput, GetSubscriptionAttributesOutputResponse, GetSubscriptionAttributesOutputError>(id: "getSubscriptionAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSubscriptionAttributesInput, GetSubscriptionAttributesOutputResponse, GetSubscriptionAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSubscriptionAttributesInput, GetSubscriptionAttributesOutputResponse>())
@@ -809,7 +826,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSubscriptionAttributesOutputResponse, GetSubscriptionAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSubscriptionAttributesOutputResponse, GetSubscriptionAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSubscriptionAttributesOutputResponse, GetSubscriptionAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -829,6 +846,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTopicAttributesInput, GetTopicAttributesOutputResponse, GetTopicAttributesOutputError>(id: "getTopicAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTopicAttributesInput, GetTopicAttributesOutputResponse, GetTopicAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTopicAttributesInput, GetTopicAttributesOutputResponse>())
@@ -844,7 +862,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTopicAttributesOutputResponse, GetTopicAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetTopicAttributesOutputResponse, GetTopicAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTopicAttributesOutputResponse, GetTopicAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -864,6 +882,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEndpointsByPlatformApplicationInput, ListEndpointsByPlatformApplicationOutputResponse, ListEndpointsByPlatformApplicationOutputError>(id: "listEndpointsByPlatformApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEndpointsByPlatformApplicationInput, ListEndpointsByPlatformApplicationOutputResponse, ListEndpointsByPlatformApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEndpointsByPlatformApplicationInput, ListEndpointsByPlatformApplicationOutputResponse>())
@@ -879,7 +898,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEndpointsByPlatformApplicationOutputResponse, ListEndpointsByPlatformApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListEndpointsByPlatformApplicationOutputResponse, ListEndpointsByPlatformApplicationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEndpointsByPlatformApplicationOutputResponse, ListEndpointsByPlatformApplicationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -899,6 +918,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListOriginationNumbersInput, ListOriginationNumbersOutputResponse, ListOriginationNumbersOutputError>(id: "listOriginationNumbers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOriginationNumbersInput, ListOriginationNumbersOutputResponse, ListOriginationNumbersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOriginationNumbersInput, ListOriginationNumbersOutputResponse>())
@@ -914,7 +934,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOriginationNumbersOutputResponse, ListOriginationNumbersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListOriginationNumbersOutputResponse, ListOriginationNumbersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOriginationNumbersOutputResponse, ListOriginationNumbersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -934,6 +954,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPhoneNumbersOptedOutInput, ListPhoneNumbersOptedOutOutputResponse, ListPhoneNumbersOptedOutOutputError>(id: "listPhoneNumbersOptedOut")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPhoneNumbersOptedOutInput, ListPhoneNumbersOptedOutOutputResponse, ListPhoneNumbersOptedOutOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPhoneNumbersOptedOutInput, ListPhoneNumbersOptedOutOutputResponse>())
@@ -949,7 +970,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPhoneNumbersOptedOutOutputResponse, ListPhoneNumbersOptedOutOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPhoneNumbersOptedOutOutputResponse, ListPhoneNumbersOptedOutOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPhoneNumbersOptedOutOutputResponse, ListPhoneNumbersOptedOutOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -969,6 +990,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPlatformApplicationsInput, ListPlatformApplicationsOutputResponse, ListPlatformApplicationsOutputError>(id: "listPlatformApplications")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPlatformApplicationsInput, ListPlatformApplicationsOutputResponse, ListPlatformApplicationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPlatformApplicationsInput, ListPlatformApplicationsOutputResponse>())
@@ -984,7 +1006,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPlatformApplicationsOutputResponse, ListPlatformApplicationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPlatformApplicationsOutputResponse, ListPlatformApplicationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPlatformApplicationsOutputResponse, ListPlatformApplicationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1004,6 +1026,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSMSSandboxPhoneNumbersInput, ListSMSSandboxPhoneNumbersOutputResponse, ListSMSSandboxPhoneNumbersOutputError>(id: "listSMSSandboxPhoneNumbers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSMSSandboxPhoneNumbersInput, ListSMSSandboxPhoneNumbersOutputResponse, ListSMSSandboxPhoneNumbersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSMSSandboxPhoneNumbersInput, ListSMSSandboxPhoneNumbersOutputResponse>())
@@ -1019,7 +1042,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSMSSandboxPhoneNumbersOutputResponse, ListSMSSandboxPhoneNumbersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSMSSandboxPhoneNumbersOutputResponse, ListSMSSandboxPhoneNumbersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSMSSandboxPhoneNumbersOutputResponse, ListSMSSandboxPhoneNumbersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1039,6 +1062,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSubscriptionsInput, ListSubscriptionsOutputResponse, ListSubscriptionsOutputError>(id: "listSubscriptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSubscriptionsInput, ListSubscriptionsOutputResponse, ListSubscriptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSubscriptionsInput, ListSubscriptionsOutputResponse>())
@@ -1054,7 +1078,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSubscriptionsOutputResponse, ListSubscriptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSubscriptionsOutputResponse, ListSubscriptionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSubscriptionsOutputResponse, ListSubscriptionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1074,6 +1098,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSubscriptionsByTopicInput, ListSubscriptionsByTopicOutputResponse, ListSubscriptionsByTopicOutputError>(id: "listSubscriptionsByTopic")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSubscriptionsByTopicInput, ListSubscriptionsByTopicOutputResponse, ListSubscriptionsByTopicOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSubscriptionsByTopicInput, ListSubscriptionsByTopicOutputResponse>())
@@ -1089,7 +1114,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSubscriptionsByTopicOutputResponse, ListSubscriptionsByTopicOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSubscriptionsByTopicOutputResponse, ListSubscriptionsByTopicOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSubscriptionsByTopicOutputResponse, ListSubscriptionsByTopicOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1109,6 +1134,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1124,7 +1150,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1144,6 +1170,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTopicsInput, ListTopicsOutputResponse, ListTopicsOutputError>(id: "listTopics")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTopicsInput, ListTopicsOutputResponse, ListTopicsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTopicsInput, ListTopicsOutputResponse>())
@@ -1159,7 +1186,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTopicsOutputResponse, ListTopicsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTopicsOutputResponse, ListTopicsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTopicsOutputResponse, ListTopicsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1179,6 +1206,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<OptInPhoneNumberInput, OptInPhoneNumberOutputResponse, OptInPhoneNumberOutputError>(id: "optInPhoneNumber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<OptInPhoneNumberInput, OptInPhoneNumberOutputResponse, OptInPhoneNumberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<OptInPhoneNumberInput, OptInPhoneNumberOutputResponse>())
@@ -1194,7 +1222,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<OptInPhoneNumberOutputResponse, OptInPhoneNumberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<OptInPhoneNumberOutputResponse, OptInPhoneNumberOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<OptInPhoneNumberOutputResponse, OptInPhoneNumberOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1214,6 +1242,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PublishInput, PublishOutputResponse, PublishOutputError>(id: "publish")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishInput, PublishOutputResponse, PublishOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishInput, PublishOutputResponse>())
@@ -1229,7 +1258,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishOutputResponse, PublishOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PublishOutputResponse, PublishOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishOutputResponse, PublishOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1249,6 +1278,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PublishBatchInput, PublishBatchOutputResponse, PublishBatchOutputError>(id: "publishBatch")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishBatchInput, PublishBatchOutputResponse, PublishBatchOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishBatchInput, PublishBatchOutputResponse>())
@@ -1264,7 +1294,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishBatchOutputResponse, PublishBatchOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PublishBatchOutputResponse, PublishBatchOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishBatchOutputResponse, PublishBatchOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1284,6 +1314,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutputResponse, PutDataProtectionPolicyOutputError>(id: "putDataProtectionPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutputResponse, PutDataProtectionPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutputResponse>())
@@ -1299,7 +1330,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutDataProtectionPolicyOutputResponse, PutDataProtectionPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutDataProtectionPolicyOutputResponse, PutDataProtectionPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutDataProtectionPolicyOutputResponse, PutDataProtectionPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1319,6 +1350,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemovePermissionInput, RemovePermissionOutputResponse, RemovePermissionOutputError>(id: "removePermission")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemovePermissionInput, RemovePermissionOutputResponse, RemovePermissionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemovePermissionInput, RemovePermissionOutputResponse>())
@@ -1334,7 +1366,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemovePermissionOutputResponse, RemovePermissionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RemovePermissionOutputResponse, RemovePermissionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemovePermissionOutputResponse, RemovePermissionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1354,6 +1386,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetEndpointAttributesInput, SetEndpointAttributesOutputResponse, SetEndpointAttributesOutputError>(id: "setEndpointAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetEndpointAttributesInput, SetEndpointAttributesOutputResponse, SetEndpointAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetEndpointAttributesInput, SetEndpointAttributesOutputResponse>())
@@ -1369,7 +1402,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetEndpointAttributesOutputResponse, SetEndpointAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetEndpointAttributesOutputResponse, SetEndpointAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetEndpointAttributesOutputResponse, SetEndpointAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1389,6 +1422,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetPlatformApplicationAttributesInput, SetPlatformApplicationAttributesOutputResponse, SetPlatformApplicationAttributesOutputError>(id: "setPlatformApplicationAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetPlatformApplicationAttributesInput, SetPlatformApplicationAttributesOutputResponse, SetPlatformApplicationAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetPlatformApplicationAttributesInput, SetPlatformApplicationAttributesOutputResponse>())
@@ -1404,7 +1438,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetPlatformApplicationAttributesOutputResponse, SetPlatformApplicationAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetPlatformApplicationAttributesOutputResponse, SetPlatformApplicationAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetPlatformApplicationAttributesOutputResponse, SetPlatformApplicationAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1424,6 +1458,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetSMSAttributesInput, SetSMSAttributesOutputResponse, SetSMSAttributesOutputError>(id: "setSMSAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetSMSAttributesInput, SetSMSAttributesOutputResponse, SetSMSAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetSMSAttributesInput, SetSMSAttributesOutputResponse>())
@@ -1439,7 +1474,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetSMSAttributesOutputResponse, SetSMSAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetSMSAttributesOutputResponse, SetSMSAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetSMSAttributesOutputResponse, SetSMSAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1459,6 +1494,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetSubscriptionAttributesInput, SetSubscriptionAttributesOutputResponse, SetSubscriptionAttributesOutputError>(id: "setSubscriptionAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetSubscriptionAttributesInput, SetSubscriptionAttributesOutputResponse, SetSubscriptionAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetSubscriptionAttributesInput, SetSubscriptionAttributesOutputResponse>())
@@ -1474,7 +1510,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetSubscriptionAttributesOutputResponse, SetSubscriptionAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetSubscriptionAttributesOutputResponse, SetSubscriptionAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetSubscriptionAttributesOutputResponse, SetSubscriptionAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1494,6 +1530,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetTopicAttributesInput, SetTopicAttributesOutputResponse, SetTopicAttributesOutputError>(id: "setTopicAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetTopicAttributesInput, SetTopicAttributesOutputResponse, SetTopicAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetTopicAttributesInput, SetTopicAttributesOutputResponse>())
@@ -1509,7 +1546,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetTopicAttributesOutputResponse, SetTopicAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetTopicAttributesOutputResponse, SetTopicAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetTopicAttributesOutputResponse, SetTopicAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1529,6 +1566,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SubscribeInput, SubscribeOutputResponse, SubscribeOutputError>(id: "subscribe")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SubscribeInput, SubscribeOutputResponse, SubscribeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SubscribeInput, SubscribeOutputResponse>())
@@ -1544,7 +1582,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SubscribeOutputResponse, SubscribeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SubscribeOutputResponse, SubscribeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SubscribeOutputResponse, SubscribeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1574,6 +1612,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1589,7 +1628,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1609,6 +1648,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UnsubscribeInput, UnsubscribeOutputResponse, UnsubscribeOutputError>(id: "unsubscribe")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UnsubscribeInput, UnsubscribeOutputResponse, UnsubscribeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UnsubscribeInput, UnsubscribeOutputResponse>())
@@ -1624,7 +1664,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UnsubscribeOutputResponse, UnsubscribeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UnsubscribeOutputResponse, UnsubscribeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UnsubscribeOutputResponse, UnsubscribeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1644,6 +1684,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1659,7 +1700,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1679,6 +1720,7 @@ extension SNSClient: SNSClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sns")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<VerifySMSSandboxPhoneNumberInput, VerifySMSSandboxPhoneNumberOutputResponse, VerifySMSSandboxPhoneNumberOutputError>(id: "verifySMSSandboxPhoneNumber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifySMSSandboxPhoneNumberInput, VerifySMSSandboxPhoneNumberOutputResponse, VerifySMSSandboxPhoneNumberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifySMSSandboxPhoneNumberInput, VerifySMSSandboxPhoneNumberOutputResponse>())
@@ -1694,7 +1736,7 @@ extension SNSClient: SNSClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifySMSSandboxPhoneNumberOutputResponse, VerifySMSSandboxPhoneNumberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<VerifySMSSandboxPhoneNumberOutputResponse, VerifySMSSandboxPhoneNumberOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifySMSSandboxPhoneNumberOutputResponse, VerifySMSSandboxPhoneNumberOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

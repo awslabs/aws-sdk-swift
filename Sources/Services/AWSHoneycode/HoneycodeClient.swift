@@ -221,6 +221,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "honeycode")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchCreateTableRowsInput, BatchCreateTableRowsOutputResponse, BatchCreateTableRowsOutputError>(id: "batchCreateTableRows")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchCreateTableRowsInput, BatchCreateTableRowsOutputResponse, BatchCreateTableRowsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchCreateTableRowsInput, BatchCreateTableRowsOutputResponse>())
@@ -236,7 +237,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchCreateTableRowsOutputResponse, BatchCreateTableRowsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchCreateTableRowsOutputResponse, BatchCreateTableRowsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchCreateTableRowsOutputResponse, BatchCreateTableRowsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "honeycode")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDeleteTableRowsInput, BatchDeleteTableRowsOutputResponse, BatchDeleteTableRowsOutputError>(id: "batchDeleteTableRows")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteTableRowsInput, BatchDeleteTableRowsOutputResponse, BatchDeleteTableRowsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteTableRowsInput, BatchDeleteTableRowsOutputResponse>())
@@ -271,7 +273,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteTableRowsOutputResponse, BatchDeleteTableRowsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteTableRowsOutputResponse, BatchDeleteTableRowsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteTableRowsOutputResponse, BatchDeleteTableRowsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -291,6 +293,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "honeycode")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchUpdateTableRowsInput, BatchUpdateTableRowsOutputResponse, BatchUpdateTableRowsOutputError>(id: "batchUpdateTableRows")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateTableRowsInput, BatchUpdateTableRowsOutputResponse, BatchUpdateTableRowsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdateTableRowsInput, BatchUpdateTableRowsOutputResponse>())
@@ -306,7 +309,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdateTableRowsOutputResponse, BatchUpdateTableRowsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchUpdateTableRowsOutputResponse, BatchUpdateTableRowsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdateTableRowsOutputResponse, BatchUpdateTableRowsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -326,6 +329,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "honeycode")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchUpsertTableRowsInput, BatchUpsertTableRowsOutputResponse, BatchUpsertTableRowsOutputError>(id: "batchUpsertTableRows")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpsertTableRowsInput, BatchUpsertTableRowsOutputResponse, BatchUpsertTableRowsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpsertTableRowsInput, BatchUpsertTableRowsOutputResponse>())
@@ -341,7 +345,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpsertTableRowsOutputResponse, BatchUpsertTableRowsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchUpsertTableRowsOutputResponse, BatchUpsertTableRowsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpsertTableRowsOutputResponse, BatchUpsertTableRowsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -361,6 +365,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "honeycode")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTableDataImportJobInput, DescribeTableDataImportJobOutputResponse, DescribeTableDataImportJobOutputError>(id: "describeTableDataImportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTableDataImportJobInput, DescribeTableDataImportJobOutputResponse, DescribeTableDataImportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTableDataImportJobInput, DescribeTableDataImportJobOutputResponse>())
@@ -373,7 +378,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTableDataImportJobOutputResponse, DescribeTableDataImportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeTableDataImportJobOutputResponse, DescribeTableDataImportJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTableDataImportJobOutputResponse, DescribeTableDataImportJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -393,6 +398,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "honeycode")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetScreenDataInput, GetScreenDataOutputResponse, GetScreenDataOutputError>(id: "getScreenData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetScreenDataInput, GetScreenDataOutputResponse, GetScreenDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetScreenDataInput, GetScreenDataOutputResponse>())
@@ -408,7 +414,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetScreenDataOutputResponse, GetScreenDataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetScreenDataOutputResponse, GetScreenDataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetScreenDataOutputResponse, GetScreenDataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -428,6 +434,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "honeycode")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<InvokeScreenAutomationInput, InvokeScreenAutomationOutputResponse, InvokeScreenAutomationOutputError>(id: "invokeScreenAutomation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InvokeScreenAutomationInput, InvokeScreenAutomationOutputResponse, InvokeScreenAutomationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InvokeScreenAutomationInput, InvokeScreenAutomationOutputResponse>())
@@ -443,7 +450,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InvokeScreenAutomationOutputResponse, InvokeScreenAutomationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<InvokeScreenAutomationOutputResponse, InvokeScreenAutomationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InvokeScreenAutomationOutputResponse, InvokeScreenAutomationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -463,6 +470,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "honeycode")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTableColumnsInput, ListTableColumnsOutputResponse, ListTableColumnsOutputError>(id: "listTableColumns")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTableColumnsInput, ListTableColumnsOutputResponse, ListTableColumnsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTableColumnsInput, ListTableColumnsOutputResponse>())
@@ -476,7 +484,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTableColumnsOutputResponse, ListTableColumnsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTableColumnsOutputResponse, ListTableColumnsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTableColumnsOutputResponse, ListTableColumnsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -496,6 +504,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "honeycode")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTableRowsInput, ListTableRowsOutputResponse, ListTableRowsOutputError>(id: "listTableRows")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTableRowsInput, ListTableRowsOutputResponse, ListTableRowsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTableRowsInput, ListTableRowsOutputResponse>())
@@ -511,7 +520,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTableRowsOutputResponse, ListTableRowsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTableRowsOutputResponse, ListTableRowsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTableRowsOutputResponse, ListTableRowsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -531,6 +540,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "honeycode")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTablesInput, ListTablesOutputResponse, ListTablesOutputError>(id: "listTables")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTablesInput, ListTablesOutputResponse, ListTablesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTablesInput, ListTablesOutputResponse>())
@@ -544,7 +554,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTablesOutputResponse, ListTablesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTablesOutputResponse, ListTablesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTablesOutputResponse, ListTablesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -564,6 +574,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "honeycode")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -576,7 +587,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -596,6 +607,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "honeycode")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<QueryTableRowsInput, QueryTableRowsOutputResponse, QueryTableRowsOutputError>(id: "queryTableRows")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<QueryTableRowsInput, QueryTableRowsOutputResponse, QueryTableRowsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<QueryTableRowsInput, QueryTableRowsOutputResponse>())
@@ -611,7 +623,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<QueryTableRowsOutputResponse, QueryTableRowsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<QueryTableRowsOutputResponse, QueryTableRowsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<QueryTableRowsOutputResponse, QueryTableRowsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -631,6 +643,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "honeycode")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartTableDataImportJobInput, StartTableDataImportJobOutputResponse, StartTableDataImportJobOutputError>(id: "startTableDataImportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartTableDataImportJobInput, StartTableDataImportJobOutputResponse, StartTableDataImportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartTableDataImportJobInput, StartTableDataImportJobOutputResponse>())
@@ -646,7 +659,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartTableDataImportJobOutputResponse, StartTableDataImportJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartTableDataImportJobOutputResponse, StartTableDataImportJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartTableDataImportJobOutputResponse, StartTableDataImportJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -666,6 +679,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "honeycode")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -681,7 +695,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -701,6 +715,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "honeycode")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -714,7 +729,7 @@ extension HoneycodeClient: HoneycodeClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

@@ -221,6 +221,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateComponentInput, CreateComponentOutputResponse, CreateComponentOutputError>(id: "createComponent")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateComponentOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -245,7 +246,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateComponentOutputResponse, CreateComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateComponentOutputResponse, CreateComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateComponentOutputResponse, CreateComponentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -265,6 +266,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFormInput, CreateFormOutputResponse, CreateFormOutputError>(id: "createForm")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateFormOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -289,7 +291,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFormOutputResponse, CreateFormOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateFormOutputResponse, CreateFormOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFormOutputResponse, CreateFormOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -309,6 +311,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateThemeInput, CreateThemeOutputResponse, CreateThemeOutputError>(id: "createTheme")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateThemeOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -333,7 +336,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateThemeOutputResponse, CreateThemeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateThemeOutputResponse, CreateThemeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateThemeOutputResponse, CreateThemeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -353,6 +356,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteComponentInput, DeleteComponentOutputResponse, DeleteComponentOutputError>(id: "deleteComponent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteComponentInput, DeleteComponentOutputResponse, DeleteComponentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteComponentInput, DeleteComponentOutputResponse>())
@@ -365,7 +369,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteComponentOutputResponse, DeleteComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteComponentOutputResponse, DeleteComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteComponentOutputResponse, DeleteComponentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -385,6 +389,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFormInput, DeleteFormOutputResponse, DeleteFormOutputError>(id: "deleteForm")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFormInput, DeleteFormOutputResponse, DeleteFormOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFormInput, DeleteFormOutputResponse>())
@@ -397,7 +402,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFormOutputResponse, DeleteFormOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteFormOutputResponse, DeleteFormOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFormOutputResponse, DeleteFormOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -417,6 +422,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteThemeInput, DeleteThemeOutputResponse, DeleteThemeOutputError>(id: "deleteTheme")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteThemeInput, DeleteThemeOutputResponse, DeleteThemeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteThemeInput, DeleteThemeOutputResponse>())
@@ -429,7 +435,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteThemeOutputResponse, DeleteThemeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteThemeOutputResponse, DeleteThemeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteThemeOutputResponse, DeleteThemeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -449,6 +455,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExchangeCodeForTokenInput, ExchangeCodeForTokenOutputResponse, ExchangeCodeForTokenOutputError>(id: "exchangeCodeForToken")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExchangeCodeForTokenInput, ExchangeCodeForTokenOutputResponse, ExchangeCodeForTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExchangeCodeForTokenInput, ExchangeCodeForTokenOutputResponse>())
@@ -464,7 +471,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExchangeCodeForTokenOutputResponse, ExchangeCodeForTokenOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExchangeCodeForTokenOutputResponse, ExchangeCodeForTokenOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExchangeCodeForTokenOutputResponse, ExchangeCodeForTokenOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -484,6 +491,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExportComponentsInput, ExportComponentsOutputResponse, ExportComponentsOutputError>(id: "exportComponents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportComponentsInput, ExportComponentsOutputResponse, ExportComponentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportComponentsInput, ExportComponentsOutputResponse>())
@@ -497,7 +505,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportComponentsOutputResponse, ExportComponentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExportComponentsOutputResponse, ExportComponentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportComponentsOutputResponse, ExportComponentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -517,6 +525,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExportFormsInput, ExportFormsOutputResponse, ExportFormsOutputError>(id: "exportForms")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportFormsInput, ExportFormsOutputResponse, ExportFormsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportFormsInput, ExportFormsOutputResponse>())
@@ -530,7 +539,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportFormsOutputResponse, ExportFormsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExportFormsOutputResponse, ExportFormsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportFormsOutputResponse, ExportFormsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -550,6 +559,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExportThemesInput, ExportThemesOutputResponse, ExportThemesOutputError>(id: "exportThemes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportThemesInput, ExportThemesOutputResponse, ExportThemesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportThemesInput, ExportThemesOutputResponse>())
@@ -563,7 +573,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportThemesOutputResponse, ExportThemesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExportThemesOutputResponse, ExportThemesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportThemesOutputResponse, ExportThemesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -583,6 +593,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetComponentInput, GetComponentOutputResponse, GetComponentOutputError>(id: "getComponent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetComponentInput, GetComponentOutputResponse, GetComponentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetComponentInput, GetComponentOutputResponse>())
@@ -595,7 +606,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetComponentOutputResponse, GetComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetComponentOutputResponse, GetComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComponentOutputResponse, GetComponentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -615,6 +626,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFormInput, GetFormOutputResponse, GetFormOutputError>(id: "getForm")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFormInput, GetFormOutputResponse, GetFormOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFormInput, GetFormOutputResponse>())
@@ -627,7 +639,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFormOutputResponse, GetFormOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetFormOutputResponse, GetFormOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFormOutputResponse, GetFormOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -647,6 +659,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMetadataInput, GetMetadataOutputResponse, GetMetadataOutputError>(id: "getMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMetadataInput, GetMetadataOutputResponse, GetMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMetadataInput, GetMetadataOutputResponse>())
@@ -659,7 +672,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMetadataOutputResponse, GetMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetMetadataOutputResponse, GetMetadataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMetadataOutputResponse, GetMetadataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -679,6 +692,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetThemeInput, GetThemeOutputResponse, GetThemeOutputError>(id: "getTheme")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetThemeInput, GetThemeOutputResponse, GetThemeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetThemeInput, GetThemeOutputResponse>())
@@ -691,7 +705,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetThemeOutputResponse, GetThemeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetThemeOutputResponse, GetThemeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetThemeOutputResponse, GetThemeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -711,6 +725,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListComponentsInput, ListComponentsOutputResponse, ListComponentsOutputError>(id: "listComponents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListComponentsInput, ListComponentsOutputResponse, ListComponentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListComponentsInput, ListComponentsOutputResponse>())
@@ -724,7 +739,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListComponentsOutputResponse, ListComponentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListComponentsOutputResponse, ListComponentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListComponentsOutputResponse, ListComponentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -744,6 +759,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFormsInput, ListFormsOutputResponse, ListFormsOutputError>(id: "listForms")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFormsInput, ListFormsOutputResponse, ListFormsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFormsInput, ListFormsOutputResponse>())
@@ -757,7 +773,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFormsOutputResponse, ListFormsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListFormsOutputResponse, ListFormsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFormsOutputResponse, ListFormsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -777,6 +793,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListThemesInput, ListThemesOutputResponse, ListThemesOutputError>(id: "listThemes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListThemesInput, ListThemesOutputResponse, ListThemesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListThemesInput, ListThemesOutputResponse>())
@@ -790,7 +807,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListThemesOutputResponse, ListThemesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListThemesOutputResponse, ListThemesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListThemesOutputResponse, ListThemesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -810,6 +827,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutMetadataFlagInput, PutMetadataFlagOutputResponse, PutMetadataFlagOutputError>(id: "putMetadataFlag")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutMetadataFlagInput, PutMetadataFlagOutputResponse, PutMetadataFlagOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutMetadataFlagInput, PutMetadataFlagOutputResponse>())
@@ -825,7 +843,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutMetadataFlagOutputResponse, PutMetadataFlagOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutMetadataFlagOutputResponse, PutMetadataFlagOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutMetadataFlagOutputResponse, PutMetadataFlagOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -845,6 +863,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RefreshTokenInput, RefreshTokenOutputResponse, RefreshTokenOutputError>(id: "refreshToken")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RefreshTokenInput, RefreshTokenOutputResponse, RefreshTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RefreshTokenInput, RefreshTokenOutputResponse>())
@@ -860,7 +879,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RefreshTokenOutputResponse, RefreshTokenOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RefreshTokenOutputResponse, RefreshTokenOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RefreshTokenOutputResponse, RefreshTokenOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -880,6 +899,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateComponentInput, UpdateComponentOutputResponse, UpdateComponentOutputError>(id: "updateComponent")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateComponentOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -904,7 +924,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateComponentOutputResponse, UpdateComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateComponentOutputResponse, UpdateComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateComponentOutputResponse, UpdateComponentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -924,6 +944,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFormInput, UpdateFormOutputResponse, UpdateFormOutputError>(id: "updateForm")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateFormOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -948,7 +969,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFormOutputResponse, UpdateFormOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateFormOutputResponse, UpdateFormOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFormOutputResponse, UpdateFormOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -968,6 +989,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "amplifyuibuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateThemeInput, UpdateThemeOutputResponse, UpdateThemeOutputError>(id: "updateTheme")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateThemeOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -992,7 +1014,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateThemeOutputResponse, UpdateThemeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateThemeOutputResponse, UpdateThemeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateThemeOutputResponse, UpdateThemeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

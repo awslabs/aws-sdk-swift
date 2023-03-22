@@ -221,6 +221,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-storage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteObjectInput, DeleteObjectOutputResponse, DeleteObjectOutputError>(id: "deleteObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteObjectInput, DeleteObjectOutputResponse, DeleteObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteObjectInput, DeleteObjectOutputResponse>())
@@ -233,7 +234,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteObjectOutputResponse, DeleteObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteObjectOutputResponse, DeleteObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteObjectOutputResponse, DeleteObjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -253,6 +254,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-storage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetChunkInput, GetChunkOutputResponse, GetChunkOutputError>(id: "getChunk")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetChunkInput, GetChunkOutputResponse, GetChunkOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetChunkInput, GetChunkOutputResponse>())
@@ -265,7 +267,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetChunkOutputResponse, GetChunkOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetChunkOutputResponse, GetChunkOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetChunkOutputResponse, GetChunkOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -285,6 +287,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-storage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetObjectMetadataInput, GetObjectMetadataOutputResponse, GetObjectMetadataOutputError>(id: "getObjectMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectMetadataInput, GetObjectMetadataOutputResponse, GetObjectMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectMetadataInput, GetObjectMetadataOutputResponse>())
@@ -297,7 +300,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectMetadataOutputResponse, GetObjectMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetObjectMetadataOutputResponse, GetObjectMetadataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectMetadataOutputResponse, GetObjectMetadataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -317,6 +320,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-storage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListChunksInput, ListChunksOutputResponse, ListChunksOutputError>(id: "listChunks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChunksInput, ListChunksOutputResponse, ListChunksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChunksInput, ListChunksOutputResponse>())
@@ -330,7 +334,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChunksOutputResponse, ListChunksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListChunksOutputResponse, ListChunksOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChunksOutputResponse, ListChunksOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -350,6 +354,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-storage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListObjectsInput, ListObjectsOutputResponse, ListObjectsOutputError>(id: "listObjects")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListObjectsInput, ListObjectsOutputResponse, ListObjectsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListObjectsInput, ListObjectsOutputResponse>())
@@ -363,7 +368,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListObjectsOutputResponse, ListObjectsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListObjectsOutputResponse, ListObjectsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListObjectsOutputResponse, ListObjectsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -383,6 +388,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-storage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<NotifyObjectCompleteInput, NotifyObjectCompleteOutputResponse, NotifyObjectCompleteOutputError>(id: "notifyObjectComplete")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NotifyObjectCompleteInput, NotifyObjectCompleteOutputResponse, NotifyObjectCompleteOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NotifyObjectCompleteInput, NotifyObjectCompleteOutputResponse>())
@@ -399,7 +405,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<NotifyObjectCompleteOutputResponse, NotifyObjectCompleteOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<NotifyObjectCompleteOutputResponse, NotifyObjectCompleteOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<NotifyObjectCompleteOutputResponse, NotifyObjectCompleteOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -419,6 +425,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-storage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutChunkInput, PutChunkOutputResponse, PutChunkOutputError>(id: "putChunk")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutChunkInput, PutChunkOutputResponse, PutChunkOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutChunkInput, PutChunkOutputResponse>())
@@ -435,7 +442,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutChunkOutputResponse, PutChunkOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutChunkOutputResponse, PutChunkOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutChunkOutputResponse, PutChunkOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -455,6 +462,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-storage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>(id: "putObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutputResponse>())
@@ -471,7 +479,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutputResponse, PutObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutputResponse, PutObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutputResponse, PutObjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -491,6 +499,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "backup-storage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartObjectInput, StartObjectOutputResponse, StartObjectOutputError>(id: "startObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartObjectInput, StartObjectOutputResponse, StartObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartObjectInput, StartObjectOutputResponse>())
@@ -506,7 +515,7 @@ extension BackupStorageClient: BackupStorageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartObjectOutputResponse, StartObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartObjectOutputResponse, StartObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartObjectOutputResponse, StartObjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

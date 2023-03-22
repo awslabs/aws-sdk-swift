@@ -221,6 +221,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AbortMultipartUploadInput, AbortMultipartUploadOutputResponse, AbortMultipartUploadOutputError>(id: "abortMultipartUpload")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<AbortMultipartUploadOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -243,7 +244,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<AbortMultipartUploadOutputResponse, AbortMultipartUploadOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AbortMultipartUploadOutputResponse, AbortMultipartUploadOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AbortMultipartUploadOutputResponse, AbortMultipartUploadOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -263,6 +264,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AbortVaultLockInput, AbortVaultLockOutputResponse, AbortVaultLockOutputError>(id: "abortVaultLock")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<AbortVaultLockOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -285,7 +287,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<AbortVaultLockOutputResponse, AbortVaultLockOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AbortVaultLockOutputResponse, AbortVaultLockOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AbortVaultLockOutputResponse, AbortVaultLockOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -305,6 +307,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddTagsToVaultInput, AddTagsToVaultOutputResponse, AddTagsToVaultOutputError>(id: "addTagsToVault")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<AddTagsToVaultOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -331,7 +334,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<AddTagsToVaultOutputResponse, AddTagsToVaultOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AddTagsToVaultOutputResponse, AddTagsToVaultOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsToVaultOutputResponse, AddTagsToVaultOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -351,6 +354,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CompleteMultipartUploadInput, CompleteMultipartUploadOutputResponse, CompleteMultipartUploadOutputError>(id: "completeMultipartUpload")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<CompleteMultipartUploadOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -374,7 +378,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<CompleteMultipartUploadOutputResponse, CompleteMultipartUploadOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CompleteMultipartUploadOutputResponse, CompleteMultipartUploadOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompleteMultipartUploadOutputResponse, CompleteMultipartUploadOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -394,6 +398,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CompleteVaultLockInput, CompleteVaultLockOutputResponse, CompleteVaultLockOutputError>(id: "completeVaultLock")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<CompleteVaultLockOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -416,7 +421,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<CompleteVaultLockOutputResponse, CompleteVaultLockOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CompleteVaultLockOutputResponse, CompleteVaultLockOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompleteVaultLockOutputResponse, CompleteVaultLockOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -443,6 +448,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateVaultInput, CreateVaultOutputResponse, CreateVaultOutputError>(id: "createVault")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<CreateVaultOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -465,7 +471,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<CreateVaultOutputResponse, CreateVaultOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateVaultOutputResponse, CreateVaultOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVaultOutputResponse, CreateVaultOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -492,6 +498,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteArchiveInput, DeleteArchiveOutputResponse, DeleteArchiveOutputError>(id: "deleteArchive")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteArchiveOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -514,7 +521,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<DeleteArchiveOutputResponse, DeleteArchiveOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteArchiveOutputResponse, DeleteArchiveOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteArchiveOutputResponse, DeleteArchiveOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -534,6 +541,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVaultInput, DeleteVaultOutputResponse, DeleteVaultOutputError>(id: "deleteVault")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteVaultOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -556,7 +564,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<DeleteVaultOutputResponse, DeleteVaultOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteVaultOutputResponse, DeleteVaultOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVaultOutputResponse, DeleteVaultOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -576,6 +584,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVaultAccessPolicyInput, DeleteVaultAccessPolicyOutputResponse, DeleteVaultAccessPolicyOutputError>(id: "deleteVaultAccessPolicy")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteVaultAccessPolicyOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -598,7 +607,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<DeleteVaultAccessPolicyOutputResponse, DeleteVaultAccessPolicyOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteVaultAccessPolicyOutputResponse, DeleteVaultAccessPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVaultAccessPolicyOutputResponse, DeleteVaultAccessPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -618,6 +627,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVaultNotificationsInput, DeleteVaultNotificationsOutputResponse, DeleteVaultNotificationsOutputError>(id: "deleteVaultNotifications")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteVaultNotificationsOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -640,7 +650,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<DeleteVaultNotificationsOutputResponse, DeleteVaultNotificationsOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteVaultNotificationsOutputResponse, DeleteVaultNotificationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVaultNotificationsOutputResponse, DeleteVaultNotificationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -660,6 +670,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeJobInput, DescribeJobOutputResponse, DescribeJobOutputError>(id: "describeJob")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<DescribeJobOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -682,7 +693,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<DescribeJobOutputResponse, DescribeJobOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeJobOutputResponse, DescribeJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeJobOutputResponse, DescribeJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -702,6 +713,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeVaultInput, DescribeVaultOutputResponse, DescribeVaultOutputError>(id: "describeVault")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<DescribeVaultOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -724,7 +736,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<DescribeVaultOutputResponse, DescribeVaultOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeVaultOutputResponse, DescribeVaultOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeVaultOutputResponse, DescribeVaultOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -744,6 +756,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDataRetrievalPolicyInput, GetDataRetrievalPolicyOutputResponse, GetDataRetrievalPolicyOutputError>(id: "getDataRetrievalPolicy")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<GetDataRetrievalPolicyOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -766,7 +779,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<GetDataRetrievalPolicyOutputResponse, GetDataRetrievalPolicyOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDataRetrievalPolicyOutputResponse, GetDataRetrievalPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDataRetrievalPolicyOutputResponse, GetDataRetrievalPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -786,6 +799,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetJobOutputInput, GetJobOutputOutputResponse, GetJobOutputOutputError>(id: "getJobOutput")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<GetJobOutputOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -809,7 +823,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<GetJobOutputOutputResponse, GetJobOutputOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetJobOutputOutputResponse, GetJobOutputOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetJobOutputOutputResponse, GetJobOutputOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -829,6 +843,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVaultAccessPolicyInput, GetVaultAccessPolicyOutputResponse, GetVaultAccessPolicyOutputError>(id: "getVaultAccessPolicy")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<GetVaultAccessPolicyOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -851,7 +866,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<GetVaultAccessPolicyOutputResponse, GetVaultAccessPolicyOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetVaultAccessPolicyOutputResponse, GetVaultAccessPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVaultAccessPolicyOutputResponse, GetVaultAccessPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -882,6 +897,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVaultLockInput, GetVaultLockOutputResponse, GetVaultLockOutputError>(id: "getVaultLock")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<GetVaultLockOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -904,7 +920,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<GetVaultLockOutputResponse, GetVaultLockOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetVaultLockOutputResponse, GetVaultLockOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVaultLockOutputResponse, GetVaultLockOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -924,6 +940,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetVaultNotificationsInput, GetVaultNotificationsOutputResponse, GetVaultNotificationsOutputError>(id: "getVaultNotifications")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<GetVaultNotificationsOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -946,7 +963,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<GetVaultNotificationsOutputResponse, GetVaultNotificationsOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetVaultNotificationsOutputResponse, GetVaultNotificationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVaultNotificationsOutputResponse, GetVaultNotificationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -966,6 +983,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<InitiateJobInput, InitiateJobOutputResponse, InitiateJobOutputError>(id: "initiateJob")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<InitiateJobOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -991,7 +1009,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<InitiateJobOutputResponse, InitiateJobOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<InitiateJobOutputResponse, InitiateJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InitiateJobOutputResponse, InitiateJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1011,6 +1029,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<InitiateMultipartUploadInput, InitiateMultipartUploadOutputResponse, InitiateMultipartUploadOutputError>(id: "initiateMultipartUpload")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<InitiateMultipartUploadOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -1034,7 +1053,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<InitiateMultipartUploadOutputResponse, InitiateMultipartUploadOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<InitiateMultipartUploadOutputResponse, InitiateMultipartUploadOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InitiateMultipartUploadOutputResponse, InitiateMultipartUploadOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1063,6 +1082,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<InitiateVaultLockInput, InitiateVaultLockOutputResponse, InitiateVaultLockOutputError>(id: "initiateVaultLock")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<InitiateVaultLockOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -1088,7 +1108,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<InitiateVaultLockOutputResponse, InitiateVaultLockOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<InitiateVaultLockOutputResponse, InitiateVaultLockOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InitiateVaultLockOutputResponse, InitiateVaultLockOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1108,6 +1128,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListJobsInput, ListJobsOutputResponse, ListJobsOutputError>(id: "listJobs")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<ListJobsOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -1131,7 +1152,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<ListJobsOutputResponse, ListJobsOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListJobsOutputResponse, ListJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListJobsOutputResponse, ListJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1151,6 +1172,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMultipartUploadsInput, ListMultipartUploadsOutputResponse, ListMultipartUploadsOutputError>(id: "listMultipartUploads")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<ListMultipartUploadsOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -1174,7 +1196,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<ListMultipartUploadsOutputResponse, ListMultipartUploadsOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMultipartUploadsOutputResponse, ListMultipartUploadsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMultipartUploadsOutputResponse, ListMultipartUploadsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1194,6 +1216,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPartsInput, ListPartsOutputResponse, ListPartsOutputError>(id: "listParts")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<ListPartsOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -1217,7 +1240,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<ListPartsOutputResponse, ListPartsOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPartsOutputResponse, ListPartsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPartsOutputResponse, ListPartsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1237,6 +1260,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListProvisionedCapacityInput, ListProvisionedCapacityOutputResponse, ListProvisionedCapacityOutputError>(id: "listProvisionedCapacity")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<ListProvisionedCapacityOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -1259,7 +1283,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<ListProvisionedCapacityOutputResponse, ListProvisionedCapacityOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListProvisionedCapacityOutputResponse, ListProvisionedCapacityOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProvisionedCapacityOutputResponse, ListProvisionedCapacityOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1279,6 +1303,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForVaultInput, ListTagsForVaultOutputResponse, ListTagsForVaultOutputError>(id: "listTagsForVault")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<ListTagsForVaultOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -1301,7 +1326,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<ListTagsForVaultOutputResponse, ListTagsForVaultOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForVaultOutputResponse, ListTagsForVaultOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForVaultOutputResponse, ListTagsForVaultOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1321,6 +1346,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVaultsInput, ListVaultsOutputResponse, ListVaultsOutputError>(id: "listVaults")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<ListVaultsOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -1344,7 +1370,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<ListVaultsOutputResponse, ListVaultsOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListVaultsOutputResponse, ListVaultsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVaultsOutputResponse, ListVaultsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1364,6 +1390,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PurchaseProvisionedCapacityInput, PurchaseProvisionedCapacityOutputResponse, PurchaseProvisionedCapacityOutputError>(id: "purchaseProvisionedCapacity")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<PurchaseProvisionedCapacityOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -1386,7 +1413,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<PurchaseProvisionedCapacityOutputResponse, PurchaseProvisionedCapacityOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PurchaseProvisionedCapacityOutputResponse, PurchaseProvisionedCapacityOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurchaseProvisionedCapacityOutputResponse, PurchaseProvisionedCapacityOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1406,6 +1433,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveTagsFromVaultInput, RemoveTagsFromVaultOutputResponse, RemoveTagsFromVaultOutputError>(id: "removeTagsFromVault")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<RemoveTagsFromVaultOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -1432,7 +1460,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<RemoveTagsFromVaultOutputResponse, RemoveTagsFromVaultOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsFromVaultOutputResponse, RemoveTagsFromVaultOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsFromVaultOutputResponse, RemoveTagsFromVaultOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1452,6 +1480,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetDataRetrievalPolicyInput, SetDataRetrievalPolicyOutputResponse, SetDataRetrievalPolicyOutputError>(id: "setDataRetrievalPolicy")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<SetDataRetrievalPolicyOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -1477,7 +1506,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<SetDataRetrievalPolicyOutputResponse, SetDataRetrievalPolicyOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetDataRetrievalPolicyOutputResponse, SetDataRetrievalPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetDataRetrievalPolicyOutputResponse, SetDataRetrievalPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1497,6 +1526,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetVaultAccessPolicyInput, SetVaultAccessPolicyOutputResponse, SetVaultAccessPolicyOutputError>(id: "setVaultAccessPolicy")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<SetVaultAccessPolicyOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -1522,7 +1552,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<SetVaultAccessPolicyOutputResponse, SetVaultAccessPolicyOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetVaultAccessPolicyOutputResponse, SetVaultAccessPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetVaultAccessPolicyOutputResponse, SetVaultAccessPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1549,6 +1579,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetVaultNotificationsInput, SetVaultNotificationsOutputResponse, SetVaultNotificationsOutputError>(id: "setVaultNotifications")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<SetVaultNotificationsOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -1574,7 +1605,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<SetVaultNotificationsOutputResponse, SetVaultNotificationsOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetVaultNotificationsOutputResponse, SetVaultNotificationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetVaultNotificationsOutputResponse, SetVaultNotificationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1594,6 +1625,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UploadArchiveInput, UploadArchiveOutputResponse, UploadArchiveOutputError>(id: "uploadArchive")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<UploadArchiveOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -1620,7 +1652,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<UploadArchiveOutputResponse, UploadArchiveOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UploadArchiveOutputResponse, UploadArchiveOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadArchiveOutputResponse, UploadArchiveOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1649,6 +1681,7 @@ extension GlacierClient: GlacierClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "glacier")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UploadMultipartPartInput, UploadMultipartPartOutputResponse, UploadMultipartPartOutputError>(id: "uploadMultipartPart")
         operation.initializeStep.intercept(position: .before, id: "GlacierAccountIdAutoFill") { (context, input, next) -> ClientRuntime.OperationOutput<UploadMultipartPartOutputResponse> in
             guard let accountId = input.accountId, !accountId.isEmpty else {
@@ -1675,7 +1708,7 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<UploadMultipartPartOutputResponse, UploadMultipartPartOutputError>())
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UploadMultipartPartOutputResponse, UploadMultipartPartOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadMultipartPartOutputResponse, UploadMultipartPartOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

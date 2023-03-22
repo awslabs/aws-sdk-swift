@@ -221,6 +221,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ApproveSkillInput, ApproveSkillOutputResponse, ApproveSkillOutputError>(id: "approveSkill")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ApproveSkillInput, ApproveSkillOutputResponse, ApproveSkillOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ApproveSkillInput, ApproveSkillOutputResponse>())
@@ -237,7 +238,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ApproveSkillOutputResponse, ApproveSkillOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ApproveSkillOutputResponse, ApproveSkillOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ApproveSkillOutputResponse, ApproveSkillOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateContactWithAddressBookInput, AssociateContactWithAddressBookOutputResponse, AssociateContactWithAddressBookOutputError>(id: "associateContactWithAddressBook")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateContactWithAddressBookInput, AssociateContactWithAddressBookOutputResponse, AssociateContactWithAddressBookOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateContactWithAddressBookInput, AssociateContactWithAddressBookOutputResponse>())
@@ -273,7 +275,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateContactWithAddressBookOutputResponse, AssociateContactWithAddressBookOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateContactWithAddressBookOutputResponse, AssociateContactWithAddressBookOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateContactWithAddressBookOutputResponse, AssociateContactWithAddressBookOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateDeviceWithNetworkProfileInput, AssociateDeviceWithNetworkProfileOutputResponse, AssociateDeviceWithNetworkProfileOutputError>(id: "associateDeviceWithNetworkProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateDeviceWithNetworkProfileInput, AssociateDeviceWithNetworkProfileOutputResponse, AssociateDeviceWithNetworkProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateDeviceWithNetworkProfileInput, AssociateDeviceWithNetworkProfileOutputResponse>())
@@ -309,7 +312,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateDeviceWithNetworkProfileOutputResponse, AssociateDeviceWithNetworkProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateDeviceWithNetworkProfileOutputResponse, AssociateDeviceWithNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateDeviceWithNetworkProfileOutputResponse, AssociateDeviceWithNetworkProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -329,6 +332,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateDeviceWithRoomInput, AssociateDeviceWithRoomOutputResponse, AssociateDeviceWithRoomOutputError>(id: "associateDeviceWithRoom")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateDeviceWithRoomInput, AssociateDeviceWithRoomOutputResponse, AssociateDeviceWithRoomOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateDeviceWithRoomInput, AssociateDeviceWithRoomOutputResponse>())
@@ -345,7 +349,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateDeviceWithRoomOutputResponse, AssociateDeviceWithRoomOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateDeviceWithRoomOutputResponse, AssociateDeviceWithRoomOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateDeviceWithRoomOutputResponse, AssociateDeviceWithRoomOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -365,6 +369,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateSkillGroupWithRoomInput, AssociateSkillGroupWithRoomOutputResponse, AssociateSkillGroupWithRoomOutputError>(id: "associateSkillGroupWithRoom")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateSkillGroupWithRoomInput, AssociateSkillGroupWithRoomOutputResponse, AssociateSkillGroupWithRoomOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateSkillGroupWithRoomInput, AssociateSkillGroupWithRoomOutputResponse>())
@@ -381,7 +386,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateSkillGroupWithRoomOutputResponse, AssociateSkillGroupWithRoomOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateSkillGroupWithRoomOutputResponse, AssociateSkillGroupWithRoomOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateSkillGroupWithRoomOutputResponse, AssociateSkillGroupWithRoomOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -401,6 +406,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateSkillWithSkillGroupInput, AssociateSkillWithSkillGroupOutputResponse, AssociateSkillWithSkillGroupOutputError>(id: "associateSkillWithSkillGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateSkillWithSkillGroupInput, AssociateSkillWithSkillGroupOutputResponse, AssociateSkillWithSkillGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateSkillWithSkillGroupInput, AssociateSkillWithSkillGroupOutputResponse>())
@@ -417,7 +423,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateSkillWithSkillGroupOutputResponse, AssociateSkillWithSkillGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateSkillWithSkillGroupOutputResponse, AssociateSkillWithSkillGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateSkillWithSkillGroupOutputResponse, AssociateSkillWithSkillGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -437,6 +443,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateSkillWithUsersInput, AssociateSkillWithUsersOutputResponse, AssociateSkillWithUsersOutputError>(id: "associateSkillWithUsers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateSkillWithUsersInput, AssociateSkillWithUsersOutputResponse, AssociateSkillWithUsersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateSkillWithUsersInput, AssociateSkillWithUsersOutputResponse>())
@@ -453,7 +460,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateSkillWithUsersOutputResponse, AssociateSkillWithUsersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateSkillWithUsersOutputResponse, AssociateSkillWithUsersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateSkillWithUsersOutputResponse, AssociateSkillWithUsersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -473,6 +480,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAddressBookInput, CreateAddressBookOutputResponse, CreateAddressBookOutputError>(id: "createAddressBook")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateAddressBookOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -497,7 +505,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAddressBookOutputResponse, CreateAddressBookOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAddressBookOutputResponse, CreateAddressBookOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAddressBookOutputResponse, CreateAddressBookOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -517,6 +525,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBusinessReportScheduleInput, CreateBusinessReportScheduleOutputResponse, CreateBusinessReportScheduleOutputError>(id: "createBusinessReportSchedule")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateBusinessReportScheduleOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -541,7 +550,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBusinessReportScheduleOutputResponse, CreateBusinessReportScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateBusinessReportScheduleOutputResponse, CreateBusinessReportScheduleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBusinessReportScheduleOutputResponse, CreateBusinessReportScheduleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -561,6 +570,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateConferenceProviderInput, CreateConferenceProviderOutputResponse, CreateConferenceProviderOutputError>(id: "createConferenceProvider")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateConferenceProviderOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -585,7 +595,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConferenceProviderOutputResponse, CreateConferenceProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateConferenceProviderOutputResponse, CreateConferenceProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConferenceProviderOutputResponse, CreateConferenceProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -605,6 +615,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateContactInput, CreateContactOutputResponse, CreateContactOutputError>(id: "createContact")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateContactOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -629,7 +640,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateContactOutputResponse, CreateContactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateContactOutputResponse, CreateContactOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateContactOutputResponse, CreateContactOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -649,6 +660,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateGatewayGroupInput, CreateGatewayGroupOutputResponse, CreateGatewayGroupOutputError>(id: "createGatewayGroup")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateGatewayGroupOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -673,7 +685,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGatewayGroupOutputResponse, CreateGatewayGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateGatewayGroupOutputResponse, CreateGatewayGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGatewayGroupOutputResponse, CreateGatewayGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -693,6 +705,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateNetworkProfileInput, CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>(id: "createNetworkProfile")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateNetworkProfileOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -717,7 +730,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateNetworkProfileOutputResponse, CreateNetworkProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -737,6 +750,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateProfileInput, CreateProfileOutputResponse, CreateProfileOutputError>(id: "createProfile")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateProfileOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -761,7 +775,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProfileOutputResponse, CreateProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateProfileOutputResponse, CreateProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProfileOutputResponse, CreateProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -781,6 +795,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRoomInput, CreateRoomOutputResponse, CreateRoomOutputError>(id: "createRoom")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateRoomOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -805,7 +820,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRoomOutputResponse, CreateRoomOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateRoomOutputResponse, CreateRoomOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRoomOutputResponse, CreateRoomOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -825,6 +840,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSkillGroupInput, CreateSkillGroupOutputResponse, CreateSkillGroupOutputError>(id: "createSkillGroup")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateSkillGroupOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -849,7 +865,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSkillGroupOutputResponse, CreateSkillGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSkillGroupOutputResponse, CreateSkillGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSkillGroupOutputResponse, CreateSkillGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -869,6 +885,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateUserInput, CreateUserOutputResponse, CreateUserOutputError>(id: "createUser")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateUserOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -893,7 +910,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserOutputResponse, CreateUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateUserOutputResponse, CreateUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserOutputResponse, CreateUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -913,6 +930,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAddressBookInput, DeleteAddressBookOutputResponse, DeleteAddressBookOutputError>(id: "deleteAddressBook")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAddressBookInput, DeleteAddressBookOutputResponse, DeleteAddressBookOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAddressBookInput, DeleteAddressBookOutputResponse>())
@@ -929,7 +947,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAddressBookOutputResponse, DeleteAddressBookOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAddressBookOutputResponse, DeleteAddressBookOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAddressBookOutputResponse, DeleteAddressBookOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -949,6 +967,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBusinessReportScheduleInput, DeleteBusinessReportScheduleOutputResponse, DeleteBusinessReportScheduleOutputError>(id: "deleteBusinessReportSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBusinessReportScheduleInput, DeleteBusinessReportScheduleOutputResponse, DeleteBusinessReportScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBusinessReportScheduleInput, DeleteBusinessReportScheduleOutputResponse>())
@@ -965,7 +984,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBusinessReportScheduleOutputResponse, DeleteBusinessReportScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteBusinessReportScheduleOutputResponse, DeleteBusinessReportScheduleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBusinessReportScheduleOutputResponse, DeleteBusinessReportScheduleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -985,6 +1004,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteConferenceProviderInput, DeleteConferenceProviderOutputResponse, DeleteConferenceProviderOutputError>(id: "deleteConferenceProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConferenceProviderInput, DeleteConferenceProviderOutputResponse, DeleteConferenceProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConferenceProviderInput, DeleteConferenceProviderOutputResponse>())
@@ -1001,7 +1021,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConferenceProviderOutputResponse, DeleteConferenceProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteConferenceProviderOutputResponse, DeleteConferenceProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConferenceProviderOutputResponse, DeleteConferenceProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1021,6 +1041,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteContactInput, DeleteContactOutputResponse, DeleteContactOutputError>(id: "deleteContact")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteContactInput, DeleteContactOutputResponse, DeleteContactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteContactInput, DeleteContactOutputResponse>())
@@ -1037,7 +1058,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteContactOutputResponse, DeleteContactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteContactOutputResponse, DeleteContactOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteContactOutputResponse, DeleteContactOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1057,6 +1078,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDeviceInput, DeleteDeviceOutputResponse, DeleteDeviceOutputError>(id: "deleteDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDeviceInput, DeleteDeviceOutputResponse, DeleteDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDeviceInput, DeleteDeviceOutputResponse>())
@@ -1073,7 +1095,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeviceOutputResponse, DeleteDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDeviceOutputResponse, DeleteDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeviceOutputResponse, DeleteDeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1093,6 +1115,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDeviceUsageDataInput, DeleteDeviceUsageDataOutputResponse, DeleteDeviceUsageDataOutputError>(id: "deleteDeviceUsageData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDeviceUsageDataInput, DeleteDeviceUsageDataOutputResponse, DeleteDeviceUsageDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDeviceUsageDataInput, DeleteDeviceUsageDataOutputResponse>())
@@ -1109,7 +1132,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeviceUsageDataOutputResponse, DeleteDeviceUsageDataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDeviceUsageDataOutputResponse, DeleteDeviceUsageDataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeviceUsageDataOutputResponse, DeleteDeviceUsageDataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1129,6 +1152,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteGatewayGroupInput, DeleteGatewayGroupOutputResponse, DeleteGatewayGroupOutputError>(id: "deleteGatewayGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGatewayGroupInput, DeleteGatewayGroupOutputResponse, DeleteGatewayGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGatewayGroupInput, DeleteGatewayGroupOutputResponse>())
@@ -1145,7 +1169,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGatewayGroupOutputResponse, DeleteGatewayGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteGatewayGroupOutputResponse, DeleteGatewayGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGatewayGroupOutputResponse, DeleteGatewayGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1165,6 +1189,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteNetworkProfileInput, DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>(id: "deleteNetworkProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNetworkProfileInput, DeleteNetworkProfileOutputResponse>())
@@ -1181,7 +1206,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNetworkProfileOutputResponse, DeleteNetworkProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1201,6 +1226,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteProfileInput, DeleteProfileOutputResponse, DeleteProfileOutputError>(id: "deleteProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProfileInput, DeleteProfileOutputResponse, DeleteProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProfileInput, DeleteProfileOutputResponse>())
@@ -1217,7 +1243,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProfileOutputResponse, DeleteProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteProfileOutputResponse, DeleteProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProfileOutputResponse, DeleteProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1237,6 +1263,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRoomInput, DeleteRoomOutputResponse, DeleteRoomOutputError>(id: "deleteRoom")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRoomInput, DeleteRoomOutputResponse, DeleteRoomOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRoomInput, DeleteRoomOutputResponse>())
@@ -1253,7 +1280,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRoomOutputResponse, DeleteRoomOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteRoomOutputResponse, DeleteRoomOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRoomOutputResponse, DeleteRoomOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1273,6 +1300,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRoomSkillParameterInput, DeleteRoomSkillParameterOutputResponse, DeleteRoomSkillParameterOutputError>(id: "deleteRoomSkillParameter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRoomSkillParameterInput, DeleteRoomSkillParameterOutputResponse, DeleteRoomSkillParameterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRoomSkillParameterInput, DeleteRoomSkillParameterOutputResponse>())
@@ -1289,7 +1317,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRoomSkillParameterOutputResponse, DeleteRoomSkillParameterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteRoomSkillParameterOutputResponse, DeleteRoomSkillParameterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRoomSkillParameterOutputResponse, DeleteRoomSkillParameterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1309,6 +1337,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSkillAuthorizationInput, DeleteSkillAuthorizationOutputResponse, DeleteSkillAuthorizationOutputError>(id: "deleteSkillAuthorization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSkillAuthorizationInput, DeleteSkillAuthorizationOutputResponse, DeleteSkillAuthorizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSkillAuthorizationInput, DeleteSkillAuthorizationOutputResponse>())
@@ -1325,7 +1354,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSkillAuthorizationOutputResponse, DeleteSkillAuthorizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSkillAuthorizationOutputResponse, DeleteSkillAuthorizationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSkillAuthorizationOutputResponse, DeleteSkillAuthorizationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1345,6 +1374,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSkillGroupInput, DeleteSkillGroupOutputResponse, DeleteSkillGroupOutputError>(id: "deleteSkillGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSkillGroupInput, DeleteSkillGroupOutputResponse, DeleteSkillGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSkillGroupInput, DeleteSkillGroupOutputResponse>())
@@ -1361,7 +1391,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSkillGroupOutputResponse, DeleteSkillGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSkillGroupOutputResponse, DeleteSkillGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSkillGroupOutputResponse, DeleteSkillGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1381,6 +1411,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>(id: "deleteUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutputResponse>())
@@ -1397,7 +1428,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserOutputResponse, DeleteUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1417,6 +1448,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateContactFromAddressBookInput, DisassociateContactFromAddressBookOutputResponse, DisassociateContactFromAddressBookOutputError>(id: "disassociateContactFromAddressBook")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateContactFromAddressBookInput, DisassociateContactFromAddressBookOutputResponse, DisassociateContactFromAddressBookOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateContactFromAddressBookInput, DisassociateContactFromAddressBookOutputResponse>())
@@ -1433,7 +1465,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateContactFromAddressBookOutputResponse, DisassociateContactFromAddressBookOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateContactFromAddressBookOutputResponse, DisassociateContactFromAddressBookOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateContactFromAddressBookOutputResponse, DisassociateContactFromAddressBookOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1453,6 +1485,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateDeviceFromRoomInput, DisassociateDeviceFromRoomOutputResponse, DisassociateDeviceFromRoomOutputError>(id: "disassociateDeviceFromRoom")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateDeviceFromRoomInput, DisassociateDeviceFromRoomOutputResponse, DisassociateDeviceFromRoomOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateDeviceFromRoomInput, DisassociateDeviceFromRoomOutputResponse>())
@@ -1469,7 +1502,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateDeviceFromRoomOutputResponse, DisassociateDeviceFromRoomOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateDeviceFromRoomOutputResponse, DisassociateDeviceFromRoomOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateDeviceFromRoomOutputResponse, DisassociateDeviceFromRoomOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1489,6 +1522,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateSkillFromSkillGroupInput, DisassociateSkillFromSkillGroupOutputResponse, DisassociateSkillFromSkillGroupOutputError>(id: "disassociateSkillFromSkillGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateSkillFromSkillGroupInput, DisassociateSkillFromSkillGroupOutputResponse, DisassociateSkillFromSkillGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateSkillFromSkillGroupInput, DisassociateSkillFromSkillGroupOutputResponse>())
@@ -1505,7 +1539,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateSkillFromSkillGroupOutputResponse, DisassociateSkillFromSkillGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateSkillFromSkillGroupOutputResponse, DisassociateSkillFromSkillGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateSkillFromSkillGroupOutputResponse, DisassociateSkillFromSkillGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1525,6 +1559,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateSkillFromUsersInput, DisassociateSkillFromUsersOutputResponse, DisassociateSkillFromUsersOutputError>(id: "disassociateSkillFromUsers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateSkillFromUsersInput, DisassociateSkillFromUsersOutputResponse, DisassociateSkillFromUsersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateSkillFromUsersInput, DisassociateSkillFromUsersOutputResponse>())
@@ -1541,7 +1576,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateSkillFromUsersOutputResponse, DisassociateSkillFromUsersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateSkillFromUsersOutputResponse, DisassociateSkillFromUsersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateSkillFromUsersOutputResponse, DisassociateSkillFromUsersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1561,6 +1596,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateSkillGroupFromRoomInput, DisassociateSkillGroupFromRoomOutputResponse, DisassociateSkillGroupFromRoomOutputError>(id: "disassociateSkillGroupFromRoom")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateSkillGroupFromRoomInput, DisassociateSkillGroupFromRoomOutputResponse, DisassociateSkillGroupFromRoomOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateSkillGroupFromRoomInput, DisassociateSkillGroupFromRoomOutputResponse>())
@@ -1577,7 +1613,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateSkillGroupFromRoomOutputResponse, DisassociateSkillGroupFromRoomOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateSkillGroupFromRoomOutputResponse, DisassociateSkillGroupFromRoomOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateSkillGroupFromRoomOutputResponse, DisassociateSkillGroupFromRoomOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1597,6 +1633,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ForgetSmartHomeAppliancesInput, ForgetSmartHomeAppliancesOutputResponse, ForgetSmartHomeAppliancesOutputError>(id: "forgetSmartHomeAppliances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ForgetSmartHomeAppliancesInput, ForgetSmartHomeAppliancesOutputResponse, ForgetSmartHomeAppliancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ForgetSmartHomeAppliancesInput, ForgetSmartHomeAppliancesOutputResponse>())
@@ -1613,7 +1650,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ForgetSmartHomeAppliancesOutputResponse, ForgetSmartHomeAppliancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ForgetSmartHomeAppliancesOutputResponse, ForgetSmartHomeAppliancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ForgetSmartHomeAppliancesOutputResponse, ForgetSmartHomeAppliancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1633,6 +1670,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAddressBookInput, GetAddressBookOutputResponse, GetAddressBookOutputError>(id: "getAddressBook")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAddressBookInput, GetAddressBookOutputResponse, GetAddressBookOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAddressBookInput, GetAddressBookOutputResponse>())
@@ -1649,7 +1687,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAddressBookOutputResponse, GetAddressBookOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAddressBookOutputResponse, GetAddressBookOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAddressBookOutputResponse, GetAddressBookOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1669,6 +1707,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetConferencePreferenceInput, GetConferencePreferenceOutputResponse, GetConferencePreferenceOutputError>(id: "getConferencePreference")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConferencePreferenceInput, GetConferencePreferenceOutputResponse, GetConferencePreferenceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConferencePreferenceInput, GetConferencePreferenceOutputResponse>())
@@ -1685,7 +1724,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConferencePreferenceOutputResponse, GetConferencePreferenceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetConferencePreferenceOutputResponse, GetConferencePreferenceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConferencePreferenceOutputResponse, GetConferencePreferenceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1705,6 +1744,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetConferenceProviderInput, GetConferenceProviderOutputResponse, GetConferenceProviderOutputError>(id: "getConferenceProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConferenceProviderInput, GetConferenceProviderOutputResponse, GetConferenceProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConferenceProviderInput, GetConferenceProviderOutputResponse>())
@@ -1721,7 +1761,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConferenceProviderOutputResponse, GetConferenceProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetConferenceProviderOutputResponse, GetConferenceProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConferenceProviderOutputResponse, GetConferenceProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1741,6 +1781,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetContactInput, GetContactOutputResponse, GetContactOutputError>(id: "getContact")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContactInput, GetContactOutputResponse, GetContactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContactInput, GetContactOutputResponse>())
@@ -1757,7 +1798,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContactOutputResponse, GetContactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContactOutputResponse, GetContactOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContactOutputResponse, GetContactOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1777,6 +1818,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDeviceInput, GetDeviceOutputResponse, GetDeviceOutputError>(id: "getDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceInput, GetDeviceOutputResponse, GetDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceInput, GetDeviceOutputResponse>())
@@ -1793,7 +1835,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeviceOutputResponse, GetDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDeviceOutputResponse, GetDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeviceOutputResponse, GetDeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1813,6 +1855,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetGatewayInput, GetGatewayOutputResponse, GetGatewayOutputError>(id: "getGateway")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGatewayInput, GetGatewayOutputResponse, GetGatewayOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGatewayInput, GetGatewayOutputResponse>())
@@ -1829,7 +1872,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGatewayOutputResponse, GetGatewayOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetGatewayOutputResponse, GetGatewayOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGatewayOutputResponse, GetGatewayOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1849,6 +1892,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetGatewayGroupInput, GetGatewayGroupOutputResponse, GetGatewayGroupOutputError>(id: "getGatewayGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGatewayGroupInput, GetGatewayGroupOutputResponse, GetGatewayGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGatewayGroupInput, GetGatewayGroupOutputResponse>())
@@ -1865,7 +1909,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGatewayGroupOutputResponse, GetGatewayGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetGatewayGroupOutputResponse, GetGatewayGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGatewayGroupOutputResponse, GetGatewayGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1885,6 +1929,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInvitationConfigurationInput, GetInvitationConfigurationOutputResponse, GetInvitationConfigurationOutputError>(id: "getInvitationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInvitationConfigurationInput, GetInvitationConfigurationOutputResponse, GetInvitationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInvitationConfigurationInput, GetInvitationConfigurationOutputResponse>())
@@ -1901,7 +1946,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInvitationConfigurationOutputResponse, GetInvitationConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetInvitationConfigurationOutputResponse, GetInvitationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInvitationConfigurationOutputResponse, GetInvitationConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1921,6 +1966,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetNetworkProfileInput, GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>(id: "getNetworkProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNetworkProfileInput, GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNetworkProfileInput, GetNetworkProfileOutputResponse>())
@@ -1937,7 +1983,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkProfileOutputResponse, GetNetworkProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1957,6 +2003,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetProfileInput, GetProfileOutputResponse, GetProfileOutputError>(id: "getProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProfileInput, GetProfileOutputResponse, GetProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProfileInput, GetProfileOutputResponse>())
@@ -1973,7 +2020,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProfileOutputResponse, GetProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetProfileOutputResponse, GetProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProfileOutputResponse, GetProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1993,6 +2040,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRoomInput, GetRoomOutputResponse, GetRoomOutputError>(id: "getRoom")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRoomInput, GetRoomOutputResponse, GetRoomOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRoomInput, GetRoomOutputResponse>())
@@ -2009,7 +2057,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRoomOutputResponse, GetRoomOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRoomOutputResponse, GetRoomOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRoomOutputResponse, GetRoomOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2029,6 +2077,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRoomSkillParameterInput, GetRoomSkillParameterOutputResponse, GetRoomSkillParameterOutputError>(id: "getRoomSkillParameter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRoomSkillParameterInput, GetRoomSkillParameterOutputResponse, GetRoomSkillParameterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRoomSkillParameterInput, GetRoomSkillParameterOutputResponse>())
@@ -2045,7 +2094,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRoomSkillParameterOutputResponse, GetRoomSkillParameterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRoomSkillParameterOutputResponse, GetRoomSkillParameterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRoomSkillParameterOutputResponse, GetRoomSkillParameterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2065,6 +2114,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSkillGroupInput, GetSkillGroupOutputResponse, GetSkillGroupOutputError>(id: "getSkillGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSkillGroupInput, GetSkillGroupOutputResponse, GetSkillGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSkillGroupInput, GetSkillGroupOutputResponse>())
@@ -2081,7 +2131,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSkillGroupOutputResponse, GetSkillGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSkillGroupOutputResponse, GetSkillGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSkillGroupOutputResponse, GetSkillGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2101,6 +2151,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutputResponse, ListBusinessReportSchedulesOutputError>(id: "listBusinessReportSchedules")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutputResponse, ListBusinessReportSchedulesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBusinessReportSchedulesInput, ListBusinessReportSchedulesOutputResponse>())
@@ -2117,7 +2168,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBusinessReportSchedulesOutputResponse, ListBusinessReportSchedulesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListBusinessReportSchedulesOutputResponse, ListBusinessReportSchedulesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBusinessReportSchedulesOutputResponse, ListBusinessReportSchedulesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2137,6 +2188,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListConferenceProvidersInput, ListConferenceProvidersOutputResponse, ListConferenceProvidersOutputError>(id: "listConferenceProviders")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConferenceProvidersInput, ListConferenceProvidersOutputResponse, ListConferenceProvidersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConferenceProvidersInput, ListConferenceProvidersOutputResponse>())
@@ -2153,7 +2205,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConferenceProvidersOutputResponse, ListConferenceProvidersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListConferenceProvidersOutputResponse, ListConferenceProvidersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConferenceProvidersOutputResponse, ListConferenceProvidersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2173,6 +2225,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDeviceEventsInput, ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>(id: "listDeviceEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeviceEventsInput, ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeviceEventsInput, ListDeviceEventsOutputResponse>())
@@ -2189,7 +2242,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeviceEventsOutputResponse, ListDeviceEventsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2209,6 +2262,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGatewayGroupsInput, ListGatewayGroupsOutputResponse, ListGatewayGroupsOutputError>(id: "listGatewayGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGatewayGroupsInput, ListGatewayGroupsOutputResponse, ListGatewayGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGatewayGroupsInput, ListGatewayGroupsOutputResponse>())
@@ -2225,7 +2279,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGatewayGroupsOutputResponse, ListGatewayGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListGatewayGroupsOutputResponse, ListGatewayGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGatewayGroupsOutputResponse, ListGatewayGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2245,6 +2299,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGatewaysInput, ListGatewaysOutputResponse, ListGatewaysOutputError>(id: "listGateways")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGatewaysInput, ListGatewaysOutputResponse, ListGatewaysOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGatewaysInput, ListGatewaysOutputResponse>())
@@ -2261,7 +2316,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGatewaysOutputResponse, ListGatewaysOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListGatewaysOutputResponse, ListGatewaysOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGatewaysOutputResponse, ListGatewaysOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2281,6 +2336,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSkillsInput, ListSkillsOutputResponse, ListSkillsOutputError>(id: "listSkills")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSkillsInput, ListSkillsOutputResponse, ListSkillsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSkillsInput, ListSkillsOutputResponse>())
@@ -2297,7 +2353,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSkillsOutputResponse, ListSkillsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSkillsOutputResponse, ListSkillsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSkillsOutputResponse, ListSkillsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2317,6 +2373,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutputResponse, ListSkillsStoreCategoriesOutputError>(id: "listSkillsStoreCategories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutputResponse, ListSkillsStoreCategoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSkillsStoreCategoriesInput, ListSkillsStoreCategoriesOutputResponse>())
@@ -2333,7 +2390,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSkillsStoreCategoriesOutputResponse, ListSkillsStoreCategoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSkillsStoreCategoriesOutputResponse, ListSkillsStoreCategoriesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSkillsStoreCategoriesOutputResponse, ListSkillsStoreCategoriesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2353,6 +2410,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutputResponse, ListSkillsStoreSkillsByCategoryOutputError>(id: "listSkillsStoreSkillsByCategory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutputResponse, ListSkillsStoreSkillsByCategoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSkillsStoreSkillsByCategoryInput, ListSkillsStoreSkillsByCategoryOutputResponse>())
@@ -2369,7 +2427,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSkillsStoreSkillsByCategoryOutputResponse, ListSkillsStoreSkillsByCategoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSkillsStoreSkillsByCategoryOutputResponse, ListSkillsStoreSkillsByCategoryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSkillsStoreSkillsByCategoryOutputResponse, ListSkillsStoreSkillsByCategoryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2389,6 +2447,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutputResponse, ListSmartHomeAppliancesOutputError>(id: "listSmartHomeAppliances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutputResponse, ListSmartHomeAppliancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSmartHomeAppliancesInput, ListSmartHomeAppliancesOutputResponse>())
@@ -2405,7 +2464,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSmartHomeAppliancesOutputResponse, ListSmartHomeAppliancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSmartHomeAppliancesOutputResponse, ListSmartHomeAppliancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSmartHomeAppliancesOutputResponse, ListSmartHomeAppliancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2425,6 +2484,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsInput, ListTagsOutputResponse, ListTagsOutputError>(id: "listTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsInput, ListTagsOutputResponse, ListTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsInput, ListTagsOutputResponse>())
@@ -2441,7 +2501,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsOutputResponse, ListTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsOutputResponse, ListTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsOutputResponse, ListTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2461,6 +2521,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutConferencePreferenceInput, PutConferencePreferenceOutputResponse, PutConferencePreferenceOutputError>(id: "putConferencePreference")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConferencePreferenceInput, PutConferencePreferenceOutputResponse, PutConferencePreferenceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConferencePreferenceInput, PutConferencePreferenceOutputResponse>())
@@ -2477,7 +2538,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConferencePreferenceOutputResponse, PutConferencePreferenceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutConferencePreferenceOutputResponse, PutConferencePreferenceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConferencePreferenceOutputResponse, PutConferencePreferenceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2497,6 +2558,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutInvitationConfigurationInput, PutInvitationConfigurationOutputResponse, PutInvitationConfigurationOutputError>(id: "putInvitationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutInvitationConfigurationInput, PutInvitationConfigurationOutputResponse, PutInvitationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutInvitationConfigurationInput, PutInvitationConfigurationOutputResponse>())
@@ -2513,7 +2575,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutInvitationConfigurationOutputResponse, PutInvitationConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutInvitationConfigurationOutputResponse, PutInvitationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutInvitationConfigurationOutputResponse, PutInvitationConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2533,6 +2595,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutRoomSkillParameterInput, PutRoomSkillParameterOutputResponse, PutRoomSkillParameterOutputError>(id: "putRoomSkillParameter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRoomSkillParameterInput, PutRoomSkillParameterOutputResponse, PutRoomSkillParameterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRoomSkillParameterInput, PutRoomSkillParameterOutputResponse>())
@@ -2549,7 +2612,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRoomSkillParameterOutputResponse, PutRoomSkillParameterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutRoomSkillParameterOutputResponse, PutRoomSkillParameterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRoomSkillParameterOutputResponse, PutRoomSkillParameterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2569,6 +2632,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutSkillAuthorizationInput, PutSkillAuthorizationOutputResponse, PutSkillAuthorizationOutputError>(id: "putSkillAuthorization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSkillAuthorizationInput, PutSkillAuthorizationOutputResponse, PutSkillAuthorizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSkillAuthorizationInput, PutSkillAuthorizationOutputResponse>())
@@ -2585,7 +2649,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSkillAuthorizationOutputResponse, PutSkillAuthorizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutSkillAuthorizationOutputResponse, PutSkillAuthorizationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSkillAuthorizationOutputResponse, PutSkillAuthorizationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2605,6 +2669,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterAVSDeviceInput, RegisterAVSDeviceOutputResponse, RegisterAVSDeviceOutputError>(id: "registerAVSDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterAVSDeviceInput, RegisterAVSDeviceOutputResponse, RegisterAVSDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterAVSDeviceInput, RegisterAVSDeviceOutputResponse>())
@@ -2621,7 +2686,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterAVSDeviceOutputResponse, RegisterAVSDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RegisterAVSDeviceOutputResponse, RegisterAVSDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterAVSDeviceOutputResponse, RegisterAVSDeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2641,6 +2706,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RejectSkillInput, RejectSkillOutputResponse, RejectSkillOutputError>(id: "rejectSkill")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RejectSkillInput, RejectSkillOutputResponse, RejectSkillOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RejectSkillInput, RejectSkillOutputResponse>())
@@ -2657,7 +2723,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectSkillOutputResponse, RejectSkillOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RejectSkillOutputResponse, RejectSkillOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectSkillOutputResponse, RejectSkillOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2677,6 +2743,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResolveRoomInput, ResolveRoomOutputResponse, ResolveRoomOutputError>(id: "resolveRoom")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResolveRoomInput, ResolveRoomOutputResponse, ResolveRoomOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResolveRoomInput, ResolveRoomOutputResponse>())
@@ -2693,7 +2760,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResolveRoomOutputResponse, ResolveRoomOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ResolveRoomOutputResponse, ResolveRoomOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResolveRoomOutputResponse, ResolveRoomOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2713,6 +2780,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RevokeInvitationInput, RevokeInvitationOutputResponse, RevokeInvitationOutputError>(id: "revokeInvitation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeInvitationInput, RevokeInvitationOutputResponse, RevokeInvitationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeInvitationInput, RevokeInvitationOutputResponse>())
@@ -2729,7 +2797,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeInvitationOutputResponse, RevokeInvitationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RevokeInvitationOutputResponse, RevokeInvitationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeInvitationOutputResponse, RevokeInvitationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2749,6 +2817,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchAddressBooksInput, SearchAddressBooksOutputResponse, SearchAddressBooksOutputError>(id: "searchAddressBooks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchAddressBooksInput, SearchAddressBooksOutputResponse, SearchAddressBooksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchAddressBooksInput, SearchAddressBooksOutputResponse>())
@@ -2765,7 +2834,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchAddressBooksOutputResponse, SearchAddressBooksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchAddressBooksOutputResponse, SearchAddressBooksOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchAddressBooksOutputResponse, SearchAddressBooksOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2785,6 +2854,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchContactsInput, SearchContactsOutputResponse, SearchContactsOutputError>(id: "searchContacts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchContactsInput, SearchContactsOutputResponse, SearchContactsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchContactsInput, SearchContactsOutputResponse>())
@@ -2801,7 +2871,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchContactsOutputResponse, SearchContactsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchContactsOutputResponse, SearchContactsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchContactsOutputResponse, SearchContactsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2821,6 +2891,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchDevicesInput, SearchDevicesOutputResponse, SearchDevicesOutputError>(id: "searchDevices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchDevicesInput, SearchDevicesOutputResponse, SearchDevicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchDevicesInput, SearchDevicesOutputResponse>())
@@ -2837,7 +2908,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchDevicesOutputResponse, SearchDevicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchDevicesOutputResponse, SearchDevicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchDevicesOutputResponse, SearchDevicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2857,6 +2928,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchNetworkProfilesInput, SearchNetworkProfilesOutputResponse, SearchNetworkProfilesOutputError>(id: "searchNetworkProfiles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchNetworkProfilesInput, SearchNetworkProfilesOutputResponse, SearchNetworkProfilesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchNetworkProfilesInput, SearchNetworkProfilesOutputResponse>())
@@ -2873,7 +2945,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchNetworkProfilesOutputResponse, SearchNetworkProfilesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchNetworkProfilesOutputResponse, SearchNetworkProfilesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchNetworkProfilesOutputResponse, SearchNetworkProfilesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2893,6 +2965,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchProfilesInput, SearchProfilesOutputResponse, SearchProfilesOutputError>(id: "searchProfiles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchProfilesInput, SearchProfilesOutputResponse, SearchProfilesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchProfilesInput, SearchProfilesOutputResponse>())
@@ -2909,7 +2982,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchProfilesOutputResponse, SearchProfilesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchProfilesOutputResponse, SearchProfilesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchProfilesOutputResponse, SearchProfilesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2929,6 +3002,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchRoomsInput, SearchRoomsOutputResponse, SearchRoomsOutputError>(id: "searchRooms")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchRoomsInput, SearchRoomsOutputResponse, SearchRoomsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchRoomsInput, SearchRoomsOutputResponse>())
@@ -2945,7 +3019,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchRoomsOutputResponse, SearchRoomsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchRoomsOutputResponse, SearchRoomsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchRoomsOutputResponse, SearchRoomsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2965,6 +3039,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchSkillGroupsInput, SearchSkillGroupsOutputResponse, SearchSkillGroupsOutputError>(id: "searchSkillGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchSkillGroupsInput, SearchSkillGroupsOutputResponse, SearchSkillGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchSkillGroupsInput, SearchSkillGroupsOutputResponse>())
@@ -2981,7 +3056,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchSkillGroupsOutputResponse, SearchSkillGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchSkillGroupsOutputResponse, SearchSkillGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchSkillGroupsOutputResponse, SearchSkillGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3001,6 +3076,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchUsersInput, SearchUsersOutputResponse, SearchUsersOutputError>(id: "searchUsers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchUsersInput, SearchUsersOutputResponse, SearchUsersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchUsersInput, SearchUsersOutputResponse>())
@@ -3017,7 +3093,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchUsersOutputResponse, SearchUsersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchUsersOutputResponse, SearchUsersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchUsersOutputResponse, SearchUsersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3037,6 +3113,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendAnnouncementInput, SendAnnouncementOutputResponse, SendAnnouncementOutputError>(id: "sendAnnouncement")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<SendAnnouncementOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -3061,7 +3138,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendAnnouncementOutputResponse, SendAnnouncementOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendAnnouncementOutputResponse, SendAnnouncementOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendAnnouncementOutputResponse, SendAnnouncementOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3081,6 +3158,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendInvitationInput, SendInvitationOutputResponse, SendInvitationOutputError>(id: "sendInvitation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendInvitationInput, SendInvitationOutputResponse, SendInvitationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendInvitationInput, SendInvitationOutputResponse>())
@@ -3097,7 +3175,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendInvitationOutputResponse, SendInvitationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendInvitationOutputResponse, SendInvitationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendInvitationOutputResponse, SendInvitationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3127,6 +3205,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartDeviceSyncInput, StartDeviceSyncOutputResponse, StartDeviceSyncOutputError>(id: "startDeviceSync")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDeviceSyncInput, StartDeviceSyncOutputResponse, StartDeviceSyncOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDeviceSyncInput, StartDeviceSyncOutputResponse>())
@@ -3143,7 +3222,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDeviceSyncOutputResponse, StartDeviceSyncOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartDeviceSyncOutputResponse, StartDeviceSyncOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDeviceSyncOutputResponse, StartDeviceSyncOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3163,6 +3242,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartSmartHomeApplianceDiscoveryInput, StartSmartHomeApplianceDiscoveryOutputResponse, StartSmartHomeApplianceDiscoveryOutputError>(id: "startSmartHomeApplianceDiscovery")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSmartHomeApplianceDiscoveryInput, StartSmartHomeApplianceDiscoveryOutputResponse, StartSmartHomeApplianceDiscoveryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSmartHomeApplianceDiscoveryInput, StartSmartHomeApplianceDiscoveryOutputResponse>())
@@ -3179,7 +3259,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSmartHomeApplianceDiscoveryOutputResponse, StartSmartHomeApplianceDiscoveryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartSmartHomeApplianceDiscoveryOutputResponse, StartSmartHomeApplianceDiscoveryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSmartHomeApplianceDiscoveryOutputResponse, StartSmartHomeApplianceDiscoveryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3199,6 +3279,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -3215,7 +3296,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3235,6 +3316,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -3251,7 +3333,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3271,6 +3353,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAddressBookInput, UpdateAddressBookOutputResponse, UpdateAddressBookOutputError>(id: "updateAddressBook")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAddressBookInput, UpdateAddressBookOutputResponse, UpdateAddressBookOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAddressBookInput, UpdateAddressBookOutputResponse>())
@@ -3287,7 +3370,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAddressBookOutputResponse, UpdateAddressBookOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAddressBookOutputResponse, UpdateAddressBookOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAddressBookOutputResponse, UpdateAddressBookOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3307,6 +3390,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBusinessReportScheduleInput, UpdateBusinessReportScheduleOutputResponse, UpdateBusinessReportScheduleOutputError>(id: "updateBusinessReportSchedule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBusinessReportScheduleInput, UpdateBusinessReportScheduleOutputResponse, UpdateBusinessReportScheduleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBusinessReportScheduleInput, UpdateBusinessReportScheduleOutputResponse>())
@@ -3323,7 +3407,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBusinessReportScheduleOutputResponse, UpdateBusinessReportScheduleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateBusinessReportScheduleOutputResponse, UpdateBusinessReportScheduleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBusinessReportScheduleOutputResponse, UpdateBusinessReportScheduleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3343,6 +3427,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateConferenceProviderInput, UpdateConferenceProviderOutputResponse, UpdateConferenceProviderOutputError>(id: "updateConferenceProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConferenceProviderInput, UpdateConferenceProviderOutputResponse, UpdateConferenceProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConferenceProviderInput, UpdateConferenceProviderOutputResponse>())
@@ -3359,7 +3444,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConferenceProviderOutputResponse, UpdateConferenceProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateConferenceProviderOutputResponse, UpdateConferenceProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConferenceProviderOutputResponse, UpdateConferenceProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3379,6 +3464,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateContactInput, UpdateContactOutputResponse, UpdateContactOutputError>(id: "updateContact")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateContactInput, UpdateContactOutputResponse, UpdateContactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateContactInput, UpdateContactOutputResponse>())
@@ -3395,7 +3481,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateContactOutputResponse, UpdateContactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateContactOutputResponse, UpdateContactOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateContactOutputResponse, UpdateContactOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3415,6 +3501,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDeviceInput, UpdateDeviceOutputResponse, UpdateDeviceOutputError>(id: "updateDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDeviceInput, UpdateDeviceOutputResponse, UpdateDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDeviceInput, UpdateDeviceOutputResponse>())
@@ -3431,7 +3518,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDeviceOutputResponse, UpdateDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDeviceOutputResponse, UpdateDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDeviceOutputResponse, UpdateDeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3451,6 +3538,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateGatewayInput, UpdateGatewayOutputResponse, UpdateGatewayOutputError>(id: "updateGateway")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGatewayInput, UpdateGatewayOutputResponse, UpdateGatewayOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGatewayInput, UpdateGatewayOutputResponse>())
@@ -3467,7 +3555,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGatewayOutputResponse, UpdateGatewayOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateGatewayOutputResponse, UpdateGatewayOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGatewayOutputResponse, UpdateGatewayOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3487,6 +3575,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateGatewayGroupInput, UpdateGatewayGroupOutputResponse, UpdateGatewayGroupOutputError>(id: "updateGatewayGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGatewayGroupInput, UpdateGatewayGroupOutputResponse, UpdateGatewayGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGatewayGroupInput, UpdateGatewayGroupOutputResponse>())
@@ -3503,7 +3592,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGatewayGroupOutputResponse, UpdateGatewayGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateGatewayGroupOutputResponse, UpdateGatewayGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGatewayGroupOutputResponse, UpdateGatewayGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3523,6 +3612,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateNetworkProfileInput, UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>(id: "updateNetworkProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNetworkProfileInput, UpdateNetworkProfileOutputResponse>())
@@ -3539,7 +3629,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNetworkProfileOutputResponse, UpdateNetworkProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3559,6 +3649,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateProfileInput, UpdateProfileOutputResponse, UpdateProfileOutputError>(id: "updateProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProfileInput, UpdateProfileOutputResponse, UpdateProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProfileInput, UpdateProfileOutputResponse>())
@@ -3575,7 +3666,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProfileOutputResponse, UpdateProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateProfileOutputResponse, UpdateProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProfileOutputResponse, UpdateProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3595,6 +3686,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRoomInput, UpdateRoomOutputResponse, UpdateRoomOutputError>(id: "updateRoom")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRoomInput, UpdateRoomOutputResponse, UpdateRoomOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRoomInput, UpdateRoomOutputResponse>())
@@ -3611,7 +3703,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRoomOutputResponse, UpdateRoomOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateRoomOutputResponse, UpdateRoomOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoomOutputResponse, UpdateRoomOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3631,6 +3723,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "a4b")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSkillGroupInput, UpdateSkillGroupOutputResponse, UpdateSkillGroupOutputError>(id: "updateSkillGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSkillGroupInput, UpdateSkillGroupOutputResponse, UpdateSkillGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSkillGroupInput, UpdateSkillGroupOutputResponse>())
@@ -3647,7 +3740,7 @@ extension AlexaForBusinessClient: AlexaForBusinessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSkillGroupOutputResponse, UpdateSkillGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSkillGroupOutputResponse, UpdateSkillGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSkillGroupOutputResponse, UpdateSkillGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

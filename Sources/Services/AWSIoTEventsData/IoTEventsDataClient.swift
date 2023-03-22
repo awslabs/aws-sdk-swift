@@ -221,6 +221,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ioteventsdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchAcknowledgeAlarmInput, BatchAcknowledgeAlarmOutputResponse, BatchAcknowledgeAlarmOutputError>(id: "batchAcknowledgeAlarm")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchAcknowledgeAlarmInput, BatchAcknowledgeAlarmOutputResponse, BatchAcknowledgeAlarmOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchAcknowledgeAlarmInput, BatchAcknowledgeAlarmOutputResponse>())
@@ -236,7 +237,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchAcknowledgeAlarmOutputResponse, BatchAcknowledgeAlarmOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchAcknowledgeAlarmOutputResponse, BatchAcknowledgeAlarmOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchAcknowledgeAlarmOutputResponse, BatchAcknowledgeAlarmOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ioteventsdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDeleteDetectorInput, BatchDeleteDetectorOutputResponse, BatchDeleteDetectorOutputError>(id: "batchDeleteDetector")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteDetectorInput, BatchDeleteDetectorOutputResponse, BatchDeleteDetectorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteDetectorInput, BatchDeleteDetectorOutputResponse>())
@@ -271,7 +273,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteDetectorOutputResponse, BatchDeleteDetectorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteDetectorOutputResponse, BatchDeleteDetectorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteDetectorOutputResponse, BatchDeleteDetectorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -291,6 +293,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ioteventsdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDisableAlarmInput, BatchDisableAlarmOutputResponse, BatchDisableAlarmOutputError>(id: "batchDisableAlarm")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDisableAlarmInput, BatchDisableAlarmOutputResponse, BatchDisableAlarmOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDisableAlarmInput, BatchDisableAlarmOutputResponse>())
@@ -306,7 +309,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDisableAlarmOutputResponse, BatchDisableAlarmOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchDisableAlarmOutputResponse, BatchDisableAlarmOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDisableAlarmOutputResponse, BatchDisableAlarmOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -326,6 +329,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ioteventsdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchEnableAlarmInput, BatchEnableAlarmOutputResponse, BatchEnableAlarmOutputError>(id: "batchEnableAlarm")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchEnableAlarmInput, BatchEnableAlarmOutputResponse, BatchEnableAlarmOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchEnableAlarmInput, BatchEnableAlarmOutputResponse>())
@@ -341,7 +345,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchEnableAlarmOutputResponse, BatchEnableAlarmOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchEnableAlarmOutputResponse, BatchEnableAlarmOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchEnableAlarmOutputResponse, BatchEnableAlarmOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -361,6 +365,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ioteventsdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchPutMessageInput, BatchPutMessageOutputResponse, BatchPutMessageOutputError>(id: "batchPutMessage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchPutMessageInput, BatchPutMessageOutputResponse, BatchPutMessageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchPutMessageInput, BatchPutMessageOutputResponse>())
@@ -376,7 +381,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchPutMessageOutputResponse, BatchPutMessageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchPutMessageOutputResponse, BatchPutMessageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchPutMessageOutputResponse, BatchPutMessageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -396,6 +401,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ioteventsdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchResetAlarmInput, BatchResetAlarmOutputResponse, BatchResetAlarmOutputError>(id: "batchResetAlarm")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchResetAlarmInput, BatchResetAlarmOutputResponse, BatchResetAlarmOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchResetAlarmInput, BatchResetAlarmOutputResponse>())
@@ -411,7 +417,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchResetAlarmOutputResponse, BatchResetAlarmOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchResetAlarmOutputResponse, BatchResetAlarmOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchResetAlarmOutputResponse, BatchResetAlarmOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -431,6 +437,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ioteventsdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchSnoozeAlarmInput, BatchSnoozeAlarmOutputResponse, BatchSnoozeAlarmOutputError>(id: "batchSnoozeAlarm")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchSnoozeAlarmInput, BatchSnoozeAlarmOutputResponse, BatchSnoozeAlarmOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchSnoozeAlarmInput, BatchSnoozeAlarmOutputResponse>())
@@ -446,7 +453,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchSnoozeAlarmOutputResponse, BatchSnoozeAlarmOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchSnoozeAlarmOutputResponse, BatchSnoozeAlarmOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchSnoozeAlarmOutputResponse, BatchSnoozeAlarmOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -466,6 +473,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ioteventsdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchUpdateDetectorInput, BatchUpdateDetectorOutputResponse, BatchUpdateDetectorOutputError>(id: "batchUpdateDetector")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateDetectorInput, BatchUpdateDetectorOutputResponse, BatchUpdateDetectorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdateDetectorInput, BatchUpdateDetectorOutputResponse>())
@@ -481,7 +489,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchUpdateDetectorOutputResponse, BatchUpdateDetectorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchUpdateDetectorOutputResponse, BatchUpdateDetectorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchUpdateDetectorOutputResponse, BatchUpdateDetectorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -501,6 +509,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ioteventsdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAlarmInput, DescribeAlarmOutputResponse, DescribeAlarmOutputError>(id: "describeAlarm")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAlarmInput, DescribeAlarmOutputResponse, DescribeAlarmOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAlarmInput, DescribeAlarmOutputResponse>())
@@ -514,7 +523,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAlarmOutputResponse, DescribeAlarmOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAlarmOutputResponse, DescribeAlarmOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAlarmOutputResponse, DescribeAlarmOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -534,6 +543,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ioteventsdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDetectorInput, DescribeDetectorOutputResponse, DescribeDetectorOutputError>(id: "describeDetector")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDetectorInput, DescribeDetectorOutputResponse, DescribeDetectorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDetectorInput, DescribeDetectorOutputResponse>())
@@ -547,7 +557,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDetectorOutputResponse, DescribeDetectorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDetectorOutputResponse, DescribeDetectorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDetectorOutputResponse, DescribeDetectorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -567,6 +577,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ioteventsdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAlarmsInput, ListAlarmsOutputResponse, ListAlarmsOutputError>(id: "listAlarms")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAlarmsInput, ListAlarmsOutputResponse, ListAlarmsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAlarmsInput, ListAlarmsOutputResponse>())
@@ -580,7 +591,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAlarmsOutputResponse, ListAlarmsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAlarmsOutputResponse, ListAlarmsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAlarmsOutputResponse, ListAlarmsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -600,6 +611,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ioteventsdata")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDetectorsInput, ListDetectorsOutputResponse, ListDetectorsOutputError>(id: "listDetectors")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDetectorsInput, ListDetectorsOutputResponse, ListDetectorsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDetectorsInput, ListDetectorsOutputResponse>())
@@ -613,7 +625,7 @@ extension IoTEventsDataClient: IoTEventsDataClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDetectorsOutputResponse, ListDetectorsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDetectorsOutputResponse, ListDetectorsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDetectorsOutputResponse, ListDetectorsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

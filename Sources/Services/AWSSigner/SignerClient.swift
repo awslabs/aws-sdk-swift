@@ -221,6 +221,7 @@ extension SignerClient: SignerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddProfilePermissionInput, AddProfilePermissionOutputResponse, AddProfilePermissionOutputError>(id: "addProfilePermission")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddProfilePermissionInput, AddProfilePermissionOutputResponse, AddProfilePermissionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddProfilePermissionInput, AddProfilePermissionOutputResponse>())
@@ -236,7 +237,7 @@ extension SignerClient: SignerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddProfilePermissionOutputResponse, AddProfilePermissionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AddProfilePermissionOutputResponse, AddProfilePermissionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddProfilePermissionOutputResponse, AddProfilePermissionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension SignerClient: SignerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelSigningProfileInput, CancelSigningProfileOutputResponse, CancelSigningProfileOutputError>(id: "cancelSigningProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelSigningProfileInput, CancelSigningProfileOutputResponse, CancelSigningProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelSigningProfileInput, CancelSigningProfileOutputResponse>())
@@ -268,7 +270,7 @@ extension SignerClient: SignerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelSigningProfileOutputResponse, CancelSigningProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CancelSigningProfileOutputResponse, CancelSigningProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelSigningProfileOutputResponse, CancelSigningProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -288,6 +290,7 @@ extension SignerClient: SignerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSigningJobInput, DescribeSigningJobOutputResponse, DescribeSigningJobOutputError>(id: "describeSigningJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSigningJobInput, DescribeSigningJobOutputResponse, DescribeSigningJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSigningJobInput, DescribeSigningJobOutputResponse>())
@@ -300,7 +303,7 @@ extension SignerClient: SignerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSigningJobOutputResponse, DescribeSigningJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeSigningJobOutputResponse, DescribeSigningJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSigningJobOutputResponse, DescribeSigningJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -320,6 +323,7 @@ extension SignerClient: SignerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSigningPlatformInput, GetSigningPlatformOutputResponse, GetSigningPlatformOutputError>(id: "getSigningPlatform")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSigningPlatformInput, GetSigningPlatformOutputResponse, GetSigningPlatformOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSigningPlatformInput, GetSigningPlatformOutputResponse>())
@@ -332,7 +336,7 @@ extension SignerClient: SignerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSigningPlatformOutputResponse, GetSigningPlatformOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSigningPlatformOutputResponse, GetSigningPlatformOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSigningPlatformOutputResponse, GetSigningPlatformOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -352,6 +356,7 @@ extension SignerClient: SignerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSigningProfileInput, GetSigningProfileOutputResponse, GetSigningProfileOutputError>(id: "getSigningProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSigningProfileInput, GetSigningProfileOutputResponse, GetSigningProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSigningProfileInput, GetSigningProfileOutputResponse>())
@@ -365,7 +370,7 @@ extension SignerClient: SignerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSigningProfileOutputResponse, GetSigningProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSigningProfileOutputResponse, GetSigningProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSigningProfileOutputResponse, GetSigningProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -385,6 +390,7 @@ extension SignerClient: SignerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListProfilePermissionsInput, ListProfilePermissionsOutputResponse, ListProfilePermissionsOutputError>(id: "listProfilePermissions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProfilePermissionsInput, ListProfilePermissionsOutputResponse, ListProfilePermissionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProfilePermissionsInput, ListProfilePermissionsOutputResponse>())
@@ -398,7 +404,7 @@ extension SignerClient: SignerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProfilePermissionsOutputResponse, ListProfilePermissionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListProfilePermissionsOutputResponse, ListProfilePermissionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProfilePermissionsOutputResponse, ListProfilePermissionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -418,6 +424,7 @@ extension SignerClient: SignerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSigningJobsInput, ListSigningJobsOutputResponse, ListSigningJobsOutputError>(id: "listSigningJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSigningJobsInput, ListSigningJobsOutputResponse, ListSigningJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSigningJobsInput, ListSigningJobsOutputResponse>())
@@ -431,7 +438,7 @@ extension SignerClient: SignerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSigningJobsOutputResponse, ListSigningJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSigningJobsOutputResponse, ListSigningJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSigningJobsOutputResponse, ListSigningJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -451,6 +458,7 @@ extension SignerClient: SignerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSigningPlatformsInput, ListSigningPlatformsOutputResponse, ListSigningPlatformsOutputError>(id: "listSigningPlatforms")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSigningPlatformsInput, ListSigningPlatformsOutputResponse, ListSigningPlatformsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSigningPlatformsInput, ListSigningPlatformsOutputResponse>())
@@ -464,7 +472,7 @@ extension SignerClient: SignerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSigningPlatformsOutputResponse, ListSigningPlatformsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSigningPlatformsOutputResponse, ListSigningPlatformsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSigningPlatformsOutputResponse, ListSigningPlatformsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -484,6 +492,7 @@ extension SignerClient: SignerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSigningProfilesInput, ListSigningProfilesOutputResponse, ListSigningProfilesOutputError>(id: "listSigningProfiles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSigningProfilesInput, ListSigningProfilesOutputResponse, ListSigningProfilesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSigningProfilesInput, ListSigningProfilesOutputResponse>())
@@ -497,7 +506,7 @@ extension SignerClient: SignerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSigningProfilesOutputResponse, ListSigningProfilesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSigningProfilesOutputResponse, ListSigningProfilesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSigningProfilesOutputResponse, ListSigningProfilesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -517,6 +526,7 @@ extension SignerClient: SignerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -529,7 +539,7 @@ extension SignerClient: SignerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -549,6 +559,7 @@ extension SignerClient: SignerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutSigningProfileInput, PutSigningProfileOutputResponse, PutSigningProfileOutputError>(id: "putSigningProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSigningProfileInput, PutSigningProfileOutputResponse, PutSigningProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSigningProfileInput, PutSigningProfileOutputResponse>())
@@ -564,7 +575,7 @@ extension SignerClient: SignerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSigningProfileOutputResponse, PutSigningProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutSigningProfileOutputResponse, PutSigningProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSigningProfileOutputResponse, PutSigningProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -584,6 +595,7 @@ extension SignerClient: SignerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveProfilePermissionInput, RemoveProfilePermissionOutputResponse, RemoveProfilePermissionOutputError>(id: "removeProfilePermission")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveProfilePermissionInput, RemoveProfilePermissionOutputResponse, RemoveProfilePermissionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveProfilePermissionInput, RemoveProfilePermissionOutputResponse>())
@@ -597,7 +609,7 @@ extension SignerClient: SignerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveProfilePermissionOutputResponse, RemoveProfilePermissionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RemoveProfilePermissionOutputResponse, RemoveProfilePermissionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveProfilePermissionOutputResponse, RemoveProfilePermissionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -617,6 +629,7 @@ extension SignerClient: SignerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RevokeSignatureInput, RevokeSignatureOutputResponse, RevokeSignatureOutputError>(id: "revokeSignature")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeSignatureInput, RevokeSignatureOutputResponse, RevokeSignatureOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeSignatureInput, RevokeSignatureOutputResponse>())
@@ -632,7 +645,7 @@ extension SignerClient: SignerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeSignatureOutputResponse, RevokeSignatureOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RevokeSignatureOutputResponse, RevokeSignatureOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeSignatureOutputResponse, RevokeSignatureOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -652,6 +665,7 @@ extension SignerClient: SignerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RevokeSigningProfileInput, RevokeSigningProfileOutputResponse, RevokeSigningProfileOutputError>(id: "revokeSigningProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeSigningProfileInput, RevokeSigningProfileOutputResponse, RevokeSigningProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeSigningProfileInput, RevokeSigningProfileOutputResponse>())
@@ -667,7 +681,7 @@ extension SignerClient: SignerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RevokeSigningProfileOutputResponse, RevokeSigningProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RevokeSigningProfileOutputResponse, RevokeSigningProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RevokeSigningProfileOutputResponse, RevokeSigningProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -700,6 +714,7 @@ extension SignerClient: SignerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartSigningJobInput, StartSigningJobOutputResponse, StartSigningJobOutputError>(id: "startSigningJob")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartSigningJobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -723,7 +738,7 @@ extension SignerClient: SignerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSigningJobOutputResponse, StartSigningJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartSigningJobOutputResponse, StartSigningJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSigningJobOutputResponse, StartSigningJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -743,6 +758,7 @@ extension SignerClient: SignerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -758,7 +774,7 @@ extension SignerClient: SignerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -778,6 +794,7 @@ extension SignerClient: SignerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "signer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -791,7 +808,7 @@ extension SignerClient: SignerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

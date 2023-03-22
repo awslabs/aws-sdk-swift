@@ -221,6 +221,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdeviceadvisor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSuiteDefinitionInput, CreateSuiteDefinitionOutputResponse, CreateSuiteDefinitionOutputError>(id: "createSuiteDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSuiteDefinitionInput, CreateSuiteDefinitionOutputResponse, CreateSuiteDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSuiteDefinitionInput, CreateSuiteDefinitionOutputResponse>())
@@ -236,7 +237,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSuiteDefinitionOutputResponse, CreateSuiteDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSuiteDefinitionOutputResponse, CreateSuiteDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSuiteDefinitionOutputResponse, CreateSuiteDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdeviceadvisor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSuiteDefinitionInput, DeleteSuiteDefinitionOutputResponse, DeleteSuiteDefinitionOutputError>(id: "deleteSuiteDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSuiteDefinitionInput, DeleteSuiteDefinitionOutputResponse, DeleteSuiteDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSuiteDefinitionInput, DeleteSuiteDefinitionOutputResponse>())
@@ -268,7 +270,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSuiteDefinitionOutputResponse, DeleteSuiteDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSuiteDefinitionOutputResponse, DeleteSuiteDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSuiteDefinitionOutputResponse, DeleteSuiteDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -288,6 +290,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdeviceadvisor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEndpointInput, GetEndpointOutputResponse, GetEndpointOutputError>(id: "getEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEndpointInput, GetEndpointOutputResponse, GetEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEndpointInput, GetEndpointOutputResponse>())
@@ -301,7 +304,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEndpointOutputResponse, GetEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetEndpointOutputResponse, GetEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEndpointOutputResponse, GetEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -321,6 +324,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdeviceadvisor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSuiteDefinitionInput, GetSuiteDefinitionOutputResponse, GetSuiteDefinitionOutputError>(id: "getSuiteDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSuiteDefinitionInput, GetSuiteDefinitionOutputResponse, GetSuiteDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSuiteDefinitionInput, GetSuiteDefinitionOutputResponse>())
@@ -334,7 +338,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSuiteDefinitionOutputResponse, GetSuiteDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSuiteDefinitionOutputResponse, GetSuiteDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSuiteDefinitionOutputResponse, GetSuiteDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -354,6 +358,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdeviceadvisor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSuiteRunInput, GetSuiteRunOutputResponse, GetSuiteRunOutputError>(id: "getSuiteRun")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSuiteRunInput, GetSuiteRunOutputResponse, GetSuiteRunOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSuiteRunInput, GetSuiteRunOutputResponse>())
@@ -366,7 +371,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSuiteRunOutputResponse, GetSuiteRunOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSuiteRunOutputResponse, GetSuiteRunOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSuiteRunOutputResponse, GetSuiteRunOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -386,6 +391,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdeviceadvisor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSuiteRunReportInput, GetSuiteRunReportOutputResponse, GetSuiteRunReportOutputError>(id: "getSuiteRunReport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSuiteRunReportInput, GetSuiteRunReportOutputResponse, GetSuiteRunReportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSuiteRunReportInput, GetSuiteRunReportOutputResponse>())
@@ -398,7 +404,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSuiteRunReportOutputResponse, GetSuiteRunReportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSuiteRunReportOutputResponse, GetSuiteRunReportOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSuiteRunReportOutputResponse, GetSuiteRunReportOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -418,6 +424,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdeviceadvisor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSuiteDefinitionsInput, ListSuiteDefinitionsOutputResponse, ListSuiteDefinitionsOutputError>(id: "listSuiteDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSuiteDefinitionsInput, ListSuiteDefinitionsOutputResponse, ListSuiteDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSuiteDefinitionsInput, ListSuiteDefinitionsOutputResponse>())
@@ -431,7 +438,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSuiteDefinitionsOutputResponse, ListSuiteDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSuiteDefinitionsOutputResponse, ListSuiteDefinitionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSuiteDefinitionsOutputResponse, ListSuiteDefinitionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -451,6 +458,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdeviceadvisor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSuiteRunsInput, ListSuiteRunsOutputResponse, ListSuiteRunsOutputError>(id: "listSuiteRuns")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSuiteRunsInput, ListSuiteRunsOutputResponse, ListSuiteRunsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSuiteRunsInput, ListSuiteRunsOutputResponse>())
@@ -464,7 +472,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSuiteRunsOutputResponse, ListSuiteRunsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSuiteRunsOutputResponse, ListSuiteRunsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSuiteRunsOutputResponse, ListSuiteRunsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -484,6 +492,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdeviceadvisor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -496,7 +505,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -516,6 +525,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdeviceadvisor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartSuiteRunInput, StartSuiteRunOutputResponse, StartSuiteRunOutputError>(id: "startSuiteRun")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSuiteRunInput, StartSuiteRunOutputResponse, StartSuiteRunOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSuiteRunInput, StartSuiteRunOutputResponse>())
@@ -531,7 +541,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSuiteRunOutputResponse, StartSuiteRunOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartSuiteRunOutputResponse, StartSuiteRunOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSuiteRunOutputResponse, StartSuiteRunOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -551,6 +561,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdeviceadvisor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopSuiteRunInput, StopSuiteRunOutputResponse, StopSuiteRunOutputError>(id: "stopSuiteRun")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopSuiteRunInput, StopSuiteRunOutputResponse, StopSuiteRunOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopSuiteRunInput, StopSuiteRunOutputResponse>())
@@ -563,7 +574,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopSuiteRunOutputResponse, StopSuiteRunOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopSuiteRunOutputResponse, StopSuiteRunOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopSuiteRunOutputResponse, StopSuiteRunOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -583,6 +594,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdeviceadvisor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -598,7 +610,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -618,6 +630,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdeviceadvisor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -631,7 +644,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -651,6 +664,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotdeviceadvisor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSuiteDefinitionInput, UpdateSuiteDefinitionOutputResponse, UpdateSuiteDefinitionOutputError>(id: "updateSuiteDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSuiteDefinitionInput, UpdateSuiteDefinitionOutputResponse, UpdateSuiteDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSuiteDefinitionInput, UpdateSuiteDefinitionOutputResponse>())
@@ -666,7 +680,7 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSuiteDefinitionOutputResponse, UpdateSuiteDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSuiteDefinitionOutputResponse, UpdateSuiteDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSuiteDefinitionOutputResponse, UpdateSuiteDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

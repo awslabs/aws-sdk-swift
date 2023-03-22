@@ -13,6 +13,7 @@ extension HttpContext {
     public static let signingName = AttributeKey<String>(name: "SigningName")
     public static let signingRegion = AttributeKey<String>(name: "SigningRegion")
     public static let signingAlgorithm = AttributeKey<String>(name: "SigningAlgorithm")
+    public static let requestSignature = AttributeKey<String>(name: "AWS_HTTP_SIGNATURE")
 
     func getCredentialsProvider() -> CredentialsProvider? {
         return attributes.get(key: HttpContext.credentialsProvider)
@@ -39,26 +40,21 @@ extension HttpContext {
 
     /// Returns the request signature for the event stream operation
     /// - Returns: `String` request signature
-    public func getRequestSignature() -> String? {
-        return attributes.get(key: AttributeKey<String>(name: "AWS_HTTP_SIGNATURE"))
+    public func getRequestSignature() -> String {
+        return attributes.get(key: AttributeKey<String>(name: "AWS_HTTP_SIGNATURE"))!
     }
 
     /// Returns the signing config for the event stream message
     /// - Returns: `AWSSigningConfig` for the event stream message
-    func makeEventStreamSigningConfig(date: Date = Date().withoutFractionalSeconds()) async throws -> AWSSigningConfig {
+    public func makeEventStreamSigningConfig(date: Date = Date().withoutFractionalSeconds())
+        async throws -> AWSSigningConfig {
         let credentials = try await getCredentialsProvider()?.getCredentials()
         guard let service = getSigningName() else {
-            fatalError("""
-                Signing name must not be nil,
-                it must be set by the middleware during the request
-            """)
+            fatalError("Signing name must not be nil, it must be set by the middleware during the request")
         }
 
         guard let region = getSigningRegion() ?? getRegion() else {
-            fatalError("""
-                Signing region must not be nil,
-                it must be set by the middleware during the request
-            """)
+            fatalError("Signing region must not be nil, it must be set by the middleware during the request")
         }
 
         // default flags
@@ -74,6 +70,27 @@ extension HttpContext {
                                 region: region,
                                 signatureType: .requestEvent,
                                 signingAlgorithm: .sigv4)
+    }
+
+    /// Setups context with encoder, decoder and signer for bidirectional streaming
+    /// and sets the bidirectional streaming flag
+    public func setupBidirectionalStreaming() {
+        // setup client to server
+        let messageEncoder = AWSClientRuntime.AWSEventStream.AWSMessageEncoder()
+        let messageSigner = AWSClientRuntime.AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {
+            try await self.makeEventStreamSigningConfig()
+        } requestSignature: {
+            self.getRequestSignature()
+        }
+        attributes.set(key: HttpContext.messageEncoder, value: messageEncoder)
+        attributes.set(key: HttpContext.messageSigner, value: messageSigner)
+
+        // setup server to client
+        let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
+        attributes.set(key: HttpContext.messageDecoder, value: messageDecoder)
+
+        // enable the flag
+        attributes.set(key: HttpContext.bidirectionalStreaming, value: true)
     }
 }
 
@@ -113,7 +130,7 @@ extension HttpContextBuilder {
     /// - Parameter value: `String` request signature
     @discardableResult
     public func withRequestSignature(value: String) -> HttpContextBuilder {
-        self.attributes.set(key: AttributeKey<String>(name: "AWS_HTTP_SIGNATURE"), value: value)
+        self.attributes.set(key: HttpContext.requestSignature, value: value)
         return self
     }
 }

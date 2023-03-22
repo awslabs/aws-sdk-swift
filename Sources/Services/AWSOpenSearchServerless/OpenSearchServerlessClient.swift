@@ -221,6 +221,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchGetCollectionInput, BatchGetCollectionOutputResponse, BatchGetCollectionOutputError>(id: "batchGetCollection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetCollectionInput, BatchGetCollectionOutputResponse, BatchGetCollectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetCollectionInput, BatchGetCollectionOutputResponse>())
@@ -237,7 +238,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetCollectionOutputResponse, BatchGetCollectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchGetCollectionOutputResponse, BatchGetCollectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetCollectionOutputResponse, BatchGetCollectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchGetVpcEndpointInput, BatchGetVpcEndpointOutputResponse, BatchGetVpcEndpointOutputError>(id: "batchGetVpcEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetVpcEndpointInput, BatchGetVpcEndpointOutputResponse, BatchGetVpcEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetVpcEndpointInput, BatchGetVpcEndpointOutputResponse>())
@@ -273,7 +275,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetVpcEndpointOutputResponse, BatchGetVpcEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchGetVpcEndpointOutputResponse, BatchGetVpcEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetVpcEndpointOutputResponse, BatchGetVpcEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAccessPolicyInput, CreateAccessPolicyOutputResponse, CreateAccessPolicyOutputError>(id: "createAccessPolicy")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateAccessPolicyOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -317,7 +320,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccessPolicyOutputResponse, CreateAccessPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAccessPolicyOutputResponse, CreateAccessPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessPolicyOutputResponse, CreateAccessPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -337,6 +340,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCollectionInput, CreateCollectionOutputResponse, CreateCollectionOutputError>(id: "createCollection")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateCollectionOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -361,7 +365,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCollectionOutputResponse, CreateCollectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateCollectionOutputResponse, CreateCollectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCollectionOutputResponse, CreateCollectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -381,6 +385,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSecurityConfigInput, CreateSecurityConfigOutputResponse, CreateSecurityConfigOutputError>(id: "createSecurityConfig")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateSecurityConfigOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -405,7 +410,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSecurityConfigOutputResponse, CreateSecurityConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSecurityConfigOutputResponse, CreateSecurityConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSecurityConfigOutputResponse, CreateSecurityConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -425,6 +430,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSecurityPolicyInput, CreateSecurityPolicyOutputResponse, CreateSecurityPolicyOutputError>(id: "createSecurityPolicy")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateSecurityPolicyOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -449,7 +455,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSecurityPolicyOutputResponse, CreateSecurityPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSecurityPolicyOutputResponse, CreateSecurityPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSecurityPolicyOutputResponse, CreateSecurityPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -469,6 +475,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateVpcEndpointInput, CreateVpcEndpointOutputResponse, CreateVpcEndpointOutputError>(id: "createVpcEndpoint")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateVpcEndpointOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -493,7 +500,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVpcEndpointOutputResponse, CreateVpcEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateVpcEndpointOutputResponse, CreateVpcEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVpcEndpointOutputResponse, CreateVpcEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -513,6 +520,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAccessPolicyInput, DeleteAccessPolicyOutputResponse, DeleteAccessPolicyOutputError>(id: "deleteAccessPolicy")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteAccessPolicyOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -537,7 +545,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccessPolicyOutputResponse, DeleteAccessPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessPolicyOutputResponse, DeleteAccessPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessPolicyOutputResponse, DeleteAccessPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -557,6 +565,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCollectionInput, DeleteCollectionOutputResponse, DeleteCollectionOutputError>(id: "deleteCollection")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteCollectionOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -581,7 +590,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCollectionOutputResponse, DeleteCollectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteCollectionOutputResponse, DeleteCollectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCollectionOutputResponse, DeleteCollectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -601,6 +610,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSecurityConfigInput, DeleteSecurityConfigOutputResponse, DeleteSecurityConfigOutputError>(id: "deleteSecurityConfig")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteSecurityConfigOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -625,7 +635,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSecurityConfigOutputResponse, DeleteSecurityConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSecurityConfigOutputResponse, DeleteSecurityConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSecurityConfigOutputResponse, DeleteSecurityConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -645,6 +655,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSecurityPolicyInput, DeleteSecurityPolicyOutputResponse, DeleteSecurityPolicyOutputError>(id: "deleteSecurityPolicy")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteSecurityPolicyOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -669,7 +680,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSecurityPolicyOutputResponse, DeleteSecurityPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSecurityPolicyOutputResponse, DeleteSecurityPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSecurityPolicyOutputResponse, DeleteSecurityPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -689,6 +700,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVpcEndpointInput, DeleteVpcEndpointOutputResponse, DeleteVpcEndpointOutputError>(id: "deleteVpcEndpoint")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<DeleteVpcEndpointOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -713,7 +725,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVpcEndpointOutputResponse, DeleteVpcEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteVpcEndpointOutputResponse, DeleteVpcEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVpcEndpointOutputResponse, DeleteVpcEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -733,6 +745,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccessPolicyInput, GetAccessPolicyOutputResponse, GetAccessPolicyOutputError>(id: "getAccessPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccessPolicyInput, GetAccessPolicyOutputResponse, GetAccessPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccessPolicyInput, GetAccessPolicyOutputResponse>())
@@ -749,7 +762,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccessPolicyOutputResponse, GetAccessPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAccessPolicyOutputResponse, GetAccessPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccessPolicyOutputResponse, GetAccessPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -769,6 +782,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccountSettingsInput, GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(id: "getAccountSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountSettingsInput, GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountSettingsInput, GetAccountSettingsOutputResponse>())
@@ -785,7 +799,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutputResponse, GetAccountSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -805,6 +819,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPoliciesStatsInput, GetPoliciesStatsOutputResponse, GetPoliciesStatsOutputError>(id: "getPoliciesStats")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPoliciesStatsInput, GetPoliciesStatsOutputResponse, GetPoliciesStatsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPoliciesStatsInput, GetPoliciesStatsOutputResponse>())
@@ -821,7 +836,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPoliciesStatsOutputResponse, GetPoliciesStatsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPoliciesStatsOutputResponse, GetPoliciesStatsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPoliciesStatsOutputResponse, GetPoliciesStatsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -841,6 +856,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSecurityConfigInput, GetSecurityConfigOutputResponse, GetSecurityConfigOutputError>(id: "getSecurityConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSecurityConfigInput, GetSecurityConfigOutputResponse, GetSecurityConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSecurityConfigInput, GetSecurityConfigOutputResponse>())
@@ -857,7 +873,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSecurityConfigOutputResponse, GetSecurityConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSecurityConfigOutputResponse, GetSecurityConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSecurityConfigOutputResponse, GetSecurityConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -877,6 +893,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSecurityPolicyInput, GetSecurityPolicyOutputResponse, GetSecurityPolicyOutputError>(id: "getSecurityPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSecurityPolicyInput, GetSecurityPolicyOutputResponse, GetSecurityPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSecurityPolicyInput, GetSecurityPolicyOutputResponse>())
@@ -893,7 +910,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSecurityPolicyOutputResponse, GetSecurityPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSecurityPolicyOutputResponse, GetSecurityPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSecurityPolicyOutputResponse, GetSecurityPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -913,6 +930,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAccessPoliciesInput, ListAccessPoliciesOutputResponse, ListAccessPoliciesOutputError>(id: "listAccessPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccessPoliciesInput, ListAccessPoliciesOutputResponse, ListAccessPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccessPoliciesInput, ListAccessPoliciesOutputResponse>())
@@ -929,7 +947,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccessPoliciesOutputResponse, ListAccessPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAccessPoliciesOutputResponse, ListAccessPoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessPoliciesOutputResponse, ListAccessPoliciesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -949,6 +967,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCollectionsInput, ListCollectionsOutputResponse, ListCollectionsOutputError>(id: "listCollections")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCollectionsInput, ListCollectionsOutputResponse, ListCollectionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCollectionsInput, ListCollectionsOutputResponse>())
@@ -965,7 +984,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCollectionsOutputResponse, ListCollectionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListCollectionsOutputResponse, ListCollectionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCollectionsOutputResponse, ListCollectionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -985,6 +1004,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSecurityConfigsInput, ListSecurityConfigsOutputResponse, ListSecurityConfigsOutputError>(id: "listSecurityConfigs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSecurityConfigsInput, ListSecurityConfigsOutputResponse, ListSecurityConfigsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSecurityConfigsInput, ListSecurityConfigsOutputResponse>())
@@ -1001,7 +1021,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSecurityConfigsOutputResponse, ListSecurityConfigsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSecurityConfigsOutputResponse, ListSecurityConfigsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSecurityConfigsOutputResponse, ListSecurityConfigsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1021,6 +1041,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSecurityPoliciesInput, ListSecurityPoliciesOutputResponse, ListSecurityPoliciesOutputError>(id: "listSecurityPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSecurityPoliciesInput, ListSecurityPoliciesOutputResponse, ListSecurityPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSecurityPoliciesInput, ListSecurityPoliciesOutputResponse>())
@@ -1037,7 +1058,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSecurityPoliciesOutputResponse, ListSecurityPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSecurityPoliciesOutputResponse, ListSecurityPoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSecurityPoliciesOutputResponse, ListSecurityPoliciesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1057,6 +1078,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1073,7 +1095,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1093,6 +1115,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVpcEndpointsInput, ListVpcEndpointsOutputResponse, ListVpcEndpointsOutputError>(id: "listVpcEndpoints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVpcEndpointsInput, ListVpcEndpointsOutputResponse, ListVpcEndpointsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVpcEndpointsInput, ListVpcEndpointsOutputResponse>())
@@ -1109,7 +1132,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVpcEndpointsOutputResponse, ListVpcEndpointsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListVpcEndpointsOutputResponse, ListVpcEndpointsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVpcEndpointsOutputResponse, ListVpcEndpointsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1129,6 +1152,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1145,7 +1169,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1165,6 +1189,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1181,7 +1206,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1201,6 +1226,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAccessPolicyInput, UpdateAccessPolicyOutputResponse, UpdateAccessPolicyOutputError>(id: "updateAccessPolicy")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateAccessPolicyOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1225,7 +1251,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccessPolicyOutputResponse, UpdateAccessPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAccessPolicyOutputResponse, UpdateAccessPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccessPolicyOutputResponse, UpdateAccessPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1245,6 +1271,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAccountSettingsInput, UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>(id: "updateAccountSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutputResponse>())
@@ -1261,7 +1288,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountSettingsOutputResponse, UpdateAccountSettingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1281,6 +1308,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateCollectionInput, UpdateCollectionOutputResponse, UpdateCollectionOutputError>(id: "updateCollection")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateCollectionOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1305,7 +1333,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCollectionOutputResponse, UpdateCollectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateCollectionOutputResponse, UpdateCollectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCollectionOutputResponse, UpdateCollectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1325,6 +1353,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSecurityConfigInput, UpdateSecurityConfigOutputResponse, UpdateSecurityConfigOutputError>(id: "updateSecurityConfig")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateSecurityConfigOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1349,7 +1378,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSecurityConfigOutputResponse, UpdateSecurityConfigOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSecurityConfigOutputResponse, UpdateSecurityConfigOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSecurityConfigOutputResponse, UpdateSecurityConfigOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1369,6 +1398,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSecurityPolicyInput, UpdateSecurityPolicyOutputResponse, UpdateSecurityPolicyOutputError>(id: "updateSecurityPolicy")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateSecurityPolicyOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1393,7 +1423,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSecurityPolicyOutputResponse, UpdateSecurityPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSecurityPolicyOutputResponse, UpdateSecurityPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSecurityPolicyOutputResponse, UpdateSecurityPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1413,6 +1443,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "aoss")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateVpcEndpointInput, UpdateVpcEndpointOutputResponse, UpdateVpcEndpointOutputError>(id: "updateVpcEndpoint")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateVpcEndpointOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1437,7 +1468,7 @@ extension OpenSearchServerlessClient: OpenSearchServerlessClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVpcEndpointOutputResponse, UpdateVpcEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateVpcEndpointOutputResponse, UpdateVpcEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVpcEndpointOutputResponse, UpdateVpcEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

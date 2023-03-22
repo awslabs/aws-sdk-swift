@@ -221,6 +221,7 @@ extension HealthClient: HealthClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutputResponse, DescribeAffectedAccountsForOrganizationOutputError>(id: "describeAffectedAccountsForOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutputResponse, DescribeAffectedAccountsForOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAffectedAccountsForOrganizationInput, DescribeAffectedAccountsForOrganizationOutputResponse>())
@@ -237,7 +238,7 @@ extension HealthClient: HealthClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAffectedAccountsForOrganizationOutputResponse, DescribeAffectedAccountsForOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAffectedAccountsForOrganizationOutputResponse, DescribeAffectedAccountsForOrganizationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAffectedAccountsForOrganizationOutputResponse, DescribeAffectedAccountsForOrganizationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -261,6 +262,7 @@ extension HealthClient: HealthClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutputResponse, DescribeAffectedEntitiesOutputError>(id: "describeAffectedEntities")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutputResponse, DescribeAffectedEntitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAffectedEntitiesInput, DescribeAffectedEntitiesOutputResponse>())
@@ -277,7 +279,7 @@ extension HealthClient: HealthClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAffectedEntitiesOutputResponse, DescribeAffectedEntitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAffectedEntitiesOutputResponse, DescribeAffectedEntitiesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAffectedEntitiesOutputResponse, DescribeAffectedEntitiesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -301,6 +303,7 @@ extension HealthClient: HealthClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutputResponse, DescribeAffectedEntitiesForOrganizationOutputError>(id: "describeAffectedEntitiesForOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutputResponse, DescribeAffectedEntitiesForOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAffectedEntitiesForOrganizationInput, DescribeAffectedEntitiesForOrganizationOutputResponse>())
@@ -317,7 +320,7 @@ extension HealthClient: HealthClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAffectedEntitiesForOrganizationOutputResponse, DescribeAffectedEntitiesForOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAffectedEntitiesForOrganizationOutputResponse, DescribeAffectedEntitiesForOrganizationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAffectedEntitiesForOrganizationOutputResponse, DescribeAffectedEntitiesForOrganizationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -337,6 +340,7 @@ extension HealthClient: HealthClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEntityAggregatesInput, DescribeEntityAggregatesOutputResponse, DescribeEntityAggregatesOutputError>(id: "describeEntityAggregates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEntityAggregatesInput, DescribeEntityAggregatesOutputResponse, DescribeEntityAggregatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEntityAggregatesInput, DescribeEntityAggregatesOutputResponse>())
@@ -353,7 +357,7 @@ extension HealthClient: HealthClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEntityAggregatesOutputResponse, DescribeEntityAggregatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEntityAggregatesOutputResponse, DescribeEntityAggregatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEntityAggregatesOutputResponse, DescribeEntityAggregatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -373,6 +377,7 @@ extension HealthClient: HealthClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventAggregatesInput, DescribeEventAggregatesOutputResponse, DescribeEventAggregatesOutputError>(id: "describeEventAggregates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventAggregatesInput, DescribeEventAggregatesOutputResponse, DescribeEventAggregatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventAggregatesInput, DescribeEventAggregatesOutputResponse>())
@@ -389,7 +394,7 @@ extension HealthClient: HealthClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventAggregatesOutputResponse, DescribeEventAggregatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEventAggregatesOutputResponse, DescribeEventAggregatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventAggregatesOutputResponse, DescribeEventAggregatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -409,6 +414,7 @@ extension HealthClient: HealthClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventDetailsInput, DescribeEventDetailsOutputResponse, DescribeEventDetailsOutputError>(id: "describeEventDetails")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventDetailsInput, DescribeEventDetailsOutputResponse, DescribeEventDetailsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventDetailsInput, DescribeEventDetailsOutputResponse>())
@@ -425,7 +431,7 @@ extension HealthClient: HealthClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventDetailsOutputResponse, DescribeEventDetailsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEventDetailsOutputResponse, DescribeEventDetailsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventDetailsOutputResponse, DescribeEventDetailsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -452,6 +458,7 @@ extension HealthClient: HealthClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventDetailsForOrganizationInput, DescribeEventDetailsForOrganizationOutputResponse, DescribeEventDetailsForOrganizationOutputError>(id: "describeEventDetailsForOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventDetailsForOrganizationInput, DescribeEventDetailsForOrganizationOutputResponse, DescribeEventDetailsForOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventDetailsForOrganizationInput, DescribeEventDetailsForOrganizationOutputResponse>())
@@ -468,7 +475,7 @@ extension HealthClient: HealthClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventDetailsForOrganizationOutputResponse, DescribeEventDetailsForOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEventDetailsForOrganizationOutputResponse, DescribeEventDetailsForOrganizationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventDetailsForOrganizationOutputResponse, DescribeEventDetailsForOrganizationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -488,6 +495,7 @@ extension HealthClient: HealthClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventTypesInput, DescribeEventTypesOutputResponse, DescribeEventTypesOutputError>(id: "describeEventTypes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventTypesInput, DescribeEventTypesOutputResponse, DescribeEventTypesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventTypesInput, DescribeEventTypesOutputResponse>())
@@ -504,7 +512,7 @@ extension HealthClient: HealthClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventTypesOutputResponse, DescribeEventTypesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEventTypesOutputResponse, DescribeEventTypesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventTypesOutputResponse, DescribeEventTypesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -528,6 +536,7 @@ extension HealthClient: HealthClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>(id: "describeEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventsInput, DescribeEventsOutputResponse>())
@@ -544,7 +553,7 @@ extension HealthClient: HealthClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -573,6 +582,7 @@ extension HealthClient: HealthClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutputResponse, DescribeEventsForOrganizationOutputError>(id: "describeEventsForOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutputResponse, DescribeEventsForOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventsForOrganizationInput, DescribeEventsForOrganizationOutputResponse>())
@@ -589,7 +599,7 @@ extension HealthClient: HealthClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventsForOrganizationOutputResponse, DescribeEventsForOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEventsForOrganizationOutputResponse, DescribeEventsForOrganizationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventsForOrganizationOutputResponse, DescribeEventsForOrganizationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -609,6 +619,7 @@ extension HealthClient: HealthClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeHealthServiceStatusForOrganizationInput, DescribeHealthServiceStatusForOrganizationOutputResponse, DescribeHealthServiceStatusForOrganizationOutputError>(id: "describeHealthServiceStatusForOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHealthServiceStatusForOrganizationInput, DescribeHealthServiceStatusForOrganizationOutputResponse, DescribeHealthServiceStatusForOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeHealthServiceStatusForOrganizationInput, DescribeHealthServiceStatusForOrganizationOutputResponse>())
@@ -625,7 +636,7 @@ extension HealthClient: HealthClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHealthServiceStatusForOrganizationOutputResponse, DescribeHealthServiceStatusForOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeHealthServiceStatusForOrganizationOutputResponse, DescribeHealthServiceStatusForOrganizationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeHealthServiceStatusForOrganizationOutputResponse, DescribeHealthServiceStatusForOrganizationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -645,6 +656,7 @@ extension HealthClient: HealthClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableHealthServiceAccessForOrganizationInput, DisableHealthServiceAccessForOrganizationOutputResponse, DisableHealthServiceAccessForOrganizationOutputError>(id: "disableHealthServiceAccessForOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableHealthServiceAccessForOrganizationInput, DisableHealthServiceAccessForOrganizationOutputResponse, DisableHealthServiceAccessForOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableHealthServiceAccessForOrganizationInput, DisableHealthServiceAccessForOrganizationOutputResponse>())
@@ -661,7 +673,7 @@ extension HealthClient: HealthClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableHealthServiceAccessForOrganizationOutputResponse, DisableHealthServiceAccessForOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisableHealthServiceAccessForOrganizationOutputResponse, DisableHealthServiceAccessForOrganizationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableHealthServiceAccessForOrganizationOutputResponse, DisableHealthServiceAccessForOrganizationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -688,6 +700,7 @@ extension HealthClient: HealthClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "health")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableHealthServiceAccessForOrganizationInput, EnableHealthServiceAccessForOrganizationOutputResponse, EnableHealthServiceAccessForOrganizationOutputError>(id: "enableHealthServiceAccessForOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableHealthServiceAccessForOrganizationInput, EnableHealthServiceAccessForOrganizationOutputResponse, EnableHealthServiceAccessForOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableHealthServiceAccessForOrganizationInput, EnableHealthServiceAccessForOrganizationOutputResponse>())
@@ -704,7 +717,7 @@ extension HealthClient: HealthClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableHealthServiceAccessForOrganizationOutputResponse, EnableHealthServiceAccessForOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<EnableHealthServiceAccessForOrganizationOutputResponse, EnableHealthServiceAccessForOrganizationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableHealthServiceAccessForOrganizationOutputResponse, EnableHealthServiceAccessForOrganizationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

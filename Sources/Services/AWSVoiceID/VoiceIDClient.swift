@@ -221,6 +221,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDomainInput, CreateDomainOutputResponse, CreateDomainOutputError>(id: "createDomain")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateDomainOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -245,7 +246,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDomainOutputResponse, CreateDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDomainOutputResponse, CreateDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDomainOutputResponse, CreateDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -265,6 +266,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDomainInput, DeleteDomainOutputResponse, DeleteDomainOutputError>(id: "deleteDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDomainInput, DeleteDomainOutputResponse, DeleteDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDomainInput, DeleteDomainOutputResponse>())
@@ -281,7 +283,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDomainOutputResponse, DeleteDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDomainOutputResponse, DeleteDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDomainOutputResponse, DeleteDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -301,6 +303,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFraudsterInput, DeleteFraudsterOutputResponse, DeleteFraudsterOutputError>(id: "deleteFraudster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFraudsterInput, DeleteFraudsterOutputResponse, DeleteFraudsterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFraudsterInput, DeleteFraudsterOutputResponse>())
@@ -317,7 +320,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFraudsterOutputResponse, DeleteFraudsterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteFraudsterOutputResponse, DeleteFraudsterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFraudsterOutputResponse, DeleteFraudsterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -337,6 +340,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSpeakerInput, DeleteSpeakerOutputResponse, DeleteSpeakerOutputError>(id: "deleteSpeaker")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSpeakerInput, DeleteSpeakerOutputResponse, DeleteSpeakerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSpeakerInput, DeleteSpeakerOutputResponse>())
@@ -353,7 +357,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSpeakerOutputResponse, DeleteSpeakerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSpeakerOutputResponse, DeleteSpeakerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSpeakerOutputResponse, DeleteSpeakerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -373,6 +377,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDomainInput, DescribeDomainOutputResponse, DescribeDomainOutputError>(id: "describeDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDomainInput, DescribeDomainOutputResponse, DescribeDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDomainInput, DescribeDomainOutputResponse>())
@@ -389,7 +394,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDomainOutputResponse, DescribeDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDomainOutputResponse, DescribeDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDomainOutputResponse, DescribeDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -409,6 +414,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFraudsterInput, DescribeFraudsterOutputResponse, DescribeFraudsterOutputError>(id: "describeFraudster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFraudsterInput, DescribeFraudsterOutputResponse, DescribeFraudsterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFraudsterInput, DescribeFraudsterOutputResponse>())
@@ -425,7 +431,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFraudsterOutputResponse, DescribeFraudsterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeFraudsterOutputResponse, DescribeFraudsterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFraudsterOutputResponse, DescribeFraudsterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -445,6 +451,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutputResponse, DescribeFraudsterRegistrationJobOutputError>(id: "describeFraudsterRegistrationJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutputResponse, DescribeFraudsterRegistrationJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutputResponse>())
@@ -461,7 +468,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFraudsterRegistrationJobOutputResponse, DescribeFraudsterRegistrationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeFraudsterRegistrationJobOutputResponse, DescribeFraudsterRegistrationJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFraudsterRegistrationJobOutputResponse, DescribeFraudsterRegistrationJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -481,6 +488,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSpeakerInput, DescribeSpeakerOutputResponse, DescribeSpeakerOutputError>(id: "describeSpeaker")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSpeakerInput, DescribeSpeakerOutputResponse, DescribeSpeakerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSpeakerInput, DescribeSpeakerOutputResponse>())
@@ -497,7 +505,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSpeakerOutputResponse, DescribeSpeakerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeSpeakerOutputResponse, DescribeSpeakerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSpeakerOutputResponse, DescribeSpeakerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -517,6 +525,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutputResponse, DescribeSpeakerEnrollmentJobOutputError>(id: "describeSpeakerEnrollmentJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutputResponse, DescribeSpeakerEnrollmentJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutputResponse>())
@@ -533,7 +542,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSpeakerEnrollmentJobOutputResponse, DescribeSpeakerEnrollmentJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeSpeakerEnrollmentJobOutputResponse, DescribeSpeakerEnrollmentJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSpeakerEnrollmentJobOutputResponse, DescribeSpeakerEnrollmentJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -553,6 +562,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EvaluateSessionInput, EvaluateSessionOutputResponse, EvaluateSessionOutputError>(id: "evaluateSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EvaluateSessionInput, EvaluateSessionOutputResponse, EvaluateSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EvaluateSessionInput, EvaluateSessionOutputResponse>())
@@ -569,7 +579,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EvaluateSessionOutputResponse, EvaluateSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<EvaluateSessionOutputResponse, EvaluateSessionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EvaluateSessionOutputResponse, EvaluateSessionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -589,6 +599,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDomainsInput, ListDomainsOutputResponse, ListDomainsOutputError>(id: "listDomains")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDomainsInput, ListDomainsOutputResponse, ListDomainsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDomainsInput, ListDomainsOutputResponse>())
@@ -605,7 +616,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDomainsOutputResponse, ListDomainsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDomainsOutputResponse, ListDomainsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDomainsOutputResponse, ListDomainsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -625,6 +636,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutputResponse, ListFraudsterRegistrationJobsOutputError>(id: "listFraudsterRegistrationJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutputResponse, ListFraudsterRegistrationJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutputResponse>())
@@ -641,7 +653,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFraudsterRegistrationJobsOutputResponse, ListFraudsterRegistrationJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListFraudsterRegistrationJobsOutputResponse, ListFraudsterRegistrationJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFraudsterRegistrationJobsOutputResponse, ListFraudsterRegistrationJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -661,6 +673,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutputResponse, ListSpeakerEnrollmentJobsOutputError>(id: "listSpeakerEnrollmentJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutputResponse, ListSpeakerEnrollmentJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutputResponse>())
@@ -677,7 +690,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSpeakerEnrollmentJobsOutputResponse, ListSpeakerEnrollmentJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSpeakerEnrollmentJobsOutputResponse, ListSpeakerEnrollmentJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSpeakerEnrollmentJobsOutputResponse, ListSpeakerEnrollmentJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -697,6 +710,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSpeakersInput, ListSpeakersOutputResponse, ListSpeakersOutputError>(id: "listSpeakers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSpeakersInput, ListSpeakersOutputResponse, ListSpeakersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSpeakersInput, ListSpeakersOutputResponse>())
@@ -713,7 +727,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSpeakersOutputResponse, ListSpeakersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSpeakersOutputResponse, ListSpeakersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSpeakersOutputResponse, ListSpeakersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -733,6 +747,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -749,7 +764,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -769,6 +784,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<OptOutSpeakerInput, OptOutSpeakerOutputResponse, OptOutSpeakerOutputError>(id: "optOutSpeaker")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<OptOutSpeakerInput, OptOutSpeakerOutputResponse, OptOutSpeakerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<OptOutSpeakerInput, OptOutSpeakerOutputResponse>())
@@ -785,7 +801,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<OptOutSpeakerOutputResponse, OptOutSpeakerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<OptOutSpeakerOutputResponse, OptOutSpeakerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<OptOutSpeakerOutputResponse, OptOutSpeakerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -805,6 +821,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutputResponse, StartFraudsterRegistrationJobOutputError>(id: "startFraudsterRegistrationJob")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartFraudsterRegistrationJobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -829,7 +846,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartFraudsterRegistrationJobOutputResponse, StartFraudsterRegistrationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartFraudsterRegistrationJobOutputResponse, StartFraudsterRegistrationJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartFraudsterRegistrationJobOutputResponse, StartFraudsterRegistrationJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -849,6 +866,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutputResponse, StartSpeakerEnrollmentJobOutputError>(id: "startSpeakerEnrollmentJob")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartSpeakerEnrollmentJobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -873,7 +891,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSpeakerEnrollmentJobOutputResponse, StartSpeakerEnrollmentJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartSpeakerEnrollmentJobOutputResponse, StartSpeakerEnrollmentJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSpeakerEnrollmentJobOutputResponse, StartSpeakerEnrollmentJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -893,6 +911,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -909,7 +928,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -929,6 +948,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -945,7 +965,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -965,6 +985,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "voiceid")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDomainInput, UpdateDomainOutputResponse, UpdateDomainOutputError>(id: "updateDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDomainInput, UpdateDomainOutputResponse, UpdateDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDomainInput, UpdateDomainOutputResponse>())
@@ -981,7 +1002,7 @@ extension VoiceIDClient: VoiceIDClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDomainOutputResponse, UpdateDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDomainOutputResponse, UpdateDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDomainOutputResponse, UpdateDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

@@ -221,6 +221,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AcceptDirectConnectGatewayAssociationProposalInput, AcceptDirectConnectGatewayAssociationProposalOutputResponse, AcceptDirectConnectGatewayAssociationProposalOutputError>(id: "acceptDirectConnectGatewayAssociationProposal")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptDirectConnectGatewayAssociationProposalInput, AcceptDirectConnectGatewayAssociationProposalOutputResponse, AcceptDirectConnectGatewayAssociationProposalOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptDirectConnectGatewayAssociationProposalInput, AcceptDirectConnectGatewayAssociationProposalOutputResponse>())
@@ -237,7 +238,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptDirectConnectGatewayAssociationProposalOutputResponse, AcceptDirectConnectGatewayAssociationProposalOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AcceptDirectConnectGatewayAssociationProposalOutputResponse, AcceptDirectConnectGatewayAssociationProposalOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptDirectConnectGatewayAssociationProposalOutputResponse, AcceptDirectConnectGatewayAssociationProposalOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -258,6 +259,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AllocateConnectionOnInterconnectInput, AllocateConnectionOnInterconnectOutputResponse, AllocateConnectionOnInterconnectOutputError>(id: "allocateConnectionOnInterconnect")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AllocateConnectionOnInterconnectInput, AllocateConnectionOnInterconnectOutputResponse, AllocateConnectionOnInterconnectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AllocateConnectionOnInterconnectInput, AllocateConnectionOnInterconnectOutputResponse>())
@@ -274,7 +276,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AllocateConnectionOnInterconnectOutputResponse, AllocateConnectionOnInterconnectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AllocateConnectionOnInterconnectOutputResponse, AllocateConnectionOnInterconnectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AllocateConnectionOnInterconnectOutputResponse, AllocateConnectionOnInterconnectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -294,6 +296,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AllocateHostedConnectionInput, AllocateHostedConnectionOutputResponse, AllocateHostedConnectionOutputError>(id: "allocateHostedConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AllocateHostedConnectionInput, AllocateHostedConnectionOutputResponse, AllocateHostedConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AllocateHostedConnectionInput, AllocateHostedConnectionOutputResponse>())
@@ -310,7 +313,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AllocateHostedConnectionOutputResponse, AllocateHostedConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AllocateHostedConnectionOutputResponse, AllocateHostedConnectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AllocateHostedConnectionOutputResponse, AllocateHostedConnectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -330,6 +333,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AllocatePrivateVirtualInterfaceInput, AllocatePrivateVirtualInterfaceOutputResponse, AllocatePrivateVirtualInterfaceOutputError>(id: "allocatePrivateVirtualInterface")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AllocatePrivateVirtualInterfaceInput, AllocatePrivateVirtualInterfaceOutputResponse, AllocatePrivateVirtualInterfaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AllocatePrivateVirtualInterfaceInput, AllocatePrivateVirtualInterfaceOutputResponse>())
@@ -346,7 +350,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AllocatePrivateVirtualInterfaceOutputResponse, AllocatePrivateVirtualInterfaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AllocatePrivateVirtualInterfaceOutputResponse, AllocatePrivateVirtualInterfaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AllocatePrivateVirtualInterfaceOutputResponse, AllocatePrivateVirtualInterfaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -366,6 +370,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AllocatePublicVirtualInterfaceInput, AllocatePublicVirtualInterfaceOutputResponse, AllocatePublicVirtualInterfaceOutputError>(id: "allocatePublicVirtualInterface")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AllocatePublicVirtualInterfaceInput, AllocatePublicVirtualInterfaceOutputResponse, AllocatePublicVirtualInterfaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AllocatePublicVirtualInterfaceInput, AllocatePublicVirtualInterfaceOutputResponse>())
@@ -382,7 +387,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AllocatePublicVirtualInterfaceOutputResponse, AllocatePublicVirtualInterfaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AllocatePublicVirtualInterfaceOutputResponse, AllocatePublicVirtualInterfaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AllocatePublicVirtualInterfaceOutputResponse, AllocatePublicVirtualInterfaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -402,6 +407,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AllocateTransitVirtualInterfaceInput, AllocateTransitVirtualInterfaceOutputResponse, AllocateTransitVirtualInterfaceOutputError>(id: "allocateTransitVirtualInterface")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AllocateTransitVirtualInterfaceInput, AllocateTransitVirtualInterfaceOutputResponse, AllocateTransitVirtualInterfaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AllocateTransitVirtualInterfaceInput, AllocateTransitVirtualInterfaceOutputResponse>())
@@ -418,7 +424,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AllocateTransitVirtualInterfaceOutputResponse, AllocateTransitVirtualInterfaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AllocateTransitVirtualInterfaceOutputResponse, AllocateTransitVirtualInterfaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AllocateTransitVirtualInterfaceOutputResponse, AllocateTransitVirtualInterfaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -438,6 +444,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateConnectionWithLagInput, AssociateConnectionWithLagOutputResponse, AssociateConnectionWithLagOutputError>(id: "associateConnectionWithLag")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateConnectionWithLagInput, AssociateConnectionWithLagOutputResponse, AssociateConnectionWithLagOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateConnectionWithLagInput, AssociateConnectionWithLagOutputResponse>())
@@ -454,7 +461,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateConnectionWithLagOutputResponse, AssociateConnectionWithLagOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateConnectionWithLagOutputResponse, AssociateConnectionWithLagOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateConnectionWithLagOutputResponse, AssociateConnectionWithLagOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -474,6 +481,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateHostedConnectionInput, AssociateHostedConnectionOutputResponse, AssociateHostedConnectionOutputError>(id: "associateHostedConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateHostedConnectionInput, AssociateHostedConnectionOutputResponse, AssociateHostedConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateHostedConnectionInput, AssociateHostedConnectionOutputResponse>())
@@ -490,7 +498,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateHostedConnectionOutputResponse, AssociateHostedConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateHostedConnectionOutputResponse, AssociateHostedConnectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateHostedConnectionOutputResponse, AssociateHostedConnectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -510,6 +518,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateMacSecKeyInput, AssociateMacSecKeyOutputResponse, AssociateMacSecKeyOutputError>(id: "associateMacSecKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateMacSecKeyInput, AssociateMacSecKeyOutputResponse, AssociateMacSecKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateMacSecKeyInput, AssociateMacSecKeyOutputResponse>())
@@ -526,7 +535,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateMacSecKeyOutputResponse, AssociateMacSecKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateMacSecKeyOutputResponse, AssociateMacSecKeyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateMacSecKeyOutputResponse, AssociateMacSecKeyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -546,6 +555,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateVirtualInterfaceInput, AssociateVirtualInterfaceOutputResponse, AssociateVirtualInterfaceOutputError>(id: "associateVirtualInterface")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateVirtualInterfaceInput, AssociateVirtualInterfaceOutputResponse, AssociateVirtualInterfaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateVirtualInterfaceInput, AssociateVirtualInterfaceOutputResponse>())
@@ -562,7 +572,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateVirtualInterfaceOutputResponse, AssociateVirtualInterfaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateVirtualInterfaceOutputResponse, AssociateVirtualInterfaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateVirtualInterfaceOutputResponse, AssociateVirtualInterfaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -582,6 +592,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ConfirmConnectionInput, ConfirmConnectionOutputResponse, ConfirmConnectionOutputError>(id: "confirmConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfirmConnectionInput, ConfirmConnectionOutputResponse, ConfirmConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfirmConnectionInput, ConfirmConnectionOutputResponse>())
@@ -598,7 +609,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConfirmConnectionOutputResponse, ConfirmConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ConfirmConnectionOutputResponse, ConfirmConnectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConfirmConnectionOutputResponse, ConfirmConnectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -618,6 +629,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ConfirmCustomerAgreementInput, ConfirmCustomerAgreementOutputResponse, ConfirmCustomerAgreementOutputError>(id: "confirmCustomerAgreement")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfirmCustomerAgreementInput, ConfirmCustomerAgreementOutputResponse, ConfirmCustomerAgreementOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfirmCustomerAgreementInput, ConfirmCustomerAgreementOutputResponse>())
@@ -634,7 +646,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConfirmCustomerAgreementOutputResponse, ConfirmCustomerAgreementOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ConfirmCustomerAgreementOutputResponse, ConfirmCustomerAgreementOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConfirmCustomerAgreementOutputResponse, ConfirmCustomerAgreementOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -654,6 +666,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ConfirmPrivateVirtualInterfaceInput, ConfirmPrivateVirtualInterfaceOutputResponse, ConfirmPrivateVirtualInterfaceOutputError>(id: "confirmPrivateVirtualInterface")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfirmPrivateVirtualInterfaceInput, ConfirmPrivateVirtualInterfaceOutputResponse, ConfirmPrivateVirtualInterfaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfirmPrivateVirtualInterfaceInput, ConfirmPrivateVirtualInterfaceOutputResponse>())
@@ -670,7 +683,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConfirmPrivateVirtualInterfaceOutputResponse, ConfirmPrivateVirtualInterfaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ConfirmPrivateVirtualInterfaceOutputResponse, ConfirmPrivateVirtualInterfaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConfirmPrivateVirtualInterfaceOutputResponse, ConfirmPrivateVirtualInterfaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -690,6 +703,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ConfirmPublicVirtualInterfaceInput, ConfirmPublicVirtualInterfaceOutputResponse, ConfirmPublicVirtualInterfaceOutputError>(id: "confirmPublicVirtualInterface")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfirmPublicVirtualInterfaceInput, ConfirmPublicVirtualInterfaceOutputResponse, ConfirmPublicVirtualInterfaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfirmPublicVirtualInterfaceInput, ConfirmPublicVirtualInterfaceOutputResponse>())
@@ -706,7 +720,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConfirmPublicVirtualInterfaceOutputResponse, ConfirmPublicVirtualInterfaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ConfirmPublicVirtualInterfaceOutputResponse, ConfirmPublicVirtualInterfaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConfirmPublicVirtualInterfaceOutputResponse, ConfirmPublicVirtualInterfaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -726,6 +740,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ConfirmTransitVirtualInterfaceInput, ConfirmTransitVirtualInterfaceOutputResponse, ConfirmTransitVirtualInterfaceOutputError>(id: "confirmTransitVirtualInterface")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfirmTransitVirtualInterfaceInput, ConfirmTransitVirtualInterfaceOutputResponse, ConfirmTransitVirtualInterfaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfirmTransitVirtualInterfaceInput, ConfirmTransitVirtualInterfaceOutputResponse>())
@@ -742,7 +757,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConfirmTransitVirtualInterfaceOutputResponse, ConfirmTransitVirtualInterfaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ConfirmTransitVirtualInterfaceOutputResponse, ConfirmTransitVirtualInterfaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConfirmTransitVirtualInterfaceOutputResponse, ConfirmTransitVirtualInterfaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -762,6 +777,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBGPPeerInput, CreateBGPPeerOutputResponse, CreateBGPPeerOutputError>(id: "createBGPPeer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBGPPeerInput, CreateBGPPeerOutputResponse, CreateBGPPeerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBGPPeerInput, CreateBGPPeerOutputResponse>())
@@ -778,7 +794,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBGPPeerOutputResponse, CreateBGPPeerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateBGPPeerOutputResponse, CreateBGPPeerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBGPPeerOutputResponse, CreateBGPPeerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -798,6 +814,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateConnectionInput, CreateConnectionOutputResponse, CreateConnectionOutputError>(id: "createConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConnectionInput, CreateConnectionOutputResponse, CreateConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConnectionInput, CreateConnectionOutputResponse>())
@@ -814,7 +831,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConnectionOutputResponse, CreateConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateConnectionOutputResponse, CreateConnectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConnectionOutputResponse, CreateConnectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -834,6 +851,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDirectConnectGatewayInput, CreateDirectConnectGatewayOutputResponse, CreateDirectConnectGatewayOutputError>(id: "createDirectConnectGateway")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDirectConnectGatewayInput, CreateDirectConnectGatewayOutputResponse, CreateDirectConnectGatewayOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDirectConnectGatewayInput, CreateDirectConnectGatewayOutputResponse>())
@@ -850,7 +868,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDirectConnectGatewayOutputResponse, CreateDirectConnectGatewayOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDirectConnectGatewayOutputResponse, CreateDirectConnectGatewayOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDirectConnectGatewayOutputResponse, CreateDirectConnectGatewayOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -870,6 +888,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDirectConnectGatewayAssociationInput, CreateDirectConnectGatewayAssociationOutputResponse, CreateDirectConnectGatewayAssociationOutputError>(id: "createDirectConnectGatewayAssociation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDirectConnectGatewayAssociationInput, CreateDirectConnectGatewayAssociationOutputResponse, CreateDirectConnectGatewayAssociationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDirectConnectGatewayAssociationInput, CreateDirectConnectGatewayAssociationOutputResponse>())
@@ -886,7 +905,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDirectConnectGatewayAssociationOutputResponse, CreateDirectConnectGatewayAssociationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDirectConnectGatewayAssociationOutputResponse, CreateDirectConnectGatewayAssociationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDirectConnectGatewayAssociationOutputResponse, CreateDirectConnectGatewayAssociationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -906,6 +925,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDirectConnectGatewayAssociationProposalInput, CreateDirectConnectGatewayAssociationProposalOutputResponse, CreateDirectConnectGatewayAssociationProposalOutputError>(id: "createDirectConnectGatewayAssociationProposal")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDirectConnectGatewayAssociationProposalInput, CreateDirectConnectGatewayAssociationProposalOutputResponse, CreateDirectConnectGatewayAssociationProposalOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDirectConnectGatewayAssociationProposalInput, CreateDirectConnectGatewayAssociationProposalOutputResponse>())
@@ -922,7 +942,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDirectConnectGatewayAssociationProposalOutputResponse, CreateDirectConnectGatewayAssociationProposalOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDirectConnectGatewayAssociationProposalOutputResponse, CreateDirectConnectGatewayAssociationProposalOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDirectConnectGatewayAssociationProposalOutputResponse, CreateDirectConnectGatewayAssociationProposalOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -942,6 +962,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateInterconnectInput, CreateInterconnectOutputResponse, CreateInterconnectOutputError>(id: "createInterconnect")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInterconnectInput, CreateInterconnectOutputResponse, CreateInterconnectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInterconnectInput, CreateInterconnectOutputResponse>())
@@ -958,7 +979,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInterconnectOutputResponse, CreateInterconnectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateInterconnectOutputResponse, CreateInterconnectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInterconnectOutputResponse, CreateInterconnectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -978,6 +999,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLagInput, CreateLagOutputResponse, CreateLagOutputError>(id: "createLag")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLagInput, CreateLagOutputResponse, CreateLagOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLagInput, CreateLagOutputResponse>())
@@ -994,7 +1016,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLagOutputResponse, CreateLagOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateLagOutputResponse, CreateLagOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLagOutputResponse, CreateLagOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1014,6 +1036,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePrivateVirtualInterfaceInput, CreatePrivateVirtualInterfaceOutputResponse, CreatePrivateVirtualInterfaceOutputError>(id: "createPrivateVirtualInterface")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePrivateVirtualInterfaceInput, CreatePrivateVirtualInterfaceOutputResponse, CreatePrivateVirtualInterfaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePrivateVirtualInterfaceInput, CreatePrivateVirtualInterfaceOutputResponse>())
@@ -1030,7 +1053,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePrivateVirtualInterfaceOutputResponse, CreatePrivateVirtualInterfaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePrivateVirtualInterfaceOutputResponse, CreatePrivateVirtualInterfaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePrivateVirtualInterfaceOutputResponse, CreatePrivateVirtualInterfaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1050,6 +1073,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePublicVirtualInterfaceInput, CreatePublicVirtualInterfaceOutputResponse, CreatePublicVirtualInterfaceOutputError>(id: "createPublicVirtualInterface")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePublicVirtualInterfaceInput, CreatePublicVirtualInterfaceOutputResponse, CreatePublicVirtualInterfaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePublicVirtualInterfaceInput, CreatePublicVirtualInterfaceOutputResponse>())
@@ -1066,7 +1090,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePublicVirtualInterfaceOutputResponse, CreatePublicVirtualInterfaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePublicVirtualInterfaceOutputResponse, CreatePublicVirtualInterfaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePublicVirtualInterfaceOutputResponse, CreatePublicVirtualInterfaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1086,6 +1110,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTransitVirtualInterfaceInput, CreateTransitVirtualInterfaceOutputResponse, CreateTransitVirtualInterfaceOutputError>(id: "createTransitVirtualInterface")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTransitVirtualInterfaceInput, CreateTransitVirtualInterfaceOutputResponse, CreateTransitVirtualInterfaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTransitVirtualInterfaceInput, CreateTransitVirtualInterfaceOutputResponse>())
@@ -1102,7 +1127,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTransitVirtualInterfaceOutputResponse, CreateTransitVirtualInterfaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateTransitVirtualInterfaceOutputResponse, CreateTransitVirtualInterfaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTransitVirtualInterfaceOutputResponse, CreateTransitVirtualInterfaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1122,6 +1147,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBGPPeerInput, DeleteBGPPeerOutputResponse, DeleteBGPPeerOutputError>(id: "deleteBGPPeer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBGPPeerInput, DeleteBGPPeerOutputResponse, DeleteBGPPeerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBGPPeerInput, DeleteBGPPeerOutputResponse>())
@@ -1138,7 +1164,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBGPPeerOutputResponse, DeleteBGPPeerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteBGPPeerOutputResponse, DeleteBGPPeerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBGPPeerOutputResponse, DeleteBGPPeerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1158,6 +1184,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteConnectionInput, DeleteConnectionOutputResponse, DeleteConnectionOutputError>(id: "deleteConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConnectionInput, DeleteConnectionOutputResponse, DeleteConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConnectionInput, DeleteConnectionOutputResponse>())
@@ -1174,7 +1201,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConnectionOutputResponse, DeleteConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteConnectionOutputResponse, DeleteConnectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConnectionOutputResponse, DeleteConnectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1194,6 +1221,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDirectConnectGatewayInput, DeleteDirectConnectGatewayOutputResponse, DeleteDirectConnectGatewayOutputError>(id: "deleteDirectConnectGateway")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDirectConnectGatewayInput, DeleteDirectConnectGatewayOutputResponse, DeleteDirectConnectGatewayOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDirectConnectGatewayInput, DeleteDirectConnectGatewayOutputResponse>())
@@ -1210,7 +1238,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDirectConnectGatewayOutputResponse, DeleteDirectConnectGatewayOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDirectConnectGatewayOutputResponse, DeleteDirectConnectGatewayOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDirectConnectGatewayOutputResponse, DeleteDirectConnectGatewayOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1230,6 +1258,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDirectConnectGatewayAssociationInput, DeleteDirectConnectGatewayAssociationOutputResponse, DeleteDirectConnectGatewayAssociationOutputError>(id: "deleteDirectConnectGatewayAssociation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDirectConnectGatewayAssociationInput, DeleteDirectConnectGatewayAssociationOutputResponse, DeleteDirectConnectGatewayAssociationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDirectConnectGatewayAssociationInput, DeleteDirectConnectGatewayAssociationOutputResponse>())
@@ -1246,7 +1275,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDirectConnectGatewayAssociationOutputResponse, DeleteDirectConnectGatewayAssociationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDirectConnectGatewayAssociationOutputResponse, DeleteDirectConnectGatewayAssociationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDirectConnectGatewayAssociationOutputResponse, DeleteDirectConnectGatewayAssociationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1266,6 +1295,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDirectConnectGatewayAssociationProposalInput, DeleteDirectConnectGatewayAssociationProposalOutputResponse, DeleteDirectConnectGatewayAssociationProposalOutputError>(id: "deleteDirectConnectGatewayAssociationProposal")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDirectConnectGatewayAssociationProposalInput, DeleteDirectConnectGatewayAssociationProposalOutputResponse, DeleteDirectConnectGatewayAssociationProposalOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDirectConnectGatewayAssociationProposalInput, DeleteDirectConnectGatewayAssociationProposalOutputResponse>())
@@ -1282,7 +1312,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDirectConnectGatewayAssociationProposalOutputResponse, DeleteDirectConnectGatewayAssociationProposalOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDirectConnectGatewayAssociationProposalOutputResponse, DeleteDirectConnectGatewayAssociationProposalOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDirectConnectGatewayAssociationProposalOutputResponse, DeleteDirectConnectGatewayAssociationProposalOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1302,6 +1332,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteInterconnectInput, DeleteInterconnectOutputResponse, DeleteInterconnectOutputError>(id: "deleteInterconnect")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInterconnectInput, DeleteInterconnectOutputResponse, DeleteInterconnectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInterconnectInput, DeleteInterconnectOutputResponse>())
@@ -1318,7 +1349,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInterconnectOutputResponse, DeleteInterconnectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteInterconnectOutputResponse, DeleteInterconnectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInterconnectOutputResponse, DeleteInterconnectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1338,6 +1369,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLagInput, DeleteLagOutputResponse, DeleteLagOutputError>(id: "deleteLag")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLagInput, DeleteLagOutputResponse, DeleteLagOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLagInput, DeleteLagOutputResponse>())
@@ -1354,7 +1386,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLagOutputResponse, DeleteLagOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteLagOutputResponse, DeleteLagOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLagOutputResponse, DeleteLagOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1374,6 +1406,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVirtualInterfaceInput, DeleteVirtualInterfaceOutputResponse, DeleteVirtualInterfaceOutputError>(id: "deleteVirtualInterface")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVirtualInterfaceInput, DeleteVirtualInterfaceOutputResponse, DeleteVirtualInterfaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVirtualInterfaceInput, DeleteVirtualInterfaceOutputResponse>())
@@ -1390,7 +1423,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVirtualInterfaceOutputResponse, DeleteVirtualInterfaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteVirtualInterfaceOutputResponse, DeleteVirtualInterfaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVirtualInterfaceOutputResponse, DeleteVirtualInterfaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1411,6 +1444,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeConnectionLoaInput, DescribeConnectionLoaOutputResponse, DescribeConnectionLoaOutputError>(id: "describeConnectionLoa")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConnectionLoaInput, DescribeConnectionLoaOutputResponse, DescribeConnectionLoaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConnectionLoaInput, DescribeConnectionLoaOutputResponse>())
@@ -1427,7 +1461,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConnectionLoaOutputResponse, DescribeConnectionLoaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeConnectionLoaOutputResponse, DescribeConnectionLoaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConnectionLoaOutputResponse, DescribeConnectionLoaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1447,6 +1481,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeConnectionsInput, DescribeConnectionsOutputResponse, DescribeConnectionsOutputError>(id: "describeConnections")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConnectionsInput, DescribeConnectionsOutputResponse, DescribeConnectionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConnectionsInput, DescribeConnectionsOutputResponse>())
@@ -1463,7 +1498,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConnectionsOutputResponse, DescribeConnectionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeConnectionsOutputResponse, DescribeConnectionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConnectionsOutputResponse, DescribeConnectionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1484,6 +1519,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeConnectionsOnInterconnectInput, DescribeConnectionsOnInterconnectOutputResponse, DescribeConnectionsOnInterconnectOutputError>(id: "describeConnectionsOnInterconnect")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConnectionsOnInterconnectInput, DescribeConnectionsOnInterconnectOutputResponse, DescribeConnectionsOnInterconnectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConnectionsOnInterconnectInput, DescribeConnectionsOnInterconnectOutputResponse>())
@@ -1500,7 +1536,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConnectionsOnInterconnectOutputResponse, DescribeConnectionsOnInterconnectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeConnectionsOnInterconnectOutputResponse, DescribeConnectionsOnInterconnectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConnectionsOnInterconnectOutputResponse, DescribeConnectionsOnInterconnectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1520,6 +1556,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCustomerMetadataInput, DescribeCustomerMetadataOutputResponse, DescribeCustomerMetadataOutputError>(id: "describeCustomerMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCustomerMetadataInput, DescribeCustomerMetadataOutputResponse, DescribeCustomerMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCustomerMetadataInput, DescribeCustomerMetadataOutputResponse>())
@@ -1536,7 +1573,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCustomerMetadataOutputResponse, DescribeCustomerMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeCustomerMetadataOutputResponse, DescribeCustomerMetadataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCustomerMetadataOutputResponse, DescribeCustomerMetadataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1556,6 +1593,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDirectConnectGatewayAssociationProposalsInput, DescribeDirectConnectGatewayAssociationProposalsOutputResponse, DescribeDirectConnectGatewayAssociationProposalsOutputError>(id: "describeDirectConnectGatewayAssociationProposals")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDirectConnectGatewayAssociationProposalsInput, DescribeDirectConnectGatewayAssociationProposalsOutputResponse, DescribeDirectConnectGatewayAssociationProposalsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDirectConnectGatewayAssociationProposalsInput, DescribeDirectConnectGatewayAssociationProposalsOutputResponse>())
@@ -1572,7 +1610,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDirectConnectGatewayAssociationProposalsOutputResponse, DescribeDirectConnectGatewayAssociationProposalsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDirectConnectGatewayAssociationProposalsOutputResponse, DescribeDirectConnectGatewayAssociationProposalsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDirectConnectGatewayAssociationProposalsOutputResponse, DescribeDirectConnectGatewayAssociationProposalsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1602,6 +1640,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDirectConnectGatewayAssociationsInput, DescribeDirectConnectGatewayAssociationsOutputResponse, DescribeDirectConnectGatewayAssociationsOutputError>(id: "describeDirectConnectGatewayAssociations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDirectConnectGatewayAssociationsInput, DescribeDirectConnectGatewayAssociationsOutputResponse, DescribeDirectConnectGatewayAssociationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDirectConnectGatewayAssociationsInput, DescribeDirectConnectGatewayAssociationsOutputResponse>())
@@ -1618,7 +1657,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDirectConnectGatewayAssociationsOutputResponse, DescribeDirectConnectGatewayAssociationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDirectConnectGatewayAssociationsOutputResponse, DescribeDirectConnectGatewayAssociationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDirectConnectGatewayAssociationsOutputResponse, DescribeDirectConnectGatewayAssociationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1638,6 +1677,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDirectConnectGatewayAttachmentsInput, DescribeDirectConnectGatewayAttachmentsOutputResponse, DescribeDirectConnectGatewayAttachmentsOutputError>(id: "describeDirectConnectGatewayAttachments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDirectConnectGatewayAttachmentsInput, DescribeDirectConnectGatewayAttachmentsOutputResponse, DescribeDirectConnectGatewayAttachmentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDirectConnectGatewayAttachmentsInput, DescribeDirectConnectGatewayAttachmentsOutputResponse>())
@@ -1654,7 +1694,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDirectConnectGatewayAttachmentsOutputResponse, DescribeDirectConnectGatewayAttachmentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDirectConnectGatewayAttachmentsOutputResponse, DescribeDirectConnectGatewayAttachmentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDirectConnectGatewayAttachmentsOutputResponse, DescribeDirectConnectGatewayAttachmentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1674,6 +1714,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDirectConnectGatewaysInput, DescribeDirectConnectGatewaysOutputResponse, DescribeDirectConnectGatewaysOutputError>(id: "describeDirectConnectGateways")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDirectConnectGatewaysInput, DescribeDirectConnectGatewaysOutputResponse, DescribeDirectConnectGatewaysOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDirectConnectGatewaysInput, DescribeDirectConnectGatewaysOutputResponse>())
@@ -1690,7 +1731,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDirectConnectGatewaysOutputResponse, DescribeDirectConnectGatewaysOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDirectConnectGatewaysOutputResponse, DescribeDirectConnectGatewaysOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDirectConnectGatewaysOutputResponse, DescribeDirectConnectGatewaysOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1710,6 +1751,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeHostedConnectionsInput, DescribeHostedConnectionsOutputResponse, DescribeHostedConnectionsOutputError>(id: "describeHostedConnections")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHostedConnectionsInput, DescribeHostedConnectionsOutputResponse, DescribeHostedConnectionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeHostedConnectionsInput, DescribeHostedConnectionsOutputResponse>())
@@ -1726,7 +1768,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHostedConnectionsOutputResponse, DescribeHostedConnectionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeHostedConnectionsOutputResponse, DescribeHostedConnectionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeHostedConnectionsOutputResponse, DescribeHostedConnectionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1747,6 +1789,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeInterconnectLoaInput, DescribeInterconnectLoaOutputResponse, DescribeInterconnectLoaOutputError>(id: "describeInterconnectLoa")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInterconnectLoaInput, DescribeInterconnectLoaOutputResponse, DescribeInterconnectLoaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInterconnectLoaInput, DescribeInterconnectLoaOutputResponse>())
@@ -1763,7 +1806,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInterconnectLoaOutputResponse, DescribeInterconnectLoaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeInterconnectLoaOutputResponse, DescribeInterconnectLoaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInterconnectLoaOutputResponse, DescribeInterconnectLoaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1783,6 +1826,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeInterconnectsInput, DescribeInterconnectsOutputResponse, DescribeInterconnectsOutputError>(id: "describeInterconnects")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInterconnectsInput, DescribeInterconnectsOutputResponse, DescribeInterconnectsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInterconnectsInput, DescribeInterconnectsOutputResponse>())
@@ -1799,7 +1843,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInterconnectsOutputResponse, DescribeInterconnectsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeInterconnectsOutputResponse, DescribeInterconnectsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInterconnectsOutputResponse, DescribeInterconnectsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1819,6 +1863,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLagsInput, DescribeLagsOutputResponse, DescribeLagsOutputError>(id: "describeLags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLagsInput, DescribeLagsOutputResponse, DescribeLagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLagsInput, DescribeLagsOutputResponse>())
@@ -1835,7 +1880,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLagsOutputResponse, DescribeLagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeLagsOutputResponse, DescribeLagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLagsOutputResponse, DescribeLagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1855,6 +1900,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLoaInput, DescribeLoaOutputResponse, DescribeLoaOutputError>(id: "describeLoa")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLoaInput, DescribeLoaOutputResponse, DescribeLoaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLoaInput, DescribeLoaOutputResponse>())
@@ -1871,7 +1917,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLoaOutputResponse, DescribeLoaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeLoaOutputResponse, DescribeLoaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLoaOutputResponse, DescribeLoaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1891,6 +1937,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLocationsInput, DescribeLocationsOutputResponse, DescribeLocationsOutputError>(id: "describeLocations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLocationsInput, DescribeLocationsOutputResponse, DescribeLocationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLocationsInput, DescribeLocationsOutputResponse>())
@@ -1907,7 +1954,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLocationsOutputResponse, DescribeLocationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeLocationsOutputResponse, DescribeLocationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLocationsOutputResponse, DescribeLocationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1927,6 +1974,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRouterConfigurationInput, DescribeRouterConfigurationOutputResponse, DescribeRouterConfigurationOutputError>(id: "describeRouterConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRouterConfigurationInput, DescribeRouterConfigurationOutputResponse, DescribeRouterConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRouterConfigurationInput, DescribeRouterConfigurationOutputResponse>())
@@ -1943,7 +1991,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRouterConfigurationOutputResponse, DescribeRouterConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeRouterConfigurationOutputResponse, DescribeRouterConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRouterConfigurationOutputResponse, DescribeRouterConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1963,6 +2011,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeTagsInput, DescribeTagsOutputResponse, DescribeTagsOutputError>(id: "describeTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeTagsInput, DescribeTagsOutputResponse, DescribeTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTagsInput, DescribeTagsOutputResponse>())
@@ -1979,7 +2028,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTagsOutputResponse, DescribeTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeTagsOutputResponse, DescribeTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTagsOutputResponse, DescribeTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1999,6 +2048,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeVirtualGatewaysInput, DescribeVirtualGatewaysOutputResponse, DescribeVirtualGatewaysOutputError>(id: "describeVirtualGateways")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeVirtualGatewaysInput, DescribeVirtualGatewaysOutputResponse, DescribeVirtualGatewaysOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeVirtualGatewaysInput, DescribeVirtualGatewaysOutputResponse>())
@@ -2015,7 +2065,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeVirtualGatewaysOutputResponse, DescribeVirtualGatewaysOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeVirtualGatewaysOutputResponse, DescribeVirtualGatewaysOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeVirtualGatewaysOutputResponse, DescribeVirtualGatewaysOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2035,6 +2085,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeVirtualInterfacesInput, DescribeVirtualInterfacesOutputResponse, DescribeVirtualInterfacesOutputError>(id: "describeVirtualInterfaces")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeVirtualInterfacesInput, DescribeVirtualInterfacesOutputResponse, DescribeVirtualInterfacesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeVirtualInterfacesInput, DescribeVirtualInterfacesOutputResponse>())
@@ -2051,7 +2102,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeVirtualInterfacesOutputResponse, DescribeVirtualInterfacesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeVirtualInterfacesOutputResponse, DescribeVirtualInterfacesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeVirtualInterfacesOutputResponse, DescribeVirtualInterfacesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2071,6 +2122,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateConnectionFromLagInput, DisassociateConnectionFromLagOutputResponse, DisassociateConnectionFromLagOutputError>(id: "disassociateConnectionFromLag")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateConnectionFromLagInput, DisassociateConnectionFromLagOutputResponse, DisassociateConnectionFromLagOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateConnectionFromLagInput, DisassociateConnectionFromLagOutputResponse>())
@@ -2087,7 +2139,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateConnectionFromLagOutputResponse, DisassociateConnectionFromLagOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateConnectionFromLagOutputResponse, DisassociateConnectionFromLagOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateConnectionFromLagOutputResponse, DisassociateConnectionFromLagOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2107,6 +2159,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateMacSecKeyInput, DisassociateMacSecKeyOutputResponse, DisassociateMacSecKeyOutputError>(id: "disassociateMacSecKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateMacSecKeyInput, DisassociateMacSecKeyOutputResponse, DisassociateMacSecKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateMacSecKeyInput, DisassociateMacSecKeyOutputResponse>())
@@ -2123,7 +2176,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateMacSecKeyOutputResponse, DisassociateMacSecKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateMacSecKeyOutputResponse, DisassociateMacSecKeyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateMacSecKeyOutputResponse, DisassociateMacSecKeyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2143,6 +2196,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVirtualInterfaceTestHistoryInput, ListVirtualInterfaceTestHistoryOutputResponse, ListVirtualInterfaceTestHistoryOutputError>(id: "listVirtualInterfaceTestHistory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVirtualInterfaceTestHistoryInput, ListVirtualInterfaceTestHistoryOutputResponse, ListVirtualInterfaceTestHistoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVirtualInterfaceTestHistoryInput, ListVirtualInterfaceTestHistoryOutputResponse>())
@@ -2159,7 +2213,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVirtualInterfaceTestHistoryOutputResponse, ListVirtualInterfaceTestHistoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListVirtualInterfaceTestHistoryOutputResponse, ListVirtualInterfaceTestHistoryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVirtualInterfaceTestHistoryOutputResponse, ListVirtualInterfaceTestHistoryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2179,6 +2233,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartBgpFailoverTestInput, StartBgpFailoverTestOutputResponse, StartBgpFailoverTestOutputError>(id: "startBgpFailoverTest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartBgpFailoverTestInput, StartBgpFailoverTestOutputResponse, StartBgpFailoverTestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartBgpFailoverTestInput, StartBgpFailoverTestOutputResponse>())
@@ -2195,7 +2250,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartBgpFailoverTestOutputResponse, StartBgpFailoverTestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartBgpFailoverTestOutputResponse, StartBgpFailoverTestOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartBgpFailoverTestOutputResponse, StartBgpFailoverTestOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2215,6 +2270,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopBgpFailoverTestInput, StopBgpFailoverTestOutputResponse, StopBgpFailoverTestOutputError>(id: "stopBgpFailoverTest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopBgpFailoverTestInput, StopBgpFailoverTestOutputResponse, StopBgpFailoverTestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopBgpFailoverTestInput, StopBgpFailoverTestOutputResponse>())
@@ -2231,7 +2287,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopBgpFailoverTestOutputResponse, StopBgpFailoverTestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopBgpFailoverTestOutputResponse, StopBgpFailoverTestOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopBgpFailoverTestOutputResponse, StopBgpFailoverTestOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2251,6 +2307,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -2267,7 +2324,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2287,6 +2344,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -2303,7 +2361,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2327,6 +2385,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateConnectionInput, UpdateConnectionOutputResponse, UpdateConnectionOutputError>(id: "updateConnection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConnectionInput, UpdateConnectionOutputResponse, UpdateConnectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConnectionInput, UpdateConnectionOutputResponse>())
@@ -2343,7 +2402,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConnectionOutputResponse, UpdateConnectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateConnectionOutputResponse, UpdateConnectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConnectionOutputResponse, UpdateConnectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2363,6 +2422,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDirectConnectGatewayInput, UpdateDirectConnectGatewayOutputResponse, UpdateDirectConnectGatewayOutputError>(id: "updateDirectConnectGateway")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDirectConnectGatewayInput, UpdateDirectConnectGatewayOutputResponse, UpdateDirectConnectGatewayOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDirectConnectGatewayInput, UpdateDirectConnectGatewayOutputResponse>())
@@ -2379,7 +2439,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDirectConnectGatewayOutputResponse, UpdateDirectConnectGatewayOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDirectConnectGatewayOutputResponse, UpdateDirectConnectGatewayOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDirectConnectGatewayOutputResponse, UpdateDirectConnectGatewayOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2399,6 +2459,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDirectConnectGatewayAssociationInput, UpdateDirectConnectGatewayAssociationOutputResponse, UpdateDirectConnectGatewayAssociationOutputError>(id: "updateDirectConnectGatewayAssociation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDirectConnectGatewayAssociationInput, UpdateDirectConnectGatewayAssociationOutputResponse, UpdateDirectConnectGatewayAssociationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDirectConnectGatewayAssociationInput, UpdateDirectConnectGatewayAssociationOutputResponse>())
@@ -2415,7 +2476,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDirectConnectGatewayAssociationOutputResponse, UpdateDirectConnectGatewayAssociationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDirectConnectGatewayAssociationOutputResponse, UpdateDirectConnectGatewayAssociationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDirectConnectGatewayAssociationOutputResponse, UpdateDirectConnectGatewayAssociationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2446,6 +2507,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateLagInput, UpdateLagOutputResponse, UpdateLagOutputError>(id: "updateLag")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLagInput, UpdateLagOutputResponse, UpdateLagOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLagInput, UpdateLagOutputResponse>())
@@ -2462,7 +2524,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLagOutputResponse, UpdateLagOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateLagOutputResponse, UpdateLagOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLagOutputResponse, UpdateLagOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2482,6 +2544,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "directconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateVirtualInterfaceAttributesInput, UpdateVirtualInterfaceAttributesOutputResponse, UpdateVirtualInterfaceAttributesOutputError>(id: "updateVirtualInterfaceAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateVirtualInterfaceAttributesInput, UpdateVirtualInterfaceAttributesOutputResponse, UpdateVirtualInterfaceAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateVirtualInterfaceAttributesInput, UpdateVirtualInterfaceAttributesOutputResponse>())
@@ -2498,7 +2561,7 @@ extension DirectConnectClient: DirectConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVirtualInterfaceAttributesOutputResponse, UpdateVirtualInterfaceAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateVirtualInterfaceAttributesOutputResponse, UpdateVirtualInterfaceAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVirtualInterfaceAttributesOutputResponse, UpdateVirtualInterfaceAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

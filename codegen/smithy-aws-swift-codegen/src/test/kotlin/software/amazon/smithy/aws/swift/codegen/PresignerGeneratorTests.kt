@@ -43,6 +43,7 @@ class PresignerGeneratorTests {
                                   .withRegion(value: config.region)
                                   .withSigningName(value: "example-signing-name")
                                   .withSigningRegion(value: config.signingRegion)
+                                  .build()
                     var operation = ClientRuntime.OperationStack<GetFooInput, GetFooOutputResponse, GetFooOutputError>(id: "getFoo")
                     operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFooInput, GetFooOutputResponse, GetFooOutputError>())
                     operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFooInput, GetFooOutputResponse>())
@@ -55,7 +56,7 @@ class PresignerGeneratorTests {
                     operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFooOutputResponse, GetFooOutputError>(config: sigv4Config))
                     operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetFooOutputResponse, GetFooOutputError>(clientLogMode: config.clientLogMode))
                     operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFooOutputResponse, GetFooOutputError>())
-                    let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
+                    let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
                     guard let builtRequest = presignedRequestBuilder?.build() else {
                         return nil
                     }
@@ -100,6 +101,7 @@ class PresignerGeneratorTests {
                                   .withRegion(value: config.region)
                                   .withSigningName(value: "example-signing-name")
                                   .withSigningRegion(value: config.signingRegion)
+                                  .build()
                     var operation = ClientRuntime.OperationStack<PostFooInput, PostFooOutputResponse, PostFooOutputError>(id: "postFoo")
                     operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PostFooInput, PostFooOutputResponse, PostFooOutputError>())
                     operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PostFooInput, PostFooOutputResponse>())
@@ -115,7 +117,7 @@ class PresignerGeneratorTests {
                     operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PostFooOutputResponse, PostFooOutputError>(config: sigv4Config))
                     operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PostFooOutputResponse, PostFooOutputError>(clientLogMode: config.clientLogMode))
                     operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PostFooOutputResponse, PostFooOutputError>())
-                    let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
+                    let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
                     guard let builtRequest = presignedRequestBuilder?.build() else {
                         return nil
                     }
@@ -160,6 +162,7 @@ class PresignerGeneratorTests {
                                   .withRegion(value: config.region)
                                   .withSigningName(value: "example-signing-name")
                                   .withSigningRegion(value: config.signingRegion)
+                                  .build()
                     var operation = ClientRuntime.OperationStack<PutFooInput, PutFooOutputResponse, PutFooOutputError>(id: "putFoo")
                     operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutFooInput, PutFooOutputResponse, PutFooOutputError>())
                     operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFooInput, PutFooOutputResponse>())
@@ -175,7 +178,7 @@ class PresignerGeneratorTests {
                     operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFooOutputResponse, PutFooOutputError>(config: sigv4Config))
                     operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutFooOutputResponse, PutFooOutputError>(clientLogMode: config.clientLogMode))
                     operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFooOutputResponse, PutFooOutputError>())
-                    let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
+                    let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
                     guard let builtRequest = presignedRequestBuilder?.build() else {
                         return nil
                     }
@@ -222,6 +225,7 @@ class PresignerGeneratorTests {
                                   .withRegion(value: config.region)
                                   .withSigningName(value: "s3")
                                   .withSigningRegion(value: config.signingRegion)
+                                  .build()
                     var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>(id: "putObject")
                     operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>())
                     operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutputResponse>())
@@ -237,7 +241,7 @@ class PresignerGeneratorTests {
                     operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutputResponse, PutObjectOutputError>(config: sigv4Config))
                     operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutputResponse, PutObjectOutputError>(clientLogMode: config.clientLogMode))
                     operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutputResponse, PutObjectOutputError>())
-                    let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
+                    let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
                     guard let builtRequest = presignedRequestBuilder?.build() else {
                         return nil
                     }

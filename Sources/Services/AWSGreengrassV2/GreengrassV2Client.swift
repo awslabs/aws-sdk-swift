@@ -221,6 +221,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateServiceRoleToAccountInput, AssociateServiceRoleToAccountOutputResponse, AssociateServiceRoleToAccountOutputError>(id: "associateServiceRoleToAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateServiceRoleToAccountInput, AssociateServiceRoleToAccountOutputResponse, AssociateServiceRoleToAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateServiceRoleToAccountInput, AssociateServiceRoleToAccountOutputResponse>())
@@ -236,7 +237,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateServiceRoleToAccountOutputResponse, AssociateServiceRoleToAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateServiceRoleToAccountOutputResponse, AssociateServiceRoleToAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateServiceRoleToAccountOutputResponse, AssociateServiceRoleToAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchAssociateClientDeviceWithCoreDeviceInput, BatchAssociateClientDeviceWithCoreDeviceOutputResponse, BatchAssociateClientDeviceWithCoreDeviceOutputError>(id: "batchAssociateClientDeviceWithCoreDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchAssociateClientDeviceWithCoreDeviceInput, BatchAssociateClientDeviceWithCoreDeviceOutputResponse, BatchAssociateClientDeviceWithCoreDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchAssociateClientDeviceWithCoreDeviceInput, BatchAssociateClientDeviceWithCoreDeviceOutputResponse>())
@@ -271,7 +273,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchAssociateClientDeviceWithCoreDeviceOutputResponse, BatchAssociateClientDeviceWithCoreDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchAssociateClientDeviceWithCoreDeviceOutputResponse, BatchAssociateClientDeviceWithCoreDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchAssociateClientDeviceWithCoreDeviceOutputResponse, BatchAssociateClientDeviceWithCoreDeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -291,6 +293,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDisassociateClientDeviceFromCoreDeviceInput, BatchDisassociateClientDeviceFromCoreDeviceOutputResponse, BatchDisassociateClientDeviceFromCoreDeviceOutputError>(id: "batchDisassociateClientDeviceFromCoreDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDisassociateClientDeviceFromCoreDeviceInput, BatchDisassociateClientDeviceFromCoreDeviceOutputResponse, BatchDisassociateClientDeviceFromCoreDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDisassociateClientDeviceFromCoreDeviceInput, BatchDisassociateClientDeviceFromCoreDeviceOutputResponse>())
@@ -306,7 +309,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDisassociateClientDeviceFromCoreDeviceOutputResponse, BatchDisassociateClientDeviceFromCoreDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchDisassociateClientDeviceFromCoreDeviceOutputResponse, BatchDisassociateClientDeviceFromCoreDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDisassociateClientDeviceFromCoreDeviceOutputResponse, BatchDisassociateClientDeviceFromCoreDeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -326,6 +329,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelDeploymentInput, CancelDeploymentOutputResponse, CancelDeploymentOutputError>(id: "cancelDeployment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelDeploymentInput, CancelDeploymentOutputResponse, CancelDeploymentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelDeploymentInput, CancelDeploymentOutputResponse>())
@@ -338,7 +342,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelDeploymentOutputResponse, CancelDeploymentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CancelDeploymentOutputResponse, CancelDeploymentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelDeploymentOutputResponse, CancelDeploymentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -383,6 +387,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateComponentVersionInput, CreateComponentVersionOutputResponse, CreateComponentVersionOutputError>(id: "createComponentVersion")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateComponentVersionOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -406,7 +411,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateComponentVersionOutputResponse, CreateComponentVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateComponentVersionOutputResponse, CreateComponentVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateComponentVersionOutputResponse, CreateComponentVersionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -426,6 +431,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDeploymentInput, CreateDeploymentOutputResponse, CreateDeploymentOutputError>(id: "createDeployment")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateDeploymentOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -449,7 +455,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeploymentOutputResponse, CreateDeploymentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDeploymentOutputResponse, CreateDeploymentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeploymentOutputResponse, CreateDeploymentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -469,6 +475,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteComponentInput, DeleteComponentOutputResponse, DeleteComponentOutputError>(id: "deleteComponent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteComponentInput, DeleteComponentOutputResponse, DeleteComponentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteComponentInput, DeleteComponentOutputResponse>())
@@ -481,7 +488,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteComponentOutputResponse, DeleteComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteComponentOutputResponse, DeleteComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteComponentOutputResponse, DeleteComponentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -501,6 +508,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCoreDeviceInput, DeleteCoreDeviceOutputResponse, DeleteCoreDeviceOutputError>(id: "deleteCoreDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCoreDeviceInput, DeleteCoreDeviceOutputResponse, DeleteCoreDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCoreDeviceInput, DeleteCoreDeviceOutputResponse>())
@@ -513,7 +521,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCoreDeviceOutputResponse, DeleteCoreDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteCoreDeviceOutputResponse, DeleteCoreDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCoreDeviceOutputResponse, DeleteCoreDeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -533,6 +541,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDeploymentInput, DeleteDeploymentOutputResponse, DeleteDeploymentOutputError>(id: "deleteDeployment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDeploymentInput, DeleteDeploymentOutputResponse, DeleteDeploymentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDeploymentInput, DeleteDeploymentOutputResponse>())
@@ -545,7 +554,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeploymentOutputResponse, DeleteDeploymentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDeploymentOutputResponse, DeleteDeploymentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeploymentOutputResponse, DeleteDeploymentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -565,6 +574,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeComponentInput, DescribeComponentOutputResponse, DescribeComponentOutputError>(id: "describeComponent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeComponentInput, DescribeComponentOutputResponse, DescribeComponentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeComponentInput, DescribeComponentOutputResponse>())
@@ -577,7 +587,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeComponentOutputResponse, DescribeComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeComponentOutputResponse, DescribeComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeComponentOutputResponse, DescribeComponentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -597,6 +607,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateServiceRoleFromAccountInput, DisassociateServiceRoleFromAccountOutputResponse, DisassociateServiceRoleFromAccountOutputError>(id: "disassociateServiceRoleFromAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateServiceRoleFromAccountInput, DisassociateServiceRoleFromAccountOutputResponse, DisassociateServiceRoleFromAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateServiceRoleFromAccountInput, DisassociateServiceRoleFromAccountOutputResponse>())
@@ -609,7 +620,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateServiceRoleFromAccountOutputResponse, DisassociateServiceRoleFromAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateServiceRoleFromAccountOutputResponse, DisassociateServiceRoleFromAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateServiceRoleFromAccountOutputResponse, DisassociateServiceRoleFromAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -629,6 +640,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetComponentInput, GetComponentOutputResponse, GetComponentOutputError>(id: "getComponent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetComponentInput, GetComponentOutputResponse, GetComponentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetComponentInput, GetComponentOutputResponse>())
@@ -642,7 +654,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetComponentOutputResponse, GetComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetComponentOutputResponse, GetComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComponentOutputResponse, GetComponentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -662,6 +674,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetComponentVersionArtifactInput, GetComponentVersionArtifactOutputResponse, GetComponentVersionArtifactOutputError>(id: "getComponentVersionArtifact")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetComponentVersionArtifactInput, GetComponentVersionArtifactOutputResponse, GetComponentVersionArtifactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetComponentVersionArtifactInput, GetComponentVersionArtifactOutputResponse>())
@@ -674,7 +687,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetComponentVersionArtifactOutputResponse, GetComponentVersionArtifactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetComponentVersionArtifactOutputResponse, GetComponentVersionArtifactOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComponentVersionArtifactOutputResponse, GetComponentVersionArtifactOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -694,6 +707,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetConnectivityInfoInput, GetConnectivityInfoOutputResponse, GetConnectivityInfoOutputError>(id: "getConnectivityInfo")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetConnectivityInfoInput, GetConnectivityInfoOutputResponse, GetConnectivityInfoOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetConnectivityInfoInput, GetConnectivityInfoOutputResponse>())
@@ -706,7 +720,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConnectivityInfoOutputResponse, GetConnectivityInfoOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetConnectivityInfoOutputResponse, GetConnectivityInfoOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConnectivityInfoOutputResponse, GetConnectivityInfoOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -736,6 +750,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCoreDeviceInput, GetCoreDeviceOutputResponse, GetCoreDeviceOutputError>(id: "getCoreDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCoreDeviceInput, GetCoreDeviceOutputResponse, GetCoreDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCoreDeviceInput, GetCoreDeviceOutputResponse>())
@@ -748,7 +763,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCoreDeviceOutputResponse, GetCoreDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCoreDeviceOutputResponse, GetCoreDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCoreDeviceOutputResponse, GetCoreDeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -768,6 +783,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDeploymentInput, GetDeploymentOutputResponse, GetDeploymentOutputError>(id: "getDeployment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeploymentInput, GetDeploymentOutputResponse, GetDeploymentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeploymentInput, GetDeploymentOutputResponse>())
@@ -780,7 +796,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDeploymentOutputResponse, GetDeploymentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDeploymentOutputResponse, GetDeploymentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDeploymentOutputResponse, GetDeploymentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -800,6 +816,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetServiceRoleForAccountInput, GetServiceRoleForAccountOutputResponse, GetServiceRoleForAccountOutputError>(id: "getServiceRoleForAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceRoleForAccountInput, GetServiceRoleForAccountOutputResponse, GetServiceRoleForAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceRoleForAccountInput, GetServiceRoleForAccountOutputResponse>())
@@ -812,7 +829,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceRoleForAccountOutputResponse, GetServiceRoleForAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetServiceRoleForAccountOutputResponse, GetServiceRoleForAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceRoleForAccountOutputResponse, GetServiceRoleForAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -832,6 +849,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListClientDevicesAssociatedWithCoreDeviceInput, ListClientDevicesAssociatedWithCoreDeviceOutputResponse, ListClientDevicesAssociatedWithCoreDeviceOutputError>(id: "listClientDevicesAssociatedWithCoreDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListClientDevicesAssociatedWithCoreDeviceInput, ListClientDevicesAssociatedWithCoreDeviceOutputResponse, ListClientDevicesAssociatedWithCoreDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListClientDevicesAssociatedWithCoreDeviceInput, ListClientDevicesAssociatedWithCoreDeviceOutputResponse>())
@@ -845,7 +863,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListClientDevicesAssociatedWithCoreDeviceOutputResponse, ListClientDevicesAssociatedWithCoreDeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListClientDevicesAssociatedWithCoreDeviceOutputResponse, ListClientDevicesAssociatedWithCoreDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListClientDevicesAssociatedWithCoreDeviceOutputResponse, ListClientDevicesAssociatedWithCoreDeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -865,6 +883,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListComponentVersionsInput, ListComponentVersionsOutputResponse, ListComponentVersionsOutputError>(id: "listComponentVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListComponentVersionsInput, ListComponentVersionsOutputResponse, ListComponentVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListComponentVersionsInput, ListComponentVersionsOutputResponse>())
@@ -878,7 +897,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListComponentVersionsOutputResponse, ListComponentVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListComponentVersionsOutputResponse, ListComponentVersionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListComponentVersionsOutputResponse, ListComponentVersionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -898,6 +917,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListComponentsInput, ListComponentsOutputResponse, ListComponentsOutputError>(id: "listComponents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListComponentsInput, ListComponentsOutputResponse, ListComponentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListComponentsInput, ListComponentsOutputResponse>())
@@ -911,7 +931,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListComponentsOutputResponse, ListComponentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListComponentsOutputResponse, ListComponentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListComponentsOutputResponse, ListComponentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -941,6 +961,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCoreDevicesInput, ListCoreDevicesOutputResponse, ListCoreDevicesOutputError>(id: "listCoreDevices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCoreDevicesInput, ListCoreDevicesOutputResponse, ListCoreDevicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCoreDevicesInput, ListCoreDevicesOutputResponse>())
@@ -954,7 +975,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCoreDevicesOutputResponse, ListCoreDevicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListCoreDevicesOutputResponse, ListCoreDevicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCoreDevicesOutputResponse, ListCoreDevicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -974,6 +995,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDeploymentsInput, ListDeploymentsOutputResponse, ListDeploymentsOutputError>(id: "listDeployments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDeploymentsInput, ListDeploymentsOutputResponse, ListDeploymentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDeploymentsInput, ListDeploymentsOutputResponse>())
@@ -987,7 +1009,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDeploymentsOutputResponse, ListDeploymentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDeploymentsOutputResponse, ListDeploymentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDeploymentsOutputResponse, ListDeploymentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1007,6 +1029,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEffectiveDeploymentsInput, ListEffectiveDeploymentsOutputResponse, ListEffectiveDeploymentsOutputError>(id: "listEffectiveDeployments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEffectiveDeploymentsInput, ListEffectiveDeploymentsOutputResponse, ListEffectiveDeploymentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEffectiveDeploymentsInput, ListEffectiveDeploymentsOutputResponse>())
@@ -1020,7 +1043,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEffectiveDeploymentsOutputResponse, ListEffectiveDeploymentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListEffectiveDeploymentsOutputResponse, ListEffectiveDeploymentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEffectiveDeploymentsOutputResponse, ListEffectiveDeploymentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1050,6 +1073,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListInstalledComponentsInput, ListInstalledComponentsOutputResponse, ListInstalledComponentsOutputError>(id: "listInstalledComponents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstalledComponentsInput, ListInstalledComponentsOutputResponse, ListInstalledComponentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstalledComponentsInput, ListInstalledComponentsOutputResponse>())
@@ -1063,7 +1087,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstalledComponentsOutputResponse, ListInstalledComponentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListInstalledComponentsOutputResponse, ListInstalledComponentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstalledComponentsOutputResponse, ListInstalledComponentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1083,6 +1107,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1095,7 +1120,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1115,6 +1140,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResolveComponentCandidatesInput, ResolveComponentCandidatesOutputResponse, ResolveComponentCandidatesOutputError>(id: "resolveComponentCandidates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResolveComponentCandidatesInput, ResolveComponentCandidatesOutputResponse, ResolveComponentCandidatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResolveComponentCandidatesInput, ResolveComponentCandidatesOutputResponse>())
@@ -1130,7 +1156,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResolveComponentCandidatesOutputResponse, ResolveComponentCandidatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ResolveComponentCandidatesOutputResponse, ResolveComponentCandidatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResolveComponentCandidatesOutputResponse, ResolveComponentCandidatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1150,6 +1176,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1165,7 +1192,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1185,6 +1212,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1198,7 +1226,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1218,6 +1246,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "greengrass")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateConnectivityInfoInput, UpdateConnectivityInfoOutputResponse, UpdateConnectivityInfoOutputError>(id: "updateConnectivityInfo")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConnectivityInfoInput, UpdateConnectivityInfoOutputResponse, UpdateConnectivityInfoOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConnectivityInfoInput, UpdateConnectivityInfoOutputResponse>())
@@ -1233,7 +1262,7 @@ extension GreengrassV2Client: GreengrassV2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConnectivityInfoOutputResponse, UpdateConnectivityInfoOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateConnectivityInfoOutputResponse, UpdateConnectivityInfoOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConnectivityInfoOutputResponse, UpdateConnectivityInfoOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

@@ -221,6 +221,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AcceptInvitationInput, AcceptInvitationOutputResponse, AcceptInvitationOutputError>(id: "acceptInvitation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptInvitationInput, AcceptInvitationOutputResponse, AcceptInvitationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptInvitationInput, AcceptInvitationOutputResponse>())
@@ -236,7 +237,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptInvitationOutputResponse, AcceptInvitationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AcceptInvitationOutputResponse, AcceptInvitationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptInvitationOutputResponse, AcceptInvitationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchGetCustomDataIdentifiersInput, BatchGetCustomDataIdentifiersOutputResponse, BatchGetCustomDataIdentifiersOutputError>(id: "batchGetCustomDataIdentifiers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetCustomDataIdentifiersInput, BatchGetCustomDataIdentifiersOutputResponse, BatchGetCustomDataIdentifiersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetCustomDataIdentifiersInput, BatchGetCustomDataIdentifiersOutputResponse>())
@@ -271,7 +273,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetCustomDataIdentifiersOutputResponse, BatchGetCustomDataIdentifiersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchGetCustomDataIdentifiersOutputResponse, BatchGetCustomDataIdentifiersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetCustomDataIdentifiersOutputResponse, BatchGetCustomDataIdentifiersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -291,6 +293,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAllowListInput, CreateAllowListOutputResponse, CreateAllowListOutputError>(id: "createAllowList")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateAllowListOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -314,7 +317,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAllowListOutputResponse, CreateAllowListOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAllowListOutputResponse, CreateAllowListOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAllowListOutputResponse, CreateAllowListOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -334,6 +337,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateClassificationJobInput, CreateClassificationJobOutputResponse, CreateClassificationJobOutputError>(id: "createClassificationJob")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateClassificationJobOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -357,7 +361,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateClassificationJobOutputResponse, CreateClassificationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateClassificationJobOutputResponse, CreateClassificationJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateClassificationJobOutputResponse, CreateClassificationJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -377,6 +381,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCustomDataIdentifierInput, CreateCustomDataIdentifierOutputResponse, CreateCustomDataIdentifierOutputError>(id: "createCustomDataIdentifier")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateCustomDataIdentifierOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -400,7 +405,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomDataIdentifierOutputResponse, CreateCustomDataIdentifierOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateCustomDataIdentifierOutputResponse, CreateCustomDataIdentifierOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomDataIdentifierOutputResponse, CreateCustomDataIdentifierOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -420,6 +425,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFindingsFilterInput, CreateFindingsFilterOutputResponse, CreateFindingsFilterOutputError>(id: "createFindingsFilter")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateFindingsFilterOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -443,7 +449,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFindingsFilterOutputResponse, CreateFindingsFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateFindingsFilterOutputResponse, CreateFindingsFilterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFindingsFilterOutputResponse, CreateFindingsFilterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -463,6 +469,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateInvitationsInput, CreateInvitationsOutputResponse, CreateInvitationsOutputError>(id: "createInvitations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInvitationsInput, CreateInvitationsOutputResponse, CreateInvitationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInvitationsInput, CreateInvitationsOutputResponse>())
@@ -478,7 +485,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInvitationsOutputResponse, CreateInvitationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateInvitationsOutputResponse, CreateInvitationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInvitationsOutputResponse, CreateInvitationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -498,6 +505,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMemberInput, CreateMemberOutputResponse, CreateMemberOutputError>(id: "createMember")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMemberInput, CreateMemberOutputResponse, CreateMemberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMemberInput, CreateMemberOutputResponse>())
@@ -513,7 +521,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMemberOutputResponse, CreateMemberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateMemberOutputResponse, CreateMemberOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMemberOutputResponse, CreateMemberOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -533,6 +541,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSampleFindingsInput, CreateSampleFindingsOutputResponse, CreateSampleFindingsOutputError>(id: "createSampleFindings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSampleFindingsInput, CreateSampleFindingsOutputResponse, CreateSampleFindingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSampleFindingsInput, CreateSampleFindingsOutputResponse>())
@@ -548,7 +557,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSampleFindingsOutputResponse, CreateSampleFindingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSampleFindingsOutputResponse, CreateSampleFindingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSampleFindingsOutputResponse, CreateSampleFindingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -568,6 +577,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeclineInvitationsInput, DeclineInvitationsOutputResponse, DeclineInvitationsOutputError>(id: "declineInvitations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeclineInvitationsInput, DeclineInvitationsOutputResponse, DeclineInvitationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeclineInvitationsInput, DeclineInvitationsOutputResponse>())
@@ -583,7 +593,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeclineInvitationsOutputResponse, DeclineInvitationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeclineInvitationsOutputResponse, DeclineInvitationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeclineInvitationsOutputResponse, DeclineInvitationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -603,6 +613,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAllowListInput, DeleteAllowListOutputResponse, DeleteAllowListOutputError>(id: "deleteAllowList")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAllowListInput, DeleteAllowListOutputResponse, DeleteAllowListOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAllowListInput, DeleteAllowListOutputResponse>())
@@ -616,7 +627,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAllowListOutputResponse, DeleteAllowListOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAllowListOutputResponse, DeleteAllowListOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAllowListOutputResponse, DeleteAllowListOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -636,6 +647,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCustomDataIdentifierInput, DeleteCustomDataIdentifierOutputResponse, DeleteCustomDataIdentifierOutputError>(id: "deleteCustomDataIdentifier")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomDataIdentifierInput, DeleteCustomDataIdentifierOutputResponse, DeleteCustomDataIdentifierOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomDataIdentifierInput, DeleteCustomDataIdentifierOutputResponse>())
@@ -648,7 +660,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomDataIdentifierOutputResponse, DeleteCustomDataIdentifierOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomDataIdentifierOutputResponse, DeleteCustomDataIdentifierOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomDataIdentifierOutputResponse, DeleteCustomDataIdentifierOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -668,6 +680,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFindingsFilterInput, DeleteFindingsFilterOutputResponse, DeleteFindingsFilterOutputError>(id: "deleteFindingsFilter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFindingsFilterInput, DeleteFindingsFilterOutputResponse, DeleteFindingsFilterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFindingsFilterInput, DeleteFindingsFilterOutputResponse>())
@@ -680,7 +693,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFindingsFilterOutputResponse, DeleteFindingsFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteFindingsFilterOutputResponse, DeleteFindingsFilterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFindingsFilterOutputResponse, DeleteFindingsFilterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -700,6 +713,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteInvitationsInput, DeleteInvitationsOutputResponse, DeleteInvitationsOutputError>(id: "deleteInvitations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInvitationsInput, DeleteInvitationsOutputResponse, DeleteInvitationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInvitationsInput, DeleteInvitationsOutputResponse>())
@@ -715,7 +729,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInvitationsOutputResponse, DeleteInvitationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteInvitationsOutputResponse, DeleteInvitationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInvitationsOutputResponse, DeleteInvitationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -735,6 +749,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMemberInput, DeleteMemberOutputResponse, DeleteMemberOutputError>(id: "deleteMember")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMemberInput, DeleteMemberOutputResponse, DeleteMemberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMemberInput, DeleteMemberOutputResponse>())
@@ -747,7 +762,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMemberOutputResponse, DeleteMemberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteMemberOutputResponse, DeleteMemberOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMemberOutputResponse, DeleteMemberOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -767,6 +782,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeBucketsInput, DescribeBucketsOutputResponse, DescribeBucketsOutputError>(id: "describeBuckets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeBucketsInput, DescribeBucketsOutputResponse, DescribeBucketsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeBucketsInput, DescribeBucketsOutputResponse>())
@@ -782,7 +798,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeBucketsOutputResponse, DescribeBucketsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeBucketsOutputResponse, DescribeBucketsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeBucketsOutputResponse, DescribeBucketsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -802,6 +818,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeClassificationJobInput, DescribeClassificationJobOutputResponse, DescribeClassificationJobOutputError>(id: "describeClassificationJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClassificationJobInput, DescribeClassificationJobOutputResponse, DescribeClassificationJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClassificationJobInput, DescribeClassificationJobOutputResponse>())
@@ -814,7 +831,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeClassificationJobOutputResponse, DescribeClassificationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeClassificationJobOutputResponse, DescribeClassificationJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeClassificationJobOutputResponse, DescribeClassificationJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -834,6 +851,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutputResponse, DescribeOrganizationConfigurationOutputError>(id: "describeOrganizationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutputResponse, DescribeOrganizationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutputResponse>())
@@ -846,7 +864,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrganizationConfigurationOutputResponse, DescribeOrganizationConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeOrganizationConfigurationOutputResponse, DescribeOrganizationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrganizationConfigurationOutputResponse, DescribeOrganizationConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -866,6 +884,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableMacieInput, DisableMacieOutputResponse, DisableMacieOutputError>(id: "disableMacie")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableMacieInput, DisableMacieOutputResponse, DisableMacieOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableMacieInput, DisableMacieOutputResponse>())
@@ -878,7 +897,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableMacieOutputResponse, DisableMacieOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisableMacieOutputResponse, DisableMacieOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableMacieOutputResponse, DisableMacieOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -898,6 +917,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutputResponse, DisableOrganizationAdminAccountOutputError>(id: "disableOrganizationAdminAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutputResponse, DisableOrganizationAdminAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutputResponse>())
@@ -911,7 +931,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableOrganizationAdminAccountOutputResponse, DisableOrganizationAdminAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisableOrganizationAdminAccountOutputResponse, DisableOrganizationAdminAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableOrganizationAdminAccountOutputResponse, DisableOrganizationAdminAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -931,6 +951,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutputResponse, DisassociateFromAdministratorAccountOutputError>(id: "disassociateFromAdministratorAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutputResponse, DisassociateFromAdministratorAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutputResponse>())
@@ -943,7 +964,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateFromAdministratorAccountOutputResponse, DisassociateFromAdministratorAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateFromAdministratorAccountOutputResponse, DisassociateFromAdministratorAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateFromAdministratorAccountOutputResponse, DisassociateFromAdministratorAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -963,6 +984,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutputResponse, DisassociateFromMasterAccountOutputError>(id: "disassociateFromMasterAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutputResponse, DisassociateFromMasterAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutputResponse>())
@@ -975,7 +997,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateFromMasterAccountOutputResponse, DisassociateFromMasterAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateFromMasterAccountOutputResponse, DisassociateFromMasterAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateFromMasterAccountOutputResponse, DisassociateFromMasterAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -995,6 +1017,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateMemberInput, DisassociateMemberOutputResponse, DisassociateMemberOutputError>(id: "disassociateMember")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateMemberInput, DisassociateMemberOutputResponse, DisassociateMemberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateMemberInput, DisassociateMemberOutputResponse>())
@@ -1007,7 +1030,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateMemberOutputResponse, DisassociateMemberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateMemberOutputResponse, DisassociateMemberOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateMemberOutputResponse, DisassociateMemberOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1027,6 +1050,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableMacieInput, EnableMacieOutputResponse, EnableMacieOutputError>(id: "enableMacie")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<EnableMacieOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1050,7 +1074,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableMacieOutputResponse, EnableMacieOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<EnableMacieOutputResponse, EnableMacieOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableMacieOutputResponse, EnableMacieOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1070,6 +1094,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutputResponse, EnableOrganizationAdminAccountOutputError>(id: "enableOrganizationAdminAccount")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<EnableOrganizationAdminAccountOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1093,7 +1118,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableOrganizationAdminAccountOutputResponse, EnableOrganizationAdminAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<EnableOrganizationAdminAccountOutputResponse, EnableOrganizationAdminAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableOrganizationAdminAccountOutputResponse, EnableOrganizationAdminAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1113,6 +1138,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAdministratorAccountInput, GetAdministratorAccountOutputResponse, GetAdministratorAccountOutputError>(id: "getAdministratorAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutputResponse, GetAdministratorAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutputResponse>())
@@ -1125,7 +1151,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAdministratorAccountOutputResponse, GetAdministratorAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAdministratorAccountOutputResponse, GetAdministratorAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAdministratorAccountOutputResponse, GetAdministratorAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1145,6 +1171,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAllowListInput, GetAllowListOutputResponse, GetAllowListOutputError>(id: "getAllowList")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAllowListInput, GetAllowListOutputResponse, GetAllowListOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAllowListInput, GetAllowListOutputResponse>())
@@ -1157,7 +1184,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAllowListOutputResponse, GetAllowListOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAllowListOutputResponse, GetAllowListOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAllowListOutputResponse, GetAllowListOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1177,6 +1204,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAutomatedDiscoveryConfigurationInput, GetAutomatedDiscoveryConfigurationOutputResponse, GetAutomatedDiscoveryConfigurationOutputError>(id: "getAutomatedDiscoveryConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAutomatedDiscoveryConfigurationInput, GetAutomatedDiscoveryConfigurationOutputResponse, GetAutomatedDiscoveryConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAutomatedDiscoveryConfigurationInput, GetAutomatedDiscoveryConfigurationOutputResponse>())
@@ -1189,7 +1217,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAutomatedDiscoveryConfigurationOutputResponse, GetAutomatedDiscoveryConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAutomatedDiscoveryConfigurationOutputResponse, GetAutomatedDiscoveryConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAutomatedDiscoveryConfigurationOutputResponse, GetAutomatedDiscoveryConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1209,6 +1237,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBucketStatisticsInput, GetBucketStatisticsOutputResponse, GetBucketStatisticsOutputError>(id: "getBucketStatistics")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketStatisticsInput, GetBucketStatisticsOutputResponse, GetBucketStatisticsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketStatisticsInput, GetBucketStatisticsOutputResponse>())
@@ -1224,7 +1253,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketStatisticsOutputResponse, GetBucketStatisticsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetBucketStatisticsOutputResponse, GetBucketStatisticsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketStatisticsOutputResponse, GetBucketStatisticsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1244,6 +1273,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetClassificationExportConfigurationInput, GetClassificationExportConfigurationOutputResponse, GetClassificationExportConfigurationOutputError>(id: "getClassificationExportConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetClassificationExportConfigurationInput, GetClassificationExportConfigurationOutputResponse, GetClassificationExportConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetClassificationExportConfigurationInput, GetClassificationExportConfigurationOutputResponse>())
@@ -1256,7 +1286,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetClassificationExportConfigurationOutputResponse, GetClassificationExportConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetClassificationExportConfigurationOutputResponse, GetClassificationExportConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetClassificationExportConfigurationOutputResponse, GetClassificationExportConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1276,6 +1306,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetClassificationScopeInput, GetClassificationScopeOutputResponse, GetClassificationScopeOutputError>(id: "getClassificationScope")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetClassificationScopeInput, GetClassificationScopeOutputResponse, GetClassificationScopeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetClassificationScopeInput, GetClassificationScopeOutputResponse>())
@@ -1288,7 +1319,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetClassificationScopeOutputResponse, GetClassificationScopeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetClassificationScopeOutputResponse, GetClassificationScopeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetClassificationScopeOutputResponse, GetClassificationScopeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1308,6 +1339,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCustomDataIdentifierInput, GetCustomDataIdentifierOutputResponse, GetCustomDataIdentifierOutputError>(id: "getCustomDataIdentifier")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCustomDataIdentifierInput, GetCustomDataIdentifierOutputResponse, GetCustomDataIdentifierOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCustomDataIdentifierInput, GetCustomDataIdentifierOutputResponse>())
@@ -1320,7 +1352,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCustomDataIdentifierOutputResponse, GetCustomDataIdentifierOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCustomDataIdentifierOutputResponse, GetCustomDataIdentifierOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCustomDataIdentifierOutputResponse, GetCustomDataIdentifierOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1340,6 +1372,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFindingStatisticsInput, GetFindingStatisticsOutputResponse, GetFindingStatisticsOutputError>(id: "getFindingStatistics")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFindingStatisticsInput, GetFindingStatisticsOutputResponse, GetFindingStatisticsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFindingStatisticsInput, GetFindingStatisticsOutputResponse>())
@@ -1355,7 +1388,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFindingStatisticsOutputResponse, GetFindingStatisticsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetFindingStatisticsOutputResponse, GetFindingStatisticsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFindingStatisticsOutputResponse, GetFindingStatisticsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1375,6 +1408,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFindingsInput, GetFindingsOutputResponse, GetFindingsOutputError>(id: "getFindings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFindingsInput, GetFindingsOutputResponse, GetFindingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFindingsInput, GetFindingsOutputResponse>())
@@ -1390,7 +1424,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFindingsOutputResponse, GetFindingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetFindingsOutputResponse, GetFindingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFindingsOutputResponse, GetFindingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1410,6 +1444,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFindingsFilterInput, GetFindingsFilterOutputResponse, GetFindingsFilterOutputError>(id: "getFindingsFilter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFindingsFilterInput, GetFindingsFilterOutputResponse, GetFindingsFilterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFindingsFilterInput, GetFindingsFilterOutputResponse>())
@@ -1422,7 +1457,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFindingsFilterOutputResponse, GetFindingsFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetFindingsFilterOutputResponse, GetFindingsFilterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFindingsFilterOutputResponse, GetFindingsFilterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1442,6 +1477,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFindingsPublicationConfigurationInput, GetFindingsPublicationConfigurationOutputResponse, GetFindingsPublicationConfigurationOutputError>(id: "getFindingsPublicationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFindingsPublicationConfigurationInput, GetFindingsPublicationConfigurationOutputResponse, GetFindingsPublicationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFindingsPublicationConfigurationInput, GetFindingsPublicationConfigurationOutputResponse>())
@@ -1454,7 +1490,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFindingsPublicationConfigurationOutputResponse, GetFindingsPublicationConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetFindingsPublicationConfigurationOutputResponse, GetFindingsPublicationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFindingsPublicationConfigurationOutputResponse, GetFindingsPublicationConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1474,6 +1510,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInvitationsCountInput, GetInvitationsCountOutputResponse, GetInvitationsCountOutputError>(id: "getInvitationsCount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInvitationsCountInput, GetInvitationsCountOutputResponse, GetInvitationsCountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInvitationsCountInput, GetInvitationsCountOutputResponse>())
@@ -1486,7 +1523,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInvitationsCountOutputResponse, GetInvitationsCountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetInvitationsCountOutputResponse, GetInvitationsCountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInvitationsCountOutputResponse, GetInvitationsCountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1506,6 +1543,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMacieSessionInput, GetMacieSessionOutputResponse, GetMacieSessionOutputError>(id: "getMacieSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMacieSessionInput, GetMacieSessionOutputResponse, GetMacieSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMacieSessionInput, GetMacieSessionOutputResponse>())
@@ -1518,7 +1556,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMacieSessionOutputResponse, GetMacieSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetMacieSessionOutputResponse, GetMacieSessionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMacieSessionOutputResponse, GetMacieSessionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1538,6 +1576,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMasterAccountInput, GetMasterAccountOutputResponse, GetMasterAccountOutputError>(id: "getMasterAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMasterAccountInput, GetMasterAccountOutputResponse, GetMasterAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMasterAccountInput, GetMasterAccountOutputResponse>())
@@ -1550,7 +1589,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMasterAccountOutputResponse, GetMasterAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetMasterAccountOutputResponse, GetMasterAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMasterAccountOutputResponse, GetMasterAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1570,6 +1609,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMemberInput, GetMemberOutputResponse, GetMemberOutputError>(id: "getMember")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMemberInput, GetMemberOutputResponse, GetMemberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMemberInput, GetMemberOutputResponse>())
@@ -1582,7 +1622,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMemberOutputResponse, GetMemberOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetMemberOutputResponse, GetMemberOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMemberOutputResponse, GetMemberOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1602,6 +1642,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetResourceProfileInput, GetResourceProfileOutputResponse, GetResourceProfileOutputError>(id: "getResourceProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourceProfileInput, GetResourceProfileOutputResponse, GetResourceProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourceProfileInput, GetResourceProfileOutputResponse>())
@@ -1615,7 +1656,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourceProfileOutputResponse, GetResourceProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetResourceProfileOutputResponse, GetResourceProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourceProfileOutputResponse, GetResourceProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1635,6 +1676,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRevealConfigurationInput, GetRevealConfigurationOutputResponse, GetRevealConfigurationOutputError>(id: "getRevealConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRevealConfigurationInput, GetRevealConfigurationOutputResponse, GetRevealConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRevealConfigurationInput, GetRevealConfigurationOutputResponse>())
@@ -1647,7 +1689,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRevealConfigurationOutputResponse, GetRevealConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRevealConfigurationOutputResponse, GetRevealConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRevealConfigurationOutputResponse, GetRevealConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1667,6 +1709,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSensitiveDataOccurrencesInput, GetSensitiveDataOccurrencesOutputResponse, GetSensitiveDataOccurrencesOutputError>(id: "getSensitiveDataOccurrences")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSensitiveDataOccurrencesInput, GetSensitiveDataOccurrencesOutputResponse, GetSensitiveDataOccurrencesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSensitiveDataOccurrencesInput, GetSensitiveDataOccurrencesOutputResponse>())
@@ -1679,7 +1722,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSensitiveDataOccurrencesOutputResponse, GetSensitiveDataOccurrencesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSensitiveDataOccurrencesOutputResponse, GetSensitiveDataOccurrencesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSensitiveDataOccurrencesOutputResponse, GetSensitiveDataOccurrencesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1699,6 +1742,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSensitiveDataOccurrencesAvailabilityInput, GetSensitiveDataOccurrencesAvailabilityOutputResponse, GetSensitiveDataOccurrencesAvailabilityOutputError>(id: "getSensitiveDataOccurrencesAvailability")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSensitiveDataOccurrencesAvailabilityInput, GetSensitiveDataOccurrencesAvailabilityOutputResponse, GetSensitiveDataOccurrencesAvailabilityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSensitiveDataOccurrencesAvailabilityInput, GetSensitiveDataOccurrencesAvailabilityOutputResponse>())
@@ -1711,7 +1755,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSensitiveDataOccurrencesAvailabilityOutputResponse, GetSensitiveDataOccurrencesAvailabilityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSensitiveDataOccurrencesAvailabilityOutputResponse, GetSensitiveDataOccurrencesAvailabilityOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSensitiveDataOccurrencesAvailabilityOutputResponse, GetSensitiveDataOccurrencesAvailabilityOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1731,6 +1775,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSensitivityInspectionTemplateInput, GetSensitivityInspectionTemplateOutputResponse, GetSensitivityInspectionTemplateOutputError>(id: "getSensitivityInspectionTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSensitivityInspectionTemplateInput, GetSensitivityInspectionTemplateOutputResponse, GetSensitivityInspectionTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSensitivityInspectionTemplateInput, GetSensitivityInspectionTemplateOutputResponse>())
@@ -1743,7 +1788,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSensitivityInspectionTemplateOutputResponse, GetSensitivityInspectionTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSensitivityInspectionTemplateOutputResponse, GetSensitivityInspectionTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSensitivityInspectionTemplateOutputResponse, GetSensitivityInspectionTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1763,6 +1808,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetUsageStatisticsInput, GetUsageStatisticsOutputResponse, GetUsageStatisticsOutputError>(id: "getUsageStatistics")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUsageStatisticsInput, GetUsageStatisticsOutputResponse, GetUsageStatisticsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUsageStatisticsInput, GetUsageStatisticsOutputResponse>())
@@ -1778,7 +1824,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUsageStatisticsOutputResponse, GetUsageStatisticsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetUsageStatisticsOutputResponse, GetUsageStatisticsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUsageStatisticsOutputResponse, GetUsageStatisticsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1798,6 +1844,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetUsageTotalsInput, GetUsageTotalsOutputResponse, GetUsageTotalsOutputError>(id: "getUsageTotals")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUsageTotalsInput, GetUsageTotalsOutputResponse, GetUsageTotalsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUsageTotalsInput, GetUsageTotalsOutputResponse>())
@@ -1811,7 +1858,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUsageTotalsOutputResponse, GetUsageTotalsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetUsageTotalsOutputResponse, GetUsageTotalsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUsageTotalsOutputResponse, GetUsageTotalsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1831,6 +1878,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAllowListsInput, ListAllowListsOutputResponse, ListAllowListsOutputError>(id: "listAllowLists")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAllowListsInput, ListAllowListsOutputResponse, ListAllowListsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAllowListsInput, ListAllowListsOutputResponse>())
@@ -1844,7 +1892,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAllowListsOutputResponse, ListAllowListsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAllowListsOutputResponse, ListAllowListsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAllowListsOutputResponse, ListAllowListsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1864,6 +1912,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListClassificationJobsInput, ListClassificationJobsOutputResponse, ListClassificationJobsOutputError>(id: "listClassificationJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListClassificationJobsInput, ListClassificationJobsOutputResponse, ListClassificationJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListClassificationJobsInput, ListClassificationJobsOutputResponse>())
@@ -1879,7 +1928,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListClassificationJobsOutputResponse, ListClassificationJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListClassificationJobsOutputResponse, ListClassificationJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListClassificationJobsOutputResponse, ListClassificationJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1899,6 +1948,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListClassificationScopesInput, ListClassificationScopesOutputResponse, ListClassificationScopesOutputError>(id: "listClassificationScopes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListClassificationScopesInput, ListClassificationScopesOutputResponse, ListClassificationScopesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListClassificationScopesInput, ListClassificationScopesOutputResponse>())
@@ -1912,7 +1962,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListClassificationScopesOutputResponse, ListClassificationScopesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListClassificationScopesOutputResponse, ListClassificationScopesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListClassificationScopesOutputResponse, ListClassificationScopesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1932,6 +1982,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCustomDataIdentifiersInput, ListCustomDataIdentifiersOutputResponse, ListCustomDataIdentifiersOutputError>(id: "listCustomDataIdentifiers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomDataIdentifiersInput, ListCustomDataIdentifiersOutputResponse, ListCustomDataIdentifiersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomDataIdentifiersInput, ListCustomDataIdentifiersOutputResponse>())
@@ -1947,7 +1998,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomDataIdentifiersOutputResponse, ListCustomDataIdentifiersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListCustomDataIdentifiersOutputResponse, ListCustomDataIdentifiersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomDataIdentifiersOutputResponse, ListCustomDataIdentifiersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1967,6 +2018,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFindingsInput, ListFindingsOutputResponse, ListFindingsOutputError>(id: "listFindings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFindingsInput, ListFindingsOutputResponse, ListFindingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFindingsInput, ListFindingsOutputResponse>())
@@ -1982,7 +2034,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFindingsOutputResponse, ListFindingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListFindingsOutputResponse, ListFindingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFindingsOutputResponse, ListFindingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2002,6 +2054,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFindingsFiltersInput, ListFindingsFiltersOutputResponse, ListFindingsFiltersOutputError>(id: "listFindingsFilters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFindingsFiltersInput, ListFindingsFiltersOutputResponse, ListFindingsFiltersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFindingsFiltersInput, ListFindingsFiltersOutputResponse>())
@@ -2015,7 +2068,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFindingsFiltersOutputResponse, ListFindingsFiltersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListFindingsFiltersOutputResponse, ListFindingsFiltersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFindingsFiltersOutputResponse, ListFindingsFiltersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2035,6 +2088,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListInvitationsInput, ListInvitationsOutputResponse, ListInvitationsOutputError>(id: "listInvitations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInvitationsInput, ListInvitationsOutputResponse, ListInvitationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInvitationsInput, ListInvitationsOutputResponse>())
@@ -2048,7 +2102,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInvitationsOutputResponse, ListInvitationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListInvitationsOutputResponse, ListInvitationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInvitationsOutputResponse, ListInvitationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2068,6 +2122,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListManagedDataIdentifiersInput, ListManagedDataIdentifiersOutputResponse, ListManagedDataIdentifiersOutputError>(id: "listManagedDataIdentifiers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListManagedDataIdentifiersInput, ListManagedDataIdentifiersOutputResponse, ListManagedDataIdentifiersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListManagedDataIdentifiersInput, ListManagedDataIdentifiersOutputResponse>())
@@ -2083,7 +2138,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListManagedDataIdentifiersOutputResponse, ListManagedDataIdentifiersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListManagedDataIdentifiersOutputResponse, ListManagedDataIdentifiersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListManagedDataIdentifiersOutputResponse, ListManagedDataIdentifiersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2103,6 +2158,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMembersInput, ListMembersOutputResponse, ListMembersOutputError>(id: "listMembers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMembersInput, ListMembersOutputResponse, ListMembersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMembersInput, ListMembersOutputResponse>())
@@ -2116,7 +2172,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMembersOutputResponse, ListMembersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMembersOutputResponse, ListMembersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMembersOutputResponse, ListMembersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2136,6 +2192,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutputResponse, ListOrganizationAdminAccountsOutputError>(id: "listOrganizationAdminAccounts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutputResponse, ListOrganizationAdminAccountsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutputResponse>())
@@ -2149,7 +2206,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOrganizationAdminAccountsOutputResponse, ListOrganizationAdminAccountsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListOrganizationAdminAccountsOutputResponse, ListOrganizationAdminAccountsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOrganizationAdminAccountsOutputResponse, ListOrganizationAdminAccountsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2169,6 +2226,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListResourceProfileArtifactsInput, ListResourceProfileArtifactsOutputResponse, ListResourceProfileArtifactsOutputError>(id: "listResourceProfileArtifacts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceProfileArtifactsInput, ListResourceProfileArtifactsOutputResponse, ListResourceProfileArtifactsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceProfileArtifactsInput, ListResourceProfileArtifactsOutputResponse>())
@@ -2182,7 +2240,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceProfileArtifactsOutputResponse, ListResourceProfileArtifactsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListResourceProfileArtifactsOutputResponse, ListResourceProfileArtifactsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceProfileArtifactsOutputResponse, ListResourceProfileArtifactsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2202,6 +2260,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListResourceProfileDetectionsInput, ListResourceProfileDetectionsOutputResponse, ListResourceProfileDetectionsOutputError>(id: "listResourceProfileDetections")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceProfileDetectionsInput, ListResourceProfileDetectionsOutputResponse, ListResourceProfileDetectionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceProfileDetectionsInput, ListResourceProfileDetectionsOutputResponse>())
@@ -2215,7 +2274,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourceProfileDetectionsOutputResponse, ListResourceProfileDetectionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListResourceProfileDetectionsOutputResponse, ListResourceProfileDetectionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourceProfileDetectionsOutputResponse, ListResourceProfileDetectionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2235,6 +2294,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSensitivityInspectionTemplatesInput, ListSensitivityInspectionTemplatesOutputResponse, ListSensitivityInspectionTemplatesOutputError>(id: "listSensitivityInspectionTemplates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSensitivityInspectionTemplatesInput, ListSensitivityInspectionTemplatesOutputResponse, ListSensitivityInspectionTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSensitivityInspectionTemplatesInput, ListSensitivityInspectionTemplatesOutputResponse>())
@@ -2248,7 +2308,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSensitivityInspectionTemplatesOutputResponse, ListSensitivityInspectionTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSensitivityInspectionTemplatesOutputResponse, ListSensitivityInspectionTemplatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSensitivityInspectionTemplatesOutputResponse, ListSensitivityInspectionTemplatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2268,6 +2328,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -2280,7 +2341,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2300,6 +2361,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutClassificationExportConfigurationInput, PutClassificationExportConfigurationOutputResponse, PutClassificationExportConfigurationOutputError>(id: "putClassificationExportConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutClassificationExportConfigurationInput, PutClassificationExportConfigurationOutputResponse, PutClassificationExportConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutClassificationExportConfigurationInput, PutClassificationExportConfigurationOutputResponse>())
@@ -2315,7 +2377,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutClassificationExportConfigurationOutputResponse, PutClassificationExportConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutClassificationExportConfigurationOutputResponse, PutClassificationExportConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutClassificationExportConfigurationOutputResponse, PutClassificationExportConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2335,6 +2397,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutFindingsPublicationConfigurationInput, PutFindingsPublicationConfigurationOutputResponse, PutFindingsPublicationConfigurationOutputError>(id: "putFindingsPublicationConfiguration")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<PutFindingsPublicationConfigurationOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -2358,7 +2421,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutFindingsPublicationConfigurationOutputResponse, PutFindingsPublicationConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutFindingsPublicationConfigurationOutputResponse, PutFindingsPublicationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutFindingsPublicationConfigurationOutputResponse, PutFindingsPublicationConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2378,6 +2441,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchResourcesInput, SearchResourcesOutputResponse, SearchResourcesOutputError>(id: "searchResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchResourcesInput, SearchResourcesOutputResponse, SearchResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchResourcesInput, SearchResourcesOutputResponse>())
@@ -2393,7 +2457,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchResourcesOutputResponse, SearchResourcesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchResourcesOutputResponse, SearchResourcesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchResourcesOutputResponse, SearchResourcesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2413,6 +2477,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -2428,7 +2493,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2448,6 +2513,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TestCustomDataIdentifierInput, TestCustomDataIdentifierOutputResponse, TestCustomDataIdentifierOutputError>(id: "testCustomDataIdentifier")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestCustomDataIdentifierInput, TestCustomDataIdentifierOutputResponse, TestCustomDataIdentifierOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestCustomDataIdentifierInput, TestCustomDataIdentifierOutputResponse>())
@@ -2463,7 +2529,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestCustomDataIdentifierOutputResponse, TestCustomDataIdentifierOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TestCustomDataIdentifierOutputResponse, TestCustomDataIdentifierOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestCustomDataIdentifierOutputResponse, TestCustomDataIdentifierOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2483,6 +2549,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -2496,7 +2563,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2516,6 +2583,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAllowListInput, UpdateAllowListOutputResponse, UpdateAllowListOutputError>(id: "updateAllowList")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAllowListInput, UpdateAllowListOutputResponse, UpdateAllowListOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAllowListInput, UpdateAllowListOutputResponse>())
@@ -2531,7 +2599,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAllowListOutputResponse, UpdateAllowListOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAllowListOutputResponse, UpdateAllowListOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAllowListOutputResponse, UpdateAllowListOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2551,6 +2619,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAutomatedDiscoveryConfigurationInput, UpdateAutomatedDiscoveryConfigurationOutputResponse, UpdateAutomatedDiscoveryConfigurationOutputError>(id: "updateAutomatedDiscoveryConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAutomatedDiscoveryConfigurationInput, UpdateAutomatedDiscoveryConfigurationOutputResponse, UpdateAutomatedDiscoveryConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAutomatedDiscoveryConfigurationInput, UpdateAutomatedDiscoveryConfigurationOutputResponse>())
@@ -2566,7 +2635,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAutomatedDiscoveryConfigurationOutputResponse, UpdateAutomatedDiscoveryConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAutomatedDiscoveryConfigurationOutputResponse, UpdateAutomatedDiscoveryConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAutomatedDiscoveryConfigurationOutputResponse, UpdateAutomatedDiscoveryConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2586,6 +2655,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateClassificationJobInput, UpdateClassificationJobOutputResponse, UpdateClassificationJobOutputError>(id: "updateClassificationJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateClassificationJobInput, UpdateClassificationJobOutputResponse, UpdateClassificationJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateClassificationJobInput, UpdateClassificationJobOutputResponse>())
@@ -2601,7 +2671,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateClassificationJobOutputResponse, UpdateClassificationJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateClassificationJobOutputResponse, UpdateClassificationJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateClassificationJobOutputResponse, UpdateClassificationJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2621,6 +2691,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateClassificationScopeInput, UpdateClassificationScopeOutputResponse, UpdateClassificationScopeOutputError>(id: "updateClassificationScope")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateClassificationScopeInput, UpdateClassificationScopeOutputResponse, UpdateClassificationScopeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateClassificationScopeInput, UpdateClassificationScopeOutputResponse>())
@@ -2636,7 +2707,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateClassificationScopeOutputResponse, UpdateClassificationScopeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateClassificationScopeOutputResponse, UpdateClassificationScopeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateClassificationScopeOutputResponse, UpdateClassificationScopeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2656,6 +2727,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFindingsFilterInput, UpdateFindingsFilterOutputResponse, UpdateFindingsFilterOutputError>(id: "updateFindingsFilter")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateFindingsFilterOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -2679,7 +2751,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFindingsFilterOutputResponse, UpdateFindingsFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateFindingsFilterOutputResponse, UpdateFindingsFilterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFindingsFilterOutputResponse, UpdateFindingsFilterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2699,6 +2771,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateMacieSessionInput, UpdateMacieSessionOutputResponse, UpdateMacieSessionOutputError>(id: "updateMacieSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMacieSessionInput, UpdateMacieSessionOutputResponse, UpdateMacieSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMacieSessionInput, UpdateMacieSessionOutputResponse>())
@@ -2714,7 +2787,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMacieSessionOutputResponse, UpdateMacieSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateMacieSessionOutputResponse, UpdateMacieSessionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMacieSessionOutputResponse, UpdateMacieSessionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2734,6 +2807,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateMemberSessionInput, UpdateMemberSessionOutputResponse, UpdateMemberSessionOutputError>(id: "updateMemberSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMemberSessionInput, UpdateMemberSessionOutputResponse, UpdateMemberSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMemberSessionInput, UpdateMemberSessionOutputResponse>())
@@ -2749,7 +2823,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMemberSessionOutputResponse, UpdateMemberSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateMemberSessionOutputResponse, UpdateMemberSessionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMemberSessionOutputResponse, UpdateMemberSessionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2769,6 +2843,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutputResponse, UpdateOrganizationConfigurationOutputError>(id: "updateOrganizationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutputResponse, UpdateOrganizationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutputResponse>())
@@ -2784,7 +2859,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateOrganizationConfigurationOutputResponse, UpdateOrganizationConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateOrganizationConfigurationOutputResponse, UpdateOrganizationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateOrganizationConfigurationOutputResponse, UpdateOrganizationConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2804,6 +2879,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateResourceProfileInput, UpdateResourceProfileOutputResponse, UpdateResourceProfileOutputError>(id: "updateResourceProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResourceProfileInput, UpdateResourceProfileOutputResponse, UpdateResourceProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateResourceProfileInput, UpdateResourceProfileOutputResponse>())
@@ -2820,7 +2896,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResourceProfileOutputResponse, UpdateResourceProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateResourceProfileOutputResponse, UpdateResourceProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResourceProfileOutputResponse, UpdateResourceProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2840,6 +2916,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateResourceProfileDetectionsInput, UpdateResourceProfileDetectionsOutputResponse, UpdateResourceProfileDetectionsOutputError>(id: "updateResourceProfileDetections")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResourceProfileDetectionsInput, UpdateResourceProfileDetectionsOutputResponse, UpdateResourceProfileDetectionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateResourceProfileDetectionsInput, UpdateResourceProfileDetectionsOutputResponse>())
@@ -2856,7 +2933,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResourceProfileDetectionsOutputResponse, UpdateResourceProfileDetectionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateResourceProfileDetectionsOutputResponse, UpdateResourceProfileDetectionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResourceProfileDetectionsOutputResponse, UpdateResourceProfileDetectionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2876,6 +2953,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRevealConfigurationInput, UpdateRevealConfigurationOutputResponse, UpdateRevealConfigurationOutputError>(id: "updateRevealConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRevealConfigurationInput, UpdateRevealConfigurationOutputResponse, UpdateRevealConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRevealConfigurationInput, UpdateRevealConfigurationOutputResponse>())
@@ -2891,7 +2969,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRevealConfigurationOutputResponse, UpdateRevealConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateRevealConfigurationOutputResponse, UpdateRevealConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRevealConfigurationOutputResponse, UpdateRevealConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2911,6 +2989,7 @@ extension Macie2Client: Macie2ClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "macie2")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSensitivityInspectionTemplateInput, UpdateSensitivityInspectionTemplateOutputResponse, UpdateSensitivityInspectionTemplateOutputError>(id: "updateSensitivityInspectionTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSensitivityInspectionTemplateInput, UpdateSensitivityInspectionTemplateOutputResponse, UpdateSensitivityInspectionTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSensitivityInspectionTemplateInput, UpdateSensitivityInspectionTemplateOutputResponse>())
@@ -2926,7 +3005,7 @@ extension Macie2Client: Macie2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSensitivityInspectionTemplateOutputResponse, UpdateSensitivityInspectionTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSensitivityInspectionTemplateOutputResponse, UpdateSensitivityInspectionTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSensitivityInspectionTemplateOutputResponse, UpdateSensitivityInspectionTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

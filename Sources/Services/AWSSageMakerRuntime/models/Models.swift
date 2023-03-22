@@ -19,7 +19,7 @@ extension InternalDependencyException {
 }
 
 /// Your request caused an exception with an internal dependency. Contact customer support.
-public struct InternalDependencyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalDependencyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -70,7 +70,7 @@ extension InternalFailure {
 }
 
 /// An internal failure occurred.
-public struct InternalFailure: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalFailure: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -198,7 +198,7 @@ extension InvokeEndpointAsyncInputBody: Swift.Decodable {
 }
 
 extension InvokeEndpointAsyncOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -224,7 +224,7 @@ public enum InvokeEndpointAsyncOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension InvokeEndpointAsyncOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let outputLocationHeaderValue = httpResponse.headers.value(for: "X-Amzn-SageMaker-OutputLocation") {
             self.outputLocation = outputLocationHeaderValue
         } else {
@@ -423,7 +423,7 @@ extension InvokeEndpointInputBody: Swift.Decodable {
 }
 
 extension InvokeEndpointOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -460,7 +460,7 @@ extension InvokeEndpointOutputResponse: Swift.CustomDebugStringConvertible {
 }
 
 extension InvokeEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = contentTypeHeaderValue
         } else {
@@ -551,7 +551,7 @@ extension ModelError {
 }
 
 /// Model (owned by the customer in the container) returned 4xx or 5xx error code.
-public struct ModelError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ModelError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -626,7 +626,7 @@ extension ModelNotReadyException {
 }
 
 /// Either a serverless endpoint variant's resources are still being provisioned, or a multi-model endpoint is still downloading or loading the target model. Wait and try your request again.
-public struct ModelNotReadyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ModelNotReadyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -677,7 +677,7 @@ extension ServiceUnavailable {
 }
 
 /// The service is unavailable. Try your call again.
-public struct ServiceUnavailable: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ServiceUnavailable: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -728,7 +728,7 @@ extension ValidationError {
 }
 
 /// Inspect your request and try again.
-public struct ValidationError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ValidationError: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

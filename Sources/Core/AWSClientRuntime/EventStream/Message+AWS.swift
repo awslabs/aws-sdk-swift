@@ -9,7 +9,7 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 
 extension EventStream {
-    enum MessageType {
+    public enum MessageType {
         /// Represents an `event` message type.
         /// All events include the headers
         /// `:message-type`: Always `event`
@@ -57,17 +57,17 @@ extension EventStream {
         /// This is used when the message type is not recognized.
         case unknown(messageType: String)
 
-        struct EventParams {
+        public struct EventParams {
             public let eventType: String
             public let contentType: String?
         }
 
-        struct ExceptionParams {
+        public struct ExceptionParams {
             public let exceptionType: String
             public let contentType: String?
         }
 
-        struct ErrorParams {
+        public struct ErrorParams {
             public let errorCode: String
             public let message: String?
         }
@@ -76,7 +76,7 @@ extension EventStream {
 
 extension EventStream.Message {
     /// Parses the protocol level headers into a `MessageType`
-    func type() throws -> EventStream.MessageType {
+    public func type() throws -> EventStream.MessageType {
         let headersByName = Dictionary(grouping: headers, by: \.name)
         // look for messageType header
         guard let messageTypeHeader = headersByName[":message-type"]?.first,

@@ -221,6 +221,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ConfigureLogsInput, ConfigureLogsOutputResponse, ConfigureLogsOutputError>(id: "configureLogs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfigureLogsInput, ConfigureLogsOutputResponse, ConfigureLogsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfigureLogsInput, ConfigureLogsOutputResponse>())
@@ -236,7 +237,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ConfigureLogsOutputResponse, ConfigureLogsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ConfigureLogsOutputResponse, ConfigureLogsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ConfigureLogsOutputResponse, ConfigureLogsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateChannelInput, CreateChannelOutputResponse, CreateChannelOutputError>(id: "createChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateChannelInput, CreateChannelOutputResponse, CreateChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateChannelInput, CreateChannelOutputResponse>())
@@ -271,7 +273,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateChannelOutputResponse, CreateChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateChannelOutputResponse, CreateChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateChannelOutputResponse, CreateChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -291,6 +293,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateHarvestJobInput, CreateHarvestJobOutputResponse, CreateHarvestJobOutputError>(id: "createHarvestJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateHarvestJobInput, CreateHarvestJobOutputResponse, CreateHarvestJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateHarvestJobInput, CreateHarvestJobOutputResponse>())
@@ -306,7 +309,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHarvestJobOutputResponse, CreateHarvestJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateHarvestJobOutputResponse, CreateHarvestJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateHarvestJobOutputResponse, CreateHarvestJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -326,6 +329,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateOriginEndpointInput, CreateOriginEndpointOutputResponse, CreateOriginEndpointOutputError>(id: "createOriginEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOriginEndpointInput, CreateOriginEndpointOutputResponse, CreateOriginEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateOriginEndpointInput, CreateOriginEndpointOutputResponse>())
@@ -341,7 +345,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOriginEndpointOutputResponse, CreateOriginEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateOriginEndpointOutputResponse, CreateOriginEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOriginEndpointOutputResponse, CreateOriginEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -361,6 +365,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteChannelInput, DeleteChannelOutputResponse, DeleteChannelOutputError>(id: "deleteChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteChannelInput, DeleteChannelOutputResponse, DeleteChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelInput, DeleteChannelOutputResponse>())
@@ -373,7 +378,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteChannelOutputResponse, DeleteChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelOutputResponse, DeleteChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelOutputResponse, DeleteChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -393,6 +398,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteOriginEndpointInput, DeleteOriginEndpointOutputResponse, DeleteOriginEndpointOutputError>(id: "deleteOriginEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOriginEndpointInput, DeleteOriginEndpointOutputResponse, DeleteOriginEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOriginEndpointInput, DeleteOriginEndpointOutputResponse>())
@@ -405,7 +411,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOriginEndpointOutputResponse, DeleteOriginEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteOriginEndpointOutputResponse, DeleteOriginEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOriginEndpointOutputResponse, DeleteOriginEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -425,6 +431,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeChannelInput, DescribeChannelOutputResponse, DescribeChannelOutputError>(id: "describeChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeChannelInput, DescribeChannelOutputResponse, DescribeChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeChannelInput, DescribeChannelOutputResponse>())
@@ -437,7 +444,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeChannelOutputResponse, DescribeChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeChannelOutputResponse, DescribeChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeChannelOutputResponse, DescribeChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -457,6 +464,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeHarvestJobInput, DescribeHarvestJobOutputResponse, DescribeHarvestJobOutputError>(id: "describeHarvestJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeHarvestJobInput, DescribeHarvestJobOutputResponse, DescribeHarvestJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeHarvestJobInput, DescribeHarvestJobOutputResponse>())
@@ -469,7 +477,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHarvestJobOutputResponse, DescribeHarvestJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeHarvestJobOutputResponse, DescribeHarvestJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeHarvestJobOutputResponse, DescribeHarvestJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -489,6 +497,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeOriginEndpointInput, DescribeOriginEndpointOutputResponse, DescribeOriginEndpointOutputError>(id: "describeOriginEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOriginEndpointInput, DescribeOriginEndpointOutputResponse, DescribeOriginEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOriginEndpointInput, DescribeOriginEndpointOutputResponse>())
@@ -501,7 +510,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOriginEndpointOutputResponse, DescribeOriginEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeOriginEndpointOutputResponse, DescribeOriginEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOriginEndpointOutputResponse, DescribeOriginEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -521,6 +530,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListChannelsInput, ListChannelsOutputResponse, ListChannelsOutputError>(id: "listChannels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListChannelsInput, ListChannelsOutputResponse, ListChannelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelsInput, ListChannelsOutputResponse>())
@@ -534,7 +544,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListChannelsOutputResponse, ListChannelsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListChannelsOutputResponse, ListChannelsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelsOutputResponse, ListChannelsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -554,6 +564,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListHarvestJobsInput, ListHarvestJobsOutputResponse, ListHarvestJobsOutputError>(id: "listHarvestJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHarvestJobsInput, ListHarvestJobsOutputResponse, ListHarvestJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHarvestJobsInput, ListHarvestJobsOutputResponse>())
@@ -567,7 +578,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHarvestJobsOutputResponse, ListHarvestJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListHarvestJobsOutputResponse, ListHarvestJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHarvestJobsOutputResponse, ListHarvestJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -587,6 +598,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListOriginEndpointsInput, ListOriginEndpointsOutputResponse, ListOriginEndpointsOutputError>(id: "listOriginEndpoints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOriginEndpointsInput, ListOriginEndpointsOutputResponse, ListOriginEndpointsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOriginEndpointsInput, ListOriginEndpointsOutputResponse>())
@@ -600,7 +612,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOriginEndpointsOutputResponse, ListOriginEndpointsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListOriginEndpointsOutputResponse, ListOriginEndpointsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOriginEndpointsOutputResponse, ListOriginEndpointsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -619,6 +631,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -631,7 +644,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -652,6 +665,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RotateChannelCredentialsInput, RotateChannelCredentialsOutputResponse, RotateChannelCredentialsOutputError>(id: "rotateChannelCredentials")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RotateChannelCredentialsInput, RotateChannelCredentialsOutputResponse, RotateChannelCredentialsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RotateChannelCredentialsInput, RotateChannelCredentialsOutputResponse>())
@@ -664,7 +678,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RotateChannelCredentialsOutputResponse, RotateChannelCredentialsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RotateChannelCredentialsOutputResponse, RotateChannelCredentialsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RotateChannelCredentialsOutputResponse, RotateChannelCredentialsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -684,6 +698,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RotateIngestEndpointCredentialsInput, RotateIngestEndpointCredentialsOutputResponse, RotateIngestEndpointCredentialsOutputError>(id: "rotateIngestEndpointCredentials")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RotateIngestEndpointCredentialsInput, RotateIngestEndpointCredentialsOutputResponse, RotateIngestEndpointCredentialsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RotateIngestEndpointCredentialsInput, RotateIngestEndpointCredentialsOutputResponse>())
@@ -696,7 +711,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RotateIngestEndpointCredentialsOutputResponse, RotateIngestEndpointCredentialsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RotateIngestEndpointCredentialsOutputResponse, RotateIngestEndpointCredentialsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RotateIngestEndpointCredentialsOutputResponse, RotateIngestEndpointCredentialsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -715,6 +730,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -730,7 +746,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -749,6 +765,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -762,7 +779,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -782,6 +799,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateChannelInput, UpdateChannelOutputResponse, UpdateChannelOutputError>(id: "updateChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateChannelInput, UpdateChannelOutputResponse, UpdateChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateChannelInput, UpdateChannelOutputResponse>())
@@ -797,7 +815,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateChannelOutputResponse, UpdateChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelOutputResponse, UpdateChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelOutputResponse, UpdateChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -817,6 +835,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "mediapackage")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateOriginEndpointInput, UpdateOriginEndpointOutputResponse, UpdateOriginEndpointOutputError>(id: "updateOriginEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateOriginEndpointInput, UpdateOriginEndpointOutputResponse, UpdateOriginEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateOriginEndpointInput, UpdateOriginEndpointOutputResponse>())
@@ -832,7 +851,7 @@ extension MediaPackageClient: MediaPackageClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateOriginEndpointOutputResponse, UpdateOriginEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateOriginEndpointOutputResponse, UpdateOriginEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateOriginEndpointOutputResponse, UpdateOriginEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

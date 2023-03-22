@@ -221,6 +221,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddFacetToObjectInput, AddFacetToObjectOutputResponse, AddFacetToObjectOutputError>(id: "addFacetToObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddFacetToObjectInput, AddFacetToObjectOutputResponse, AddFacetToObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddFacetToObjectInput, AddFacetToObjectOutputResponse>())
@@ -237,7 +238,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddFacetToObjectOutputResponse, AddFacetToObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AddFacetToObjectOutputResponse, AddFacetToObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddFacetToObjectOutputResponse, AddFacetToObjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ApplySchemaInput, ApplySchemaOutputResponse, ApplySchemaOutputError>(id: "applySchema")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ApplySchemaInput, ApplySchemaOutputResponse, ApplySchemaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ApplySchemaInput, ApplySchemaOutputResponse>())
@@ -273,7 +275,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ApplySchemaOutputResponse, ApplySchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ApplySchemaOutputResponse, ApplySchemaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ApplySchemaOutputResponse, ApplySchemaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -297,6 +299,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AttachObjectInput, AttachObjectOutputResponse, AttachObjectOutputError>(id: "attachObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachObjectInput, AttachObjectOutputResponse, AttachObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachObjectInput, AttachObjectOutputResponse>())
@@ -313,7 +316,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachObjectOutputResponse, AttachObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AttachObjectOutputResponse, AttachObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachObjectOutputResponse, AttachObjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -333,6 +336,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AttachPolicyInput, AttachPolicyOutputResponse, AttachPolicyOutputError>(id: "attachPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachPolicyInput, AttachPolicyOutputResponse, AttachPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachPolicyInput, AttachPolicyOutputResponse>())
@@ -349,7 +353,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachPolicyOutputResponse, AttachPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AttachPolicyOutputResponse, AttachPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachPolicyOutputResponse, AttachPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -369,6 +373,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AttachToIndexInput, AttachToIndexOutputResponse, AttachToIndexOutputError>(id: "attachToIndex")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachToIndexInput, AttachToIndexOutputResponse, AttachToIndexOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachToIndexInput, AttachToIndexOutputResponse>())
@@ -385,7 +390,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachToIndexOutputResponse, AttachToIndexOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AttachToIndexOutputResponse, AttachToIndexOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachToIndexOutputResponse, AttachToIndexOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -405,6 +410,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AttachTypedLinkInput, AttachTypedLinkOutputResponse, AttachTypedLinkOutputError>(id: "attachTypedLink")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachTypedLinkInput, AttachTypedLinkOutputResponse, AttachTypedLinkOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachTypedLinkInput, AttachTypedLinkOutputResponse>())
@@ -421,7 +427,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachTypedLinkOutputResponse, AttachTypedLinkOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AttachTypedLinkOutputResponse, AttachTypedLinkOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachTypedLinkOutputResponse, AttachTypedLinkOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -441,6 +447,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchReadInput, BatchReadOutputResponse, BatchReadOutputError>(id: "batchRead")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchReadInput, BatchReadOutputResponse, BatchReadOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchReadInput, BatchReadOutputResponse>())
@@ -457,7 +464,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchReadOutputResponse, BatchReadOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchReadOutputResponse, BatchReadOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchReadOutputResponse, BatchReadOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -477,6 +484,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchWriteInput, BatchWriteOutputResponse, BatchWriteOutputError>(id: "batchWrite")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchWriteInput, BatchWriteOutputResponse, BatchWriteOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchWriteInput, BatchWriteOutputResponse>())
@@ -493,7 +501,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchWriteOutputResponse, BatchWriteOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchWriteOutputResponse, BatchWriteOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchWriteOutputResponse, BatchWriteOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -513,6 +521,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDirectoryInput, CreateDirectoryOutputResponse, CreateDirectoryOutputError>(id: "createDirectory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDirectoryInput, CreateDirectoryOutputResponse, CreateDirectoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDirectoryInput, CreateDirectoryOutputResponse>())
@@ -529,7 +538,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDirectoryOutputResponse, CreateDirectoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDirectoryOutputResponse, CreateDirectoryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDirectoryOutputResponse, CreateDirectoryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -549,6 +558,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFacetInput, CreateFacetOutputResponse, CreateFacetOutputError>(id: "createFacet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFacetInput, CreateFacetOutputResponse, CreateFacetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFacetInput, CreateFacetOutputResponse>())
@@ -565,7 +575,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFacetOutputResponse, CreateFacetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateFacetOutputResponse, CreateFacetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFacetOutputResponse, CreateFacetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -585,6 +595,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateIndexInput, CreateIndexOutputResponse, CreateIndexOutputError>(id: "createIndex")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIndexInput, CreateIndexOutputResponse, CreateIndexOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateIndexInput, CreateIndexOutputResponse>())
@@ -601,7 +612,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIndexOutputResponse, CreateIndexOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateIndexOutputResponse, CreateIndexOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIndexOutputResponse, CreateIndexOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -621,6 +632,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateObjectInput, CreateObjectOutputResponse, CreateObjectOutputError>(id: "createObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateObjectInput, CreateObjectOutputResponse, CreateObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateObjectInput, CreateObjectOutputResponse>())
@@ -637,7 +649,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateObjectOutputResponse, CreateObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateObjectOutputResponse, CreateObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateObjectOutputResponse, CreateObjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -663,6 +675,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSchemaInput, CreateSchemaOutputResponse, CreateSchemaOutputError>(id: "createSchema")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSchemaInput, CreateSchemaOutputResponse, CreateSchemaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSchemaInput, CreateSchemaOutputResponse>())
@@ -678,7 +691,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSchemaOutputResponse, CreateSchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSchemaOutputResponse, CreateSchemaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSchemaOutputResponse, CreateSchemaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -698,6 +711,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTypedLinkFacetInput, CreateTypedLinkFacetOutputResponse, CreateTypedLinkFacetOutputError>(id: "createTypedLinkFacet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTypedLinkFacetInput, CreateTypedLinkFacetOutputResponse, CreateTypedLinkFacetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTypedLinkFacetInput, CreateTypedLinkFacetOutputResponse>())
@@ -714,7 +728,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTypedLinkFacetOutputResponse, CreateTypedLinkFacetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateTypedLinkFacetOutputResponse, CreateTypedLinkFacetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTypedLinkFacetOutputResponse, CreateTypedLinkFacetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -734,6 +748,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDirectoryInput, DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>(id: "deleteDirectory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDirectoryInput, DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDirectoryInput, DeleteDirectoryOutputResponse>())
@@ -747,7 +762,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDirectoryOutputResponse, DeleteDirectoryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -767,6 +782,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFacetInput, DeleteFacetOutputResponse, DeleteFacetOutputError>(id: "deleteFacet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFacetInput, DeleteFacetOutputResponse, DeleteFacetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFacetInput, DeleteFacetOutputResponse>())
@@ -783,7 +799,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFacetOutputResponse, DeleteFacetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteFacetOutputResponse, DeleteFacetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFacetOutputResponse, DeleteFacetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -803,6 +819,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteObjectInput, DeleteObjectOutputResponse, DeleteObjectOutputError>(id: "deleteObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteObjectInput, DeleteObjectOutputResponse, DeleteObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteObjectInput, DeleteObjectOutputResponse>())
@@ -819,7 +836,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteObjectOutputResponse, DeleteObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteObjectOutputResponse, DeleteObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteObjectOutputResponse, DeleteObjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -839,6 +856,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSchemaInput, DeleteSchemaOutputResponse, DeleteSchemaOutputError>(id: "deleteSchema")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSchemaInput, DeleteSchemaOutputResponse, DeleteSchemaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSchemaInput, DeleteSchemaOutputResponse>())
@@ -852,7 +870,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSchemaOutputResponse, DeleteSchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSchemaOutputResponse, DeleteSchemaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSchemaOutputResponse, DeleteSchemaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -872,6 +890,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTypedLinkFacetInput, DeleteTypedLinkFacetOutputResponse, DeleteTypedLinkFacetOutputError>(id: "deleteTypedLinkFacet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTypedLinkFacetInput, DeleteTypedLinkFacetOutputResponse, DeleteTypedLinkFacetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTypedLinkFacetInput, DeleteTypedLinkFacetOutputResponse>())
@@ -888,7 +907,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTypedLinkFacetOutputResponse, DeleteTypedLinkFacetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteTypedLinkFacetOutputResponse, DeleteTypedLinkFacetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTypedLinkFacetOutputResponse, DeleteTypedLinkFacetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -908,6 +927,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetachFromIndexInput, DetachFromIndexOutputResponse, DetachFromIndexOutputError>(id: "detachFromIndex")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachFromIndexInput, DetachFromIndexOutputResponse, DetachFromIndexOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachFromIndexInput, DetachFromIndexOutputResponse>())
@@ -924,7 +944,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachFromIndexOutputResponse, DetachFromIndexOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DetachFromIndexOutputResponse, DetachFromIndexOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachFromIndexOutputResponse, DetachFromIndexOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -944,6 +964,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetachObjectInput, DetachObjectOutputResponse, DetachObjectOutputError>(id: "detachObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachObjectInput, DetachObjectOutputResponse, DetachObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachObjectInput, DetachObjectOutputResponse>())
@@ -960,7 +981,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachObjectOutputResponse, DetachObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DetachObjectOutputResponse, DetachObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachObjectOutputResponse, DetachObjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -980,6 +1001,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetachPolicyInput, DetachPolicyOutputResponse, DetachPolicyOutputError>(id: "detachPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachPolicyInput, DetachPolicyOutputResponse, DetachPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachPolicyInput, DetachPolicyOutputResponse>())
@@ -996,7 +1018,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachPolicyOutputResponse, DetachPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DetachPolicyOutputResponse, DetachPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachPolicyOutputResponse, DetachPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1016,6 +1038,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetachTypedLinkInput, DetachTypedLinkOutputResponse, DetachTypedLinkOutputError>(id: "detachTypedLink")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachTypedLinkInput, DetachTypedLinkOutputResponse, DetachTypedLinkOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachTypedLinkInput, DetachTypedLinkOutputResponse>())
@@ -1032,7 +1055,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachTypedLinkOutputResponse, DetachTypedLinkOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DetachTypedLinkOutputResponse, DetachTypedLinkOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachTypedLinkOutputResponse, DetachTypedLinkOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1052,6 +1075,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableDirectoryInput, DisableDirectoryOutputResponse, DisableDirectoryOutputError>(id: "disableDirectory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableDirectoryInput, DisableDirectoryOutputResponse, DisableDirectoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableDirectoryInput, DisableDirectoryOutputResponse>())
@@ -1065,7 +1089,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableDirectoryOutputResponse, DisableDirectoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisableDirectoryOutputResponse, DisableDirectoryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableDirectoryOutputResponse, DisableDirectoryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1085,6 +1109,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableDirectoryInput, EnableDirectoryOutputResponse, EnableDirectoryOutputError>(id: "enableDirectory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableDirectoryInput, EnableDirectoryOutputResponse, EnableDirectoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableDirectoryInput, EnableDirectoryOutputResponse>())
@@ -1098,7 +1123,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableDirectoryOutputResponse, EnableDirectoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<EnableDirectoryOutputResponse, EnableDirectoryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableDirectoryOutputResponse, EnableDirectoryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1118,6 +1143,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAppliedSchemaVersionInput, GetAppliedSchemaVersionOutputResponse, GetAppliedSchemaVersionOutputError>(id: "getAppliedSchemaVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAppliedSchemaVersionInput, GetAppliedSchemaVersionOutputResponse, GetAppliedSchemaVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAppliedSchemaVersionInput, GetAppliedSchemaVersionOutputResponse>())
@@ -1133,7 +1159,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAppliedSchemaVersionOutputResponse, GetAppliedSchemaVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAppliedSchemaVersionOutputResponse, GetAppliedSchemaVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAppliedSchemaVersionOutputResponse, GetAppliedSchemaVersionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1153,6 +1179,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDirectoryInput, GetDirectoryOutputResponse, GetDirectoryOutputError>(id: "getDirectory")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDirectoryInput, GetDirectoryOutputResponse, GetDirectoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDirectoryInput, GetDirectoryOutputResponse>())
@@ -1166,7 +1193,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDirectoryOutputResponse, GetDirectoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDirectoryOutputResponse, GetDirectoryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDirectoryOutputResponse, GetDirectoryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1186,6 +1213,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFacetInput, GetFacetOutputResponse, GetFacetOutputError>(id: "getFacet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFacetInput, GetFacetOutputResponse, GetFacetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFacetInput, GetFacetOutputResponse>())
@@ -1202,7 +1230,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFacetOutputResponse, GetFacetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetFacetOutputResponse, GetFacetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFacetOutputResponse, GetFacetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1222,6 +1250,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLinkAttributesInput, GetLinkAttributesOutputResponse, GetLinkAttributesOutputError>(id: "getLinkAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLinkAttributesInput, GetLinkAttributesOutputResponse, GetLinkAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLinkAttributesInput, GetLinkAttributesOutputResponse>())
@@ -1238,7 +1267,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLinkAttributesOutputResponse, GetLinkAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetLinkAttributesOutputResponse, GetLinkAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLinkAttributesOutputResponse, GetLinkAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1258,6 +1287,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetObjectAttributesInput, GetObjectAttributesOutputResponse, GetObjectAttributesOutputError>(id: "getObjectAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectAttributesInput, GetObjectAttributesOutputResponse, GetObjectAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectAttributesInput, GetObjectAttributesOutputResponse>())
@@ -1274,7 +1304,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectAttributesOutputResponse, GetObjectAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetObjectAttributesOutputResponse, GetObjectAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectAttributesOutputResponse, GetObjectAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1294,6 +1324,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetObjectInformationInput, GetObjectInformationOutputResponse, GetObjectInformationOutputError>(id: "getObjectInformation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInformationInput, GetObjectInformationOutputResponse, GetObjectInformationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectInformationInput, GetObjectInformationOutputResponse>())
@@ -1310,7 +1341,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectInformationOutputResponse, GetObjectInformationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetObjectInformationOutputResponse, GetObjectInformationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectInformationOutputResponse, GetObjectInformationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1330,6 +1361,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSchemaAsJsonInput, GetSchemaAsJsonOutputResponse, GetSchemaAsJsonOutputError>(id: "getSchemaAsJson")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSchemaAsJsonInput, GetSchemaAsJsonOutputResponse, GetSchemaAsJsonOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSchemaAsJsonInput, GetSchemaAsJsonOutputResponse>())
@@ -1343,7 +1375,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSchemaAsJsonOutputResponse, GetSchemaAsJsonOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSchemaAsJsonOutputResponse, GetSchemaAsJsonOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSchemaAsJsonOutputResponse, GetSchemaAsJsonOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1363,6 +1395,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTypedLinkFacetInformationInput, GetTypedLinkFacetInformationOutputResponse, GetTypedLinkFacetInformationOutputError>(id: "getTypedLinkFacetInformation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTypedLinkFacetInformationInput, GetTypedLinkFacetInformationOutputResponse, GetTypedLinkFacetInformationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTypedLinkFacetInformationInput, GetTypedLinkFacetInformationOutputResponse>())
@@ -1379,7 +1412,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTypedLinkFacetInformationOutputResponse, GetTypedLinkFacetInformationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetTypedLinkFacetInformationOutputResponse, GetTypedLinkFacetInformationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTypedLinkFacetInformationOutputResponse, GetTypedLinkFacetInformationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1399,6 +1432,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAppliedSchemaArnsInput, ListAppliedSchemaArnsOutputResponse, ListAppliedSchemaArnsOutputError>(id: "listAppliedSchemaArns")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAppliedSchemaArnsInput, ListAppliedSchemaArnsOutputResponse, ListAppliedSchemaArnsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAppliedSchemaArnsInput, ListAppliedSchemaArnsOutputResponse>())
@@ -1414,7 +1448,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppliedSchemaArnsOutputResponse, ListAppliedSchemaArnsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAppliedSchemaArnsOutputResponse, ListAppliedSchemaArnsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppliedSchemaArnsOutputResponse, ListAppliedSchemaArnsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1434,6 +1468,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAttachedIndicesInput, ListAttachedIndicesOutputResponse, ListAttachedIndicesOutputError>(id: "listAttachedIndices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttachedIndicesInput, ListAttachedIndicesOutputResponse, ListAttachedIndicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAttachedIndicesInput, ListAttachedIndicesOutputResponse>())
@@ -1450,7 +1485,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttachedIndicesOutputResponse, ListAttachedIndicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAttachedIndicesOutputResponse, ListAttachedIndicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttachedIndicesOutputResponse, ListAttachedIndicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1470,6 +1505,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDevelopmentSchemaArnsInput, ListDevelopmentSchemaArnsOutputResponse, ListDevelopmentSchemaArnsOutputError>(id: "listDevelopmentSchemaArns")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevelopmentSchemaArnsInput, ListDevelopmentSchemaArnsOutputResponse, ListDevelopmentSchemaArnsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevelopmentSchemaArnsInput, ListDevelopmentSchemaArnsOutputResponse>())
@@ -1485,7 +1521,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDevelopmentSchemaArnsOutputResponse, ListDevelopmentSchemaArnsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDevelopmentSchemaArnsOutputResponse, ListDevelopmentSchemaArnsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDevelopmentSchemaArnsOutputResponse, ListDevelopmentSchemaArnsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1505,6 +1541,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDirectoriesInput, ListDirectoriesOutputResponse, ListDirectoriesOutputError>(id: "listDirectories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDirectoriesInput, ListDirectoriesOutputResponse, ListDirectoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDirectoriesInput, ListDirectoriesOutputResponse>())
@@ -1520,7 +1557,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDirectoriesOutputResponse, ListDirectoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDirectoriesOutputResponse, ListDirectoriesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDirectoriesOutputResponse, ListDirectoriesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1540,6 +1577,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFacetAttributesInput, ListFacetAttributesOutputResponse, ListFacetAttributesOutputError>(id: "listFacetAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFacetAttributesInput, ListFacetAttributesOutputResponse, ListFacetAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFacetAttributesInput, ListFacetAttributesOutputResponse>())
@@ -1556,7 +1594,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFacetAttributesOutputResponse, ListFacetAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListFacetAttributesOutputResponse, ListFacetAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFacetAttributesOutputResponse, ListFacetAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1576,6 +1614,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFacetNamesInput, ListFacetNamesOutputResponse, ListFacetNamesOutputError>(id: "listFacetNames")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFacetNamesInput, ListFacetNamesOutputResponse, ListFacetNamesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFacetNamesInput, ListFacetNamesOutputResponse>())
@@ -1592,7 +1631,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFacetNamesOutputResponse, ListFacetNamesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListFacetNamesOutputResponse, ListFacetNamesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFacetNamesOutputResponse, ListFacetNamesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1612,6 +1651,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListIncomingTypedLinksInput, ListIncomingTypedLinksOutputResponse, ListIncomingTypedLinksOutputError>(id: "listIncomingTypedLinks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIncomingTypedLinksInput, ListIncomingTypedLinksOutputResponse, ListIncomingTypedLinksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIncomingTypedLinksInput, ListIncomingTypedLinksOutputResponse>())
@@ -1628,7 +1668,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIncomingTypedLinksOutputResponse, ListIncomingTypedLinksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListIncomingTypedLinksOutputResponse, ListIncomingTypedLinksOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIncomingTypedLinksOutputResponse, ListIncomingTypedLinksOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1648,6 +1688,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListIndexInput, ListIndexOutputResponse, ListIndexOutputError>(id: "listIndex")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIndexInput, ListIndexOutputResponse, ListIndexOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIndexInput, ListIndexOutputResponse>())
@@ -1664,7 +1705,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIndexOutputResponse, ListIndexOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListIndexOutputResponse, ListIndexOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIndexOutputResponse, ListIndexOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1684,6 +1725,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListManagedSchemaArnsInput, ListManagedSchemaArnsOutputResponse, ListManagedSchemaArnsOutputError>(id: "listManagedSchemaArns")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListManagedSchemaArnsInput, ListManagedSchemaArnsOutputResponse, ListManagedSchemaArnsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListManagedSchemaArnsInput, ListManagedSchemaArnsOutputResponse>())
@@ -1699,7 +1741,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListManagedSchemaArnsOutputResponse, ListManagedSchemaArnsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListManagedSchemaArnsOutputResponse, ListManagedSchemaArnsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListManagedSchemaArnsOutputResponse, ListManagedSchemaArnsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1719,6 +1761,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListObjectAttributesInput, ListObjectAttributesOutputResponse, ListObjectAttributesOutputError>(id: "listObjectAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListObjectAttributesInput, ListObjectAttributesOutputResponse, ListObjectAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListObjectAttributesInput, ListObjectAttributesOutputResponse>())
@@ -1735,7 +1778,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListObjectAttributesOutputResponse, ListObjectAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListObjectAttributesOutputResponse, ListObjectAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListObjectAttributesOutputResponse, ListObjectAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1755,6 +1798,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListObjectChildrenInput, ListObjectChildrenOutputResponse, ListObjectChildrenOutputError>(id: "listObjectChildren")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListObjectChildrenInput, ListObjectChildrenOutputResponse, ListObjectChildrenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListObjectChildrenInput, ListObjectChildrenOutputResponse>())
@@ -1771,7 +1815,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListObjectChildrenOutputResponse, ListObjectChildrenOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListObjectChildrenOutputResponse, ListObjectChildrenOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListObjectChildrenOutputResponse, ListObjectChildrenOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1791,6 +1835,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListObjectParentPathsInput, ListObjectParentPathsOutputResponse, ListObjectParentPathsOutputError>(id: "listObjectParentPaths")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListObjectParentPathsInput, ListObjectParentPathsOutputResponse, ListObjectParentPathsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListObjectParentPathsInput, ListObjectParentPathsOutputResponse>())
@@ -1807,7 +1852,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListObjectParentPathsOutputResponse, ListObjectParentPathsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListObjectParentPathsOutputResponse, ListObjectParentPathsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListObjectParentPathsOutputResponse, ListObjectParentPathsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1827,6 +1872,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListObjectParentsInput, ListObjectParentsOutputResponse, ListObjectParentsOutputError>(id: "listObjectParents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListObjectParentsInput, ListObjectParentsOutputResponse, ListObjectParentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListObjectParentsInput, ListObjectParentsOutputResponse>())
@@ -1843,7 +1889,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListObjectParentsOutputResponse, ListObjectParentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListObjectParentsOutputResponse, ListObjectParentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListObjectParentsOutputResponse, ListObjectParentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1863,6 +1909,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListObjectPoliciesInput, ListObjectPoliciesOutputResponse, ListObjectPoliciesOutputError>(id: "listObjectPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListObjectPoliciesInput, ListObjectPoliciesOutputResponse, ListObjectPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListObjectPoliciesInput, ListObjectPoliciesOutputResponse>())
@@ -1879,7 +1926,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListObjectPoliciesOutputResponse, ListObjectPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListObjectPoliciesOutputResponse, ListObjectPoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListObjectPoliciesOutputResponse, ListObjectPoliciesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1899,6 +1946,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListOutgoingTypedLinksInput, ListOutgoingTypedLinksOutputResponse, ListOutgoingTypedLinksOutputError>(id: "listOutgoingTypedLinks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOutgoingTypedLinksInput, ListOutgoingTypedLinksOutputResponse, ListOutgoingTypedLinksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOutgoingTypedLinksInput, ListOutgoingTypedLinksOutputResponse>())
@@ -1915,7 +1963,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOutgoingTypedLinksOutputResponse, ListOutgoingTypedLinksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListOutgoingTypedLinksOutputResponse, ListOutgoingTypedLinksOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOutgoingTypedLinksOutputResponse, ListOutgoingTypedLinksOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1935,6 +1983,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPolicyAttachmentsInput, ListPolicyAttachmentsOutputResponse, ListPolicyAttachmentsOutputError>(id: "listPolicyAttachments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPolicyAttachmentsInput, ListPolicyAttachmentsOutputResponse, ListPolicyAttachmentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPolicyAttachmentsInput, ListPolicyAttachmentsOutputResponse>())
@@ -1951,7 +2000,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPolicyAttachmentsOutputResponse, ListPolicyAttachmentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPolicyAttachmentsOutputResponse, ListPolicyAttachmentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPolicyAttachmentsOutputResponse, ListPolicyAttachmentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1971,6 +2020,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPublishedSchemaArnsInput, ListPublishedSchemaArnsOutputResponse, ListPublishedSchemaArnsOutputError>(id: "listPublishedSchemaArns")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPublishedSchemaArnsInput, ListPublishedSchemaArnsOutputResponse, ListPublishedSchemaArnsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPublishedSchemaArnsInput, ListPublishedSchemaArnsOutputResponse>())
@@ -1986,7 +2036,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPublishedSchemaArnsOutputResponse, ListPublishedSchemaArnsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPublishedSchemaArnsOutputResponse, ListPublishedSchemaArnsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPublishedSchemaArnsOutputResponse, ListPublishedSchemaArnsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2006,6 +2056,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -2021,7 +2072,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2041,6 +2092,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTypedLinkFacetAttributesInput, ListTypedLinkFacetAttributesOutputResponse, ListTypedLinkFacetAttributesOutputError>(id: "listTypedLinkFacetAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTypedLinkFacetAttributesInput, ListTypedLinkFacetAttributesOutputResponse, ListTypedLinkFacetAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTypedLinkFacetAttributesInput, ListTypedLinkFacetAttributesOutputResponse>())
@@ -2057,7 +2109,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTypedLinkFacetAttributesOutputResponse, ListTypedLinkFacetAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTypedLinkFacetAttributesOutputResponse, ListTypedLinkFacetAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTypedLinkFacetAttributesOutputResponse, ListTypedLinkFacetAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2077,6 +2129,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTypedLinkFacetNamesInput, ListTypedLinkFacetNamesOutputResponse, ListTypedLinkFacetNamesOutputError>(id: "listTypedLinkFacetNames")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTypedLinkFacetNamesInput, ListTypedLinkFacetNamesOutputResponse, ListTypedLinkFacetNamesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTypedLinkFacetNamesInput, ListTypedLinkFacetNamesOutputResponse>())
@@ -2093,7 +2146,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTypedLinkFacetNamesOutputResponse, ListTypedLinkFacetNamesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTypedLinkFacetNamesOutputResponse, ListTypedLinkFacetNamesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTypedLinkFacetNamesOutputResponse, ListTypedLinkFacetNamesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2113,6 +2166,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<LookupPolicyInput, LookupPolicyOutputResponse, LookupPolicyOutputError>(id: "lookupPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<LookupPolicyInput, LookupPolicyOutputResponse, LookupPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<LookupPolicyInput, LookupPolicyOutputResponse>())
@@ -2129,7 +2183,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<LookupPolicyOutputResponse, LookupPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<LookupPolicyOutputResponse, LookupPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<LookupPolicyOutputResponse, LookupPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2149,6 +2203,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PublishSchemaInput, PublishSchemaOutputResponse, PublishSchemaOutputError>(id: "publishSchema")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PublishSchemaInput, PublishSchemaOutputResponse, PublishSchemaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PublishSchemaInput, PublishSchemaOutputResponse>())
@@ -2165,7 +2220,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishSchemaOutputResponse, PublishSchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PublishSchemaOutputResponse, PublishSchemaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishSchemaOutputResponse, PublishSchemaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2185,6 +2240,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutSchemaFromJsonInput, PutSchemaFromJsonOutputResponse, PutSchemaFromJsonOutputError>(id: "putSchemaFromJson")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSchemaFromJsonInput, PutSchemaFromJsonOutputResponse, PutSchemaFromJsonOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSchemaFromJsonInput, PutSchemaFromJsonOutputResponse>())
@@ -2201,7 +2257,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSchemaFromJsonOutputResponse, PutSchemaFromJsonOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutSchemaFromJsonOutputResponse, PutSchemaFromJsonOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSchemaFromJsonOutputResponse, PutSchemaFromJsonOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2221,6 +2277,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveFacetFromObjectInput, RemoveFacetFromObjectOutputResponse, RemoveFacetFromObjectOutputError>(id: "removeFacetFromObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveFacetFromObjectInput, RemoveFacetFromObjectOutputResponse, RemoveFacetFromObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveFacetFromObjectInput, RemoveFacetFromObjectOutputResponse>())
@@ -2237,7 +2294,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveFacetFromObjectOutputResponse, RemoveFacetFromObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RemoveFacetFromObjectOutputResponse, RemoveFacetFromObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveFacetFromObjectOutputResponse, RemoveFacetFromObjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2257,6 +2314,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -2272,7 +2330,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2292,6 +2350,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -2307,7 +2366,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2333,6 +2392,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFacetInput, UpdateFacetOutputResponse, UpdateFacetOutputError>(id: "updateFacet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFacetInput, UpdateFacetOutputResponse, UpdateFacetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFacetInput, UpdateFacetOutputResponse>())
@@ -2349,7 +2409,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFacetOutputResponse, UpdateFacetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateFacetOutputResponse, UpdateFacetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFacetOutputResponse, UpdateFacetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2369,6 +2429,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateLinkAttributesInput, UpdateLinkAttributesOutputResponse, UpdateLinkAttributesOutputError>(id: "updateLinkAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLinkAttributesInput, UpdateLinkAttributesOutputResponse, UpdateLinkAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLinkAttributesInput, UpdateLinkAttributesOutputResponse>())
@@ -2385,7 +2446,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLinkAttributesOutputResponse, UpdateLinkAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateLinkAttributesOutputResponse, UpdateLinkAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLinkAttributesOutputResponse, UpdateLinkAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2405,6 +2466,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateObjectAttributesInput, UpdateObjectAttributesOutputResponse, UpdateObjectAttributesOutputError>(id: "updateObjectAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateObjectAttributesInput, UpdateObjectAttributesOutputResponse, UpdateObjectAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateObjectAttributesInput, UpdateObjectAttributesOutputResponse>())
@@ -2421,7 +2483,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateObjectAttributesOutputResponse, UpdateObjectAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateObjectAttributesOutputResponse, UpdateObjectAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateObjectAttributesOutputResponse, UpdateObjectAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2441,6 +2503,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSchemaInput, UpdateSchemaOutputResponse, UpdateSchemaOutputError>(id: "updateSchema")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSchemaInput, UpdateSchemaOutputResponse, UpdateSchemaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSchemaInput, UpdateSchemaOutputResponse>())
@@ -2457,7 +2520,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSchemaOutputResponse, UpdateSchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSchemaOutputResponse, UpdateSchemaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSchemaOutputResponse, UpdateSchemaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2477,6 +2540,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTypedLinkFacetInput, UpdateTypedLinkFacetOutputResponse, UpdateTypedLinkFacetOutputError>(id: "updateTypedLinkFacet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTypedLinkFacetInput, UpdateTypedLinkFacetOutputResponse, UpdateTypedLinkFacetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTypedLinkFacetInput, UpdateTypedLinkFacetOutputResponse>())
@@ -2493,7 +2557,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTypedLinkFacetOutputResponse, UpdateTypedLinkFacetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateTypedLinkFacetOutputResponse, UpdateTypedLinkFacetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTypedLinkFacetOutputResponse, UpdateTypedLinkFacetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2513,6 +2577,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpgradeAppliedSchemaInput, UpgradeAppliedSchemaOutputResponse, UpgradeAppliedSchemaOutputError>(id: "upgradeAppliedSchema")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpgradeAppliedSchemaInput, UpgradeAppliedSchemaOutputResponse, UpgradeAppliedSchemaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpgradeAppliedSchemaInput, UpgradeAppliedSchemaOutputResponse>())
@@ -2528,7 +2593,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpgradeAppliedSchemaOutputResponse, UpgradeAppliedSchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpgradeAppliedSchemaOutputResponse, UpgradeAppliedSchemaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpgradeAppliedSchemaOutputResponse, UpgradeAppliedSchemaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2548,6 +2613,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "clouddirectory")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpgradePublishedSchemaInput, UpgradePublishedSchemaOutputResponse, UpgradePublishedSchemaOutputError>(id: "upgradePublishedSchema")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpgradePublishedSchemaInput, UpgradePublishedSchemaOutputResponse, UpgradePublishedSchemaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpgradePublishedSchemaInput, UpgradePublishedSchemaOutputResponse>())
@@ -2563,7 +2629,7 @@ extension CloudDirectoryClient: CloudDirectoryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpgradePublishedSchemaOutputResponse, UpgradePublishedSchemaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpgradePublishedSchemaOutputResponse, UpgradePublishedSchemaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpgradePublishedSchemaOutputResponse, UpgradePublishedSchemaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

@@ -221,6 +221,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddProfileKeyInput, AddProfileKeyOutputResponse, AddProfileKeyOutputError>(id: "addProfileKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddProfileKeyInput, AddProfileKeyOutputResponse, AddProfileKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddProfileKeyInput, AddProfileKeyOutputResponse>())
@@ -236,7 +237,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddProfileKeyOutputResponse, AddProfileKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AddProfileKeyOutputResponse, AddProfileKeyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddProfileKeyOutputResponse, AddProfileKeyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDomainInput, CreateDomainOutputResponse, CreateDomainOutputError>(id: "createDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDomainInput, CreateDomainOutputResponse, CreateDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDomainInput, CreateDomainOutputResponse>())
@@ -271,7 +273,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDomainOutputResponse, CreateDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDomainOutputResponse, CreateDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDomainOutputResponse, CreateDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -291,6 +293,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateIntegrationWorkflowInput, CreateIntegrationWorkflowOutputResponse, CreateIntegrationWorkflowOutputError>(id: "createIntegrationWorkflow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIntegrationWorkflowInput, CreateIntegrationWorkflowOutputResponse, CreateIntegrationWorkflowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateIntegrationWorkflowInput, CreateIntegrationWorkflowOutputResponse>())
@@ -306,7 +309,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateIntegrationWorkflowOutputResponse, CreateIntegrationWorkflowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateIntegrationWorkflowOutputResponse, CreateIntegrationWorkflowOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateIntegrationWorkflowOutputResponse, CreateIntegrationWorkflowOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -326,6 +329,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateProfileInput, CreateProfileOutputResponse, CreateProfileOutputError>(id: "createProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProfileInput, CreateProfileOutputResponse, CreateProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProfileInput, CreateProfileOutputResponse>())
@@ -341,7 +345,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateProfileOutputResponse, CreateProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateProfileOutputResponse, CreateProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateProfileOutputResponse, CreateProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -361,6 +365,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDomainInput, DeleteDomainOutputResponse, DeleteDomainOutputError>(id: "deleteDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDomainInput, DeleteDomainOutputResponse, DeleteDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDomainInput, DeleteDomainOutputResponse>())
@@ -373,7 +378,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDomainOutputResponse, DeleteDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDomainOutputResponse, DeleteDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDomainOutputResponse, DeleteDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -393,6 +398,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteIntegrationInput, DeleteIntegrationOutputResponse, DeleteIntegrationOutputError>(id: "deleteIntegration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIntegrationInput, DeleteIntegrationOutputResponse, DeleteIntegrationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIntegrationInput, DeleteIntegrationOutputResponse>())
@@ -408,7 +414,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIntegrationOutputResponse, DeleteIntegrationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteIntegrationOutputResponse, DeleteIntegrationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIntegrationOutputResponse, DeleteIntegrationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -428,6 +434,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteProfileInput, DeleteProfileOutputResponse, DeleteProfileOutputError>(id: "deleteProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProfileInput, DeleteProfileOutputResponse, DeleteProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProfileInput, DeleteProfileOutputResponse>())
@@ -443,7 +450,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProfileOutputResponse, DeleteProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteProfileOutputResponse, DeleteProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProfileOutputResponse, DeleteProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -463,6 +470,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteProfileKeyInput, DeleteProfileKeyOutputResponse, DeleteProfileKeyOutputError>(id: "deleteProfileKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProfileKeyInput, DeleteProfileKeyOutputResponse, DeleteProfileKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProfileKeyInput, DeleteProfileKeyOutputResponse>())
@@ -478,7 +486,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProfileKeyOutputResponse, DeleteProfileKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteProfileKeyOutputResponse, DeleteProfileKeyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProfileKeyOutputResponse, DeleteProfileKeyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -498,6 +506,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteProfileObjectInput, DeleteProfileObjectOutputResponse, DeleteProfileObjectOutputError>(id: "deleteProfileObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProfileObjectInput, DeleteProfileObjectOutputResponse, DeleteProfileObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProfileObjectInput, DeleteProfileObjectOutputResponse>())
@@ -513,7 +522,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProfileObjectOutputResponse, DeleteProfileObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteProfileObjectOutputResponse, DeleteProfileObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProfileObjectOutputResponse, DeleteProfileObjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -533,6 +542,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteProfileObjectTypeInput, DeleteProfileObjectTypeOutputResponse, DeleteProfileObjectTypeOutputError>(id: "deleteProfileObjectType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProfileObjectTypeInput, DeleteProfileObjectTypeOutputResponse, DeleteProfileObjectTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProfileObjectTypeInput, DeleteProfileObjectTypeOutputResponse>())
@@ -545,7 +555,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteProfileObjectTypeOutputResponse, DeleteProfileObjectTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteProfileObjectTypeOutputResponse, DeleteProfileObjectTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteProfileObjectTypeOutputResponse, DeleteProfileObjectTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -565,6 +575,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWorkflowInput, DeleteWorkflowOutputResponse, DeleteWorkflowOutputError>(id: "deleteWorkflow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorkflowInput, DeleteWorkflowOutputResponse, DeleteWorkflowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorkflowInput, DeleteWorkflowOutputResponse>())
@@ -577,7 +588,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWorkflowOutputResponse, DeleteWorkflowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteWorkflowOutputResponse, DeleteWorkflowOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorkflowOutputResponse, DeleteWorkflowOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -597,6 +608,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAutoMergingPreviewInput, GetAutoMergingPreviewOutputResponse, GetAutoMergingPreviewOutputError>(id: "getAutoMergingPreview")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAutoMergingPreviewInput, GetAutoMergingPreviewOutputResponse, GetAutoMergingPreviewOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAutoMergingPreviewInput, GetAutoMergingPreviewOutputResponse>())
@@ -612,7 +624,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAutoMergingPreviewOutputResponse, GetAutoMergingPreviewOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAutoMergingPreviewOutputResponse, GetAutoMergingPreviewOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAutoMergingPreviewOutputResponse, GetAutoMergingPreviewOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -632,6 +644,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDomainInput, GetDomainOutputResponse, GetDomainOutputError>(id: "getDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDomainInput, GetDomainOutputResponse, GetDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDomainInput, GetDomainOutputResponse>())
@@ -644,7 +657,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDomainOutputResponse, GetDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDomainOutputResponse, GetDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDomainOutputResponse, GetDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -664,6 +677,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetIdentityResolutionJobInput, GetIdentityResolutionJobOutputResponse, GetIdentityResolutionJobOutputError>(id: "getIdentityResolutionJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentityResolutionJobInput, GetIdentityResolutionJobOutputResponse, GetIdentityResolutionJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentityResolutionJobInput, GetIdentityResolutionJobOutputResponse>())
@@ -676,7 +690,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityResolutionJobOutputResponse, GetIdentityResolutionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetIdentityResolutionJobOutputResponse, GetIdentityResolutionJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityResolutionJobOutputResponse, GetIdentityResolutionJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -696,6 +710,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetIntegrationInput, GetIntegrationOutputResponse, GetIntegrationOutputError>(id: "getIntegration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIntegrationInput, GetIntegrationOutputResponse, GetIntegrationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIntegrationInput, GetIntegrationOutputResponse>())
@@ -711,7 +726,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIntegrationOutputResponse, GetIntegrationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetIntegrationOutputResponse, GetIntegrationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIntegrationOutputResponse, GetIntegrationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -750,6 +765,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMatchesInput, GetMatchesOutputResponse, GetMatchesOutputError>(id: "getMatches")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMatchesInput, GetMatchesOutputResponse, GetMatchesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMatchesInput, GetMatchesOutputResponse>())
@@ -763,7 +779,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMatchesOutputResponse, GetMatchesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetMatchesOutputResponse, GetMatchesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMatchesOutputResponse, GetMatchesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -783,6 +799,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetProfileObjectTypeInput, GetProfileObjectTypeOutputResponse, GetProfileObjectTypeOutputError>(id: "getProfileObjectType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProfileObjectTypeInput, GetProfileObjectTypeOutputResponse, GetProfileObjectTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProfileObjectTypeInput, GetProfileObjectTypeOutputResponse>())
@@ -795,7 +812,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProfileObjectTypeOutputResponse, GetProfileObjectTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetProfileObjectTypeOutputResponse, GetProfileObjectTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProfileObjectTypeOutputResponse, GetProfileObjectTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -815,6 +832,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetProfileObjectTypeTemplateInput, GetProfileObjectTypeTemplateOutputResponse, GetProfileObjectTypeTemplateOutputError>(id: "getProfileObjectTypeTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetProfileObjectTypeTemplateInput, GetProfileObjectTypeTemplateOutputResponse, GetProfileObjectTypeTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetProfileObjectTypeTemplateInput, GetProfileObjectTypeTemplateOutputResponse>())
@@ -827,7 +845,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetProfileObjectTypeTemplateOutputResponse, GetProfileObjectTypeTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetProfileObjectTypeTemplateOutputResponse, GetProfileObjectTypeTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetProfileObjectTypeTemplateOutputResponse, GetProfileObjectTypeTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -847,6 +865,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetWorkflowInput, GetWorkflowOutputResponse, GetWorkflowOutputError>(id: "getWorkflow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWorkflowInput, GetWorkflowOutputResponse, GetWorkflowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWorkflowInput, GetWorkflowOutputResponse>())
@@ -859,7 +878,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWorkflowOutputResponse, GetWorkflowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetWorkflowOutputResponse, GetWorkflowOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWorkflowOutputResponse, GetWorkflowOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -879,6 +898,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetWorkflowStepsInput, GetWorkflowStepsOutputResponse, GetWorkflowStepsOutputError>(id: "getWorkflowSteps")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWorkflowStepsInput, GetWorkflowStepsOutputResponse, GetWorkflowStepsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWorkflowStepsInput, GetWorkflowStepsOutputResponse>())
@@ -892,7 +912,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWorkflowStepsOutputResponse, GetWorkflowStepsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetWorkflowStepsOutputResponse, GetWorkflowStepsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWorkflowStepsOutputResponse, GetWorkflowStepsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -912,6 +932,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAccountIntegrationsInput, ListAccountIntegrationsOutputResponse, ListAccountIntegrationsOutputError>(id: "listAccountIntegrations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountIntegrationsInput, ListAccountIntegrationsOutputResponse, ListAccountIntegrationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountIntegrationsInput, ListAccountIntegrationsOutputResponse>())
@@ -928,7 +949,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountIntegrationsOutputResponse, ListAccountIntegrationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAccountIntegrationsOutputResponse, ListAccountIntegrationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountIntegrationsOutputResponse, ListAccountIntegrationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -948,6 +969,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDomainsInput, ListDomainsOutputResponse, ListDomainsOutputError>(id: "listDomains")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDomainsInput, ListDomainsOutputResponse, ListDomainsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDomainsInput, ListDomainsOutputResponse>())
@@ -961,7 +983,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDomainsOutputResponse, ListDomainsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDomainsOutputResponse, ListDomainsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDomainsOutputResponse, ListDomainsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -981,6 +1003,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListIdentityResolutionJobsInput, ListIdentityResolutionJobsOutputResponse, ListIdentityResolutionJobsOutputError>(id: "listIdentityResolutionJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentityResolutionJobsInput, ListIdentityResolutionJobsOutputResponse, ListIdentityResolutionJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentityResolutionJobsInput, ListIdentityResolutionJobsOutputResponse>())
@@ -994,7 +1017,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentityResolutionJobsOutputResponse, ListIdentityResolutionJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListIdentityResolutionJobsOutputResponse, ListIdentityResolutionJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentityResolutionJobsOutputResponse, ListIdentityResolutionJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1014,6 +1037,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListIntegrationsInput, ListIntegrationsOutputResponse, ListIntegrationsOutputError>(id: "listIntegrations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIntegrationsInput, ListIntegrationsOutputResponse, ListIntegrationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIntegrationsInput, ListIntegrationsOutputResponse>())
@@ -1027,7 +1051,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIntegrationsOutputResponse, ListIntegrationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListIntegrationsOutputResponse, ListIntegrationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIntegrationsOutputResponse, ListIntegrationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1047,6 +1071,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListProfileObjectTypeTemplatesInput, ListProfileObjectTypeTemplatesOutputResponse, ListProfileObjectTypeTemplatesOutputError>(id: "listProfileObjectTypeTemplates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProfileObjectTypeTemplatesInput, ListProfileObjectTypeTemplatesOutputResponse, ListProfileObjectTypeTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProfileObjectTypeTemplatesInput, ListProfileObjectTypeTemplatesOutputResponse>())
@@ -1060,7 +1085,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProfileObjectTypeTemplatesOutputResponse, ListProfileObjectTypeTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListProfileObjectTypeTemplatesOutputResponse, ListProfileObjectTypeTemplatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProfileObjectTypeTemplatesOutputResponse, ListProfileObjectTypeTemplatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1080,6 +1105,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListProfileObjectTypesInput, ListProfileObjectTypesOutputResponse, ListProfileObjectTypesOutputError>(id: "listProfileObjectTypes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProfileObjectTypesInput, ListProfileObjectTypesOutputResponse, ListProfileObjectTypesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProfileObjectTypesInput, ListProfileObjectTypesOutputResponse>())
@@ -1093,7 +1119,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProfileObjectTypesOutputResponse, ListProfileObjectTypesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListProfileObjectTypesOutputResponse, ListProfileObjectTypesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProfileObjectTypesOutputResponse, ListProfileObjectTypesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1113,6 +1139,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListProfileObjectsInput, ListProfileObjectsOutputResponse, ListProfileObjectsOutputError>(id: "listProfileObjects")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProfileObjectsInput, ListProfileObjectsOutputResponse, ListProfileObjectsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProfileObjectsInput, ListProfileObjectsOutputResponse>())
@@ -1129,7 +1156,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProfileObjectsOutputResponse, ListProfileObjectsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListProfileObjectsOutputResponse, ListProfileObjectsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProfileObjectsOutputResponse, ListProfileObjectsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1149,6 +1176,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1161,7 +1189,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1181,6 +1209,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorkflowsInput, ListWorkflowsOutputResponse, ListWorkflowsOutputError>(id: "listWorkflows")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkflowsInput, ListWorkflowsOutputResponse, ListWorkflowsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkflowsInput, ListWorkflowsOutputResponse>())
@@ -1197,7 +1226,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorkflowsOutputResponse, ListWorkflowsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListWorkflowsOutputResponse, ListWorkflowsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkflowsOutputResponse, ListWorkflowsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1244,6 +1273,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<MergeProfilesInput, MergeProfilesOutputResponse, MergeProfilesOutputError>(id: "mergeProfiles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<MergeProfilesInput, MergeProfilesOutputResponse, MergeProfilesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergeProfilesInput, MergeProfilesOutputResponse>())
@@ -1259,7 +1289,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<MergeProfilesOutputResponse, MergeProfilesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<MergeProfilesOutputResponse, MergeProfilesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<MergeProfilesOutputResponse, MergeProfilesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1279,6 +1309,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutIntegrationInput, PutIntegrationOutputResponse, PutIntegrationOutputError>(id: "putIntegration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutIntegrationInput, PutIntegrationOutputResponse, PutIntegrationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutIntegrationInput, PutIntegrationOutputResponse>())
@@ -1294,7 +1325,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutIntegrationOutputResponse, PutIntegrationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutIntegrationOutputResponse, PutIntegrationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutIntegrationOutputResponse, PutIntegrationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1314,6 +1345,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutProfileObjectInput, PutProfileObjectOutputResponse, PutProfileObjectOutputError>(id: "putProfileObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutProfileObjectInput, PutProfileObjectOutputResponse, PutProfileObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutProfileObjectInput, PutProfileObjectOutputResponse>())
@@ -1329,7 +1361,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutProfileObjectOutputResponse, PutProfileObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutProfileObjectOutputResponse, PutProfileObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutProfileObjectOutputResponse, PutProfileObjectOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1349,6 +1381,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutProfileObjectTypeInput, PutProfileObjectTypeOutputResponse, PutProfileObjectTypeOutputError>(id: "putProfileObjectType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutProfileObjectTypeInput, PutProfileObjectTypeOutputResponse, PutProfileObjectTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutProfileObjectTypeInput, PutProfileObjectTypeOutputResponse>())
@@ -1364,7 +1397,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutProfileObjectTypeOutputResponse, PutProfileObjectTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutProfileObjectTypeOutputResponse, PutProfileObjectTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutProfileObjectTypeOutputResponse, PutProfileObjectTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1384,6 +1417,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchProfilesInput, SearchProfilesOutputResponse, SearchProfilesOutputError>(id: "searchProfiles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchProfilesInput, SearchProfilesOutputResponse, SearchProfilesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchProfilesInput, SearchProfilesOutputResponse>())
@@ -1400,7 +1434,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchProfilesOutputResponse, SearchProfilesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchProfilesOutputResponse, SearchProfilesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchProfilesOutputResponse, SearchProfilesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1420,6 +1454,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1435,7 +1470,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1455,6 +1490,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1468,7 +1504,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1488,6 +1524,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDomainInput, UpdateDomainOutputResponse, UpdateDomainOutputError>(id: "updateDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDomainInput, UpdateDomainOutputResponse, UpdateDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDomainInput, UpdateDomainOutputResponse>())
@@ -1503,7 +1540,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDomainOutputResponse, UpdateDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDomainOutputResponse, UpdateDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDomainOutputResponse, UpdateDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1523,6 +1560,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "profile")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateProfileInput, UpdateProfileOutputResponse, UpdateProfileOutputError>(id: "updateProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateProfileInput, UpdateProfileOutputResponse, UpdateProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateProfileInput, UpdateProfileOutputResponse>())
@@ -1538,7 +1576,7 @@ extension CustomerProfilesClient: CustomerProfilesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateProfileOutputResponse, UpdateProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateProfileOutputResponse, UpdateProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateProfileOutputResponse, UpdateProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

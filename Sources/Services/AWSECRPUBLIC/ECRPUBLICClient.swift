@@ -221,6 +221,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutputResponse, BatchCheckLayerAvailabilityOutputError>(id: "batchCheckLayerAvailability")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutputResponse, BatchCheckLayerAvailabilityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchCheckLayerAvailabilityInput, BatchCheckLayerAvailabilityOutputResponse>())
@@ -237,7 +238,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchCheckLayerAvailabilityOutputResponse, BatchCheckLayerAvailabilityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchCheckLayerAvailabilityOutputResponse, BatchCheckLayerAvailabilityOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchCheckLayerAvailabilityOutputResponse, BatchCheckLayerAvailabilityOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDeleteImageInput, BatchDeleteImageOutputResponse, BatchDeleteImageOutputError>(id: "batchDeleteImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteImageInput, BatchDeleteImageOutputResponse, BatchDeleteImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteImageInput, BatchDeleteImageOutputResponse>())
@@ -273,7 +275,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteImageOutputResponse, BatchDeleteImageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteImageOutputResponse, BatchDeleteImageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteImageOutputResponse, BatchDeleteImageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CompleteLayerUploadInput, CompleteLayerUploadOutputResponse, CompleteLayerUploadOutputError>(id: "completeLayerUpload")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutputResponse, CompleteLayerUploadOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CompleteLayerUploadInput, CompleteLayerUploadOutputResponse>())
@@ -309,7 +312,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CompleteLayerUploadOutputResponse, CompleteLayerUploadOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CompleteLayerUploadOutputResponse, CompleteLayerUploadOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompleteLayerUploadOutputResponse, CompleteLayerUploadOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -329,6 +332,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRepositoryInput, CreateRepositoryOutputResponse, CreateRepositoryOutputError>(id: "createRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRepositoryInput, CreateRepositoryOutputResponse, CreateRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRepositoryInput, CreateRepositoryOutputResponse>())
@@ -345,7 +349,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRepositoryOutputResponse, CreateRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateRepositoryOutputResponse, CreateRepositoryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRepositoryOutputResponse, CreateRepositoryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -365,6 +369,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRepositoryInput, DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>(id: "deleteRepository")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRepositoryInput, DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRepositoryInput, DeleteRepositoryOutputResponse>())
@@ -381,7 +386,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -401,6 +406,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutputResponse, DeleteRepositoryPolicyOutputError>(id: "deleteRepositoryPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutputResponse, DeleteRepositoryPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRepositoryPolicyInput, DeleteRepositoryPolicyOutputResponse>())
@@ -417,7 +423,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRepositoryPolicyOutputResponse, DeleteRepositoryPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteRepositoryPolicyOutputResponse, DeleteRepositoryPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRepositoryPolicyOutputResponse, DeleteRepositoryPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -437,6 +443,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeImageTagsInput, DescribeImageTagsOutputResponse, DescribeImageTagsOutputError>(id: "describeImageTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeImageTagsInput, DescribeImageTagsOutputResponse, DescribeImageTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeImageTagsInput, DescribeImageTagsOutputResponse>())
@@ -453,7 +460,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeImageTagsOutputResponse, DescribeImageTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeImageTagsOutputResponse, DescribeImageTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeImageTagsOutputResponse, DescribeImageTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -473,6 +480,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeImagesInput, DescribeImagesOutputResponse, DescribeImagesOutputError>(id: "describeImages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeImagesInput, DescribeImagesOutputResponse, DescribeImagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeImagesInput, DescribeImagesOutputResponse>())
@@ -489,7 +497,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeImagesOutputResponse, DescribeImagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeImagesOutputResponse, DescribeImagesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeImagesOutputResponse, DescribeImagesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -509,6 +517,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRegistriesInput, DescribeRegistriesOutputResponse, DescribeRegistriesOutputError>(id: "describeRegistries")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRegistriesInput, DescribeRegistriesOutputResponse, DescribeRegistriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRegistriesInput, DescribeRegistriesOutputResponse>())
@@ -525,7 +534,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRegistriesOutputResponse, DescribeRegistriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeRegistriesOutputResponse, DescribeRegistriesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRegistriesOutputResponse, DescribeRegistriesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -545,6 +554,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRepositoriesInput, DescribeRepositoriesOutputResponse, DescribeRepositoriesOutputError>(id: "describeRepositories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutputResponse, DescribeRepositoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRepositoriesInput, DescribeRepositoriesOutputResponse>())
@@ -561,7 +571,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRepositoriesOutputResponse, DescribeRepositoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeRepositoriesOutputResponse, DescribeRepositoriesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRepositoriesOutputResponse, DescribeRepositoriesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -581,6 +591,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAuthorizationTokenInput, GetAuthorizationTokenOutputResponse, GetAuthorizationTokenOutputError>(id: "getAuthorizationToken")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutputResponse, GetAuthorizationTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAuthorizationTokenInput, GetAuthorizationTokenOutputResponse>())
@@ -597,7 +608,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAuthorizationTokenOutputResponse, GetAuthorizationTokenOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAuthorizationTokenOutputResponse, GetAuthorizationTokenOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAuthorizationTokenOutputResponse, GetAuthorizationTokenOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -617,6 +628,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRegistryCatalogDataInput, GetRegistryCatalogDataOutputResponse, GetRegistryCatalogDataOutputError>(id: "getRegistryCatalogData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRegistryCatalogDataInput, GetRegistryCatalogDataOutputResponse, GetRegistryCatalogDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRegistryCatalogDataInput, GetRegistryCatalogDataOutputResponse>())
@@ -633,7 +645,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRegistryCatalogDataOutputResponse, GetRegistryCatalogDataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRegistryCatalogDataOutputResponse, GetRegistryCatalogDataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRegistryCatalogDataOutputResponse, GetRegistryCatalogDataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -653,6 +665,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRepositoryCatalogDataInput, GetRepositoryCatalogDataOutputResponse, GetRepositoryCatalogDataOutputError>(id: "getRepositoryCatalogData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRepositoryCatalogDataInput, GetRepositoryCatalogDataOutputResponse, GetRepositoryCatalogDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRepositoryCatalogDataInput, GetRepositoryCatalogDataOutputResponse>())
@@ -669,7 +682,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRepositoryCatalogDataOutputResponse, GetRepositoryCatalogDataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRepositoryCatalogDataOutputResponse, GetRepositoryCatalogDataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRepositoryCatalogDataOutputResponse, GetRepositoryCatalogDataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -689,6 +702,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRepositoryPolicyInput, GetRepositoryPolicyOutputResponse, GetRepositoryPolicyOutputError>(id: "getRepositoryPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutputResponse, GetRepositoryPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRepositoryPolicyInput, GetRepositoryPolicyOutputResponse>())
@@ -705,7 +719,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRepositoryPolicyOutputResponse, GetRepositoryPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRepositoryPolicyOutputResponse, GetRepositoryPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRepositoryPolicyOutputResponse, GetRepositoryPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -725,6 +739,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<InitiateLayerUploadInput, InitiateLayerUploadOutputResponse, InitiateLayerUploadOutputError>(id: "initiateLayerUpload")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutputResponse, InitiateLayerUploadOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InitiateLayerUploadInput, InitiateLayerUploadOutputResponse>())
@@ -741,7 +756,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InitiateLayerUploadOutputResponse, InitiateLayerUploadOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<InitiateLayerUploadOutputResponse, InitiateLayerUploadOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InitiateLayerUploadOutputResponse, InitiateLayerUploadOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -761,6 +776,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -777,7 +793,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -797,6 +813,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutImageInput, PutImageOutputResponse, PutImageOutputError>(id: "putImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutImageInput, PutImageOutputResponse, PutImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutImageInput, PutImageOutputResponse>())
@@ -813,7 +830,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutImageOutputResponse, PutImageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutImageOutputResponse, PutImageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutImageOutputResponse, PutImageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -833,6 +850,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutRegistryCatalogDataInput, PutRegistryCatalogDataOutputResponse, PutRegistryCatalogDataOutputError>(id: "putRegistryCatalogData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRegistryCatalogDataInput, PutRegistryCatalogDataOutputResponse, PutRegistryCatalogDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRegistryCatalogDataInput, PutRegistryCatalogDataOutputResponse>())
@@ -849,7 +867,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRegistryCatalogDataOutputResponse, PutRegistryCatalogDataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutRegistryCatalogDataOutputResponse, PutRegistryCatalogDataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRegistryCatalogDataOutputResponse, PutRegistryCatalogDataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -869,6 +887,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutRepositoryCatalogDataInput, PutRepositoryCatalogDataOutputResponse, PutRepositoryCatalogDataOutputError>(id: "putRepositoryCatalogData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRepositoryCatalogDataInput, PutRepositoryCatalogDataOutputResponse, PutRepositoryCatalogDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRepositoryCatalogDataInput, PutRepositoryCatalogDataOutputResponse>())
@@ -885,7 +904,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRepositoryCatalogDataOutputResponse, PutRepositoryCatalogDataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutRepositoryCatalogDataOutputResponse, PutRepositoryCatalogDataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRepositoryCatalogDataOutputResponse, PutRepositoryCatalogDataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -905,6 +924,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetRepositoryPolicyInput, SetRepositoryPolicyOutputResponse, SetRepositoryPolicyOutputError>(id: "setRepositoryPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutputResponse, SetRepositoryPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetRepositoryPolicyInput, SetRepositoryPolicyOutputResponse>())
@@ -921,7 +941,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetRepositoryPolicyOutputResponse, SetRepositoryPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetRepositoryPolicyOutputResponse, SetRepositoryPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetRepositoryPolicyOutputResponse, SetRepositoryPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -941,6 +961,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -957,7 +978,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -977,6 +998,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -993,7 +1015,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1013,6 +1035,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ecr-public")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UploadLayerPartInput, UploadLayerPartOutputResponse, UploadLayerPartOutputError>(id: "uploadLayerPart")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadLayerPartInput, UploadLayerPartOutputResponse, UploadLayerPartOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadLayerPartInput, UploadLayerPartOutputResponse>())
@@ -1029,7 +1052,7 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadLayerPartOutputResponse, UploadLayerPartOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UploadLayerPartOutputResponse, UploadLayerPartOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadLayerPartOutputResponse, UploadLayerPartOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

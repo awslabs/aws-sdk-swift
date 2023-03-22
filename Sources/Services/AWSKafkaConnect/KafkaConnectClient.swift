@@ -221,6 +221,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kafkaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateConnectorInput, CreateConnectorOutputResponse, CreateConnectorOutputError>(id: "createConnector")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConnectorInput, CreateConnectorOutputResponse, CreateConnectorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConnectorInput, CreateConnectorOutputResponse>())
@@ -236,7 +237,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConnectorOutputResponse, CreateConnectorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateConnectorOutputResponse, CreateConnectorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConnectorOutputResponse, CreateConnectorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kafkaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCustomPluginInput, CreateCustomPluginOutputResponse, CreateCustomPluginOutputError>(id: "createCustomPlugin")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomPluginInput, CreateCustomPluginOutputResponse, CreateCustomPluginOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCustomPluginInput, CreateCustomPluginOutputResponse>())
@@ -271,7 +273,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomPluginOutputResponse, CreateCustomPluginOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateCustomPluginOutputResponse, CreateCustomPluginOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomPluginOutputResponse, CreateCustomPluginOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -291,6 +293,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kafkaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWorkerConfigurationInput, CreateWorkerConfigurationOutputResponse, CreateWorkerConfigurationOutputError>(id: "createWorkerConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorkerConfigurationInput, CreateWorkerConfigurationOutputResponse, CreateWorkerConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorkerConfigurationInput, CreateWorkerConfigurationOutputResponse>())
@@ -306,7 +309,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorkerConfigurationOutputResponse, CreateWorkerConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateWorkerConfigurationOutputResponse, CreateWorkerConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkerConfigurationOutputResponse, CreateWorkerConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -326,6 +329,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kafkaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteConnectorInput, DeleteConnectorOutputResponse, DeleteConnectorOutputError>(id: "deleteConnector")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConnectorInput, DeleteConnectorOutputResponse, DeleteConnectorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConnectorInput, DeleteConnectorOutputResponse>())
@@ -339,7 +343,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConnectorOutputResponse, DeleteConnectorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteConnectorOutputResponse, DeleteConnectorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConnectorOutputResponse, DeleteConnectorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -359,6 +363,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kafkaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCustomPluginInput, DeleteCustomPluginOutputResponse, DeleteCustomPluginOutputError>(id: "deleteCustomPlugin")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomPluginInput, DeleteCustomPluginOutputResponse, DeleteCustomPluginOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomPluginInput, DeleteCustomPluginOutputResponse>())
@@ -371,7 +376,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomPluginOutputResponse, DeleteCustomPluginOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomPluginOutputResponse, DeleteCustomPluginOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomPluginOutputResponse, DeleteCustomPluginOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -391,6 +396,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kafkaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeConnectorInput, DescribeConnectorOutputResponse, DescribeConnectorOutputError>(id: "describeConnector")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConnectorInput, DescribeConnectorOutputResponse, DescribeConnectorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConnectorInput, DescribeConnectorOutputResponse>())
@@ -403,7 +409,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConnectorOutputResponse, DescribeConnectorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeConnectorOutputResponse, DescribeConnectorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConnectorOutputResponse, DescribeConnectorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -423,6 +429,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kafkaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCustomPluginInput, DescribeCustomPluginOutputResponse, DescribeCustomPluginOutputError>(id: "describeCustomPlugin")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCustomPluginInput, DescribeCustomPluginOutputResponse, DescribeCustomPluginOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCustomPluginInput, DescribeCustomPluginOutputResponse>())
@@ -435,7 +442,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCustomPluginOutputResponse, DescribeCustomPluginOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeCustomPluginOutputResponse, DescribeCustomPluginOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCustomPluginOutputResponse, DescribeCustomPluginOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -455,6 +462,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kafkaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeWorkerConfigurationInput, DescribeWorkerConfigurationOutputResponse, DescribeWorkerConfigurationOutputError>(id: "describeWorkerConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeWorkerConfigurationInput, DescribeWorkerConfigurationOutputResponse, DescribeWorkerConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeWorkerConfigurationInput, DescribeWorkerConfigurationOutputResponse>())
@@ -467,7 +475,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeWorkerConfigurationOutputResponse, DescribeWorkerConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeWorkerConfigurationOutputResponse, DescribeWorkerConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeWorkerConfigurationOutputResponse, DescribeWorkerConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -487,6 +495,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kafkaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListConnectorsInput, ListConnectorsOutputResponse, ListConnectorsOutputError>(id: "listConnectors")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConnectorsInput, ListConnectorsOutputResponse, ListConnectorsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConnectorsInput, ListConnectorsOutputResponse>())
@@ -500,7 +509,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConnectorsOutputResponse, ListConnectorsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListConnectorsOutputResponse, ListConnectorsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConnectorsOutputResponse, ListConnectorsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -520,6 +529,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kafkaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCustomPluginsInput, ListCustomPluginsOutputResponse, ListCustomPluginsOutputError>(id: "listCustomPlugins")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomPluginsInput, ListCustomPluginsOutputResponse, ListCustomPluginsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomPluginsInput, ListCustomPluginsOutputResponse>())
@@ -533,7 +543,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomPluginsOutputResponse, ListCustomPluginsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListCustomPluginsOutputResponse, ListCustomPluginsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomPluginsOutputResponse, ListCustomPluginsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -553,6 +563,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kafkaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorkerConfigurationsInput, ListWorkerConfigurationsOutputResponse, ListWorkerConfigurationsOutputError>(id: "listWorkerConfigurations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkerConfigurationsInput, ListWorkerConfigurationsOutputResponse, ListWorkerConfigurationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkerConfigurationsInput, ListWorkerConfigurationsOutputResponse>())
@@ -566,7 +577,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorkerConfigurationsOutputResponse, ListWorkerConfigurationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListWorkerConfigurationsOutputResponse, ListWorkerConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkerConfigurationsOutputResponse, ListWorkerConfigurationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -586,6 +597,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kafkaconnect")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateConnectorInput, UpdateConnectorOutputResponse, UpdateConnectorOutputError>(id: "updateConnector")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConnectorInput, UpdateConnectorOutputResponse, UpdateConnectorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConnectorInput, UpdateConnectorOutputResponse>())
@@ -602,7 +614,7 @@ extension KafkaConnectClient: KafkaConnectClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConnectorOutputResponse, UpdateConnectorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateConnectorOutputResponse, UpdateConnectorOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConnectorOutputResponse, UpdateConnectorOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

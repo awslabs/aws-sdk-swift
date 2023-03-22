@@ -221,6 +221,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutputResponse, AttachCustomerManagedPolicyReferenceToPermissionSetOutputError>(id: "attachCustomerManagedPolicyReferenceToPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutputResponse, AttachCustomerManagedPolicyReferenceToPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutputResponse>())
@@ -237,7 +238,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutputResponse, AttachCustomerManagedPolicyReferenceToPermissionSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutputResponse, AttachCustomerManagedPolicyReferenceToPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutputResponse, AttachCustomerManagedPolicyReferenceToPermissionSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutputResponse, AttachManagedPolicyToPermissionSetOutputError>(id: "attachManagedPolicyToPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutputResponse, AttachManagedPolicyToPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutputResponse>())
@@ -273,7 +275,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachManagedPolicyToPermissionSetOutputResponse, AttachManagedPolicyToPermissionSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AttachManagedPolicyToPermissionSetOutputResponse, AttachManagedPolicyToPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachManagedPolicyToPermissionSetOutputResponse, AttachManagedPolicyToPermissionSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAccountAssignmentInput, CreateAccountAssignmentOutputResponse, CreateAccountAssignmentOutputError>(id: "createAccountAssignment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutputResponse, CreateAccountAssignmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutputResponse>())
@@ -309,7 +312,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccountAssignmentOutputResponse, CreateAccountAssignmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAccountAssignmentOutputResponse, CreateAccountAssignmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccountAssignmentOutputResponse, CreateAccountAssignmentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -329,6 +332,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutputResponse, CreateInstanceAccessControlAttributeConfigurationOutputError>(id: "createInstanceAccessControlAttributeConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutputResponse, CreateInstanceAccessControlAttributeConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutputResponse>())
@@ -345,7 +349,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInstanceAccessControlAttributeConfigurationOutputResponse, CreateInstanceAccessControlAttributeConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateInstanceAccessControlAttributeConfigurationOutputResponse, CreateInstanceAccessControlAttributeConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInstanceAccessControlAttributeConfigurationOutputResponse, CreateInstanceAccessControlAttributeConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -365,6 +369,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePermissionSetInput, CreatePermissionSetOutputResponse, CreatePermissionSetOutputError>(id: "createPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePermissionSetInput, CreatePermissionSetOutputResponse, CreatePermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePermissionSetInput, CreatePermissionSetOutputResponse>())
@@ -381,7 +386,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePermissionSetOutputResponse, CreatePermissionSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePermissionSetOutputResponse, CreatePermissionSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePermissionSetOutputResponse, CreatePermissionSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -401,6 +406,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutputResponse, DeleteAccountAssignmentOutputError>(id: "deleteAccountAssignment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutputResponse, DeleteAccountAssignmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutputResponse>())
@@ -417,7 +423,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccountAssignmentOutputResponse, DeleteAccountAssignmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountAssignmentOutputResponse, DeleteAccountAssignmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountAssignmentOutputResponse, DeleteAccountAssignmentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -437,6 +443,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutputResponse, DeleteInlinePolicyFromPermissionSetOutputError>(id: "deleteInlinePolicyFromPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutputResponse, DeleteInlinePolicyFromPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutputResponse>())
@@ -453,7 +460,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInlinePolicyFromPermissionSetOutputResponse, DeleteInlinePolicyFromPermissionSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteInlinePolicyFromPermissionSetOutputResponse, DeleteInlinePolicyFromPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInlinePolicyFromPermissionSetOutputResponse, DeleteInlinePolicyFromPermissionSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -473,6 +480,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutputResponse, DeleteInstanceAccessControlAttributeConfigurationOutputError>(id: "deleteInstanceAccessControlAttributeConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutputResponse, DeleteInstanceAccessControlAttributeConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutputResponse>())
@@ -489,7 +497,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInstanceAccessControlAttributeConfigurationOutputResponse, DeleteInstanceAccessControlAttributeConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutputResponse, DeleteInstanceAccessControlAttributeConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutputResponse, DeleteInstanceAccessControlAttributeConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -509,6 +517,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePermissionSetInput, DeletePermissionSetOutputResponse, DeletePermissionSetOutputError>(id: "deletePermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePermissionSetInput, DeletePermissionSetOutputResponse, DeletePermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePermissionSetInput, DeletePermissionSetOutputResponse>())
@@ -525,7 +534,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePermissionSetOutputResponse, DeletePermissionSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeletePermissionSetOutputResponse, DeletePermissionSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePermissionSetOutputResponse, DeletePermissionSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -545,6 +554,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutputResponse, DeletePermissionsBoundaryFromPermissionSetOutputError>(id: "deletePermissionsBoundaryFromPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutputResponse, DeletePermissionsBoundaryFromPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutputResponse>())
@@ -561,7 +571,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePermissionsBoundaryFromPermissionSetOutputResponse, DeletePermissionsBoundaryFromPermissionSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeletePermissionsBoundaryFromPermissionSetOutputResponse, DeletePermissionsBoundaryFromPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePermissionsBoundaryFromPermissionSetOutputResponse, DeletePermissionsBoundaryFromPermissionSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -581,6 +591,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutputResponse, DescribeAccountAssignmentCreationStatusOutputError>(id: "describeAccountAssignmentCreationStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutputResponse, DescribeAccountAssignmentCreationStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutputResponse>())
@@ -597,7 +608,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountAssignmentCreationStatusOutputResponse, DescribeAccountAssignmentCreationStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountAssignmentCreationStatusOutputResponse, DescribeAccountAssignmentCreationStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountAssignmentCreationStatusOutputResponse, DescribeAccountAssignmentCreationStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -617,6 +628,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutputResponse, DescribeAccountAssignmentDeletionStatusOutputError>(id: "describeAccountAssignmentDeletionStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutputResponse, DescribeAccountAssignmentDeletionStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutputResponse>())
@@ -633,7 +645,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAccountAssignmentDeletionStatusOutputResponse, DescribeAccountAssignmentDeletionStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAccountAssignmentDeletionStatusOutputResponse, DescribeAccountAssignmentDeletionStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAccountAssignmentDeletionStatusOutputResponse, DescribeAccountAssignmentDeletionStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -653,6 +665,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutputResponse, DescribeInstanceAccessControlAttributeConfigurationOutputError>(id: "describeInstanceAccessControlAttributeConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutputResponse, DescribeInstanceAccessControlAttributeConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutputResponse>())
@@ -669,7 +682,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeInstanceAccessControlAttributeConfigurationOutputResponse, DescribeInstanceAccessControlAttributeConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutputResponse, DescribeInstanceAccessControlAttributeConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutputResponse, DescribeInstanceAccessControlAttributeConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -689,6 +702,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePermissionSetInput, DescribePermissionSetOutputResponse, DescribePermissionSetOutputError>(id: "describePermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePermissionSetInput, DescribePermissionSetOutputResponse, DescribePermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePermissionSetInput, DescribePermissionSetOutputResponse>())
@@ -705,7 +719,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePermissionSetOutputResponse, DescribePermissionSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribePermissionSetOutputResponse, DescribePermissionSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePermissionSetOutputResponse, DescribePermissionSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -725,6 +739,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutputResponse, DescribePermissionSetProvisioningStatusOutputError>(id: "describePermissionSetProvisioningStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutputResponse, DescribePermissionSetProvisioningStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutputResponse>())
@@ -741,7 +756,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePermissionSetProvisioningStatusOutputResponse, DescribePermissionSetProvisioningStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribePermissionSetProvisioningStatusOutputResponse, DescribePermissionSetProvisioningStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePermissionSetProvisioningStatusOutputResponse, DescribePermissionSetProvisioningStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -761,6 +776,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputResponse, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError>(id: "detachCustomerManagedPolicyReferenceFromPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputResponse, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputResponse>())
@@ -777,7 +793,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutputResponse, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutputResponse, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutputResponse, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -797,6 +813,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutputResponse, DetachManagedPolicyFromPermissionSetOutputError>(id: "detachManagedPolicyFromPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutputResponse, DetachManagedPolicyFromPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutputResponse>())
@@ -813,7 +830,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachManagedPolicyFromPermissionSetOutputResponse, DetachManagedPolicyFromPermissionSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DetachManagedPolicyFromPermissionSetOutputResponse, DetachManagedPolicyFromPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachManagedPolicyFromPermissionSetOutputResponse, DetachManagedPolicyFromPermissionSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -833,6 +850,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutputResponse, GetInlinePolicyForPermissionSetOutputError>(id: "getInlinePolicyForPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutputResponse, GetInlinePolicyForPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutputResponse>())
@@ -849,7 +867,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInlinePolicyForPermissionSetOutputResponse, GetInlinePolicyForPermissionSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetInlinePolicyForPermissionSetOutputResponse, GetInlinePolicyForPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInlinePolicyForPermissionSetOutputResponse, GetInlinePolicyForPermissionSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -869,6 +887,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutputResponse, GetPermissionsBoundaryForPermissionSetOutputError>(id: "getPermissionsBoundaryForPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutputResponse, GetPermissionsBoundaryForPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutputResponse>())
@@ -885,7 +904,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPermissionsBoundaryForPermissionSetOutputResponse, GetPermissionsBoundaryForPermissionSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPermissionsBoundaryForPermissionSetOutputResponse, GetPermissionsBoundaryForPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPermissionsBoundaryForPermissionSetOutputResponse, GetPermissionsBoundaryForPermissionSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -905,6 +924,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutputResponse, ListAccountAssignmentCreationStatusOutputError>(id: "listAccountAssignmentCreationStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutputResponse, ListAccountAssignmentCreationStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutputResponse>())
@@ -921,7 +941,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountAssignmentCreationStatusOutputResponse, ListAccountAssignmentCreationStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAccountAssignmentCreationStatusOutputResponse, ListAccountAssignmentCreationStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAssignmentCreationStatusOutputResponse, ListAccountAssignmentCreationStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -941,6 +961,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutputResponse, ListAccountAssignmentDeletionStatusOutputError>(id: "listAccountAssignmentDeletionStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutputResponse, ListAccountAssignmentDeletionStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutputResponse>())
@@ -957,7 +978,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountAssignmentDeletionStatusOutputResponse, ListAccountAssignmentDeletionStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAccountAssignmentDeletionStatusOutputResponse, ListAccountAssignmentDeletionStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAssignmentDeletionStatusOutputResponse, ListAccountAssignmentDeletionStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -977,6 +998,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAccountAssignmentsInput, ListAccountAssignmentsOutputResponse, ListAccountAssignmentsOutputError>(id: "listAccountAssignments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutputResponse, ListAccountAssignmentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutputResponse>())
@@ -993,7 +1015,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountAssignmentsOutputResponse, ListAccountAssignmentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAccountAssignmentsOutputResponse, ListAccountAssignmentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAssignmentsOutputResponse, ListAccountAssignmentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1013,6 +1035,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutputResponse, ListAccountsForProvisionedPermissionSetOutputError>(id: "listAccountsForProvisionedPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutputResponse, ListAccountsForProvisionedPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutputResponse>())
@@ -1029,7 +1052,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountsForProvisionedPermissionSetOutputResponse, ListAccountsForProvisionedPermissionSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAccountsForProvisionedPermissionSetOutputResponse, ListAccountsForProvisionedPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountsForProvisionedPermissionSetOutputResponse, ListAccountsForProvisionedPermissionSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1049,6 +1072,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutputResponse, ListCustomerManagedPolicyReferencesInPermissionSetOutputError>(id: "listCustomerManagedPolicyReferencesInPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutputResponse, ListCustomerManagedPolicyReferencesInPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutputResponse>())
@@ -1065,7 +1089,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomerManagedPolicyReferencesInPermissionSetOutputResponse, ListCustomerManagedPolicyReferencesInPermissionSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutputResponse, ListCustomerManagedPolicyReferencesInPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutputResponse, ListCustomerManagedPolicyReferencesInPermissionSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1085,6 +1109,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListInstancesInput, ListInstancesOutputResponse, ListInstancesOutputError>(id: "listInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstancesInput, ListInstancesOutputResponse, ListInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstancesInput, ListInstancesOutputResponse>())
@@ -1101,7 +1126,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstancesOutputResponse, ListInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListInstancesOutputResponse, ListInstancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstancesOutputResponse, ListInstancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1121,6 +1146,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutputResponse, ListManagedPoliciesInPermissionSetOutputError>(id: "listManagedPoliciesInPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutputResponse, ListManagedPoliciesInPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutputResponse>())
@@ -1137,7 +1163,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListManagedPoliciesInPermissionSetOutputResponse, ListManagedPoliciesInPermissionSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListManagedPoliciesInPermissionSetOutputResponse, ListManagedPoliciesInPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListManagedPoliciesInPermissionSetOutputResponse, ListManagedPoliciesInPermissionSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1157,6 +1183,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutputResponse, ListPermissionSetProvisioningStatusOutputError>(id: "listPermissionSetProvisioningStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutputResponse, ListPermissionSetProvisioningStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutputResponse>())
@@ -1173,7 +1200,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPermissionSetProvisioningStatusOutputResponse, ListPermissionSetProvisioningStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPermissionSetProvisioningStatusOutputResponse, ListPermissionSetProvisioningStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPermissionSetProvisioningStatusOutputResponse, ListPermissionSetProvisioningStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1193,6 +1220,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPermissionSetsInput, ListPermissionSetsOutputResponse, ListPermissionSetsOutputError>(id: "listPermissionSets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionSetsInput, ListPermissionSetsOutputResponse, ListPermissionSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPermissionSetsInput, ListPermissionSetsOutputResponse>())
@@ -1209,7 +1237,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPermissionSetsOutputResponse, ListPermissionSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPermissionSetsOutputResponse, ListPermissionSetsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPermissionSetsOutputResponse, ListPermissionSetsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1229,6 +1257,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutputResponse, ListPermissionSetsProvisionedToAccountOutputError>(id: "listPermissionSetsProvisionedToAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutputResponse, ListPermissionSetsProvisionedToAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutputResponse>())
@@ -1245,7 +1274,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPermissionSetsProvisionedToAccountOutputResponse, ListPermissionSetsProvisionedToAccountOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPermissionSetsProvisionedToAccountOutputResponse, ListPermissionSetsProvisionedToAccountOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPermissionSetsProvisionedToAccountOutputResponse, ListPermissionSetsProvisionedToAccountOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1265,6 +1294,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1281,7 +1311,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1301,6 +1331,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ProvisionPermissionSetInput, ProvisionPermissionSetOutputResponse, ProvisionPermissionSetOutputError>(id: "provisionPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutputResponse, ProvisionPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutputResponse>())
@@ -1317,7 +1348,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ProvisionPermissionSetOutputResponse, ProvisionPermissionSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ProvisionPermissionSetOutputResponse, ProvisionPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ProvisionPermissionSetOutputResponse, ProvisionPermissionSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1337,6 +1368,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutputResponse, PutInlinePolicyToPermissionSetOutputError>(id: "putInlinePolicyToPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutputResponse, PutInlinePolicyToPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutputResponse>())
@@ -1353,7 +1385,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutInlinePolicyToPermissionSetOutputResponse, PutInlinePolicyToPermissionSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutInlinePolicyToPermissionSetOutputResponse, PutInlinePolicyToPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutInlinePolicyToPermissionSetOutputResponse, PutInlinePolicyToPermissionSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1373,6 +1405,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutputResponse, PutPermissionsBoundaryToPermissionSetOutputError>(id: "putPermissionsBoundaryToPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutputResponse, PutPermissionsBoundaryToPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutputResponse>())
@@ -1389,7 +1422,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutPermissionsBoundaryToPermissionSetOutputResponse, PutPermissionsBoundaryToPermissionSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutPermissionsBoundaryToPermissionSetOutputResponse, PutPermissionsBoundaryToPermissionSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutPermissionsBoundaryToPermissionSetOutputResponse, PutPermissionsBoundaryToPermissionSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1409,6 +1442,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1425,7 +1459,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1445,6 +1479,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1461,7 +1496,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1481,6 +1516,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutputResponse, UpdateInstanceAccessControlAttributeConfigurationOutputError>(id: "updateInstanceAccessControlAttributeConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutputResponse, UpdateInstanceAccessControlAttributeConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutputResponse>())
@@ -1497,7 +1533,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInstanceAccessControlAttributeConfigurationOutputResponse, UpdateInstanceAccessControlAttributeConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutputResponse, UpdateInstanceAccessControlAttributeConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutputResponse, UpdateInstanceAccessControlAttributeConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1517,6 +1553,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "sso")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePermissionSetInput, UpdatePermissionSetOutputResponse, UpdatePermissionSetOutputError>(id: "updatePermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutputResponse, UpdatePermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutputResponse>())
@@ -1533,7 +1570,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePermissionSetOutputResponse, UpdatePermissionSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdatePermissionSetOutputResponse, UpdatePermissionSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePermissionSetOutputResponse, UpdatePermissionSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

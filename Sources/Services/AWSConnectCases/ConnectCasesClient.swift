@@ -221,6 +221,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchGetFieldInput, BatchGetFieldOutputResponse, BatchGetFieldOutputError>(id: "batchGetField")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchGetFieldInput, BatchGetFieldOutputResponse, BatchGetFieldOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetFieldInput, BatchGetFieldOutputResponse>())
@@ -236,7 +237,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchGetFieldOutputResponse, BatchGetFieldOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchGetFieldOutputResponse, BatchGetFieldOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchGetFieldOutputResponse, BatchGetFieldOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchPutFieldOptionsInput, BatchPutFieldOptionsOutputResponse, BatchPutFieldOptionsOutputError>(id: "batchPutFieldOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchPutFieldOptionsInput, BatchPutFieldOptionsOutputResponse, BatchPutFieldOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchPutFieldOptionsInput, BatchPutFieldOptionsOutputResponse>())
@@ -271,7 +273,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchPutFieldOptionsOutputResponse, BatchPutFieldOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchPutFieldOptionsOutputResponse, BatchPutFieldOptionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchPutFieldOptionsOutputResponse, BatchPutFieldOptionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -291,6 +293,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCaseInput, CreateCaseOutputResponse, CreateCaseOutputError>(id: "createCase")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateCaseOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -314,7 +317,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCaseOutputResponse, CreateCaseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateCaseOutputResponse, CreateCaseOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCaseOutputResponse, CreateCaseOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -334,6 +337,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDomainInput, CreateDomainOutputResponse, CreateDomainOutputError>(id: "createDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDomainInput, CreateDomainOutputResponse, CreateDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDomainInput, CreateDomainOutputResponse>())
@@ -349,7 +353,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDomainOutputResponse, CreateDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDomainOutputResponse, CreateDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDomainOutputResponse, CreateDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -369,6 +373,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFieldInput, CreateFieldOutputResponse, CreateFieldOutputError>(id: "createField")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFieldInput, CreateFieldOutputResponse, CreateFieldOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFieldInput, CreateFieldOutputResponse>())
@@ -384,7 +389,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFieldOutputResponse, CreateFieldOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateFieldOutputResponse, CreateFieldOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFieldOutputResponse, CreateFieldOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -411,6 +416,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLayoutInput, CreateLayoutOutputResponse, CreateLayoutOutputError>(id: "createLayout")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLayoutInput, CreateLayoutOutputResponse, CreateLayoutOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLayoutInput, CreateLayoutOutputResponse>())
@@ -426,7 +432,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLayoutOutputResponse, CreateLayoutOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateLayoutOutputResponse, CreateLayoutOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLayoutOutputResponse, CreateLayoutOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -446,6 +452,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRelatedItemInput, CreateRelatedItemOutputResponse, CreateRelatedItemOutputError>(id: "createRelatedItem")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRelatedItemInput, CreateRelatedItemOutputResponse, CreateRelatedItemOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRelatedItemInput, CreateRelatedItemOutputResponse>())
@@ -461,7 +468,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRelatedItemOutputResponse, CreateRelatedItemOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateRelatedItemOutputResponse, CreateRelatedItemOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRelatedItemOutputResponse, CreateRelatedItemOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -481,6 +488,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTemplateInput, CreateTemplateOutputResponse, CreateTemplateOutputError>(id: "createTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTemplateInput, CreateTemplateOutputResponse, CreateTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTemplateInput, CreateTemplateOutputResponse>())
@@ -496,7 +504,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTemplateOutputResponse, CreateTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateTemplateOutputResponse, CreateTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTemplateOutputResponse, CreateTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -516,6 +524,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCaseInput, GetCaseOutputResponse, GetCaseOutputError>(id: "getCase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCaseInput, GetCaseOutputResponse, GetCaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCaseInput, GetCaseOutputResponse>())
@@ -531,7 +540,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCaseOutputResponse, GetCaseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCaseOutputResponse, GetCaseOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCaseOutputResponse, GetCaseOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -551,6 +560,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCaseEventConfigurationInput, GetCaseEventConfigurationOutputResponse, GetCaseEventConfigurationOutputError>(id: "getCaseEventConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCaseEventConfigurationInput, GetCaseEventConfigurationOutputResponse, GetCaseEventConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCaseEventConfigurationInput, GetCaseEventConfigurationOutputResponse>())
@@ -563,7 +573,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCaseEventConfigurationOutputResponse, GetCaseEventConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCaseEventConfigurationOutputResponse, GetCaseEventConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCaseEventConfigurationOutputResponse, GetCaseEventConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -583,6 +593,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDomainInput, GetDomainOutputResponse, GetDomainOutputError>(id: "getDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDomainInput, GetDomainOutputResponse, GetDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDomainInput, GetDomainOutputResponse>())
@@ -595,7 +606,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDomainOutputResponse, GetDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDomainOutputResponse, GetDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDomainOutputResponse, GetDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -615,6 +626,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLayoutInput, GetLayoutOutputResponse, GetLayoutOutputError>(id: "getLayout")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLayoutInput, GetLayoutOutputResponse, GetLayoutOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLayoutInput, GetLayoutOutputResponse>())
@@ -627,7 +639,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLayoutOutputResponse, GetLayoutOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetLayoutOutputResponse, GetLayoutOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLayoutOutputResponse, GetLayoutOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -647,6 +659,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTemplateInput, GetTemplateOutputResponse, GetTemplateOutputError>(id: "getTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTemplateInput, GetTemplateOutputResponse, GetTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTemplateInput, GetTemplateOutputResponse>())
@@ -659,7 +672,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTemplateOutputResponse, GetTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetTemplateOutputResponse, GetTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTemplateOutputResponse, GetTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -679,6 +692,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCasesForContactInput, ListCasesForContactOutputResponse, ListCasesForContactOutputError>(id: "listCasesForContact")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCasesForContactInput, ListCasesForContactOutputResponse, ListCasesForContactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCasesForContactInput, ListCasesForContactOutputResponse>())
@@ -694,7 +708,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCasesForContactOutputResponse, ListCasesForContactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListCasesForContactOutputResponse, ListCasesForContactOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCasesForContactOutputResponse, ListCasesForContactOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -714,6 +728,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDomainsInput, ListDomainsOutputResponse, ListDomainsOutputError>(id: "listDomains")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDomainsInput, ListDomainsOutputResponse, ListDomainsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDomainsInput, ListDomainsOutputResponse>())
@@ -727,7 +742,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDomainsOutputResponse, ListDomainsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDomainsOutputResponse, ListDomainsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDomainsOutputResponse, ListDomainsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -747,6 +762,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFieldOptionsInput, ListFieldOptionsOutputResponse, ListFieldOptionsOutputError>(id: "listFieldOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFieldOptionsInput, ListFieldOptionsOutputResponse, ListFieldOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFieldOptionsInput, ListFieldOptionsOutputResponse>())
@@ -760,7 +776,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFieldOptionsOutputResponse, ListFieldOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListFieldOptionsOutputResponse, ListFieldOptionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFieldOptionsOutputResponse, ListFieldOptionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -780,6 +796,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFieldsInput, ListFieldsOutputResponse, ListFieldsOutputError>(id: "listFields")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFieldsInput, ListFieldsOutputResponse, ListFieldsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFieldsInput, ListFieldsOutputResponse>())
@@ -793,7 +810,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFieldsOutputResponse, ListFieldsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListFieldsOutputResponse, ListFieldsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFieldsOutputResponse, ListFieldsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -813,6 +830,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLayoutsInput, ListLayoutsOutputResponse, ListLayoutsOutputError>(id: "listLayouts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLayoutsInput, ListLayoutsOutputResponse, ListLayoutsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLayoutsInput, ListLayoutsOutputResponse>())
@@ -826,7 +844,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLayoutsOutputResponse, ListLayoutsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListLayoutsOutputResponse, ListLayoutsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLayoutsOutputResponse, ListLayoutsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -846,6 +864,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -858,7 +877,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -878,6 +897,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTemplatesInput, ListTemplatesOutputResponse, ListTemplatesOutputError>(id: "listTemplates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTemplatesInput, ListTemplatesOutputResponse, ListTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTemplatesInput, ListTemplatesOutputResponse>())
@@ -891,7 +911,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTemplatesOutputResponse, ListTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTemplatesOutputResponse, ListTemplatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTemplatesOutputResponse, ListTemplatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -911,6 +931,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutCaseEventConfigurationInput, PutCaseEventConfigurationOutputResponse, PutCaseEventConfigurationOutputError>(id: "putCaseEventConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutCaseEventConfigurationInput, PutCaseEventConfigurationOutputResponse, PutCaseEventConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutCaseEventConfigurationInput, PutCaseEventConfigurationOutputResponse>())
@@ -926,7 +947,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutCaseEventConfigurationOutputResponse, PutCaseEventConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutCaseEventConfigurationOutputResponse, PutCaseEventConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutCaseEventConfigurationOutputResponse, PutCaseEventConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -946,6 +967,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchCasesInput, SearchCasesOutputResponse, SearchCasesOutputError>(id: "searchCases")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchCasesInput, SearchCasesOutputResponse, SearchCasesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchCasesInput, SearchCasesOutputResponse>())
@@ -961,7 +983,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchCasesOutputResponse, SearchCasesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchCasesOutputResponse, SearchCasesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchCasesOutputResponse, SearchCasesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -981,6 +1003,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchRelatedItemsInput, SearchRelatedItemsOutputResponse, SearchRelatedItemsOutputError>(id: "searchRelatedItems")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchRelatedItemsInput, SearchRelatedItemsOutputResponse, SearchRelatedItemsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchRelatedItemsInput, SearchRelatedItemsOutputResponse>())
@@ -996,7 +1019,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchRelatedItemsOutputResponse, SearchRelatedItemsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchRelatedItemsOutputResponse, SearchRelatedItemsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchRelatedItemsOutputResponse, SearchRelatedItemsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1016,6 +1039,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1031,7 +1055,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1051,6 +1075,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1064,7 +1089,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1084,6 +1109,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateCaseInput, UpdateCaseOutputResponse, UpdateCaseOutputError>(id: "updateCase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCaseInput, UpdateCaseOutputResponse, UpdateCaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCaseInput, UpdateCaseOutputResponse>())
@@ -1099,7 +1125,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCaseOutputResponse, UpdateCaseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateCaseOutputResponse, UpdateCaseOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCaseOutputResponse, UpdateCaseOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1119,6 +1145,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFieldInput, UpdateFieldOutputResponse, UpdateFieldOutputError>(id: "updateField")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFieldInput, UpdateFieldOutputResponse, UpdateFieldOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFieldInput, UpdateFieldOutputResponse>())
@@ -1134,7 +1161,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFieldOutputResponse, UpdateFieldOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateFieldOutputResponse, UpdateFieldOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFieldOutputResponse, UpdateFieldOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1154,6 +1181,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateLayoutInput, UpdateLayoutOutputResponse, UpdateLayoutOutputError>(id: "updateLayout")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLayoutInput, UpdateLayoutOutputResponse, UpdateLayoutOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLayoutInput, UpdateLayoutOutputResponse>())
@@ -1169,7 +1197,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLayoutOutputResponse, UpdateLayoutOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateLayoutOutputResponse, UpdateLayoutOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLayoutOutputResponse, UpdateLayoutOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1189,6 +1217,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "cases")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTemplateInput, UpdateTemplateOutputResponse, UpdateTemplateOutputError>(id: "updateTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTemplateInput, UpdateTemplateOutputResponse, UpdateTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTemplateInput, UpdateTemplateOutputResponse>())
@@ -1204,7 +1233,7 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTemplateOutputResponse, UpdateTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateTemplateOutputResponse, UpdateTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTemplateOutputResponse, UpdateTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

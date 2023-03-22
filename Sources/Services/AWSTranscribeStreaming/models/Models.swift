@@ -116,38 +116,23 @@ extension TranscribeStreamingClientTypes {
 
 }
 
-extension TranscribeStreamingClientTypes.AudioStream: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case audioevent = "AudioEvent"
-        case configurationevent = "ConfigurationEvent"
-        case sdkUnknown
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+extension TranscribeStreamingClientTypes.AudioStream: ClientRuntime.MessageMarshallable {
+    public func marshall(encoder: ClientRuntime.RequestEncoder) throws -> ClientRuntime.EventStream.Message {
+        var headers: [ClientRuntime.EventStream.Header] = [.init(name: ":message-type", value: .string("event"))]
+        var payload: ClientRuntime.Data? = nil
         switch self {
-            case let .audioevent(audioevent):
-                try container.encode(audioevent, forKey: .audioevent)
-            case let .configurationevent(configurationevent):
-                try container.encode(configurationevent, forKey: .configurationevent)
-            case let .sdkUnknown(sdkUnknown):
-                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        case .audioevent(let value):
+            headers.append(.init(name: ":event-type", value: .string("AudioEvent")))
+            headers.append(.init(name: ":content-type", value: .string("application/octet-stream")))
+            payload = value.audioChunk
+        case .configurationevent(let value):
+            headers.append(.init(name: ":event-type", value: .string("ConfigurationEvent")))
+            headers.append(.init(name: ":content-type", value: .string("application/json")))
+            payload = try encoder.encode(value)
+        case .sdkUnknown(_):
+            throw ClientRuntime.ClientError.serializationFailed("cannot serialize the unknown event type!")
         }
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        let audioeventDecoded = try values.decodeIfPresent(TranscribeStreamingClientTypes.AudioEvent.self, forKey: .audioevent)
-        if let audioevent = audioeventDecoded {
-            self = .audioevent(audioevent)
-            return
-        }
-        let configurationeventDecoded = try values.decodeIfPresent(TranscribeStreamingClientTypes.ConfigurationEvent.self, forKey: .configurationevent)
-        if let configurationevent = configurationeventDecoded {
-            self = .configurationevent(configurationevent)
-            return
-        }
-        self = .sdkUnknown("")
+        return ClientRuntime.EventStream.Message(headers: headers, payload: payload ?? .init())
     }
 }
 
@@ -199,7 +184,7 @@ extension BadRequestException {
 }
 
 /// One or more arguments to the StartStreamTranscription, StartMedicalStreamTranscription, or StartCallAnalyticsStreamTranscription operation was not valid. For example, MediaEncoding or LanguageCode used not valid values. Check the specified parameters and try your request again.
-public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -466,78 +451,44 @@ extension TranscribeStreamingClientTypes {
     }
 }
 
-extension TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case badrequestexception = "BadRequestException"
-        case categoryevent = "CategoryEvent"
-        case conflictexception = "ConflictException"
-        case internalfailureexception = "InternalFailureException"
-        case limitexceededexception = "LimitExceededException"
-        case serviceunavailableexception = "ServiceUnavailableException"
-        case utteranceevent = "UtteranceEvent"
-        case sdkUnknown
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        switch self {
-            case let .badrequestexception(badrequestexception):
-                try container.encode(badrequestexception, forKey: .badrequestexception)
-            case let .categoryevent(categoryevent):
-                try container.encode(categoryevent, forKey: .categoryevent)
-            case let .conflictexception(conflictexception):
-                try container.encode(conflictexception, forKey: .conflictexception)
-            case let .internalfailureexception(internalfailureexception):
-                try container.encode(internalfailureexception, forKey: .internalfailureexception)
-            case let .limitexceededexception(limitexceededexception):
-                try container.encode(limitexceededexception, forKey: .limitexceededexception)
-            case let .serviceunavailableexception(serviceunavailableexception):
-                try container.encode(serviceunavailableexception, forKey: .serviceunavailableexception)
-            case let .utteranceevent(utteranceevent):
-                try container.encode(utteranceevent, forKey: .utteranceevent)
-            case let .sdkUnknown(sdkUnknown):
-                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+extension TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream: ClientRuntime.MessageUnmarshallable {
+    public init(message: ClientRuntime.EventStream.Message, decoder: ClientRuntime.ResponseDecoder) throws {
+        switch try message.type() {
+        case .event(let params):
+            switch params.eventType {
+            case "UtteranceEvent":
+                self = .utteranceevent(try decoder.decode(responseBody: message.payload))
+            case "CategoryEvent":
+                self = .categoryevent(try decoder.decode(responseBody: message.payload))
+            default:
+                self = .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
+            }
+        case .exception(let params):
+            let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                switch params.exceptionType {
+                case "BadRequestException":
+                    return try decoder.decode(responseBody: message.payload) as BadRequestException
+                case "LimitExceededException":
+                    return try decoder.decode(responseBody: message.payload) as LimitExceededException
+                case "InternalFailureException":
+                    return try decoder.decode(responseBody: message.payload) as InternalFailureException
+                case "ConflictException":
+                    return try decoder.decode(responseBody: message.payload) as ConflictException
+                case "ServiceUnavailableException":
+                    return try decoder.decode(responseBody: message.payload) as ServiceUnavailableException
+                default:
+                    let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                    return AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")")
+                }
+            }
+            let error = try makeError(message, params)
+            throw error
+        case .error(let params):
+            let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+            throw AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")")
+        case .unknown(messageType: let messageType):
+            throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
         }
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        let utteranceeventDecoded = try values.decodeIfPresent(TranscribeStreamingClientTypes.UtteranceEvent.self, forKey: .utteranceevent)
-        if let utteranceevent = utteranceeventDecoded {
-            self = .utteranceevent(utteranceevent)
-            return
-        }
-        let categoryeventDecoded = try values.decodeIfPresent(TranscribeStreamingClientTypes.CategoryEvent.self, forKey: .categoryevent)
-        if let categoryevent = categoryeventDecoded {
-            self = .categoryevent(categoryevent)
-            return
-        }
-        let badrequestexceptionDecoded = try values.decodeIfPresent(BadRequestException.self, forKey: .badrequestexception)
-        if let badrequestexception = badrequestexceptionDecoded {
-            self = .badrequestexception(badrequestexception)
-            return
-        }
-        let limitexceededexceptionDecoded = try values.decodeIfPresent(LimitExceededException.self, forKey: .limitexceededexception)
-        if let limitexceededexception = limitexceededexceptionDecoded {
-            self = .limitexceededexception(limitexceededexception)
-            return
-        }
-        let internalfailureexceptionDecoded = try values.decodeIfPresent(InternalFailureException.self, forKey: .internalfailureexception)
-        if let internalfailureexception = internalfailureexceptionDecoded {
-            self = .internalfailureexception(internalfailureexception)
-            return
-        }
-        let conflictexceptionDecoded = try values.decodeIfPresent(ConflictException.self, forKey: .conflictexception)
-        if let conflictexception = conflictexceptionDecoded {
-            self = .conflictexception(conflictexception)
-            return
-        }
-        let serviceunavailableexceptionDecoded = try values.decodeIfPresent(ServiceUnavailableException.self, forKey: .serviceunavailableexception)
-        if let serviceunavailableexception = serviceunavailableexceptionDecoded {
-            self = .serviceunavailableexception(serviceunavailableexception)
-            return
-        }
-        self = .sdkUnknown("")
     }
 }
 
@@ -548,16 +499,6 @@ extension TranscribeStreamingClientTypes {
         case utteranceevent(TranscribeStreamingClientTypes.UtteranceEvent)
         /// Provides information on matched categories that were used to generate real-time supervisor alerts.
         case categoryevent(TranscribeStreamingClientTypes.CategoryEvent)
-        /// One or more arguments to the StartStreamTranscription, StartMedicalStreamTranscription, or StartCallAnalyticsStreamTranscription operation was not valid. For example, MediaEncoding or LanguageCode used not valid values. Check the specified parameters and try your request again.
-        case badrequestexception(BadRequestException)
-        /// Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
-        case limitexceededexception(LimitExceededException)
-        /// A problem occurred while processing the audio. Amazon Transcribe terminated processing.
-        case internalfailureexception(InternalFailureException)
-        /// A new stream started with the same session ID. The current stream has been terminated.
-        case conflictexception(ConflictException)
-        /// The service is currently unavailable. Try your request later.
-        case serviceunavailableexception(ServiceUnavailableException)
         case sdkUnknown(Swift.String)
     }
 
@@ -817,7 +758,7 @@ extension ConflictException {
 }
 
 /// A new stream started with the same session ID. The current stream has been terminated.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1062,7 +1003,7 @@ extension InternalFailureException {
 }
 
 /// A problem occurred while processing the audio. Amazon Transcribe terminated processing.
-public struct InternalFailureException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalFailureException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1417,7 +1358,7 @@ extension LimitExceededException {
 }
 
 /// Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1933,70 +1874,42 @@ extension TranscribeStreamingClientTypes {
 
 }
 
-extension TranscribeStreamingClientTypes.MedicalTranscriptResultStream: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case badrequestexception = "BadRequestException"
-        case conflictexception = "ConflictException"
-        case internalfailureexception = "InternalFailureException"
-        case limitexceededexception = "LimitExceededException"
-        case serviceunavailableexception = "ServiceUnavailableException"
-        case transcriptevent = "TranscriptEvent"
-        case sdkUnknown
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        switch self {
-            case let .badrequestexception(badrequestexception):
-                try container.encode(badrequestexception, forKey: .badrequestexception)
-            case let .conflictexception(conflictexception):
-                try container.encode(conflictexception, forKey: .conflictexception)
-            case let .internalfailureexception(internalfailureexception):
-                try container.encode(internalfailureexception, forKey: .internalfailureexception)
-            case let .limitexceededexception(limitexceededexception):
-                try container.encode(limitexceededexception, forKey: .limitexceededexception)
-            case let .serviceunavailableexception(serviceunavailableexception):
-                try container.encode(serviceunavailableexception, forKey: .serviceunavailableexception)
-            case let .transcriptevent(transcriptevent):
-                try container.encode(transcriptevent, forKey: .transcriptevent)
-            case let .sdkUnknown(sdkUnknown):
-                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+extension TranscribeStreamingClientTypes.MedicalTranscriptResultStream: ClientRuntime.MessageUnmarshallable {
+    public init(message: ClientRuntime.EventStream.Message, decoder: ClientRuntime.ResponseDecoder) throws {
+        switch try message.type() {
+        case .event(let params):
+            switch params.eventType {
+            case "TranscriptEvent":
+                self = .transcriptevent(try decoder.decode(responseBody: message.payload))
+            default:
+                self = .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
+            }
+        case .exception(let params):
+            let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                switch params.exceptionType {
+                case "BadRequestException":
+                    return try decoder.decode(responseBody: message.payload) as BadRequestException
+                case "LimitExceededException":
+                    return try decoder.decode(responseBody: message.payload) as LimitExceededException
+                case "InternalFailureException":
+                    return try decoder.decode(responseBody: message.payload) as InternalFailureException
+                case "ConflictException":
+                    return try decoder.decode(responseBody: message.payload) as ConflictException
+                case "ServiceUnavailableException":
+                    return try decoder.decode(responseBody: message.payload) as ServiceUnavailableException
+                default:
+                    let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                    return AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")")
+                }
+            }
+            let error = try makeError(message, params)
+            throw error
+        case .error(let params):
+            let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+            throw AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")")
+        case .unknown(messageType: let messageType):
+            throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
         }
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        let transcripteventDecoded = try values.decodeIfPresent(TranscribeStreamingClientTypes.MedicalTranscriptEvent.self, forKey: .transcriptevent)
-        if let transcriptevent = transcripteventDecoded {
-            self = .transcriptevent(transcriptevent)
-            return
-        }
-        let badrequestexceptionDecoded = try values.decodeIfPresent(BadRequestException.self, forKey: .badrequestexception)
-        if let badrequestexception = badrequestexceptionDecoded {
-            self = .badrequestexception(badrequestexception)
-            return
-        }
-        let limitexceededexceptionDecoded = try values.decodeIfPresent(LimitExceededException.self, forKey: .limitexceededexception)
-        if let limitexceededexception = limitexceededexceptionDecoded {
-            self = .limitexceededexception(limitexceededexception)
-            return
-        }
-        let internalfailureexceptionDecoded = try values.decodeIfPresent(InternalFailureException.self, forKey: .internalfailureexception)
-        if let internalfailureexception = internalfailureexceptionDecoded {
-            self = .internalfailureexception(internalfailureexception)
-            return
-        }
-        let conflictexceptionDecoded = try values.decodeIfPresent(ConflictException.self, forKey: .conflictexception)
-        if let conflictexception = conflictexceptionDecoded {
-            self = .conflictexception(conflictexception)
-            return
-        }
-        let serviceunavailableexceptionDecoded = try values.decodeIfPresent(ServiceUnavailableException.self, forKey: .serviceunavailableexception)
-        if let serviceunavailableexception = serviceunavailableexceptionDecoded {
-            self = .serviceunavailableexception(serviceunavailableexception)
-            return
-        }
-        self = .sdkUnknown("")
     }
 }
 
@@ -2005,16 +1918,6 @@ extension TranscribeStreamingClientTypes {
     public enum MedicalTranscriptResultStream: Swift.Equatable {
         /// The MedicalTranscriptEvent associated with a MedicalTranscriptResultStream. Contains a set of transcription results from one or more audio segments, along with additional information per your request parameters. This can include information relating to alternative transcriptions, channel identification, partial result stabilization, language identification, and other transcription-related data.
         case transcriptevent(TranscribeStreamingClientTypes.MedicalTranscriptEvent)
-        /// One or more arguments to the StartStreamTranscription, StartMedicalStreamTranscription, or StartCallAnalyticsStreamTranscription operation was not valid. For example, MediaEncoding or LanguageCode used not valid values. Check the specified parameters and try your request again.
-        case badrequestexception(BadRequestException)
-        /// Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
-        case limitexceededexception(LimitExceededException)
-        /// A problem occurred while processing the audio. Amazon Transcribe terminated processing.
-        case internalfailureexception(InternalFailureException)
-        /// A new stream started with the same session ID. The current stream has been terminated.
-        case conflictexception(ConflictException)
-        /// The service is currently unavailable. Try your request later.
-        case serviceunavailableexception(ServiceUnavailableException)
         case sdkUnknown(Swift.String)
     }
 
@@ -2428,7 +2331,7 @@ extension ServiceUnavailableException {
 }
 
 /// The service is currently unavailable. Try your request later.
-public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2522,9 +2425,14 @@ public struct StartCallAnalyticsStreamTranscriptionInputBodyMiddleware: ClientRu
         do {
             let encoder = context.getEncoder()
             if let audioStream = input.operationInput.audioStream {
-                let audioStreamData = try encoder.encode(audioStream)
-                let audioStreamBody = ClientRuntime.HttpBody.data(audioStreamData)
-                input.builder.withBody(audioStreamBody)
+                guard let messageEncoder = context.getMessageEncoder() else {
+                    fatalError("Message encoder is required for streaming payload")
+                }
+                guard let messageSigner = context.getMessageSigner() else {
+                    fatalError("Message signer is required for streaming payload")
+                }
+                let encoderStream = ClientRuntime.EventStream.DefaultMessageEncoderStream(stream: audioStream, messageEncoder: messageEncoder, requestEncoder: encoder, messageSinger: messageSigner)
+                input.builder.withBody(.stream(encoderStream))
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
@@ -2542,19 +2450,6 @@ public struct StartCallAnalyticsStreamTranscriptionInputBodyMiddleware: ClientRu
     public typealias MInput = ClientRuntime.SerializeStepInput<StartCallAnalyticsStreamTranscriptionInput>
     public typealias MOutput = ClientRuntime.OperationOutput<StartCallAnalyticsStreamTranscriptionOutputResponse>
     public typealias Context = ClientRuntime.HttpContext
-}
-
-extension StartCallAnalyticsStreamTranscriptionInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case audioStream = "AudioStream"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let audioStream = self.audioStream {
-            try encodeContainer.encode(audioStream, forKey: .audioStream)
-        }
-    }
 }
 
 extension StartCallAnalyticsStreamTranscriptionInput: ClientRuntime.HeaderProvider {
@@ -2612,7 +2507,7 @@ extension StartCallAnalyticsStreamTranscriptionInput: ClientRuntime.URLPathProvi
 public struct StartCallAnalyticsStreamTranscriptionInput: Swift.Equatable {
     /// An encoded stream of audio blobs. Audio streams are encoded as either HTTP/2 or WebSocket data frames. For more information, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
     /// This member is required.
-    public var audioStream: TranscribeStreamingClientTypes.AudioStream?
+    public var audioStream: AsyncThrowingStream<TranscribeStreamingClientTypes.AudioStream, Swift.Error>?
     /// Labels all personally identifiable information (PII) identified in your transcript. Content identification is performed at the segment level; PII specified in PiiEntityTypes is flagged upon complete transcription of an audio segment. You can’t set ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request returns a BadRequestException. For more information, see [Redacting or identifying personally identifiable information](https://docs.aws.amazon.com/transcribe/latest/dg/pii-redaction.html).
     public var contentIdentificationType: TranscribeStreamingClientTypes.ContentIdentificationType?
     /// Redacts all personally identifiable information (PII) identified in your transcript. Content redaction is performed at the segment level; PII specified in PiiEntityTypes is redacted upon complete transcription of an audio segment. You can’t set ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException. For more information, see [Redacting or identifying personally identifiable information](https://docs.aws.amazon.com/transcribe/latest/dg/pii-redaction.html).
@@ -2653,7 +2548,7 @@ public struct StartCallAnalyticsStreamTranscriptionInput: Swift.Equatable {
     public var vocabularyName: Swift.String?
 
     public init (
-        audioStream: TranscribeStreamingClientTypes.AudioStream? = nil,
+        audioStream: AsyncThrowingStream<TranscribeStreamingClientTypes.AudioStream, Swift.Error>? = nil,
         contentIdentificationType: TranscribeStreamingClientTypes.ContentIdentificationType? = nil,
         contentRedactionType: TranscribeStreamingClientTypes.ContentRedactionType? = nil,
         enablePartialResultsStabilization: Swift.Bool = false,
@@ -2686,24 +2581,8 @@ public struct StartCallAnalyticsStreamTranscriptionInput: Swift.Equatable {
     }
 }
 
-struct StartCallAnalyticsStreamTranscriptionInputBody: Swift.Equatable {
-    let audioStream: TranscribeStreamingClientTypes.AudioStream?
-}
-
-extension StartCallAnalyticsStreamTranscriptionInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case audioStream = "AudioStream"
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let audioStreamDecoded = try containerValues.decodeIfPresent(TranscribeStreamingClientTypes.AudioStream.self, forKey: .audioStream)
-        audioStream = audioStreamDecoded
-    }
-}
-
 extension StartCallAnalyticsStreamTranscriptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -2733,7 +2612,7 @@ public enum StartCallAnalyticsStreamTranscriptionOutputError: Swift.Error, Swift
 }
 
 extension StartCallAnalyticsStreamTranscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let contentIdentificationTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-content-identification-type") {
             self.contentIdentificationType = TranscribeStreamingClientTypes.ContentIdentificationType(rawValue: contentIdentificationTypeHeaderValue)
         } else {
@@ -2804,9 +2683,9 @@ extension StartCallAnalyticsStreamTranscriptionOutputResponse: ClientRuntime.Htt
         } else {
             self.vocabularyName = nil
         }
-        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
-            let output: TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream = try responseDecoder.decode(responseBody: data)
-            self.callAnalyticsTranscriptResultStream = output
+        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder, let messageDecoder = messageDecoder {
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            self.callAnalyticsTranscriptResultStream = decoderStream.toAsyncStream()
         } else {
             self.callAnalyticsTranscriptResultStream = nil
         }
@@ -2815,7 +2694,7 @@ extension StartCallAnalyticsStreamTranscriptionOutputResponse: ClientRuntime.Htt
 
 public struct StartCallAnalyticsStreamTranscriptionOutputResponse: Swift.Equatable {
     /// Provides detailed information about your Call Analytics streaming session.
-    public var callAnalyticsTranscriptResultStream: TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream?
+    public var callAnalyticsTranscriptResultStream: AsyncThrowingStream<TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream, Swift.Error>?
     /// Shows whether content identification was enabled for your Call Analytics transcription.
     public var contentIdentificationType: TranscribeStreamingClientTypes.ContentIdentificationType?
     /// Shows whether content redaction was enabled for your Call Analytics transcription.
@@ -2846,7 +2725,7 @@ public struct StartCallAnalyticsStreamTranscriptionOutputResponse: Swift.Equatab
     public var vocabularyName: Swift.String?
 
     public init (
-        callAnalyticsTranscriptResultStream: TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream? = nil,
+        callAnalyticsTranscriptResultStream: AsyncThrowingStream<TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream, Swift.Error>? = nil,
         contentIdentificationType: TranscribeStreamingClientTypes.ContentIdentificationType? = nil,
         contentRedactionType: TranscribeStreamingClientTypes.ContentRedactionType? = nil,
         enablePartialResultsStabilization: Swift.Bool = false,
@@ -2881,22 +2760,6 @@ public struct StartCallAnalyticsStreamTranscriptionOutputResponse: Swift.Equatab
     }
 }
 
-struct StartCallAnalyticsStreamTranscriptionOutputResponseBody: Swift.Equatable {
-    let callAnalyticsTranscriptResultStream: TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream?
-}
-
-extension StartCallAnalyticsStreamTranscriptionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case callAnalyticsTranscriptResultStream = "CallAnalyticsTranscriptResultStream"
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let callAnalyticsTranscriptResultStreamDecoded = try containerValues.decodeIfPresent(TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream.self, forKey: .callAnalyticsTranscriptResultStream)
-        callAnalyticsTranscriptResultStream = callAnalyticsTranscriptResultStreamDecoded
-    }
-}
-
 public struct StartMedicalStreamTranscriptionInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "StartMedicalStreamTranscriptionInputBodyMiddleware"
 
@@ -2913,9 +2776,14 @@ public struct StartMedicalStreamTranscriptionInputBodyMiddleware: ClientRuntime.
         do {
             let encoder = context.getEncoder()
             if let audioStream = input.operationInput.audioStream {
-                let audioStreamData = try encoder.encode(audioStream)
-                let audioStreamBody = ClientRuntime.HttpBody.data(audioStreamData)
-                input.builder.withBody(audioStreamBody)
+                guard let messageEncoder = context.getMessageEncoder() else {
+                    fatalError("Message encoder is required for streaming payload")
+                }
+                guard let messageSigner = context.getMessageSigner() else {
+                    fatalError("Message signer is required for streaming payload")
+                }
+                let encoderStream = ClientRuntime.EventStream.DefaultMessageEncoderStream(stream: audioStream, messageEncoder: messageEncoder, requestEncoder: encoder, messageSinger: messageSigner)
+                input.builder.withBody(.stream(encoderStream))
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
@@ -2933,19 +2801,6 @@ public struct StartMedicalStreamTranscriptionInputBodyMiddleware: ClientRuntime.
     public typealias MInput = ClientRuntime.SerializeStepInput<StartMedicalStreamTranscriptionInput>
     public typealias MOutput = ClientRuntime.OperationOutput<StartMedicalStreamTranscriptionOutputResponse>
     public typealias Context = ClientRuntime.HttpContext
-}
-
-extension StartMedicalStreamTranscriptionInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case audioStream = "AudioStream"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let audioStream = self.audioStream {
-            try encodeContainer.encode(audioStream, forKey: .audioStream)
-        }
-    }
 }
 
 extension StartMedicalStreamTranscriptionInput: ClientRuntime.HeaderProvider {
@@ -2997,7 +2852,7 @@ extension StartMedicalStreamTranscriptionInput: ClientRuntime.URLPathProvider {
 public struct StartMedicalStreamTranscriptionInput: Swift.Equatable {
     /// An encoded stream of audio blobs. Audio streams are encoded as either HTTP/2 or WebSocket data frames. For more information, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
     /// This member is required.
-    public var audioStream: TranscribeStreamingClientTypes.AudioStream?
+    public var audioStream: AsyncThrowingStream<TranscribeStreamingClientTypes.AudioStream, Swift.Error>?
     /// Labels all personal health information (PHI) identified in your transcript. Content identification is performed at the segment level; PHI is flagged upon complete transcription of an audio segment. For more information, see [Identifying personal health information (PHI) in a transcription](https://docs.aws.amazon.com/transcribe/latest/dg/phi-id.html).
     public var contentIdentificationType: TranscribeStreamingClientTypes.MedicalContentIdentificationType?
     /// Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel independently, then appends the output for each channel into one transcript. If you have multi-channel audio and do not enable channel identification, your audio is transcribed in a continuous manner and your transcript is not separated by channel. For more information, see [Transcribing multi-channel audio](https://docs.aws.amazon.com/transcribe/latest/dg/channel-id.html).
@@ -3036,7 +2891,7 @@ public struct StartMedicalStreamTranscriptionInput: Swift.Equatable {
     public var vocabularyName: Swift.String?
 
     public init (
-        audioStream: TranscribeStreamingClientTypes.AudioStream? = nil,
+        audioStream: AsyncThrowingStream<TranscribeStreamingClientTypes.AudioStream, Swift.Error>? = nil,
         contentIdentificationType: TranscribeStreamingClientTypes.MedicalContentIdentificationType? = nil,
         enableChannelIdentification: Swift.Bool = false,
         languageCode: TranscribeStreamingClientTypes.LanguageCode? = nil,
@@ -3065,24 +2920,8 @@ public struct StartMedicalStreamTranscriptionInput: Swift.Equatable {
     }
 }
 
-struct StartMedicalStreamTranscriptionInputBody: Swift.Equatable {
-    let audioStream: TranscribeStreamingClientTypes.AudioStream?
-}
-
-extension StartMedicalStreamTranscriptionInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case audioStream = "AudioStream"
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let audioStreamDecoded = try containerValues.decodeIfPresent(TranscribeStreamingClientTypes.AudioStream.self, forKey: .audioStream)
-        audioStream = audioStreamDecoded
-    }
-}
-
 extension StartMedicalStreamTranscriptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -3112,7 +2951,7 @@ public enum StartMedicalStreamTranscriptionOutputError: Swift.Error, Swift.Equat
 }
 
 extension StartMedicalStreamTranscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let contentIdentificationTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-content-identification-type") {
             self.contentIdentificationType = TranscribeStreamingClientTypes.MedicalContentIdentificationType(rawValue: contentIdentificationTypeHeaderValue)
         } else {
@@ -3173,9 +3012,9 @@ extension StartMedicalStreamTranscriptionOutputResponse: ClientRuntime.HttpRespo
         } else {
             self.vocabularyName = nil
         }
-        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
-            let output: TranscribeStreamingClientTypes.MedicalTranscriptResultStream = try responseDecoder.decode(responseBody: data)
-            self.transcriptResultStream = output
+        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder, let messageDecoder = messageDecoder {
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<TranscribeStreamingClientTypes.MedicalTranscriptResultStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            self.transcriptResultStream = decoderStream.toAsyncStream()
         } else {
             self.transcriptResultStream = nil
         }
@@ -3204,7 +3043,7 @@ public struct StartMedicalStreamTranscriptionOutputResponse: Swift.Equatable {
     /// Provides the medical specialty that you specified in your request.
     public var specialty: TranscribeStreamingClientTypes.Specialty?
     /// Provides detailed information about your streaming session.
-    public var transcriptResultStream: TranscribeStreamingClientTypes.MedicalTranscriptResultStream?
+    public var transcriptResultStream: AsyncThrowingStream<TranscribeStreamingClientTypes.MedicalTranscriptResultStream, Swift.Error>?
     /// Provides the type of audio you specified in your request.
     public var type: TranscribeStreamingClientTypes.ModelType?
     /// Provides the name of the custom vocabulary that you specified in your request.
@@ -3221,7 +3060,7 @@ public struct StartMedicalStreamTranscriptionOutputResponse: Swift.Equatable {
         sessionId: Swift.String? = nil,
         showSpeakerLabel: Swift.Bool = false,
         specialty: TranscribeStreamingClientTypes.Specialty? = nil,
-        transcriptResultStream: TranscribeStreamingClientTypes.MedicalTranscriptResultStream? = nil,
+        transcriptResultStream: AsyncThrowingStream<TranscribeStreamingClientTypes.MedicalTranscriptResultStream, Swift.Error>? = nil,
         type: TranscribeStreamingClientTypes.ModelType? = nil,
         vocabularyName: Swift.String? = nil
     )
@@ -3242,22 +3081,6 @@ public struct StartMedicalStreamTranscriptionOutputResponse: Swift.Equatable {
     }
 }
 
-struct StartMedicalStreamTranscriptionOutputResponseBody: Swift.Equatable {
-    let transcriptResultStream: TranscribeStreamingClientTypes.MedicalTranscriptResultStream?
-}
-
-extension StartMedicalStreamTranscriptionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case transcriptResultStream = "TranscriptResultStream"
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let transcriptResultStreamDecoded = try containerValues.decodeIfPresent(TranscribeStreamingClientTypes.MedicalTranscriptResultStream.self, forKey: .transcriptResultStream)
-        transcriptResultStream = transcriptResultStreamDecoded
-    }
-}
-
 public struct StartStreamTranscriptionInputBodyMiddleware: ClientRuntime.Middleware {
     public let id: Swift.String = "StartStreamTranscriptionInputBodyMiddleware"
 
@@ -3274,9 +3097,14 @@ public struct StartStreamTranscriptionInputBodyMiddleware: ClientRuntime.Middlew
         do {
             let encoder = context.getEncoder()
             if let audioStream = input.operationInput.audioStream {
-                let audioStreamData = try encoder.encode(audioStream)
-                let audioStreamBody = ClientRuntime.HttpBody.data(audioStreamData)
-                input.builder.withBody(audioStreamBody)
+                guard let messageEncoder = context.getMessageEncoder() else {
+                    fatalError("Message encoder is required for streaming payload")
+                }
+                guard let messageSigner = context.getMessageSigner() else {
+                    fatalError("Message signer is required for streaming payload")
+                }
+                let encoderStream = ClientRuntime.EventStream.DefaultMessageEncoderStream(stream: audioStream, messageEncoder: messageEncoder, requestEncoder: encoder, messageSinger: messageSigner)
+                input.builder.withBody(.stream(encoderStream))
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
@@ -3294,19 +3122,6 @@ public struct StartStreamTranscriptionInputBodyMiddleware: ClientRuntime.Middlew
     public typealias MInput = ClientRuntime.SerializeStepInput<StartStreamTranscriptionInput>
     public typealias MOutput = ClientRuntime.OperationOutput<StartStreamTranscriptionOutputResponse>
     public typealias Context = ClientRuntime.HttpContext
-}
-
-extension StartStreamTranscriptionInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case audioStream = "AudioStream"
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let audioStream = self.audioStream {
-            try encodeContainer.encode(audioStream, forKey: .audioStream)
-        }
-    }
 }
 
 extension StartStreamTranscriptionInput: ClientRuntime.HeaderProvider {
@@ -3388,7 +3203,7 @@ extension StartStreamTranscriptionInput: ClientRuntime.URLPathProvider {
 public struct StartStreamTranscriptionInput: Swift.Equatable {
     /// An encoded stream of audio blobs. Audio streams are encoded as either HTTP/2 or WebSocket data frames. For more information, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
     /// This member is required.
-    public var audioStream: TranscribeStreamingClientTypes.AudioStream?
+    public var audioStream: AsyncThrowingStream<TranscribeStreamingClientTypes.AudioStream, Swift.Error>?
     /// Labels all personally identifiable information (PII) identified in your transcript. Content identification is performed at the segment level; PII specified in PiiEntityTypes is flagged upon complete transcription of an audio segment. You can’t set ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request returns a BadRequestException. For more information, see [Redacting or identifying personally identifiable information](https://docs.aws.amazon.com/transcribe/latest/dg/pii-redaction.html).
     public var contentIdentificationType: TranscribeStreamingClientTypes.ContentIdentificationType?
     /// Redacts all personally identifiable information (PII) identified in your transcript. Content redaction is performed at the segment level; PII specified in PiiEntityTypes is redacted upon complete transcription of an audio segment. You can’t set ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException. For more information, see [Redacting or identifying personally identifiable information](https://docs.aws.amazon.com/transcribe/latest/dg/pii-redaction.html).
@@ -3444,7 +3259,7 @@ public struct StartStreamTranscriptionInput: Swift.Equatable {
     public var vocabularyNames: Swift.String?
 
     public init (
-        audioStream: TranscribeStreamingClientTypes.AudioStream? = nil,
+        audioStream: AsyncThrowingStream<TranscribeStreamingClientTypes.AudioStream, Swift.Error>? = nil,
         contentIdentificationType: TranscribeStreamingClientTypes.ContentIdentificationType? = nil,
         contentRedactionType: TranscribeStreamingClientTypes.ContentRedactionType? = nil,
         enableChannelIdentification: Swift.Bool = false,
@@ -3493,24 +3308,8 @@ public struct StartStreamTranscriptionInput: Swift.Equatable {
     }
 }
 
-struct StartStreamTranscriptionInputBody: Swift.Equatable {
-    let audioStream: TranscribeStreamingClientTypes.AudioStream?
-}
-
-extension StartStreamTranscriptionInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case audioStream = "AudioStream"
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let audioStreamDecoded = try containerValues.decodeIfPresent(TranscribeStreamingClientTypes.AudioStream.self, forKey: .audioStream)
-        audioStream = audioStreamDecoded
-    }
-}
-
 extension StartStreamTranscriptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -3540,7 +3339,7 @@ public enum StartStreamTranscriptionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension StartStreamTranscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let contentIdentificationTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-content-identification-type") {
             self.contentIdentificationType = TranscribeStreamingClientTypes.ContentIdentificationType(rawValue: contentIdentificationTypeHeaderValue)
         } else {
@@ -3651,9 +3450,9 @@ extension StartStreamTranscriptionOutputResponse: ClientRuntime.HttpResponseBind
         } else {
             self.vocabularyNames = nil
         }
-        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
-            let output: TranscribeStreamingClientTypes.TranscriptResultStream = try responseDecoder.decode(responseBody: data)
-            self.transcriptResultStream = output
+        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder, let messageDecoder = messageDecoder {
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<TranscribeStreamingClientTypes.TranscriptResultStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            self.transcriptResultStream = decoderStream.toAsyncStream()
         } else {
             self.transcriptResultStream = nil
         }
@@ -3696,7 +3495,7 @@ public struct StartStreamTranscriptionOutputResponse: Swift.Equatable {
     /// Shows whether speaker partitioning was enabled for your transcription.
     public var showSpeakerLabel: Swift.Bool
     /// Provides detailed information about your streaming session.
-    public var transcriptResultStream: TranscribeStreamingClientTypes.TranscriptResultStream?
+    public var transcriptResultStream: AsyncThrowingStream<TranscribeStreamingClientTypes.TranscriptResultStream, Swift.Error>?
     /// Provides the vocabulary filtering method used in your transcription.
     public var vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod?
     /// Provides the name of the custom vocabulary filter that you specified in your request.
@@ -3726,7 +3525,7 @@ public struct StartStreamTranscriptionOutputResponse: Swift.Equatable {
         requestId: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         showSpeakerLabel: Swift.Bool = false,
-        transcriptResultStream: TranscribeStreamingClientTypes.TranscriptResultStream? = nil,
+        transcriptResultStream: AsyncThrowingStream<TranscribeStreamingClientTypes.TranscriptResultStream, Swift.Error>? = nil,
         vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod? = nil,
         vocabularyFilterName: Swift.String? = nil,
         vocabularyFilterNames: Swift.String? = nil,
@@ -3757,22 +3556,6 @@ public struct StartStreamTranscriptionOutputResponse: Swift.Equatable {
         self.vocabularyFilterNames = vocabularyFilterNames
         self.vocabularyName = vocabularyName
         self.vocabularyNames = vocabularyNames
-    }
-}
-
-struct StartStreamTranscriptionOutputResponseBody: Swift.Equatable {
-    let transcriptResultStream: TranscribeStreamingClientTypes.TranscriptResultStream?
-}
-
-extension StartStreamTranscriptionOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case transcriptResultStream = "TranscriptResultStream"
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let transcriptResultStreamDecoded = try containerValues.decodeIfPresent(TranscribeStreamingClientTypes.TranscriptResultStream.self, forKey: .transcriptResultStream)
-        transcriptResultStream = transcriptResultStreamDecoded
     }
 }
 
@@ -3903,70 +3686,42 @@ extension TranscribeStreamingClientTypes {
 
 }
 
-extension TranscribeStreamingClientTypes.TranscriptResultStream: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case badrequestexception = "BadRequestException"
-        case conflictexception = "ConflictException"
-        case internalfailureexception = "InternalFailureException"
-        case limitexceededexception = "LimitExceededException"
-        case serviceunavailableexception = "ServiceUnavailableException"
-        case transcriptevent = "TranscriptEvent"
-        case sdkUnknown
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        switch self {
-            case let .badrequestexception(badrequestexception):
-                try container.encode(badrequestexception, forKey: .badrequestexception)
-            case let .conflictexception(conflictexception):
-                try container.encode(conflictexception, forKey: .conflictexception)
-            case let .internalfailureexception(internalfailureexception):
-                try container.encode(internalfailureexception, forKey: .internalfailureexception)
-            case let .limitexceededexception(limitexceededexception):
-                try container.encode(limitexceededexception, forKey: .limitexceededexception)
-            case let .serviceunavailableexception(serviceunavailableexception):
-                try container.encode(serviceunavailableexception, forKey: .serviceunavailableexception)
-            case let .transcriptevent(transcriptevent):
-                try container.encode(transcriptevent, forKey: .transcriptevent)
-            case let .sdkUnknown(sdkUnknown):
-                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+extension TranscribeStreamingClientTypes.TranscriptResultStream: ClientRuntime.MessageUnmarshallable {
+    public init(message: ClientRuntime.EventStream.Message, decoder: ClientRuntime.ResponseDecoder) throws {
+        switch try message.type() {
+        case .event(let params):
+            switch params.eventType {
+            case "TranscriptEvent":
+                self = .transcriptevent(try decoder.decode(responseBody: message.payload))
+            default:
+                self = .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
+            }
+        case .exception(let params):
+            let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                switch params.exceptionType {
+                case "BadRequestException":
+                    return try decoder.decode(responseBody: message.payload) as BadRequestException
+                case "LimitExceededException":
+                    return try decoder.decode(responseBody: message.payload) as LimitExceededException
+                case "InternalFailureException":
+                    return try decoder.decode(responseBody: message.payload) as InternalFailureException
+                case "ConflictException":
+                    return try decoder.decode(responseBody: message.payload) as ConflictException
+                case "ServiceUnavailableException":
+                    return try decoder.decode(responseBody: message.payload) as ServiceUnavailableException
+                default:
+                    let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                    return AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")")
+                }
+            }
+            let error = try makeError(message, params)
+            throw error
+        case .error(let params):
+            let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+            throw AWSClientRuntime.UnknownAWSHttpServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")")
+        case .unknown(messageType: let messageType):
+            throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
         }
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        let transcripteventDecoded = try values.decodeIfPresent(TranscribeStreamingClientTypes.TranscriptEvent.self, forKey: .transcriptevent)
-        if let transcriptevent = transcripteventDecoded {
-            self = .transcriptevent(transcriptevent)
-            return
-        }
-        let badrequestexceptionDecoded = try values.decodeIfPresent(BadRequestException.self, forKey: .badrequestexception)
-        if let badrequestexception = badrequestexceptionDecoded {
-            self = .badrequestexception(badrequestexception)
-            return
-        }
-        let limitexceededexceptionDecoded = try values.decodeIfPresent(LimitExceededException.self, forKey: .limitexceededexception)
-        if let limitexceededexception = limitexceededexceptionDecoded {
-            self = .limitexceededexception(limitexceededexception)
-            return
-        }
-        let internalfailureexceptionDecoded = try values.decodeIfPresent(InternalFailureException.self, forKey: .internalfailureexception)
-        if let internalfailureexception = internalfailureexceptionDecoded {
-            self = .internalfailureexception(internalfailureexception)
-            return
-        }
-        let conflictexceptionDecoded = try values.decodeIfPresent(ConflictException.self, forKey: .conflictexception)
-        if let conflictexception = conflictexceptionDecoded {
-            self = .conflictexception(conflictexception)
-            return
-        }
-        let serviceunavailableexceptionDecoded = try values.decodeIfPresent(ServiceUnavailableException.self, forKey: .serviceunavailableexception)
-        if let serviceunavailableexception = serviceunavailableexceptionDecoded {
-            self = .serviceunavailableexception(serviceunavailableexception)
-            return
-        }
-        self = .sdkUnknown("")
     }
 }
 
@@ -3975,16 +3730,6 @@ extension TranscribeStreamingClientTypes {
     public enum TranscriptResultStream: Swift.Equatable {
         /// Contains Transcript, which contains Results. The  object contains a set of transcription results from one or more audio segments, along with additional information per your request parameters.
         case transcriptevent(TranscribeStreamingClientTypes.TranscriptEvent)
-        /// A client error occurred when the stream was created. Check the parameters of the request and try your request again.
-        case badrequestexception(BadRequestException)
-        /// Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
-        case limitexceededexception(LimitExceededException)
-        /// A problem occurred while processing the audio. Amazon Transcribe terminated processing.
-        case internalfailureexception(InternalFailureException)
-        /// A new stream started with the same session ID. The current stream has been terminated.
-        case conflictexception(ConflictException)
-        /// The service is currently unavailable. Try your request later.
-        case serviceunavailableexception(ServiceUnavailableException)
         case sdkUnknown(Swift.String)
     }
 

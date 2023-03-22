@@ -221,6 +221,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelImageCreationInput, CancelImageCreationOutputResponse, CancelImageCreationOutputError>(id: "cancelImageCreation")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CancelImageCreationOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -244,7 +245,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelImageCreationOutputResponse, CancelImageCreationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CancelImageCreationOutputResponse, CancelImageCreationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelImageCreationOutputResponse, CancelImageCreationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -268,6 +269,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateComponentInput, CreateComponentOutputResponse, CreateComponentOutputError>(id: "createComponent")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateComponentOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -291,7 +293,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateComponentOutputResponse, CreateComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateComponentOutputResponse, CreateComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateComponentOutputResponse, CreateComponentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -311,6 +313,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateContainerRecipeInput, CreateContainerRecipeOutputResponse, CreateContainerRecipeOutputError>(id: "createContainerRecipe")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateContainerRecipeOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -334,7 +337,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateContainerRecipeOutputResponse, CreateContainerRecipeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateContainerRecipeOutputResponse, CreateContainerRecipeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateContainerRecipeOutputResponse, CreateContainerRecipeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -354,6 +357,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDistributionConfigurationInput, CreateDistributionConfigurationOutputResponse, CreateDistributionConfigurationOutputError>(id: "createDistributionConfiguration")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateDistributionConfigurationOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -377,7 +381,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDistributionConfigurationOutputResponse, CreateDistributionConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDistributionConfigurationOutputResponse, CreateDistributionConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDistributionConfigurationOutputResponse, CreateDistributionConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -397,6 +401,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateImageInput, CreateImageOutputResponse, CreateImageOutputError>(id: "createImage")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateImageOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -420,7 +425,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateImageOutputResponse, CreateImageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateImageOutputResponse, CreateImageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateImageOutputResponse, CreateImageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -440,6 +445,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateImagePipelineInput, CreateImagePipelineOutputResponse, CreateImagePipelineOutputError>(id: "createImagePipeline")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateImagePipelineOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -463,7 +469,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateImagePipelineOutputResponse, CreateImagePipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateImagePipelineOutputResponse, CreateImagePipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateImagePipelineOutputResponse, CreateImagePipelineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -483,6 +489,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateImageRecipeInput, CreateImageRecipeOutputResponse, CreateImageRecipeOutputError>(id: "createImageRecipe")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateImageRecipeOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -506,7 +513,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateImageRecipeOutputResponse, CreateImageRecipeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateImageRecipeOutputResponse, CreateImageRecipeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateImageRecipeOutputResponse, CreateImageRecipeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -526,6 +533,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateInfrastructureConfigurationInput, CreateInfrastructureConfigurationOutputResponse, CreateInfrastructureConfigurationOutputError>(id: "createInfrastructureConfiguration")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateInfrastructureConfigurationOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -549,7 +557,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInfrastructureConfigurationOutputResponse, CreateInfrastructureConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateInfrastructureConfigurationOutputResponse, CreateInfrastructureConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInfrastructureConfigurationOutputResponse, CreateInfrastructureConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -569,6 +577,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteComponentInput, DeleteComponentOutputResponse, DeleteComponentOutputError>(id: "deleteComponent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteComponentInput, DeleteComponentOutputResponse, DeleteComponentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteComponentInput, DeleteComponentOutputResponse>())
@@ -582,7 +591,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteComponentOutputResponse, DeleteComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteComponentOutputResponse, DeleteComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteComponentOutputResponse, DeleteComponentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -602,6 +611,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteContainerRecipeInput, DeleteContainerRecipeOutputResponse, DeleteContainerRecipeOutputError>(id: "deleteContainerRecipe")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteContainerRecipeInput, DeleteContainerRecipeOutputResponse, DeleteContainerRecipeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteContainerRecipeInput, DeleteContainerRecipeOutputResponse>())
@@ -615,7 +625,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteContainerRecipeOutputResponse, DeleteContainerRecipeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteContainerRecipeOutputResponse, DeleteContainerRecipeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteContainerRecipeOutputResponse, DeleteContainerRecipeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -635,6 +645,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDistributionConfigurationInput, DeleteDistributionConfigurationOutputResponse, DeleteDistributionConfigurationOutputError>(id: "deleteDistributionConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDistributionConfigurationInput, DeleteDistributionConfigurationOutputResponse, DeleteDistributionConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDistributionConfigurationInput, DeleteDistributionConfigurationOutputResponse>())
@@ -648,7 +659,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDistributionConfigurationOutputResponse, DeleteDistributionConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDistributionConfigurationOutputResponse, DeleteDistributionConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDistributionConfigurationOutputResponse, DeleteDistributionConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -674,6 +685,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteImageInput, DeleteImageOutputResponse, DeleteImageOutputError>(id: "deleteImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteImageInput, DeleteImageOutputResponse, DeleteImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteImageInput, DeleteImageOutputResponse>())
@@ -687,7 +699,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteImageOutputResponse, DeleteImageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteImageOutputResponse, DeleteImageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteImageOutputResponse, DeleteImageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -707,6 +719,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteImagePipelineInput, DeleteImagePipelineOutputResponse, DeleteImagePipelineOutputError>(id: "deleteImagePipeline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteImagePipelineInput, DeleteImagePipelineOutputResponse, DeleteImagePipelineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteImagePipelineInput, DeleteImagePipelineOutputResponse>())
@@ -720,7 +733,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteImagePipelineOutputResponse, DeleteImagePipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteImagePipelineOutputResponse, DeleteImagePipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteImagePipelineOutputResponse, DeleteImagePipelineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -740,6 +753,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteImageRecipeInput, DeleteImageRecipeOutputResponse, DeleteImageRecipeOutputError>(id: "deleteImageRecipe")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteImageRecipeInput, DeleteImageRecipeOutputResponse, DeleteImageRecipeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteImageRecipeInput, DeleteImageRecipeOutputResponse>())
@@ -753,7 +767,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteImageRecipeOutputResponse, DeleteImageRecipeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteImageRecipeOutputResponse, DeleteImageRecipeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteImageRecipeOutputResponse, DeleteImageRecipeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -773,6 +787,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteInfrastructureConfigurationInput, DeleteInfrastructureConfigurationOutputResponse, DeleteInfrastructureConfigurationOutputError>(id: "deleteInfrastructureConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInfrastructureConfigurationInput, DeleteInfrastructureConfigurationOutputResponse, DeleteInfrastructureConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInfrastructureConfigurationInput, DeleteInfrastructureConfigurationOutputResponse>())
@@ -786,7 +801,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInfrastructureConfigurationOutputResponse, DeleteInfrastructureConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteInfrastructureConfigurationOutputResponse, DeleteInfrastructureConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInfrastructureConfigurationOutputResponse, DeleteInfrastructureConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -806,6 +821,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetComponentInput, GetComponentOutputResponse, GetComponentOutputError>(id: "getComponent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetComponentInput, GetComponentOutputResponse, GetComponentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetComponentInput, GetComponentOutputResponse>())
@@ -819,7 +835,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetComponentOutputResponse, GetComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetComponentOutputResponse, GetComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComponentOutputResponse, GetComponentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -839,6 +855,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetComponentPolicyInput, GetComponentPolicyOutputResponse, GetComponentPolicyOutputError>(id: "getComponentPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetComponentPolicyInput, GetComponentPolicyOutputResponse, GetComponentPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetComponentPolicyInput, GetComponentPolicyOutputResponse>())
@@ -852,7 +869,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetComponentPolicyOutputResponse, GetComponentPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetComponentPolicyOutputResponse, GetComponentPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetComponentPolicyOutputResponse, GetComponentPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -872,6 +889,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetContainerRecipeInput, GetContainerRecipeOutputResponse, GetContainerRecipeOutputError>(id: "getContainerRecipe")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContainerRecipeInput, GetContainerRecipeOutputResponse, GetContainerRecipeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContainerRecipeInput, GetContainerRecipeOutputResponse>())
@@ -885,7 +903,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContainerRecipeOutputResponse, GetContainerRecipeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContainerRecipeOutputResponse, GetContainerRecipeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContainerRecipeOutputResponse, GetContainerRecipeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -905,6 +923,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetContainerRecipePolicyInput, GetContainerRecipePolicyOutputResponse, GetContainerRecipePolicyOutputError>(id: "getContainerRecipePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContainerRecipePolicyInput, GetContainerRecipePolicyOutputResponse, GetContainerRecipePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContainerRecipePolicyInput, GetContainerRecipePolicyOutputResponse>())
@@ -918,7 +937,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContainerRecipePolicyOutputResponse, GetContainerRecipePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContainerRecipePolicyOutputResponse, GetContainerRecipePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContainerRecipePolicyOutputResponse, GetContainerRecipePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -938,6 +957,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDistributionConfigurationInput, GetDistributionConfigurationOutputResponse, GetDistributionConfigurationOutputError>(id: "getDistributionConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDistributionConfigurationInput, GetDistributionConfigurationOutputResponse, GetDistributionConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDistributionConfigurationInput, GetDistributionConfigurationOutputResponse>())
@@ -951,7 +971,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDistributionConfigurationOutputResponse, GetDistributionConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDistributionConfigurationOutputResponse, GetDistributionConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDistributionConfigurationOutputResponse, GetDistributionConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -971,6 +991,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetImageInput, GetImageOutputResponse, GetImageOutputError>(id: "getImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetImageInput, GetImageOutputResponse, GetImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetImageInput, GetImageOutputResponse>())
@@ -984,7 +1005,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetImageOutputResponse, GetImageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetImageOutputResponse, GetImageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetImageOutputResponse, GetImageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1004,6 +1025,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetImagePipelineInput, GetImagePipelineOutputResponse, GetImagePipelineOutputError>(id: "getImagePipeline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetImagePipelineInput, GetImagePipelineOutputResponse, GetImagePipelineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetImagePipelineInput, GetImagePipelineOutputResponse>())
@@ -1017,7 +1039,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetImagePipelineOutputResponse, GetImagePipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetImagePipelineOutputResponse, GetImagePipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetImagePipelineOutputResponse, GetImagePipelineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1037,6 +1059,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetImagePolicyInput, GetImagePolicyOutputResponse, GetImagePolicyOutputError>(id: "getImagePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetImagePolicyInput, GetImagePolicyOutputResponse, GetImagePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetImagePolicyInput, GetImagePolicyOutputResponse>())
@@ -1050,7 +1073,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetImagePolicyOutputResponse, GetImagePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetImagePolicyOutputResponse, GetImagePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetImagePolicyOutputResponse, GetImagePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1070,6 +1093,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetImageRecipeInput, GetImageRecipeOutputResponse, GetImageRecipeOutputError>(id: "getImageRecipe")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetImageRecipeInput, GetImageRecipeOutputResponse, GetImageRecipeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetImageRecipeInput, GetImageRecipeOutputResponse>())
@@ -1083,7 +1107,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetImageRecipeOutputResponse, GetImageRecipeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetImageRecipeOutputResponse, GetImageRecipeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetImageRecipeOutputResponse, GetImageRecipeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1103,6 +1127,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetImageRecipePolicyInput, GetImageRecipePolicyOutputResponse, GetImageRecipePolicyOutputError>(id: "getImageRecipePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetImageRecipePolicyInput, GetImageRecipePolicyOutputResponse, GetImageRecipePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetImageRecipePolicyInput, GetImageRecipePolicyOutputResponse>())
@@ -1116,7 +1141,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetImageRecipePolicyOutputResponse, GetImageRecipePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetImageRecipePolicyOutputResponse, GetImageRecipePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetImageRecipePolicyOutputResponse, GetImageRecipePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1136,6 +1161,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInfrastructureConfigurationInput, GetInfrastructureConfigurationOutputResponse, GetInfrastructureConfigurationOutputError>(id: "getInfrastructureConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInfrastructureConfigurationInput, GetInfrastructureConfigurationOutputResponse, GetInfrastructureConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInfrastructureConfigurationInput, GetInfrastructureConfigurationOutputResponse>())
@@ -1149,7 +1175,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInfrastructureConfigurationOutputResponse, GetInfrastructureConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetInfrastructureConfigurationOutputResponse, GetInfrastructureConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInfrastructureConfigurationOutputResponse, GetInfrastructureConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1169,6 +1195,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ImportComponentInput, ImportComponentOutputResponse, ImportComponentOutputError>(id: "importComponent")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ImportComponentOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1192,7 +1219,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportComponentOutputResponse, ImportComponentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ImportComponentOutputResponse, ImportComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportComponentOutputResponse, ImportComponentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1212,6 +1239,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ImportVmImageInput, ImportVmImageOutputResponse, ImportVmImageOutputError>(id: "importVmImage")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<ImportVmImageOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1235,7 +1263,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportVmImageOutputResponse, ImportVmImageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ImportVmImageOutputResponse, ImportVmImageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportVmImageOutputResponse, ImportVmImageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1255,6 +1283,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListComponentBuildVersionsInput, ListComponentBuildVersionsOutputResponse, ListComponentBuildVersionsOutputError>(id: "listComponentBuildVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListComponentBuildVersionsInput, ListComponentBuildVersionsOutputResponse, ListComponentBuildVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListComponentBuildVersionsInput, ListComponentBuildVersionsOutputResponse>())
@@ -1270,7 +1299,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListComponentBuildVersionsOutputResponse, ListComponentBuildVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListComponentBuildVersionsOutputResponse, ListComponentBuildVersionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListComponentBuildVersionsOutputResponse, ListComponentBuildVersionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1290,6 +1319,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListComponentsInput, ListComponentsOutputResponse, ListComponentsOutputError>(id: "listComponents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListComponentsInput, ListComponentsOutputResponse, ListComponentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListComponentsInput, ListComponentsOutputResponse>())
@@ -1305,7 +1335,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListComponentsOutputResponse, ListComponentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListComponentsOutputResponse, ListComponentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListComponentsOutputResponse, ListComponentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1325,6 +1355,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListContainerRecipesInput, ListContainerRecipesOutputResponse, ListContainerRecipesOutputError>(id: "listContainerRecipes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListContainerRecipesInput, ListContainerRecipesOutputResponse, ListContainerRecipesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListContainerRecipesInput, ListContainerRecipesOutputResponse>())
@@ -1340,7 +1371,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListContainerRecipesOutputResponse, ListContainerRecipesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListContainerRecipesOutputResponse, ListContainerRecipesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListContainerRecipesOutputResponse, ListContainerRecipesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1360,6 +1391,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListDistributionConfigurationsInput, ListDistributionConfigurationsOutputResponse, ListDistributionConfigurationsOutputError>(id: "listDistributionConfigurations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDistributionConfigurationsInput, ListDistributionConfigurationsOutputResponse, ListDistributionConfigurationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDistributionConfigurationsInput, ListDistributionConfigurationsOutputResponse>())
@@ -1375,7 +1407,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListDistributionConfigurationsOutputResponse, ListDistributionConfigurationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListDistributionConfigurationsOutputResponse, ListDistributionConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListDistributionConfigurationsOutputResponse, ListDistributionConfigurationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1395,6 +1427,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListImageBuildVersionsInput, ListImageBuildVersionsOutputResponse, ListImageBuildVersionsOutputError>(id: "listImageBuildVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListImageBuildVersionsInput, ListImageBuildVersionsOutputResponse, ListImageBuildVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListImageBuildVersionsInput, ListImageBuildVersionsOutputResponse>())
@@ -1410,7 +1443,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListImageBuildVersionsOutputResponse, ListImageBuildVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListImageBuildVersionsOutputResponse, ListImageBuildVersionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListImageBuildVersionsOutputResponse, ListImageBuildVersionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1430,6 +1463,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListImagePackagesInput, ListImagePackagesOutputResponse, ListImagePackagesOutputError>(id: "listImagePackages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListImagePackagesInput, ListImagePackagesOutputResponse, ListImagePackagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListImagePackagesInput, ListImagePackagesOutputResponse>())
@@ -1445,7 +1479,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListImagePackagesOutputResponse, ListImagePackagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListImagePackagesOutputResponse, ListImagePackagesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListImagePackagesOutputResponse, ListImagePackagesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1465,6 +1499,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListImagePipelineImagesInput, ListImagePipelineImagesOutputResponse, ListImagePipelineImagesOutputError>(id: "listImagePipelineImages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListImagePipelineImagesInput, ListImagePipelineImagesOutputResponse, ListImagePipelineImagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListImagePipelineImagesInput, ListImagePipelineImagesOutputResponse>())
@@ -1480,7 +1515,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListImagePipelineImagesOutputResponse, ListImagePipelineImagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListImagePipelineImagesOutputResponse, ListImagePipelineImagesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListImagePipelineImagesOutputResponse, ListImagePipelineImagesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1500,6 +1535,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListImagePipelinesInput, ListImagePipelinesOutputResponse, ListImagePipelinesOutputError>(id: "listImagePipelines")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListImagePipelinesInput, ListImagePipelinesOutputResponse, ListImagePipelinesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListImagePipelinesInput, ListImagePipelinesOutputResponse>())
@@ -1515,7 +1551,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListImagePipelinesOutputResponse, ListImagePipelinesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListImagePipelinesOutputResponse, ListImagePipelinesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListImagePipelinesOutputResponse, ListImagePipelinesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1535,6 +1571,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListImageRecipesInput, ListImageRecipesOutputResponse, ListImageRecipesOutputError>(id: "listImageRecipes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListImageRecipesInput, ListImageRecipesOutputResponse, ListImageRecipesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListImageRecipesInput, ListImageRecipesOutputResponse>())
@@ -1550,7 +1587,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListImageRecipesOutputResponse, ListImageRecipesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListImageRecipesOutputResponse, ListImageRecipesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListImageRecipesOutputResponse, ListImageRecipesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1570,6 +1607,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListImagesInput, ListImagesOutputResponse, ListImagesOutputError>(id: "listImages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListImagesInput, ListImagesOutputResponse, ListImagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListImagesInput, ListImagesOutputResponse>())
@@ -1585,7 +1623,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListImagesOutputResponse, ListImagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListImagesOutputResponse, ListImagesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListImagesOutputResponse, ListImagesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1605,6 +1643,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListInfrastructureConfigurationsInput, ListInfrastructureConfigurationsOutputResponse, ListInfrastructureConfigurationsOutputError>(id: "listInfrastructureConfigurations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInfrastructureConfigurationsInput, ListInfrastructureConfigurationsOutputResponse, ListInfrastructureConfigurationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInfrastructureConfigurationsInput, ListInfrastructureConfigurationsOutputResponse>())
@@ -1620,7 +1659,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInfrastructureConfigurationsOutputResponse, ListInfrastructureConfigurationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListInfrastructureConfigurationsOutputResponse, ListInfrastructureConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInfrastructureConfigurationsOutputResponse, ListInfrastructureConfigurationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1640,6 +1679,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1652,7 +1692,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1672,6 +1712,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutComponentPolicyInput, PutComponentPolicyOutputResponse, PutComponentPolicyOutputError>(id: "putComponentPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutComponentPolicyInput, PutComponentPolicyOutputResponse, PutComponentPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutComponentPolicyInput, PutComponentPolicyOutputResponse>())
@@ -1687,7 +1728,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutComponentPolicyOutputResponse, PutComponentPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutComponentPolicyOutputResponse, PutComponentPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutComponentPolicyOutputResponse, PutComponentPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1707,6 +1748,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutContainerRecipePolicyInput, PutContainerRecipePolicyOutputResponse, PutContainerRecipePolicyOutputError>(id: "putContainerRecipePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutContainerRecipePolicyInput, PutContainerRecipePolicyOutputResponse, PutContainerRecipePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutContainerRecipePolicyInput, PutContainerRecipePolicyOutputResponse>())
@@ -1722,7 +1764,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutContainerRecipePolicyOutputResponse, PutContainerRecipePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutContainerRecipePolicyOutputResponse, PutContainerRecipePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutContainerRecipePolicyOutputResponse, PutContainerRecipePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1742,6 +1784,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutImagePolicyInput, PutImagePolicyOutputResponse, PutImagePolicyOutputError>(id: "putImagePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutImagePolicyInput, PutImagePolicyOutputResponse, PutImagePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutImagePolicyInput, PutImagePolicyOutputResponse>())
@@ -1757,7 +1800,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutImagePolicyOutputResponse, PutImagePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutImagePolicyOutputResponse, PutImagePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutImagePolicyOutputResponse, PutImagePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1777,6 +1820,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutImageRecipePolicyInput, PutImageRecipePolicyOutputResponse, PutImageRecipePolicyOutputError>(id: "putImageRecipePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutImageRecipePolicyInput, PutImageRecipePolicyOutputResponse, PutImageRecipePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutImageRecipePolicyInput, PutImageRecipePolicyOutputResponse>())
@@ -1792,7 +1836,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutImageRecipePolicyOutputResponse, PutImageRecipePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutImageRecipePolicyOutputResponse, PutImageRecipePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutImageRecipePolicyOutputResponse, PutImageRecipePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1812,6 +1856,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartImagePipelineExecutionInput, StartImagePipelineExecutionOutputResponse, StartImagePipelineExecutionOutputError>(id: "startImagePipelineExecution")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartImagePipelineExecutionOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1835,7 +1880,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartImagePipelineExecutionOutputResponse, StartImagePipelineExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartImagePipelineExecutionOutputResponse, StartImagePipelineExecutionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartImagePipelineExecutionOutputResponse, StartImagePipelineExecutionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1855,6 +1900,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1870,7 +1916,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1890,6 +1936,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1903,7 +1950,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1923,6 +1970,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDistributionConfigurationInput, UpdateDistributionConfigurationOutputResponse, UpdateDistributionConfigurationOutputError>(id: "updateDistributionConfiguration")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateDistributionConfigurationOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1946,7 +1994,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDistributionConfigurationOutputResponse, UpdateDistributionConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDistributionConfigurationOutputResponse, UpdateDistributionConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDistributionConfigurationOutputResponse, UpdateDistributionConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1966,6 +2014,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateImagePipelineInput, UpdateImagePipelineOutputResponse, UpdateImagePipelineOutputError>(id: "updateImagePipeline")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateImagePipelineOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1989,7 +2038,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateImagePipelineOutputResponse, UpdateImagePipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateImagePipelineOutputResponse, UpdateImagePipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateImagePipelineOutputResponse, UpdateImagePipelineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2009,6 +2058,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "imagebuilder")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateInfrastructureConfigurationInput, UpdateInfrastructureConfigurationOutputResponse, UpdateInfrastructureConfigurationOutputError>(id: "updateInfrastructureConfiguration")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateInfrastructureConfigurationOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -2032,7 +2082,7 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInfrastructureConfigurationOutputResponse, UpdateInfrastructureConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateInfrastructureConfigurationOutputResponse, UpdateInfrastructureConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInfrastructureConfigurationOutputResponse, UpdateInfrastructureConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

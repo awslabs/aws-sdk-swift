@@ -221,6 +221,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AcknowledgeJobInput, AcknowledgeJobOutputResponse, AcknowledgeJobOutputError>(id: "acknowledgeJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcknowledgeJobInput, AcknowledgeJobOutputResponse, AcknowledgeJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcknowledgeJobInput, AcknowledgeJobOutputResponse>())
@@ -237,7 +238,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcknowledgeJobOutputResponse, AcknowledgeJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AcknowledgeJobOutputResponse, AcknowledgeJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcknowledgeJobOutputResponse, AcknowledgeJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AcknowledgeThirdPartyJobInput, AcknowledgeThirdPartyJobOutputResponse, AcknowledgeThirdPartyJobOutputError>(id: "acknowledgeThirdPartyJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcknowledgeThirdPartyJobInput, AcknowledgeThirdPartyJobOutputResponse, AcknowledgeThirdPartyJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcknowledgeThirdPartyJobInput, AcknowledgeThirdPartyJobOutputResponse>())
@@ -273,7 +275,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcknowledgeThirdPartyJobOutputResponse, AcknowledgeThirdPartyJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AcknowledgeThirdPartyJobOutputResponse, AcknowledgeThirdPartyJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcknowledgeThirdPartyJobOutputResponse, AcknowledgeThirdPartyJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCustomActionTypeInput, CreateCustomActionTypeOutputResponse, CreateCustomActionTypeOutputError>(id: "createCustomActionType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomActionTypeInput, CreateCustomActionTypeOutputResponse, CreateCustomActionTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCustomActionTypeInput, CreateCustomActionTypeOutputResponse>())
@@ -309,7 +312,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomActionTypeOutputResponse, CreateCustomActionTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateCustomActionTypeOutputResponse, CreateCustomActionTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomActionTypeOutputResponse, CreateCustomActionTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -329,6 +332,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePipelineInput, CreatePipelineOutputResponse, CreatePipelineOutputError>(id: "createPipeline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePipelineInput, CreatePipelineOutputResponse, CreatePipelineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePipelineInput, CreatePipelineOutputResponse>())
@@ -345,7 +349,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePipelineOutputResponse, CreatePipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePipelineOutputResponse, CreatePipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePipelineOutputResponse, CreatePipelineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -365,6 +369,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCustomActionTypeInput, DeleteCustomActionTypeOutputResponse, DeleteCustomActionTypeOutputError>(id: "deleteCustomActionType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomActionTypeInput, DeleteCustomActionTypeOutputResponse, DeleteCustomActionTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomActionTypeInput, DeleteCustomActionTypeOutputResponse>())
@@ -381,7 +386,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomActionTypeOutputResponse, DeleteCustomActionTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomActionTypeOutputResponse, DeleteCustomActionTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomActionTypeOutputResponse, DeleteCustomActionTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -401,6 +406,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePipelineInput, DeletePipelineOutputResponse, DeletePipelineOutputError>(id: "deletePipeline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePipelineInput, DeletePipelineOutputResponse, DeletePipelineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePipelineInput, DeletePipelineOutputResponse>())
@@ -417,7 +423,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePipelineOutputResponse, DeletePipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeletePipelineOutputResponse, DeletePipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePipelineOutputResponse, DeletePipelineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -437,6 +443,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWebhookInput, DeleteWebhookOutputResponse, DeleteWebhookOutputError>(id: "deleteWebhook")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWebhookInput, DeleteWebhookOutputResponse, DeleteWebhookOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWebhookInput, DeleteWebhookOutputResponse>())
@@ -453,7 +460,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWebhookOutputResponse, DeleteWebhookOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteWebhookOutputResponse, DeleteWebhookOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWebhookOutputResponse, DeleteWebhookOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -473,6 +480,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeregisterWebhookWithThirdPartyInput, DeregisterWebhookWithThirdPartyOutputResponse, DeregisterWebhookWithThirdPartyOutputError>(id: "deregisterWebhookWithThirdParty")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterWebhookWithThirdPartyInput, DeregisterWebhookWithThirdPartyOutputResponse, DeregisterWebhookWithThirdPartyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterWebhookWithThirdPartyInput, DeregisterWebhookWithThirdPartyOutputResponse>())
@@ -489,7 +497,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterWebhookWithThirdPartyOutputResponse, DeregisterWebhookWithThirdPartyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeregisterWebhookWithThirdPartyOutputResponse, DeregisterWebhookWithThirdPartyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterWebhookWithThirdPartyOutputResponse, DeregisterWebhookWithThirdPartyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -509,6 +517,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableStageTransitionInput, DisableStageTransitionOutputResponse, DisableStageTransitionOutputError>(id: "disableStageTransition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableStageTransitionInput, DisableStageTransitionOutputResponse, DisableStageTransitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableStageTransitionInput, DisableStageTransitionOutputResponse>())
@@ -525,7 +534,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableStageTransitionOutputResponse, DisableStageTransitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisableStageTransitionOutputResponse, DisableStageTransitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableStageTransitionOutputResponse, DisableStageTransitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -545,6 +554,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableStageTransitionInput, EnableStageTransitionOutputResponse, EnableStageTransitionOutputError>(id: "enableStageTransition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableStageTransitionInput, EnableStageTransitionOutputResponse, EnableStageTransitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableStageTransitionInput, EnableStageTransitionOutputResponse>())
@@ -561,7 +571,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableStageTransitionOutputResponse, EnableStageTransitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<EnableStageTransitionOutputResponse, EnableStageTransitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableStageTransitionOutputResponse, EnableStageTransitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -581,6 +591,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetActionTypeInput, GetActionTypeOutputResponse, GetActionTypeOutputError>(id: "getActionType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetActionTypeInput, GetActionTypeOutputResponse, GetActionTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetActionTypeInput, GetActionTypeOutputResponse>())
@@ -597,7 +608,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetActionTypeOutputResponse, GetActionTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetActionTypeOutputResponse, GetActionTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetActionTypeOutputResponse, GetActionTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -617,6 +628,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetJobDetailsInput, GetJobDetailsOutputResponse, GetJobDetailsOutputError>(id: "getJobDetails")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetJobDetailsInput, GetJobDetailsOutputResponse, GetJobDetailsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetJobDetailsInput, GetJobDetailsOutputResponse>())
@@ -633,7 +645,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetJobDetailsOutputResponse, GetJobDetailsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetJobDetailsOutputResponse, GetJobDetailsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetJobDetailsOutputResponse, GetJobDetailsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -653,6 +665,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPipelineInput, GetPipelineOutputResponse, GetPipelineOutputError>(id: "getPipeline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPipelineInput, GetPipelineOutputResponse, GetPipelineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPipelineInput, GetPipelineOutputResponse>())
@@ -669,7 +682,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPipelineOutputResponse, GetPipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPipelineOutputResponse, GetPipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPipelineOutputResponse, GetPipelineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -689,6 +702,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPipelineExecutionInput, GetPipelineExecutionOutputResponse, GetPipelineExecutionOutputError>(id: "getPipelineExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPipelineExecutionInput, GetPipelineExecutionOutputResponse, GetPipelineExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPipelineExecutionInput, GetPipelineExecutionOutputResponse>())
@@ -705,7 +719,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPipelineExecutionOutputResponse, GetPipelineExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPipelineExecutionOutputResponse, GetPipelineExecutionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPipelineExecutionOutputResponse, GetPipelineExecutionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -725,6 +739,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPipelineStateInput, GetPipelineStateOutputResponse, GetPipelineStateOutputError>(id: "getPipelineState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPipelineStateInput, GetPipelineStateOutputResponse, GetPipelineStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPipelineStateInput, GetPipelineStateOutputResponse>())
@@ -741,7 +756,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPipelineStateOutputResponse, GetPipelineStateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPipelineStateOutputResponse, GetPipelineStateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPipelineStateOutputResponse, GetPipelineStateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -761,6 +776,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetThirdPartyJobDetailsInput, GetThirdPartyJobDetailsOutputResponse, GetThirdPartyJobDetailsOutputError>(id: "getThirdPartyJobDetails")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetThirdPartyJobDetailsInput, GetThirdPartyJobDetailsOutputResponse, GetThirdPartyJobDetailsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetThirdPartyJobDetailsInput, GetThirdPartyJobDetailsOutputResponse>())
@@ -777,7 +793,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetThirdPartyJobDetailsOutputResponse, GetThirdPartyJobDetailsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetThirdPartyJobDetailsOutputResponse, GetThirdPartyJobDetailsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetThirdPartyJobDetailsOutputResponse, GetThirdPartyJobDetailsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -797,6 +813,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListActionExecutionsInput, ListActionExecutionsOutputResponse, ListActionExecutionsOutputError>(id: "listActionExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListActionExecutionsInput, ListActionExecutionsOutputResponse, ListActionExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListActionExecutionsInput, ListActionExecutionsOutputResponse>())
@@ -813,7 +830,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListActionExecutionsOutputResponse, ListActionExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListActionExecutionsOutputResponse, ListActionExecutionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListActionExecutionsOutputResponse, ListActionExecutionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -833,6 +850,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListActionTypesInput, ListActionTypesOutputResponse, ListActionTypesOutputError>(id: "listActionTypes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListActionTypesInput, ListActionTypesOutputResponse, ListActionTypesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListActionTypesInput, ListActionTypesOutputResponse>())
@@ -849,7 +867,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListActionTypesOutputResponse, ListActionTypesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListActionTypesOutputResponse, ListActionTypesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListActionTypesOutputResponse, ListActionTypesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -869,6 +887,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPipelineExecutionsInput, ListPipelineExecutionsOutputResponse, ListPipelineExecutionsOutputError>(id: "listPipelineExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPipelineExecutionsInput, ListPipelineExecutionsOutputResponse, ListPipelineExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPipelineExecutionsInput, ListPipelineExecutionsOutputResponse>())
@@ -885,7 +904,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPipelineExecutionsOutputResponse, ListPipelineExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPipelineExecutionsOutputResponse, ListPipelineExecutionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPipelineExecutionsOutputResponse, ListPipelineExecutionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -905,6 +924,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPipelinesInput, ListPipelinesOutputResponse, ListPipelinesOutputError>(id: "listPipelines")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPipelinesInput, ListPipelinesOutputResponse, ListPipelinesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPipelinesInput, ListPipelinesOutputResponse>())
@@ -921,7 +941,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPipelinesOutputResponse, ListPipelinesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPipelinesOutputResponse, ListPipelinesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPipelinesOutputResponse, ListPipelinesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -941,6 +961,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -957,7 +978,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -977,6 +998,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWebhooksInput, ListWebhooksOutputResponse, ListWebhooksOutputError>(id: "listWebhooks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWebhooksInput, ListWebhooksOutputResponse, ListWebhooksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWebhooksInput, ListWebhooksOutputResponse>())
@@ -993,7 +1015,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWebhooksOutputResponse, ListWebhooksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListWebhooksOutputResponse, ListWebhooksOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWebhooksOutputResponse, ListWebhooksOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1013,6 +1035,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PollForJobsInput, PollForJobsOutputResponse, PollForJobsOutputError>(id: "pollForJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PollForJobsInput, PollForJobsOutputResponse, PollForJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PollForJobsInput, PollForJobsOutputResponse>())
@@ -1029,7 +1052,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PollForJobsOutputResponse, PollForJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PollForJobsOutputResponse, PollForJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PollForJobsOutputResponse, PollForJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1049,6 +1072,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PollForThirdPartyJobsInput, PollForThirdPartyJobsOutputResponse, PollForThirdPartyJobsOutputError>(id: "pollForThirdPartyJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PollForThirdPartyJobsInput, PollForThirdPartyJobsOutputResponse, PollForThirdPartyJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PollForThirdPartyJobsInput, PollForThirdPartyJobsOutputResponse>())
@@ -1065,7 +1089,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PollForThirdPartyJobsOutputResponse, PollForThirdPartyJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PollForThirdPartyJobsOutputResponse, PollForThirdPartyJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PollForThirdPartyJobsOutputResponse, PollForThirdPartyJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1085,6 +1109,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutActionRevisionInput, PutActionRevisionOutputResponse, PutActionRevisionOutputError>(id: "putActionRevision")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutActionRevisionInput, PutActionRevisionOutputResponse, PutActionRevisionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutActionRevisionInput, PutActionRevisionOutputResponse>())
@@ -1101,7 +1126,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutActionRevisionOutputResponse, PutActionRevisionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutActionRevisionOutputResponse, PutActionRevisionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutActionRevisionOutputResponse, PutActionRevisionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1121,6 +1146,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutApprovalResultInput, PutApprovalResultOutputResponse, PutApprovalResultOutputError>(id: "putApprovalResult")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutApprovalResultInput, PutApprovalResultOutputResponse, PutApprovalResultOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutApprovalResultInput, PutApprovalResultOutputResponse>())
@@ -1137,7 +1163,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutApprovalResultOutputResponse, PutApprovalResultOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutApprovalResultOutputResponse, PutApprovalResultOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutApprovalResultOutputResponse, PutApprovalResultOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1157,6 +1183,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutJobFailureResultInput, PutJobFailureResultOutputResponse, PutJobFailureResultOutputError>(id: "putJobFailureResult")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutJobFailureResultInput, PutJobFailureResultOutputResponse, PutJobFailureResultOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutJobFailureResultInput, PutJobFailureResultOutputResponse>())
@@ -1173,7 +1200,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutJobFailureResultOutputResponse, PutJobFailureResultOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutJobFailureResultOutputResponse, PutJobFailureResultOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutJobFailureResultOutputResponse, PutJobFailureResultOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1193,6 +1220,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutJobSuccessResultInput, PutJobSuccessResultOutputResponse, PutJobSuccessResultOutputError>(id: "putJobSuccessResult")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutJobSuccessResultInput, PutJobSuccessResultOutputResponse, PutJobSuccessResultOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutJobSuccessResultInput, PutJobSuccessResultOutputResponse>())
@@ -1209,7 +1237,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutJobSuccessResultOutputResponse, PutJobSuccessResultOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutJobSuccessResultOutputResponse, PutJobSuccessResultOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutJobSuccessResultOutputResponse, PutJobSuccessResultOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1229,6 +1257,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutThirdPartyJobFailureResultInput, PutThirdPartyJobFailureResultOutputResponse, PutThirdPartyJobFailureResultOutputError>(id: "putThirdPartyJobFailureResult")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutThirdPartyJobFailureResultInput, PutThirdPartyJobFailureResultOutputResponse, PutThirdPartyJobFailureResultOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutThirdPartyJobFailureResultInput, PutThirdPartyJobFailureResultOutputResponse>())
@@ -1245,7 +1274,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutThirdPartyJobFailureResultOutputResponse, PutThirdPartyJobFailureResultOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutThirdPartyJobFailureResultOutputResponse, PutThirdPartyJobFailureResultOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutThirdPartyJobFailureResultOutputResponse, PutThirdPartyJobFailureResultOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1265,6 +1294,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutThirdPartyJobSuccessResultInput, PutThirdPartyJobSuccessResultOutputResponse, PutThirdPartyJobSuccessResultOutputError>(id: "putThirdPartyJobSuccessResult")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutThirdPartyJobSuccessResultInput, PutThirdPartyJobSuccessResultOutputResponse, PutThirdPartyJobSuccessResultOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutThirdPartyJobSuccessResultInput, PutThirdPartyJobSuccessResultOutputResponse>())
@@ -1281,7 +1311,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutThirdPartyJobSuccessResultOutputResponse, PutThirdPartyJobSuccessResultOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutThirdPartyJobSuccessResultOutputResponse, PutThirdPartyJobSuccessResultOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutThirdPartyJobSuccessResultOutputResponse, PutThirdPartyJobSuccessResultOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1301,6 +1331,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutWebhookInput, PutWebhookOutputResponse, PutWebhookOutputError>(id: "putWebhook")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutWebhookInput, PutWebhookOutputResponse, PutWebhookOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutWebhookInput, PutWebhookOutputResponse>())
@@ -1317,7 +1348,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutWebhookOutputResponse, PutWebhookOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutWebhookOutputResponse, PutWebhookOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutWebhookOutputResponse, PutWebhookOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1337,6 +1368,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterWebhookWithThirdPartyInput, RegisterWebhookWithThirdPartyOutputResponse, RegisterWebhookWithThirdPartyOutputError>(id: "registerWebhookWithThirdParty")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterWebhookWithThirdPartyInput, RegisterWebhookWithThirdPartyOutputResponse, RegisterWebhookWithThirdPartyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterWebhookWithThirdPartyInput, RegisterWebhookWithThirdPartyOutputResponse>())
@@ -1353,7 +1385,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterWebhookWithThirdPartyOutputResponse, RegisterWebhookWithThirdPartyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RegisterWebhookWithThirdPartyOutputResponse, RegisterWebhookWithThirdPartyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterWebhookWithThirdPartyOutputResponse, RegisterWebhookWithThirdPartyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1373,6 +1405,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RetryStageExecutionInput, RetryStageExecutionOutputResponse, RetryStageExecutionOutputError>(id: "retryStageExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RetryStageExecutionInput, RetryStageExecutionOutputResponse, RetryStageExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RetryStageExecutionInput, RetryStageExecutionOutputResponse>())
@@ -1389,7 +1422,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RetryStageExecutionOutputResponse, RetryStageExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RetryStageExecutionOutputResponse, RetryStageExecutionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RetryStageExecutionOutputResponse, RetryStageExecutionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1409,6 +1442,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartPipelineExecutionInput, StartPipelineExecutionOutputResponse, StartPipelineExecutionOutputError>(id: "startPipelineExecution")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartPipelineExecutionOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1433,7 +1467,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartPipelineExecutionOutputResponse, StartPipelineExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartPipelineExecutionOutputResponse, StartPipelineExecutionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartPipelineExecutionOutputResponse, StartPipelineExecutionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1453,6 +1487,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopPipelineExecutionInput, StopPipelineExecutionOutputResponse, StopPipelineExecutionOutputError>(id: "stopPipelineExecution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopPipelineExecutionInput, StopPipelineExecutionOutputResponse, StopPipelineExecutionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopPipelineExecutionInput, StopPipelineExecutionOutputResponse>())
@@ -1469,7 +1504,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopPipelineExecutionOutputResponse, StopPipelineExecutionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopPipelineExecutionOutputResponse, StopPipelineExecutionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopPipelineExecutionOutputResponse, StopPipelineExecutionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1489,6 +1524,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1505,7 +1541,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1525,6 +1561,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1541,7 +1578,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1561,6 +1598,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateActionTypeInput, UpdateActionTypeOutputResponse, UpdateActionTypeOutputError>(id: "updateActionType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateActionTypeInput, UpdateActionTypeOutputResponse, UpdateActionTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateActionTypeInput, UpdateActionTypeOutputResponse>())
@@ -1577,7 +1615,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateActionTypeOutputResponse, UpdateActionTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateActionTypeOutputResponse, UpdateActionTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateActionTypeOutputResponse, UpdateActionTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1597,6 +1635,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "codepipeline")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePipelineInput, UpdatePipelineOutputResponse, UpdatePipelineOutputError>(id: "updatePipeline")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePipelineInput, UpdatePipelineOutputResponse, UpdatePipelineOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePipelineInput, UpdatePipelineOutputResponse>())
@@ -1613,7 +1652,7 @@ extension CodePipelineClient: CodePipelineClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePipelineOutputResponse, UpdatePipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdatePipelineOutputResponse, UpdatePipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePipelineOutputResponse, UpdatePipelineOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

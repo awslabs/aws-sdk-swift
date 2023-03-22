@@ -12,7 +12,7 @@ enum TestEvent: MessageMarshallable, MessageUnmarshallable {
     case allHeaders
     case emptyPayload
     case noHeaders
-    
+
     init(message: ClientRuntime.EventStream.Message, decoder: ResponseDecoder) {
         if message == validMessageWithAllHeaders {
             self = .allHeaders

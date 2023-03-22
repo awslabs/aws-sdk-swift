@@ -222,6 +222,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateEntityToThingInput, AssociateEntityToThingOutputResponse, AssociateEntityToThingOutputError>(id: "associateEntityToThing")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateEntityToThingInput, AssociateEntityToThingOutputResponse, AssociateEntityToThingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateEntityToThingInput, AssociateEntityToThingOutputResponse>())
@@ -238,7 +239,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateEntityToThingOutputResponse, AssociateEntityToThingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateEntityToThingOutputResponse, AssociateEntityToThingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateEntityToThingOutputResponse, AssociateEntityToThingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -259,6 +260,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFlowTemplateInput, CreateFlowTemplateOutputResponse, CreateFlowTemplateOutputError>(id: "createFlowTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFlowTemplateInput, CreateFlowTemplateOutputResponse, CreateFlowTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFlowTemplateInput, CreateFlowTemplateOutputResponse>())
@@ -275,7 +277,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFlowTemplateOutputResponse, CreateFlowTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateFlowTemplateOutputResponse, CreateFlowTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFlowTemplateOutputResponse, CreateFlowTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -296,6 +298,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSystemInstanceInput, CreateSystemInstanceOutputResponse, CreateSystemInstanceOutputError>(id: "createSystemInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSystemInstanceInput, CreateSystemInstanceOutputResponse, CreateSystemInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSystemInstanceInput, CreateSystemInstanceOutputResponse>())
@@ -312,7 +315,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSystemInstanceOutputResponse, CreateSystemInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSystemInstanceOutputResponse, CreateSystemInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSystemInstanceOutputResponse, CreateSystemInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -333,6 +336,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSystemTemplateInput, CreateSystemTemplateOutputResponse, CreateSystemTemplateOutputError>(id: "createSystemTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSystemTemplateInput, CreateSystemTemplateOutputResponse, CreateSystemTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSystemTemplateInput, CreateSystemTemplateOutputResponse>())
@@ -349,7 +353,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSystemTemplateOutputResponse, CreateSystemTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSystemTemplateOutputResponse, CreateSystemTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSystemTemplateOutputResponse, CreateSystemTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -370,6 +374,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFlowTemplateInput, DeleteFlowTemplateOutputResponse, DeleteFlowTemplateOutputError>(id: "deleteFlowTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFlowTemplateInput, DeleteFlowTemplateOutputResponse, DeleteFlowTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFlowTemplateInput, DeleteFlowTemplateOutputResponse>())
@@ -386,7 +391,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFlowTemplateOutputResponse, DeleteFlowTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteFlowTemplateOutputResponse, DeleteFlowTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFlowTemplateOutputResponse, DeleteFlowTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -407,6 +412,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteNamespaceInput, DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>(id: "deleteNamespace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteNamespaceInput, DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteNamespaceInput, DeleteNamespaceOutputResponse>())
@@ -423,7 +429,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteNamespaceOutputResponse, DeleteNamespaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -444,6 +450,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSystemInstanceInput, DeleteSystemInstanceOutputResponse, DeleteSystemInstanceOutputError>(id: "deleteSystemInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSystemInstanceInput, DeleteSystemInstanceOutputResponse, DeleteSystemInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSystemInstanceInput, DeleteSystemInstanceOutputResponse>())
@@ -460,7 +467,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSystemInstanceOutputResponse, DeleteSystemInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSystemInstanceOutputResponse, DeleteSystemInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSystemInstanceOutputResponse, DeleteSystemInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -481,6 +488,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSystemTemplateInput, DeleteSystemTemplateOutputResponse, DeleteSystemTemplateOutputError>(id: "deleteSystemTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSystemTemplateInput, DeleteSystemTemplateOutputResponse, DeleteSystemTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSystemTemplateInput, DeleteSystemTemplateOutputResponse>())
@@ -497,7 +505,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSystemTemplateOutputResponse, DeleteSystemTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSystemTemplateOutputResponse, DeleteSystemTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSystemTemplateOutputResponse, DeleteSystemTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -518,6 +526,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeploySystemInstanceInput, DeploySystemInstanceOutputResponse, DeploySystemInstanceOutputError>(id: "deploySystemInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeploySystemInstanceInput, DeploySystemInstanceOutputResponse, DeploySystemInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeploySystemInstanceInput, DeploySystemInstanceOutputResponse>())
@@ -534,7 +543,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeploySystemInstanceOutputResponse, DeploySystemInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeploySystemInstanceOutputResponse, DeploySystemInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeploySystemInstanceOutputResponse, DeploySystemInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -555,6 +564,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeprecateFlowTemplateInput, DeprecateFlowTemplateOutputResponse, DeprecateFlowTemplateOutputError>(id: "deprecateFlowTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeprecateFlowTemplateInput, DeprecateFlowTemplateOutputResponse, DeprecateFlowTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeprecateFlowTemplateInput, DeprecateFlowTemplateOutputResponse>())
@@ -571,7 +581,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeprecateFlowTemplateOutputResponse, DeprecateFlowTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeprecateFlowTemplateOutputResponse, DeprecateFlowTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeprecateFlowTemplateOutputResponse, DeprecateFlowTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -592,6 +602,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeprecateSystemTemplateInput, DeprecateSystemTemplateOutputResponse, DeprecateSystemTemplateOutputError>(id: "deprecateSystemTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeprecateSystemTemplateInput, DeprecateSystemTemplateOutputResponse, DeprecateSystemTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeprecateSystemTemplateInput, DeprecateSystemTemplateOutputResponse>())
@@ -608,7 +619,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeprecateSystemTemplateOutputResponse, DeprecateSystemTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeprecateSystemTemplateOutputResponse, DeprecateSystemTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeprecateSystemTemplateOutputResponse, DeprecateSystemTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -629,6 +640,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeNamespaceInput, DescribeNamespaceOutputResponse, DescribeNamespaceOutputError>(id: "describeNamespace")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeNamespaceInput, DescribeNamespaceOutputResponse, DescribeNamespaceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeNamespaceInput, DescribeNamespaceOutputResponse>())
@@ -645,7 +657,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeNamespaceOutputResponse, DescribeNamespaceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeNamespaceOutputResponse, DescribeNamespaceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeNamespaceOutputResponse, DescribeNamespaceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -666,6 +678,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DissociateEntityFromThingInput, DissociateEntityFromThingOutputResponse, DissociateEntityFromThingOutputError>(id: "dissociateEntityFromThing")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DissociateEntityFromThingInput, DissociateEntityFromThingOutputResponse, DissociateEntityFromThingOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DissociateEntityFromThingInput, DissociateEntityFromThingOutputResponse>())
@@ -682,7 +695,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DissociateEntityFromThingOutputResponse, DissociateEntityFromThingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DissociateEntityFromThingOutputResponse, DissociateEntityFromThingOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DissociateEntityFromThingOutputResponse, DissociateEntityFromThingOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -724,6 +737,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEntitiesInput, GetEntitiesOutputResponse, GetEntitiesOutputError>(id: "getEntities")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEntitiesInput, GetEntitiesOutputResponse, GetEntitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEntitiesInput, GetEntitiesOutputResponse>())
@@ -740,7 +754,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEntitiesOutputResponse, GetEntitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetEntitiesOutputResponse, GetEntitiesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEntitiesOutputResponse, GetEntitiesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -761,6 +775,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFlowTemplateInput, GetFlowTemplateOutputResponse, GetFlowTemplateOutputError>(id: "getFlowTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFlowTemplateInput, GetFlowTemplateOutputResponse, GetFlowTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFlowTemplateInput, GetFlowTemplateOutputResponse>())
@@ -777,7 +792,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFlowTemplateOutputResponse, GetFlowTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetFlowTemplateOutputResponse, GetFlowTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFlowTemplateOutputResponse, GetFlowTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -798,6 +813,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetFlowTemplateRevisionsInput, GetFlowTemplateRevisionsOutputResponse, GetFlowTemplateRevisionsOutputError>(id: "getFlowTemplateRevisions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetFlowTemplateRevisionsInput, GetFlowTemplateRevisionsOutputResponse, GetFlowTemplateRevisionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFlowTemplateRevisionsInput, GetFlowTemplateRevisionsOutputResponse>())
@@ -814,7 +830,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetFlowTemplateRevisionsOutputResponse, GetFlowTemplateRevisionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetFlowTemplateRevisionsOutputResponse, GetFlowTemplateRevisionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetFlowTemplateRevisionsOutputResponse, GetFlowTemplateRevisionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -835,6 +851,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetNamespaceDeletionStatusInput, GetNamespaceDeletionStatusOutputResponse, GetNamespaceDeletionStatusOutputError>(id: "getNamespaceDeletionStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetNamespaceDeletionStatusInput, GetNamespaceDeletionStatusOutputResponse, GetNamespaceDeletionStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetNamespaceDeletionStatusInput, GetNamespaceDeletionStatusOutputResponse>())
@@ -851,7 +868,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNamespaceDeletionStatusOutputResponse, GetNamespaceDeletionStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetNamespaceDeletionStatusOutputResponse, GetNamespaceDeletionStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNamespaceDeletionStatusOutputResponse, GetNamespaceDeletionStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -872,6 +889,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSystemInstanceInput, GetSystemInstanceOutputResponse, GetSystemInstanceOutputError>(id: "getSystemInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSystemInstanceInput, GetSystemInstanceOutputResponse, GetSystemInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSystemInstanceInput, GetSystemInstanceOutputResponse>())
@@ -888,7 +906,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSystemInstanceOutputResponse, GetSystemInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSystemInstanceOutputResponse, GetSystemInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSystemInstanceOutputResponse, GetSystemInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -909,6 +927,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSystemTemplateInput, GetSystemTemplateOutputResponse, GetSystemTemplateOutputError>(id: "getSystemTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSystemTemplateInput, GetSystemTemplateOutputResponse, GetSystemTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSystemTemplateInput, GetSystemTemplateOutputResponse>())
@@ -925,7 +944,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSystemTemplateOutputResponse, GetSystemTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSystemTemplateOutputResponse, GetSystemTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSystemTemplateOutputResponse, GetSystemTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -946,6 +965,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSystemTemplateRevisionsInput, GetSystemTemplateRevisionsOutputResponse, GetSystemTemplateRevisionsOutputError>(id: "getSystemTemplateRevisions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSystemTemplateRevisionsInput, GetSystemTemplateRevisionsOutputResponse, GetSystemTemplateRevisionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSystemTemplateRevisionsInput, GetSystemTemplateRevisionsOutputResponse>())
@@ -962,7 +982,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSystemTemplateRevisionsOutputResponse, GetSystemTemplateRevisionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSystemTemplateRevisionsOutputResponse, GetSystemTemplateRevisionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSystemTemplateRevisionsOutputResponse, GetSystemTemplateRevisionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -983,6 +1003,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetUploadStatusInput, GetUploadStatusOutputResponse, GetUploadStatusOutputError>(id: "getUploadStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUploadStatusInput, GetUploadStatusOutputResponse, GetUploadStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUploadStatusInput, GetUploadStatusOutputResponse>())
@@ -999,7 +1020,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUploadStatusOutputResponse, GetUploadStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetUploadStatusOutputResponse, GetUploadStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUploadStatusOutputResponse, GetUploadStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1020,6 +1041,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFlowExecutionMessagesInput, ListFlowExecutionMessagesOutputResponse, ListFlowExecutionMessagesOutputError>(id: "listFlowExecutionMessages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFlowExecutionMessagesInput, ListFlowExecutionMessagesOutputResponse, ListFlowExecutionMessagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFlowExecutionMessagesInput, ListFlowExecutionMessagesOutputResponse>())
@@ -1036,7 +1058,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFlowExecutionMessagesOutputResponse, ListFlowExecutionMessagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListFlowExecutionMessagesOutputResponse, ListFlowExecutionMessagesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFlowExecutionMessagesOutputResponse, ListFlowExecutionMessagesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1057,6 +1079,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1073,7 +1096,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1094,6 +1117,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchEntitiesInput, SearchEntitiesOutputResponse, SearchEntitiesOutputError>(id: "searchEntities")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchEntitiesInput, SearchEntitiesOutputResponse, SearchEntitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchEntitiesInput, SearchEntitiesOutputResponse>())
@@ -1110,7 +1134,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchEntitiesOutputResponse, SearchEntitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchEntitiesOutputResponse, SearchEntitiesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchEntitiesOutputResponse, SearchEntitiesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1131,6 +1155,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchFlowExecutionsInput, SearchFlowExecutionsOutputResponse, SearchFlowExecutionsOutputError>(id: "searchFlowExecutions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchFlowExecutionsInput, SearchFlowExecutionsOutputResponse, SearchFlowExecutionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchFlowExecutionsInput, SearchFlowExecutionsOutputResponse>())
@@ -1147,7 +1172,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchFlowExecutionsOutputResponse, SearchFlowExecutionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchFlowExecutionsOutputResponse, SearchFlowExecutionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchFlowExecutionsOutputResponse, SearchFlowExecutionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1168,6 +1193,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchFlowTemplatesInput, SearchFlowTemplatesOutputResponse, SearchFlowTemplatesOutputError>(id: "searchFlowTemplates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchFlowTemplatesInput, SearchFlowTemplatesOutputResponse, SearchFlowTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchFlowTemplatesInput, SearchFlowTemplatesOutputResponse>())
@@ -1184,7 +1210,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchFlowTemplatesOutputResponse, SearchFlowTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchFlowTemplatesOutputResponse, SearchFlowTemplatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchFlowTemplatesOutputResponse, SearchFlowTemplatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1205,6 +1231,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchSystemInstancesInput, SearchSystemInstancesOutputResponse, SearchSystemInstancesOutputError>(id: "searchSystemInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchSystemInstancesInput, SearchSystemInstancesOutputResponse, SearchSystemInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchSystemInstancesInput, SearchSystemInstancesOutputResponse>())
@@ -1221,7 +1248,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchSystemInstancesOutputResponse, SearchSystemInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchSystemInstancesOutputResponse, SearchSystemInstancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchSystemInstancesOutputResponse, SearchSystemInstancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1242,6 +1269,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchSystemTemplatesInput, SearchSystemTemplatesOutputResponse, SearchSystemTemplatesOutputError>(id: "searchSystemTemplates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchSystemTemplatesInput, SearchSystemTemplatesOutputResponse, SearchSystemTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchSystemTemplatesInput, SearchSystemTemplatesOutputResponse>())
@@ -1258,7 +1286,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchSystemTemplatesOutputResponse, SearchSystemTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchSystemTemplatesOutputResponse, SearchSystemTemplatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchSystemTemplatesOutputResponse, SearchSystemTemplatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1279,6 +1307,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SearchThingsInput, SearchThingsOutputResponse, SearchThingsOutputError>(id: "searchThings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SearchThingsInput, SearchThingsOutputResponse, SearchThingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SearchThingsInput, SearchThingsOutputResponse>())
@@ -1295,7 +1324,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SearchThingsOutputResponse, SearchThingsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SearchThingsOutputResponse, SearchThingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SearchThingsOutputResponse, SearchThingsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1316,6 +1345,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1332,7 +1362,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1353,6 +1383,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UndeploySystemInstanceInput, UndeploySystemInstanceOutputResponse, UndeploySystemInstanceOutputError>(id: "undeploySystemInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UndeploySystemInstanceInput, UndeploySystemInstanceOutputResponse, UndeploySystemInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UndeploySystemInstanceInput, UndeploySystemInstanceOutputResponse>())
@@ -1369,7 +1400,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UndeploySystemInstanceOutputResponse, UndeploySystemInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UndeploySystemInstanceOutputResponse, UndeploySystemInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UndeploySystemInstanceOutputResponse, UndeploySystemInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1390,6 +1421,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1406,7 +1438,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1427,6 +1459,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFlowTemplateInput, UpdateFlowTemplateOutputResponse, UpdateFlowTemplateOutputError>(id: "updateFlowTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFlowTemplateInput, UpdateFlowTemplateOutputResponse, UpdateFlowTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFlowTemplateInput, UpdateFlowTemplateOutputResponse>())
@@ -1443,7 +1476,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFlowTemplateOutputResponse, UpdateFlowTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateFlowTemplateOutputResponse, UpdateFlowTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFlowTemplateOutputResponse, UpdateFlowTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1464,6 +1497,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSystemTemplateInput, UpdateSystemTemplateOutputResponse, UpdateSystemTemplateOutputError>(id: "updateSystemTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSystemTemplateInput, UpdateSystemTemplateOutputResponse, UpdateSystemTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSystemTemplateInput, UpdateSystemTemplateOutputResponse>())
@@ -1480,7 +1514,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSystemTemplateOutputResponse, UpdateSystemTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSystemTemplateOutputResponse, UpdateSystemTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSystemTemplateOutputResponse, UpdateSystemTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1501,6 +1535,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iotthingsgraph")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UploadEntityDefinitionsInput, UploadEntityDefinitionsOutputResponse, UploadEntityDefinitionsOutputError>(id: "uploadEntityDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadEntityDefinitionsInput, UploadEntityDefinitionsOutputResponse, UploadEntityDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadEntityDefinitionsInput, UploadEntityDefinitionsOutputResponse>())
@@ -1517,7 +1552,7 @@ extension IoTThingsGraphClient: IoTThingsGraphClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadEntityDefinitionsOutputResponse, UploadEntityDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UploadEntityDefinitionsOutputResponse, UploadEntityDefinitionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadEntityDefinitionsOutputResponse, UploadEntityDefinitionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

@@ -221,6 +221,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutputResponse, DeleteRecommendationPreferencesOutputError>(id: "deleteRecommendationPreferences")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutputResponse, DeleteRecommendationPreferencesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRecommendationPreferencesInput, DeleteRecommendationPreferencesOutputResponse>())
@@ -237,7 +238,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRecommendationPreferencesOutputResponse, DeleteRecommendationPreferencesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteRecommendationPreferencesOutputResponse, DeleteRecommendationPreferencesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRecommendationPreferencesOutputResponse, DeleteRecommendationPreferencesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutputResponse, DescribeRecommendationExportJobsOutputError>(id: "describeRecommendationExportJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutputResponse, DescribeRecommendationExportJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRecommendationExportJobsInput, DescribeRecommendationExportJobsOutputResponse>())
@@ -273,7 +275,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRecommendationExportJobsOutputResponse, DescribeRecommendationExportJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeRecommendationExportJobsOutputResponse, DescribeRecommendationExportJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRecommendationExportJobsOutputResponse, DescribeRecommendationExportJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutputResponse, ExportAutoScalingGroupRecommendationsOutputError>(id: "exportAutoScalingGroupRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutputResponse, ExportAutoScalingGroupRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportAutoScalingGroupRecommendationsInput, ExportAutoScalingGroupRecommendationsOutputResponse>())
@@ -309,7 +312,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportAutoScalingGroupRecommendationsOutputResponse, ExportAutoScalingGroupRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExportAutoScalingGroupRecommendationsOutputResponse, ExportAutoScalingGroupRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportAutoScalingGroupRecommendationsOutputResponse, ExportAutoScalingGroupRecommendationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -329,6 +332,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutputResponse, ExportEBSVolumeRecommendationsOutputError>(id: "exportEBSVolumeRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutputResponse, ExportEBSVolumeRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportEBSVolumeRecommendationsInput, ExportEBSVolumeRecommendationsOutputResponse>())
@@ -345,7 +349,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportEBSVolumeRecommendationsOutputResponse, ExportEBSVolumeRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExportEBSVolumeRecommendationsOutputResponse, ExportEBSVolumeRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportEBSVolumeRecommendationsOutputResponse, ExportEBSVolumeRecommendationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -365,6 +369,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutputResponse, ExportEC2InstanceRecommendationsOutputError>(id: "exportEC2InstanceRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutputResponse, ExportEC2InstanceRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportEC2InstanceRecommendationsInput, ExportEC2InstanceRecommendationsOutputResponse>())
@@ -381,7 +386,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportEC2InstanceRecommendationsOutputResponse, ExportEC2InstanceRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExportEC2InstanceRecommendationsOutputResponse, ExportEC2InstanceRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportEC2InstanceRecommendationsOutputResponse, ExportEC2InstanceRecommendationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -401,6 +406,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutputResponse, ExportECSServiceRecommendationsOutputError>(id: "exportECSServiceRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutputResponse, ExportECSServiceRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportECSServiceRecommendationsInput, ExportECSServiceRecommendationsOutputResponse>())
@@ -417,7 +423,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportECSServiceRecommendationsOutputResponse, ExportECSServiceRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExportECSServiceRecommendationsOutputResponse, ExportECSServiceRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportECSServiceRecommendationsOutputResponse, ExportECSServiceRecommendationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -437,6 +443,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutputResponse, ExportLambdaFunctionRecommendationsOutputError>(id: "exportLambdaFunctionRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutputResponse, ExportLambdaFunctionRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportLambdaFunctionRecommendationsInput, ExportLambdaFunctionRecommendationsOutputResponse>())
@@ -453,7 +460,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportLambdaFunctionRecommendationsOutputResponse, ExportLambdaFunctionRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExportLambdaFunctionRecommendationsOutputResponse, ExportLambdaFunctionRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportLambdaFunctionRecommendationsOutputResponse, ExportLambdaFunctionRecommendationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -473,6 +480,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutputResponse, GetAutoScalingGroupRecommendationsOutputError>(id: "getAutoScalingGroupRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutputResponse, GetAutoScalingGroupRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAutoScalingGroupRecommendationsInput, GetAutoScalingGroupRecommendationsOutputResponse>())
@@ -489,7 +497,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAutoScalingGroupRecommendationsOutputResponse, GetAutoScalingGroupRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAutoScalingGroupRecommendationsOutputResponse, GetAutoScalingGroupRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAutoScalingGroupRecommendationsOutputResponse, GetAutoScalingGroupRecommendationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -509,6 +517,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutputResponse, GetEBSVolumeRecommendationsOutputError>(id: "getEBSVolumeRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutputResponse, GetEBSVolumeRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEBSVolumeRecommendationsInput, GetEBSVolumeRecommendationsOutputResponse>())
@@ -525,7 +534,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEBSVolumeRecommendationsOutputResponse, GetEBSVolumeRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetEBSVolumeRecommendationsOutputResponse, GetEBSVolumeRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEBSVolumeRecommendationsOutputResponse, GetEBSVolumeRecommendationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -545,6 +554,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutputResponse, GetEC2InstanceRecommendationsOutputError>(id: "getEC2InstanceRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutputResponse, GetEC2InstanceRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEC2InstanceRecommendationsInput, GetEC2InstanceRecommendationsOutputResponse>())
@@ -561,7 +571,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEC2InstanceRecommendationsOutputResponse, GetEC2InstanceRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetEC2InstanceRecommendationsOutputResponse, GetEC2InstanceRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEC2InstanceRecommendationsOutputResponse, GetEC2InstanceRecommendationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -581,6 +591,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutputResponse, GetEC2RecommendationProjectedMetricsOutputError>(id: "getEC2RecommendationProjectedMetrics")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutputResponse, GetEC2RecommendationProjectedMetricsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEC2RecommendationProjectedMetricsInput, GetEC2RecommendationProjectedMetricsOutputResponse>())
@@ -597,7 +608,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEC2RecommendationProjectedMetricsOutputResponse, GetEC2RecommendationProjectedMetricsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetEC2RecommendationProjectedMetricsOutputResponse, GetEC2RecommendationProjectedMetricsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEC2RecommendationProjectedMetricsOutputResponse, GetEC2RecommendationProjectedMetricsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -617,6 +628,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutputResponse, GetECSServiceRecommendationProjectedMetricsOutputError>(id: "getECSServiceRecommendationProjectedMetrics")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutputResponse, GetECSServiceRecommendationProjectedMetricsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetECSServiceRecommendationProjectedMetricsInput, GetECSServiceRecommendationProjectedMetricsOutputResponse>())
@@ -633,7 +645,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetECSServiceRecommendationProjectedMetricsOutputResponse, GetECSServiceRecommendationProjectedMetricsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetECSServiceRecommendationProjectedMetricsOutputResponse, GetECSServiceRecommendationProjectedMetricsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetECSServiceRecommendationProjectedMetricsOutputResponse, GetECSServiceRecommendationProjectedMetricsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -653,6 +665,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutputResponse, GetECSServiceRecommendationsOutputError>(id: "getECSServiceRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutputResponse, GetECSServiceRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetECSServiceRecommendationsInput, GetECSServiceRecommendationsOutputResponse>())
@@ -669,7 +682,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetECSServiceRecommendationsOutputResponse, GetECSServiceRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetECSServiceRecommendationsOutputResponse, GetECSServiceRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetECSServiceRecommendationsOutputResponse, GetECSServiceRecommendationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -689,6 +702,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutputResponse, GetEffectiveRecommendationPreferencesOutputError>(id: "getEffectiveRecommendationPreferences")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutputResponse, GetEffectiveRecommendationPreferencesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEffectiveRecommendationPreferencesInput, GetEffectiveRecommendationPreferencesOutputResponse>())
@@ -705,7 +719,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEffectiveRecommendationPreferencesOutputResponse, GetEffectiveRecommendationPreferencesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetEffectiveRecommendationPreferencesOutputResponse, GetEffectiveRecommendationPreferencesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEffectiveRecommendationPreferencesOutputResponse, GetEffectiveRecommendationPreferencesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -725,6 +739,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEnrollmentStatusInput, GetEnrollmentStatusOutputResponse, GetEnrollmentStatusOutputError>(id: "getEnrollmentStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEnrollmentStatusInput, GetEnrollmentStatusOutputResponse, GetEnrollmentStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEnrollmentStatusInput, GetEnrollmentStatusOutputResponse>())
@@ -741,7 +756,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEnrollmentStatusOutputResponse, GetEnrollmentStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetEnrollmentStatusOutputResponse, GetEnrollmentStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEnrollmentStatusOutputResponse, GetEnrollmentStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -761,6 +776,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutputResponse, GetEnrollmentStatusesForOrganizationOutputError>(id: "getEnrollmentStatusesForOrganization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutputResponse, GetEnrollmentStatusesForOrganizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEnrollmentStatusesForOrganizationInput, GetEnrollmentStatusesForOrganizationOutputResponse>())
@@ -777,7 +793,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEnrollmentStatusesForOrganizationOutputResponse, GetEnrollmentStatusesForOrganizationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetEnrollmentStatusesForOrganizationOutputResponse, GetEnrollmentStatusesForOrganizationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEnrollmentStatusesForOrganizationOutputResponse, GetEnrollmentStatusesForOrganizationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -797,6 +813,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutputResponse, GetLambdaFunctionRecommendationsOutputError>(id: "getLambdaFunctionRecommendations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutputResponse, GetLambdaFunctionRecommendationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLambdaFunctionRecommendationsInput, GetLambdaFunctionRecommendationsOutputResponse>())
@@ -813,7 +830,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLambdaFunctionRecommendationsOutputResponse, GetLambdaFunctionRecommendationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetLambdaFunctionRecommendationsOutputResponse, GetLambdaFunctionRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLambdaFunctionRecommendationsOutputResponse, GetLambdaFunctionRecommendationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -833,6 +850,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutputResponse, GetRecommendationPreferencesOutputError>(id: "getRecommendationPreferences")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutputResponse, GetRecommendationPreferencesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRecommendationPreferencesInput, GetRecommendationPreferencesOutputResponse>())
@@ -849,7 +867,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRecommendationPreferencesOutputResponse, GetRecommendationPreferencesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRecommendationPreferencesOutputResponse, GetRecommendationPreferencesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRecommendationPreferencesOutputResponse, GetRecommendationPreferencesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -879,6 +897,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRecommendationSummariesInput, GetRecommendationSummariesOutputResponse, GetRecommendationSummariesOutputError>(id: "getRecommendationSummaries")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRecommendationSummariesInput, GetRecommendationSummariesOutputResponse, GetRecommendationSummariesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRecommendationSummariesInput, GetRecommendationSummariesOutputResponse>())
@@ -895,7 +914,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRecommendationSummariesOutputResponse, GetRecommendationSummariesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRecommendationSummariesOutputResponse, GetRecommendationSummariesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRecommendationSummariesOutputResponse, GetRecommendationSummariesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -915,6 +934,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutputResponse, PutRecommendationPreferencesOutputError>(id: "putRecommendationPreferences")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutputResponse, PutRecommendationPreferencesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRecommendationPreferencesInput, PutRecommendationPreferencesOutputResponse>())
@@ -931,7 +951,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRecommendationPreferencesOutputResponse, PutRecommendationPreferencesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutRecommendationPreferencesOutputResponse, PutRecommendationPreferencesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRecommendationPreferencesOutputResponse, PutRecommendationPreferencesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -951,6 +971,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "compute-optimizer")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutputResponse, UpdateEnrollmentStatusOutputError>(id: "updateEnrollmentStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutputResponse, UpdateEnrollmentStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutputResponse>())
@@ -967,7 +988,7 @@ extension ComputeOptimizerClient: ComputeOptimizerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateEnrollmentStatusOutputResponse, UpdateEnrollmentStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateEnrollmentStatusOutputResponse, UpdateEnrollmentStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEnrollmentStatusOutputResponse, UpdateEnrollmentStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

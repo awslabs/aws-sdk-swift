@@ -221,6 +221,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateAccountsInput, AssociateAccountsOutputResponse, AssociateAccountsOutputError>(id: "associateAccounts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateAccountsInput, AssociateAccountsOutputResponse, AssociateAccountsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateAccountsInput, AssociateAccountsOutputResponse>())
@@ -236,7 +237,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateAccountsOutputResponse, AssociateAccountsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateAccountsOutputResponse, AssociateAccountsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateAccountsOutputResponse, AssociateAccountsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociatePricingRulesInput, AssociatePricingRulesOutputResponse, AssociatePricingRulesOutputError>(id: "associatePricingRules")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociatePricingRulesInput, AssociatePricingRulesOutputResponse, AssociatePricingRulesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociatePricingRulesInput, AssociatePricingRulesOutputResponse>())
@@ -271,7 +273,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociatePricingRulesOutputResponse, AssociatePricingRulesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociatePricingRulesOutputResponse, AssociatePricingRulesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociatePricingRulesOutputResponse, AssociatePricingRulesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -291,6 +293,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchAssociateResourcesToCustomLineItemInput, BatchAssociateResourcesToCustomLineItemOutputResponse, BatchAssociateResourcesToCustomLineItemOutputError>(id: "batchAssociateResourcesToCustomLineItem")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchAssociateResourcesToCustomLineItemInput, BatchAssociateResourcesToCustomLineItemOutputResponse, BatchAssociateResourcesToCustomLineItemOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchAssociateResourcesToCustomLineItemInput, BatchAssociateResourcesToCustomLineItemOutputResponse>())
@@ -306,7 +309,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchAssociateResourcesToCustomLineItemOutputResponse, BatchAssociateResourcesToCustomLineItemOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchAssociateResourcesToCustomLineItemOutputResponse, BatchAssociateResourcesToCustomLineItemOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchAssociateResourcesToCustomLineItemOutputResponse, BatchAssociateResourcesToCustomLineItemOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -326,6 +329,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<BatchDisassociateResourcesFromCustomLineItemInput, BatchDisassociateResourcesFromCustomLineItemOutputResponse, BatchDisassociateResourcesFromCustomLineItemOutputError>(id: "batchDisassociateResourcesFromCustomLineItem")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDisassociateResourcesFromCustomLineItemInput, BatchDisassociateResourcesFromCustomLineItemOutputResponse, BatchDisassociateResourcesFromCustomLineItemOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDisassociateResourcesFromCustomLineItemInput, BatchDisassociateResourcesFromCustomLineItemOutputResponse>())
@@ -341,7 +345,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDisassociateResourcesFromCustomLineItemOutputResponse, BatchDisassociateResourcesFromCustomLineItemOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchDisassociateResourcesFromCustomLineItemOutputResponse, BatchDisassociateResourcesFromCustomLineItemOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDisassociateResourcesFromCustomLineItemOutputResponse, BatchDisassociateResourcesFromCustomLineItemOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -361,6 +365,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBillingGroupInput, CreateBillingGroupOutputResponse, CreateBillingGroupOutputError>(id: "createBillingGroup")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateBillingGroupOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -385,7 +390,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBillingGroupOutputResponse, CreateBillingGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateBillingGroupOutputResponse, CreateBillingGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBillingGroupOutputResponse, CreateBillingGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -405,6 +410,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCustomLineItemInput, CreateCustomLineItemOutputResponse, CreateCustomLineItemOutputError>(id: "createCustomLineItem")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateCustomLineItemOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -429,7 +435,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomLineItemOutputResponse, CreateCustomLineItemOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateCustomLineItemOutputResponse, CreateCustomLineItemOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomLineItemOutputResponse, CreateCustomLineItemOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -449,6 +455,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePricingPlanInput, CreatePricingPlanOutputResponse, CreatePricingPlanOutputError>(id: "createPricingPlan")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreatePricingPlanOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -473,7 +480,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePricingPlanOutputResponse, CreatePricingPlanOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePricingPlanOutputResponse, CreatePricingPlanOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePricingPlanOutputResponse, CreatePricingPlanOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -493,6 +500,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePricingRuleInput, CreatePricingRuleOutputResponse, CreatePricingRuleOutputError>(id: "createPricingRule")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreatePricingRuleOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -517,7 +525,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePricingRuleOutputResponse, CreatePricingRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePricingRuleOutputResponse, CreatePricingRuleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePricingRuleOutputResponse, CreatePricingRuleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -537,6 +545,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBillingGroupInput, DeleteBillingGroupOutputResponse, DeleteBillingGroupOutputError>(id: "deleteBillingGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBillingGroupInput, DeleteBillingGroupOutputResponse, DeleteBillingGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBillingGroupInput, DeleteBillingGroupOutputResponse>())
@@ -552,7 +561,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBillingGroupOutputResponse, DeleteBillingGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteBillingGroupOutputResponse, DeleteBillingGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBillingGroupOutputResponse, DeleteBillingGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -572,6 +581,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCustomLineItemInput, DeleteCustomLineItemOutputResponse, DeleteCustomLineItemOutputError>(id: "deleteCustomLineItem")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomLineItemInput, DeleteCustomLineItemOutputResponse, DeleteCustomLineItemOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomLineItemInput, DeleteCustomLineItemOutputResponse>())
@@ -587,7 +597,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomLineItemOutputResponse, DeleteCustomLineItemOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomLineItemOutputResponse, DeleteCustomLineItemOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomLineItemOutputResponse, DeleteCustomLineItemOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -607,6 +617,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePricingPlanInput, DeletePricingPlanOutputResponse, DeletePricingPlanOutputError>(id: "deletePricingPlan")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePricingPlanInput, DeletePricingPlanOutputResponse, DeletePricingPlanOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePricingPlanInput, DeletePricingPlanOutputResponse>())
@@ -622,7 +633,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePricingPlanOutputResponse, DeletePricingPlanOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeletePricingPlanOutputResponse, DeletePricingPlanOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePricingPlanOutputResponse, DeletePricingPlanOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -642,6 +653,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePricingRuleInput, DeletePricingRuleOutputResponse, DeletePricingRuleOutputError>(id: "deletePricingRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePricingRuleInput, DeletePricingRuleOutputResponse, DeletePricingRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePricingRuleInput, DeletePricingRuleOutputResponse>())
@@ -657,7 +669,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePricingRuleOutputResponse, DeletePricingRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeletePricingRuleOutputResponse, DeletePricingRuleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePricingRuleOutputResponse, DeletePricingRuleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -677,6 +689,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateAccountsInput, DisassociateAccountsOutputResponse, DisassociateAccountsOutputError>(id: "disassociateAccounts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateAccountsInput, DisassociateAccountsOutputResponse, DisassociateAccountsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateAccountsInput, DisassociateAccountsOutputResponse>())
@@ -692,7 +705,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateAccountsOutputResponse, DisassociateAccountsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateAccountsOutputResponse, DisassociateAccountsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateAccountsOutputResponse, DisassociateAccountsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -712,6 +725,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociatePricingRulesInput, DisassociatePricingRulesOutputResponse, DisassociatePricingRulesOutputError>(id: "disassociatePricingRules")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociatePricingRulesInput, DisassociatePricingRulesOutputResponse, DisassociatePricingRulesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociatePricingRulesInput, DisassociatePricingRulesOutputResponse>())
@@ -727,7 +741,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociatePricingRulesOutputResponse, DisassociatePricingRulesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociatePricingRulesOutputResponse, DisassociatePricingRulesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociatePricingRulesOutputResponse, DisassociatePricingRulesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -747,6 +761,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAccountAssociationsInput, ListAccountAssociationsOutputResponse, ListAccountAssociationsOutputError>(id: "listAccountAssociations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAssociationsInput, ListAccountAssociationsOutputResponse, ListAccountAssociationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountAssociationsInput, ListAccountAssociationsOutputResponse>())
@@ -762,7 +777,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountAssociationsOutputResponse, ListAccountAssociationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAccountAssociationsOutputResponse, ListAccountAssociationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAssociationsOutputResponse, ListAccountAssociationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -782,6 +797,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListBillingGroupCostReportsInput, ListBillingGroupCostReportsOutputResponse, ListBillingGroupCostReportsOutputError>(id: "listBillingGroupCostReports")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBillingGroupCostReportsInput, ListBillingGroupCostReportsOutputResponse, ListBillingGroupCostReportsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBillingGroupCostReportsInput, ListBillingGroupCostReportsOutputResponse>())
@@ -797,7 +813,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBillingGroupCostReportsOutputResponse, ListBillingGroupCostReportsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListBillingGroupCostReportsOutputResponse, ListBillingGroupCostReportsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBillingGroupCostReportsOutputResponse, ListBillingGroupCostReportsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -817,6 +833,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListBillingGroupsInput, ListBillingGroupsOutputResponse, ListBillingGroupsOutputError>(id: "listBillingGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListBillingGroupsInput, ListBillingGroupsOutputResponse, ListBillingGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBillingGroupsInput, ListBillingGroupsOutputResponse>())
@@ -832,7 +849,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListBillingGroupsOutputResponse, ListBillingGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListBillingGroupsOutputResponse, ListBillingGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListBillingGroupsOutputResponse, ListBillingGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -852,6 +869,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCustomLineItemVersionsInput, ListCustomLineItemVersionsOutputResponse, ListCustomLineItemVersionsOutputError>(id: "listCustomLineItemVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomLineItemVersionsInput, ListCustomLineItemVersionsOutputResponse, ListCustomLineItemVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomLineItemVersionsInput, ListCustomLineItemVersionsOutputResponse>())
@@ -867,7 +885,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomLineItemVersionsOutputResponse, ListCustomLineItemVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListCustomLineItemVersionsOutputResponse, ListCustomLineItemVersionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomLineItemVersionsOutputResponse, ListCustomLineItemVersionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -887,6 +905,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCustomLineItemsInput, ListCustomLineItemsOutputResponse, ListCustomLineItemsOutputError>(id: "listCustomLineItems")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomLineItemsInput, ListCustomLineItemsOutputResponse, ListCustomLineItemsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomLineItemsInput, ListCustomLineItemsOutputResponse>())
@@ -902,7 +921,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomLineItemsOutputResponse, ListCustomLineItemsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListCustomLineItemsOutputResponse, ListCustomLineItemsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomLineItemsOutputResponse, ListCustomLineItemsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -922,6 +941,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPricingPlansInput, ListPricingPlansOutputResponse, ListPricingPlansOutputError>(id: "listPricingPlans")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPricingPlansInput, ListPricingPlansOutputResponse, ListPricingPlansOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPricingPlansInput, ListPricingPlansOutputResponse>())
@@ -937,7 +957,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPricingPlansOutputResponse, ListPricingPlansOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPricingPlansOutputResponse, ListPricingPlansOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPricingPlansOutputResponse, ListPricingPlansOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -957,6 +977,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPricingPlansAssociatedWithPricingRuleInput, ListPricingPlansAssociatedWithPricingRuleOutputResponse, ListPricingPlansAssociatedWithPricingRuleOutputError>(id: "listPricingPlansAssociatedWithPricingRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPricingPlansAssociatedWithPricingRuleInput, ListPricingPlansAssociatedWithPricingRuleOutputResponse, ListPricingPlansAssociatedWithPricingRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPricingPlansAssociatedWithPricingRuleInput, ListPricingPlansAssociatedWithPricingRuleOutputResponse>())
@@ -972,7 +993,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPricingPlansAssociatedWithPricingRuleOutputResponse, ListPricingPlansAssociatedWithPricingRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPricingPlansAssociatedWithPricingRuleOutputResponse, ListPricingPlansAssociatedWithPricingRuleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPricingPlansAssociatedWithPricingRuleOutputResponse, ListPricingPlansAssociatedWithPricingRuleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -992,6 +1013,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPricingRulesInput, ListPricingRulesOutputResponse, ListPricingRulesOutputError>(id: "listPricingRules")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPricingRulesInput, ListPricingRulesOutputResponse, ListPricingRulesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPricingRulesInput, ListPricingRulesOutputResponse>())
@@ -1007,7 +1029,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPricingRulesOutputResponse, ListPricingRulesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPricingRulesOutputResponse, ListPricingRulesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPricingRulesOutputResponse, ListPricingRulesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1027,6 +1049,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPricingRulesAssociatedToPricingPlanInput, ListPricingRulesAssociatedToPricingPlanOutputResponse, ListPricingRulesAssociatedToPricingPlanOutputError>(id: "listPricingRulesAssociatedToPricingPlan")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPricingRulesAssociatedToPricingPlanInput, ListPricingRulesAssociatedToPricingPlanOutputResponse, ListPricingRulesAssociatedToPricingPlanOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPricingRulesAssociatedToPricingPlanInput, ListPricingRulesAssociatedToPricingPlanOutputResponse>())
@@ -1042,7 +1065,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPricingRulesAssociatedToPricingPlanOutputResponse, ListPricingRulesAssociatedToPricingPlanOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPricingRulesAssociatedToPricingPlanOutputResponse, ListPricingRulesAssociatedToPricingPlanOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPricingRulesAssociatedToPricingPlanOutputResponse, ListPricingRulesAssociatedToPricingPlanOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1062,6 +1085,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListResourcesAssociatedToCustomLineItemInput, ListResourcesAssociatedToCustomLineItemOutputResponse, ListResourcesAssociatedToCustomLineItemOutputError>(id: "listResourcesAssociatedToCustomLineItem")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourcesAssociatedToCustomLineItemInput, ListResourcesAssociatedToCustomLineItemOutputResponse, ListResourcesAssociatedToCustomLineItemOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourcesAssociatedToCustomLineItemInput, ListResourcesAssociatedToCustomLineItemOutputResponse>())
@@ -1077,7 +1101,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResourcesAssociatedToCustomLineItemOutputResponse, ListResourcesAssociatedToCustomLineItemOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListResourcesAssociatedToCustomLineItemOutputResponse, ListResourcesAssociatedToCustomLineItemOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResourcesAssociatedToCustomLineItemOutputResponse, ListResourcesAssociatedToCustomLineItemOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1097,6 +1121,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1109,7 +1134,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1129,6 +1154,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1144,7 +1170,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1164,6 +1190,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1177,7 +1204,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1197,6 +1224,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBillingGroupInput, UpdateBillingGroupOutputResponse, UpdateBillingGroupOutputError>(id: "updateBillingGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBillingGroupInput, UpdateBillingGroupOutputResponse, UpdateBillingGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBillingGroupInput, UpdateBillingGroupOutputResponse>())
@@ -1212,7 +1240,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBillingGroupOutputResponse, UpdateBillingGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateBillingGroupOutputResponse, UpdateBillingGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBillingGroupOutputResponse, UpdateBillingGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1232,6 +1260,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateCustomLineItemInput, UpdateCustomLineItemOutputResponse, UpdateCustomLineItemOutputError>(id: "updateCustomLineItem")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCustomLineItemInput, UpdateCustomLineItemOutputResponse, UpdateCustomLineItemOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCustomLineItemInput, UpdateCustomLineItemOutputResponse>())
@@ -1247,7 +1276,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCustomLineItemOutputResponse, UpdateCustomLineItemOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateCustomLineItemOutputResponse, UpdateCustomLineItemOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCustomLineItemOutputResponse, UpdateCustomLineItemOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1267,6 +1296,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePricingPlanInput, UpdatePricingPlanOutputResponse, UpdatePricingPlanOutputError>(id: "updatePricingPlan")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePricingPlanInput, UpdatePricingPlanOutputResponse, UpdatePricingPlanOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePricingPlanInput, UpdatePricingPlanOutputResponse>())
@@ -1282,7 +1312,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePricingPlanOutputResponse, UpdatePricingPlanOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdatePricingPlanOutputResponse, UpdatePricingPlanOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePricingPlanOutputResponse, UpdatePricingPlanOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1302,6 +1332,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "billingconductor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdatePricingRuleInput, UpdatePricingRuleOutputResponse, UpdatePricingRuleOutputError>(id: "updatePricingRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePricingRuleInput, UpdatePricingRuleOutputResponse, UpdatePricingRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePricingRuleInput, UpdatePricingRuleOutputResponse>())
@@ -1317,7 +1348,7 @@ extension BillingconductorClient: BillingconductorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdatePricingRuleOutputResponse, UpdatePricingRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdatePricingRuleOutputResponse, UpdatePricingRuleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdatePricingRuleOutputResponse, UpdatePricingRuleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

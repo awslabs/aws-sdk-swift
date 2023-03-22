@@ -221,6 +221,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AllocateStaticIpInput, AllocateStaticIpOutputResponse, AllocateStaticIpOutputError>(id: "allocateStaticIp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AllocateStaticIpInput, AllocateStaticIpOutputResponse, AllocateStaticIpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AllocateStaticIpInput, AllocateStaticIpOutputResponse>())
@@ -240,7 +241,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AllocateStaticIpOutputResponse, AllocateStaticIpOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AllocateStaticIpOutputResponse, AllocateStaticIpOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AllocateStaticIpOutputResponse, AllocateStaticIpOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -260,6 +261,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AttachCertificateToDistributionInput, AttachCertificateToDistributionOutputResponse, AttachCertificateToDistributionOutputError>(id: "attachCertificateToDistribution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachCertificateToDistributionInput, AttachCertificateToDistributionOutputResponse, AttachCertificateToDistributionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachCertificateToDistributionInput, AttachCertificateToDistributionOutputResponse>())
@@ -279,7 +281,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachCertificateToDistributionOutputResponse, AttachCertificateToDistributionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AttachCertificateToDistributionOutputResponse, AttachCertificateToDistributionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachCertificateToDistributionOutputResponse, AttachCertificateToDistributionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -299,6 +301,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AttachDiskInput, AttachDiskOutputResponse, AttachDiskOutputError>(id: "attachDisk")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachDiskInput, AttachDiskOutputResponse, AttachDiskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachDiskInput, AttachDiskOutputResponse>())
@@ -318,7 +321,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachDiskOutputResponse, AttachDiskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AttachDiskOutputResponse, AttachDiskOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachDiskOutputResponse, AttachDiskOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -338,6 +341,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AttachInstancesToLoadBalancerInput, AttachInstancesToLoadBalancerOutputResponse, AttachInstancesToLoadBalancerOutputError>(id: "attachInstancesToLoadBalancer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachInstancesToLoadBalancerInput, AttachInstancesToLoadBalancerOutputResponse, AttachInstancesToLoadBalancerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachInstancesToLoadBalancerInput, AttachInstancesToLoadBalancerOutputResponse>())
@@ -357,7 +361,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachInstancesToLoadBalancerOutputResponse, AttachInstancesToLoadBalancerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AttachInstancesToLoadBalancerOutputResponse, AttachInstancesToLoadBalancerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachInstancesToLoadBalancerOutputResponse, AttachInstancesToLoadBalancerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -377,6 +381,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AttachLoadBalancerTlsCertificateInput, AttachLoadBalancerTlsCertificateOutputResponse, AttachLoadBalancerTlsCertificateOutputError>(id: "attachLoadBalancerTlsCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachLoadBalancerTlsCertificateInput, AttachLoadBalancerTlsCertificateOutputResponse, AttachLoadBalancerTlsCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachLoadBalancerTlsCertificateInput, AttachLoadBalancerTlsCertificateOutputResponse>())
@@ -396,7 +401,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachLoadBalancerTlsCertificateOutputResponse, AttachLoadBalancerTlsCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AttachLoadBalancerTlsCertificateOutputResponse, AttachLoadBalancerTlsCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachLoadBalancerTlsCertificateOutputResponse, AttachLoadBalancerTlsCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -416,6 +421,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AttachStaticIpInput, AttachStaticIpOutputResponse, AttachStaticIpOutputError>(id: "attachStaticIp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachStaticIpInput, AttachStaticIpOutputResponse, AttachStaticIpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachStaticIpInput, AttachStaticIpOutputResponse>())
@@ -435,7 +441,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachStaticIpOutputResponse, AttachStaticIpOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AttachStaticIpOutputResponse, AttachStaticIpOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachStaticIpOutputResponse, AttachStaticIpOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -455,6 +461,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CloseInstancePublicPortsInput, CloseInstancePublicPortsOutputResponse, CloseInstancePublicPortsOutputError>(id: "closeInstancePublicPorts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CloseInstancePublicPortsInput, CloseInstancePublicPortsOutputResponse, CloseInstancePublicPortsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CloseInstancePublicPortsInput, CloseInstancePublicPortsOutputResponse>())
@@ -474,7 +481,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CloseInstancePublicPortsOutputResponse, CloseInstancePublicPortsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CloseInstancePublicPortsOutputResponse, CloseInstancePublicPortsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CloseInstancePublicPortsOutputResponse, CloseInstancePublicPortsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -494,6 +501,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CopySnapshotInput, CopySnapshotOutputResponse, CopySnapshotOutputError>(id: "copySnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopySnapshotInput, CopySnapshotOutputResponse, CopySnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopySnapshotInput, CopySnapshotOutputResponse>())
@@ -513,7 +521,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopySnapshotOutputResponse, CopySnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CopySnapshotOutputResponse, CopySnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopySnapshotOutputResponse, CopySnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -533,6 +541,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBucketInput, CreateBucketOutputResponse, CreateBucketOutputError>(id: "createBucket")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBucketInput, CreateBucketOutputResponse, CreateBucketOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBucketInput, CreateBucketOutputResponse>())
@@ -552,7 +561,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBucketOutputResponse, CreateBucketOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateBucketOutputResponse, CreateBucketOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBucketOutputResponse, CreateBucketOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -572,6 +581,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateBucketAccessKeyInput, CreateBucketAccessKeyOutputResponse, CreateBucketAccessKeyOutputError>(id: "createBucketAccessKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateBucketAccessKeyInput, CreateBucketAccessKeyOutputResponse, CreateBucketAccessKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBucketAccessKeyInput, CreateBucketAccessKeyOutputResponse>())
@@ -591,7 +601,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateBucketAccessKeyOutputResponse, CreateBucketAccessKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateBucketAccessKeyOutputResponse, CreateBucketAccessKeyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateBucketAccessKeyOutputResponse, CreateBucketAccessKeyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -611,6 +621,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCertificateInput, CreateCertificateOutputResponse, CreateCertificateOutputError>(id: "createCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCertificateInput, CreateCertificateOutputResponse, CreateCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCertificateInput, CreateCertificateOutputResponse>())
@@ -630,7 +641,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCertificateOutputResponse, CreateCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateCertificateOutputResponse, CreateCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCertificateOutputResponse, CreateCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -650,6 +661,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCloudFormationStackInput, CreateCloudFormationStackOutputResponse, CreateCloudFormationStackOutputError>(id: "createCloudFormationStack")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCloudFormationStackInput, CreateCloudFormationStackOutputResponse, CreateCloudFormationStackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCloudFormationStackInput, CreateCloudFormationStackOutputResponse>())
@@ -669,7 +681,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCloudFormationStackOutputResponse, CreateCloudFormationStackOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateCloudFormationStackOutputResponse, CreateCloudFormationStackOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCloudFormationStackOutputResponse, CreateCloudFormationStackOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -689,6 +701,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateContactMethodInput, CreateContactMethodOutputResponse, CreateContactMethodOutputError>(id: "createContactMethod")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateContactMethodInput, CreateContactMethodOutputResponse, CreateContactMethodOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateContactMethodInput, CreateContactMethodOutputResponse>())
@@ -708,7 +721,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateContactMethodOutputResponse, CreateContactMethodOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateContactMethodOutputResponse, CreateContactMethodOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateContactMethodOutputResponse, CreateContactMethodOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -728,6 +741,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateContainerServiceInput, CreateContainerServiceOutputResponse, CreateContainerServiceOutputError>(id: "createContainerService")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateContainerServiceInput, CreateContainerServiceOutputResponse, CreateContainerServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateContainerServiceInput, CreateContainerServiceOutputResponse>())
@@ -747,7 +761,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateContainerServiceOutputResponse, CreateContainerServiceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateContainerServiceOutputResponse, CreateContainerServiceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateContainerServiceOutputResponse, CreateContainerServiceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -767,6 +781,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateContainerServiceDeploymentInput, CreateContainerServiceDeploymentOutputResponse, CreateContainerServiceDeploymentOutputError>(id: "createContainerServiceDeployment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateContainerServiceDeploymentInput, CreateContainerServiceDeploymentOutputResponse, CreateContainerServiceDeploymentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateContainerServiceDeploymentInput, CreateContainerServiceDeploymentOutputResponse>())
@@ -786,7 +801,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateContainerServiceDeploymentOutputResponse, CreateContainerServiceDeploymentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateContainerServiceDeploymentOutputResponse, CreateContainerServiceDeploymentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateContainerServiceDeploymentOutputResponse, CreateContainerServiceDeploymentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -806,6 +821,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateContainerServiceRegistryLoginInput, CreateContainerServiceRegistryLoginOutputResponse, CreateContainerServiceRegistryLoginOutputError>(id: "createContainerServiceRegistryLogin")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateContainerServiceRegistryLoginInput, CreateContainerServiceRegistryLoginOutputResponse, CreateContainerServiceRegistryLoginOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateContainerServiceRegistryLoginInput, CreateContainerServiceRegistryLoginOutputResponse>())
@@ -825,7 +841,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateContainerServiceRegistryLoginOutputResponse, CreateContainerServiceRegistryLoginOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateContainerServiceRegistryLoginOutputResponse, CreateContainerServiceRegistryLoginOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateContainerServiceRegistryLoginOutputResponse, CreateContainerServiceRegistryLoginOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -845,6 +861,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDiskInput, CreateDiskOutputResponse, CreateDiskOutputError>(id: "createDisk")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDiskInput, CreateDiskOutputResponse, CreateDiskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDiskInput, CreateDiskOutputResponse>())
@@ -864,7 +881,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDiskOutputResponse, CreateDiskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDiskOutputResponse, CreateDiskOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDiskOutputResponse, CreateDiskOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -884,6 +901,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDiskFromSnapshotInput, CreateDiskFromSnapshotOutputResponse, CreateDiskFromSnapshotOutputError>(id: "createDiskFromSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDiskFromSnapshotInput, CreateDiskFromSnapshotOutputResponse, CreateDiskFromSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDiskFromSnapshotInput, CreateDiskFromSnapshotOutputResponse>())
@@ -903,7 +921,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDiskFromSnapshotOutputResponse, CreateDiskFromSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDiskFromSnapshotOutputResponse, CreateDiskFromSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDiskFromSnapshotOutputResponse, CreateDiskFromSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -923,6 +941,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDiskSnapshotInput, CreateDiskSnapshotOutputResponse, CreateDiskSnapshotOutputError>(id: "createDiskSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDiskSnapshotInput, CreateDiskSnapshotOutputResponse, CreateDiskSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDiskSnapshotInput, CreateDiskSnapshotOutputResponse>())
@@ -942,7 +961,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDiskSnapshotOutputResponse, CreateDiskSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDiskSnapshotOutputResponse, CreateDiskSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDiskSnapshotOutputResponse, CreateDiskSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -962,6 +981,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDistributionInput, CreateDistributionOutputResponse, CreateDistributionOutputError>(id: "createDistribution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDistributionInput, CreateDistributionOutputResponse, CreateDistributionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDistributionInput, CreateDistributionOutputResponse>())
@@ -981,7 +1001,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDistributionOutputResponse, CreateDistributionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDistributionOutputResponse, CreateDistributionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDistributionOutputResponse, CreateDistributionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1001,6 +1021,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDomainInput, CreateDomainOutputResponse, CreateDomainOutputError>(id: "createDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDomainInput, CreateDomainOutputResponse, CreateDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDomainInput, CreateDomainOutputResponse>())
@@ -1020,7 +1041,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDomainOutputResponse, CreateDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDomainOutputResponse, CreateDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDomainOutputResponse, CreateDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1040,6 +1061,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDomainEntryInput, CreateDomainEntryOutputResponse, CreateDomainEntryOutputError>(id: "createDomainEntry")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDomainEntryInput, CreateDomainEntryOutputResponse, CreateDomainEntryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDomainEntryInput, CreateDomainEntryOutputResponse>())
@@ -1059,7 +1081,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDomainEntryOutputResponse, CreateDomainEntryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDomainEntryOutputResponse, CreateDomainEntryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDomainEntryOutputResponse, CreateDomainEntryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1079,6 +1101,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateInstanceSnapshotInput, CreateInstanceSnapshotOutputResponse, CreateInstanceSnapshotOutputError>(id: "createInstanceSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInstanceSnapshotInput, CreateInstanceSnapshotOutputResponse, CreateInstanceSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInstanceSnapshotInput, CreateInstanceSnapshotOutputResponse>())
@@ -1098,7 +1121,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInstanceSnapshotOutputResponse, CreateInstanceSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateInstanceSnapshotOutputResponse, CreateInstanceSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInstanceSnapshotOutputResponse, CreateInstanceSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1118,6 +1141,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateInstancesInput, CreateInstancesOutputResponse, CreateInstancesOutputError>(id: "createInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInstancesInput, CreateInstancesOutputResponse, CreateInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInstancesInput, CreateInstancesOutputResponse>())
@@ -1137,7 +1161,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInstancesOutputResponse, CreateInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateInstancesOutputResponse, CreateInstancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInstancesOutputResponse, CreateInstancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1157,6 +1181,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateInstancesFromSnapshotInput, CreateInstancesFromSnapshotOutputResponse, CreateInstancesFromSnapshotOutputError>(id: "createInstancesFromSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInstancesFromSnapshotInput, CreateInstancesFromSnapshotOutputResponse, CreateInstancesFromSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInstancesFromSnapshotInput, CreateInstancesFromSnapshotOutputResponse>())
@@ -1176,7 +1201,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInstancesFromSnapshotOutputResponse, CreateInstancesFromSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateInstancesFromSnapshotOutputResponse, CreateInstancesFromSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInstancesFromSnapshotOutputResponse, CreateInstancesFromSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1196,6 +1221,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateKeyPairInput, CreateKeyPairOutputResponse, CreateKeyPairOutputError>(id: "createKeyPair")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateKeyPairInput, CreateKeyPairOutputResponse, CreateKeyPairOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateKeyPairInput, CreateKeyPairOutputResponse>())
@@ -1215,7 +1241,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateKeyPairOutputResponse, CreateKeyPairOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateKeyPairOutputResponse, CreateKeyPairOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateKeyPairOutputResponse, CreateKeyPairOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1235,6 +1261,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLoadBalancerInput, CreateLoadBalancerOutputResponse, CreateLoadBalancerOutputError>(id: "createLoadBalancer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLoadBalancerInput, CreateLoadBalancerOutputResponse, CreateLoadBalancerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLoadBalancerInput, CreateLoadBalancerOutputResponse>())
@@ -1254,7 +1281,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLoadBalancerOutputResponse, CreateLoadBalancerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateLoadBalancerOutputResponse, CreateLoadBalancerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoadBalancerOutputResponse, CreateLoadBalancerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1274,6 +1301,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLoadBalancerTlsCertificateInput, CreateLoadBalancerTlsCertificateOutputResponse, CreateLoadBalancerTlsCertificateOutputError>(id: "createLoadBalancerTlsCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLoadBalancerTlsCertificateInput, CreateLoadBalancerTlsCertificateOutputResponse, CreateLoadBalancerTlsCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLoadBalancerTlsCertificateInput, CreateLoadBalancerTlsCertificateOutputResponse>())
@@ -1293,7 +1321,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLoadBalancerTlsCertificateOutputResponse, CreateLoadBalancerTlsCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateLoadBalancerTlsCertificateOutputResponse, CreateLoadBalancerTlsCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoadBalancerTlsCertificateOutputResponse, CreateLoadBalancerTlsCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1313,6 +1341,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRelationalDatabaseInput, CreateRelationalDatabaseOutputResponse, CreateRelationalDatabaseOutputError>(id: "createRelationalDatabase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRelationalDatabaseInput, CreateRelationalDatabaseOutputResponse, CreateRelationalDatabaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRelationalDatabaseInput, CreateRelationalDatabaseOutputResponse>())
@@ -1332,7 +1361,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRelationalDatabaseOutputResponse, CreateRelationalDatabaseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateRelationalDatabaseOutputResponse, CreateRelationalDatabaseOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRelationalDatabaseOutputResponse, CreateRelationalDatabaseOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1352,6 +1381,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRelationalDatabaseFromSnapshotInput, CreateRelationalDatabaseFromSnapshotOutputResponse, CreateRelationalDatabaseFromSnapshotOutputError>(id: "createRelationalDatabaseFromSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRelationalDatabaseFromSnapshotInput, CreateRelationalDatabaseFromSnapshotOutputResponse, CreateRelationalDatabaseFromSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRelationalDatabaseFromSnapshotInput, CreateRelationalDatabaseFromSnapshotOutputResponse>())
@@ -1371,7 +1401,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRelationalDatabaseFromSnapshotOutputResponse, CreateRelationalDatabaseFromSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateRelationalDatabaseFromSnapshotOutputResponse, CreateRelationalDatabaseFromSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRelationalDatabaseFromSnapshotOutputResponse, CreateRelationalDatabaseFromSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1391,6 +1421,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRelationalDatabaseSnapshotInput, CreateRelationalDatabaseSnapshotOutputResponse, CreateRelationalDatabaseSnapshotOutputError>(id: "createRelationalDatabaseSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRelationalDatabaseSnapshotInput, CreateRelationalDatabaseSnapshotOutputResponse, CreateRelationalDatabaseSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRelationalDatabaseSnapshotInput, CreateRelationalDatabaseSnapshotOutputResponse>())
@@ -1410,7 +1441,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRelationalDatabaseSnapshotOutputResponse, CreateRelationalDatabaseSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateRelationalDatabaseSnapshotOutputResponse, CreateRelationalDatabaseSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRelationalDatabaseSnapshotOutputResponse, CreateRelationalDatabaseSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1430,6 +1461,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAlarmInput, DeleteAlarmOutputResponse, DeleteAlarmOutputError>(id: "deleteAlarm")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAlarmInput, DeleteAlarmOutputResponse, DeleteAlarmOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAlarmInput, DeleteAlarmOutputResponse>())
@@ -1449,7 +1481,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAlarmOutputResponse, DeleteAlarmOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAlarmOutputResponse, DeleteAlarmOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAlarmOutputResponse, DeleteAlarmOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1469,6 +1501,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAutoSnapshotInput, DeleteAutoSnapshotOutputResponse, DeleteAutoSnapshotOutputError>(id: "deleteAutoSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAutoSnapshotInput, DeleteAutoSnapshotOutputResponse, DeleteAutoSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAutoSnapshotInput, DeleteAutoSnapshotOutputResponse>())
@@ -1488,7 +1521,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAutoSnapshotOutputResponse, DeleteAutoSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAutoSnapshotOutputResponse, DeleteAutoSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAutoSnapshotOutputResponse, DeleteAutoSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1508,6 +1541,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketInput, DeleteBucketOutputResponse, DeleteBucketOutputError>(id: "deleteBucket")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketInput, DeleteBucketOutputResponse, DeleteBucketOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketInput, DeleteBucketOutputResponse>())
@@ -1527,7 +1561,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketOutputResponse, DeleteBucketOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketOutputResponse, DeleteBucketOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketOutputResponse, DeleteBucketOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1547,6 +1581,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteBucketAccessKeyInput, DeleteBucketAccessKeyOutputResponse, DeleteBucketAccessKeyOutputError>(id: "deleteBucketAccessKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteBucketAccessKeyInput, DeleteBucketAccessKeyOutputResponse, DeleteBucketAccessKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBucketAccessKeyInput, DeleteBucketAccessKeyOutputResponse>())
@@ -1566,7 +1601,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteBucketAccessKeyOutputResponse, DeleteBucketAccessKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteBucketAccessKeyOutputResponse, DeleteBucketAccessKeyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteBucketAccessKeyOutputResponse, DeleteBucketAccessKeyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1586,6 +1621,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCertificateInput, DeleteCertificateOutputResponse, DeleteCertificateOutputError>(id: "deleteCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCertificateInput, DeleteCertificateOutputResponse, DeleteCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCertificateInput, DeleteCertificateOutputResponse>())
@@ -1605,7 +1641,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCertificateOutputResponse, DeleteCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteCertificateOutputResponse, DeleteCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCertificateOutputResponse, DeleteCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1625,6 +1661,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteContactMethodInput, DeleteContactMethodOutputResponse, DeleteContactMethodOutputError>(id: "deleteContactMethod")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteContactMethodInput, DeleteContactMethodOutputResponse, DeleteContactMethodOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteContactMethodInput, DeleteContactMethodOutputResponse>())
@@ -1644,7 +1681,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteContactMethodOutputResponse, DeleteContactMethodOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteContactMethodOutputResponse, DeleteContactMethodOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteContactMethodOutputResponse, DeleteContactMethodOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1664,6 +1701,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteContainerImageInput, DeleteContainerImageOutputResponse, DeleteContainerImageOutputError>(id: "deleteContainerImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteContainerImageInput, DeleteContainerImageOutputResponse, DeleteContainerImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteContainerImageInput, DeleteContainerImageOutputResponse>())
@@ -1683,7 +1721,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteContainerImageOutputResponse, DeleteContainerImageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteContainerImageOutputResponse, DeleteContainerImageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteContainerImageOutputResponse, DeleteContainerImageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1703,6 +1741,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteContainerServiceInput, DeleteContainerServiceOutputResponse, DeleteContainerServiceOutputError>(id: "deleteContainerService")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteContainerServiceInput, DeleteContainerServiceOutputResponse, DeleteContainerServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteContainerServiceInput, DeleteContainerServiceOutputResponse>())
@@ -1722,7 +1761,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteContainerServiceOutputResponse, DeleteContainerServiceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteContainerServiceOutputResponse, DeleteContainerServiceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteContainerServiceOutputResponse, DeleteContainerServiceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1742,6 +1781,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDiskInput, DeleteDiskOutputResponse, DeleteDiskOutputError>(id: "deleteDisk")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDiskInput, DeleteDiskOutputResponse, DeleteDiskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDiskInput, DeleteDiskOutputResponse>())
@@ -1761,7 +1801,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDiskOutputResponse, DeleteDiskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDiskOutputResponse, DeleteDiskOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDiskOutputResponse, DeleteDiskOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1781,6 +1821,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDiskSnapshotInput, DeleteDiskSnapshotOutputResponse, DeleteDiskSnapshotOutputError>(id: "deleteDiskSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDiskSnapshotInput, DeleteDiskSnapshotOutputResponse, DeleteDiskSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDiskSnapshotInput, DeleteDiskSnapshotOutputResponse>())
@@ -1800,7 +1841,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDiskSnapshotOutputResponse, DeleteDiskSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDiskSnapshotOutputResponse, DeleteDiskSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDiskSnapshotOutputResponse, DeleteDiskSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1820,6 +1861,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDistributionInput, DeleteDistributionOutputResponse, DeleteDistributionOutputError>(id: "deleteDistribution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDistributionInput, DeleteDistributionOutputResponse, DeleteDistributionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDistributionInput, DeleteDistributionOutputResponse>())
@@ -1839,7 +1881,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDistributionOutputResponse, DeleteDistributionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDistributionOutputResponse, DeleteDistributionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDistributionOutputResponse, DeleteDistributionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1859,6 +1901,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDomainInput, DeleteDomainOutputResponse, DeleteDomainOutputError>(id: "deleteDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDomainInput, DeleteDomainOutputResponse, DeleteDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDomainInput, DeleteDomainOutputResponse>())
@@ -1878,7 +1921,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDomainOutputResponse, DeleteDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDomainOutputResponse, DeleteDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDomainOutputResponse, DeleteDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1898,6 +1941,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDomainEntryInput, DeleteDomainEntryOutputResponse, DeleteDomainEntryOutputError>(id: "deleteDomainEntry")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDomainEntryInput, DeleteDomainEntryOutputResponse, DeleteDomainEntryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDomainEntryInput, DeleteDomainEntryOutputResponse>())
@@ -1917,7 +1961,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDomainEntryOutputResponse, DeleteDomainEntryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDomainEntryOutputResponse, DeleteDomainEntryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDomainEntryOutputResponse, DeleteDomainEntryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1937,6 +1981,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteInstanceInput, DeleteInstanceOutputResponse, DeleteInstanceOutputError>(id: "deleteInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInstanceInput, DeleteInstanceOutputResponse, DeleteInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInstanceInput, DeleteInstanceOutputResponse>())
@@ -1956,7 +2001,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInstanceOutputResponse, DeleteInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteInstanceOutputResponse, DeleteInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInstanceOutputResponse, DeleteInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1976,6 +2021,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteInstanceSnapshotInput, DeleteInstanceSnapshotOutputResponse, DeleteInstanceSnapshotOutputError>(id: "deleteInstanceSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInstanceSnapshotInput, DeleteInstanceSnapshotOutputResponse, DeleteInstanceSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInstanceSnapshotInput, DeleteInstanceSnapshotOutputResponse>())
@@ -1995,7 +2041,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInstanceSnapshotOutputResponse, DeleteInstanceSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteInstanceSnapshotOutputResponse, DeleteInstanceSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInstanceSnapshotOutputResponse, DeleteInstanceSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2015,6 +2061,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteKeyPairInput, DeleteKeyPairOutputResponse, DeleteKeyPairOutputError>(id: "deleteKeyPair")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteKeyPairInput, DeleteKeyPairOutputResponse, DeleteKeyPairOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteKeyPairInput, DeleteKeyPairOutputResponse>())
@@ -2034,7 +2081,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteKeyPairOutputResponse, DeleteKeyPairOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteKeyPairOutputResponse, DeleteKeyPairOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteKeyPairOutputResponse, DeleteKeyPairOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2054,6 +2101,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteKnownHostKeysInput, DeleteKnownHostKeysOutputResponse, DeleteKnownHostKeysOutputError>(id: "deleteKnownHostKeys")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteKnownHostKeysInput, DeleteKnownHostKeysOutputResponse, DeleteKnownHostKeysOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteKnownHostKeysInput, DeleteKnownHostKeysOutputResponse>())
@@ -2073,7 +2121,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteKnownHostKeysOutputResponse, DeleteKnownHostKeysOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteKnownHostKeysOutputResponse, DeleteKnownHostKeysOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteKnownHostKeysOutputResponse, DeleteKnownHostKeysOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2093,6 +2141,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLoadBalancerInput, DeleteLoadBalancerOutputResponse, DeleteLoadBalancerOutputError>(id: "deleteLoadBalancer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLoadBalancerInput, DeleteLoadBalancerOutputResponse, DeleteLoadBalancerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLoadBalancerInput, DeleteLoadBalancerOutputResponse>())
@@ -2112,7 +2161,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLoadBalancerOutputResponse, DeleteLoadBalancerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteLoadBalancerOutputResponse, DeleteLoadBalancerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoadBalancerOutputResponse, DeleteLoadBalancerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2132,6 +2181,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLoadBalancerTlsCertificateInput, DeleteLoadBalancerTlsCertificateOutputResponse, DeleteLoadBalancerTlsCertificateOutputError>(id: "deleteLoadBalancerTlsCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLoadBalancerTlsCertificateInput, DeleteLoadBalancerTlsCertificateOutputResponse, DeleteLoadBalancerTlsCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLoadBalancerTlsCertificateInput, DeleteLoadBalancerTlsCertificateOutputResponse>())
@@ -2151,7 +2201,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLoadBalancerTlsCertificateOutputResponse, DeleteLoadBalancerTlsCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteLoadBalancerTlsCertificateOutputResponse, DeleteLoadBalancerTlsCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoadBalancerTlsCertificateOutputResponse, DeleteLoadBalancerTlsCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2171,6 +2221,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRelationalDatabaseInput, DeleteRelationalDatabaseOutputResponse, DeleteRelationalDatabaseOutputError>(id: "deleteRelationalDatabase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRelationalDatabaseInput, DeleteRelationalDatabaseOutputResponse, DeleteRelationalDatabaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRelationalDatabaseInput, DeleteRelationalDatabaseOutputResponse>())
@@ -2190,7 +2241,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRelationalDatabaseOutputResponse, DeleteRelationalDatabaseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteRelationalDatabaseOutputResponse, DeleteRelationalDatabaseOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRelationalDatabaseOutputResponse, DeleteRelationalDatabaseOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2210,6 +2261,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRelationalDatabaseSnapshotInput, DeleteRelationalDatabaseSnapshotOutputResponse, DeleteRelationalDatabaseSnapshotOutputError>(id: "deleteRelationalDatabaseSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRelationalDatabaseSnapshotInput, DeleteRelationalDatabaseSnapshotOutputResponse, DeleteRelationalDatabaseSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRelationalDatabaseSnapshotInput, DeleteRelationalDatabaseSnapshotOutputResponse>())
@@ -2229,7 +2281,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRelationalDatabaseSnapshotOutputResponse, DeleteRelationalDatabaseSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteRelationalDatabaseSnapshotOutputResponse, DeleteRelationalDatabaseSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRelationalDatabaseSnapshotOutputResponse, DeleteRelationalDatabaseSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2249,6 +2301,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetachCertificateFromDistributionInput, DetachCertificateFromDistributionOutputResponse, DetachCertificateFromDistributionOutputError>(id: "detachCertificateFromDistribution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachCertificateFromDistributionInput, DetachCertificateFromDistributionOutputResponse, DetachCertificateFromDistributionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachCertificateFromDistributionInput, DetachCertificateFromDistributionOutputResponse>())
@@ -2268,7 +2321,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachCertificateFromDistributionOutputResponse, DetachCertificateFromDistributionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DetachCertificateFromDistributionOutputResponse, DetachCertificateFromDistributionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachCertificateFromDistributionOutputResponse, DetachCertificateFromDistributionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2288,6 +2341,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetachDiskInput, DetachDiskOutputResponse, DetachDiskOutputError>(id: "detachDisk")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachDiskInput, DetachDiskOutputResponse, DetachDiskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachDiskInput, DetachDiskOutputResponse>())
@@ -2307,7 +2361,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachDiskOutputResponse, DetachDiskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DetachDiskOutputResponse, DetachDiskOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachDiskOutputResponse, DetachDiskOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2327,6 +2381,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetachInstancesFromLoadBalancerInput, DetachInstancesFromLoadBalancerOutputResponse, DetachInstancesFromLoadBalancerOutputError>(id: "detachInstancesFromLoadBalancer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachInstancesFromLoadBalancerInput, DetachInstancesFromLoadBalancerOutputResponse, DetachInstancesFromLoadBalancerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachInstancesFromLoadBalancerInput, DetachInstancesFromLoadBalancerOutputResponse>())
@@ -2346,7 +2401,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachInstancesFromLoadBalancerOutputResponse, DetachInstancesFromLoadBalancerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DetachInstancesFromLoadBalancerOutputResponse, DetachInstancesFromLoadBalancerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachInstancesFromLoadBalancerOutputResponse, DetachInstancesFromLoadBalancerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2366,6 +2421,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetachStaticIpInput, DetachStaticIpOutputResponse, DetachStaticIpOutputError>(id: "detachStaticIp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachStaticIpInput, DetachStaticIpOutputResponse, DetachStaticIpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachStaticIpInput, DetachStaticIpOutputResponse>())
@@ -2385,7 +2441,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachStaticIpOutputResponse, DetachStaticIpOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DetachStaticIpOutputResponse, DetachStaticIpOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachStaticIpOutputResponse, DetachStaticIpOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2405,6 +2461,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisableAddOnInput, DisableAddOnOutputResponse, DisableAddOnOutputError>(id: "disableAddOn")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableAddOnInput, DisableAddOnOutputResponse, DisableAddOnOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableAddOnInput, DisableAddOnOutputResponse>())
@@ -2424,7 +2481,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableAddOnOutputResponse, DisableAddOnOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisableAddOnOutputResponse, DisableAddOnOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableAddOnOutputResponse, DisableAddOnOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2444,6 +2501,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DownloadDefaultKeyPairInput, DownloadDefaultKeyPairOutputResponse, DownloadDefaultKeyPairOutputError>(id: "downloadDefaultKeyPair")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DownloadDefaultKeyPairInput, DownloadDefaultKeyPairOutputResponse, DownloadDefaultKeyPairOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DownloadDefaultKeyPairInput, DownloadDefaultKeyPairOutputResponse>())
@@ -2463,7 +2521,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DownloadDefaultKeyPairOutputResponse, DownloadDefaultKeyPairOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DownloadDefaultKeyPairOutputResponse, DownloadDefaultKeyPairOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DownloadDefaultKeyPairOutputResponse, DownloadDefaultKeyPairOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2483,6 +2541,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableAddOnInput, EnableAddOnOutputResponse, EnableAddOnOutputError>(id: "enableAddOn")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableAddOnInput, EnableAddOnOutputResponse, EnableAddOnOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableAddOnInput, EnableAddOnOutputResponse>())
@@ -2502,7 +2561,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableAddOnOutputResponse, EnableAddOnOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<EnableAddOnOutputResponse, EnableAddOnOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableAddOnOutputResponse, EnableAddOnOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2522,6 +2581,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExportSnapshotInput, ExportSnapshotOutputResponse, ExportSnapshotOutputError>(id: "exportSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportSnapshotInput, ExportSnapshotOutputResponse, ExportSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportSnapshotInput, ExportSnapshotOutputResponse>())
@@ -2541,7 +2601,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportSnapshotOutputResponse, ExportSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExportSnapshotOutputResponse, ExportSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportSnapshotOutputResponse, ExportSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2561,6 +2621,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetActiveNamesInput, GetActiveNamesOutputResponse, GetActiveNamesOutputError>(id: "getActiveNames")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetActiveNamesInput, GetActiveNamesOutputResponse, GetActiveNamesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetActiveNamesInput, GetActiveNamesOutputResponse>())
@@ -2580,7 +2641,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetActiveNamesOutputResponse, GetActiveNamesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetActiveNamesOutputResponse, GetActiveNamesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetActiveNamesOutputResponse, GetActiveNamesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2600,6 +2661,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAlarmsInput, GetAlarmsOutputResponse, GetAlarmsOutputError>(id: "getAlarms")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAlarmsInput, GetAlarmsOutputResponse, GetAlarmsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAlarmsInput, GetAlarmsOutputResponse>())
@@ -2619,7 +2681,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAlarmsOutputResponse, GetAlarmsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAlarmsOutputResponse, GetAlarmsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAlarmsOutputResponse, GetAlarmsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2639,6 +2701,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAutoSnapshotsInput, GetAutoSnapshotsOutputResponse, GetAutoSnapshotsOutputError>(id: "getAutoSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAutoSnapshotsInput, GetAutoSnapshotsOutputResponse, GetAutoSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAutoSnapshotsInput, GetAutoSnapshotsOutputResponse>())
@@ -2658,7 +2721,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAutoSnapshotsOutputResponse, GetAutoSnapshotsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAutoSnapshotsOutputResponse, GetAutoSnapshotsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAutoSnapshotsOutputResponse, GetAutoSnapshotsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2678,6 +2741,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBlueprintsInput, GetBlueprintsOutputResponse, GetBlueprintsOutputError>(id: "getBlueprints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBlueprintsInput, GetBlueprintsOutputResponse, GetBlueprintsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBlueprintsInput, GetBlueprintsOutputResponse>())
@@ -2697,7 +2761,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBlueprintsOutputResponse, GetBlueprintsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetBlueprintsOutputResponse, GetBlueprintsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBlueprintsOutputResponse, GetBlueprintsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2717,6 +2781,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBucketAccessKeysInput, GetBucketAccessKeysOutputResponse, GetBucketAccessKeysOutputError>(id: "getBucketAccessKeys")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketAccessKeysInput, GetBucketAccessKeysOutputResponse, GetBucketAccessKeysOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketAccessKeysInput, GetBucketAccessKeysOutputResponse>())
@@ -2736,7 +2801,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketAccessKeysOutputResponse, GetBucketAccessKeysOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetBucketAccessKeysOutputResponse, GetBucketAccessKeysOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketAccessKeysOutputResponse, GetBucketAccessKeysOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2756,6 +2821,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBucketBundlesInput, GetBucketBundlesOutputResponse, GetBucketBundlesOutputError>(id: "getBucketBundles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketBundlesInput, GetBucketBundlesOutputResponse, GetBucketBundlesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketBundlesInput, GetBucketBundlesOutputResponse>())
@@ -2775,7 +2841,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketBundlesOutputResponse, GetBucketBundlesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetBucketBundlesOutputResponse, GetBucketBundlesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketBundlesOutputResponse, GetBucketBundlesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2795,6 +2861,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBucketMetricDataInput, GetBucketMetricDataOutputResponse, GetBucketMetricDataOutputError>(id: "getBucketMetricData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketMetricDataInput, GetBucketMetricDataOutputResponse, GetBucketMetricDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketMetricDataInput, GetBucketMetricDataOutputResponse>())
@@ -2814,7 +2881,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketMetricDataOutputResponse, GetBucketMetricDataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetBucketMetricDataOutputResponse, GetBucketMetricDataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketMetricDataOutputResponse, GetBucketMetricDataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2834,6 +2901,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBucketsInput, GetBucketsOutputResponse, GetBucketsOutputError>(id: "getBuckets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBucketsInput, GetBucketsOutputResponse, GetBucketsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBucketsInput, GetBucketsOutputResponse>())
@@ -2853,7 +2921,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBucketsOutputResponse, GetBucketsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetBucketsOutputResponse, GetBucketsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBucketsOutputResponse, GetBucketsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2873,6 +2941,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBundlesInput, GetBundlesOutputResponse, GetBundlesOutputError>(id: "getBundles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBundlesInput, GetBundlesOutputResponse, GetBundlesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBundlesInput, GetBundlesOutputResponse>())
@@ -2892,7 +2961,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBundlesOutputResponse, GetBundlesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetBundlesOutputResponse, GetBundlesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBundlesOutputResponse, GetBundlesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2912,6 +2981,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCertificatesInput, GetCertificatesOutputResponse, GetCertificatesOutputError>(id: "getCertificates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCertificatesInput, GetCertificatesOutputResponse, GetCertificatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCertificatesInput, GetCertificatesOutputResponse>())
@@ -2931,7 +3001,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCertificatesOutputResponse, GetCertificatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCertificatesOutputResponse, GetCertificatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCertificatesOutputResponse, GetCertificatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2951,6 +3021,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCloudFormationStackRecordsInput, GetCloudFormationStackRecordsOutputResponse, GetCloudFormationStackRecordsOutputError>(id: "getCloudFormationStackRecords")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCloudFormationStackRecordsInput, GetCloudFormationStackRecordsOutputResponse, GetCloudFormationStackRecordsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCloudFormationStackRecordsInput, GetCloudFormationStackRecordsOutputResponse>())
@@ -2970,7 +3041,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCloudFormationStackRecordsOutputResponse, GetCloudFormationStackRecordsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCloudFormationStackRecordsOutputResponse, GetCloudFormationStackRecordsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCloudFormationStackRecordsOutputResponse, GetCloudFormationStackRecordsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2990,6 +3061,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetContactMethodsInput, GetContactMethodsOutputResponse, GetContactMethodsOutputError>(id: "getContactMethods")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContactMethodsInput, GetContactMethodsOutputResponse, GetContactMethodsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContactMethodsInput, GetContactMethodsOutputResponse>())
@@ -3009,7 +3081,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContactMethodsOutputResponse, GetContactMethodsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContactMethodsOutputResponse, GetContactMethodsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContactMethodsOutputResponse, GetContactMethodsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3029,6 +3101,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetContainerAPIMetadataInput, GetContainerAPIMetadataOutputResponse, GetContainerAPIMetadataOutputError>(id: "getContainerAPIMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContainerAPIMetadataInput, GetContainerAPIMetadataOutputResponse, GetContainerAPIMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContainerAPIMetadataInput, GetContainerAPIMetadataOutputResponse>())
@@ -3048,7 +3121,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContainerAPIMetadataOutputResponse, GetContainerAPIMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContainerAPIMetadataOutputResponse, GetContainerAPIMetadataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContainerAPIMetadataOutputResponse, GetContainerAPIMetadataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3068,6 +3141,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetContainerImagesInput, GetContainerImagesOutputResponse, GetContainerImagesOutputError>(id: "getContainerImages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContainerImagesInput, GetContainerImagesOutputResponse, GetContainerImagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContainerImagesInput, GetContainerImagesOutputResponse>())
@@ -3087,7 +3161,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContainerImagesOutputResponse, GetContainerImagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContainerImagesOutputResponse, GetContainerImagesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContainerImagesOutputResponse, GetContainerImagesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3107,6 +3181,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetContainerLogInput, GetContainerLogOutputResponse, GetContainerLogOutputError>(id: "getContainerLog")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContainerLogInput, GetContainerLogOutputResponse, GetContainerLogOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContainerLogInput, GetContainerLogOutputResponse>())
@@ -3127,7 +3202,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContainerLogOutputResponse, GetContainerLogOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContainerLogOutputResponse, GetContainerLogOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContainerLogOutputResponse, GetContainerLogOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3147,6 +3222,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetContainerServiceDeploymentsInput, GetContainerServiceDeploymentsOutputResponse, GetContainerServiceDeploymentsOutputError>(id: "getContainerServiceDeployments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContainerServiceDeploymentsInput, GetContainerServiceDeploymentsOutputResponse, GetContainerServiceDeploymentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContainerServiceDeploymentsInput, GetContainerServiceDeploymentsOutputResponse>())
@@ -3166,7 +3242,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContainerServiceDeploymentsOutputResponse, GetContainerServiceDeploymentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContainerServiceDeploymentsOutputResponse, GetContainerServiceDeploymentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContainerServiceDeploymentsOutputResponse, GetContainerServiceDeploymentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3186,6 +3262,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetContainerServiceMetricDataInput, GetContainerServiceMetricDataOutputResponse, GetContainerServiceMetricDataOutputError>(id: "getContainerServiceMetricData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContainerServiceMetricDataInput, GetContainerServiceMetricDataOutputResponse, GetContainerServiceMetricDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContainerServiceMetricDataInput, GetContainerServiceMetricDataOutputResponse>())
@@ -3206,7 +3283,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContainerServiceMetricDataOutputResponse, GetContainerServiceMetricDataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContainerServiceMetricDataOutputResponse, GetContainerServiceMetricDataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContainerServiceMetricDataOutputResponse, GetContainerServiceMetricDataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3226,6 +3303,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetContainerServicePowersInput, GetContainerServicePowersOutputResponse, GetContainerServicePowersOutputError>(id: "getContainerServicePowers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContainerServicePowersInput, GetContainerServicePowersOutputResponse, GetContainerServicePowersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContainerServicePowersInput, GetContainerServicePowersOutputResponse>())
@@ -3245,7 +3323,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContainerServicePowersOutputResponse, GetContainerServicePowersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContainerServicePowersOutputResponse, GetContainerServicePowersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContainerServicePowersOutputResponse, GetContainerServicePowersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3265,6 +3343,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetContainerServicesInput, GetContainerServicesOutputResponse, GetContainerServicesOutputError>(id: "getContainerServices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContainerServicesInput, GetContainerServicesOutputResponse, GetContainerServicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContainerServicesInput, GetContainerServicesOutputResponse>())
@@ -3285,7 +3364,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContainerServicesOutputResponse, GetContainerServicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContainerServicesOutputResponse, GetContainerServicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContainerServicesOutputResponse, GetContainerServicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3305,6 +3384,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDiskInput, GetDiskOutputResponse, GetDiskOutputError>(id: "getDisk")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDiskInput, GetDiskOutputResponse, GetDiskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDiskInput, GetDiskOutputResponse>())
@@ -3324,7 +3404,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDiskOutputResponse, GetDiskOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDiskOutputResponse, GetDiskOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDiskOutputResponse, GetDiskOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3344,6 +3424,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDiskSnapshotInput, GetDiskSnapshotOutputResponse, GetDiskSnapshotOutputError>(id: "getDiskSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDiskSnapshotInput, GetDiskSnapshotOutputResponse, GetDiskSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDiskSnapshotInput, GetDiskSnapshotOutputResponse>())
@@ -3363,7 +3444,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDiskSnapshotOutputResponse, GetDiskSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDiskSnapshotOutputResponse, GetDiskSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDiskSnapshotOutputResponse, GetDiskSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3383,6 +3464,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDiskSnapshotsInput, GetDiskSnapshotsOutputResponse, GetDiskSnapshotsOutputError>(id: "getDiskSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDiskSnapshotsInput, GetDiskSnapshotsOutputResponse, GetDiskSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDiskSnapshotsInput, GetDiskSnapshotsOutputResponse>())
@@ -3402,7 +3484,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDiskSnapshotsOutputResponse, GetDiskSnapshotsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDiskSnapshotsOutputResponse, GetDiskSnapshotsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDiskSnapshotsOutputResponse, GetDiskSnapshotsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3422,6 +3504,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDisksInput, GetDisksOutputResponse, GetDisksOutputError>(id: "getDisks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDisksInput, GetDisksOutputResponse, GetDisksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDisksInput, GetDisksOutputResponse>())
@@ -3441,7 +3524,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDisksOutputResponse, GetDisksOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDisksOutputResponse, GetDisksOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDisksOutputResponse, GetDisksOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3461,6 +3544,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDistributionBundlesInput, GetDistributionBundlesOutputResponse, GetDistributionBundlesOutputError>(id: "getDistributionBundles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDistributionBundlesInput, GetDistributionBundlesOutputResponse, GetDistributionBundlesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDistributionBundlesInput, GetDistributionBundlesOutputResponse>())
@@ -3480,7 +3564,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDistributionBundlesOutputResponse, GetDistributionBundlesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDistributionBundlesOutputResponse, GetDistributionBundlesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDistributionBundlesOutputResponse, GetDistributionBundlesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3500,6 +3584,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDistributionLatestCacheResetInput, GetDistributionLatestCacheResetOutputResponse, GetDistributionLatestCacheResetOutputError>(id: "getDistributionLatestCacheReset")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDistributionLatestCacheResetInput, GetDistributionLatestCacheResetOutputResponse, GetDistributionLatestCacheResetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDistributionLatestCacheResetInput, GetDistributionLatestCacheResetOutputResponse>())
@@ -3519,7 +3604,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDistributionLatestCacheResetOutputResponse, GetDistributionLatestCacheResetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDistributionLatestCacheResetOutputResponse, GetDistributionLatestCacheResetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDistributionLatestCacheResetOutputResponse, GetDistributionLatestCacheResetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3539,6 +3624,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDistributionMetricDataInput, GetDistributionMetricDataOutputResponse, GetDistributionMetricDataOutputError>(id: "getDistributionMetricData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDistributionMetricDataInput, GetDistributionMetricDataOutputResponse, GetDistributionMetricDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDistributionMetricDataInput, GetDistributionMetricDataOutputResponse>())
@@ -3558,7 +3644,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDistributionMetricDataOutputResponse, GetDistributionMetricDataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDistributionMetricDataOutputResponse, GetDistributionMetricDataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDistributionMetricDataOutputResponse, GetDistributionMetricDataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3578,6 +3664,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDistributionsInput, GetDistributionsOutputResponse, GetDistributionsOutputError>(id: "getDistributions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDistributionsInput, GetDistributionsOutputResponse, GetDistributionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDistributionsInput, GetDistributionsOutputResponse>())
@@ -3597,7 +3684,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDistributionsOutputResponse, GetDistributionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDistributionsOutputResponse, GetDistributionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDistributionsOutputResponse, GetDistributionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3617,6 +3704,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDomainInput, GetDomainOutputResponse, GetDomainOutputError>(id: "getDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDomainInput, GetDomainOutputResponse, GetDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDomainInput, GetDomainOutputResponse>())
@@ -3636,7 +3724,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDomainOutputResponse, GetDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDomainOutputResponse, GetDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDomainOutputResponse, GetDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3656,6 +3744,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDomainsInput, GetDomainsOutputResponse, GetDomainsOutputError>(id: "getDomains")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDomainsInput, GetDomainsOutputResponse, GetDomainsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDomainsInput, GetDomainsOutputResponse>())
@@ -3675,7 +3764,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDomainsOutputResponse, GetDomainsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDomainsOutputResponse, GetDomainsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDomainsOutputResponse, GetDomainsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3695,6 +3784,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetExportSnapshotRecordsInput, GetExportSnapshotRecordsOutputResponse, GetExportSnapshotRecordsOutputError>(id: "getExportSnapshotRecords")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetExportSnapshotRecordsInput, GetExportSnapshotRecordsOutputResponse, GetExportSnapshotRecordsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetExportSnapshotRecordsInput, GetExportSnapshotRecordsOutputResponse>())
@@ -3714,7 +3804,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetExportSnapshotRecordsOutputResponse, GetExportSnapshotRecordsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetExportSnapshotRecordsOutputResponse, GetExportSnapshotRecordsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetExportSnapshotRecordsOutputResponse, GetExportSnapshotRecordsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3734,6 +3824,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInstanceInput, GetInstanceOutputResponse, GetInstanceOutputError>(id: "getInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceInput, GetInstanceOutputResponse, GetInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceInput, GetInstanceOutputResponse>())
@@ -3753,7 +3844,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstanceOutputResponse, GetInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetInstanceOutputResponse, GetInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstanceOutputResponse, GetInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3773,6 +3864,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInstanceAccessDetailsInput, GetInstanceAccessDetailsOutputResponse, GetInstanceAccessDetailsOutputError>(id: "getInstanceAccessDetails")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceAccessDetailsInput, GetInstanceAccessDetailsOutputResponse, GetInstanceAccessDetailsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceAccessDetailsInput, GetInstanceAccessDetailsOutputResponse>())
@@ -3792,7 +3884,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstanceAccessDetailsOutputResponse, GetInstanceAccessDetailsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetInstanceAccessDetailsOutputResponse, GetInstanceAccessDetailsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstanceAccessDetailsOutputResponse, GetInstanceAccessDetailsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3812,6 +3904,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInstanceMetricDataInput, GetInstanceMetricDataOutputResponse, GetInstanceMetricDataOutputError>(id: "getInstanceMetricData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceMetricDataInput, GetInstanceMetricDataOutputResponse, GetInstanceMetricDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceMetricDataInput, GetInstanceMetricDataOutputResponse>())
@@ -3831,7 +3924,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstanceMetricDataOutputResponse, GetInstanceMetricDataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetInstanceMetricDataOutputResponse, GetInstanceMetricDataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstanceMetricDataOutputResponse, GetInstanceMetricDataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3851,6 +3944,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInstancePortStatesInput, GetInstancePortStatesOutputResponse, GetInstancePortStatesOutputError>(id: "getInstancePortStates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstancePortStatesInput, GetInstancePortStatesOutputResponse, GetInstancePortStatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstancePortStatesInput, GetInstancePortStatesOutputResponse>())
@@ -3870,7 +3964,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstancePortStatesOutputResponse, GetInstancePortStatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetInstancePortStatesOutputResponse, GetInstancePortStatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstancePortStatesOutputResponse, GetInstancePortStatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3890,6 +3984,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInstanceSnapshotInput, GetInstanceSnapshotOutputResponse, GetInstanceSnapshotOutputError>(id: "getInstanceSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceSnapshotInput, GetInstanceSnapshotOutputResponse, GetInstanceSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceSnapshotInput, GetInstanceSnapshotOutputResponse>())
@@ -3909,7 +4004,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstanceSnapshotOutputResponse, GetInstanceSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetInstanceSnapshotOutputResponse, GetInstanceSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstanceSnapshotOutputResponse, GetInstanceSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3929,6 +4024,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInstanceSnapshotsInput, GetInstanceSnapshotsOutputResponse, GetInstanceSnapshotsOutputError>(id: "getInstanceSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceSnapshotsInput, GetInstanceSnapshotsOutputResponse, GetInstanceSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceSnapshotsInput, GetInstanceSnapshotsOutputResponse>())
@@ -3948,7 +4044,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstanceSnapshotsOutputResponse, GetInstanceSnapshotsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetInstanceSnapshotsOutputResponse, GetInstanceSnapshotsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstanceSnapshotsOutputResponse, GetInstanceSnapshotsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3968,6 +4064,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInstanceStateInput, GetInstanceStateOutputResponse, GetInstanceStateOutputError>(id: "getInstanceState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceStateInput, GetInstanceStateOutputResponse, GetInstanceStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceStateInput, GetInstanceStateOutputResponse>())
@@ -3987,7 +4084,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstanceStateOutputResponse, GetInstanceStateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetInstanceStateOutputResponse, GetInstanceStateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstanceStateOutputResponse, GetInstanceStateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4007,6 +4104,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInstancesInput, GetInstancesOutputResponse, GetInstancesOutputError>(id: "getInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstancesInput, GetInstancesOutputResponse, GetInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstancesInput, GetInstancesOutputResponse>())
@@ -4026,7 +4124,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstancesOutputResponse, GetInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetInstancesOutputResponse, GetInstancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstancesOutputResponse, GetInstancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4046,6 +4144,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetKeyPairInput, GetKeyPairOutputResponse, GetKeyPairOutputError>(id: "getKeyPair")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetKeyPairInput, GetKeyPairOutputResponse, GetKeyPairOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetKeyPairInput, GetKeyPairOutputResponse>())
@@ -4065,7 +4164,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetKeyPairOutputResponse, GetKeyPairOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetKeyPairOutputResponse, GetKeyPairOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetKeyPairOutputResponse, GetKeyPairOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4085,6 +4184,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetKeyPairsInput, GetKeyPairsOutputResponse, GetKeyPairsOutputError>(id: "getKeyPairs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetKeyPairsInput, GetKeyPairsOutputResponse, GetKeyPairsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetKeyPairsInput, GetKeyPairsOutputResponse>())
@@ -4104,7 +4204,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetKeyPairsOutputResponse, GetKeyPairsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetKeyPairsOutputResponse, GetKeyPairsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetKeyPairsOutputResponse, GetKeyPairsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4124,6 +4224,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLoadBalancerInput, GetLoadBalancerOutputResponse, GetLoadBalancerOutputError>(id: "getLoadBalancer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoadBalancerInput, GetLoadBalancerOutputResponse, GetLoadBalancerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoadBalancerInput, GetLoadBalancerOutputResponse>())
@@ -4143,7 +4244,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLoadBalancerOutputResponse, GetLoadBalancerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetLoadBalancerOutputResponse, GetLoadBalancerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLoadBalancerOutputResponse, GetLoadBalancerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4163,6 +4264,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLoadBalancerMetricDataInput, GetLoadBalancerMetricDataOutputResponse, GetLoadBalancerMetricDataOutputError>(id: "getLoadBalancerMetricData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoadBalancerMetricDataInput, GetLoadBalancerMetricDataOutputResponse, GetLoadBalancerMetricDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoadBalancerMetricDataInput, GetLoadBalancerMetricDataOutputResponse>())
@@ -4182,7 +4284,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLoadBalancerMetricDataOutputResponse, GetLoadBalancerMetricDataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetLoadBalancerMetricDataOutputResponse, GetLoadBalancerMetricDataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLoadBalancerMetricDataOutputResponse, GetLoadBalancerMetricDataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4202,6 +4304,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLoadBalancerTlsCertificatesInput, GetLoadBalancerTlsCertificatesOutputResponse, GetLoadBalancerTlsCertificatesOutputError>(id: "getLoadBalancerTlsCertificates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoadBalancerTlsCertificatesInput, GetLoadBalancerTlsCertificatesOutputResponse, GetLoadBalancerTlsCertificatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoadBalancerTlsCertificatesInput, GetLoadBalancerTlsCertificatesOutputResponse>())
@@ -4221,7 +4324,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLoadBalancerTlsCertificatesOutputResponse, GetLoadBalancerTlsCertificatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetLoadBalancerTlsCertificatesOutputResponse, GetLoadBalancerTlsCertificatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLoadBalancerTlsCertificatesOutputResponse, GetLoadBalancerTlsCertificatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4241,6 +4344,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLoadBalancerTlsPoliciesInput, GetLoadBalancerTlsPoliciesOutputResponse, GetLoadBalancerTlsPoliciesOutputError>(id: "getLoadBalancerTlsPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoadBalancerTlsPoliciesInput, GetLoadBalancerTlsPoliciesOutputResponse, GetLoadBalancerTlsPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoadBalancerTlsPoliciesInput, GetLoadBalancerTlsPoliciesOutputResponse>())
@@ -4260,7 +4364,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLoadBalancerTlsPoliciesOutputResponse, GetLoadBalancerTlsPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetLoadBalancerTlsPoliciesOutputResponse, GetLoadBalancerTlsPoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLoadBalancerTlsPoliciesOutputResponse, GetLoadBalancerTlsPoliciesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4280,6 +4384,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLoadBalancersInput, GetLoadBalancersOutputResponse, GetLoadBalancersOutputError>(id: "getLoadBalancers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoadBalancersInput, GetLoadBalancersOutputResponse, GetLoadBalancersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoadBalancersInput, GetLoadBalancersOutputResponse>())
@@ -4299,7 +4404,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLoadBalancersOutputResponse, GetLoadBalancersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetLoadBalancersOutputResponse, GetLoadBalancersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLoadBalancersOutputResponse, GetLoadBalancersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4319,6 +4424,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetOperationInput, GetOperationOutputResponse, GetOperationOutputError>(id: "getOperation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOperationInput, GetOperationOutputResponse, GetOperationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOperationInput, GetOperationOutputResponse>())
@@ -4338,7 +4444,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOperationOutputResponse, GetOperationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetOperationOutputResponse, GetOperationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOperationOutputResponse, GetOperationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4358,6 +4464,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetOperationsInput, GetOperationsOutputResponse, GetOperationsOutputError>(id: "getOperations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOperationsInput, GetOperationsOutputResponse, GetOperationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOperationsInput, GetOperationsOutputResponse>())
@@ -4377,7 +4484,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOperationsOutputResponse, GetOperationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetOperationsOutputResponse, GetOperationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOperationsOutputResponse, GetOperationsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4397,6 +4504,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetOperationsForResourceInput, GetOperationsForResourceOutputResponse, GetOperationsForResourceOutputError>(id: "getOperationsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOperationsForResourceInput, GetOperationsForResourceOutputResponse, GetOperationsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOperationsForResourceInput, GetOperationsForResourceOutputResponse>())
@@ -4416,7 +4524,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOperationsForResourceOutputResponse, GetOperationsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetOperationsForResourceOutputResponse, GetOperationsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOperationsForResourceOutputResponse, GetOperationsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4436,6 +4544,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRegionsInput, GetRegionsOutputResponse, GetRegionsOutputError>(id: "getRegions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRegionsInput, GetRegionsOutputResponse, GetRegionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRegionsInput, GetRegionsOutputResponse>())
@@ -4455,7 +4564,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRegionsOutputResponse, GetRegionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRegionsOutputResponse, GetRegionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRegionsOutputResponse, GetRegionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4475,6 +4584,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseInput, GetRelationalDatabaseOutputResponse, GetRelationalDatabaseOutputError>(id: "getRelationalDatabase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseInput, GetRelationalDatabaseOutputResponse, GetRelationalDatabaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseInput, GetRelationalDatabaseOutputResponse>())
@@ -4494,7 +4604,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRelationalDatabaseOutputResponse, GetRelationalDatabaseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRelationalDatabaseOutputResponse, GetRelationalDatabaseOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseOutputResponse, GetRelationalDatabaseOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4514,6 +4624,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseBlueprintsInput, GetRelationalDatabaseBlueprintsOutputResponse, GetRelationalDatabaseBlueprintsOutputError>(id: "getRelationalDatabaseBlueprints")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseBlueprintsInput, GetRelationalDatabaseBlueprintsOutputResponse, GetRelationalDatabaseBlueprintsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseBlueprintsInput, GetRelationalDatabaseBlueprintsOutputResponse>())
@@ -4533,7 +4644,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRelationalDatabaseBlueprintsOutputResponse, GetRelationalDatabaseBlueprintsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRelationalDatabaseBlueprintsOutputResponse, GetRelationalDatabaseBlueprintsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseBlueprintsOutputResponse, GetRelationalDatabaseBlueprintsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4553,6 +4664,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseBundlesInput, GetRelationalDatabaseBundlesOutputResponse, GetRelationalDatabaseBundlesOutputError>(id: "getRelationalDatabaseBundles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseBundlesInput, GetRelationalDatabaseBundlesOutputResponse, GetRelationalDatabaseBundlesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseBundlesInput, GetRelationalDatabaseBundlesOutputResponse>())
@@ -4572,7 +4684,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRelationalDatabaseBundlesOutputResponse, GetRelationalDatabaseBundlesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRelationalDatabaseBundlesOutputResponse, GetRelationalDatabaseBundlesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseBundlesOutputResponse, GetRelationalDatabaseBundlesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4592,6 +4704,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseEventsInput, GetRelationalDatabaseEventsOutputResponse, GetRelationalDatabaseEventsOutputError>(id: "getRelationalDatabaseEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseEventsInput, GetRelationalDatabaseEventsOutputResponse, GetRelationalDatabaseEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseEventsInput, GetRelationalDatabaseEventsOutputResponse>())
@@ -4611,7 +4724,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRelationalDatabaseEventsOutputResponse, GetRelationalDatabaseEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRelationalDatabaseEventsOutputResponse, GetRelationalDatabaseEventsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseEventsOutputResponse, GetRelationalDatabaseEventsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4631,6 +4744,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseLogEventsInput, GetRelationalDatabaseLogEventsOutputResponse, GetRelationalDatabaseLogEventsOutputError>(id: "getRelationalDatabaseLogEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseLogEventsInput, GetRelationalDatabaseLogEventsOutputResponse, GetRelationalDatabaseLogEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseLogEventsInput, GetRelationalDatabaseLogEventsOutputResponse>())
@@ -4650,7 +4764,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRelationalDatabaseLogEventsOutputResponse, GetRelationalDatabaseLogEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRelationalDatabaseLogEventsOutputResponse, GetRelationalDatabaseLogEventsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseLogEventsOutputResponse, GetRelationalDatabaseLogEventsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4670,6 +4784,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseLogStreamsInput, GetRelationalDatabaseLogStreamsOutputResponse, GetRelationalDatabaseLogStreamsOutputError>(id: "getRelationalDatabaseLogStreams")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseLogStreamsInput, GetRelationalDatabaseLogStreamsOutputResponse, GetRelationalDatabaseLogStreamsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseLogStreamsInput, GetRelationalDatabaseLogStreamsOutputResponse>())
@@ -4689,7 +4804,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRelationalDatabaseLogStreamsOutputResponse, GetRelationalDatabaseLogStreamsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRelationalDatabaseLogStreamsOutputResponse, GetRelationalDatabaseLogStreamsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseLogStreamsOutputResponse, GetRelationalDatabaseLogStreamsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4709,6 +4824,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseMasterUserPasswordInput, GetRelationalDatabaseMasterUserPasswordOutputResponse, GetRelationalDatabaseMasterUserPasswordOutputError>(id: "getRelationalDatabaseMasterUserPassword")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseMasterUserPasswordInput, GetRelationalDatabaseMasterUserPasswordOutputResponse, GetRelationalDatabaseMasterUserPasswordOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseMasterUserPasswordInput, GetRelationalDatabaseMasterUserPasswordOutputResponse>())
@@ -4728,7 +4844,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRelationalDatabaseMasterUserPasswordOutputResponse, GetRelationalDatabaseMasterUserPasswordOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRelationalDatabaseMasterUserPasswordOutputResponse, GetRelationalDatabaseMasterUserPasswordOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseMasterUserPasswordOutputResponse, GetRelationalDatabaseMasterUserPasswordOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4748,6 +4864,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseMetricDataInput, GetRelationalDatabaseMetricDataOutputResponse, GetRelationalDatabaseMetricDataOutputError>(id: "getRelationalDatabaseMetricData")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseMetricDataInput, GetRelationalDatabaseMetricDataOutputResponse, GetRelationalDatabaseMetricDataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseMetricDataInput, GetRelationalDatabaseMetricDataOutputResponse>())
@@ -4767,7 +4884,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRelationalDatabaseMetricDataOutputResponse, GetRelationalDatabaseMetricDataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRelationalDatabaseMetricDataOutputResponse, GetRelationalDatabaseMetricDataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseMetricDataOutputResponse, GetRelationalDatabaseMetricDataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4787,6 +4904,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseParametersInput, GetRelationalDatabaseParametersOutputResponse, GetRelationalDatabaseParametersOutputError>(id: "getRelationalDatabaseParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseParametersInput, GetRelationalDatabaseParametersOutputResponse, GetRelationalDatabaseParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseParametersInput, GetRelationalDatabaseParametersOutputResponse>())
@@ -4806,7 +4924,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRelationalDatabaseParametersOutputResponse, GetRelationalDatabaseParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRelationalDatabaseParametersOutputResponse, GetRelationalDatabaseParametersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseParametersOutputResponse, GetRelationalDatabaseParametersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4826,6 +4944,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseSnapshotInput, GetRelationalDatabaseSnapshotOutputResponse, GetRelationalDatabaseSnapshotOutputError>(id: "getRelationalDatabaseSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseSnapshotInput, GetRelationalDatabaseSnapshotOutputResponse, GetRelationalDatabaseSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseSnapshotInput, GetRelationalDatabaseSnapshotOutputResponse>())
@@ -4845,7 +4964,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRelationalDatabaseSnapshotOutputResponse, GetRelationalDatabaseSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRelationalDatabaseSnapshotOutputResponse, GetRelationalDatabaseSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseSnapshotOutputResponse, GetRelationalDatabaseSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4865,6 +4984,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRelationalDatabaseSnapshotsInput, GetRelationalDatabaseSnapshotsOutputResponse, GetRelationalDatabaseSnapshotsOutputError>(id: "getRelationalDatabaseSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabaseSnapshotsInput, GetRelationalDatabaseSnapshotsOutputResponse, GetRelationalDatabaseSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabaseSnapshotsInput, GetRelationalDatabaseSnapshotsOutputResponse>())
@@ -4884,7 +5004,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRelationalDatabaseSnapshotsOutputResponse, GetRelationalDatabaseSnapshotsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRelationalDatabaseSnapshotsOutputResponse, GetRelationalDatabaseSnapshotsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseSnapshotsOutputResponse, GetRelationalDatabaseSnapshotsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4904,6 +5024,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRelationalDatabasesInput, GetRelationalDatabasesOutputResponse, GetRelationalDatabasesOutputError>(id: "getRelationalDatabases")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRelationalDatabasesInput, GetRelationalDatabasesOutputResponse, GetRelationalDatabasesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRelationalDatabasesInput, GetRelationalDatabasesOutputResponse>())
@@ -4923,7 +5044,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRelationalDatabasesOutputResponse, GetRelationalDatabasesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRelationalDatabasesOutputResponse, GetRelationalDatabasesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRelationalDatabasesOutputResponse, GetRelationalDatabasesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4943,6 +5064,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetStaticIpInput, GetStaticIpOutputResponse, GetStaticIpOutputError>(id: "getStaticIp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStaticIpInput, GetStaticIpOutputResponse, GetStaticIpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStaticIpInput, GetStaticIpOutputResponse>())
@@ -4962,7 +5084,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStaticIpOutputResponse, GetStaticIpOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetStaticIpOutputResponse, GetStaticIpOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStaticIpOutputResponse, GetStaticIpOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4982,6 +5104,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetStaticIpsInput, GetStaticIpsOutputResponse, GetStaticIpsOutputError>(id: "getStaticIps")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStaticIpsInput, GetStaticIpsOutputResponse, GetStaticIpsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStaticIpsInput, GetStaticIpsOutputResponse>())
@@ -5001,7 +5124,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStaticIpsOutputResponse, GetStaticIpsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetStaticIpsOutputResponse, GetStaticIpsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStaticIpsOutputResponse, GetStaticIpsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5021,6 +5144,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ImportKeyPairInput, ImportKeyPairOutputResponse, ImportKeyPairOutputError>(id: "importKeyPair")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportKeyPairInput, ImportKeyPairOutputResponse, ImportKeyPairOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportKeyPairInput, ImportKeyPairOutputResponse>())
@@ -5040,7 +5164,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportKeyPairOutputResponse, ImportKeyPairOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ImportKeyPairOutputResponse, ImportKeyPairOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportKeyPairOutputResponse, ImportKeyPairOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5060,6 +5184,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<IsVpcPeeredInput, IsVpcPeeredOutputResponse, IsVpcPeeredOutputError>(id: "isVpcPeered")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<IsVpcPeeredInput, IsVpcPeeredOutputResponse, IsVpcPeeredOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<IsVpcPeeredInput, IsVpcPeeredOutputResponse>())
@@ -5079,7 +5204,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<IsVpcPeeredOutputResponse, IsVpcPeeredOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<IsVpcPeeredOutputResponse, IsVpcPeeredOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<IsVpcPeeredOutputResponse, IsVpcPeeredOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5099,6 +5224,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<OpenInstancePublicPortsInput, OpenInstancePublicPortsOutputResponse, OpenInstancePublicPortsOutputError>(id: "openInstancePublicPorts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<OpenInstancePublicPortsInput, OpenInstancePublicPortsOutputResponse, OpenInstancePublicPortsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<OpenInstancePublicPortsInput, OpenInstancePublicPortsOutputResponse>())
@@ -5118,7 +5244,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<OpenInstancePublicPortsOutputResponse, OpenInstancePublicPortsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<OpenInstancePublicPortsOutputResponse, OpenInstancePublicPortsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<OpenInstancePublicPortsOutputResponse, OpenInstancePublicPortsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5138,6 +5264,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PeerVpcInput, PeerVpcOutputResponse, PeerVpcOutputError>(id: "peerVpc")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PeerVpcInput, PeerVpcOutputResponse, PeerVpcOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PeerVpcInput, PeerVpcOutputResponse>())
@@ -5157,7 +5284,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PeerVpcOutputResponse, PeerVpcOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PeerVpcOutputResponse, PeerVpcOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PeerVpcOutputResponse, PeerVpcOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5177,6 +5304,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutAlarmInput, PutAlarmOutputResponse, PutAlarmOutputError>(id: "putAlarm")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutAlarmInput, PutAlarmOutputResponse, PutAlarmOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutAlarmInput, PutAlarmOutputResponse>())
@@ -5196,7 +5324,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAlarmOutputResponse, PutAlarmOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutAlarmOutputResponse, PutAlarmOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAlarmOutputResponse, PutAlarmOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5216,6 +5344,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutInstancePublicPortsInput, PutInstancePublicPortsOutputResponse, PutInstancePublicPortsOutputError>(id: "putInstancePublicPorts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutInstancePublicPortsInput, PutInstancePublicPortsOutputResponse, PutInstancePublicPortsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutInstancePublicPortsInput, PutInstancePublicPortsOutputResponse>())
@@ -5235,7 +5364,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutInstancePublicPortsOutputResponse, PutInstancePublicPortsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutInstancePublicPortsOutputResponse, PutInstancePublicPortsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutInstancePublicPortsOutputResponse, PutInstancePublicPortsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5255,6 +5384,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RebootInstanceInput, RebootInstanceOutputResponse, RebootInstanceOutputError>(id: "rebootInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebootInstanceInput, RebootInstanceOutputResponse, RebootInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebootInstanceInput, RebootInstanceOutputResponse>())
@@ -5274,7 +5404,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RebootInstanceOutputResponse, RebootInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RebootInstanceOutputResponse, RebootInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RebootInstanceOutputResponse, RebootInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5294,6 +5424,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RebootRelationalDatabaseInput, RebootRelationalDatabaseOutputResponse, RebootRelationalDatabaseOutputError>(id: "rebootRelationalDatabase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebootRelationalDatabaseInput, RebootRelationalDatabaseOutputResponse, RebootRelationalDatabaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebootRelationalDatabaseInput, RebootRelationalDatabaseOutputResponse>())
@@ -5313,7 +5444,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RebootRelationalDatabaseOutputResponse, RebootRelationalDatabaseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RebootRelationalDatabaseOutputResponse, RebootRelationalDatabaseOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RebootRelationalDatabaseOutputResponse, RebootRelationalDatabaseOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5333,6 +5464,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RegisterContainerImageInput, RegisterContainerImageOutputResponse, RegisterContainerImageOutputError>(id: "registerContainerImage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterContainerImageInput, RegisterContainerImageOutputResponse, RegisterContainerImageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterContainerImageInput, RegisterContainerImageOutputResponse>())
@@ -5352,7 +5484,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterContainerImageOutputResponse, RegisterContainerImageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RegisterContainerImageOutputResponse, RegisterContainerImageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterContainerImageOutputResponse, RegisterContainerImageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5372,6 +5504,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ReleaseStaticIpInput, ReleaseStaticIpOutputResponse, ReleaseStaticIpOutputError>(id: "releaseStaticIp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReleaseStaticIpInput, ReleaseStaticIpOutputResponse, ReleaseStaticIpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReleaseStaticIpInput, ReleaseStaticIpOutputResponse>())
@@ -5391,7 +5524,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReleaseStaticIpOutputResponse, ReleaseStaticIpOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ReleaseStaticIpOutputResponse, ReleaseStaticIpOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReleaseStaticIpOutputResponse, ReleaseStaticIpOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5411,6 +5544,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResetDistributionCacheInput, ResetDistributionCacheOutputResponse, ResetDistributionCacheOutputError>(id: "resetDistributionCache")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetDistributionCacheInput, ResetDistributionCacheOutputResponse, ResetDistributionCacheOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetDistributionCacheInput, ResetDistributionCacheOutputResponse>())
@@ -5430,7 +5564,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetDistributionCacheOutputResponse, ResetDistributionCacheOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ResetDistributionCacheOutputResponse, ResetDistributionCacheOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetDistributionCacheOutputResponse, ResetDistributionCacheOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5450,6 +5584,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendContactMethodVerificationInput, SendContactMethodVerificationOutputResponse, SendContactMethodVerificationOutputError>(id: "sendContactMethodVerification")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendContactMethodVerificationInput, SendContactMethodVerificationOutputResponse, SendContactMethodVerificationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendContactMethodVerificationInput, SendContactMethodVerificationOutputResponse>())
@@ -5469,7 +5604,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendContactMethodVerificationOutputResponse, SendContactMethodVerificationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendContactMethodVerificationOutputResponse, SendContactMethodVerificationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendContactMethodVerificationOutputResponse, SendContactMethodVerificationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5489,6 +5624,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetIpAddressTypeInput, SetIpAddressTypeOutputResponse, SetIpAddressTypeOutputError>(id: "setIpAddressType")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetIpAddressTypeInput, SetIpAddressTypeOutputResponse, SetIpAddressTypeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetIpAddressTypeInput, SetIpAddressTypeOutputResponse>())
@@ -5508,7 +5644,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetIpAddressTypeOutputResponse, SetIpAddressTypeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetIpAddressTypeOutputResponse, SetIpAddressTypeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetIpAddressTypeOutputResponse, SetIpAddressTypeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5528,6 +5664,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetResourceAccessForBucketInput, SetResourceAccessForBucketOutputResponse, SetResourceAccessForBucketOutputError>(id: "setResourceAccessForBucket")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetResourceAccessForBucketInput, SetResourceAccessForBucketOutputResponse, SetResourceAccessForBucketOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetResourceAccessForBucketInput, SetResourceAccessForBucketOutputResponse>())
@@ -5547,7 +5684,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetResourceAccessForBucketOutputResponse, SetResourceAccessForBucketOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetResourceAccessForBucketOutputResponse, SetResourceAccessForBucketOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetResourceAccessForBucketOutputResponse, SetResourceAccessForBucketOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5567,6 +5704,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartInstanceInput, StartInstanceOutputResponse, StartInstanceOutputError>(id: "startInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartInstanceInput, StartInstanceOutputResponse, StartInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartInstanceInput, StartInstanceOutputResponse>())
@@ -5586,7 +5724,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartInstanceOutputResponse, StartInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartInstanceOutputResponse, StartInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartInstanceOutputResponse, StartInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5606,6 +5744,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartRelationalDatabaseInput, StartRelationalDatabaseOutputResponse, StartRelationalDatabaseOutputError>(id: "startRelationalDatabase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartRelationalDatabaseInput, StartRelationalDatabaseOutputResponse, StartRelationalDatabaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartRelationalDatabaseInput, StartRelationalDatabaseOutputResponse>())
@@ -5625,7 +5764,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartRelationalDatabaseOutputResponse, StartRelationalDatabaseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartRelationalDatabaseOutputResponse, StartRelationalDatabaseOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartRelationalDatabaseOutputResponse, StartRelationalDatabaseOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5645,6 +5784,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopInstanceInput, StopInstanceOutputResponse, StopInstanceOutputError>(id: "stopInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopInstanceInput, StopInstanceOutputResponse, StopInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopInstanceInput, StopInstanceOutputResponse>())
@@ -5664,7 +5804,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopInstanceOutputResponse, StopInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopInstanceOutputResponse, StopInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopInstanceOutputResponse, StopInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5684,6 +5824,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopRelationalDatabaseInput, StopRelationalDatabaseOutputResponse, StopRelationalDatabaseOutputError>(id: "stopRelationalDatabase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopRelationalDatabaseInput, StopRelationalDatabaseOutputResponse, StopRelationalDatabaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopRelationalDatabaseInput, StopRelationalDatabaseOutputResponse>())
@@ -5703,7 +5844,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopRelationalDatabaseOutputResponse, StopRelationalDatabaseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopRelationalDatabaseOutputResponse, StopRelationalDatabaseOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopRelationalDatabaseOutputResponse, StopRelationalDatabaseOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5723,6 +5864,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -5742,7 +5884,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5762,6 +5904,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TestAlarmInput, TestAlarmOutputResponse, TestAlarmOutputError>(id: "testAlarm")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestAlarmInput, TestAlarmOutputResponse, TestAlarmOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestAlarmInput, TestAlarmOutputResponse>())
@@ -5781,7 +5924,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestAlarmOutputResponse, TestAlarmOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TestAlarmOutputResponse, TestAlarmOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestAlarmOutputResponse, TestAlarmOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5801,6 +5944,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UnpeerVpcInput, UnpeerVpcOutputResponse, UnpeerVpcOutputError>(id: "unpeerVpc")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UnpeerVpcInput, UnpeerVpcOutputResponse, UnpeerVpcOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UnpeerVpcInput, UnpeerVpcOutputResponse>())
@@ -5820,7 +5964,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UnpeerVpcOutputResponse, UnpeerVpcOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UnpeerVpcOutputResponse, UnpeerVpcOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UnpeerVpcOutputResponse, UnpeerVpcOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5840,6 +5984,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -5859,7 +6004,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5879,6 +6024,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBucketInput, UpdateBucketOutputResponse, UpdateBucketOutputError>(id: "updateBucket")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBucketInput, UpdateBucketOutputResponse, UpdateBucketOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBucketInput, UpdateBucketOutputResponse>())
@@ -5898,7 +6044,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBucketOutputResponse, UpdateBucketOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateBucketOutputResponse, UpdateBucketOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBucketOutputResponse, UpdateBucketOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5918,6 +6064,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateBucketBundleInput, UpdateBucketBundleOutputResponse, UpdateBucketBundleOutputError>(id: "updateBucketBundle")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateBucketBundleInput, UpdateBucketBundleOutputResponse, UpdateBucketBundleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateBucketBundleInput, UpdateBucketBundleOutputResponse>())
@@ -5937,7 +6084,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateBucketBundleOutputResponse, UpdateBucketBundleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateBucketBundleOutputResponse, UpdateBucketBundleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateBucketBundleOutputResponse, UpdateBucketBundleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5957,6 +6104,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateContainerServiceInput, UpdateContainerServiceOutputResponse, UpdateContainerServiceOutputError>(id: "updateContainerService")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateContainerServiceInput, UpdateContainerServiceOutputResponse, UpdateContainerServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateContainerServiceInput, UpdateContainerServiceOutputResponse>())
@@ -5976,7 +6124,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateContainerServiceOutputResponse, UpdateContainerServiceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateContainerServiceOutputResponse, UpdateContainerServiceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateContainerServiceOutputResponse, UpdateContainerServiceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5996,6 +6144,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDistributionInput, UpdateDistributionOutputResponse, UpdateDistributionOutputError>(id: "updateDistribution")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDistributionInput, UpdateDistributionOutputResponse, UpdateDistributionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDistributionInput, UpdateDistributionOutputResponse>())
@@ -6015,7 +6164,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDistributionOutputResponse, UpdateDistributionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDistributionOutputResponse, UpdateDistributionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDistributionOutputResponse, UpdateDistributionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6035,6 +6184,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDistributionBundleInput, UpdateDistributionBundleOutputResponse, UpdateDistributionBundleOutputError>(id: "updateDistributionBundle")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDistributionBundleInput, UpdateDistributionBundleOutputResponse, UpdateDistributionBundleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDistributionBundleInput, UpdateDistributionBundleOutputResponse>())
@@ -6054,7 +6204,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDistributionBundleOutputResponse, UpdateDistributionBundleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDistributionBundleOutputResponse, UpdateDistributionBundleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDistributionBundleOutputResponse, UpdateDistributionBundleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6074,6 +6224,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDomainEntryInput, UpdateDomainEntryOutputResponse, UpdateDomainEntryOutputError>(id: "updateDomainEntry")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDomainEntryInput, UpdateDomainEntryOutputResponse, UpdateDomainEntryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDomainEntryInput, UpdateDomainEntryOutputResponse>())
@@ -6093,7 +6244,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDomainEntryOutputResponse, UpdateDomainEntryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDomainEntryOutputResponse, UpdateDomainEntryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDomainEntryOutputResponse, UpdateDomainEntryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6113,6 +6264,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateInstanceMetadataOptionsInput, UpdateInstanceMetadataOptionsOutputResponse, UpdateInstanceMetadataOptionsOutputError>(id: "updateInstanceMetadataOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInstanceMetadataOptionsInput, UpdateInstanceMetadataOptionsOutputResponse, UpdateInstanceMetadataOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInstanceMetadataOptionsInput, UpdateInstanceMetadataOptionsOutputResponse>())
@@ -6132,7 +6284,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateInstanceMetadataOptionsOutputResponse, UpdateInstanceMetadataOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateInstanceMetadataOptionsOutputResponse, UpdateInstanceMetadataOptionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateInstanceMetadataOptionsOutputResponse, UpdateInstanceMetadataOptionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6152,6 +6304,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateLoadBalancerAttributeInput, UpdateLoadBalancerAttributeOutputResponse, UpdateLoadBalancerAttributeOutputError>(id: "updateLoadBalancerAttribute")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLoadBalancerAttributeInput, UpdateLoadBalancerAttributeOutputResponse, UpdateLoadBalancerAttributeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLoadBalancerAttributeInput, UpdateLoadBalancerAttributeOutputResponse>())
@@ -6171,7 +6324,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLoadBalancerAttributeOutputResponse, UpdateLoadBalancerAttributeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateLoadBalancerAttributeOutputResponse, UpdateLoadBalancerAttributeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLoadBalancerAttributeOutputResponse, UpdateLoadBalancerAttributeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6191,6 +6344,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRelationalDatabaseInput, UpdateRelationalDatabaseOutputResponse, UpdateRelationalDatabaseOutputError>(id: "updateRelationalDatabase")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRelationalDatabaseInput, UpdateRelationalDatabaseOutputResponse, UpdateRelationalDatabaseOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRelationalDatabaseInput, UpdateRelationalDatabaseOutputResponse>())
@@ -6210,7 +6364,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRelationalDatabaseOutputResponse, UpdateRelationalDatabaseOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateRelationalDatabaseOutputResponse, UpdateRelationalDatabaseOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRelationalDatabaseOutputResponse, UpdateRelationalDatabaseOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -6230,6 +6384,7 @@ extension LightsailClient: LightsailClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "lightsail")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRelationalDatabaseParametersInput, UpdateRelationalDatabaseParametersOutputResponse, UpdateRelationalDatabaseParametersOutputError>(id: "updateRelationalDatabaseParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRelationalDatabaseParametersInput, UpdateRelationalDatabaseParametersOutputResponse, UpdateRelationalDatabaseParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRelationalDatabaseParametersInput, UpdateRelationalDatabaseParametersOutputResponse>())
@@ -6249,7 +6404,7 @@ extension LightsailClient: LightsailClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRelationalDatabaseParametersOutputResponse, UpdateRelationalDatabaseParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateRelationalDatabaseParametersOutputResponse, UpdateRelationalDatabaseParametersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRelationalDatabaseParametersOutputResponse, UpdateRelationalDatabaseParametersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

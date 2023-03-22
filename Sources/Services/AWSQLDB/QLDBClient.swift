@@ -221,6 +221,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelJournalKinesisStreamInput, CancelJournalKinesisStreamOutputResponse, CancelJournalKinesisStreamOutputError>(id: "cancelJournalKinesisStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelJournalKinesisStreamInput, CancelJournalKinesisStreamOutputResponse, CancelJournalKinesisStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelJournalKinesisStreamInput, CancelJournalKinesisStreamOutputResponse>())
@@ -233,7 +234,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelJournalKinesisStreamOutputResponse, CancelJournalKinesisStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CancelJournalKinesisStreamOutputResponse, CancelJournalKinesisStreamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelJournalKinesisStreamOutputResponse, CancelJournalKinesisStreamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -253,6 +254,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLedgerInput, CreateLedgerOutputResponse, CreateLedgerOutputError>(id: "createLedger")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLedgerInput, CreateLedgerOutputResponse, CreateLedgerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLedgerInput, CreateLedgerOutputResponse>())
@@ -268,7 +270,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLedgerOutputResponse, CreateLedgerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateLedgerOutputResponse, CreateLedgerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLedgerOutputResponse, CreateLedgerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -288,6 +290,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLedgerInput, DeleteLedgerOutputResponse, DeleteLedgerOutputError>(id: "deleteLedger")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLedgerInput, DeleteLedgerOutputResponse, DeleteLedgerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLedgerInput, DeleteLedgerOutputResponse>())
@@ -300,7 +303,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLedgerOutputResponse, DeleteLedgerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteLedgerOutputResponse, DeleteLedgerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLedgerOutputResponse, DeleteLedgerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -320,6 +323,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeJournalKinesisStreamInput, DescribeJournalKinesisStreamOutputResponse, DescribeJournalKinesisStreamOutputError>(id: "describeJournalKinesisStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeJournalKinesisStreamInput, DescribeJournalKinesisStreamOutputResponse, DescribeJournalKinesisStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeJournalKinesisStreamInput, DescribeJournalKinesisStreamOutputResponse>())
@@ -332,7 +336,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeJournalKinesisStreamOutputResponse, DescribeJournalKinesisStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeJournalKinesisStreamOutputResponse, DescribeJournalKinesisStreamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeJournalKinesisStreamOutputResponse, DescribeJournalKinesisStreamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -352,6 +356,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeJournalS3ExportInput, DescribeJournalS3ExportOutputResponse, DescribeJournalS3ExportOutputError>(id: "describeJournalS3Export")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeJournalS3ExportInput, DescribeJournalS3ExportOutputResponse, DescribeJournalS3ExportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeJournalS3ExportInput, DescribeJournalS3ExportOutputResponse>())
@@ -364,7 +369,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeJournalS3ExportOutputResponse, DescribeJournalS3ExportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeJournalS3ExportOutputResponse, DescribeJournalS3ExportOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeJournalS3ExportOutputResponse, DescribeJournalS3ExportOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -384,6 +389,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLedgerInput, DescribeLedgerOutputResponse, DescribeLedgerOutputError>(id: "describeLedger")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLedgerInput, DescribeLedgerOutputResponse, DescribeLedgerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLedgerInput, DescribeLedgerOutputResponse>())
@@ -396,7 +402,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLedgerOutputResponse, DescribeLedgerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeLedgerOutputResponse, DescribeLedgerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLedgerOutputResponse, DescribeLedgerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -416,6 +422,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExportJournalToS3Input, ExportJournalToS3OutputResponse, ExportJournalToS3OutputError>(id: "exportJournalToS3")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportJournalToS3Input, ExportJournalToS3OutputResponse, ExportJournalToS3OutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportJournalToS3Input, ExportJournalToS3OutputResponse>())
@@ -431,7 +438,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportJournalToS3OutputResponse, ExportJournalToS3OutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExportJournalToS3OutputResponse, ExportJournalToS3OutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportJournalToS3OutputResponse, ExportJournalToS3OutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -451,6 +458,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetBlockInput, GetBlockOutputResponse, GetBlockOutputError>(id: "getBlock")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetBlockInput, GetBlockOutputResponse, GetBlockOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBlockInput, GetBlockOutputResponse>())
@@ -466,7 +474,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetBlockOutputResponse, GetBlockOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetBlockOutputResponse, GetBlockOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetBlockOutputResponse, GetBlockOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -486,6 +494,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDigestInput, GetDigestOutputResponse, GetDigestOutputError>(id: "getDigest")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDigestInput, GetDigestOutputResponse, GetDigestOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDigestInput, GetDigestOutputResponse>())
@@ -498,7 +507,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDigestOutputResponse, GetDigestOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDigestOutputResponse, GetDigestOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDigestOutputResponse, GetDigestOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -518,6 +527,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRevisionInput, GetRevisionOutputResponse, GetRevisionOutputError>(id: "getRevision")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRevisionInput, GetRevisionOutputResponse, GetRevisionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRevisionInput, GetRevisionOutputResponse>())
@@ -533,7 +543,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRevisionOutputResponse, GetRevisionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRevisionOutputResponse, GetRevisionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRevisionOutputResponse, GetRevisionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -553,6 +563,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListJournalKinesisStreamsForLedgerInput, ListJournalKinesisStreamsForLedgerOutputResponse, ListJournalKinesisStreamsForLedgerOutputError>(id: "listJournalKinesisStreamsForLedger")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListJournalKinesisStreamsForLedgerInput, ListJournalKinesisStreamsForLedgerOutputResponse, ListJournalKinesisStreamsForLedgerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListJournalKinesisStreamsForLedgerInput, ListJournalKinesisStreamsForLedgerOutputResponse>())
@@ -566,7 +577,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListJournalKinesisStreamsForLedgerOutputResponse, ListJournalKinesisStreamsForLedgerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListJournalKinesisStreamsForLedgerOutputResponse, ListJournalKinesisStreamsForLedgerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListJournalKinesisStreamsForLedgerOutputResponse, ListJournalKinesisStreamsForLedgerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -586,6 +597,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListJournalS3ExportsInput, ListJournalS3ExportsOutputResponse, ListJournalS3ExportsOutputError>(id: "listJournalS3Exports")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListJournalS3ExportsInput, ListJournalS3ExportsOutputResponse, ListJournalS3ExportsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListJournalS3ExportsInput, ListJournalS3ExportsOutputResponse>())
@@ -599,7 +611,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListJournalS3ExportsOutputResponse, ListJournalS3ExportsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListJournalS3ExportsOutputResponse, ListJournalS3ExportsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListJournalS3ExportsOutputResponse, ListJournalS3ExportsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -619,6 +631,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListJournalS3ExportsForLedgerInput, ListJournalS3ExportsForLedgerOutputResponse, ListJournalS3ExportsForLedgerOutputError>(id: "listJournalS3ExportsForLedger")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListJournalS3ExportsForLedgerInput, ListJournalS3ExportsForLedgerOutputResponse, ListJournalS3ExportsForLedgerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListJournalS3ExportsForLedgerInput, ListJournalS3ExportsForLedgerOutputResponse>())
@@ -632,7 +645,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListJournalS3ExportsForLedgerOutputResponse, ListJournalS3ExportsForLedgerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListJournalS3ExportsForLedgerOutputResponse, ListJournalS3ExportsForLedgerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListJournalS3ExportsForLedgerOutputResponse, ListJournalS3ExportsForLedgerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -652,6 +665,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListLedgersInput, ListLedgersOutputResponse, ListLedgersOutputError>(id: "listLedgers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLedgersInput, ListLedgersOutputResponse, ListLedgersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLedgersInput, ListLedgersOutputResponse>())
@@ -665,7 +679,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLedgersOutputResponse, ListLedgersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListLedgersOutputResponse, ListLedgersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLedgersOutputResponse, ListLedgersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -685,6 +699,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -697,7 +712,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -717,6 +732,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StreamJournalToKinesisInput, StreamJournalToKinesisOutputResponse, StreamJournalToKinesisOutputError>(id: "streamJournalToKinesis")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StreamJournalToKinesisInput, StreamJournalToKinesisOutputResponse, StreamJournalToKinesisOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StreamJournalToKinesisInput, StreamJournalToKinesisOutputResponse>())
@@ -732,7 +748,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StreamJournalToKinesisOutputResponse, StreamJournalToKinesisOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StreamJournalToKinesisOutputResponse, StreamJournalToKinesisOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StreamJournalToKinesisOutputResponse, StreamJournalToKinesisOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -752,6 +768,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -767,7 +784,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -787,6 +804,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -800,7 +818,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -820,6 +838,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateLedgerInput, UpdateLedgerOutputResponse, UpdateLedgerOutputError>(id: "updateLedger")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLedgerInput, UpdateLedgerOutputResponse, UpdateLedgerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLedgerInput, UpdateLedgerOutputResponse>())
@@ -835,7 +854,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLedgerOutputResponse, UpdateLedgerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateLedgerOutputResponse, UpdateLedgerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLedgerOutputResponse, UpdateLedgerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -855,6 +874,7 @@ extension QLDBClient: QLDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "qldb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateLedgerPermissionsModeInput, UpdateLedgerPermissionsModeOutputResponse, UpdateLedgerPermissionsModeOutputError>(id: "updateLedgerPermissionsMode")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLedgerPermissionsModeInput, UpdateLedgerPermissionsModeOutputResponse, UpdateLedgerPermissionsModeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLedgerPermissionsModeInput, UpdateLedgerPermissionsModeOutputResponse>())
@@ -870,7 +890,7 @@ extension QLDBClient: QLDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLedgerPermissionsModeOutputResponse, UpdateLedgerPermissionsModeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateLedgerPermissionsModeOutputResponse, UpdateLedgerPermissionsModeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLedgerPermissionsModeOutputResponse, UpdateLedgerPermissionsModeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

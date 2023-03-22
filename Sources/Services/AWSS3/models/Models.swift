@@ -134,7 +134,7 @@ extension AbortMultipartUploadInputBody: Swift.Decodable {
 }
 
 extension AbortMultipartUploadOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -162,7 +162,7 @@ public enum AbortMultipartUploadOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension AbortMultipartUploadOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         } else {
@@ -888,7 +888,7 @@ extension BucketAlreadyExists {
 }
 
 /// The requested bucket name is not available. The bucket namespace is shared by all users of the system. Select a different name and try again.
-public struct BucketAlreadyExists: AWSClientRuntime.S3HttpServiceError, Swift.Equatable {
+public struct BucketAlreadyExists: AWSClientRuntime.S3HttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -912,7 +912,7 @@ extension BucketAlreadyOwnedByYou {
 }
 
 /// The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all Amazon Web Services Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).
-public struct BucketAlreadyOwnedByYou: AWSClientRuntime.S3HttpServiceError, Swift.Equatable {
+public struct BucketAlreadyOwnedByYou: AWSClientRuntime.S3HttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2168,7 +2168,7 @@ extension CompleteMultipartUploadInputBody: Swift.Decodable {
 }
 
 extension CompleteMultipartUploadOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -2199,7 +2199,7 @@ extension CompleteMultipartUploadOutputResponse: Swift.CustomDebugStringConverti
 }
 
 extension CompleteMultipartUploadOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
             self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
         } else {
@@ -2997,7 +2997,7 @@ extension CopyObjectInputBody: Swift.Decodable {
 }
 
 extension CopyObjectOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -3030,7 +3030,7 @@ extension CopyObjectOutputResponse: Swift.CustomDebugStringConvertible {
 }
 
 extension CopyObjectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
             self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
         } else {
@@ -3586,7 +3586,7 @@ extension CreateBucketInputBody: Swift.Decodable {
 }
 
 extension CreateBucketOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -3616,7 +3616,7 @@ public enum CreateBucketOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension CreateBucketOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
             self.location = locationHeaderValue
         } else {
@@ -3895,7 +3895,7 @@ extension CreateMultipartUploadInputBody: Swift.Decodable {
 }
 
 extension CreateMultipartUploadOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -3926,7 +3926,7 @@ extension CreateMultipartUploadOutputResponse: Swift.CustomDebugStringConvertibl
 }
 
 extension CreateMultipartUploadOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let abortDateHeaderValue = httpResponse.headers.value(for: "x-amz-abort-date") {
             self.abortDate = TimestampFormatter(format: .httpDate).date(from: abortDateHeaderValue)
         } else {
@@ -4302,7 +4302,7 @@ extension DeleteBucketAnalyticsConfigurationInputBody: Swift.Decodable {
 }
 
 extension DeleteBucketAnalyticsConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -4328,7 +4328,7 @@ public enum DeleteBucketAnalyticsConfigurationOutputError: Swift.Error, Swift.Eq
 }
 
 extension DeleteBucketAnalyticsConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -4390,7 +4390,7 @@ extension DeleteBucketCorsInputBody: Swift.Decodable {
 }
 
 extension DeleteBucketCorsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -4416,7 +4416,7 @@ public enum DeleteBucketCorsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteBucketCorsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -4478,7 +4478,7 @@ extension DeleteBucketEncryptionInputBody: Swift.Decodable {
 }
 
 extension DeleteBucketEncryptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -4504,7 +4504,7 @@ public enum DeleteBucketEncryptionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteBucketEncryptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -4605,7 +4605,7 @@ extension DeleteBucketIntelligentTieringConfigurationInputBody: Swift.Decodable 
 }
 
 extension DeleteBucketIntelligentTieringConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -4631,7 +4631,7 @@ public enum DeleteBucketIntelligentTieringConfigurationOutputError: Swift.Error,
 }
 
 extension DeleteBucketIntelligentTieringConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -4704,7 +4704,7 @@ extension DeleteBucketInventoryConfigurationInputBody: Swift.Decodable {
 }
 
 extension DeleteBucketInventoryConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -4730,7 +4730,7 @@ public enum DeleteBucketInventoryConfigurationOutputError: Swift.Error, Swift.Eq
 }
 
 extension DeleteBucketInventoryConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -4792,7 +4792,7 @@ extension DeleteBucketLifecycleInputBody: Swift.Decodable {
 }
 
 extension DeleteBucketLifecycleOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -4818,7 +4818,7 @@ public enum DeleteBucketLifecycleOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteBucketLifecycleOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -4891,7 +4891,7 @@ extension DeleteBucketMetricsConfigurationInputBody: Swift.Decodable {
 }
 
 extension DeleteBucketMetricsConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -4917,7 +4917,7 @@ public enum DeleteBucketMetricsConfigurationOutputError: Swift.Error, Swift.Equa
 }
 
 extension DeleteBucketMetricsConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -4927,7 +4927,7 @@ public struct DeleteBucketMetricsConfigurationOutputResponse: Swift.Equatable {
 }
 
 extension DeleteBucketOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -4953,7 +4953,7 @@ public enum DeleteBucketOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteBucketOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -5015,7 +5015,7 @@ extension DeleteBucketOwnershipControlsInputBody: Swift.Decodable {
 }
 
 extension DeleteBucketOwnershipControlsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -5041,7 +5041,7 @@ public enum DeleteBucketOwnershipControlsOutputError: Swift.Error, Swift.Equatab
 }
 
 extension DeleteBucketOwnershipControlsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -5103,7 +5103,7 @@ extension DeleteBucketPolicyInputBody: Swift.Decodable {
 }
 
 extension DeleteBucketPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -5129,7 +5129,7 @@ public enum DeleteBucketPolicyOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteBucketPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -5191,7 +5191,7 @@ extension DeleteBucketReplicationInputBody: Swift.Decodable {
 }
 
 extension DeleteBucketReplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -5217,7 +5217,7 @@ public enum DeleteBucketReplicationOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteBucketReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -5279,7 +5279,7 @@ extension DeleteBucketTaggingInputBody: Swift.Decodable {
 }
 
 extension DeleteBucketTaggingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -5305,7 +5305,7 @@ public enum DeleteBucketTaggingOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteBucketTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -5367,7 +5367,7 @@ extension DeleteBucketWebsiteInputBody: Swift.Decodable {
 }
 
 extension DeleteBucketWebsiteOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -5393,7 +5393,7 @@ public enum DeleteBucketWebsiteOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteBucketWebsiteOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -5668,7 +5668,7 @@ extension DeleteObjectInputBody: Swift.Decodable {
 }
 
 extension DeleteObjectOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -5694,7 +5694,7 @@ public enum DeleteObjectOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteObjectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let deleteMarkerHeaderValue = httpResponse.headers.value(for: "x-amz-delete-marker") {
             self.deleteMarker = Swift.Bool(deleteMarkerHeaderValue) ?? false
         } else {
@@ -5802,7 +5802,7 @@ extension DeleteObjectTaggingInputBody: Swift.Decodable {
 }
 
 extension DeleteObjectTaggingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -5828,7 +5828,7 @@ public enum DeleteObjectTaggingOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteObjectTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
             self.versionId = versionIdHeaderValue
         } else {
@@ -6012,7 +6012,7 @@ extension DeleteObjectsInputBody: Swift.Decodable {
 }
 
 extension DeleteObjectsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -6038,7 +6038,7 @@ public enum DeleteObjectsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeleteObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         } else {
@@ -6181,7 +6181,7 @@ extension DeletePublicAccessBlockInputBody: Swift.Decodable {
 }
 
 extension DeletePublicAccessBlockOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -6207,7 +6207,7 @@ public enum DeletePublicAccessBlockOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension DeletePublicAccessBlockOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -8231,7 +8231,7 @@ extension GetBucketAccelerateConfigurationInputBody: Swift.Decodable {
 }
 
 extension GetBucketAccelerateConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -8257,7 +8257,7 @@ public enum GetBucketAccelerateConfigurationOutputError: Swift.Error, Swift.Equa
 }
 
 extension GetBucketAccelerateConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetBucketAccelerateConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -8349,7 +8349,7 @@ extension GetBucketAclInputBody: Swift.Decodable {
 }
 
 extension GetBucketAclOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -8375,7 +8375,7 @@ public enum GetBucketAclOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetBucketAclOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetBucketAclOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -8506,7 +8506,7 @@ extension GetBucketAnalyticsConfigurationInputBody: Swift.Decodable {
 }
 
 extension GetBucketAnalyticsConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -8532,7 +8532,7 @@ public enum GetBucketAnalyticsConfigurationOutputError: Swift.Error, Swift.Equat
 }
 
 extension GetBucketAnalyticsConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: S3ClientTypes.AnalyticsConfiguration = try responseDecoder.decode(responseBody: data)
             self.analyticsConfiguration = output
@@ -8623,7 +8623,7 @@ extension GetBucketCorsInputBody: Swift.Decodable {
 }
 
 extension GetBucketCorsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -8649,7 +8649,7 @@ public enum GetBucketCorsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetBucketCorsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetBucketCorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -8757,7 +8757,7 @@ extension GetBucketEncryptionInputBody: Swift.Decodable {
 }
 
 extension GetBucketEncryptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -8783,7 +8783,7 @@ public enum GetBucketEncryptionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetBucketEncryptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: S3ClientTypes.ServerSideEncryptionConfiguration = try responseDecoder.decode(responseBody: data)
             self.serverSideEncryptionConfiguration = output
@@ -8872,7 +8872,7 @@ extension GetBucketIntelligentTieringConfigurationInputBody: Swift.Decodable {
 }
 
 extension GetBucketIntelligentTieringConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -8898,7 +8898,7 @@ public enum GetBucketIntelligentTieringConfigurationOutputError: Swift.Error, Sw
 }
 
 extension GetBucketIntelligentTieringConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: S3ClientTypes.IntelligentTieringConfiguration = try responseDecoder.decode(responseBody: data)
             self.intelligentTieringConfiguration = output
@@ -9001,7 +9001,7 @@ extension GetBucketInventoryConfigurationInputBody: Swift.Decodable {
 }
 
 extension GetBucketInventoryConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -9027,7 +9027,7 @@ public enum GetBucketInventoryConfigurationOutputError: Swift.Error, Swift.Equat
 }
 
 extension GetBucketInventoryConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: S3ClientTypes.InventoryConfiguration = try responseDecoder.decode(responseBody: data)
             self.inventoryConfiguration = output
@@ -9118,7 +9118,7 @@ extension GetBucketLifecycleConfigurationInputBody: Swift.Decodable {
 }
 
 extension GetBucketLifecycleConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -9144,7 +9144,7 @@ public enum GetBucketLifecycleConfigurationOutputError: Swift.Error, Swift.Equat
 }
 
 extension GetBucketLifecycleConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetBucketLifecycleConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -9252,7 +9252,7 @@ extension GetBucketLocationInputBody: Swift.Decodable {
 }
 
 extension GetBucketLocationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -9278,7 +9278,7 @@ public enum GetBucketLocationOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetBucketLocationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetBucketLocationOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -9370,7 +9370,7 @@ extension GetBucketLoggingInputBody: Swift.Decodable {
 }
 
 extension GetBucketLoggingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -9396,7 +9396,7 @@ public enum GetBucketLoggingOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetBucketLoggingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetBucketLoggingOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -9500,7 +9500,7 @@ extension GetBucketMetricsConfigurationInputBody: Swift.Decodable {
 }
 
 extension GetBucketMetricsConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -9526,7 +9526,7 @@ public enum GetBucketMetricsConfigurationOutputError: Swift.Error, Swift.Equatab
 }
 
 extension GetBucketMetricsConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: S3ClientTypes.MetricsConfiguration = try responseDecoder.decode(responseBody: data)
             self.metricsConfiguration = output
@@ -9617,7 +9617,7 @@ extension GetBucketNotificationConfigurationInputBody: Swift.Decodable {
 }
 
 extension GetBucketNotificationConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -9643,7 +9643,7 @@ public enum GetBucketNotificationConfigurationOutputError: Swift.Error, Swift.Eq
 }
 
 extension GetBucketNotificationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetBucketNotificationConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -9814,7 +9814,7 @@ extension GetBucketOwnershipControlsInputBody: Swift.Decodable {
 }
 
 extension GetBucketOwnershipControlsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -9840,7 +9840,7 @@ public enum GetBucketOwnershipControlsOutputError: Swift.Error, Swift.Equatable 
 }
 
 extension GetBucketOwnershipControlsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: S3ClientTypes.OwnershipControls = try responseDecoder.decode(responseBody: data)
             self.ownershipControls = output
@@ -9931,7 +9931,7 @@ extension GetBucketPolicyInputBody: Swift.Decodable {
 }
 
 extension GetBucketPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -9957,7 +9957,7 @@ public enum GetBucketPolicyOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetBucketPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let output = Swift.String(data: data, encoding: .utf8) {
             self.policy = output
         } else {
@@ -10047,7 +10047,7 @@ extension GetBucketPolicyStatusInputBody: Swift.Decodable {
 }
 
 extension GetBucketPolicyStatusOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -10073,7 +10073,7 @@ public enum GetBucketPolicyStatusOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetBucketPolicyStatusOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: S3ClientTypes.PolicyStatus = try responseDecoder.decode(responseBody: data)
             self.policyStatus = output
@@ -10164,7 +10164,7 @@ extension GetBucketReplicationInputBody: Swift.Decodable {
 }
 
 extension GetBucketReplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -10190,7 +10190,7 @@ public enum GetBucketReplicationOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetBucketReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: S3ClientTypes.ReplicationConfiguration = try responseDecoder.decode(responseBody: data)
             self.replicationConfiguration = output
@@ -10281,7 +10281,7 @@ extension GetBucketRequestPaymentInputBody: Swift.Decodable {
 }
 
 extension GetBucketRequestPaymentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -10307,7 +10307,7 @@ public enum GetBucketRequestPaymentOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetBucketRequestPaymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetBucketRequestPaymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -10399,7 +10399,7 @@ extension GetBucketTaggingInputBody: Swift.Decodable {
 }
 
 extension GetBucketTaggingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -10425,7 +10425,7 @@ public enum GetBucketTaggingOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetBucketTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetBucketTaggingOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -10535,7 +10535,7 @@ extension GetBucketVersioningInputBody: Swift.Decodable {
 }
 
 extension GetBucketVersioningOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -10561,7 +10561,7 @@ public enum GetBucketVersioningOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetBucketVersioningOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetBucketVersioningOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -10663,7 +10663,7 @@ extension GetBucketWebsiteInputBody: Swift.Decodable {
 }
 
 extension GetBucketWebsiteOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -10689,7 +10689,7 @@ public enum GetBucketWebsiteOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetBucketWebsiteOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: GetBucketWebsiteOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -10851,7 +10851,7 @@ extension GetObjectAclInputBody: Swift.Decodable {
 }
 
 extension GetObjectAclOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -10879,7 +10879,7 @@ public enum GetObjectAclOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetObjectAclOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         } else {
@@ -11080,7 +11080,7 @@ extension GetObjectAttributesInputBody: Swift.Decodable {
 }
 
 extension GetObjectAttributesOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -11108,7 +11108,7 @@ public enum GetObjectAttributesOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetObjectAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let deleteMarkerHeaderValue = httpResponse.headers.value(for: "x-amz-delete-marker") {
             self.deleteMarker = Swift.Bool(deleteMarkerHeaderValue) ?? false
         } else {
@@ -11419,6 +11419,7 @@ extension GetObjectInput {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetObjectInput, GetObjectOutputResponse, GetObjectOutputError>(id: "getObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutputResponse, GetObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutputResponse>())
@@ -11430,7 +11431,7 @@ extension GetObjectInput {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutputResponse, GetObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetObjectOutputResponse, GetObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectOutputResponse, GetObjectOutputError>())
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
+        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build(), let presignedURL = builtRequest.endpoint.url else {
             return nil
         }
@@ -11463,6 +11464,7 @@ extension GetObjectInput {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetObjectInput, GetObjectOutputResponse, GetObjectOutputError>(id: "getObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetObjectInput, GetObjectOutputResponse, GetObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutputResponse>())
@@ -11477,7 +11479,7 @@ extension GetObjectInput {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutputResponse, GetObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetObjectOutputResponse, GetObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetObjectOutputResponse, GetObjectOutputError>())
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
+        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
         }
@@ -11804,7 +11806,7 @@ extension GetObjectLegalHoldInputBody: Swift.Decodable {
 }
 
 extension GetObjectLegalHoldOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -11830,7 +11832,7 @@ public enum GetObjectLegalHoldOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetObjectLegalHoldOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: S3ClientTypes.ObjectLockLegalHold = try responseDecoder.decode(responseBody: data)
             self.legalHold = output
@@ -11921,7 +11923,7 @@ extension GetObjectLockConfigurationInputBody: Swift.Decodable {
 }
 
 extension GetObjectLockConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -11947,7 +11949,7 @@ public enum GetObjectLockConfigurationOutputError: Swift.Error, Swift.Equatable 
 }
 
 extension GetObjectLockConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: S3ClientTypes.ObjectLockConfiguration = try responseDecoder.decode(responseBody: data)
             self.objectLockConfiguration = output
@@ -11986,7 +11988,7 @@ extension GetObjectLockConfigurationOutputResponseBody: Swift.Decodable {
 }
 
 extension GetObjectOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -12021,7 +12023,7 @@ extension GetObjectOutputResponse: Swift.CustomDebugStringConvertible {
 }
 
 extension GetObjectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let acceptRangesHeaderValue = httpResponse.headers.value(for: "accept-ranges") {
             self.acceptRanges = acceptRangesHeaderValue
         } else {
@@ -12467,7 +12469,7 @@ extension GetObjectRetentionInputBody: Swift.Decodable {
 }
 
 extension GetObjectRetentionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -12493,7 +12495,7 @@ public enum GetObjectRetentionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetObjectRetentionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: S3ClientTypes.ObjectLockRetention = try responseDecoder.decode(responseBody: data)
             self.retention = output
@@ -12607,7 +12609,7 @@ extension GetObjectTaggingInputBody: Swift.Decodable {
 }
 
 extension GetObjectTaggingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -12633,7 +12635,7 @@ public enum GetObjectTaggingOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetObjectTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
             self.versionId = versionIdHeaderValue
         } else {
@@ -12767,7 +12769,7 @@ extension GetObjectTorrentInputBody: Swift.Decodable {
 }
 
 extension GetObjectTorrentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -12793,7 +12795,7 @@ public enum GetObjectTorrentOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetObjectTorrentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         } else {
@@ -12903,7 +12905,7 @@ extension GetPublicAccessBlockInputBody: Swift.Decodable {
 }
 
 extension GetPublicAccessBlockOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -12929,7 +12931,7 @@ public enum GetPublicAccessBlockOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension GetPublicAccessBlockOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
             let output: S3ClientTypes.PublicAccessBlockConfiguration = try responseDecoder.decode(responseBody: data)
             self.publicAccessBlockConfiguration = output
@@ -13248,7 +13250,7 @@ extension HeadBucketInputBody: Swift.Decodable {
 }
 
 extension HeadBucketOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -13288,7 +13290,7 @@ public enum HeadBucketOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension HeadBucketOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -13448,7 +13450,7 @@ extension HeadObjectInputBody: Swift.Decodable {
 }
 
 extension HeadObjectOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -13493,7 +13495,7 @@ extension HeadObjectOutputResponse: Swift.CustomDebugStringConvertible {
 }
 
 extension HeadObjectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let acceptRangesHeaderValue = httpResponse.headers.value(for: "accept-ranges") {
             self.acceptRanges = acceptRangesHeaderValue
         } else {
@@ -14375,7 +14377,7 @@ extension InvalidObjectState {
 }
 
 /// Object is archived and inaccessible until restored.
-public struct InvalidObjectState: AWSClientRuntime.S3HttpServiceError, Swift.Equatable {
+public struct InvalidObjectState: AWSClientRuntime.S3HttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -15770,7 +15772,7 @@ extension ListBucketAnalyticsConfigurationsInputBody: Swift.Decodable {
 }
 
 extension ListBucketAnalyticsConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -15796,7 +15798,7 @@ public enum ListBucketAnalyticsConfigurationsOutputError: Swift.Error, Swift.Equ
 }
 
 extension ListBucketAnalyticsConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListBucketAnalyticsConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -15929,7 +15931,7 @@ extension ListBucketIntelligentTieringConfigurationsInputBody: Swift.Decodable {
 }
 
 extension ListBucketIntelligentTieringConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -15955,7 +15957,7 @@ public enum ListBucketIntelligentTieringConfigurationsOutputError: Swift.Error, 
 }
 
 extension ListBucketIntelligentTieringConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListBucketIntelligentTieringConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -16102,7 +16104,7 @@ extension ListBucketInventoryConfigurationsInputBody: Swift.Decodable {
 }
 
 extension ListBucketInventoryConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -16128,7 +16130,7 @@ public enum ListBucketInventoryConfigurationsOutputError: Swift.Error, Swift.Equ
 }
 
 extension ListBucketInventoryConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListBucketInventoryConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -16275,7 +16277,7 @@ extension ListBucketMetricsConfigurationsInputBody: Swift.Decodable {
 }
 
 extension ListBucketMetricsConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -16301,7 +16303,7 @@ public enum ListBucketMetricsConfigurationsOutputError: Swift.Error, Swift.Equat
 }
 
 extension ListBucketMetricsConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListBucketMetricsConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -16407,7 +16409,7 @@ extension ListBucketsInputBody: Swift.Decodable {
 }
 
 extension ListBucketsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -16433,7 +16435,7 @@ public enum ListBucketsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListBucketsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListBucketsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -16600,7 +16602,7 @@ extension ListMultipartUploadsInputBody: Swift.Decodable {
 }
 
 extension ListMultipartUploadsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -16626,7 +16628,7 @@ public enum ListMultipartUploadsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListMultipartUploadsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListMultipartUploadsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -16908,7 +16910,7 @@ extension ListObjectVersionsInputBody: Swift.Decodable {
 }
 
 extension ListObjectVersionsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -16934,7 +16936,7 @@ public enum ListObjectVersionsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListObjectVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListObjectVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -17240,7 +17242,7 @@ extension ListObjectsInputBody: Swift.Decodable {
 }
 
 extension ListObjectsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -17268,7 +17270,7 @@ public enum ListObjectsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListObjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -17545,7 +17547,7 @@ extension ListObjectsV2InputBody: Swift.Decodable {
 }
 
 extension ListObjectsV2OutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -17573,7 +17575,7 @@ public enum ListObjectsV2OutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListObjectsV2OutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: ListObjectsV2OutputResponseBody = try responseDecoder.decode(responseBody: data)
@@ -17875,7 +17877,7 @@ extension ListPartsInputBody: Swift.Decodable {
 }
 
 extension ListPartsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -17901,7 +17903,7 @@ public enum ListPartsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension ListPartsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let abortDateHeaderValue = httpResponse.headers.value(for: "x-amz-abort-date") {
             self.abortDate = TimestampFormatter(format: .httpDate).date(from: abortDateHeaderValue)
         } else {
@@ -18785,7 +18787,7 @@ extension NoSuchBucket {
 }
 
 /// The specified bucket does not exist.
-public struct NoSuchBucket: AWSClientRuntime.S3HttpServiceError, Swift.Equatable {
+public struct NoSuchBucket: AWSClientRuntime.S3HttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -18809,7 +18811,7 @@ extension NoSuchKey {
 }
 
 /// The specified key does not exist.
-public struct NoSuchKey: AWSClientRuntime.S3HttpServiceError, Swift.Equatable {
+public struct NoSuchKey: AWSClientRuntime.S3HttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -18833,7 +18835,7 @@ extension NoSuchUpload {
 }
 
 /// The specified multipart upload does not exist.
-public struct NoSuchUpload: AWSClientRuntime.S3HttpServiceError, Swift.Equatable {
+public struct NoSuchUpload: AWSClientRuntime.S3HttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -18991,7 +18993,7 @@ extension NotFound {
 }
 
 /// The specified content does not exist.
-public struct NotFound: AWSClientRuntime.S3HttpServiceError, Swift.Equatable {
+public struct NotFound: AWSClientRuntime.S3HttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -19363,7 +19365,7 @@ extension ObjectAlreadyInActiveTierError {
 }
 
 /// This action is not allowed against this storage tier.
-public struct ObjectAlreadyInActiveTierError: AWSClientRuntime.S3HttpServiceError, Swift.Equatable {
+public struct ObjectAlreadyInActiveTierError: AWSClientRuntime.S3HttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -19891,7 +19893,7 @@ extension ObjectNotInActiveTierError {
 }
 
 /// The source object of the COPY action is not in the active tier and is only stored in Amazon S3 Glacier.
-public struct ObjectNotInActiveTierError: AWSClientRuntime.S3HttpServiceError, Swift.Equatable {
+public struct ObjectNotInActiveTierError: AWSClientRuntime.S3HttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -21268,7 +21270,7 @@ extension PutBucketAccelerateConfigurationInputBody: Swift.Decodable {
 }
 
 extension PutBucketAccelerateConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -21294,7 +21296,7 @@ public enum PutBucketAccelerateConfigurationOutputError: Swift.Error, Swift.Equa
 }
 
 extension PutBucketAccelerateConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -21492,7 +21494,7 @@ extension PutBucketAclInputBody: Swift.Decodable {
 }
 
 extension PutBucketAclOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -21518,7 +21520,7 @@ public enum PutBucketAclOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension PutBucketAclOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -21672,7 +21674,7 @@ extension PutBucketAnalyticsConfigurationInputBody: Swift.Decodable {
 }
 
 extension PutBucketAnalyticsConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -21698,7 +21700,7 @@ public enum PutBucketAnalyticsConfigurationOutputError: Swift.Error, Swift.Equat
 }
 
 extension PutBucketAnalyticsConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -21855,7 +21857,7 @@ extension PutBucketCorsInputBody: Swift.Decodable {
 }
 
 extension PutBucketCorsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -21881,7 +21883,7 @@ public enum PutBucketCorsOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension PutBucketCorsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -22038,7 +22040,7 @@ extension PutBucketEncryptionInputBody: Swift.Decodable {
 }
 
 extension PutBucketEncryptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -22064,7 +22066,7 @@ public enum PutBucketEncryptionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension PutBucketEncryptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -22204,7 +22206,7 @@ extension PutBucketIntelligentTieringConfigurationInputBody: Swift.Decodable {
 }
 
 extension PutBucketIntelligentTieringConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -22230,7 +22232,7 @@ public enum PutBucketIntelligentTieringConfigurationOutputError: Swift.Error, Sw
 }
 
 extension PutBucketIntelligentTieringConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -22384,7 +22386,7 @@ extension PutBucketInventoryConfigurationInputBody: Swift.Decodable {
 }
 
 extension PutBucketInventoryConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -22410,7 +22412,7 @@ public enum PutBucketInventoryConfigurationOutputError: Swift.Error, Swift.Equat
 }
 
 extension PutBucketInventoryConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -22559,7 +22561,7 @@ extension PutBucketLifecycleConfigurationInputBody: Swift.Decodable {
 }
 
 extension PutBucketLifecycleConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -22585,7 +22587,7 @@ public enum PutBucketLifecycleConfigurationOutputError: Swift.Error, Swift.Equat
 }
 
 extension PutBucketLifecycleConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -22742,7 +22744,7 @@ extension PutBucketLoggingInputBody: Swift.Decodable {
 }
 
 extension PutBucketLoggingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -22768,7 +22770,7 @@ public enum PutBucketLoggingOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension PutBucketLoggingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -22922,7 +22924,7 @@ extension PutBucketMetricsConfigurationInputBody: Swift.Decodable {
 }
 
 extension PutBucketMetricsConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -22948,7 +22950,7 @@ public enum PutBucketMetricsConfigurationOutputError: Swift.Error, Swift.Equatab
 }
 
 extension PutBucketMetricsConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -23098,7 +23100,7 @@ extension PutBucketNotificationConfigurationInputBody: Swift.Decodable {
 }
 
 extension PutBucketNotificationConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -23124,7 +23126,7 @@ public enum PutBucketNotificationConfigurationOutputError: Swift.Error, Swift.Eq
 }
 
 extension PutBucketNotificationConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -23274,7 +23276,7 @@ extension PutBucketOwnershipControlsInputBody: Swift.Decodable {
 }
 
 extension PutBucketOwnershipControlsOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -23300,7 +23302,7 @@ public enum PutBucketOwnershipControlsOutputError: Swift.Error, Swift.Equatable 
 }
 
 extension PutBucketOwnershipControlsOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -23451,7 +23453,7 @@ extension PutBucketPolicyInputBody: Swift.Decodable {
 }
 
 extension PutBucketPolicyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -23477,7 +23479,7 @@ public enum PutBucketPolicyOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension PutBucketPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -23641,7 +23643,7 @@ extension PutBucketReplicationInputBody: Swift.Decodable {
 }
 
 extension PutBucketReplicationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -23667,7 +23669,7 @@ public enum PutBucketReplicationOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension PutBucketReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -23824,7 +23826,7 @@ extension PutBucketRequestPaymentInputBody: Swift.Decodable {
 }
 
 extension PutBucketRequestPaymentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -23850,7 +23852,7 @@ public enum PutBucketRequestPaymentOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension PutBucketRequestPaymentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -24007,7 +24009,7 @@ extension PutBucketTaggingInputBody: Swift.Decodable {
 }
 
 extension PutBucketTaggingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -24033,7 +24035,7 @@ public enum PutBucketTaggingOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension PutBucketTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -24197,7 +24199,7 @@ extension PutBucketVersioningInputBody: Swift.Decodable {
 }
 
 extension PutBucketVersioningOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -24223,7 +24225,7 @@ public enum PutBucketVersioningOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension PutBucketVersioningOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -24380,7 +24382,7 @@ extension PutBucketWebsiteInputBody: Swift.Decodable {
 }
 
 extension PutBucketWebsiteOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -24406,7 +24408,7 @@ public enum PutBucketWebsiteOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension PutBucketWebsiteOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -24627,7 +24629,7 @@ extension PutObjectAclInputBody: Swift.Decodable {
 }
 
 extension PutObjectAclOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -24655,7 +24657,7 @@ public enum PutObjectAclOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension PutObjectAclOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         } else {
@@ -24872,6 +24874,7 @@ extension PutObjectInput {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>(id: "putObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutputResponse>())
@@ -24883,7 +24886,7 @@ extension PutObjectInput {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutputResponse, PutObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutputResponse, PutObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutputResponse, PutObjectOutputError>())
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
+        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build(), let presignedURL = builtRequest.endpoint.url else {
             return nil
         }
@@ -24916,6 +24919,7 @@ extension PutObjectInput {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>(id: "putObject")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutputResponse>())
@@ -24933,7 +24937,7 @@ extension PutObjectInput {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutputResponse, PutObjectOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutObjectOutputResponse, PutObjectOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutObjectOutputResponse, PutObjectOutputError>())
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
+        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
         }
@@ -25312,7 +25316,7 @@ extension PutObjectLegalHoldInputBody: Swift.Decodable {
 }
 
 extension PutObjectLegalHoldOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -25338,7 +25342,7 @@ public enum PutObjectLegalHoldOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension PutObjectLegalHoldOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         } else {
@@ -25520,7 +25524,7 @@ extension PutObjectLockConfigurationInputBody: Swift.Decodable {
 }
 
 extension PutObjectLockConfigurationOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -25546,7 +25550,7 @@ public enum PutObjectLockConfigurationOutputError: Swift.Error, Swift.Equatable 
 }
 
 extension PutObjectLockConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         } else {
@@ -25568,7 +25572,7 @@ public struct PutObjectLockConfigurationOutputResponse: Swift.Equatable {
 }
 
 extension PutObjectOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -25599,7 +25603,7 @@ extension PutObjectOutputResponse: Swift.CustomDebugStringConvertible {
 }
 
 extension PutObjectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
             self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
         } else {
@@ -25914,7 +25918,7 @@ extension PutObjectRetentionInputBody: Swift.Decodable {
 }
 
 extension PutObjectRetentionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -25940,7 +25944,7 @@ public enum PutObjectRetentionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension PutObjectRetentionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         } else {
@@ -26132,7 +26136,7 @@ extension PutObjectTaggingInputBody: Swift.Decodable {
 }
 
 extension PutObjectTaggingOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -26158,7 +26162,7 @@ public enum PutObjectTaggingOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension PutObjectTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
             self.versionId = versionIdHeaderValue
         } else {
@@ -26327,7 +26331,7 @@ extension PutPublicAccessBlockInputBody: Swift.Decodable {
 }
 
 extension PutPublicAccessBlockOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -26353,7 +26357,7 @@ public enum PutPublicAccessBlockOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension PutPublicAccessBlockOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 
@@ -27721,7 +27725,7 @@ extension RestoreObjectInputBody: Swift.Decodable {
 }
 
 extension RestoreObjectOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -27749,7 +27753,7 @@ public enum RestoreObjectOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension RestoreObjectOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
             self.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         } else {
@@ -28361,56 +28365,9 @@ extension S3ClientTypes {
 
 }
 
-extension S3ClientTypes.SelectObjectContentEventStream: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case cont = "Cont"
-        case end = "End"
-        case progress = "Progress"
-        case records = "Records"
-        case stats = "Stats"
-        case sdkUnknown
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        switch self {
-            case let .cont(cont):
-                try container.encode(cont, forKey: ClientRuntime.Key("Cont"))
-            case let .end(end):
-                try container.encode(end, forKey: ClientRuntime.Key("End"))
-            case let .progress(progress):
-                try container.encode(progress, forKey: ClientRuntime.Key("Progress"))
-            case let .records(records):
-                try container.encode(records, forKey: ClientRuntime.Key("Records"))
-            case let .stats(stats):
-                try container.encode(stats, forKey: ClientRuntime.Key("Stats"))
-            case let .sdkUnknown(sdkUnknown):
-                try container.encode(sdkUnknown, forKey: ClientRuntime.Key("sdkUnknown"))
-        }
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let key = containerValues.allKeys.first
-        switch key {
-            case .records:
-                let recordsDecoded = try containerValues.decode(S3ClientTypes.RecordsEvent.self, forKey: .records)
-                self = .records(recordsDecoded)
-            case .stats:
-                let statsDecoded = try containerValues.decode(S3ClientTypes.StatsEvent.self, forKey: .stats)
-                self = .stats(statsDecoded)
-            case .progress:
-                let progressDecoded = try containerValues.decode(S3ClientTypes.ProgressEvent.self, forKey: .progress)
-                self = .progress(progressDecoded)
-            case .cont:
-                let contDecoded = try containerValues.decode(S3ClientTypes.ContinuationEvent.self, forKey: .cont)
-                self = .cont(contDecoded)
-            case .end:
-                let endDecoded = try containerValues.decode(S3ClientTypes.EndEvent.self, forKey: .end)
-                self = .end(endDecoded)
-            default:
-                self = .sdkUnknown("")
-        }
+extension S3ClientTypes.SelectObjectContentEventStream: ClientRuntime.MessageUnmarshallable {
+    public init(message: ClientRuntime.EventStream.Message, decoder: ClientRuntime.ResponseDecoder) throws {
+        fatalError("Not implemented")
     }
 }
 
@@ -28633,7 +28590,7 @@ extension SelectObjectContentInputBody: Swift.Decodable {
 }
 
 extension SelectObjectContentOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -28659,10 +28616,10 @@ public enum SelectObjectContentOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension SelectObjectContentOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
-            let output: S3ClientTypes.SelectObjectContentEventStream = try responseDecoder.decode(responseBody: data)
-            self.payload = output
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
+        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder, let messageDecoder = messageDecoder {
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<S3ClientTypes.SelectObjectContentEventStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            self.payload = decoderStream.toAsyncStream()
         } else {
             self.payload = nil
         }
@@ -28671,29 +28628,13 @@ extension SelectObjectContentOutputResponse: ClientRuntime.HttpResponseBinding {
 
 public struct SelectObjectContentOutputResponse: Swift.Equatable {
     /// The array of results.
-    public var payload: S3ClientTypes.SelectObjectContentEventStream?
+    public var payload: AsyncThrowingStream<S3ClientTypes.SelectObjectContentEventStream, Swift.Error>?
 
     public init (
-        payload: S3ClientTypes.SelectObjectContentEventStream? = nil
+        payload: AsyncThrowingStream<S3ClientTypes.SelectObjectContentEventStream, Swift.Error>? = nil
     )
     {
         self.payload = payload
-    }
-}
-
-struct SelectObjectContentOutputResponseBody: Swift.Equatable {
-    let payload: S3ClientTypes.SelectObjectContentEventStream?
-}
-
-extension SelectObjectContentOutputResponseBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case payload = "Payload"
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let payloadDecoded = try containerValues.decodeIfPresent(S3ClientTypes.SelectObjectContentEventStream.self, forKey: .payload)
-        payload = payloadDecoded
     }
 }
 
@@ -30284,7 +30225,7 @@ extension UploadPartCopyInputBody: Swift.Decodable {
 }
 
 extension UploadPartCopyOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -30315,7 +30256,7 @@ extension UploadPartCopyOutputResponse: Swift.CustomDebugStringConvertible {
 }
 
 extension UploadPartCopyOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
             self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
         } else {
@@ -30544,6 +30485,7 @@ extension UploadPartInput {
                       .withRegion(value: config.region)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UploadPartInput, UploadPartOutputResponse, UploadPartOutputError>(id: "uploadPart")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadPartInput, UploadPartOutputResponse, UploadPartOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadPartInput, UploadPartOutputResponse>())
@@ -30561,7 +30503,7 @@ extension UploadPartInput {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadPartOutputResponse, UploadPartOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UploadPartOutputResponse, UploadPartOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadPartOutputResponse, UploadPartOutputError>())
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context.build(), input: input, next: ClientRuntime.NoopHandler())
+        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, next: ClientRuntime.NoopHandler())
         guard let builtRequest = presignedRequestBuilder?.build() else {
             return nil
         }
@@ -30705,7 +30647,7 @@ extension UploadPartInputBody: Swift.Decodable {
 }
 
 extension UploadPartOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -30736,7 +30678,7 @@ extension UploadPartOutputResponse: Swift.CustomDebugStringConvertible {
 }
 
 extension UploadPartOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         if let bucketKeyEnabledHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption-bucket-key-enabled") {
             self.bucketKeyEnabled = Swift.Bool(bucketKeyEnabledHeaderValue) ?? false
         } else {
@@ -31436,7 +31378,7 @@ extension WriteGetObjectResponseInputBody: Swift.Decodable {
 }
 
 extension WriteGetObjectResponseOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
         let restXMLError = try AWSClientRuntime.RestXMLError.makeError(from: httpResponse)
         try self.init(
             errorType: restXMLError.errorCode,
@@ -31462,7 +31404,7 @@ public enum WriteGetObjectResponseOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension WriteGetObjectResponseOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
     }
 }
 

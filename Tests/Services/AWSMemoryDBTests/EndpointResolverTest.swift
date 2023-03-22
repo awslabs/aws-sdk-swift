@@ -248,9 +248,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
+                        "name": "sigv4",
                         "signingName": "memorydb",
-                        "signingRegion": "us-west-1",
-                        "name": "sigv4"
+                        "signingRegion": "us-west-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]

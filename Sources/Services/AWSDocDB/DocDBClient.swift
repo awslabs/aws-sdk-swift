@@ -217,6 +217,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddSourceIdentifierToSubscriptionInput, AddSourceIdentifierToSubscriptionOutputResponse, AddSourceIdentifierToSubscriptionOutputError>(id: "addSourceIdentifierToSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddSourceIdentifierToSubscriptionInput, AddSourceIdentifierToSubscriptionOutputResponse, AddSourceIdentifierToSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddSourceIdentifierToSubscriptionInput, AddSourceIdentifierToSubscriptionOutputResponse>())
@@ -232,7 +233,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddSourceIdentifierToSubscriptionOutputResponse, AddSourceIdentifierToSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AddSourceIdentifierToSubscriptionOutputResponse, AddSourceIdentifierToSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddSourceIdentifierToSubscriptionOutputResponse, AddSourceIdentifierToSubscriptionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -252,6 +253,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(id: "addTagsToResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsToResourceInput, AddTagsToResourceOutputResponse>())
@@ -267,7 +269,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutputResponse, AddTagsToResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -287,6 +289,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>(id: "applyPendingMaintenanceAction")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutputResponse>())
@@ -302,7 +305,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ApplyPendingMaintenanceActionOutputResponse, ApplyPendingMaintenanceActionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -322,6 +325,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CopyDBClusterParameterGroupInput, CopyDBClusterParameterGroupOutputResponse, CopyDBClusterParameterGroupOutputError>(id: "copyDBClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyDBClusterParameterGroupInput, CopyDBClusterParameterGroupOutputResponse, CopyDBClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyDBClusterParameterGroupInput, CopyDBClusterParameterGroupOutputResponse>())
@@ -337,7 +341,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyDBClusterParameterGroupOutputResponse, CopyDBClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CopyDBClusterParameterGroupOutputResponse, CopyDBClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyDBClusterParameterGroupOutputResponse, CopyDBClusterParameterGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -357,6 +361,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CopyDBClusterSnapshotInput, CopyDBClusterSnapshotOutputResponse, CopyDBClusterSnapshotOutputError>(id: "copyDBClusterSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyDBClusterSnapshotInput, CopyDBClusterSnapshotOutputResponse, CopyDBClusterSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyDBClusterSnapshotInput, CopyDBClusterSnapshotOutputResponse>())
@@ -372,7 +377,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CopyDBClusterSnapshotOutputResponse, CopyDBClusterSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CopyDBClusterSnapshotOutputResponse, CopyDBClusterSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyDBClusterSnapshotOutputResponse, CopyDBClusterSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -392,6 +397,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBClusterInput, CreateDBClusterOutputResponse, CreateDBClusterOutputError>(id: "createDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBClusterInput, CreateDBClusterOutputResponse, CreateDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBClusterInput, CreateDBClusterOutputResponse>())
@@ -407,7 +413,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBClusterOutputResponse, CreateDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDBClusterOutputResponse, CreateDBClusterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBClusterOutputResponse, CreateDBClusterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -427,6 +433,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBClusterParameterGroupInput, CreateDBClusterParameterGroupOutputResponse, CreateDBClusterParameterGroupOutputError>(id: "createDBClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBClusterParameterGroupInput, CreateDBClusterParameterGroupOutputResponse, CreateDBClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBClusterParameterGroupInput, CreateDBClusterParameterGroupOutputResponse>())
@@ -442,7 +449,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBClusterParameterGroupOutputResponse, CreateDBClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDBClusterParameterGroupOutputResponse, CreateDBClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBClusterParameterGroupOutputResponse, CreateDBClusterParameterGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -462,6 +469,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBClusterSnapshotInput, CreateDBClusterSnapshotOutputResponse, CreateDBClusterSnapshotOutputError>(id: "createDBClusterSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBClusterSnapshotInput, CreateDBClusterSnapshotOutputResponse, CreateDBClusterSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBClusterSnapshotInput, CreateDBClusterSnapshotOutputResponse>())
@@ -477,7 +485,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBClusterSnapshotOutputResponse, CreateDBClusterSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDBClusterSnapshotOutputResponse, CreateDBClusterSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBClusterSnapshotOutputResponse, CreateDBClusterSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -497,6 +505,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBInstanceInput, CreateDBInstanceOutputResponse, CreateDBInstanceOutputError>(id: "createDBInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBInstanceInput, CreateDBInstanceOutputResponse, CreateDBInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBInstanceInput, CreateDBInstanceOutputResponse>())
@@ -512,7 +521,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBInstanceOutputResponse, CreateDBInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDBInstanceOutputResponse, CreateDBInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBInstanceOutputResponse, CreateDBInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -532,6 +541,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateDBSubnetGroupInput, CreateDBSubnetGroupOutputResponse, CreateDBSubnetGroupOutputError>(id: "createDBSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDBSubnetGroupInput, CreateDBSubnetGroupOutputResponse, CreateDBSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDBSubnetGroupInput, CreateDBSubnetGroupOutputResponse>())
@@ -547,7 +557,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDBSubnetGroupOutputResponse, CreateDBSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDBSubnetGroupOutputResponse, CreateDBSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDBSubnetGroupOutputResponse, CreateDBSubnetGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -567,6 +577,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateEventSubscriptionInput, CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>(id: "createEventSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutputResponse>())
@@ -582,7 +593,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEventSubscriptionOutputResponse, CreateEventSubscriptionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -602,6 +613,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateGlobalClusterInput, CreateGlobalClusterOutputResponse, CreateGlobalClusterOutputError>(id: "createGlobalCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGlobalClusterInput, CreateGlobalClusterOutputResponse, CreateGlobalClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGlobalClusterInput, CreateGlobalClusterOutputResponse>())
@@ -617,7 +629,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGlobalClusterOutputResponse, CreateGlobalClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateGlobalClusterOutputResponse, CreateGlobalClusterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGlobalClusterOutputResponse, CreateGlobalClusterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -637,6 +649,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBClusterInput, DeleteDBClusterOutputResponse, DeleteDBClusterOutputError>(id: "deleteDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBClusterInput, DeleteDBClusterOutputResponse, DeleteDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBClusterInput, DeleteDBClusterOutputResponse>())
@@ -652,7 +665,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBClusterOutputResponse, DeleteDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDBClusterOutputResponse, DeleteDBClusterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBClusterOutputResponse, DeleteDBClusterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -672,6 +685,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBClusterParameterGroupInput, DeleteDBClusterParameterGroupOutputResponse, DeleteDBClusterParameterGroupOutputError>(id: "deleteDBClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBClusterParameterGroupInput, DeleteDBClusterParameterGroupOutputResponse, DeleteDBClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBClusterParameterGroupInput, DeleteDBClusterParameterGroupOutputResponse>())
@@ -687,7 +701,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBClusterParameterGroupOutputResponse, DeleteDBClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDBClusterParameterGroupOutputResponse, DeleteDBClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBClusterParameterGroupOutputResponse, DeleteDBClusterParameterGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -707,6 +721,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBClusterSnapshotInput, DeleteDBClusterSnapshotOutputResponse, DeleteDBClusterSnapshotOutputError>(id: "deleteDBClusterSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBClusterSnapshotInput, DeleteDBClusterSnapshotOutputResponse, DeleteDBClusterSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBClusterSnapshotInput, DeleteDBClusterSnapshotOutputResponse>())
@@ -722,7 +737,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBClusterSnapshotOutputResponse, DeleteDBClusterSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDBClusterSnapshotOutputResponse, DeleteDBClusterSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBClusterSnapshotOutputResponse, DeleteDBClusterSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -742,6 +757,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBInstanceInput, DeleteDBInstanceOutputResponse, DeleteDBInstanceOutputError>(id: "deleteDBInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBInstanceInput, DeleteDBInstanceOutputResponse, DeleteDBInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBInstanceInput, DeleteDBInstanceOutputResponse>())
@@ -757,7 +773,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBInstanceOutputResponse, DeleteDBInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDBInstanceOutputResponse, DeleteDBInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBInstanceOutputResponse, DeleteDBInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -777,6 +793,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteDBSubnetGroupInput, DeleteDBSubnetGroupOutputResponse, DeleteDBSubnetGroupOutputError>(id: "deleteDBSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDBSubnetGroupInput, DeleteDBSubnetGroupOutputResponse, DeleteDBSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDBSubnetGroupInput, DeleteDBSubnetGroupOutputResponse>())
@@ -792,7 +809,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDBSubnetGroupOutputResponse, DeleteDBSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDBSubnetGroupOutputResponse, DeleteDBSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDBSubnetGroupOutputResponse, DeleteDBSubnetGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -812,6 +829,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>(id: "deleteEventSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutputResponse>())
@@ -827,7 +845,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEventSubscriptionOutputResponse, DeleteEventSubscriptionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -847,6 +865,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteGlobalClusterInput, DeleteGlobalClusterOutputResponse, DeleteGlobalClusterOutputError>(id: "deleteGlobalCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGlobalClusterInput, DeleteGlobalClusterOutputResponse, DeleteGlobalClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGlobalClusterInput, DeleteGlobalClusterOutputResponse>())
@@ -862,7 +881,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGlobalClusterOutputResponse, DeleteGlobalClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteGlobalClusterOutputResponse, DeleteGlobalClusterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGlobalClusterOutputResponse, DeleteGlobalClusterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -882,6 +901,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeCertificatesInput, DescribeCertificatesOutputResponse, DescribeCertificatesOutputError>(id: "describeCertificates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeCertificatesInput, DescribeCertificatesOutputResponse, DescribeCertificatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeCertificatesInput, DescribeCertificatesOutputResponse>())
@@ -897,7 +917,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeCertificatesOutputResponse, DescribeCertificatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeCertificatesOutputResponse, DescribeCertificatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeCertificatesOutputResponse, DescribeCertificatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -917,6 +937,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutputResponse, DescribeDBClusterParameterGroupsOutputError>(id: "describeDBClusterParameterGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutputResponse, DescribeDBClusterParameterGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutputResponse>())
@@ -932,7 +953,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClusterParameterGroupsOutputResponse, DescribeDBClusterParameterGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClusterParameterGroupsOutputResponse, DescribeDBClusterParameterGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClusterParameterGroupsOutputResponse, DescribeDBClusterParameterGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -952,6 +973,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutputResponse, DescribeDBClusterParametersOutputError>(id: "describeDBClusterParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutputResponse, DescribeDBClusterParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutputResponse>())
@@ -967,7 +989,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClusterParametersOutputResponse, DescribeDBClusterParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClusterParametersOutputResponse, DescribeDBClusterParametersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClusterParametersOutputResponse, DescribeDBClusterParametersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -987,6 +1009,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBClusterSnapshotAttributesInput, DescribeDBClusterSnapshotAttributesOutputResponse, DescribeDBClusterSnapshotAttributesOutputError>(id: "describeDBClusterSnapshotAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClusterSnapshotAttributesInput, DescribeDBClusterSnapshotAttributesOutputResponse, DescribeDBClusterSnapshotAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClusterSnapshotAttributesInput, DescribeDBClusterSnapshotAttributesOutputResponse>())
@@ -1002,7 +1025,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClusterSnapshotAttributesOutputResponse, DescribeDBClusterSnapshotAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClusterSnapshotAttributesOutputResponse, DescribeDBClusterSnapshotAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClusterSnapshotAttributesOutputResponse, DescribeDBClusterSnapshotAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1022,6 +1045,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse, DescribeDBClusterSnapshotsOutputError>(id: "describeDBClusterSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse, DescribeDBClusterSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse>())
@@ -1037,7 +1061,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClusterSnapshotsOutputResponse, DescribeDBClusterSnapshotsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClusterSnapshotsOutputResponse, DescribeDBClusterSnapshotsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClusterSnapshotsOutputResponse, DescribeDBClusterSnapshotsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1057,6 +1081,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBClustersInput, DescribeDBClustersOutputResponse, DescribeDBClustersOutputError>(id: "describeDBClusters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBClustersInput, DescribeDBClustersOutputResponse, DescribeDBClustersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBClustersInput, DescribeDBClustersOutputResponse>())
@@ -1072,7 +1097,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBClustersOutputResponse, DescribeDBClustersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDBClustersOutputResponse, DescribeDBClustersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBClustersOutputResponse, DescribeDBClustersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1092,6 +1117,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutputResponse, DescribeDBEngineVersionsOutputError>(id: "describeDBEngineVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutputResponse, DescribeDBEngineVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutputResponse>())
@@ -1107,7 +1133,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBEngineVersionsOutputResponse, DescribeDBEngineVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDBEngineVersionsOutputResponse, DescribeDBEngineVersionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBEngineVersionsOutputResponse, DescribeDBEngineVersionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1127,6 +1153,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse, DescribeDBInstancesOutputError>(id: "describeDBInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse, DescribeDBInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse>())
@@ -1142,7 +1169,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBInstancesOutputResponse, DescribeDBInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDBInstancesOutputResponse, DescribeDBInstancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBInstancesOutputResponse, DescribeDBInstancesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1162,6 +1189,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutputResponse, DescribeDBSubnetGroupsOutputError>(id: "describeDBSubnetGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutputResponse, DescribeDBSubnetGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutputResponse>())
@@ -1177,7 +1205,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDBSubnetGroupsOutputResponse, DescribeDBSubnetGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDBSubnetGroupsOutputResponse, DescribeDBSubnetGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDBSubnetGroupsOutputResponse, DescribeDBSubnetGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1197,6 +1225,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEngineDefaultClusterParametersInput, DescribeEngineDefaultClusterParametersOutputResponse, DescribeEngineDefaultClusterParametersOutputError>(id: "describeEngineDefaultClusterParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEngineDefaultClusterParametersInput, DescribeEngineDefaultClusterParametersOutputResponse, DescribeEngineDefaultClusterParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEngineDefaultClusterParametersInput, DescribeEngineDefaultClusterParametersOutputResponse>())
@@ -1212,7 +1241,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEngineDefaultClusterParametersOutputResponse, DescribeEngineDefaultClusterParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEngineDefaultClusterParametersOutputResponse, DescribeEngineDefaultClusterParametersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEngineDefaultClusterParametersOutputResponse, DescribeEngineDefaultClusterParametersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1232,6 +1261,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventCategoriesInput, DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>(id: "describeEventCategories")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutputResponse>())
@@ -1247,7 +1277,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventCategoriesOutputResponse, DescribeEventCategoriesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1267,6 +1297,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>(id: "describeEventSubscriptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse>())
@@ -1282,7 +1313,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventSubscriptionsOutputResponse, DescribeEventSubscriptionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1302,6 +1333,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>(id: "describeEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventsInput, DescribeEventsOutputResponse>())
@@ -1317,7 +1349,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1337,6 +1369,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeGlobalClustersInput, DescribeGlobalClustersOutputResponse, DescribeGlobalClustersOutputError>(id: "describeGlobalClusters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeGlobalClustersInput, DescribeGlobalClustersOutputResponse, DescribeGlobalClustersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeGlobalClustersInput, DescribeGlobalClustersOutputResponse>())
@@ -1352,7 +1385,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGlobalClustersOutputResponse, DescribeGlobalClustersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeGlobalClustersOutputResponse, DescribeGlobalClustersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGlobalClustersOutputResponse, DescribeGlobalClustersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1372,6 +1405,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutputResponse, DescribeOrderableDBInstanceOptionsOutputError>(id: "describeOrderableDBInstanceOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutputResponse, DescribeOrderableDBInstanceOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutputResponse>())
@@ -1387,7 +1421,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeOrderableDBInstanceOptionsOutputResponse, DescribeOrderableDBInstanceOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeOrderableDBInstanceOptionsOutputResponse, DescribeOrderableDBInstanceOptionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeOrderableDBInstanceOptionsOutputResponse, DescribeOrderableDBInstanceOptionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1407,6 +1441,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>(id: "describePendingMaintenanceActions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutputResponse>())
@@ -1422,7 +1457,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePendingMaintenanceActionsOutputResponse, DescribePendingMaintenanceActionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1442,6 +1477,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<FailoverDBClusterInput, FailoverDBClusterOutputResponse, FailoverDBClusterOutputError>(id: "failoverDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<FailoverDBClusterInput, FailoverDBClusterOutputResponse, FailoverDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<FailoverDBClusterInput, FailoverDBClusterOutputResponse>())
@@ -1457,7 +1493,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<FailoverDBClusterOutputResponse, FailoverDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<FailoverDBClusterOutputResponse, FailoverDBClusterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<FailoverDBClusterOutputResponse, FailoverDBClusterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1477,6 +1513,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1492,7 +1529,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1512,6 +1549,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBClusterInput, ModifyDBClusterOutputResponse, ModifyDBClusterOutputError>(id: "modifyDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBClusterInput, ModifyDBClusterOutputResponse, ModifyDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBClusterInput, ModifyDBClusterOutputResponse>())
@@ -1527,7 +1565,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBClusterOutputResponse, ModifyDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ModifyDBClusterOutputResponse, ModifyDBClusterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBClusterOutputResponse, ModifyDBClusterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1547,6 +1585,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBClusterParameterGroupInput, ModifyDBClusterParameterGroupOutputResponse, ModifyDBClusterParameterGroupOutputError>(id: "modifyDBClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBClusterParameterGroupInput, ModifyDBClusterParameterGroupOutputResponse, ModifyDBClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBClusterParameterGroupInput, ModifyDBClusterParameterGroupOutputResponse>())
@@ -1562,7 +1601,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBClusterParameterGroupOutputResponse, ModifyDBClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ModifyDBClusterParameterGroupOutputResponse, ModifyDBClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBClusterParameterGroupOutputResponse, ModifyDBClusterParameterGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1582,6 +1621,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBClusterSnapshotAttributeInput, ModifyDBClusterSnapshotAttributeOutputResponse, ModifyDBClusterSnapshotAttributeOutputError>(id: "modifyDBClusterSnapshotAttribute")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBClusterSnapshotAttributeInput, ModifyDBClusterSnapshotAttributeOutputResponse, ModifyDBClusterSnapshotAttributeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBClusterSnapshotAttributeInput, ModifyDBClusterSnapshotAttributeOutputResponse>())
@@ -1597,7 +1637,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBClusterSnapshotAttributeOutputResponse, ModifyDBClusterSnapshotAttributeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ModifyDBClusterSnapshotAttributeOutputResponse, ModifyDBClusterSnapshotAttributeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBClusterSnapshotAttributeOutputResponse, ModifyDBClusterSnapshotAttributeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1617,6 +1657,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBInstanceInput, ModifyDBInstanceOutputResponse, ModifyDBInstanceOutputError>(id: "modifyDBInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBInstanceInput, ModifyDBInstanceOutputResponse, ModifyDBInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBInstanceInput, ModifyDBInstanceOutputResponse>())
@@ -1632,7 +1673,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBInstanceOutputResponse, ModifyDBInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ModifyDBInstanceOutputResponse, ModifyDBInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBInstanceOutputResponse, ModifyDBInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1652,6 +1693,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyDBSubnetGroupInput, ModifyDBSubnetGroupOutputResponse, ModifyDBSubnetGroupOutputError>(id: "modifyDBSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyDBSubnetGroupInput, ModifyDBSubnetGroupOutputResponse, ModifyDBSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyDBSubnetGroupInput, ModifyDBSubnetGroupOutputResponse>())
@@ -1667,7 +1709,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyDBSubnetGroupOutputResponse, ModifyDBSubnetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ModifyDBSubnetGroupOutputResponse, ModifyDBSubnetGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyDBSubnetGroupOutputResponse, ModifyDBSubnetGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1687,6 +1729,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>(id: "modifyEventSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutputResponse>())
@@ -1702,7 +1745,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyEventSubscriptionOutputResponse, ModifyEventSubscriptionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1722,6 +1765,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ModifyGlobalClusterInput, ModifyGlobalClusterOutputResponse, ModifyGlobalClusterOutputError>(id: "modifyGlobalCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyGlobalClusterInput, ModifyGlobalClusterOutputResponse, ModifyGlobalClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyGlobalClusterInput, ModifyGlobalClusterOutputResponse>())
@@ -1737,7 +1781,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyGlobalClusterOutputResponse, ModifyGlobalClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ModifyGlobalClusterOutputResponse, ModifyGlobalClusterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyGlobalClusterOutputResponse, ModifyGlobalClusterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1757,6 +1801,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RebootDBInstanceInput, RebootDBInstanceOutputResponse, RebootDBInstanceOutputError>(id: "rebootDBInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RebootDBInstanceInput, RebootDBInstanceOutputResponse, RebootDBInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RebootDBInstanceInput, RebootDBInstanceOutputResponse>())
@@ -1772,7 +1817,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RebootDBInstanceOutputResponse, RebootDBInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RebootDBInstanceOutputResponse, RebootDBInstanceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RebootDBInstanceOutputResponse, RebootDBInstanceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1792,6 +1837,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveFromGlobalClusterInput, RemoveFromGlobalClusterOutputResponse, RemoveFromGlobalClusterOutputError>(id: "removeFromGlobalCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveFromGlobalClusterInput, RemoveFromGlobalClusterOutputResponse, RemoveFromGlobalClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveFromGlobalClusterInput, RemoveFromGlobalClusterOutputResponse>())
@@ -1807,7 +1853,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveFromGlobalClusterOutputResponse, RemoveFromGlobalClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RemoveFromGlobalClusterOutputResponse, RemoveFromGlobalClusterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveFromGlobalClusterOutputResponse, RemoveFromGlobalClusterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1827,6 +1873,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveSourceIdentifierFromSubscriptionInput, RemoveSourceIdentifierFromSubscriptionOutputResponse, RemoveSourceIdentifierFromSubscriptionOutputError>(id: "removeSourceIdentifierFromSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveSourceIdentifierFromSubscriptionInput, RemoveSourceIdentifierFromSubscriptionOutputResponse, RemoveSourceIdentifierFromSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveSourceIdentifierFromSubscriptionInput, RemoveSourceIdentifierFromSubscriptionOutputResponse>())
@@ -1842,7 +1889,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveSourceIdentifierFromSubscriptionOutputResponse, RemoveSourceIdentifierFromSubscriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RemoveSourceIdentifierFromSubscriptionOutputResponse, RemoveSourceIdentifierFromSubscriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveSourceIdentifierFromSubscriptionOutputResponse, RemoveSourceIdentifierFromSubscriptionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1862,6 +1909,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(id: "removeTagsFromResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutputResponse>())
@@ -1877,7 +1925,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutputResponse, RemoveTagsFromResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1897,6 +1945,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResetDBClusterParameterGroupInput, ResetDBClusterParameterGroupOutputResponse, ResetDBClusterParameterGroupOutputError>(id: "resetDBClusterParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetDBClusterParameterGroupInput, ResetDBClusterParameterGroupOutputResponse, ResetDBClusterParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetDBClusterParameterGroupInput, ResetDBClusterParameterGroupOutputResponse>())
@@ -1912,7 +1961,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetDBClusterParameterGroupOutputResponse, ResetDBClusterParameterGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ResetDBClusterParameterGroupOutputResponse, ResetDBClusterParameterGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetDBClusterParameterGroupOutputResponse, ResetDBClusterParameterGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1932,6 +1981,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RestoreDBClusterFromSnapshotInput, RestoreDBClusterFromSnapshotOutputResponse, RestoreDBClusterFromSnapshotOutputError>(id: "restoreDBClusterFromSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreDBClusterFromSnapshotInput, RestoreDBClusterFromSnapshotOutputResponse, RestoreDBClusterFromSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreDBClusterFromSnapshotInput, RestoreDBClusterFromSnapshotOutputResponse>())
@@ -1947,7 +1997,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreDBClusterFromSnapshotOutputResponse, RestoreDBClusterFromSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RestoreDBClusterFromSnapshotOutputResponse, RestoreDBClusterFromSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreDBClusterFromSnapshotOutputResponse, RestoreDBClusterFromSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1967,6 +2017,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RestoreDBClusterToPointInTimeInput, RestoreDBClusterToPointInTimeOutputResponse, RestoreDBClusterToPointInTimeOutputError>(id: "restoreDBClusterToPointInTime")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RestoreDBClusterToPointInTimeInput, RestoreDBClusterToPointInTimeOutputResponse, RestoreDBClusterToPointInTimeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreDBClusterToPointInTimeInput, RestoreDBClusterToPointInTimeOutputResponse>())
@@ -1982,7 +2033,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreDBClusterToPointInTimeOutputResponse, RestoreDBClusterToPointInTimeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RestoreDBClusterToPointInTimeOutputResponse, RestoreDBClusterToPointInTimeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreDBClusterToPointInTimeOutputResponse, RestoreDBClusterToPointInTimeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2002,6 +2053,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartDBClusterInput, StartDBClusterOutputResponse, StartDBClusterOutputError>(id: "startDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDBClusterInput, StartDBClusterOutputResponse, StartDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDBClusterInput, StartDBClusterOutputResponse>())
@@ -2017,7 +2069,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDBClusterOutputResponse, StartDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartDBClusterOutputResponse, StartDBClusterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDBClusterOutputResponse, StartDBClusterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2037,6 +2089,7 @@ extension DocDBClient: DocDBClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "rds")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopDBClusterInput, StopDBClusterOutputResponse, StopDBClusterOutputError>(id: "stopDBCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopDBClusterInput, StopDBClusterOutputResponse, StopDBClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopDBClusterInput, StopDBClusterOutputResponse>())
@@ -2052,7 +2105,7 @@ extension DocDBClient: DocDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopDBClusterOutputResponse, StopDBClusterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopDBClusterOutputResponse, StopDBClusterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDBClusterOutputResponse, StopDBClusterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

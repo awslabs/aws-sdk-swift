@@ -217,6 +217,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddClientIDToOpenIDConnectProviderInput, AddClientIDToOpenIDConnectProviderOutputResponse, AddClientIDToOpenIDConnectProviderOutputError>(id: "addClientIDToOpenIDConnectProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddClientIDToOpenIDConnectProviderInput, AddClientIDToOpenIDConnectProviderOutputResponse, AddClientIDToOpenIDConnectProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddClientIDToOpenIDConnectProviderInput, AddClientIDToOpenIDConnectProviderOutputResponse>())
@@ -232,7 +233,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddClientIDToOpenIDConnectProviderOutputResponse, AddClientIDToOpenIDConnectProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AddClientIDToOpenIDConnectProviderOutputResponse, AddClientIDToOpenIDConnectProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddClientIDToOpenIDConnectProviderOutputResponse, AddClientIDToOpenIDConnectProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -252,6 +253,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddRoleToInstanceProfileInput, AddRoleToInstanceProfileOutputResponse, AddRoleToInstanceProfileOutputError>(id: "addRoleToInstanceProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddRoleToInstanceProfileInput, AddRoleToInstanceProfileOutputResponse, AddRoleToInstanceProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddRoleToInstanceProfileInput, AddRoleToInstanceProfileOutputResponse>())
@@ -267,7 +269,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddRoleToInstanceProfileOutputResponse, AddRoleToInstanceProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AddRoleToInstanceProfileOutputResponse, AddRoleToInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddRoleToInstanceProfileOutputResponse, AddRoleToInstanceProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -287,6 +289,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AddUserToGroupInput, AddUserToGroupOutputResponse, AddUserToGroupOutputError>(id: "addUserToGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddUserToGroupInput, AddUserToGroupOutputResponse, AddUserToGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddUserToGroupInput, AddUserToGroupOutputResponse>())
@@ -302,7 +305,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddUserToGroupOutputResponse, AddUserToGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AddUserToGroupOutputResponse, AddUserToGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddUserToGroupOutputResponse, AddUserToGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -322,6 +325,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AttachGroupPolicyInput, AttachGroupPolicyOutputResponse, AttachGroupPolicyOutputError>(id: "attachGroupPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachGroupPolicyInput, AttachGroupPolicyOutputResponse, AttachGroupPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachGroupPolicyInput, AttachGroupPolicyOutputResponse>())
@@ -337,7 +341,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachGroupPolicyOutputResponse, AttachGroupPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AttachGroupPolicyOutputResponse, AttachGroupPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachGroupPolicyOutputResponse, AttachGroupPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -357,6 +361,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AttachRolePolicyInput, AttachRolePolicyOutputResponse, AttachRolePolicyOutputError>(id: "attachRolePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachRolePolicyInput, AttachRolePolicyOutputResponse, AttachRolePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachRolePolicyInput, AttachRolePolicyOutputResponse>())
@@ -372,7 +377,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachRolePolicyOutputResponse, AttachRolePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AttachRolePolicyOutputResponse, AttachRolePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachRolePolicyOutputResponse, AttachRolePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -392,6 +397,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AttachUserPolicyInput, AttachUserPolicyOutputResponse, AttachUserPolicyOutputError>(id: "attachUserPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachUserPolicyInput, AttachUserPolicyOutputResponse, AttachUserPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachUserPolicyInput, AttachUserPolicyOutputResponse>())
@@ -407,7 +413,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AttachUserPolicyOutputResponse, AttachUserPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AttachUserPolicyOutputResponse, AttachUserPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AttachUserPolicyOutputResponse, AttachUserPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -427,6 +433,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ChangePasswordInput, ChangePasswordOutputResponse, ChangePasswordOutputError>(id: "changePassword")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ChangePasswordInput, ChangePasswordOutputResponse, ChangePasswordOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ChangePasswordInput, ChangePasswordOutputResponse>())
@@ -442,7 +449,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ChangePasswordOutputResponse, ChangePasswordOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ChangePasswordOutputResponse, ChangePasswordOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ChangePasswordOutputResponse, ChangePasswordOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -462,6 +469,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAccessKeyInput, CreateAccessKeyOutputResponse, CreateAccessKeyOutputError>(id: "createAccessKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccessKeyInput, CreateAccessKeyOutputResponse, CreateAccessKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccessKeyInput, CreateAccessKeyOutputResponse>())
@@ -477,7 +485,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccessKeyOutputResponse, CreateAccessKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAccessKeyOutputResponse, CreateAccessKeyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccessKeyOutputResponse, CreateAccessKeyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -497,6 +505,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateAccountAliasInput, CreateAccountAliasOutputResponse, CreateAccountAliasOutputError>(id: "createAccountAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccountAliasInput, CreateAccountAliasOutputResponse, CreateAccountAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccountAliasInput, CreateAccountAliasOutputResponse>())
@@ -512,7 +521,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAccountAliasOutputResponse, CreateAccountAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAccountAliasOutputResponse, CreateAccountAliasOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAccountAliasOutputResponse, CreateAccountAliasOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -532,6 +541,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateGroupInput, CreateGroupOutputResponse, CreateGroupOutputError>(id: "createGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGroupInput, CreateGroupOutputResponse, CreateGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGroupInput, CreateGroupOutputResponse>())
@@ -547,7 +557,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGroupOutputResponse, CreateGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateGroupOutputResponse, CreateGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGroupOutputResponse, CreateGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -567,6 +577,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateInstanceProfileInput, CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>(id: "createInstanceProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInstanceProfileInput, CreateInstanceProfileOutputResponse>())
@@ -582,7 +593,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateInstanceProfileOutputResponse, CreateInstanceProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -602,6 +613,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateLoginProfileInput, CreateLoginProfileOutputResponse, CreateLoginProfileOutputError>(id: "createLoginProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLoginProfileInput, CreateLoginProfileOutputResponse, CreateLoginProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLoginProfileInput, CreateLoginProfileOutputResponse>())
@@ -617,7 +629,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLoginProfileOutputResponse, CreateLoginProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateLoginProfileOutputResponse, CreateLoginProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLoginProfileOutputResponse, CreateLoginProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -646,6 +658,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateOpenIDConnectProviderInput, CreateOpenIDConnectProviderOutputResponse, CreateOpenIDConnectProviderOutputError>(id: "createOpenIDConnectProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateOpenIDConnectProviderInput, CreateOpenIDConnectProviderOutputResponse, CreateOpenIDConnectProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateOpenIDConnectProviderInput, CreateOpenIDConnectProviderOutputResponse>())
@@ -661,7 +674,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateOpenIDConnectProviderOutputResponse, CreateOpenIDConnectProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateOpenIDConnectProviderOutputResponse, CreateOpenIDConnectProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateOpenIDConnectProviderOutputResponse, CreateOpenIDConnectProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -681,6 +694,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePolicyInput, CreatePolicyOutputResponse, CreatePolicyOutputError>(id: "createPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePolicyInput, CreatePolicyOutputResponse, CreatePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePolicyInput, CreatePolicyOutputResponse>())
@@ -696,7 +710,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePolicyOutputResponse, CreatePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePolicyOutputResponse, CreatePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePolicyOutputResponse, CreatePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -716,6 +730,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreatePolicyVersionInput, CreatePolicyVersionOutputResponse, CreatePolicyVersionOutputError>(id: "createPolicyVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePolicyVersionInput, CreatePolicyVersionOutputResponse, CreatePolicyVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePolicyVersionInput, CreatePolicyVersionOutputResponse>())
@@ -731,7 +746,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreatePolicyVersionOutputResponse, CreatePolicyVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreatePolicyVersionOutputResponse, CreatePolicyVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreatePolicyVersionOutputResponse, CreatePolicyVersionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -751,6 +766,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRoleInput, CreateRoleOutputResponse, CreateRoleOutputError>(id: "createRole")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRoleInput, CreateRoleOutputResponse, CreateRoleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRoleInput, CreateRoleOutputResponse>())
@@ -766,7 +782,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRoleOutputResponse, CreateRoleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateRoleOutputResponse, CreateRoleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRoleOutputResponse, CreateRoleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -786,6 +802,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSAMLProviderInput, CreateSAMLProviderOutputResponse, CreateSAMLProviderOutputError>(id: "createSAMLProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSAMLProviderInput, CreateSAMLProviderOutputResponse, CreateSAMLProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSAMLProviderInput, CreateSAMLProviderOutputResponse>())
@@ -801,7 +818,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSAMLProviderOutputResponse, CreateSAMLProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSAMLProviderOutputResponse, CreateSAMLProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSAMLProviderOutputResponse, CreateSAMLProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -821,6 +838,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateServiceLinkedRoleInput, CreateServiceLinkedRoleOutputResponse, CreateServiceLinkedRoleOutputError>(id: "createServiceLinkedRole")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateServiceLinkedRoleInput, CreateServiceLinkedRoleOutputResponse, CreateServiceLinkedRoleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateServiceLinkedRoleInput, CreateServiceLinkedRoleOutputResponse>())
@@ -836,7 +854,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateServiceLinkedRoleOutputResponse, CreateServiceLinkedRoleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateServiceLinkedRoleOutputResponse, CreateServiceLinkedRoleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceLinkedRoleOutputResponse, CreateServiceLinkedRoleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -856,6 +874,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateServiceSpecificCredentialInput, CreateServiceSpecificCredentialOutputResponse, CreateServiceSpecificCredentialOutputError>(id: "createServiceSpecificCredential")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateServiceSpecificCredentialInput, CreateServiceSpecificCredentialOutputResponse, CreateServiceSpecificCredentialOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateServiceSpecificCredentialInput, CreateServiceSpecificCredentialOutputResponse>())
@@ -871,7 +890,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateServiceSpecificCredentialOutputResponse, CreateServiceSpecificCredentialOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateServiceSpecificCredentialOutputResponse, CreateServiceSpecificCredentialOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceSpecificCredentialOutputResponse, CreateServiceSpecificCredentialOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -891,6 +910,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateUserInput, CreateUserOutputResponse, CreateUserOutputError>(id: "createUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutputResponse, CreateUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserInput, CreateUserOutputResponse>())
@@ -906,7 +926,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateUserOutputResponse, CreateUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateUserOutputResponse, CreateUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateUserOutputResponse, CreateUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -926,6 +946,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateVirtualMFADeviceInput, CreateVirtualMFADeviceOutputResponse, CreateVirtualMFADeviceOutputError>(id: "createVirtualMFADevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVirtualMFADeviceInput, CreateVirtualMFADeviceOutputResponse, CreateVirtualMFADeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVirtualMFADeviceInput, CreateVirtualMFADeviceOutputResponse>())
@@ -941,7 +962,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVirtualMFADeviceOutputResponse, CreateVirtualMFADeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateVirtualMFADeviceOutputResponse, CreateVirtualMFADeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVirtualMFADeviceOutputResponse, CreateVirtualMFADeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -961,6 +982,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeactivateMFADeviceInput, DeactivateMFADeviceOutputResponse, DeactivateMFADeviceOutputError>(id: "deactivateMFADevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeactivateMFADeviceInput, DeactivateMFADeviceOutputResponse, DeactivateMFADeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeactivateMFADeviceInput, DeactivateMFADeviceOutputResponse>())
@@ -976,7 +998,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeactivateMFADeviceOutputResponse, DeactivateMFADeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeactivateMFADeviceOutputResponse, DeactivateMFADeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeactivateMFADeviceOutputResponse, DeactivateMFADeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -996,6 +1018,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAccessKeyInput, DeleteAccessKeyOutputResponse, DeleteAccessKeyOutputError>(id: "deleteAccessKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccessKeyInput, DeleteAccessKeyOutputResponse, DeleteAccessKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccessKeyInput, DeleteAccessKeyOutputResponse>())
@@ -1011,7 +1034,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccessKeyOutputResponse, DeleteAccessKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAccessKeyOutputResponse, DeleteAccessKeyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccessKeyOutputResponse, DeleteAccessKeyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1031,6 +1054,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAccountAliasInput, DeleteAccountAliasOutputResponse, DeleteAccountAliasOutputError>(id: "deleteAccountAlias")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountAliasInput, DeleteAccountAliasOutputResponse, DeleteAccountAliasOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccountAliasInput, DeleteAccountAliasOutputResponse>())
@@ -1046,7 +1070,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccountAliasOutputResponse, DeleteAccountAliasOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountAliasOutputResponse, DeleteAccountAliasOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountAliasOutputResponse, DeleteAccountAliasOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1066,6 +1090,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteAccountPasswordPolicyInput, DeleteAccountPasswordPolicyOutputResponse, DeleteAccountPasswordPolicyOutputError>(id: "deleteAccountPasswordPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountPasswordPolicyInput, DeleteAccountPasswordPolicyOutputResponse, DeleteAccountPasswordPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccountPasswordPolicyInput, DeleteAccountPasswordPolicyOutputResponse>())
@@ -1081,7 +1106,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAccountPasswordPolicyOutputResponse, DeleteAccountPasswordPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAccountPasswordPolicyOutputResponse, DeleteAccountPasswordPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAccountPasswordPolicyOutputResponse, DeleteAccountPasswordPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1101,6 +1126,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteGroupInput, DeleteGroupOutputResponse, DeleteGroupOutputError>(id: "deleteGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGroupInput, DeleteGroupOutputResponse, DeleteGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGroupInput, DeleteGroupOutputResponse>())
@@ -1116,7 +1142,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGroupOutputResponse, DeleteGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteGroupOutputResponse, DeleteGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGroupOutputResponse, DeleteGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1136,6 +1162,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteGroupPolicyInput, DeleteGroupPolicyOutputResponse, DeleteGroupPolicyOutputError>(id: "deleteGroupPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGroupPolicyInput, DeleteGroupPolicyOutputResponse, DeleteGroupPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGroupPolicyInput, DeleteGroupPolicyOutputResponse>())
@@ -1151,7 +1178,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGroupPolicyOutputResponse, DeleteGroupPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteGroupPolicyOutputResponse, DeleteGroupPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGroupPolicyOutputResponse, DeleteGroupPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1171,6 +1198,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteInstanceProfileInput, DeleteInstanceProfileOutputResponse, DeleteInstanceProfileOutputError>(id: "deleteInstanceProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutputResponse, DeleteInstanceProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInstanceProfileInput, DeleteInstanceProfileOutputResponse>())
@@ -1186,7 +1214,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteInstanceProfileOutputResponse, DeleteInstanceProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteInstanceProfileOutputResponse, DeleteInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteInstanceProfileOutputResponse, DeleteInstanceProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1206,6 +1234,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteLoginProfileInput, DeleteLoginProfileOutputResponse, DeleteLoginProfileOutputError>(id: "deleteLoginProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLoginProfileInput, DeleteLoginProfileOutputResponse, DeleteLoginProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLoginProfileInput, DeleteLoginProfileOutputResponse>())
@@ -1221,7 +1250,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLoginProfileOutputResponse, DeleteLoginProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteLoginProfileOutputResponse, DeleteLoginProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLoginProfileOutputResponse, DeleteLoginProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1241,6 +1270,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteOpenIDConnectProviderInput, DeleteOpenIDConnectProviderOutputResponse, DeleteOpenIDConnectProviderOutputError>(id: "deleteOpenIDConnectProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteOpenIDConnectProviderInput, DeleteOpenIDConnectProviderOutputResponse, DeleteOpenIDConnectProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteOpenIDConnectProviderInput, DeleteOpenIDConnectProviderOutputResponse>())
@@ -1256,7 +1286,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteOpenIDConnectProviderOutputResponse, DeleteOpenIDConnectProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteOpenIDConnectProviderOutputResponse, DeleteOpenIDConnectProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteOpenIDConnectProviderOutputResponse, DeleteOpenIDConnectProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1285,6 +1315,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePolicyInput, DeletePolicyOutputResponse, DeletePolicyOutputError>(id: "deletePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePolicyInput, DeletePolicyOutputResponse, DeletePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePolicyInput, DeletePolicyOutputResponse>())
@@ -1300,7 +1331,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePolicyOutputResponse, DeletePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeletePolicyOutputResponse, DeletePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyOutputResponse, DeletePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1320,6 +1351,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeletePolicyVersionInput, DeletePolicyVersionOutputResponse, DeletePolicyVersionOutputError>(id: "deletePolicyVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePolicyVersionInput, DeletePolicyVersionOutputResponse, DeletePolicyVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePolicyVersionInput, DeletePolicyVersionOutputResponse>())
@@ -1335,7 +1367,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePolicyVersionOutputResponse, DeletePolicyVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeletePolicyVersionOutputResponse, DeletePolicyVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePolicyVersionOutputResponse, DeletePolicyVersionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1366,6 +1398,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRoleInput, DeleteRoleOutputResponse, DeleteRoleOutputError>(id: "deleteRole")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRoleInput, DeleteRoleOutputResponse, DeleteRoleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRoleInput, DeleteRoleOutputResponse>())
@@ -1381,7 +1414,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRoleOutputResponse, DeleteRoleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteRoleOutputResponse, DeleteRoleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRoleOutputResponse, DeleteRoleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1401,6 +1434,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRolePermissionsBoundaryInput, DeleteRolePermissionsBoundaryOutputResponse, DeleteRolePermissionsBoundaryOutputError>(id: "deleteRolePermissionsBoundary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRolePermissionsBoundaryInput, DeleteRolePermissionsBoundaryOutputResponse, DeleteRolePermissionsBoundaryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRolePermissionsBoundaryInput, DeleteRolePermissionsBoundaryOutputResponse>())
@@ -1416,7 +1450,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRolePermissionsBoundaryOutputResponse, DeleteRolePermissionsBoundaryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteRolePermissionsBoundaryOutputResponse, DeleteRolePermissionsBoundaryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRolePermissionsBoundaryOutputResponse, DeleteRolePermissionsBoundaryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1436,6 +1470,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRolePolicyInput, DeleteRolePolicyOutputResponse, DeleteRolePolicyOutputError>(id: "deleteRolePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRolePolicyInput, DeleteRolePolicyOutputResponse, DeleteRolePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRolePolicyInput, DeleteRolePolicyOutputResponse>())
@@ -1451,7 +1486,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRolePolicyOutputResponse, DeleteRolePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteRolePolicyOutputResponse, DeleteRolePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRolePolicyOutputResponse, DeleteRolePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1471,6 +1506,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSAMLProviderInput, DeleteSAMLProviderOutputResponse, DeleteSAMLProviderOutputError>(id: "deleteSAMLProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSAMLProviderInput, DeleteSAMLProviderOutputResponse, DeleteSAMLProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSAMLProviderInput, DeleteSAMLProviderOutputResponse>())
@@ -1486,7 +1522,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSAMLProviderOutputResponse, DeleteSAMLProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSAMLProviderOutputResponse, DeleteSAMLProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSAMLProviderOutputResponse, DeleteSAMLProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1506,6 +1542,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSSHPublicKeyInput, DeleteSSHPublicKeyOutputResponse, DeleteSSHPublicKeyOutputError>(id: "deleteSSHPublicKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSSHPublicKeyInput, DeleteSSHPublicKeyOutputResponse, DeleteSSHPublicKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSSHPublicKeyInput, DeleteSSHPublicKeyOutputResponse>())
@@ -1521,7 +1558,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSSHPublicKeyOutputResponse, DeleteSSHPublicKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSSHPublicKeyOutputResponse, DeleteSSHPublicKeyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSSHPublicKeyOutputResponse, DeleteSSHPublicKeyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1541,6 +1578,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteServerCertificateInput, DeleteServerCertificateOutputResponse, DeleteServerCertificateOutputError>(id: "deleteServerCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServerCertificateInput, DeleteServerCertificateOutputResponse, DeleteServerCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteServerCertificateInput, DeleteServerCertificateOutputResponse>())
@@ -1556,7 +1594,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServerCertificateOutputResponse, DeleteServerCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteServerCertificateOutputResponse, DeleteServerCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServerCertificateOutputResponse, DeleteServerCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1576,6 +1614,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteServiceLinkedRoleInput, DeleteServiceLinkedRoleOutputResponse, DeleteServiceLinkedRoleOutputError>(id: "deleteServiceLinkedRole")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServiceLinkedRoleInput, DeleteServiceLinkedRoleOutputResponse, DeleteServiceLinkedRoleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteServiceLinkedRoleInput, DeleteServiceLinkedRoleOutputResponse>())
@@ -1591,7 +1630,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServiceLinkedRoleOutputResponse, DeleteServiceLinkedRoleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteServiceLinkedRoleOutputResponse, DeleteServiceLinkedRoleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceLinkedRoleOutputResponse, DeleteServiceLinkedRoleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1611,6 +1650,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteServiceSpecificCredentialInput, DeleteServiceSpecificCredentialOutputResponse, DeleteServiceSpecificCredentialOutputError>(id: "deleteServiceSpecificCredential")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServiceSpecificCredentialInput, DeleteServiceSpecificCredentialOutputResponse, DeleteServiceSpecificCredentialOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteServiceSpecificCredentialInput, DeleteServiceSpecificCredentialOutputResponse>())
@@ -1626,7 +1666,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServiceSpecificCredentialOutputResponse, DeleteServiceSpecificCredentialOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteServiceSpecificCredentialOutputResponse, DeleteServiceSpecificCredentialOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceSpecificCredentialOutputResponse, DeleteServiceSpecificCredentialOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1646,6 +1686,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSigningCertificateInput, DeleteSigningCertificateOutputResponse, DeleteSigningCertificateOutputError>(id: "deleteSigningCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSigningCertificateInput, DeleteSigningCertificateOutputResponse, DeleteSigningCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSigningCertificateInput, DeleteSigningCertificateOutputResponse>())
@@ -1661,7 +1702,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSigningCertificateOutputResponse, DeleteSigningCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSigningCertificateOutputResponse, DeleteSigningCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSigningCertificateOutputResponse, DeleteSigningCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1699,6 +1740,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>(id: "deleteUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutputResponse>())
@@ -1714,7 +1756,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserOutputResponse, DeleteUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1734,6 +1776,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUserPermissionsBoundaryInput, DeleteUserPermissionsBoundaryOutputResponse, DeleteUserPermissionsBoundaryOutputError>(id: "deleteUserPermissionsBoundary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserPermissionsBoundaryInput, DeleteUserPermissionsBoundaryOutputResponse, DeleteUserPermissionsBoundaryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserPermissionsBoundaryInput, DeleteUserPermissionsBoundaryOutputResponse>())
@@ -1749,7 +1792,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserPermissionsBoundaryOutputResponse, DeleteUserPermissionsBoundaryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteUserPermissionsBoundaryOutputResponse, DeleteUserPermissionsBoundaryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserPermissionsBoundaryOutputResponse, DeleteUserPermissionsBoundaryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1769,6 +1812,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteUserPolicyInput, DeleteUserPolicyOutputResponse, DeleteUserPolicyOutputError>(id: "deleteUserPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserPolicyInput, DeleteUserPolicyOutputResponse, DeleteUserPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserPolicyInput, DeleteUserPolicyOutputResponse>())
@@ -1784,7 +1828,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteUserPolicyOutputResponse, DeleteUserPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteUserPolicyOutputResponse, DeleteUserPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteUserPolicyOutputResponse, DeleteUserPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1804,6 +1848,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVirtualMFADeviceInput, DeleteVirtualMFADeviceOutputResponse, DeleteVirtualMFADeviceOutputError>(id: "deleteVirtualMFADevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVirtualMFADeviceInput, DeleteVirtualMFADeviceOutputResponse, DeleteVirtualMFADeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVirtualMFADeviceInput, DeleteVirtualMFADeviceOutputResponse>())
@@ -1819,7 +1864,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVirtualMFADeviceOutputResponse, DeleteVirtualMFADeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteVirtualMFADeviceOutputResponse, DeleteVirtualMFADeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVirtualMFADeviceOutputResponse, DeleteVirtualMFADeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1839,6 +1884,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetachGroupPolicyInput, DetachGroupPolicyOutputResponse, DetachGroupPolicyOutputError>(id: "detachGroupPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachGroupPolicyInput, DetachGroupPolicyOutputResponse, DetachGroupPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachGroupPolicyInput, DetachGroupPolicyOutputResponse>())
@@ -1854,7 +1900,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachGroupPolicyOutputResponse, DetachGroupPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DetachGroupPolicyOutputResponse, DetachGroupPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachGroupPolicyOutputResponse, DetachGroupPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1874,6 +1920,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetachRolePolicyInput, DetachRolePolicyOutputResponse, DetachRolePolicyOutputError>(id: "detachRolePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachRolePolicyInput, DetachRolePolicyOutputResponse, DetachRolePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachRolePolicyInput, DetachRolePolicyOutputResponse>())
@@ -1889,7 +1936,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachRolePolicyOutputResponse, DetachRolePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DetachRolePolicyOutputResponse, DetachRolePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachRolePolicyOutputResponse, DetachRolePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1909,6 +1956,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DetachUserPolicyInput, DetachUserPolicyOutputResponse, DetachUserPolicyOutputError>(id: "detachUserPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachUserPolicyInput, DetachUserPolicyOutputResponse, DetachUserPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachUserPolicyInput, DetachUserPolicyOutputResponse>())
@@ -1924,7 +1972,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetachUserPolicyOutputResponse, DetachUserPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DetachUserPolicyOutputResponse, DetachUserPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetachUserPolicyOutputResponse, DetachUserPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1944,6 +1992,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<EnableMFADeviceInput, EnableMFADeviceOutputResponse, EnableMFADeviceOutputError>(id: "enableMFADevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableMFADeviceInput, EnableMFADeviceOutputResponse, EnableMFADeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableMFADeviceInput, EnableMFADeviceOutputResponse>())
@@ -1959,7 +2008,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableMFADeviceOutputResponse, EnableMFADeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<EnableMFADeviceOutputResponse, EnableMFADeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableMFADeviceOutputResponse, EnableMFADeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1979,6 +2028,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GenerateCredentialReportInput, GenerateCredentialReportOutputResponse, GenerateCredentialReportOutputError>(id: "generateCredentialReport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateCredentialReportInput, GenerateCredentialReportOutputResponse, GenerateCredentialReportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateCredentialReportInput, GenerateCredentialReportOutputResponse>())
@@ -1994,7 +2044,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateCredentialReportOutputResponse, GenerateCredentialReportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GenerateCredentialReportOutputResponse, GenerateCredentialReportOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateCredentialReportOutputResponse, GenerateCredentialReportOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2036,6 +2086,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GenerateOrganizationsAccessReportInput, GenerateOrganizationsAccessReportOutputResponse, GenerateOrganizationsAccessReportOutputError>(id: "generateOrganizationsAccessReport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateOrganizationsAccessReportInput, GenerateOrganizationsAccessReportOutputResponse, GenerateOrganizationsAccessReportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateOrganizationsAccessReportInput, GenerateOrganizationsAccessReportOutputResponse>())
@@ -2051,7 +2102,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateOrganizationsAccessReportOutputResponse, GenerateOrganizationsAccessReportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GenerateOrganizationsAccessReportOutputResponse, GenerateOrganizationsAccessReportOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateOrganizationsAccessReportOutputResponse, GenerateOrganizationsAccessReportOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2078,6 +2129,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GenerateServiceLastAccessedDetailsInput, GenerateServiceLastAccessedDetailsOutputResponse, GenerateServiceLastAccessedDetailsOutputError>(id: "generateServiceLastAccessedDetails")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GenerateServiceLastAccessedDetailsInput, GenerateServiceLastAccessedDetailsOutputResponse, GenerateServiceLastAccessedDetailsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GenerateServiceLastAccessedDetailsInput, GenerateServiceLastAccessedDetailsOutputResponse>())
@@ -2093,7 +2145,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateServiceLastAccessedDetailsOutputResponse, GenerateServiceLastAccessedDetailsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GenerateServiceLastAccessedDetailsOutputResponse, GenerateServiceLastAccessedDetailsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GenerateServiceLastAccessedDetailsOutputResponse, GenerateServiceLastAccessedDetailsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2113,6 +2165,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccessKeyLastUsedInput, GetAccessKeyLastUsedOutputResponse, GetAccessKeyLastUsedOutputError>(id: "getAccessKeyLastUsed")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccessKeyLastUsedInput, GetAccessKeyLastUsedOutputResponse, GetAccessKeyLastUsedOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccessKeyLastUsedInput, GetAccessKeyLastUsedOutputResponse>())
@@ -2128,7 +2181,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccessKeyLastUsedOutputResponse, GetAccessKeyLastUsedOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAccessKeyLastUsedOutputResponse, GetAccessKeyLastUsedOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccessKeyLastUsedOutputResponse, GetAccessKeyLastUsedOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2148,6 +2201,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccountAuthorizationDetailsInput, GetAccountAuthorizationDetailsOutputResponse, GetAccountAuthorizationDetailsOutputError>(id: "getAccountAuthorizationDetails")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountAuthorizationDetailsInput, GetAccountAuthorizationDetailsOutputResponse, GetAccountAuthorizationDetailsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountAuthorizationDetailsInput, GetAccountAuthorizationDetailsOutputResponse>())
@@ -2163,7 +2217,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountAuthorizationDetailsOutputResponse, GetAccountAuthorizationDetailsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAccountAuthorizationDetailsOutputResponse, GetAccountAuthorizationDetailsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountAuthorizationDetailsOutputResponse, GetAccountAuthorizationDetailsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2183,6 +2237,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccountPasswordPolicyInput, GetAccountPasswordPolicyOutputResponse, GetAccountPasswordPolicyOutputError>(id: "getAccountPasswordPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountPasswordPolicyInput, GetAccountPasswordPolicyOutputResponse, GetAccountPasswordPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountPasswordPolicyInput, GetAccountPasswordPolicyOutputResponse>())
@@ -2198,7 +2253,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountPasswordPolicyOutputResponse, GetAccountPasswordPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAccountPasswordPolicyOutputResponse, GetAccountPasswordPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountPasswordPolicyOutputResponse, GetAccountPasswordPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2218,6 +2273,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccountSummaryInput, GetAccountSummaryOutputResponse, GetAccountSummaryOutputError>(id: "getAccountSummary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountSummaryInput, GetAccountSummaryOutputResponse, GetAccountSummaryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountSummaryInput, GetAccountSummaryOutputResponse>())
@@ -2233,7 +2289,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountSummaryOutputResponse, GetAccountSummaryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAccountSummaryOutputResponse, GetAccountSummaryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountSummaryOutputResponse, GetAccountSummaryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2253,6 +2309,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetContextKeysForCustomPolicyInput, GetContextKeysForCustomPolicyOutputResponse, GetContextKeysForCustomPolicyOutputError>(id: "getContextKeysForCustomPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContextKeysForCustomPolicyInput, GetContextKeysForCustomPolicyOutputResponse, GetContextKeysForCustomPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContextKeysForCustomPolicyInput, GetContextKeysForCustomPolicyOutputResponse>())
@@ -2268,7 +2325,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContextKeysForCustomPolicyOutputResponse, GetContextKeysForCustomPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContextKeysForCustomPolicyOutputResponse, GetContextKeysForCustomPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContextKeysForCustomPolicyOutputResponse, GetContextKeysForCustomPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2288,6 +2345,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetContextKeysForPrincipalPolicyInput, GetContextKeysForPrincipalPolicyOutputResponse, GetContextKeysForPrincipalPolicyOutputError>(id: "getContextKeysForPrincipalPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContextKeysForPrincipalPolicyInput, GetContextKeysForPrincipalPolicyOutputResponse, GetContextKeysForPrincipalPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContextKeysForPrincipalPolicyInput, GetContextKeysForPrincipalPolicyOutputResponse>())
@@ -2303,7 +2361,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContextKeysForPrincipalPolicyOutputResponse, GetContextKeysForPrincipalPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContextKeysForPrincipalPolicyOutputResponse, GetContextKeysForPrincipalPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContextKeysForPrincipalPolicyOutputResponse, GetContextKeysForPrincipalPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2323,6 +2381,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCredentialReportInput, GetCredentialReportOutputResponse, GetCredentialReportOutputError>(id: "getCredentialReport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCredentialReportInput, GetCredentialReportOutputResponse, GetCredentialReportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCredentialReportInput, GetCredentialReportOutputResponse>())
@@ -2338,7 +2397,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCredentialReportOutputResponse, GetCredentialReportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCredentialReportOutputResponse, GetCredentialReportOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCredentialReportOutputResponse, GetCredentialReportOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2358,6 +2417,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetGroupInput, GetGroupOutputResponse, GetGroupOutputError>(id: "getGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupInput, GetGroupOutputResponse, GetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGroupInput, GetGroupOutputResponse>())
@@ -2373,7 +2433,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupOutputResponse, GetGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetGroupOutputResponse, GetGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupOutputResponse, GetGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2393,6 +2453,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetGroupPolicyInput, GetGroupPolicyOutputResponse, GetGroupPolicyOutputError>(id: "getGroupPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupPolicyInput, GetGroupPolicyOutputResponse, GetGroupPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGroupPolicyInput, GetGroupPolicyOutputResponse>())
@@ -2408,7 +2469,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGroupPolicyOutputResponse, GetGroupPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetGroupPolicyOutputResponse, GetGroupPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGroupPolicyOutputResponse, GetGroupPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2428,6 +2489,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetInstanceProfileInput, GetInstanceProfileOutputResponse, GetInstanceProfileOutputError>(id: "getInstanceProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceProfileInput, GetInstanceProfileOutputResponse, GetInstanceProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceProfileInput, GetInstanceProfileOutputResponse>())
@@ -2443,7 +2505,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetInstanceProfileOutputResponse, GetInstanceProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetInstanceProfileOutputResponse, GetInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstanceProfileOutputResponse, GetInstanceProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2463,6 +2525,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetLoginProfileInput, GetLoginProfileOutputResponse, GetLoginProfileOutputError>(id: "getLoginProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetLoginProfileInput, GetLoginProfileOutputResponse, GetLoginProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetLoginProfileInput, GetLoginProfileOutputResponse>())
@@ -2478,7 +2541,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLoginProfileOutputResponse, GetLoginProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetLoginProfileOutputResponse, GetLoginProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLoginProfileOutputResponse, GetLoginProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2498,6 +2561,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetOpenIDConnectProviderInput, GetOpenIDConnectProviderOutputResponse, GetOpenIDConnectProviderOutputError>(id: "getOpenIDConnectProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOpenIDConnectProviderInput, GetOpenIDConnectProviderOutputResponse, GetOpenIDConnectProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOpenIDConnectProviderInput, GetOpenIDConnectProviderOutputResponse>())
@@ -2513,7 +2577,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOpenIDConnectProviderOutputResponse, GetOpenIDConnectProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetOpenIDConnectProviderOutputResponse, GetOpenIDConnectProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOpenIDConnectProviderOutputResponse, GetOpenIDConnectProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2533,6 +2597,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetOrganizationsAccessReportInput, GetOrganizationsAccessReportOutputResponse, GetOrganizationsAccessReportOutputError>(id: "getOrganizationsAccessReport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOrganizationsAccessReportInput, GetOrganizationsAccessReportOutputResponse, GetOrganizationsAccessReportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOrganizationsAccessReportInput, GetOrganizationsAccessReportOutputResponse>())
@@ -2548,7 +2613,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetOrganizationsAccessReportOutputResponse, GetOrganizationsAccessReportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetOrganizationsAccessReportOutputResponse, GetOrganizationsAccessReportOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetOrganizationsAccessReportOutputResponse, GetOrganizationsAccessReportOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2568,6 +2633,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPolicyInput, GetPolicyOutputResponse, GetPolicyOutputError>(id: "getPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPolicyInput, GetPolicyOutputResponse, GetPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPolicyInput, GetPolicyOutputResponse>())
@@ -2583,7 +2649,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyOutputResponse, GetPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPolicyOutputResponse, GetPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyOutputResponse, GetPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2603,6 +2669,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPolicyVersionInput, GetPolicyVersionOutputResponse, GetPolicyVersionOutputError>(id: "getPolicyVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPolicyVersionInput, GetPolicyVersionOutputResponse, GetPolicyVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPolicyVersionInput, GetPolicyVersionOutputResponse>())
@@ -2618,7 +2685,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPolicyVersionOutputResponse, GetPolicyVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPolicyVersionOutputResponse, GetPolicyVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPolicyVersionOutputResponse, GetPolicyVersionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2638,6 +2705,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRoleInput, GetRoleOutputResponse, GetRoleOutputError>(id: "getRole")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRoleInput, GetRoleOutputResponse, GetRoleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRoleInput, GetRoleOutputResponse>())
@@ -2653,7 +2721,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRoleOutputResponse, GetRoleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRoleOutputResponse, GetRoleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRoleOutputResponse, GetRoleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2673,6 +2741,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetRolePolicyInput, GetRolePolicyOutputResponse, GetRolePolicyOutputError>(id: "getRolePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRolePolicyInput, GetRolePolicyOutputResponse, GetRolePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRolePolicyInput, GetRolePolicyOutputResponse>())
@@ -2688,7 +2757,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRolePolicyOutputResponse, GetRolePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRolePolicyOutputResponse, GetRolePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRolePolicyOutputResponse, GetRolePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2708,6 +2777,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSAMLProviderInput, GetSAMLProviderOutputResponse, GetSAMLProviderOutputError>(id: "getSAMLProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSAMLProviderInput, GetSAMLProviderOutputResponse, GetSAMLProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSAMLProviderInput, GetSAMLProviderOutputResponse>())
@@ -2723,7 +2793,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSAMLProviderOutputResponse, GetSAMLProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSAMLProviderOutputResponse, GetSAMLProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSAMLProviderOutputResponse, GetSAMLProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2743,6 +2813,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSSHPublicKeyInput, GetSSHPublicKeyOutputResponse, GetSSHPublicKeyOutputError>(id: "getSSHPublicKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSSHPublicKeyInput, GetSSHPublicKeyOutputResponse, GetSSHPublicKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSSHPublicKeyInput, GetSSHPublicKeyOutputResponse>())
@@ -2758,7 +2829,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSSHPublicKeyOutputResponse, GetSSHPublicKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSSHPublicKeyOutputResponse, GetSSHPublicKeyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSSHPublicKeyOutputResponse, GetSSHPublicKeyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2778,6 +2849,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetServerCertificateInput, GetServerCertificateOutputResponse, GetServerCertificateOutputError>(id: "getServerCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServerCertificateInput, GetServerCertificateOutputResponse, GetServerCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServerCertificateInput, GetServerCertificateOutputResponse>())
@@ -2793,7 +2865,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServerCertificateOutputResponse, GetServerCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetServerCertificateOutputResponse, GetServerCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServerCertificateOutputResponse, GetServerCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2824,6 +2896,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetServiceLastAccessedDetailsInput, GetServiceLastAccessedDetailsOutputResponse, GetServiceLastAccessedDetailsOutputError>(id: "getServiceLastAccessedDetails")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceLastAccessedDetailsInput, GetServiceLastAccessedDetailsOutputResponse, GetServiceLastAccessedDetailsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceLastAccessedDetailsInput, GetServiceLastAccessedDetailsOutputResponse>())
@@ -2839,7 +2912,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceLastAccessedDetailsOutputResponse, GetServiceLastAccessedDetailsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetServiceLastAccessedDetailsOutputResponse, GetServiceLastAccessedDetailsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceLastAccessedDetailsOutputResponse, GetServiceLastAccessedDetailsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2866,6 +2939,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetServiceLastAccessedDetailsWithEntitiesInput, GetServiceLastAccessedDetailsWithEntitiesOutputResponse, GetServiceLastAccessedDetailsWithEntitiesOutputError>(id: "getServiceLastAccessedDetailsWithEntities")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceLastAccessedDetailsWithEntitiesInput, GetServiceLastAccessedDetailsWithEntitiesOutputResponse, GetServiceLastAccessedDetailsWithEntitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceLastAccessedDetailsWithEntitiesInput, GetServiceLastAccessedDetailsWithEntitiesOutputResponse>())
@@ -2881,7 +2955,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceLastAccessedDetailsWithEntitiesOutputResponse, GetServiceLastAccessedDetailsWithEntitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetServiceLastAccessedDetailsWithEntitiesOutputResponse, GetServiceLastAccessedDetailsWithEntitiesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceLastAccessedDetailsWithEntitiesOutputResponse, GetServiceLastAccessedDetailsWithEntitiesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2901,6 +2975,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetServiceLinkedRoleDeletionStatusInput, GetServiceLinkedRoleDeletionStatusOutputResponse, GetServiceLinkedRoleDeletionStatusOutputError>(id: "getServiceLinkedRoleDeletionStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceLinkedRoleDeletionStatusInput, GetServiceLinkedRoleDeletionStatusOutputResponse, GetServiceLinkedRoleDeletionStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceLinkedRoleDeletionStatusInput, GetServiceLinkedRoleDeletionStatusOutputResponse>())
@@ -2916,7 +2991,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceLinkedRoleDeletionStatusOutputResponse, GetServiceLinkedRoleDeletionStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetServiceLinkedRoleDeletionStatusOutputResponse, GetServiceLinkedRoleDeletionStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceLinkedRoleDeletionStatusOutputResponse, GetServiceLinkedRoleDeletionStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2936,6 +3011,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetUserInput, GetUserOutputResponse, GetUserOutputError>(id: "getUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserInput, GetUserOutputResponse, GetUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserInput, GetUserOutputResponse>())
@@ -2951,7 +3027,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserOutputResponse, GetUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetUserOutputResponse, GetUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserOutputResponse, GetUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2971,6 +3047,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetUserPolicyInput, GetUserPolicyOutputResponse, GetUserPolicyOutputError>(id: "getUserPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserPolicyInput, GetUserPolicyOutputResponse, GetUserPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserPolicyInput, GetUserPolicyOutputResponse>())
@@ -2986,7 +3063,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetUserPolicyOutputResponse, GetUserPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetUserPolicyOutputResponse, GetUserPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetUserPolicyOutputResponse, GetUserPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3006,6 +3083,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAccessKeysInput, ListAccessKeysOutputResponse, ListAccessKeysOutputError>(id: "listAccessKeys")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccessKeysInput, ListAccessKeysOutputResponse, ListAccessKeysOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccessKeysInput, ListAccessKeysOutputResponse>())
@@ -3021,7 +3099,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccessKeysOutputResponse, ListAccessKeysOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAccessKeysOutputResponse, ListAccessKeysOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccessKeysOutputResponse, ListAccessKeysOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3041,6 +3119,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAccountAliasesInput, ListAccountAliasesOutputResponse, ListAccountAliasesOutputError>(id: "listAccountAliases")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAliasesInput, ListAccountAliasesOutputResponse, ListAccountAliasesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountAliasesInput, ListAccountAliasesOutputResponse>())
@@ -3056,7 +3135,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAccountAliasesOutputResponse, ListAccountAliasesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAccountAliasesOutputResponse, ListAccountAliasesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountAliasesOutputResponse, ListAccountAliasesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3076,6 +3155,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAttachedGroupPoliciesInput, ListAttachedGroupPoliciesOutputResponse, ListAttachedGroupPoliciesOutputError>(id: "listAttachedGroupPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttachedGroupPoliciesInput, ListAttachedGroupPoliciesOutputResponse, ListAttachedGroupPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAttachedGroupPoliciesInput, ListAttachedGroupPoliciesOutputResponse>())
@@ -3091,7 +3171,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttachedGroupPoliciesOutputResponse, ListAttachedGroupPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAttachedGroupPoliciesOutputResponse, ListAttachedGroupPoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttachedGroupPoliciesOutputResponse, ListAttachedGroupPoliciesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3111,6 +3191,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAttachedRolePoliciesInput, ListAttachedRolePoliciesOutputResponse, ListAttachedRolePoliciesOutputError>(id: "listAttachedRolePolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttachedRolePoliciesInput, ListAttachedRolePoliciesOutputResponse, ListAttachedRolePoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAttachedRolePoliciesInput, ListAttachedRolePoliciesOutputResponse>())
@@ -3126,7 +3207,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttachedRolePoliciesOutputResponse, ListAttachedRolePoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAttachedRolePoliciesOutputResponse, ListAttachedRolePoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttachedRolePoliciesOutputResponse, ListAttachedRolePoliciesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3146,6 +3227,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListAttachedUserPoliciesInput, ListAttachedUserPoliciesOutputResponse, ListAttachedUserPoliciesOutputError>(id: "listAttachedUserPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAttachedUserPoliciesInput, ListAttachedUserPoliciesOutputResponse, ListAttachedUserPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAttachedUserPoliciesInput, ListAttachedUserPoliciesOutputResponse>())
@@ -3161,7 +3243,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttachedUserPoliciesOutputResponse, ListAttachedUserPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAttachedUserPoliciesOutputResponse, ListAttachedUserPoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttachedUserPoliciesOutputResponse, ListAttachedUserPoliciesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3181,6 +3263,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEntitiesForPolicyInput, ListEntitiesForPolicyOutputResponse, ListEntitiesForPolicyOutputError>(id: "listEntitiesForPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEntitiesForPolicyInput, ListEntitiesForPolicyOutputResponse, ListEntitiesForPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEntitiesForPolicyInput, ListEntitiesForPolicyOutputResponse>())
@@ -3196,7 +3279,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEntitiesForPolicyOutputResponse, ListEntitiesForPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListEntitiesForPolicyOutputResponse, ListEntitiesForPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEntitiesForPolicyOutputResponse, ListEntitiesForPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3216,6 +3299,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGroupPoliciesInput, ListGroupPoliciesOutputResponse, ListGroupPoliciesOutputError>(id: "listGroupPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupPoliciesInput, ListGroupPoliciesOutputResponse, ListGroupPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupPoliciesInput, ListGroupPoliciesOutputResponse>())
@@ -3231,7 +3315,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupPoliciesOutputResponse, ListGroupPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListGroupPoliciesOutputResponse, ListGroupPoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupPoliciesOutputResponse, ListGroupPoliciesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3251,6 +3335,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGroupsInput, ListGroupsOutputResponse, ListGroupsOutputError>(id: "listGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupsInput, ListGroupsOutputResponse, ListGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupsInput, ListGroupsOutputResponse>())
@@ -3266,7 +3351,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupsOutputResponse, ListGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListGroupsOutputResponse, ListGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupsOutputResponse, ListGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3286,6 +3371,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGroupsForUserInput, ListGroupsForUserOutputResponse, ListGroupsForUserOutputError>(id: "listGroupsForUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupsForUserInput, ListGroupsForUserOutputResponse, ListGroupsForUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupsForUserInput, ListGroupsForUserOutputResponse>())
@@ -3301,7 +3387,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGroupsForUserOutputResponse, ListGroupsForUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListGroupsForUserOutputResponse, ListGroupsForUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGroupsForUserOutputResponse, ListGroupsForUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3321,6 +3407,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutputResponse, ListInstanceProfileTagsOutputError>(id: "listInstanceProfileTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutputResponse, ListInstanceProfileTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstanceProfileTagsInput, ListInstanceProfileTagsOutputResponse>())
@@ -3336,7 +3423,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstanceProfileTagsOutputResponse, ListInstanceProfileTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListInstanceProfileTagsOutputResponse, ListInstanceProfileTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceProfileTagsOutputResponse, ListInstanceProfileTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3356,6 +3443,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListInstanceProfilesInput, ListInstanceProfilesOutputResponse, ListInstanceProfilesOutputError>(id: "listInstanceProfiles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutputResponse, ListInstanceProfilesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstanceProfilesInput, ListInstanceProfilesOutputResponse>())
@@ -3371,7 +3459,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstanceProfilesOutputResponse, ListInstanceProfilesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListInstanceProfilesOutputResponse, ListInstanceProfilesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceProfilesOutputResponse, ListInstanceProfilesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3391,6 +3479,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListInstanceProfilesForRoleInput, ListInstanceProfilesForRoleOutputResponse, ListInstanceProfilesForRoleOutputError>(id: "listInstanceProfilesForRole")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstanceProfilesForRoleInput, ListInstanceProfilesForRoleOutputResponse, ListInstanceProfilesForRoleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstanceProfilesForRoleInput, ListInstanceProfilesForRoleOutputResponse>())
@@ -3406,7 +3495,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListInstanceProfilesForRoleOutputResponse, ListInstanceProfilesForRoleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListInstanceProfilesForRoleOutputResponse, ListInstanceProfilesForRoleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListInstanceProfilesForRoleOutputResponse, ListInstanceProfilesForRoleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3426,6 +3515,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMFADeviceTagsInput, ListMFADeviceTagsOutputResponse, ListMFADeviceTagsOutputError>(id: "listMFADeviceTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMFADeviceTagsInput, ListMFADeviceTagsOutputResponse, ListMFADeviceTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMFADeviceTagsInput, ListMFADeviceTagsOutputResponse>())
@@ -3441,7 +3531,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMFADeviceTagsOutputResponse, ListMFADeviceTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMFADeviceTagsOutputResponse, ListMFADeviceTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMFADeviceTagsOutputResponse, ListMFADeviceTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3461,6 +3551,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMFADevicesInput, ListMFADevicesOutputResponse, ListMFADevicesOutputError>(id: "listMFADevices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMFADevicesInput, ListMFADevicesOutputResponse, ListMFADevicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMFADevicesInput, ListMFADevicesOutputResponse>())
@@ -3476,7 +3567,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMFADevicesOutputResponse, ListMFADevicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMFADevicesOutputResponse, ListMFADevicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMFADevicesOutputResponse, ListMFADevicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3496,6 +3587,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutputResponse, ListOpenIDConnectProviderTagsOutputError>(id: "listOpenIDConnectProviderTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutputResponse, ListOpenIDConnectProviderTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOpenIDConnectProviderTagsInput, ListOpenIDConnectProviderTagsOutputResponse>())
@@ -3511,7 +3603,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOpenIDConnectProviderTagsOutputResponse, ListOpenIDConnectProviderTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListOpenIDConnectProviderTagsOutputResponse, ListOpenIDConnectProviderTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOpenIDConnectProviderTagsOutputResponse, ListOpenIDConnectProviderTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3531,6 +3623,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListOpenIDConnectProvidersInput, ListOpenIDConnectProvidersOutputResponse, ListOpenIDConnectProvidersOutputError>(id: "listOpenIDConnectProviders")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListOpenIDConnectProvidersInput, ListOpenIDConnectProvidersOutputResponse, ListOpenIDConnectProvidersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListOpenIDConnectProvidersInput, ListOpenIDConnectProvidersOutputResponse>())
@@ -3546,7 +3639,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOpenIDConnectProvidersOutputResponse, ListOpenIDConnectProvidersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListOpenIDConnectProvidersOutputResponse, ListOpenIDConnectProvidersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOpenIDConnectProvidersOutputResponse, ListOpenIDConnectProvidersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3566,6 +3659,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPoliciesInput, ListPoliciesOutputResponse, ListPoliciesOutputError>(id: "listPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPoliciesInput, ListPoliciesOutputResponse, ListPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPoliciesInput, ListPoliciesOutputResponse>())
@@ -3581,7 +3675,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPoliciesOutputResponse, ListPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPoliciesOutputResponse, ListPoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoliciesOutputResponse, ListPoliciesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3610,6 +3704,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPoliciesGrantingServiceAccessInput, ListPoliciesGrantingServiceAccessOutputResponse, ListPoliciesGrantingServiceAccessOutputError>(id: "listPoliciesGrantingServiceAccess")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPoliciesGrantingServiceAccessInput, ListPoliciesGrantingServiceAccessOutputResponse, ListPoliciesGrantingServiceAccessOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPoliciesGrantingServiceAccessInput, ListPoliciesGrantingServiceAccessOutputResponse>())
@@ -3625,7 +3720,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPoliciesGrantingServiceAccessOutputResponse, ListPoliciesGrantingServiceAccessOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPoliciesGrantingServiceAccessOutputResponse, ListPoliciesGrantingServiceAccessOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPoliciesGrantingServiceAccessOutputResponse, ListPoliciesGrantingServiceAccessOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3645,6 +3740,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPolicyTagsInput, ListPolicyTagsOutputResponse, ListPolicyTagsOutputError>(id: "listPolicyTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPolicyTagsInput, ListPolicyTagsOutputResponse, ListPolicyTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPolicyTagsInput, ListPolicyTagsOutputResponse>())
@@ -3660,7 +3756,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPolicyTagsOutputResponse, ListPolicyTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPolicyTagsOutputResponse, ListPolicyTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPolicyTagsOutputResponse, ListPolicyTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3680,6 +3776,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPolicyVersionsInput, ListPolicyVersionsOutputResponse, ListPolicyVersionsOutputError>(id: "listPolicyVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPolicyVersionsInput, ListPolicyVersionsOutputResponse, ListPolicyVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPolicyVersionsInput, ListPolicyVersionsOutputResponse>())
@@ -3695,7 +3792,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPolicyVersionsOutputResponse, ListPolicyVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPolicyVersionsOutputResponse, ListPolicyVersionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPolicyVersionsOutputResponse, ListPolicyVersionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3715,6 +3812,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRolePoliciesInput, ListRolePoliciesOutputResponse, ListRolePoliciesOutputError>(id: "listRolePolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRolePoliciesInput, ListRolePoliciesOutputResponse, ListRolePoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRolePoliciesInput, ListRolePoliciesOutputResponse>())
@@ -3730,7 +3828,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRolePoliciesOutputResponse, ListRolePoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListRolePoliciesOutputResponse, ListRolePoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRolePoliciesOutputResponse, ListRolePoliciesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3750,6 +3848,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRoleTagsInput, ListRoleTagsOutputResponse, ListRoleTagsOutputError>(id: "listRoleTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRoleTagsInput, ListRoleTagsOutputResponse, ListRoleTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRoleTagsInput, ListRoleTagsOutputResponse>())
@@ -3765,7 +3864,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRoleTagsOutputResponse, ListRoleTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListRoleTagsOutputResponse, ListRoleTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRoleTagsOutputResponse, ListRoleTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3785,6 +3884,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRolesInput, ListRolesOutputResponse, ListRolesOutputError>(id: "listRoles")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRolesInput, ListRolesOutputResponse, ListRolesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRolesInput, ListRolesOutputResponse>())
@@ -3800,7 +3900,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRolesOutputResponse, ListRolesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListRolesOutputResponse, ListRolesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRolesOutputResponse, ListRolesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3820,6 +3920,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutputResponse, ListSAMLProviderTagsOutputError>(id: "listSAMLProviderTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutputResponse, ListSAMLProviderTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSAMLProviderTagsInput, ListSAMLProviderTagsOutputResponse>())
@@ -3835,7 +3936,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSAMLProviderTagsOutputResponse, ListSAMLProviderTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSAMLProviderTagsOutputResponse, ListSAMLProviderTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSAMLProviderTagsOutputResponse, ListSAMLProviderTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3855,6 +3956,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSAMLProvidersInput, ListSAMLProvidersOutputResponse, ListSAMLProvidersOutputError>(id: "listSAMLProviders")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSAMLProvidersInput, ListSAMLProvidersOutputResponse, ListSAMLProvidersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSAMLProvidersInput, ListSAMLProvidersOutputResponse>())
@@ -3870,7 +3972,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSAMLProvidersOutputResponse, ListSAMLProvidersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSAMLProvidersOutputResponse, ListSAMLProvidersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSAMLProvidersOutputResponse, ListSAMLProvidersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3890,6 +3992,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSSHPublicKeysInput, ListSSHPublicKeysOutputResponse, ListSSHPublicKeysOutputError>(id: "listSSHPublicKeys")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSSHPublicKeysInput, ListSSHPublicKeysOutputResponse, ListSSHPublicKeysOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSSHPublicKeysInput, ListSSHPublicKeysOutputResponse>())
@@ -3905,7 +4008,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSSHPublicKeysOutputResponse, ListSSHPublicKeysOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSSHPublicKeysOutputResponse, ListSSHPublicKeysOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSSHPublicKeysOutputResponse, ListSSHPublicKeysOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3925,6 +4028,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListServerCertificateTagsInput, ListServerCertificateTagsOutputResponse, ListServerCertificateTagsOutputError>(id: "listServerCertificateTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServerCertificateTagsInput, ListServerCertificateTagsOutputResponse, ListServerCertificateTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServerCertificateTagsInput, ListServerCertificateTagsOutputResponse>())
@@ -3940,7 +4044,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServerCertificateTagsOutputResponse, ListServerCertificateTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListServerCertificateTagsOutputResponse, ListServerCertificateTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServerCertificateTagsOutputResponse, ListServerCertificateTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3960,6 +4064,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListServerCertificatesInput, ListServerCertificatesOutputResponse, ListServerCertificatesOutputError>(id: "listServerCertificates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServerCertificatesInput, ListServerCertificatesOutputResponse, ListServerCertificatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServerCertificatesInput, ListServerCertificatesOutputResponse>())
@@ -3975,7 +4080,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServerCertificatesOutputResponse, ListServerCertificatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListServerCertificatesOutputResponse, ListServerCertificatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServerCertificatesOutputResponse, ListServerCertificatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -3995,6 +4100,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListServiceSpecificCredentialsInput, ListServiceSpecificCredentialsOutputResponse, ListServiceSpecificCredentialsOutputError>(id: "listServiceSpecificCredentials")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServiceSpecificCredentialsInput, ListServiceSpecificCredentialsOutputResponse, ListServiceSpecificCredentialsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServiceSpecificCredentialsInput, ListServiceSpecificCredentialsOutputResponse>())
@@ -4010,7 +4116,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServiceSpecificCredentialsOutputResponse, ListServiceSpecificCredentialsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListServiceSpecificCredentialsOutputResponse, ListServiceSpecificCredentialsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServiceSpecificCredentialsOutputResponse, ListServiceSpecificCredentialsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4030,6 +4136,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSigningCertificatesInput, ListSigningCertificatesOutputResponse, ListSigningCertificatesOutputError>(id: "listSigningCertificates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSigningCertificatesInput, ListSigningCertificatesOutputResponse, ListSigningCertificatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSigningCertificatesInput, ListSigningCertificatesOutputResponse>())
@@ -4045,7 +4152,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSigningCertificatesOutputResponse, ListSigningCertificatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSigningCertificatesOutputResponse, ListSigningCertificatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSigningCertificatesOutputResponse, ListSigningCertificatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4065,6 +4172,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListUserPoliciesInput, ListUserPoliciesOutputResponse, ListUserPoliciesOutputError>(id: "listUserPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserPoliciesInput, ListUserPoliciesOutputResponse, ListUserPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserPoliciesInput, ListUserPoliciesOutputResponse>())
@@ -4080,7 +4188,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserPoliciesOutputResponse, ListUserPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListUserPoliciesOutputResponse, ListUserPoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserPoliciesOutputResponse, ListUserPoliciesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4100,6 +4208,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListUserTagsInput, ListUserTagsOutputResponse, ListUserTagsOutputError>(id: "listUserTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserTagsInput, ListUserTagsOutputResponse, ListUserTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserTagsInput, ListUserTagsOutputResponse>())
@@ -4115,7 +4224,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUserTagsOutputResponse, ListUserTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListUserTagsOutputResponse, ListUserTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUserTagsOutputResponse, ListUserTagsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4135,6 +4244,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListUsersInput, ListUsersOutputResponse, ListUsersOutputError>(id: "listUsers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUsersInput, ListUsersOutputResponse, ListUsersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUsersInput, ListUsersOutputResponse>())
@@ -4150,7 +4260,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUsersOutputResponse, ListUsersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListUsersOutputResponse, ListUsersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUsersOutputResponse, ListUsersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4170,6 +4280,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVirtualMFADevicesInput, ListVirtualMFADevicesOutputResponse, ListVirtualMFADevicesOutputError>(id: "listVirtualMFADevices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVirtualMFADevicesInput, ListVirtualMFADevicesOutputResponse, ListVirtualMFADevicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVirtualMFADevicesInput, ListVirtualMFADevicesOutputResponse>())
@@ -4185,7 +4296,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVirtualMFADevicesOutputResponse, ListVirtualMFADevicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListVirtualMFADevicesOutputResponse, ListVirtualMFADevicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVirtualMFADevicesOutputResponse, ListVirtualMFADevicesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4205,6 +4316,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutGroupPolicyInput, PutGroupPolicyOutputResponse, PutGroupPolicyOutputError>(id: "putGroupPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutGroupPolicyInput, PutGroupPolicyOutputResponse, PutGroupPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutGroupPolicyInput, PutGroupPolicyOutputResponse>())
@@ -4220,7 +4332,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutGroupPolicyOutputResponse, PutGroupPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutGroupPolicyOutputResponse, PutGroupPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutGroupPolicyOutputResponse, PutGroupPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4240,6 +4352,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutRolePermissionsBoundaryInput, PutRolePermissionsBoundaryOutputResponse, PutRolePermissionsBoundaryOutputError>(id: "putRolePermissionsBoundary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRolePermissionsBoundaryInput, PutRolePermissionsBoundaryOutputResponse, PutRolePermissionsBoundaryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRolePermissionsBoundaryInput, PutRolePermissionsBoundaryOutputResponse>())
@@ -4255,7 +4368,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRolePermissionsBoundaryOutputResponse, PutRolePermissionsBoundaryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutRolePermissionsBoundaryOutputResponse, PutRolePermissionsBoundaryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRolePermissionsBoundaryOutputResponse, PutRolePermissionsBoundaryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4275,6 +4388,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutRolePolicyInput, PutRolePolicyOutputResponse, PutRolePolicyOutputError>(id: "putRolePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutRolePolicyInput, PutRolePolicyOutputResponse, PutRolePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRolePolicyInput, PutRolePolicyOutputResponse>())
@@ -4290,7 +4404,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRolePolicyOutputResponse, PutRolePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutRolePolicyOutputResponse, PutRolePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutRolePolicyOutputResponse, PutRolePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4310,6 +4424,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutUserPermissionsBoundaryInput, PutUserPermissionsBoundaryOutputResponse, PutUserPermissionsBoundaryOutputError>(id: "putUserPermissionsBoundary")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutUserPermissionsBoundaryInput, PutUserPermissionsBoundaryOutputResponse, PutUserPermissionsBoundaryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutUserPermissionsBoundaryInput, PutUserPermissionsBoundaryOutputResponse>())
@@ -4325,7 +4440,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutUserPermissionsBoundaryOutputResponse, PutUserPermissionsBoundaryOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutUserPermissionsBoundaryOutputResponse, PutUserPermissionsBoundaryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutUserPermissionsBoundaryOutputResponse, PutUserPermissionsBoundaryOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4345,6 +4460,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutUserPolicyInput, PutUserPolicyOutputResponse, PutUserPolicyOutputError>(id: "putUserPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutUserPolicyInput, PutUserPolicyOutputResponse, PutUserPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutUserPolicyInput, PutUserPolicyOutputResponse>())
@@ -4360,7 +4476,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutUserPolicyOutputResponse, PutUserPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutUserPolicyOutputResponse, PutUserPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutUserPolicyOutputResponse, PutUserPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4380,6 +4496,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveClientIDFromOpenIDConnectProviderInput, RemoveClientIDFromOpenIDConnectProviderOutputResponse, RemoveClientIDFromOpenIDConnectProviderOutputError>(id: "removeClientIDFromOpenIDConnectProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveClientIDFromOpenIDConnectProviderInput, RemoveClientIDFromOpenIDConnectProviderOutputResponse, RemoveClientIDFromOpenIDConnectProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveClientIDFromOpenIDConnectProviderInput, RemoveClientIDFromOpenIDConnectProviderOutputResponse>())
@@ -4395,7 +4512,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveClientIDFromOpenIDConnectProviderOutputResponse, RemoveClientIDFromOpenIDConnectProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RemoveClientIDFromOpenIDConnectProviderOutputResponse, RemoveClientIDFromOpenIDConnectProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveClientIDFromOpenIDConnectProviderOutputResponse, RemoveClientIDFromOpenIDConnectProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4415,6 +4532,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveRoleFromInstanceProfileInput, RemoveRoleFromInstanceProfileOutputResponse, RemoveRoleFromInstanceProfileOutputError>(id: "removeRoleFromInstanceProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveRoleFromInstanceProfileInput, RemoveRoleFromInstanceProfileOutputResponse, RemoveRoleFromInstanceProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveRoleFromInstanceProfileInput, RemoveRoleFromInstanceProfileOutputResponse>())
@@ -4430,7 +4548,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveRoleFromInstanceProfileOutputResponse, RemoveRoleFromInstanceProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RemoveRoleFromInstanceProfileOutputResponse, RemoveRoleFromInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveRoleFromInstanceProfileOutputResponse, RemoveRoleFromInstanceProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4450,6 +4568,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RemoveUserFromGroupInput, RemoveUserFromGroupOutputResponse, RemoveUserFromGroupOutputError>(id: "removeUserFromGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RemoveUserFromGroupInput, RemoveUserFromGroupOutputResponse, RemoveUserFromGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveUserFromGroupInput, RemoveUserFromGroupOutputResponse>())
@@ -4465,7 +4584,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveUserFromGroupOutputResponse, RemoveUserFromGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RemoveUserFromGroupOutputResponse, RemoveUserFromGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveUserFromGroupOutputResponse, RemoveUserFromGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4485,6 +4604,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResetServiceSpecificCredentialInput, ResetServiceSpecificCredentialOutputResponse, ResetServiceSpecificCredentialOutputError>(id: "resetServiceSpecificCredential")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetServiceSpecificCredentialInput, ResetServiceSpecificCredentialOutputResponse, ResetServiceSpecificCredentialOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetServiceSpecificCredentialInput, ResetServiceSpecificCredentialOutputResponse>())
@@ -4500,7 +4620,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResetServiceSpecificCredentialOutputResponse, ResetServiceSpecificCredentialOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ResetServiceSpecificCredentialOutputResponse, ResetServiceSpecificCredentialOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResetServiceSpecificCredentialOutputResponse, ResetServiceSpecificCredentialOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4520,6 +4640,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ResyncMFADeviceInput, ResyncMFADeviceOutputResponse, ResyncMFADeviceOutputError>(id: "resyncMFADevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResyncMFADeviceInput, ResyncMFADeviceOutputResponse, ResyncMFADeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResyncMFADeviceInput, ResyncMFADeviceOutputResponse>())
@@ -4535,7 +4656,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResyncMFADeviceOutputResponse, ResyncMFADeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ResyncMFADeviceOutputResponse, ResyncMFADeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResyncMFADeviceOutputResponse, ResyncMFADeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4555,6 +4676,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetDefaultPolicyVersionInput, SetDefaultPolicyVersionOutputResponse, SetDefaultPolicyVersionOutputError>(id: "setDefaultPolicyVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetDefaultPolicyVersionInput, SetDefaultPolicyVersionOutputResponse, SetDefaultPolicyVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetDefaultPolicyVersionInput, SetDefaultPolicyVersionOutputResponse>())
@@ -4570,7 +4692,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetDefaultPolicyVersionOutputResponse, SetDefaultPolicyVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetDefaultPolicyVersionOutputResponse, SetDefaultPolicyVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetDefaultPolicyVersionOutputResponse, SetDefaultPolicyVersionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4590,6 +4712,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetSecurityTokenServicePreferencesInput, SetSecurityTokenServicePreferencesOutputResponse, SetSecurityTokenServicePreferencesOutputError>(id: "setSecurityTokenServicePreferences")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetSecurityTokenServicePreferencesInput, SetSecurityTokenServicePreferencesOutputResponse, SetSecurityTokenServicePreferencesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetSecurityTokenServicePreferencesInput, SetSecurityTokenServicePreferencesOutputResponse>())
@@ -4605,7 +4728,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetSecurityTokenServicePreferencesOutputResponse, SetSecurityTokenServicePreferencesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetSecurityTokenServicePreferencesOutputResponse, SetSecurityTokenServicePreferencesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetSecurityTokenServicePreferencesOutputResponse, SetSecurityTokenServicePreferencesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4625,6 +4748,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SimulateCustomPolicyInput, SimulateCustomPolicyOutputResponse, SimulateCustomPolicyOutputError>(id: "simulateCustomPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SimulateCustomPolicyInput, SimulateCustomPolicyOutputResponse, SimulateCustomPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SimulateCustomPolicyInput, SimulateCustomPolicyOutputResponse>())
@@ -4640,7 +4764,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SimulateCustomPolicyOutputResponse, SimulateCustomPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SimulateCustomPolicyOutputResponse, SimulateCustomPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SimulateCustomPolicyOutputResponse, SimulateCustomPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4660,6 +4784,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SimulatePrincipalPolicyInput, SimulatePrincipalPolicyOutputResponse, SimulatePrincipalPolicyOutputError>(id: "simulatePrincipalPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SimulatePrincipalPolicyInput, SimulatePrincipalPolicyOutputResponse, SimulatePrincipalPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SimulatePrincipalPolicyInput, SimulatePrincipalPolicyOutputResponse>())
@@ -4675,7 +4800,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SimulatePrincipalPolicyOutputResponse, SimulatePrincipalPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SimulatePrincipalPolicyOutputResponse, SimulatePrincipalPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SimulatePrincipalPolicyOutputResponse, SimulatePrincipalPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4706,6 +4831,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagInstanceProfileInput, TagInstanceProfileOutputResponse, TagInstanceProfileOutputError>(id: "tagInstanceProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagInstanceProfileInput, TagInstanceProfileOutputResponse, TagInstanceProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagInstanceProfileInput, TagInstanceProfileOutputResponse>())
@@ -4721,7 +4847,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagInstanceProfileOutputResponse, TagInstanceProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagInstanceProfileOutputResponse, TagInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagInstanceProfileOutputResponse, TagInstanceProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4752,6 +4878,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagMFADeviceInput, TagMFADeviceOutputResponse, TagMFADeviceOutputError>(id: "tagMFADevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagMFADeviceInput, TagMFADeviceOutputResponse, TagMFADeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagMFADeviceInput, TagMFADeviceOutputResponse>())
@@ -4767,7 +4894,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagMFADeviceOutputResponse, TagMFADeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagMFADeviceOutputResponse, TagMFADeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagMFADeviceOutputResponse, TagMFADeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4798,6 +4925,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagOpenIDConnectProviderInput, TagOpenIDConnectProviderOutputResponse, TagOpenIDConnectProviderOutputError>(id: "tagOpenIDConnectProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagOpenIDConnectProviderInput, TagOpenIDConnectProviderOutputResponse, TagOpenIDConnectProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagOpenIDConnectProviderInput, TagOpenIDConnectProviderOutputResponse>())
@@ -4813,7 +4941,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagOpenIDConnectProviderOutputResponse, TagOpenIDConnectProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagOpenIDConnectProviderOutputResponse, TagOpenIDConnectProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagOpenIDConnectProviderOutputResponse, TagOpenIDConnectProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4844,6 +4972,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagPolicyInput, TagPolicyOutputResponse, TagPolicyOutputError>(id: "tagPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagPolicyInput, TagPolicyOutputResponse, TagPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagPolicyInput, TagPolicyOutputResponse>())
@@ -4859,7 +4988,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagPolicyOutputResponse, TagPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagPolicyOutputResponse, TagPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagPolicyOutputResponse, TagPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4895,6 +5024,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagRoleInput, TagRoleOutputResponse, TagRoleOutputError>(id: "tagRole")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagRoleInput, TagRoleOutputResponse, TagRoleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagRoleInput, TagRoleOutputResponse>())
@@ -4910,7 +5040,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagRoleOutputResponse, TagRoleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagRoleOutputResponse, TagRoleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagRoleOutputResponse, TagRoleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4941,6 +5071,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagSAMLProviderInput, TagSAMLProviderOutputResponse, TagSAMLProviderOutputError>(id: "tagSAMLProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagSAMLProviderInput, TagSAMLProviderOutputResponse, TagSAMLProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagSAMLProviderInput, TagSAMLProviderOutputResponse>())
@@ -4956,7 +5087,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagSAMLProviderOutputResponse, TagSAMLProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagSAMLProviderOutputResponse, TagSAMLProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagSAMLProviderOutputResponse, TagSAMLProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -4989,6 +5120,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagServerCertificateInput, TagServerCertificateOutputResponse, TagServerCertificateOutputError>(id: "tagServerCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagServerCertificateInput, TagServerCertificateOutputResponse, TagServerCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagServerCertificateInput, TagServerCertificateOutputResponse>())
@@ -5004,7 +5136,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagServerCertificateOutputResponse, TagServerCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagServerCertificateOutputResponse, TagServerCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagServerCertificateOutputResponse, TagServerCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5040,6 +5172,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagUserInput, TagUserOutputResponse, TagUserOutputError>(id: "tagUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagUserInput, TagUserOutputResponse, TagUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagUserInput, TagUserOutputResponse>())
@@ -5055,7 +5188,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagUserOutputResponse, TagUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagUserOutputResponse, TagUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagUserOutputResponse, TagUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5075,6 +5208,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagInstanceProfileInput, UntagInstanceProfileOutputResponse, UntagInstanceProfileOutputError>(id: "untagInstanceProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagInstanceProfileInput, UntagInstanceProfileOutputResponse, UntagInstanceProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagInstanceProfileInput, UntagInstanceProfileOutputResponse>())
@@ -5090,7 +5224,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagInstanceProfileOutputResponse, UntagInstanceProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagInstanceProfileOutputResponse, UntagInstanceProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagInstanceProfileOutputResponse, UntagInstanceProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5110,6 +5244,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagMFADeviceInput, UntagMFADeviceOutputResponse, UntagMFADeviceOutputError>(id: "untagMFADevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagMFADeviceInput, UntagMFADeviceOutputResponse, UntagMFADeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagMFADeviceInput, UntagMFADeviceOutputResponse>())
@@ -5125,7 +5260,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagMFADeviceOutputResponse, UntagMFADeviceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagMFADeviceOutputResponse, UntagMFADeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagMFADeviceOutputResponse, UntagMFADeviceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5145,6 +5280,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagOpenIDConnectProviderInput, UntagOpenIDConnectProviderOutputResponse, UntagOpenIDConnectProviderOutputError>(id: "untagOpenIDConnectProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagOpenIDConnectProviderInput, UntagOpenIDConnectProviderOutputResponse, UntagOpenIDConnectProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagOpenIDConnectProviderInput, UntagOpenIDConnectProviderOutputResponse>())
@@ -5160,7 +5296,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagOpenIDConnectProviderOutputResponse, UntagOpenIDConnectProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagOpenIDConnectProviderOutputResponse, UntagOpenIDConnectProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagOpenIDConnectProviderOutputResponse, UntagOpenIDConnectProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5180,6 +5316,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagPolicyInput, UntagPolicyOutputResponse, UntagPolicyOutputError>(id: "untagPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagPolicyInput, UntagPolicyOutputResponse, UntagPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagPolicyInput, UntagPolicyOutputResponse>())
@@ -5195,7 +5332,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagPolicyOutputResponse, UntagPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagPolicyOutputResponse, UntagPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagPolicyOutputResponse, UntagPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5215,6 +5352,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagRoleInput, UntagRoleOutputResponse, UntagRoleOutputError>(id: "untagRole")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagRoleInput, UntagRoleOutputResponse, UntagRoleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagRoleInput, UntagRoleOutputResponse>())
@@ -5230,7 +5368,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagRoleOutputResponse, UntagRoleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagRoleOutputResponse, UntagRoleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagRoleOutputResponse, UntagRoleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5250,6 +5388,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagSAMLProviderInput, UntagSAMLProviderOutputResponse, UntagSAMLProviderOutputError>(id: "untagSAMLProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagSAMLProviderInput, UntagSAMLProviderOutputResponse, UntagSAMLProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagSAMLProviderInput, UntagSAMLProviderOutputResponse>())
@@ -5265,7 +5404,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagSAMLProviderOutputResponse, UntagSAMLProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagSAMLProviderOutputResponse, UntagSAMLProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagSAMLProviderOutputResponse, UntagSAMLProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5285,6 +5424,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagServerCertificateInput, UntagServerCertificateOutputResponse, UntagServerCertificateOutputError>(id: "untagServerCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagServerCertificateInput, UntagServerCertificateOutputResponse, UntagServerCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagServerCertificateInput, UntagServerCertificateOutputResponse>())
@@ -5300,7 +5440,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagServerCertificateOutputResponse, UntagServerCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagServerCertificateOutputResponse, UntagServerCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagServerCertificateOutputResponse, UntagServerCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5320,6 +5460,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagUserInput, UntagUserOutputResponse, UntagUserOutputError>(id: "untagUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagUserInput, UntagUserOutputResponse, UntagUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagUserInput, UntagUserOutputResponse>())
@@ -5335,7 +5476,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagUserOutputResponse, UntagUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagUserOutputResponse, UntagUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagUserOutputResponse, UntagUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5355,6 +5496,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAccessKeyInput, UpdateAccessKeyOutputResponse, UpdateAccessKeyOutputError>(id: "updateAccessKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccessKeyInput, UpdateAccessKeyOutputResponse, UpdateAccessKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccessKeyInput, UpdateAccessKeyOutputResponse>())
@@ -5370,7 +5512,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccessKeyOutputResponse, UpdateAccessKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAccessKeyOutputResponse, UpdateAccessKeyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccessKeyOutputResponse, UpdateAccessKeyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5390,6 +5532,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAccountPasswordPolicyInput, UpdateAccountPasswordPolicyOutputResponse, UpdateAccountPasswordPolicyOutputError>(id: "updateAccountPasswordPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccountPasswordPolicyInput, UpdateAccountPasswordPolicyOutputResponse, UpdateAccountPasswordPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccountPasswordPolicyInput, UpdateAccountPasswordPolicyOutputResponse>())
@@ -5405,7 +5548,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccountPasswordPolicyOutputResponse, UpdateAccountPasswordPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountPasswordPolicyOutputResponse, UpdateAccountPasswordPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountPasswordPolicyOutputResponse, UpdateAccountPasswordPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5425,6 +5568,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAssumeRolePolicyInput, UpdateAssumeRolePolicyOutputResponse, UpdateAssumeRolePolicyOutputError>(id: "updateAssumeRolePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAssumeRolePolicyInput, UpdateAssumeRolePolicyOutputResponse, UpdateAssumeRolePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAssumeRolePolicyInput, UpdateAssumeRolePolicyOutputResponse>())
@@ -5440,7 +5584,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAssumeRolePolicyOutputResponse, UpdateAssumeRolePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAssumeRolePolicyOutputResponse, UpdateAssumeRolePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAssumeRolePolicyOutputResponse, UpdateAssumeRolePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5460,6 +5604,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateGroupInput, UpdateGroupOutputResponse, UpdateGroupOutputError>(id: "updateGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGroupInput, UpdateGroupOutputResponse, UpdateGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGroupInput, UpdateGroupOutputResponse>())
@@ -5475,7 +5620,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGroupOutputResponse, UpdateGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateGroupOutputResponse, UpdateGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGroupOutputResponse, UpdateGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5495,6 +5640,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateLoginProfileInput, UpdateLoginProfileOutputResponse, UpdateLoginProfileOutputError>(id: "updateLoginProfile")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLoginProfileInput, UpdateLoginProfileOutputResponse, UpdateLoginProfileOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLoginProfileInput, UpdateLoginProfileOutputResponse>())
@@ -5510,7 +5656,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLoginProfileOutputResponse, UpdateLoginProfileOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateLoginProfileOutputResponse, UpdateLoginProfileOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLoginProfileOutputResponse, UpdateLoginProfileOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5530,6 +5676,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateOpenIDConnectProviderThumbprintInput, UpdateOpenIDConnectProviderThumbprintOutputResponse, UpdateOpenIDConnectProviderThumbprintOutputError>(id: "updateOpenIDConnectProviderThumbprint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateOpenIDConnectProviderThumbprintInput, UpdateOpenIDConnectProviderThumbprintOutputResponse, UpdateOpenIDConnectProviderThumbprintOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateOpenIDConnectProviderThumbprintInput, UpdateOpenIDConnectProviderThumbprintOutputResponse>())
@@ -5545,7 +5692,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateOpenIDConnectProviderThumbprintOutputResponse, UpdateOpenIDConnectProviderThumbprintOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateOpenIDConnectProviderThumbprintOutputResponse, UpdateOpenIDConnectProviderThumbprintOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateOpenIDConnectProviderThumbprintOutputResponse, UpdateOpenIDConnectProviderThumbprintOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5565,6 +5712,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRoleInput, UpdateRoleOutputResponse, UpdateRoleOutputError>(id: "updateRole")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRoleInput, UpdateRoleOutputResponse, UpdateRoleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRoleInput, UpdateRoleOutputResponse>())
@@ -5580,7 +5728,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRoleOutputResponse, UpdateRoleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateRoleOutputResponse, UpdateRoleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoleOutputResponse, UpdateRoleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5600,6 +5748,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRoleDescriptionInput, UpdateRoleDescriptionOutputResponse, UpdateRoleDescriptionOutputError>(id: "updateRoleDescription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRoleDescriptionInput, UpdateRoleDescriptionOutputResponse, UpdateRoleDescriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRoleDescriptionInput, UpdateRoleDescriptionOutputResponse>())
@@ -5615,7 +5764,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRoleDescriptionOutputResponse, UpdateRoleDescriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateRoleDescriptionOutputResponse, UpdateRoleDescriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRoleDescriptionOutputResponse, UpdateRoleDescriptionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5635,6 +5784,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSAMLProviderInput, UpdateSAMLProviderOutputResponse, UpdateSAMLProviderOutputError>(id: "updateSAMLProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSAMLProviderInput, UpdateSAMLProviderOutputResponse, UpdateSAMLProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSAMLProviderInput, UpdateSAMLProviderOutputResponse>())
@@ -5650,7 +5800,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSAMLProviderOutputResponse, UpdateSAMLProviderOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSAMLProviderOutputResponse, UpdateSAMLProviderOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSAMLProviderOutputResponse, UpdateSAMLProviderOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5670,6 +5820,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSSHPublicKeyInput, UpdateSSHPublicKeyOutputResponse, UpdateSSHPublicKeyOutputError>(id: "updateSSHPublicKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSSHPublicKeyInput, UpdateSSHPublicKeyOutputResponse, UpdateSSHPublicKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSSHPublicKeyInput, UpdateSSHPublicKeyOutputResponse>())
@@ -5685,7 +5836,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSSHPublicKeyOutputResponse, UpdateSSHPublicKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSSHPublicKeyOutputResponse, UpdateSSHPublicKeyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSSHPublicKeyOutputResponse, UpdateSSHPublicKeyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5705,6 +5856,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateServerCertificateInput, UpdateServerCertificateOutputResponse, UpdateServerCertificateOutputError>(id: "updateServerCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServerCertificateInput, UpdateServerCertificateOutputResponse, UpdateServerCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServerCertificateInput, UpdateServerCertificateOutputResponse>())
@@ -5720,7 +5872,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServerCertificateOutputResponse, UpdateServerCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateServerCertificateOutputResponse, UpdateServerCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServerCertificateOutputResponse, UpdateServerCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5740,6 +5892,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateServiceSpecificCredentialInput, UpdateServiceSpecificCredentialOutputResponse, UpdateServiceSpecificCredentialOutputError>(id: "updateServiceSpecificCredential")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateServiceSpecificCredentialInput, UpdateServiceSpecificCredentialOutputResponse, UpdateServiceSpecificCredentialOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateServiceSpecificCredentialInput, UpdateServiceSpecificCredentialOutputResponse>())
@@ -5755,7 +5908,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateServiceSpecificCredentialOutputResponse, UpdateServiceSpecificCredentialOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateServiceSpecificCredentialOutputResponse, UpdateServiceSpecificCredentialOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateServiceSpecificCredentialOutputResponse, UpdateServiceSpecificCredentialOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5775,6 +5928,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSigningCertificateInput, UpdateSigningCertificateOutputResponse, UpdateSigningCertificateOutputError>(id: "updateSigningCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSigningCertificateInput, UpdateSigningCertificateOutputResponse, UpdateSigningCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSigningCertificateInput, UpdateSigningCertificateOutputResponse>())
@@ -5790,7 +5944,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSigningCertificateOutputResponse, UpdateSigningCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSigningCertificateOutputResponse, UpdateSigningCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSigningCertificateOutputResponse, UpdateSigningCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5810,6 +5964,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateUserInput, UpdateUserOutputResponse, UpdateUserOutputError>(id: "updateUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserInput, UpdateUserOutputResponse, UpdateUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserInput, UpdateUserOutputResponse>())
@@ -5825,7 +5980,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateUserOutputResponse, UpdateUserOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateUserOutputResponse, UpdateUserOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateUserOutputResponse, UpdateUserOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5845,6 +6000,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UploadSSHPublicKeyInput, UploadSSHPublicKeyOutputResponse, UploadSSHPublicKeyOutputError>(id: "uploadSSHPublicKey")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadSSHPublicKeyInput, UploadSSHPublicKeyOutputResponse, UploadSSHPublicKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadSSHPublicKeyInput, UploadSSHPublicKeyOutputResponse>())
@@ -5860,7 +6016,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadSSHPublicKeyOutputResponse, UploadSSHPublicKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UploadSSHPublicKeyOutputResponse, UploadSSHPublicKeyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadSSHPublicKeyOutputResponse, UploadSSHPublicKeyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5880,6 +6036,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UploadServerCertificateInput, UploadServerCertificateOutputResponse, UploadServerCertificateOutputError>(id: "uploadServerCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadServerCertificateInput, UploadServerCertificateOutputResponse, UploadServerCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadServerCertificateInput, UploadServerCertificateOutputResponse>())
@@ -5895,7 +6052,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadServerCertificateOutputResponse, UploadServerCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UploadServerCertificateOutputResponse, UploadServerCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadServerCertificateOutputResponse, UploadServerCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -5915,6 +6072,7 @@ extension IAMClient: IAMClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "iam")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UploadSigningCertificateInput, UploadSigningCertificateOutputResponse, UploadSigningCertificateOutputError>(id: "uploadSigningCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UploadSigningCertificateInput, UploadSigningCertificateOutputResponse, UploadSigningCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UploadSigningCertificateInput, UploadSigningCertificateOutputResponse>())
@@ -5930,7 +6088,7 @@ extension IAMClient: IAMClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadSigningCertificateOutputResponse, UploadSigningCertificateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UploadSigningCertificateOutputResponse, UploadSigningCertificateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadSigningCertificateOutputResponse, UploadSigningCertificateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

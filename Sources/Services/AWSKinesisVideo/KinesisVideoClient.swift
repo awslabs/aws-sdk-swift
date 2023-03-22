@@ -221,6 +221,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSignalingChannelInput, CreateSignalingChannelOutputResponse, CreateSignalingChannelOutputError>(id: "createSignalingChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSignalingChannelInput, CreateSignalingChannelOutputResponse, CreateSignalingChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSignalingChannelInput, CreateSignalingChannelOutputResponse>())
@@ -236,7 +237,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSignalingChannelOutputResponse, CreateSignalingChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSignalingChannelOutputResponse, CreateSignalingChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSignalingChannelOutputResponse, CreateSignalingChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateStreamInput, CreateStreamOutputResponse, CreateStreamOutputError>(id: "createStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStreamInput, CreateStreamOutputResponse, CreateStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStreamInput, CreateStreamOutputResponse>())
@@ -271,7 +273,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStreamOutputResponse, CreateStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateStreamOutputResponse, CreateStreamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStreamOutputResponse, CreateStreamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -291,6 +293,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSignalingChannelInput, DeleteSignalingChannelOutputResponse, DeleteSignalingChannelOutputError>(id: "deleteSignalingChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSignalingChannelInput, DeleteSignalingChannelOutputResponse, DeleteSignalingChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSignalingChannelInput, DeleteSignalingChannelOutputResponse>())
@@ -306,7 +309,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSignalingChannelOutputResponse, DeleteSignalingChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSignalingChannelOutputResponse, DeleteSignalingChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSignalingChannelOutputResponse, DeleteSignalingChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -326,6 +329,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteStreamInput, DeleteStreamOutputResponse, DeleteStreamOutputError>(id: "deleteStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStreamInput, DeleteStreamOutputResponse, DeleteStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStreamInput, DeleteStreamOutputResponse>())
@@ -341,7 +345,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStreamOutputResponse, DeleteStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteStreamOutputResponse, DeleteStreamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStreamOutputResponse, DeleteStreamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -361,6 +365,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEdgeConfigurationInput, DescribeEdgeConfigurationOutputResponse, DescribeEdgeConfigurationOutputError>(id: "describeEdgeConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEdgeConfigurationInput, DescribeEdgeConfigurationOutputResponse, DescribeEdgeConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEdgeConfigurationInput, DescribeEdgeConfigurationOutputResponse>())
@@ -376,7 +381,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEdgeConfigurationOutputResponse, DescribeEdgeConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEdgeConfigurationOutputResponse, DescribeEdgeConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEdgeConfigurationOutputResponse, DescribeEdgeConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -396,6 +401,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeImageGenerationConfigurationInput, DescribeImageGenerationConfigurationOutputResponse, DescribeImageGenerationConfigurationOutputError>(id: "describeImageGenerationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeImageGenerationConfigurationInput, DescribeImageGenerationConfigurationOutputResponse, DescribeImageGenerationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeImageGenerationConfigurationInput, DescribeImageGenerationConfigurationOutputResponse>())
@@ -411,7 +417,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeImageGenerationConfigurationOutputResponse, DescribeImageGenerationConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeImageGenerationConfigurationOutputResponse, DescribeImageGenerationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeImageGenerationConfigurationOutputResponse, DescribeImageGenerationConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -431,6 +437,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMappedResourceConfigurationInput, DescribeMappedResourceConfigurationOutputResponse, DescribeMappedResourceConfigurationOutputError>(id: "describeMappedResourceConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMappedResourceConfigurationInput, DescribeMappedResourceConfigurationOutputResponse, DescribeMappedResourceConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMappedResourceConfigurationInput, DescribeMappedResourceConfigurationOutputResponse>())
@@ -446,7 +453,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMappedResourceConfigurationOutputResponse, DescribeMappedResourceConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeMappedResourceConfigurationOutputResponse, DescribeMappedResourceConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMappedResourceConfigurationOutputResponse, DescribeMappedResourceConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -466,6 +473,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeMediaStorageConfigurationInput, DescribeMediaStorageConfigurationOutputResponse, DescribeMediaStorageConfigurationOutputError>(id: "describeMediaStorageConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMediaStorageConfigurationInput, DescribeMediaStorageConfigurationOutputResponse, DescribeMediaStorageConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMediaStorageConfigurationInput, DescribeMediaStorageConfigurationOutputResponse>())
@@ -481,7 +489,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeMediaStorageConfigurationOutputResponse, DescribeMediaStorageConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeMediaStorageConfigurationOutputResponse, DescribeMediaStorageConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMediaStorageConfigurationOutputResponse, DescribeMediaStorageConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -501,6 +509,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeNotificationConfigurationInput, DescribeNotificationConfigurationOutputResponse, DescribeNotificationConfigurationOutputError>(id: "describeNotificationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeNotificationConfigurationInput, DescribeNotificationConfigurationOutputResponse, DescribeNotificationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeNotificationConfigurationInput, DescribeNotificationConfigurationOutputResponse>())
@@ -516,7 +525,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeNotificationConfigurationOutputResponse, DescribeNotificationConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeNotificationConfigurationOutputResponse, DescribeNotificationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeNotificationConfigurationOutputResponse, DescribeNotificationConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -536,6 +545,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeSignalingChannelInput, DescribeSignalingChannelOutputResponse, DescribeSignalingChannelOutputError>(id: "describeSignalingChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSignalingChannelInput, DescribeSignalingChannelOutputResponse, DescribeSignalingChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSignalingChannelInput, DescribeSignalingChannelOutputResponse>())
@@ -551,7 +561,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSignalingChannelOutputResponse, DescribeSignalingChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeSignalingChannelOutputResponse, DescribeSignalingChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSignalingChannelOutputResponse, DescribeSignalingChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -571,6 +581,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeStreamInput, DescribeStreamOutputResponse, DescribeStreamOutputError>(id: "describeStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeStreamInput, DescribeStreamOutputResponse, DescribeStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeStreamInput, DescribeStreamOutputResponse>())
@@ -586,7 +597,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeStreamOutputResponse, DescribeStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeStreamOutputResponse, DescribeStreamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeStreamOutputResponse, DescribeStreamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -606,6 +617,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetDataEndpointInput, GetDataEndpointOutputResponse, GetDataEndpointOutputError>(id: "getDataEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDataEndpointInput, GetDataEndpointOutputResponse, GetDataEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDataEndpointInput, GetDataEndpointOutputResponse>())
@@ -621,7 +633,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDataEndpointOutputResponse, GetDataEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDataEndpointOutputResponse, GetDataEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDataEndpointOutputResponse, GetDataEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -641,6 +653,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSignalingChannelEndpointInput, GetSignalingChannelEndpointOutputResponse, GetSignalingChannelEndpointOutputError>(id: "getSignalingChannelEndpoint")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSignalingChannelEndpointInput, GetSignalingChannelEndpointOutputResponse, GetSignalingChannelEndpointOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSignalingChannelEndpointInput, GetSignalingChannelEndpointOutputResponse>())
@@ -656,7 +669,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSignalingChannelEndpointOutputResponse, GetSignalingChannelEndpointOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSignalingChannelEndpointOutputResponse, GetSignalingChannelEndpointOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSignalingChannelEndpointOutputResponse, GetSignalingChannelEndpointOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -676,6 +689,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSignalingChannelsInput, ListSignalingChannelsOutputResponse, ListSignalingChannelsOutputError>(id: "listSignalingChannels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSignalingChannelsInput, ListSignalingChannelsOutputResponse, ListSignalingChannelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSignalingChannelsInput, ListSignalingChannelsOutputResponse>())
@@ -691,7 +705,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSignalingChannelsOutputResponse, ListSignalingChannelsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSignalingChannelsOutputResponse, ListSignalingChannelsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSignalingChannelsOutputResponse, ListSignalingChannelsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -711,6 +725,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStreamsInput, ListStreamsOutputResponse, ListStreamsOutputError>(id: "listStreams")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStreamsInput, ListStreamsOutputResponse, ListStreamsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStreamsInput, ListStreamsOutputResponse>())
@@ -726,7 +741,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStreamsOutputResponse, ListStreamsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListStreamsOutputResponse, ListStreamsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStreamsOutputResponse, ListStreamsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -746,6 +761,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -761,7 +777,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -781,6 +797,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForStreamInput, ListTagsForStreamOutputResponse, ListTagsForStreamOutputError>(id: "listTagsForStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForStreamInput, ListTagsForStreamOutputResponse, ListTagsForStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForStreamInput, ListTagsForStreamOutputResponse>())
@@ -796,7 +813,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForStreamOutputResponse, ListTagsForStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForStreamOutputResponse, ListTagsForStreamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForStreamOutputResponse, ListTagsForStreamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -816,6 +833,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartEdgeConfigurationUpdateInput, StartEdgeConfigurationUpdateOutputResponse, StartEdgeConfigurationUpdateOutputError>(id: "startEdgeConfigurationUpdate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartEdgeConfigurationUpdateInput, StartEdgeConfigurationUpdateOutputResponse, StartEdgeConfigurationUpdateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartEdgeConfigurationUpdateInput, StartEdgeConfigurationUpdateOutputResponse>())
@@ -831,7 +849,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartEdgeConfigurationUpdateOutputResponse, StartEdgeConfigurationUpdateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartEdgeConfigurationUpdateOutputResponse, StartEdgeConfigurationUpdateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartEdgeConfigurationUpdateOutputResponse, StartEdgeConfigurationUpdateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -851,6 +869,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -866,7 +885,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -886,6 +905,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagStreamInput, TagStreamOutputResponse, TagStreamOutputError>(id: "tagStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagStreamInput, TagStreamOutputResponse, TagStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagStreamInput, TagStreamOutputResponse>())
@@ -901,7 +921,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagStreamOutputResponse, TagStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagStreamOutputResponse, TagStreamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagStreamOutputResponse, TagStreamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -921,6 +941,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -936,7 +957,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -956,6 +977,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagStreamInput, UntagStreamOutputResponse, UntagStreamOutputError>(id: "untagStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagStreamInput, UntagStreamOutputResponse, UntagStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagStreamInput, UntagStreamOutputResponse>())
@@ -971,7 +993,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagStreamOutputResponse, UntagStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagStreamOutputResponse, UntagStreamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagStreamOutputResponse, UntagStreamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -995,6 +1017,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateDataRetentionInput, UpdateDataRetentionOutputResponse, UpdateDataRetentionOutputError>(id: "updateDataRetention")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDataRetentionInput, UpdateDataRetentionOutputResponse, UpdateDataRetentionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDataRetentionInput, UpdateDataRetentionOutputResponse>())
@@ -1010,7 +1033,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDataRetentionOutputResponse, UpdateDataRetentionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDataRetentionOutputResponse, UpdateDataRetentionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDataRetentionOutputResponse, UpdateDataRetentionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1030,6 +1053,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateImageGenerationConfigurationInput, UpdateImageGenerationConfigurationOutputResponse, UpdateImageGenerationConfigurationOutputError>(id: "updateImageGenerationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateImageGenerationConfigurationInput, UpdateImageGenerationConfigurationOutputResponse, UpdateImageGenerationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateImageGenerationConfigurationInput, UpdateImageGenerationConfigurationOutputResponse>())
@@ -1045,7 +1069,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateImageGenerationConfigurationOutputResponse, UpdateImageGenerationConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateImageGenerationConfigurationOutputResponse, UpdateImageGenerationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateImageGenerationConfigurationOutputResponse, UpdateImageGenerationConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1069,6 +1093,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateMediaStorageConfigurationInput, UpdateMediaStorageConfigurationOutputResponse, UpdateMediaStorageConfigurationOutputError>(id: "updateMediaStorageConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMediaStorageConfigurationInput, UpdateMediaStorageConfigurationOutputResponse, UpdateMediaStorageConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMediaStorageConfigurationInput, UpdateMediaStorageConfigurationOutputResponse>())
@@ -1084,7 +1109,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMediaStorageConfigurationOutputResponse, UpdateMediaStorageConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateMediaStorageConfigurationOutputResponse, UpdateMediaStorageConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMediaStorageConfigurationOutputResponse, UpdateMediaStorageConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1104,6 +1129,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateNotificationConfigurationInput, UpdateNotificationConfigurationOutputResponse, UpdateNotificationConfigurationOutputError>(id: "updateNotificationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateNotificationConfigurationInput, UpdateNotificationConfigurationOutputResponse, UpdateNotificationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateNotificationConfigurationInput, UpdateNotificationConfigurationOutputResponse>())
@@ -1119,7 +1145,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNotificationConfigurationOutputResponse, UpdateNotificationConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateNotificationConfigurationOutputResponse, UpdateNotificationConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNotificationConfigurationOutputResponse, UpdateNotificationConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1139,6 +1165,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSignalingChannelInput, UpdateSignalingChannelOutputResponse, UpdateSignalingChannelOutputError>(id: "updateSignalingChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSignalingChannelInput, UpdateSignalingChannelOutputResponse, UpdateSignalingChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSignalingChannelInput, UpdateSignalingChannelOutputResponse>())
@@ -1154,7 +1181,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSignalingChannelOutputResponse, UpdateSignalingChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSignalingChannelOutputResponse, UpdateSignalingChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSignalingChannelOutputResponse, UpdateSignalingChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1174,6 +1201,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateStreamInput, UpdateStreamOutputResponse, UpdateStreamOutputError>(id: "updateStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStreamInput, UpdateStreamOutputResponse, UpdateStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStreamInput, UpdateStreamOutputResponse>())
@@ -1189,7 +1217,7 @@ extension KinesisVideoClient: KinesisVideoClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStreamOutputResponse, UpdateStreamOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateStreamOutputResponse, UpdateStreamOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStreamOutputResponse, UpdateStreamOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

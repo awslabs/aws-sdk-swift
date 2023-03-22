@@ -221,6 +221,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateGameInput, CreateGameOutputResponse, CreateGameOutputError>(id: "createGame")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGameInput, CreateGameOutputResponse, CreateGameOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGameInput, CreateGameOutputResponse>())
@@ -236,7 +237,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGameOutputResponse, CreateGameOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateGameOutputResponse, CreateGameOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGameOutputResponse, CreateGameOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSnapshotInput, CreateSnapshotOutputResponse, CreateSnapshotOutputError>(id: "createSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse, CreateSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse>())
@@ -271,7 +273,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -291,6 +293,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateStageInput, CreateStageOutputResponse, CreateStageOutputError>(id: "createStage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateStageInput, CreateStageOutputResponse, CreateStageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateStageInput, CreateStageOutputResponse>())
@@ -306,7 +309,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateStageOutputResponse, CreateStageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateStageOutputResponse, CreateStageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateStageOutputResponse, CreateStageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -326,6 +329,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteGameInput, DeleteGameOutputResponse, DeleteGameOutputError>(id: "deleteGame")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGameInput, DeleteGameOutputResponse, DeleteGameOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGameInput, DeleteGameOutputResponse>())
@@ -338,7 +342,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGameOutputResponse, DeleteGameOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteGameOutputResponse, DeleteGameOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGameOutputResponse, DeleteGameOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -358,6 +362,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteStageInput, DeleteStageOutputResponse, DeleteStageOutputError>(id: "deleteStage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteStageInput, DeleteStageOutputResponse, DeleteStageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteStageInput, DeleteStageOutputResponse>())
@@ -370,7 +375,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteStageOutputResponse, DeleteStageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteStageOutputResponse, DeleteStageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteStageOutputResponse, DeleteStageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -390,6 +395,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisconnectPlayerInput, DisconnectPlayerOutputResponse, DisconnectPlayerOutputError>(id: "disconnectPlayer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisconnectPlayerInput, DisconnectPlayerOutputResponse, DisconnectPlayerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisconnectPlayerInput, DisconnectPlayerOutputResponse>())
@@ -402,7 +408,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisconnectPlayerOutputResponse, DisconnectPlayerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisconnectPlayerOutputResponse, DisconnectPlayerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisconnectPlayerOutputResponse, DisconnectPlayerOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -422,6 +428,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ExportSnapshotInput, ExportSnapshotOutputResponse, ExportSnapshotOutputError>(id: "exportSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ExportSnapshotInput, ExportSnapshotOutputResponse, ExportSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ExportSnapshotInput, ExportSnapshotOutputResponse>())
@@ -434,7 +441,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportSnapshotOutputResponse, ExportSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExportSnapshotOutputResponse, ExportSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportSnapshotOutputResponse, ExportSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -454,6 +461,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetExtensionInput, GetExtensionOutputResponse, GetExtensionOutputError>(id: "getExtension")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetExtensionInput, GetExtensionOutputResponse, GetExtensionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetExtensionInput, GetExtensionOutputResponse>())
@@ -466,7 +474,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetExtensionOutputResponse, GetExtensionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetExtensionOutputResponse, GetExtensionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetExtensionOutputResponse, GetExtensionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -486,6 +494,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetExtensionVersionInput, GetExtensionVersionOutputResponse, GetExtensionVersionOutputError>(id: "getExtensionVersion")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetExtensionVersionInput, GetExtensionVersionOutputResponse, GetExtensionVersionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetExtensionVersionInput, GetExtensionVersionOutputResponse>())
@@ -498,7 +507,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetExtensionVersionOutputResponse, GetExtensionVersionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetExtensionVersionOutputResponse, GetExtensionVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetExtensionVersionOutputResponse, GetExtensionVersionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -518,6 +527,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetGameInput, GetGameOutputResponse, GetGameOutputError>(id: "getGame")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGameInput, GetGameOutputResponse, GetGameOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGameInput, GetGameOutputResponse>())
@@ -530,7 +540,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGameOutputResponse, GetGameOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetGameOutputResponse, GetGameOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGameOutputResponse, GetGameOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -550,6 +560,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetGameConfigurationInput, GetGameConfigurationOutputResponse, GetGameConfigurationOutputError>(id: "getGameConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGameConfigurationInput, GetGameConfigurationOutputResponse, GetGameConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGameConfigurationInput, GetGameConfigurationOutputResponse>())
@@ -563,7 +574,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGameConfigurationOutputResponse, GetGameConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetGameConfigurationOutputResponse, GetGameConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGameConfigurationOutputResponse, GetGameConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -583,6 +594,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetGeneratedCodeJobInput, GetGeneratedCodeJobOutputResponse, GetGeneratedCodeJobOutputError>(id: "getGeneratedCodeJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGeneratedCodeJobInput, GetGeneratedCodeJobOutputResponse, GetGeneratedCodeJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGeneratedCodeJobInput, GetGeneratedCodeJobOutputResponse>())
@@ -595,7 +607,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGeneratedCodeJobOutputResponse, GetGeneratedCodeJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetGeneratedCodeJobOutputResponse, GetGeneratedCodeJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGeneratedCodeJobOutputResponse, GetGeneratedCodeJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -615,6 +627,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetPlayerConnectionStatusInput, GetPlayerConnectionStatusOutputResponse, GetPlayerConnectionStatusOutputError>(id: "getPlayerConnectionStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPlayerConnectionStatusInput, GetPlayerConnectionStatusOutputResponse, GetPlayerConnectionStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPlayerConnectionStatusInput, GetPlayerConnectionStatusOutputResponse>())
@@ -627,7 +640,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetPlayerConnectionStatusOutputResponse, GetPlayerConnectionStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetPlayerConnectionStatusOutputResponse, GetPlayerConnectionStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetPlayerConnectionStatusOutputResponse, GetPlayerConnectionStatusOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -647,6 +660,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSnapshotInput, GetSnapshotOutputResponse, GetSnapshotOutputError>(id: "getSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSnapshotInput, GetSnapshotOutputResponse, GetSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSnapshotInput, GetSnapshotOutputResponse>())
@@ -660,7 +674,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSnapshotOutputResponse, GetSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSnapshotOutputResponse, GetSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSnapshotOutputResponse, GetSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -680,6 +694,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetStageInput, GetStageOutputResponse, GetStageOutputError>(id: "getStage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStageInput, GetStageOutputResponse, GetStageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStageInput, GetStageOutputResponse>())
@@ -692,7 +707,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStageOutputResponse, GetStageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetStageOutputResponse, GetStageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStageOutputResponse, GetStageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -712,6 +727,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetStageDeploymentInput, GetStageDeploymentOutputResponse, GetStageDeploymentOutputError>(id: "getStageDeployment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetStageDeploymentInput, GetStageDeploymentOutputResponse, GetStageDeploymentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetStageDeploymentInput, GetStageDeploymentOutputResponse>())
@@ -725,7 +741,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetStageDeploymentOutputResponse, GetStageDeploymentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetStageDeploymentOutputResponse, GetStageDeploymentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetStageDeploymentOutputResponse, GetStageDeploymentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -745,6 +761,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ImportGameConfigurationInput, ImportGameConfigurationOutputResponse, ImportGameConfigurationOutputError>(id: "importGameConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportGameConfigurationInput, ImportGameConfigurationOutputResponse, ImportGameConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportGameConfigurationInput, ImportGameConfigurationOutputResponse>())
@@ -760,7 +777,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportGameConfigurationOutputResponse, ImportGameConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ImportGameConfigurationOutputResponse, ImportGameConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportGameConfigurationOutputResponse, ImportGameConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -780,6 +797,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListExtensionVersionsInput, ListExtensionVersionsOutputResponse, ListExtensionVersionsOutputError>(id: "listExtensionVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListExtensionVersionsInput, ListExtensionVersionsOutputResponse, ListExtensionVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListExtensionVersionsInput, ListExtensionVersionsOutputResponse>())
@@ -793,7 +811,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListExtensionVersionsOutputResponse, ListExtensionVersionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListExtensionVersionsOutputResponse, ListExtensionVersionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListExtensionVersionsOutputResponse, ListExtensionVersionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -813,6 +831,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListExtensionsInput, ListExtensionsOutputResponse, ListExtensionsOutputError>(id: "listExtensions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListExtensionsInput, ListExtensionsOutputResponse, ListExtensionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListExtensionsInput, ListExtensionsOutputResponse>())
@@ -826,7 +845,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListExtensionsOutputResponse, ListExtensionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListExtensionsOutputResponse, ListExtensionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListExtensionsOutputResponse, ListExtensionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -846,6 +865,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGamesInput, ListGamesOutputResponse, ListGamesOutputError>(id: "listGames")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGamesInput, ListGamesOutputResponse, ListGamesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGamesInput, ListGamesOutputResponse>())
@@ -859,7 +879,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGamesOutputResponse, ListGamesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListGamesOutputResponse, ListGamesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGamesOutputResponse, ListGamesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -879,6 +899,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListGeneratedCodeJobsInput, ListGeneratedCodeJobsOutputResponse, ListGeneratedCodeJobsOutputError>(id: "listGeneratedCodeJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGeneratedCodeJobsInput, ListGeneratedCodeJobsOutputResponse, ListGeneratedCodeJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGeneratedCodeJobsInput, ListGeneratedCodeJobsOutputResponse>())
@@ -892,7 +913,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListGeneratedCodeJobsOutputResponse, ListGeneratedCodeJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListGeneratedCodeJobsOutputResponse, ListGeneratedCodeJobsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListGeneratedCodeJobsOutputResponse, ListGeneratedCodeJobsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -912,6 +933,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSnapshotsInput, ListSnapshotsOutputResponse, ListSnapshotsOutputError>(id: "listSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSnapshotsInput, ListSnapshotsOutputResponse, ListSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSnapshotsInput, ListSnapshotsOutputResponse>())
@@ -925,7 +947,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSnapshotsOutputResponse, ListSnapshotsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSnapshotsOutputResponse, ListSnapshotsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSnapshotsOutputResponse, ListSnapshotsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -945,6 +967,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStageDeploymentsInput, ListStageDeploymentsOutputResponse, ListStageDeploymentsOutputError>(id: "listStageDeployments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStageDeploymentsInput, ListStageDeploymentsOutputResponse, ListStageDeploymentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStageDeploymentsInput, ListStageDeploymentsOutputResponse>())
@@ -958,7 +981,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStageDeploymentsOutputResponse, ListStageDeploymentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListStageDeploymentsOutputResponse, ListStageDeploymentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStageDeploymentsOutputResponse, ListStageDeploymentsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -978,6 +1001,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListStagesInput, ListStagesOutputResponse, ListStagesOutputError>(id: "listStages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStagesInput, ListStagesOutputResponse, ListStagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStagesInput, ListStagesOutputResponse>())
@@ -991,7 +1015,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListStagesOutputResponse, ListStagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListStagesOutputResponse, ListStagesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStagesOutputResponse, ListStagesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1011,6 +1035,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -1023,7 +1048,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1043,6 +1068,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartGeneratedCodeJobInput, StartGeneratedCodeJobOutputResponse, StartGeneratedCodeJobOutputError>(id: "startGeneratedCodeJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartGeneratedCodeJobInput, StartGeneratedCodeJobOutputResponse, StartGeneratedCodeJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartGeneratedCodeJobInput, StartGeneratedCodeJobOutputResponse>())
@@ -1058,7 +1084,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartGeneratedCodeJobOutputResponse, StartGeneratedCodeJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartGeneratedCodeJobOutputResponse, StartGeneratedCodeJobOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartGeneratedCodeJobOutputResponse, StartGeneratedCodeJobOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1078,6 +1104,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartStageDeploymentInput, StartStageDeploymentOutputResponse, StartStageDeploymentOutputError>(id: "startStageDeployment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartStageDeploymentInput, StartStageDeploymentOutputResponse, StartStageDeploymentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartStageDeploymentInput, StartStageDeploymentOutputResponse>())
@@ -1093,7 +1120,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartStageDeploymentOutputResponse, StartStageDeploymentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartStageDeploymentOutputResponse, StartStageDeploymentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartStageDeploymentOutputResponse, StartStageDeploymentOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1113,6 +1140,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1128,7 +1156,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1148,6 +1176,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1161,7 +1190,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1181,6 +1210,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateGameInput, UpdateGameOutputResponse, UpdateGameOutputError>(id: "updateGame")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGameInput, UpdateGameOutputResponse, UpdateGameOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGameInput, UpdateGameOutputResponse>())
@@ -1196,7 +1226,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGameOutputResponse, UpdateGameOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateGameOutputResponse, UpdateGameOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGameOutputResponse, UpdateGameOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1216,6 +1246,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateGameConfigurationInput, UpdateGameConfigurationOutputResponse, UpdateGameConfigurationOutputError>(id: "updateGameConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGameConfigurationInput, UpdateGameConfigurationOutputResponse, UpdateGameConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGameConfigurationInput, UpdateGameConfigurationOutputResponse>())
@@ -1231,7 +1262,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGameConfigurationOutputResponse, UpdateGameConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateGameConfigurationOutputResponse, UpdateGameConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGameConfigurationOutputResponse, UpdateGameConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1251,6 +1282,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSnapshotInput, UpdateSnapshotOutputResponse, UpdateSnapshotOutputError>(id: "updateSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSnapshotInput, UpdateSnapshotOutputResponse, UpdateSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSnapshotInput, UpdateSnapshotOutputResponse>())
@@ -1266,7 +1298,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSnapshotOutputResponse, UpdateSnapshotOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSnapshotOutputResponse, UpdateSnapshotOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSnapshotOutputResponse, UpdateSnapshotOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1286,6 +1318,7 @@ extension GameSparksClient: GameSparksClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "gamesparks")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateStageInput, UpdateStageOutputResponse, UpdateStageOutputError>(id: "updateStage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateStageInput, UpdateStageOutputResponse, UpdateStageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateStageInput, UpdateStageOutputResponse>())
@@ -1301,7 +1334,7 @@ extension GameSparksClient: GameSparksClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateStageOutputResponse, UpdateStageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateStageOutputResponse, UpdateStageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateStageOutputResponse, UpdateStageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

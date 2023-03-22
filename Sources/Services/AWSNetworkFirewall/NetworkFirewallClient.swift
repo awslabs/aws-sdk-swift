@@ -221,6 +221,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutputResponse, AssociateFirewallPolicyOutputError>(id: "associateFirewallPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutputResponse, AssociateFirewallPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutputResponse>())
@@ -237,7 +238,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateFirewallPolicyOutputResponse, AssociateFirewallPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateFirewallPolicyOutputResponse, AssociateFirewallPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateFirewallPolicyOutputResponse, AssociateFirewallPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AssociateSubnetsInput, AssociateSubnetsOutputResponse, AssociateSubnetsOutputError>(id: "associateSubnets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateSubnetsInput, AssociateSubnetsOutputResponse, AssociateSubnetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateSubnetsInput, AssociateSubnetsOutputResponse>())
@@ -273,7 +275,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateSubnetsOutputResponse, AssociateSubnetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateSubnetsOutputResponse, AssociateSubnetsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateSubnetsOutputResponse, AssociateSubnetsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFirewallInput, CreateFirewallOutputResponse, CreateFirewallOutputError>(id: "createFirewall")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFirewallInput, CreateFirewallOutputResponse, CreateFirewallOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFirewallInput, CreateFirewallOutputResponse>())
@@ -309,7 +312,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFirewallOutputResponse, CreateFirewallOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateFirewallOutputResponse, CreateFirewallOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFirewallOutputResponse, CreateFirewallOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -329,6 +332,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateFirewallPolicyInput, CreateFirewallPolicyOutputResponse, CreateFirewallPolicyOutputError>(id: "createFirewallPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutputResponse, CreateFirewallPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutputResponse>())
@@ -345,7 +349,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateFirewallPolicyOutputResponse, CreateFirewallPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateFirewallPolicyOutputResponse, CreateFirewallPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateFirewallPolicyOutputResponse, CreateFirewallPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -365,6 +369,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateRuleGroupInput, CreateRuleGroupOutputResponse, CreateRuleGroupOutputError>(id: "createRuleGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRuleGroupInput, CreateRuleGroupOutputResponse, CreateRuleGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRuleGroupInput, CreateRuleGroupOutputResponse>())
@@ -381,7 +386,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRuleGroupOutputResponse, CreateRuleGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateRuleGroupOutputResponse, CreateRuleGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRuleGroupOutputResponse, CreateRuleGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -401,6 +406,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFirewallInput, DeleteFirewallOutputResponse, DeleteFirewallOutputError>(id: "deleteFirewall")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFirewallInput, DeleteFirewallOutputResponse, DeleteFirewallOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFirewallInput, DeleteFirewallOutputResponse>())
@@ -417,7 +423,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFirewallOutputResponse, DeleteFirewallOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteFirewallOutputResponse, DeleteFirewallOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFirewallOutputResponse, DeleteFirewallOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -437,6 +443,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutputResponse, DeleteFirewallPolicyOutputError>(id: "deleteFirewallPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutputResponse, DeleteFirewallPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutputResponse>())
@@ -453,7 +460,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteFirewallPolicyOutputResponse, DeleteFirewallPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteFirewallPolicyOutputResponse, DeleteFirewallPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteFirewallPolicyOutputResponse, DeleteFirewallPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -473,6 +480,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(id: "deleteResourcePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>())
@@ -489,7 +497,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -509,6 +517,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteRuleGroupInput, DeleteRuleGroupOutputResponse, DeleteRuleGroupOutputError>(id: "deleteRuleGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutputResponse, DeleteRuleGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutputResponse>())
@@ -525,7 +534,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRuleGroupOutputResponse, DeleteRuleGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteRuleGroupOutputResponse, DeleteRuleGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRuleGroupOutputResponse, DeleteRuleGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -545,6 +554,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFirewallInput, DescribeFirewallOutputResponse, DescribeFirewallOutputError>(id: "describeFirewall")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFirewallInput, DescribeFirewallOutputResponse, DescribeFirewallOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFirewallInput, DescribeFirewallOutputResponse>())
@@ -561,7 +571,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFirewallOutputResponse, DescribeFirewallOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeFirewallOutputResponse, DescribeFirewallOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFirewallOutputResponse, DescribeFirewallOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -581,6 +591,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutputResponse, DescribeFirewallPolicyOutputError>(id: "describeFirewallPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutputResponse, DescribeFirewallPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutputResponse>())
@@ -597,7 +608,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeFirewallPolicyOutputResponse, DescribeFirewallPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeFirewallPolicyOutputResponse, DescribeFirewallPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeFirewallPolicyOutputResponse, DescribeFirewallPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -617,6 +628,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutputResponse, DescribeLoggingConfigurationOutputError>(id: "describeLoggingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutputResponse, DescribeLoggingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutputResponse>())
@@ -633,7 +645,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeLoggingConfigurationOutputResponse, DescribeLoggingConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeLoggingConfigurationOutputResponse, DescribeLoggingConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeLoggingConfigurationOutputResponse, DescribeLoggingConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -653,6 +665,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeResourcePolicyInput, DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>(id: "describeResourcePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutputResponse>())
@@ -669,7 +682,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -689,6 +702,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRuleGroupInput, DescribeRuleGroupOutputResponse, DescribeRuleGroupOutputError>(id: "describeRuleGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutputResponse, DescribeRuleGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutputResponse>())
@@ -705,7 +719,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRuleGroupOutputResponse, DescribeRuleGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeRuleGroupOutputResponse, DescribeRuleGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRuleGroupOutputResponse, DescribeRuleGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -725,6 +739,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutputResponse, DescribeRuleGroupMetadataOutputError>(id: "describeRuleGroupMetadata")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutputResponse, DescribeRuleGroupMetadataOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutputResponse>())
@@ -741,7 +756,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRuleGroupMetadataOutputResponse, DescribeRuleGroupMetadataOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeRuleGroupMetadataOutputResponse, DescribeRuleGroupMetadataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRuleGroupMetadataOutputResponse, DescribeRuleGroupMetadataOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -761,6 +776,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DisassociateSubnetsInput, DisassociateSubnetsOutputResponse, DisassociateSubnetsOutputError>(id: "disassociateSubnets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutputResponse, DisassociateSubnetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutputResponse>())
@@ -777,7 +793,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateSubnetsOutputResponse, DisassociateSubnetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateSubnetsOutputResponse, DisassociateSubnetsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateSubnetsOutputResponse, DisassociateSubnetsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -797,6 +813,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFirewallPoliciesInput, ListFirewallPoliciesOutputResponse, ListFirewallPoliciesOutputError>(id: "listFirewallPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutputResponse, ListFirewallPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutputResponse>())
@@ -813,7 +830,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFirewallPoliciesOutputResponse, ListFirewallPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListFirewallPoliciesOutputResponse, ListFirewallPoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFirewallPoliciesOutputResponse, ListFirewallPoliciesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -833,6 +850,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListFirewallsInput, ListFirewallsOutputResponse, ListFirewallsOutputError>(id: "listFirewalls")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFirewallsInput, ListFirewallsOutputResponse, ListFirewallsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFirewallsInput, ListFirewallsOutputResponse>())
@@ -849,7 +867,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFirewallsOutputResponse, ListFirewallsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListFirewallsOutputResponse, ListFirewallsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFirewallsOutputResponse, ListFirewallsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -869,6 +887,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListRuleGroupsInput, ListRuleGroupsOutputResponse, ListRuleGroupsOutputError>(id: "listRuleGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRuleGroupsInput, ListRuleGroupsOutputResponse, ListRuleGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRuleGroupsInput, ListRuleGroupsOutputResponse>())
@@ -885,7 +904,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRuleGroupsOutputResponse, ListRuleGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListRuleGroupsOutputResponse, ListRuleGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRuleGroupsOutputResponse, ListRuleGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -905,6 +924,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -921,7 +941,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -948,6 +968,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutResourcePolicyInput, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(id: "putResourcePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>())
@@ -964,7 +985,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -984,6 +1005,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1000,7 +1022,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1020,6 +1042,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1036,7 +1059,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1056,6 +1079,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutputResponse, UpdateFirewallDeleteProtectionOutputError>(id: "updateFirewallDeleteProtection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutputResponse, UpdateFirewallDeleteProtectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutputResponse>())
@@ -1072,7 +1096,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFirewallDeleteProtectionOutputResponse, UpdateFirewallDeleteProtectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateFirewallDeleteProtectionOutputResponse, UpdateFirewallDeleteProtectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFirewallDeleteProtectionOutputResponse, UpdateFirewallDeleteProtectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1092,6 +1116,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutputResponse, UpdateFirewallDescriptionOutputError>(id: "updateFirewallDescription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutputResponse, UpdateFirewallDescriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutputResponse>())
@@ -1108,7 +1133,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFirewallDescriptionOutputResponse, UpdateFirewallDescriptionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateFirewallDescriptionOutputResponse, UpdateFirewallDescriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFirewallDescriptionOutputResponse, UpdateFirewallDescriptionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1128,6 +1153,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutputResponse, UpdateFirewallEncryptionConfigurationOutputError>(id: "updateFirewallEncryptionConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutputResponse, UpdateFirewallEncryptionConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutputResponse>())
@@ -1144,7 +1170,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFirewallEncryptionConfigurationOutputResponse, UpdateFirewallEncryptionConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateFirewallEncryptionConfigurationOutputResponse, UpdateFirewallEncryptionConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFirewallEncryptionConfigurationOutputResponse, UpdateFirewallEncryptionConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1164,6 +1190,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutputResponse, UpdateFirewallPolicyOutputError>(id: "updateFirewallPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutputResponse, UpdateFirewallPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutputResponse>())
@@ -1180,7 +1207,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFirewallPolicyOutputResponse, UpdateFirewallPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateFirewallPolicyOutputResponse, UpdateFirewallPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFirewallPolicyOutputResponse, UpdateFirewallPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1200,6 +1227,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutputResponse, UpdateFirewallPolicyChangeProtectionOutputError>(id: "updateFirewallPolicyChangeProtection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutputResponse, UpdateFirewallPolicyChangeProtectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutputResponse>())
@@ -1216,7 +1244,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateFirewallPolicyChangeProtectionOutputResponse, UpdateFirewallPolicyChangeProtectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateFirewallPolicyChangeProtectionOutputResponse, UpdateFirewallPolicyChangeProtectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateFirewallPolicyChangeProtectionOutputResponse, UpdateFirewallPolicyChangeProtectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1245,6 +1273,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutputResponse, UpdateLoggingConfigurationOutputError>(id: "updateLoggingConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutputResponse, UpdateLoggingConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutputResponse>())
@@ -1261,7 +1290,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLoggingConfigurationOutputResponse, UpdateLoggingConfigurationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateLoggingConfigurationOutputResponse, UpdateLoggingConfigurationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLoggingConfigurationOutputResponse, UpdateLoggingConfigurationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1281,6 +1310,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateRuleGroupInput, UpdateRuleGroupOutputResponse, UpdateRuleGroupOutputError>(id: "updateRuleGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutputResponse, UpdateRuleGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutputResponse>())
@@ -1297,7 +1327,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRuleGroupOutputResponse, UpdateRuleGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateRuleGroupOutputResponse, UpdateRuleGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRuleGroupOutputResponse, UpdateRuleGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1317,6 +1347,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "network-firewall")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutputResponse, UpdateSubnetChangeProtectionOutputError>(id: "updateSubnetChangeProtection")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutputResponse, UpdateSubnetChangeProtectionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutputResponse>())
@@ -1333,7 +1364,7 @@ extension NetworkFirewallClient: NetworkFirewallClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSubnetChangeProtectionOutputResponse, UpdateSubnetChangeProtectionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSubnetChangeProtectionOutputResponse, UpdateSubnetChangeProtectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSubnetChangeProtectionOutputResponse, UpdateSubnetChangeProtectionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

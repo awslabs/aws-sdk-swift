@@ -221,6 +221,7 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "application-cost-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteReportDefinitionInput, DeleteReportDefinitionOutputResponse, DeleteReportDefinitionOutputError>(id: "deleteReportDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReportDefinitionInput, DeleteReportDefinitionOutputResponse, DeleteReportDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReportDefinitionInput, DeleteReportDefinitionOutputResponse>())
@@ -233,7 +234,7 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReportDefinitionOutputResponse, DeleteReportDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteReportDefinitionOutputResponse, DeleteReportDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReportDefinitionOutputResponse, DeleteReportDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -253,6 +254,7 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "application-cost-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetReportDefinitionInput, GetReportDefinitionOutputResponse, GetReportDefinitionOutputError>(id: "getReportDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetReportDefinitionInput, GetReportDefinitionOutputResponse, GetReportDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetReportDefinitionInput, GetReportDefinitionOutputResponse>())
@@ -265,7 +267,7 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetReportDefinitionOutputResponse, GetReportDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetReportDefinitionOutputResponse, GetReportDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetReportDefinitionOutputResponse, GetReportDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -285,6 +287,7 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "application-cost-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ImportApplicationUsageInput, ImportApplicationUsageOutputResponse, ImportApplicationUsageOutputError>(id: "importApplicationUsage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportApplicationUsageInput, ImportApplicationUsageOutputResponse, ImportApplicationUsageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportApplicationUsageInput, ImportApplicationUsageOutputResponse>())
@@ -300,7 +303,7 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportApplicationUsageOutputResponse, ImportApplicationUsageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ImportApplicationUsageOutputResponse, ImportApplicationUsageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportApplicationUsageOutputResponse, ImportApplicationUsageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -320,6 +323,7 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "application-cost-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListReportDefinitionsInput, ListReportDefinitionsOutputResponse, ListReportDefinitionsOutputError>(id: "listReportDefinitions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListReportDefinitionsInput, ListReportDefinitionsOutputResponse, ListReportDefinitionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListReportDefinitionsInput, ListReportDefinitionsOutputResponse>())
@@ -333,7 +337,7 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReportDefinitionsOutputResponse, ListReportDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListReportDefinitionsOutputResponse, ListReportDefinitionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReportDefinitionsOutputResponse, ListReportDefinitionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -353,6 +357,7 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "application-cost-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutReportDefinitionInput, PutReportDefinitionOutputResponse, PutReportDefinitionOutputError>(id: "putReportDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutReportDefinitionInput, PutReportDefinitionOutputResponse, PutReportDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutReportDefinitionInput, PutReportDefinitionOutputResponse>())
@@ -368,7 +373,7 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutReportDefinitionOutputResponse, PutReportDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutReportDefinitionOutputResponse, PutReportDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutReportDefinitionOutputResponse, PutReportDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -388,6 +393,7 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "application-cost-profiler")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateReportDefinitionInput, UpdateReportDefinitionOutputResponse, UpdateReportDefinitionOutputError>(id: "updateReportDefinition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateReportDefinitionInput, UpdateReportDefinitionOutputResponse, UpdateReportDefinitionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateReportDefinitionInput, UpdateReportDefinitionOutputResponse>())
@@ -403,7 +409,7 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateReportDefinitionOutputResponse, UpdateReportDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateReportDefinitionOutputResponse, UpdateReportDefinitionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateReportDefinitionOutputResponse, UpdateReportDefinitionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

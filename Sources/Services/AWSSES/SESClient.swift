@@ -217,6 +217,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CloneReceiptRuleSetInput, CloneReceiptRuleSetOutputResponse, CloneReceiptRuleSetOutputError>(id: "cloneReceiptRuleSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CloneReceiptRuleSetInput, CloneReceiptRuleSetOutputResponse, CloneReceiptRuleSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CloneReceiptRuleSetInput, CloneReceiptRuleSetOutputResponse>())
@@ -232,7 +233,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CloneReceiptRuleSetOutputResponse, CloneReceiptRuleSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CloneReceiptRuleSetOutputResponse, CloneReceiptRuleSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CloneReceiptRuleSetOutputResponse, CloneReceiptRuleSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -252,6 +253,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateConfigurationSetInput, CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>(id: "createConfigurationSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConfigurationSetInput, CreateConfigurationSetOutputResponse>())
@@ -267,7 +269,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -287,6 +289,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateConfigurationSetEventDestinationInput, CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>(id: "createConfigurationSetEventDestination")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConfigurationSetEventDestinationInput, CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConfigurationSetEventDestinationInput, CreateConfigurationSetEventDestinationOutputResponse>())
@@ -302,7 +305,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -322,6 +325,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateConfigurationSetTrackingOptionsInput, CreateConfigurationSetTrackingOptionsOutputResponse, CreateConfigurationSetTrackingOptionsOutputError>(id: "createConfigurationSetTrackingOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateConfigurationSetTrackingOptionsInput, CreateConfigurationSetTrackingOptionsOutputResponse, CreateConfigurationSetTrackingOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateConfigurationSetTrackingOptionsInput, CreateConfigurationSetTrackingOptionsOutputResponse>())
@@ -337,7 +341,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConfigurationSetTrackingOptionsOutputResponse, CreateConfigurationSetTrackingOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateConfigurationSetTrackingOptionsOutputResponse, CreateConfigurationSetTrackingOptionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfigurationSetTrackingOptionsOutputResponse, CreateConfigurationSetTrackingOptionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -357,6 +361,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateCustomVerificationEmailTemplateInput, CreateCustomVerificationEmailTemplateOutputResponse, CreateCustomVerificationEmailTemplateOutputError>(id: "createCustomVerificationEmailTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomVerificationEmailTemplateInput, CreateCustomVerificationEmailTemplateOutputResponse, CreateCustomVerificationEmailTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCustomVerificationEmailTemplateInput, CreateCustomVerificationEmailTemplateOutputResponse>())
@@ -372,7 +377,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomVerificationEmailTemplateOutputResponse, CreateCustomVerificationEmailTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateCustomVerificationEmailTemplateOutputResponse, CreateCustomVerificationEmailTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomVerificationEmailTemplateOutputResponse, CreateCustomVerificationEmailTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -392,6 +397,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateReceiptFilterInput, CreateReceiptFilterOutputResponse, CreateReceiptFilterOutputError>(id: "createReceiptFilter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateReceiptFilterInput, CreateReceiptFilterOutputResponse, CreateReceiptFilterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateReceiptFilterInput, CreateReceiptFilterOutputResponse>())
@@ -407,7 +413,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReceiptFilterOutputResponse, CreateReceiptFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateReceiptFilterOutputResponse, CreateReceiptFilterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReceiptFilterOutputResponse, CreateReceiptFilterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -427,6 +433,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateReceiptRuleInput, CreateReceiptRuleOutputResponse, CreateReceiptRuleOutputError>(id: "createReceiptRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateReceiptRuleInput, CreateReceiptRuleOutputResponse, CreateReceiptRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateReceiptRuleInput, CreateReceiptRuleOutputResponse>())
@@ -442,7 +449,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReceiptRuleOutputResponse, CreateReceiptRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateReceiptRuleOutputResponse, CreateReceiptRuleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReceiptRuleOutputResponse, CreateReceiptRuleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -462,6 +469,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateReceiptRuleSetInput, CreateReceiptRuleSetOutputResponse, CreateReceiptRuleSetOutputError>(id: "createReceiptRuleSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateReceiptRuleSetInput, CreateReceiptRuleSetOutputResponse, CreateReceiptRuleSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateReceiptRuleSetInput, CreateReceiptRuleSetOutputResponse>())
@@ -477,7 +485,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReceiptRuleSetOutputResponse, CreateReceiptRuleSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateReceiptRuleSetOutputResponse, CreateReceiptRuleSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReceiptRuleSetOutputResponse, CreateReceiptRuleSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -497,6 +505,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateTemplateInput, CreateTemplateOutputResponse, CreateTemplateOutputError>(id: "createTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateTemplateInput, CreateTemplateOutputResponse, CreateTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTemplateInput, CreateTemplateOutputResponse>())
@@ -512,7 +521,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTemplateOutputResponse, CreateTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateTemplateOutputResponse, CreateTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTemplateOutputResponse, CreateTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -532,6 +541,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteConfigurationSetInput, DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>(id: "deleteConfigurationSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigurationSetInput, DeleteConfigurationSetOutputResponse>())
@@ -547,7 +557,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -567,6 +577,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteConfigurationSetEventDestinationInput, DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>(id: "deleteConfigurationSetEventDestination")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigurationSetEventDestinationInput, DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigurationSetEventDestinationInput, DeleteConfigurationSetEventDestinationOutputResponse>())
@@ -582,7 +593,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -602,6 +613,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteConfigurationSetTrackingOptionsInput, DeleteConfigurationSetTrackingOptionsOutputResponse, DeleteConfigurationSetTrackingOptionsOutputError>(id: "deleteConfigurationSetTrackingOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteConfigurationSetTrackingOptionsInput, DeleteConfigurationSetTrackingOptionsOutputResponse, DeleteConfigurationSetTrackingOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteConfigurationSetTrackingOptionsInput, DeleteConfigurationSetTrackingOptionsOutputResponse>())
@@ -617,7 +629,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigurationSetTrackingOptionsOutputResponse, DeleteConfigurationSetTrackingOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigurationSetTrackingOptionsOutputResponse, DeleteConfigurationSetTrackingOptionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationSetTrackingOptionsOutputResponse, DeleteConfigurationSetTrackingOptionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -637,6 +649,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteCustomVerificationEmailTemplateInput, DeleteCustomVerificationEmailTemplateOutputResponse, DeleteCustomVerificationEmailTemplateOutputError>(id: "deleteCustomVerificationEmailTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomVerificationEmailTemplateInput, DeleteCustomVerificationEmailTemplateOutputResponse, DeleteCustomVerificationEmailTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomVerificationEmailTemplateInput, DeleteCustomVerificationEmailTemplateOutputResponse>())
@@ -652,7 +665,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomVerificationEmailTemplateOutputResponse, DeleteCustomVerificationEmailTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomVerificationEmailTemplateOutputResponse, DeleteCustomVerificationEmailTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomVerificationEmailTemplateOutputResponse, DeleteCustomVerificationEmailTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -672,6 +685,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteIdentityInput, DeleteIdentityOutputResponse, DeleteIdentityOutputError>(id: "deleteIdentity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIdentityInput, DeleteIdentityOutputResponse, DeleteIdentityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIdentityInput, DeleteIdentityOutputResponse>())
@@ -687,7 +701,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIdentityOutputResponse, DeleteIdentityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteIdentityOutputResponse, DeleteIdentityOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIdentityOutputResponse, DeleteIdentityOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -707,6 +721,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteIdentityPolicyInput, DeleteIdentityPolicyOutputResponse, DeleteIdentityPolicyOutputError>(id: "deleteIdentityPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIdentityPolicyInput, DeleteIdentityPolicyOutputResponse, DeleteIdentityPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIdentityPolicyInput, DeleteIdentityPolicyOutputResponse>())
@@ -722,7 +737,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIdentityPolicyOutputResponse, DeleteIdentityPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteIdentityPolicyOutputResponse, DeleteIdentityPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIdentityPolicyOutputResponse, DeleteIdentityPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -742,6 +757,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteReceiptFilterInput, DeleteReceiptFilterOutputResponse, DeleteReceiptFilterOutputError>(id: "deleteReceiptFilter")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReceiptFilterInput, DeleteReceiptFilterOutputResponse, DeleteReceiptFilterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReceiptFilterInput, DeleteReceiptFilterOutputResponse>())
@@ -757,7 +773,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReceiptFilterOutputResponse, DeleteReceiptFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteReceiptFilterOutputResponse, DeleteReceiptFilterOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReceiptFilterOutputResponse, DeleteReceiptFilterOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -777,6 +793,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteReceiptRuleInput, DeleteReceiptRuleOutputResponse, DeleteReceiptRuleOutputError>(id: "deleteReceiptRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReceiptRuleInput, DeleteReceiptRuleOutputResponse, DeleteReceiptRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReceiptRuleInput, DeleteReceiptRuleOutputResponse>())
@@ -792,7 +809,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReceiptRuleOutputResponse, DeleteReceiptRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteReceiptRuleOutputResponse, DeleteReceiptRuleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReceiptRuleOutputResponse, DeleteReceiptRuleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -812,6 +829,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteReceiptRuleSetInput, DeleteReceiptRuleSetOutputResponse, DeleteReceiptRuleSetOutputError>(id: "deleteReceiptRuleSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteReceiptRuleSetInput, DeleteReceiptRuleSetOutputResponse, DeleteReceiptRuleSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteReceiptRuleSetInput, DeleteReceiptRuleSetOutputResponse>())
@@ -827,7 +845,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReceiptRuleSetOutputResponse, DeleteReceiptRuleSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteReceiptRuleSetOutputResponse, DeleteReceiptRuleSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReceiptRuleSetOutputResponse, DeleteReceiptRuleSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -847,6 +865,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteTemplateInput, DeleteTemplateOutputResponse, DeleteTemplateOutputError>(id: "deleteTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteTemplateInput, DeleteTemplateOutputResponse, DeleteTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTemplateInput, DeleteTemplateOutputResponse>())
@@ -862,7 +881,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTemplateOutputResponse, DeleteTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteTemplateOutputResponse, DeleteTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTemplateOutputResponse, DeleteTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -882,6 +901,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteVerifiedEmailAddressInput, DeleteVerifiedEmailAddressOutputResponse, DeleteVerifiedEmailAddressOutputError>(id: "deleteVerifiedEmailAddress")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVerifiedEmailAddressInput, DeleteVerifiedEmailAddressOutputResponse, DeleteVerifiedEmailAddressOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVerifiedEmailAddressInput, DeleteVerifiedEmailAddressOutputResponse>())
@@ -897,7 +917,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVerifiedEmailAddressOutputResponse, DeleteVerifiedEmailAddressOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteVerifiedEmailAddressOutputResponse, DeleteVerifiedEmailAddressOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVerifiedEmailAddressOutputResponse, DeleteVerifiedEmailAddressOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -917,6 +937,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeActiveReceiptRuleSetInput, DescribeActiveReceiptRuleSetOutputResponse, DescribeActiveReceiptRuleSetOutputError>(id: "describeActiveReceiptRuleSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeActiveReceiptRuleSetInput, DescribeActiveReceiptRuleSetOutputResponse, DescribeActiveReceiptRuleSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeActiveReceiptRuleSetInput, DescribeActiveReceiptRuleSetOutputResponse>())
@@ -932,7 +953,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeActiveReceiptRuleSetOutputResponse, DescribeActiveReceiptRuleSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeActiveReceiptRuleSetOutputResponse, DescribeActiveReceiptRuleSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeActiveReceiptRuleSetOutputResponse, DescribeActiveReceiptRuleSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -952,6 +973,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeConfigurationSetInput, DescribeConfigurationSetOutputResponse, DescribeConfigurationSetOutputError>(id: "describeConfigurationSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeConfigurationSetInput, DescribeConfigurationSetOutputResponse, DescribeConfigurationSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeConfigurationSetInput, DescribeConfigurationSetOutputResponse>())
@@ -967,7 +989,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigurationSetOutputResponse, DescribeConfigurationSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigurationSetOutputResponse, DescribeConfigurationSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigurationSetOutputResponse, DescribeConfigurationSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -987,6 +1009,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReceiptRuleInput, DescribeReceiptRuleOutputResponse, DescribeReceiptRuleOutputError>(id: "describeReceiptRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReceiptRuleInput, DescribeReceiptRuleOutputResponse, DescribeReceiptRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReceiptRuleInput, DescribeReceiptRuleOutputResponse>())
@@ -1002,7 +1025,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReceiptRuleOutputResponse, DescribeReceiptRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeReceiptRuleOutputResponse, DescribeReceiptRuleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReceiptRuleOutputResponse, DescribeReceiptRuleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1022,6 +1045,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeReceiptRuleSetInput, DescribeReceiptRuleSetOutputResponse, DescribeReceiptRuleSetOutputError>(id: "describeReceiptRuleSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReceiptRuleSetInput, DescribeReceiptRuleSetOutputResponse, DescribeReceiptRuleSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReceiptRuleSetInput, DescribeReceiptRuleSetOutputResponse>())
@@ -1037,7 +1061,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReceiptRuleSetOutputResponse, DescribeReceiptRuleSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeReceiptRuleSetOutputResponse, DescribeReceiptRuleSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReceiptRuleSetOutputResponse, DescribeReceiptRuleSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1057,6 +1081,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetAccountSendingEnabledInput, GetAccountSendingEnabledOutputResponse, GetAccountSendingEnabledOutputError>(id: "getAccountSendingEnabled")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountSendingEnabledInput, GetAccountSendingEnabledOutputResponse, GetAccountSendingEnabledOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountSendingEnabledInput, GetAccountSendingEnabledOutputResponse>())
@@ -1072,7 +1097,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountSendingEnabledOutputResponse, GetAccountSendingEnabledOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAccountSendingEnabledOutputResponse, GetAccountSendingEnabledOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountSendingEnabledOutputResponse, GetAccountSendingEnabledOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1092,6 +1117,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetCustomVerificationEmailTemplateInput, GetCustomVerificationEmailTemplateOutputResponse, GetCustomVerificationEmailTemplateOutputError>(id: "getCustomVerificationEmailTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCustomVerificationEmailTemplateInput, GetCustomVerificationEmailTemplateOutputResponse, GetCustomVerificationEmailTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCustomVerificationEmailTemplateInput, GetCustomVerificationEmailTemplateOutputResponse>())
@@ -1107,7 +1133,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCustomVerificationEmailTemplateOutputResponse, GetCustomVerificationEmailTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCustomVerificationEmailTemplateOutputResponse, GetCustomVerificationEmailTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCustomVerificationEmailTemplateOutputResponse, GetCustomVerificationEmailTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1136,6 +1162,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetIdentityDkimAttributesInput, GetIdentityDkimAttributesOutputResponse, GetIdentityDkimAttributesOutputError>(id: "getIdentityDkimAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentityDkimAttributesInput, GetIdentityDkimAttributesOutputResponse, GetIdentityDkimAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentityDkimAttributesInput, GetIdentityDkimAttributesOutputResponse>())
@@ -1151,7 +1178,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityDkimAttributesOutputResponse, GetIdentityDkimAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetIdentityDkimAttributesOutputResponse, GetIdentityDkimAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityDkimAttributesOutputResponse, GetIdentityDkimAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1171,6 +1198,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetIdentityMailFromDomainAttributesInput, GetIdentityMailFromDomainAttributesOutputResponse, GetIdentityMailFromDomainAttributesOutputError>(id: "getIdentityMailFromDomainAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentityMailFromDomainAttributesInput, GetIdentityMailFromDomainAttributesOutputResponse, GetIdentityMailFromDomainAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentityMailFromDomainAttributesInput, GetIdentityMailFromDomainAttributesOutputResponse>())
@@ -1186,7 +1214,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityMailFromDomainAttributesOutputResponse, GetIdentityMailFromDomainAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetIdentityMailFromDomainAttributesOutputResponse, GetIdentityMailFromDomainAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityMailFromDomainAttributesOutputResponse, GetIdentityMailFromDomainAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1206,6 +1234,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetIdentityNotificationAttributesInput, GetIdentityNotificationAttributesOutputResponse, GetIdentityNotificationAttributesOutputError>(id: "getIdentityNotificationAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentityNotificationAttributesInput, GetIdentityNotificationAttributesOutputResponse, GetIdentityNotificationAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentityNotificationAttributesInput, GetIdentityNotificationAttributesOutputResponse>())
@@ -1221,7 +1250,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityNotificationAttributesOutputResponse, GetIdentityNotificationAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetIdentityNotificationAttributesOutputResponse, GetIdentityNotificationAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityNotificationAttributesOutputResponse, GetIdentityNotificationAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1241,6 +1270,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetIdentityPoliciesInput, GetIdentityPoliciesOutputResponse, GetIdentityPoliciesOutputError>(id: "getIdentityPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentityPoliciesInput, GetIdentityPoliciesOutputResponse, GetIdentityPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentityPoliciesInput, GetIdentityPoliciesOutputResponse>())
@@ -1256,7 +1286,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityPoliciesOutputResponse, GetIdentityPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetIdentityPoliciesOutputResponse, GetIdentityPoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityPoliciesOutputResponse, GetIdentityPoliciesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1276,6 +1306,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetIdentityVerificationAttributesInput, GetIdentityVerificationAttributesOutputResponse, GetIdentityVerificationAttributesOutputError>(id: "getIdentityVerificationAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentityVerificationAttributesInput, GetIdentityVerificationAttributesOutputResponse, GetIdentityVerificationAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentityVerificationAttributesInput, GetIdentityVerificationAttributesOutputResponse>())
@@ -1291,7 +1322,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityVerificationAttributesOutputResponse, GetIdentityVerificationAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetIdentityVerificationAttributesOutputResponse, GetIdentityVerificationAttributesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityVerificationAttributesOutputResponse, GetIdentityVerificationAttributesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1311,6 +1342,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSendQuotaInput, GetSendQuotaOutputResponse, GetSendQuotaOutputError>(id: "getSendQuota")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSendQuotaInput, GetSendQuotaOutputResponse, GetSendQuotaOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSendQuotaInput, GetSendQuotaOutputResponse>())
@@ -1326,7 +1358,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSendQuotaOutputResponse, GetSendQuotaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSendQuotaOutputResponse, GetSendQuotaOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSendQuotaOutputResponse, GetSendQuotaOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1346,6 +1378,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSendStatisticsInput, GetSendStatisticsOutputResponse, GetSendStatisticsOutputError>(id: "getSendStatistics")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSendStatisticsInput, GetSendStatisticsOutputResponse, GetSendStatisticsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSendStatisticsInput, GetSendStatisticsOutputResponse>())
@@ -1361,7 +1394,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSendStatisticsOutputResponse, GetSendStatisticsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSendStatisticsOutputResponse, GetSendStatisticsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSendStatisticsOutputResponse, GetSendStatisticsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1381,6 +1414,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTemplateInput, GetTemplateOutputResponse, GetTemplateOutputError>(id: "getTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTemplateInput, GetTemplateOutputResponse, GetTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTemplateInput, GetTemplateOutputResponse>())
@@ -1396,7 +1430,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTemplateOutputResponse, GetTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetTemplateOutputResponse, GetTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTemplateOutputResponse, GetTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1416,6 +1450,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListConfigurationSetsInput, ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>(id: "listConfigurationSets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListConfigurationSetsInput, ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListConfigurationSetsInput, ListConfigurationSetsOutputResponse>())
@@ -1431,7 +1466,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1451,6 +1486,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListCustomVerificationEmailTemplatesInput, ListCustomVerificationEmailTemplatesOutputResponse, ListCustomVerificationEmailTemplatesOutputError>(id: "listCustomVerificationEmailTemplates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomVerificationEmailTemplatesInput, ListCustomVerificationEmailTemplatesOutputResponse, ListCustomVerificationEmailTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomVerificationEmailTemplatesInput, ListCustomVerificationEmailTemplatesOutputResponse>())
@@ -1466,7 +1502,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomVerificationEmailTemplatesOutputResponse, ListCustomVerificationEmailTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListCustomVerificationEmailTemplatesOutputResponse, ListCustomVerificationEmailTemplatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomVerificationEmailTemplatesOutputResponse, ListCustomVerificationEmailTemplatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1486,6 +1522,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListIdentitiesInput, ListIdentitiesOutputResponse, ListIdentitiesOutputError>(id: "listIdentities")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentitiesInput, ListIdentitiesOutputResponse, ListIdentitiesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentitiesInput, ListIdentitiesOutputResponse>())
@@ -1501,7 +1538,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentitiesOutputResponse, ListIdentitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListIdentitiesOutputResponse, ListIdentitiesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentitiesOutputResponse, ListIdentitiesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1521,6 +1558,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListIdentityPoliciesInput, ListIdentityPoliciesOutputResponse, ListIdentityPoliciesOutputError>(id: "listIdentityPolicies")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentityPoliciesInput, ListIdentityPoliciesOutputResponse, ListIdentityPoliciesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentityPoliciesInput, ListIdentityPoliciesOutputResponse>())
@@ -1536,7 +1574,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentityPoliciesOutputResponse, ListIdentityPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListIdentityPoliciesOutputResponse, ListIdentityPoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentityPoliciesOutputResponse, ListIdentityPoliciesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1556,6 +1594,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListReceiptFiltersInput, ListReceiptFiltersOutputResponse, ListReceiptFiltersOutputError>(id: "listReceiptFilters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListReceiptFiltersInput, ListReceiptFiltersOutputResponse, ListReceiptFiltersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListReceiptFiltersInput, ListReceiptFiltersOutputResponse>())
@@ -1571,7 +1610,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReceiptFiltersOutputResponse, ListReceiptFiltersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListReceiptFiltersOutputResponse, ListReceiptFiltersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReceiptFiltersOutputResponse, ListReceiptFiltersOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1591,6 +1630,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListReceiptRuleSetsInput, ListReceiptRuleSetsOutputResponse, ListReceiptRuleSetsOutputError>(id: "listReceiptRuleSets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListReceiptRuleSetsInput, ListReceiptRuleSetsOutputResponse, ListReceiptRuleSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListReceiptRuleSetsInput, ListReceiptRuleSetsOutputResponse>())
@@ -1606,7 +1646,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReceiptRuleSetsOutputResponse, ListReceiptRuleSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListReceiptRuleSetsOutputResponse, ListReceiptRuleSetsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReceiptRuleSetsOutputResponse, ListReceiptRuleSetsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1626,6 +1666,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTemplatesInput, ListTemplatesOutputResponse, ListTemplatesOutputError>(id: "listTemplates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTemplatesInput, ListTemplatesOutputResponse, ListTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTemplatesInput, ListTemplatesOutputResponse>())
@@ -1641,7 +1682,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTemplatesOutputResponse, ListTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTemplatesOutputResponse, ListTemplatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTemplatesOutputResponse, ListTemplatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1661,6 +1702,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListVerifiedEmailAddressesInput, ListVerifiedEmailAddressesOutputResponse, ListVerifiedEmailAddressesOutputError>(id: "listVerifiedEmailAddresses")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVerifiedEmailAddressesInput, ListVerifiedEmailAddressesOutputResponse, ListVerifiedEmailAddressesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVerifiedEmailAddressesInput, ListVerifiedEmailAddressesOutputResponse>())
@@ -1676,7 +1718,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVerifiedEmailAddressesOutputResponse, ListVerifiedEmailAddressesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListVerifiedEmailAddressesOutputResponse, ListVerifiedEmailAddressesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVerifiedEmailAddressesOutputResponse, ListVerifiedEmailAddressesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1696,6 +1738,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutConfigurationSetDeliveryOptionsInput, PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>(id: "putConfigurationSetDeliveryOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutConfigurationSetDeliveryOptionsInput, PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutConfigurationSetDeliveryOptionsInput, PutConfigurationSetDeliveryOptionsOutputResponse>())
@@ -1711,7 +1754,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1731,6 +1774,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutIdentityPolicyInput, PutIdentityPolicyOutputResponse, PutIdentityPolicyOutputError>(id: "putIdentityPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutIdentityPolicyInput, PutIdentityPolicyOutputResponse, PutIdentityPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutIdentityPolicyInput, PutIdentityPolicyOutputResponse>())
@@ -1746,7 +1790,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutIdentityPolicyOutputResponse, PutIdentityPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutIdentityPolicyOutputResponse, PutIdentityPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutIdentityPolicyOutputResponse, PutIdentityPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1766,6 +1810,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ReorderReceiptRuleSetInput, ReorderReceiptRuleSetOutputResponse, ReorderReceiptRuleSetOutputError>(id: "reorderReceiptRuleSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReorderReceiptRuleSetInput, ReorderReceiptRuleSetOutputResponse, ReorderReceiptRuleSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReorderReceiptRuleSetInput, ReorderReceiptRuleSetOutputResponse>())
@@ -1781,7 +1826,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReorderReceiptRuleSetOutputResponse, ReorderReceiptRuleSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ReorderReceiptRuleSetOutputResponse, ReorderReceiptRuleSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReorderReceiptRuleSetOutputResponse, ReorderReceiptRuleSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1801,6 +1846,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendBounceInput, SendBounceOutputResponse, SendBounceOutputError>(id: "sendBounce")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendBounceInput, SendBounceOutputResponse, SendBounceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendBounceInput, SendBounceOutputResponse>())
@@ -1816,7 +1862,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendBounceOutputResponse, SendBounceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendBounceOutputResponse, SendBounceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendBounceOutputResponse, SendBounceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1850,6 +1896,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendBulkTemplatedEmailInput, SendBulkTemplatedEmailOutputResponse, SendBulkTemplatedEmailOutputError>(id: "sendBulkTemplatedEmail")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendBulkTemplatedEmailInput, SendBulkTemplatedEmailOutputResponse, SendBulkTemplatedEmailOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendBulkTemplatedEmailInput, SendBulkTemplatedEmailOutputResponse>())
@@ -1865,7 +1912,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendBulkTemplatedEmailOutputResponse, SendBulkTemplatedEmailOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendBulkTemplatedEmailOutputResponse, SendBulkTemplatedEmailOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendBulkTemplatedEmailOutputResponse, SendBulkTemplatedEmailOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1885,6 +1932,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendCustomVerificationEmailInput, SendCustomVerificationEmailOutputResponse, SendCustomVerificationEmailOutputError>(id: "sendCustomVerificationEmail")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendCustomVerificationEmailInput, SendCustomVerificationEmailOutputResponse, SendCustomVerificationEmailOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendCustomVerificationEmailInput, SendCustomVerificationEmailOutputResponse>())
@@ -1900,7 +1948,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendCustomVerificationEmailOutputResponse, SendCustomVerificationEmailOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendCustomVerificationEmailOutputResponse, SendCustomVerificationEmailOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendCustomVerificationEmailOutputResponse, SendCustomVerificationEmailOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1933,6 +1981,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendEmailInput, SendEmailOutputResponse, SendEmailOutputError>(id: "sendEmail")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendEmailInput, SendEmailOutputResponse, SendEmailOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendEmailInput, SendEmailOutputResponse>())
@@ -1948,7 +1997,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendEmailOutputResponse, SendEmailOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendEmailOutputResponse, SendEmailOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendEmailOutputResponse, SendEmailOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2000,6 +2049,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendRawEmailInput, SendRawEmailOutputResponse, SendRawEmailOutputError>(id: "sendRawEmail")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendRawEmailInput, SendRawEmailOutputResponse, SendRawEmailOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendRawEmailInput, SendRawEmailOutputResponse>())
@@ -2015,7 +2065,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendRawEmailOutputResponse, SendRawEmailOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendRawEmailOutputResponse, SendRawEmailOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendRawEmailOutputResponse, SendRawEmailOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2050,6 +2100,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendTemplatedEmailInput, SendTemplatedEmailOutputResponse, SendTemplatedEmailOutputError>(id: "sendTemplatedEmail")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendTemplatedEmailInput, SendTemplatedEmailOutputResponse, SendTemplatedEmailOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendTemplatedEmailInput, SendTemplatedEmailOutputResponse>())
@@ -2065,7 +2116,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendTemplatedEmailOutputResponse, SendTemplatedEmailOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendTemplatedEmailOutputResponse, SendTemplatedEmailOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendTemplatedEmailOutputResponse, SendTemplatedEmailOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2085,6 +2136,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetActiveReceiptRuleSetInput, SetActiveReceiptRuleSetOutputResponse, SetActiveReceiptRuleSetOutputError>(id: "setActiveReceiptRuleSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetActiveReceiptRuleSetInput, SetActiveReceiptRuleSetOutputResponse, SetActiveReceiptRuleSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetActiveReceiptRuleSetInput, SetActiveReceiptRuleSetOutputResponse>())
@@ -2100,7 +2152,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetActiveReceiptRuleSetOutputResponse, SetActiveReceiptRuleSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetActiveReceiptRuleSetOutputResponse, SetActiveReceiptRuleSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetActiveReceiptRuleSetOutputResponse, SetActiveReceiptRuleSetOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2120,6 +2172,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetIdentityDkimEnabledInput, SetIdentityDkimEnabledOutputResponse, SetIdentityDkimEnabledOutputError>(id: "setIdentityDkimEnabled")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetIdentityDkimEnabledInput, SetIdentityDkimEnabledOutputResponse, SetIdentityDkimEnabledOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetIdentityDkimEnabledInput, SetIdentityDkimEnabledOutputResponse>())
@@ -2135,7 +2188,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetIdentityDkimEnabledOutputResponse, SetIdentityDkimEnabledOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetIdentityDkimEnabledOutputResponse, SetIdentityDkimEnabledOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetIdentityDkimEnabledOutputResponse, SetIdentityDkimEnabledOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2155,6 +2208,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetIdentityFeedbackForwardingEnabledInput, SetIdentityFeedbackForwardingEnabledOutputResponse, SetIdentityFeedbackForwardingEnabledOutputError>(id: "setIdentityFeedbackForwardingEnabled")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetIdentityFeedbackForwardingEnabledInput, SetIdentityFeedbackForwardingEnabledOutputResponse, SetIdentityFeedbackForwardingEnabledOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetIdentityFeedbackForwardingEnabledInput, SetIdentityFeedbackForwardingEnabledOutputResponse>())
@@ -2170,7 +2224,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetIdentityFeedbackForwardingEnabledOutputResponse, SetIdentityFeedbackForwardingEnabledOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetIdentityFeedbackForwardingEnabledOutputResponse, SetIdentityFeedbackForwardingEnabledOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetIdentityFeedbackForwardingEnabledOutputResponse, SetIdentityFeedbackForwardingEnabledOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2190,6 +2244,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetIdentityHeadersInNotificationsEnabledInput, SetIdentityHeadersInNotificationsEnabledOutputResponse, SetIdentityHeadersInNotificationsEnabledOutputError>(id: "setIdentityHeadersInNotificationsEnabled")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetIdentityHeadersInNotificationsEnabledInput, SetIdentityHeadersInNotificationsEnabledOutputResponse, SetIdentityHeadersInNotificationsEnabledOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetIdentityHeadersInNotificationsEnabledInput, SetIdentityHeadersInNotificationsEnabledOutputResponse>())
@@ -2205,7 +2260,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetIdentityHeadersInNotificationsEnabledOutputResponse, SetIdentityHeadersInNotificationsEnabledOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetIdentityHeadersInNotificationsEnabledOutputResponse, SetIdentityHeadersInNotificationsEnabledOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetIdentityHeadersInNotificationsEnabledOutputResponse, SetIdentityHeadersInNotificationsEnabledOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2225,6 +2280,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetIdentityMailFromDomainInput, SetIdentityMailFromDomainOutputResponse, SetIdentityMailFromDomainOutputError>(id: "setIdentityMailFromDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetIdentityMailFromDomainInput, SetIdentityMailFromDomainOutputResponse, SetIdentityMailFromDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetIdentityMailFromDomainInput, SetIdentityMailFromDomainOutputResponse>())
@@ -2240,7 +2296,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetIdentityMailFromDomainOutputResponse, SetIdentityMailFromDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetIdentityMailFromDomainOutputResponse, SetIdentityMailFromDomainOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetIdentityMailFromDomainOutputResponse, SetIdentityMailFromDomainOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2260,6 +2316,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetIdentityNotificationTopicInput, SetIdentityNotificationTopicOutputResponse, SetIdentityNotificationTopicOutputError>(id: "setIdentityNotificationTopic")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetIdentityNotificationTopicInput, SetIdentityNotificationTopicOutputResponse, SetIdentityNotificationTopicOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetIdentityNotificationTopicInput, SetIdentityNotificationTopicOutputResponse>())
@@ -2275,7 +2332,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetIdentityNotificationTopicOutputResponse, SetIdentityNotificationTopicOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetIdentityNotificationTopicOutputResponse, SetIdentityNotificationTopicOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetIdentityNotificationTopicOutputResponse, SetIdentityNotificationTopicOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2295,6 +2352,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SetReceiptRulePositionInput, SetReceiptRulePositionOutputResponse, SetReceiptRulePositionOutputError>(id: "setReceiptRulePosition")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetReceiptRulePositionInput, SetReceiptRulePositionOutputResponse, SetReceiptRulePositionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetReceiptRulePositionInput, SetReceiptRulePositionOutputResponse>())
@@ -2310,7 +2368,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetReceiptRulePositionOutputResponse, SetReceiptRulePositionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SetReceiptRulePositionOutputResponse, SetReceiptRulePositionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetReceiptRulePositionOutputResponse, SetReceiptRulePositionOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2330,6 +2388,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TestRenderTemplateInput, TestRenderTemplateOutputResponse, TestRenderTemplateOutputError>(id: "testRenderTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestRenderTemplateInput, TestRenderTemplateOutputResponse, TestRenderTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestRenderTemplateInput, TestRenderTemplateOutputResponse>())
@@ -2345,7 +2404,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestRenderTemplateOutputResponse, TestRenderTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TestRenderTemplateOutputResponse, TestRenderTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestRenderTemplateOutputResponse, TestRenderTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2365,6 +2424,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateAccountSendingEnabledInput, UpdateAccountSendingEnabledOutputResponse, UpdateAccountSendingEnabledOutputError>(id: "updateAccountSendingEnabled")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAccountSendingEnabledInput, UpdateAccountSendingEnabledOutputResponse, UpdateAccountSendingEnabledOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAccountSendingEnabledInput, UpdateAccountSendingEnabledOutputResponse>())
@@ -2380,7 +2440,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccountSendingEnabledOutputResponse, UpdateAccountSendingEnabledOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountSendingEnabledOutputResponse, UpdateAccountSendingEnabledOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountSendingEnabledOutputResponse, UpdateAccountSendingEnabledOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2400,6 +2460,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateConfigurationSetEventDestinationInput, UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>(id: "updateConfigurationSetEventDestination")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConfigurationSetEventDestinationInput, UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConfigurationSetEventDestinationInput, UpdateConfigurationSetEventDestinationOutputResponse>())
@@ -2415,7 +2476,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2435,6 +2496,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateConfigurationSetReputationMetricsEnabledInput, UpdateConfigurationSetReputationMetricsEnabledOutputResponse, UpdateConfigurationSetReputationMetricsEnabledOutputError>(id: "updateConfigurationSetReputationMetricsEnabled")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConfigurationSetReputationMetricsEnabledInput, UpdateConfigurationSetReputationMetricsEnabledOutputResponse, UpdateConfigurationSetReputationMetricsEnabledOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConfigurationSetReputationMetricsEnabledInput, UpdateConfigurationSetReputationMetricsEnabledOutputResponse>())
@@ -2450,7 +2512,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConfigurationSetReputationMetricsEnabledOutputResponse, UpdateConfigurationSetReputationMetricsEnabledOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateConfigurationSetReputationMetricsEnabledOutputResponse, UpdateConfigurationSetReputationMetricsEnabledOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConfigurationSetReputationMetricsEnabledOutputResponse, UpdateConfigurationSetReputationMetricsEnabledOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2470,6 +2532,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateConfigurationSetSendingEnabledInput, UpdateConfigurationSetSendingEnabledOutputResponse, UpdateConfigurationSetSendingEnabledOutputError>(id: "updateConfigurationSetSendingEnabled")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConfigurationSetSendingEnabledInput, UpdateConfigurationSetSendingEnabledOutputResponse, UpdateConfigurationSetSendingEnabledOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConfigurationSetSendingEnabledInput, UpdateConfigurationSetSendingEnabledOutputResponse>())
@@ -2485,7 +2548,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConfigurationSetSendingEnabledOutputResponse, UpdateConfigurationSetSendingEnabledOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateConfigurationSetSendingEnabledOutputResponse, UpdateConfigurationSetSendingEnabledOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConfigurationSetSendingEnabledOutputResponse, UpdateConfigurationSetSendingEnabledOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2505,6 +2568,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateConfigurationSetTrackingOptionsInput, UpdateConfigurationSetTrackingOptionsOutputResponse, UpdateConfigurationSetTrackingOptionsOutputError>(id: "updateConfigurationSetTrackingOptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateConfigurationSetTrackingOptionsInput, UpdateConfigurationSetTrackingOptionsOutputResponse, UpdateConfigurationSetTrackingOptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateConfigurationSetTrackingOptionsInput, UpdateConfigurationSetTrackingOptionsOutputResponse>())
@@ -2520,7 +2584,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConfigurationSetTrackingOptionsOutputResponse, UpdateConfigurationSetTrackingOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateConfigurationSetTrackingOptionsOutputResponse, UpdateConfigurationSetTrackingOptionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConfigurationSetTrackingOptionsOutputResponse, UpdateConfigurationSetTrackingOptionsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2540,6 +2604,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateCustomVerificationEmailTemplateInput, UpdateCustomVerificationEmailTemplateOutputResponse, UpdateCustomVerificationEmailTemplateOutputError>(id: "updateCustomVerificationEmailTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCustomVerificationEmailTemplateInput, UpdateCustomVerificationEmailTemplateOutputResponse, UpdateCustomVerificationEmailTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCustomVerificationEmailTemplateInput, UpdateCustomVerificationEmailTemplateOutputResponse>())
@@ -2555,7 +2620,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCustomVerificationEmailTemplateOutputResponse, UpdateCustomVerificationEmailTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateCustomVerificationEmailTemplateOutputResponse, UpdateCustomVerificationEmailTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCustomVerificationEmailTemplateOutputResponse, UpdateCustomVerificationEmailTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2575,6 +2640,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateReceiptRuleInput, UpdateReceiptRuleOutputResponse, UpdateReceiptRuleOutputError>(id: "updateReceiptRule")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateReceiptRuleInput, UpdateReceiptRuleOutputResponse, UpdateReceiptRuleOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateReceiptRuleInput, UpdateReceiptRuleOutputResponse>())
@@ -2590,7 +2656,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateReceiptRuleOutputResponse, UpdateReceiptRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateReceiptRuleOutputResponse, UpdateReceiptRuleOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateReceiptRuleOutputResponse, UpdateReceiptRuleOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2610,6 +2676,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateTemplateInput, UpdateTemplateOutputResponse, UpdateTemplateOutputError>(id: "updateTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateTemplateInput, UpdateTemplateOutputResponse, UpdateTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTemplateInput, UpdateTemplateOutputResponse>())
@@ -2625,7 +2692,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTemplateOutputResponse, UpdateTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateTemplateOutputResponse, UpdateTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTemplateOutputResponse, UpdateTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2654,6 +2721,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<VerifyDomainDkimInput, VerifyDomainDkimOutputResponse, VerifyDomainDkimOutputError>(id: "verifyDomainDkim")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifyDomainDkimInput, VerifyDomainDkimOutputResponse, VerifyDomainDkimOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifyDomainDkimInput, VerifyDomainDkimOutputResponse>())
@@ -2669,7 +2737,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifyDomainDkimOutputResponse, VerifyDomainDkimOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<VerifyDomainDkimOutputResponse, VerifyDomainDkimOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifyDomainDkimOutputResponse, VerifyDomainDkimOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2689,6 +2757,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<VerifyDomainIdentityInput, VerifyDomainIdentityOutputResponse, VerifyDomainIdentityOutputError>(id: "verifyDomainIdentity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifyDomainIdentityInput, VerifyDomainIdentityOutputResponse, VerifyDomainIdentityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifyDomainIdentityInput, VerifyDomainIdentityOutputResponse>())
@@ -2704,7 +2773,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifyDomainIdentityOutputResponse, VerifyDomainIdentityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<VerifyDomainIdentityOutputResponse, VerifyDomainIdentityOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifyDomainIdentityOutputResponse, VerifyDomainIdentityOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2724,6 +2793,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<VerifyEmailAddressInput, VerifyEmailAddressOutputResponse, VerifyEmailAddressOutputError>(id: "verifyEmailAddress")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifyEmailAddressInput, VerifyEmailAddressOutputResponse, VerifyEmailAddressOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifyEmailAddressInput, VerifyEmailAddressOutputResponse>())
@@ -2739,7 +2809,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifyEmailAddressOutputResponse, VerifyEmailAddressOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<VerifyEmailAddressOutputResponse, VerifyEmailAddressOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifyEmailAddressOutputResponse, VerifyEmailAddressOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -2759,6 +2829,7 @@ extension SESClient: SESClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ses")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<VerifyEmailIdentityInput, VerifyEmailIdentityOutputResponse, VerifyEmailIdentityOutputError>(id: "verifyEmailIdentity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifyEmailIdentityInput, VerifyEmailIdentityOutputResponse, VerifyEmailIdentityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifyEmailIdentityInput, VerifyEmailIdentityOutputResponse>())
@@ -2774,7 +2845,7 @@ extension SESClient: SESClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifyEmailIdentityOutputResponse, VerifyEmailIdentityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<VerifyEmailIdentityOutputResponse, VerifyEmailIdentityOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifyEmailIdentityOutputResponse, VerifyEmailIdentityOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

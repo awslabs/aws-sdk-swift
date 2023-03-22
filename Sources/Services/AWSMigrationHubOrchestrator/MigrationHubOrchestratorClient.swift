@@ -221,6 +221,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWorkflowInput, CreateWorkflowOutputResponse, CreateWorkflowOutputError>(id: "createWorkflow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorkflowInput, CreateWorkflowOutputResponse, CreateWorkflowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorkflowInput, CreateWorkflowOutputResponse>())
@@ -236,7 +237,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorkflowOutputResponse, CreateWorkflowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateWorkflowOutputResponse, CreateWorkflowOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkflowOutputResponse, CreateWorkflowOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -256,6 +257,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWorkflowStepInput, CreateWorkflowStepOutputResponse, CreateWorkflowStepOutputError>(id: "createWorkflowStep")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorkflowStepInput, CreateWorkflowStepOutputResponse, CreateWorkflowStepOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorkflowStepInput, CreateWorkflowStepOutputResponse>())
@@ -271,7 +273,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorkflowStepOutputResponse, CreateWorkflowStepOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateWorkflowStepOutputResponse, CreateWorkflowStepOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkflowStepOutputResponse, CreateWorkflowStepOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -291,6 +293,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateWorkflowStepGroupInput, CreateWorkflowStepGroupOutputResponse, CreateWorkflowStepGroupOutputError>(id: "createWorkflowStepGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateWorkflowStepGroupInput, CreateWorkflowStepGroupOutputResponse, CreateWorkflowStepGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateWorkflowStepGroupInput, CreateWorkflowStepGroupOutputResponse>())
@@ -306,7 +309,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateWorkflowStepGroupOutputResponse, CreateWorkflowStepGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateWorkflowStepGroupOutputResponse, CreateWorkflowStepGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateWorkflowStepGroupOutputResponse, CreateWorkflowStepGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -326,6 +329,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWorkflowInput, DeleteWorkflowOutputResponse, DeleteWorkflowOutputError>(id: "deleteWorkflow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorkflowInput, DeleteWorkflowOutputResponse, DeleteWorkflowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorkflowInput, DeleteWorkflowOutputResponse>())
@@ -338,7 +342,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWorkflowOutputResponse, DeleteWorkflowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteWorkflowOutputResponse, DeleteWorkflowOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorkflowOutputResponse, DeleteWorkflowOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -358,6 +362,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWorkflowStepInput, DeleteWorkflowStepOutputResponse, DeleteWorkflowStepOutputError>(id: "deleteWorkflowStep")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorkflowStepInput, DeleteWorkflowStepOutputResponse, DeleteWorkflowStepOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorkflowStepInput, DeleteWorkflowStepOutputResponse>())
@@ -371,7 +376,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWorkflowStepOutputResponse, DeleteWorkflowStepOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteWorkflowStepOutputResponse, DeleteWorkflowStepOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorkflowStepOutputResponse, DeleteWorkflowStepOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -391,6 +396,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteWorkflowStepGroupInput, DeleteWorkflowStepGroupOutputResponse, DeleteWorkflowStepGroupOutputError>(id: "deleteWorkflowStepGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteWorkflowStepGroupInput, DeleteWorkflowStepGroupOutputResponse, DeleteWorkflowStepGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteWorkflowStepGroupInput, DeleteWorkflowStepGroupOutputResponse>())
@@ -404,7 +410,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteWorkflowStepGroupOutputResponse, DeleteWorkflowStepGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteWorkflowStepGroupOutputResponse, DeleteWorkflowStepGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteWorkflowStepGroupOutputResponse, DeleteWorkflowStepGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -424,6 +430,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTemplateInput, GetTemplateOutputResponse, GetTemplateOutputError>(id: "getTemplate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTemplateInput, GetTemplateOutputResponse, GetTemplateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTemplateInput, GetTemplateOutputResponse>())
@@ -436,7 +443,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTemplateOutputResponse, GetTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetTemplateOutputResponse, GetTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTemplateOutputResponse, GetTemplateOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -456,6 +463,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTemplateStepInput, GetTemplateStepOutputResponse, GetTemplateStepOutputError>(id: "getTemplateStep")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTemplateStepInput, GetTemplateStepOutputResponse, GetTemplateStepOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTemplateStepInput, GetTemplateStepOutputResponse>())
@@ -469,7 +477,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTemplateStepOutputResponse, GetTemplateStepOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetTemplateStepOutputResponse, GetTemplateStepOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTemplateStepOutputResponse, GetTemplateStepOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -489,6 +497,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetTemplateStepGroupInput, GetTemplateStepGroupOutputResponse, GetTemplateStepGroupOutputError>(id: "getTemplateStepGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetTemplateStepGroupInput, GetTemplateStepGroupOutputResponse, GetTemplateStepGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTemplateStepGroupInput, GetTemplateStepGroupOutputResponse>())
@@ -501,7 +510,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTemplateStepGroupOutputResponse, GetTemplateStepGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetTemplateStepGroupOutputResponse, GetTemplateStepGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTemplateStepGroupOutputResponse, GetTemplateStepGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -521,6 +530,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetWorkflowInput, GetWorkflowOutputResponse, GetWorkflowOutputError>(id: "getWorkflow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWorkflowInput, GetWorkflowOutputResponse, GetWorkflowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWorkflowInput, GetWorkflowOutputResponse>())
@@ -533,7 +543,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWorkflowOutputResponse, GetWorkflowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetWorkflowOutputResponse, GetWorkflowOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWorkflowOutputResponse, GetWorkflowOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -553,6 +563,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetWorkflowStepInput, GetWorkflowStepOutputResponse, GetWorkflowStepOutputError>(id: "getWorkflowStep")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWorkflowStepInput, GetWorkflowStepOutputResponse, GetWorkflowStepOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWorkflowStepInput, GetWorkflowStepOutputResponse>())
@@ -566,7 +577,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWorkflowStepOutputResponse, GetWorkflowStepOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetWorkflowStepOutputResponse, GetWorkflowStepOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWorkflowStepOutputResponse, GetWorkflowStepOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -586,6 +597,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetWorkflowStepGroupInput, GetWorkflowStepGroupOutputResponse, GetWorkflowStepGroupOutputError>(id: "getWorkflowStepGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetWorkflowStepGroupInput, GetWorkflowStepGroupOutputResponse, GetWorkflowStepGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetWorkflowStepGroupInput, GetWorkflowStepGroupOutputResponse>())
@@ -599,7 +611,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetWorkflowStepGroupOutputResponse, GetWorkflowStepGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetWorkflowStepGroupOutputResponse, GetWorkflowStepGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetWorkflowStepGroupOutputResponse, GetWorkflowStepGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -619,6 +631,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPluginsInput, ListPluginsOutputResponse, ListPluginsOutputError>(id: "listPlugins")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPluginsInput, ListPluginsOutputResponse, ListPluginsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPluginsInput, ListPluginsOutputResponse>())
@@ -632,7 +645,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPluginsOutputResponse, ListPluginsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPluginsOutputResponse, ListPluginsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPluginsOutputResponse, ListPluginsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -652,6 +665,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -664,7 +678,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -684,6 +698,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTemplateStepGroupsInput, ListTemplateStepGroupsOutputResponse, ListTemplateStepGroupsOutputError>(id: "listTemplateStepGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTemplateStepGroupsInput, ListTemplateStepGroupsOutputResponse, ListTemplateStepGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTemplateStepGroupsInput, ListTemplateStepGroupsOutputResponse>())
@@ -697,7 +712,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTemplateStepGroupsOutputResponse, ListTemplateStepGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTemplateStepGroupsOutputResponse, ListTemplateStepGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTemplateStepGroupsOutputResponse, ListTemplateStepGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -717,6 +732,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTemplateStepsInput, ListTemplateStepsOutputResponse, ListTemplateStepsOutputError>(id: "listTemplateSteps")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTemplateStepsInput, ListTemplateStepsOutputResponse, ListTemplateStepsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTemplateStepsInput, ListTemplateStepsOutputResponse>())
@@ -730,7 +746,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTemplateStepsOutputResponse, ListTemplateStepsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTemplateStepsOutputResponse, ListTemplateStepsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTemplateStepsOutputResponse, ListTemplateStepsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -750,6 +766,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTemplatesInput, ListTemplatesOutputResponse, ListTemplatesOutputError>(id: "listTemplates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTemplatesInput, ListTemplatesOutputResponse, ListTemplatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTemplatesInput, ListTemplatesOutputResponse>())
@@ -763,7 +780,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTemplatesOutputResponse, ListTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTemplatesOutputResponse, ListTemplatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTemplatesOutputResponse, ListTemplatesOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -783,6 +800,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorkflowStepGroupsInput, ListWorkflowStepGroupsOutputResponse, ListWorkflowStepGroupsOutputError>(id: "listWorkflowStepGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkflowStepGroupsInput, ListWorkflowStepGroupsOutputResponse, ListWorkflowStepGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkflowStepGroupsInput, ListWorkflowStepGroupsOutputResponse>())
@@ -796,7 +814,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorkflowStepGroupsOutputResponse, ListWorkflowStepGroupsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListWorkflowStepGroupsOutputResponse, ListWorkflowStepGroupsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkflowStepGroupsOutputResponse, ListWorkflowStepGroupsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -816,6 +834,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorkflowStepsInput, ListWorkflowStepsOutputResponse, ListWorkflowStepsOutputError>(id: "listWorkflowSteps")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkflowStepsInput, ListWorkflowStepsOutputResponse, ListWorkflowStepsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkflowStepsInput, ListWorkflowStepsOutputResponse>())
@@ -829,7 +848,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorkflowStepsOutputResponse, ListWorkflowStepsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListWorkflowStepsOutputResponse, ListWorkflowStepsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkflowStepsOutputResponse, ListWorkflowStepsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -849,6 +868,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListWorkflowsInput, ListWorkflowsOutputResponse, ListWorkflowsOutputError>(id: "listWorkflows")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListWorkflowsInput, ListWorkflowsOutputResponse, ListWorkflowsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListWorkflowsInput, ListWorkflowsOutputResponse>())
@@ -862,7 +882,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListWorkflowsOutputResponse, ListWorkflowsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListWorkflowsOutputResponse, ListWorkflowsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListWorkflowsOutputResponse, ListWorkflowsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -882,6 +902,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<RetryWorkflowStepInput, RetryWorkflowStepOutputResponse, RetryWorkflowStepOutputError>(id: "retryWorkflowStep")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RetryWorkflowStepInput, RetryWorkflowStepOutputResponse, RetryWorkflowStepOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RetryWorkflowStepInput, RetryWorkflowStepOutputResponse>())
@@ -895,7 +916,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RetryWorkflowStepOutputResponse, RetryWorkflowStepOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RetryWorkflowStepOutputResponse, RetryWorkflowStepOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RetryWorkflowStepOutputResponse, RetryWorkflowStepOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -915,6 +936,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartWorkflowInput, StartWorkflowOutputResponse, StartWorkflowOutputError>(id: "startWorkflow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartWorkflowInput, StartWorkflowOutputResponse, StartWorkflowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartWorkflowInput, StartWorkflowOutputResponse>())
@@ -927,7 +949,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartWorkflowOutputResponse, StartWorkflowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartWorkflowOutputResponse, StartWorkflowOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartWorkflowOutputResponse, StartWorkflowOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -947,6 +969,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopWorkflowInput, StopWorkflowOutputResponse, StopWorkflowOutputError>(id: "stopWorkflow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopWorkflowInput, StopWorkflowOutputResponse, StopWorkflowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopWorkflowInput, StopWorkflowOutputResponse>())
@@ -959,7 +982,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopWorkflowOutputResponse, StopWorkflowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopWorkflowOutputResponse, StopWorkflowOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopWorkflowOutputResponse, StopWorkflowOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -979,6 +1002,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -994,7 +1018,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1014,6 +1038,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1027,7 +1052,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1047,6 +1072,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateWorkflowInput, UpdateWorkflowOutputResponse, UpdateWorkflowOutputError>(id: "updateWorkflow")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorkflowInput, UpdateWorkflowOutputResponse, UpdateWorkflowOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorkflowInput, UpdateWorkflowOutputResponse>())
@@ -1062,7 +1088,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWorkflowOutputResponse, UpdateWorkflowOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateWorkflowOutputResponse, UpdateWorkflowOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorkflowOutputResponse, UpdateWorkflowOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1082,6 +1108,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateWorkflowStepInput, UpdateWorkflowStepOutputResponse, UpdateWorkflowStepOutputError>(id: "updateWorkflowStep")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorkflowStepInput, UpdateWorkflowStepOutputResponse, UpdateWorkflowStepOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorkflowStepInput, UpdateWorkflowStepOutputResponse>())
@@ -1097,7 +1124,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWorkflowStepOutputResponse, UpdateWorkflowStepOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateWorkflowStepOutputResponse, UpdateWorkflowStepOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorkflowStepOutputResponse, UpdateWorkflowStepOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1117,6 +1144,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
                       .withRegion(value: config.region)
                       .withSigningName(value: "migrationhub-orchestrator")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateWorkflowStepGroupInput, UpdateWorkflowStepGroupOutputResponse, UpdateWorkflowStepGroupOutputError>(id: "updateWorkflowStepGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateWorkflowStepGroupInput, UpdateWorkflowStepGroupOutputResponse, UpdateWorkflowStepGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateWorkflowStepGroupInput, UpdateWorkflowStepGroupOutputResponse>())
@@ -1133,7 +1161,7 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateWorkflowStepGroupOutputResponse, UpdateWorkflowStepGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateWorkflowStepGroupOutputResponse, UpdateWorkflowStepGroupOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateWorkflowStepGroupOutputResponse, UpdateWorkflowStepGroupOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

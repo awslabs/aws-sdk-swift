@@ -39,7 +39,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
             }
 
             let decoder = XMLDecoder()
-            let greetingWithErrorsOutputError = try GreetingWithErrorsOutputError(httpResponse: httpResponse, decoder: decoder)
+            let greetingWithErrorsOutputError = try GreetingWithErrorsOutputError(httpResponse: httpResponse, decoder: decoder, messageDecoder: nil)
 
             if case .invalidGreeting(let actual) = greetingWithErrorsOutputError {
 
@@ -87,7 +87,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
             }
 
             let decoder = XMLDecoder()
-            let greetingWithErrorsOutputError = try GreetingWithErrorsOutputError(httpResponse: httpResponse, decoder: decoder)
+            let greetingWithErrorsOutputError = try GreetingWithErrorsOutputError(httpResponse: httpResponse, decoder: decoder, messageDecoder: nil)
 
             if case .complexXMLError(let actual) = greetingWithErrorsOutputError {
 
@@ -139,7 +139,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
             }
 
             let decoder = XMLDecoder()
-            let greetingWithErrorsOutputError = try GreetingWithErrorsNoErrorWrappingOutputError(httpResponse: httpResponse, decoder: decoder)
+            let greetingWithErrorsOutputError = try GreetingWithErrorsNoErrorWrappingOutputError(httpResponse: httpResponse, decoder: decoder, messageDecoder: nil)
 
             if case .complexXMLErrorNoErrorWrapping(let actual) = greetingWithErrorsOutputError {
 
@@ -188,7 +188,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
             }
 
             let decoder = XMLDecoder()
-            let greetingWithErrorsOutputError = try GreetingWithErrorsOutputError(httpResponse: httpResponse, decoder: decoder)
+            let greetingWithErrorsOutputError = try GreetingWithErrorsOutputError(httpResponse: httpResponse, decoder: decoder, messageDecoder: nil)
             if case .unknown(let actual) = greetingWithErrorsOutputError {
                 XCTAssertEqual("Access Denied", actual._message)
                 XCTAssertEqual("abcdefg123456", actual._requestID)

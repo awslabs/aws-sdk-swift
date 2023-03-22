@@ -221,6 +221,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<AcceptPageInput, AcceptPageOutputResponse, AcceptPageOutputError>(id: "acceptPage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptPageInput, AcceptPageOutputResponse, AcceptPageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptPageInput, AcceptPageOutputResponse>())
@@ -237,7 +238,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptPageOutputResponse, AcceptPageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AcceptPageOutputResponse, AcceptPageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptPageOutputResponse, AcceptPageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -257,6 +258,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ActivateContactChannelInput, ActivateContactChannelOutputResponse, ActivateContactChannelOutputError>(id: "activateContactChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ActivateContactChannelInput, ActivateContactChannelOutputResponse, ActivateContactChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ActivateContactChannelInput, ActivateContactChannelOutputResponse>())
@@ -273,7 +275,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ActivateContactChannelOutputResponse, ActivateContactChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ActivateContactChannelOutputResponse, ActivateContactChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ActivateContactChannelOutputResponse, ActivateContactChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -293,6 +295,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateContactInput, CreateContactOutputResponse, CreateContactOutputError>(id: "createContact")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateContactOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -317,7 +320,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateContactOutputResponse, CreateContactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateContactOutputResponse, CreateContactOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateContactOutputResponse, CreateContactOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -337,6 +340,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateContactChannelInput, CreateContactChannelOutputResponse, CreateContactChannelOutputError>(id: "createContactChannel")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateContactChannelOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -361,7 +365,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateContactChannelOutputResponse, CreateContactChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateContactChannelOutputResponse, CreateContactChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateContactChannelOutputResponse, CreateContactChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -381,6 +385,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeactivateContactChannelInput, DeactivateContactChannelOutputResponse, DeactivateContactChannelOutputError>(id: "deactivateContactChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeactivateContactChannelInput, DeactivateContactChannelOutputResponse, DeactivateContactChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeactivateContactChannelInput, DeactivateContactChannelOutputResponse>())
@@ -397,7 +402,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeactivateContactChannelOutputResponse, DeactivateContactChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeactivateContactChannelOutputResponse, DeactivateContactChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeactivateContactChannelOutputResponse, DeactivateContactChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -417,6 +422,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteContactInput, DeleteContactOutputResponse, DeleteContactOutputError>(id: "deleteContact")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteContactInput, DeleteContactOutputResponse, DeleteContactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteContactInput, DeleteContactOutputResponse>())
@@ -433,7 +439,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteContactOutputResponse, DeleteContactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteContactOutputResponse, DeleteContactOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteContactOutputResponse, DeleteContactOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -453,6 +459,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteContactChannelInput, DeleteContactChannelOutputResponse, DeleteContactChannelOutputError>(id: "deleteContactChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteContactChannelInput, DeleteContactChannelOutputResponse, DeleteContactChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteContactChannelInput, DeleteContactChannelOutputResponse>())
@@ -469,7 +476,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteContactChannelOutputResponse, DeleteContactChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteContactChannelOutputResponse, DeleteContactChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteContactChannelOutputResponse, DeleteContactChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -489,6 +496,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribeEngagementInput, DescribeEngagementOutputResponse, DescribeEngagementOutputError>(id: "describeEngagement")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEngagementInput, DescribeEngagementOutputResponse, DescribeEngagementOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEngagementInput, DescribeEngagementOutputResponse>())
@@ -505,7 +513,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEngagementOutputResponse, DescribeEngagementOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeEngagementOutputResponse, DescribeEngagementOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEngagementOutputResponse, DescribeEngagementOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -525,6 +533,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DescribePageInput, DescribePageOutputResponse, DescribePageOutputError>(id: "describePage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePageInput, DescribePageOutputResponse, DescribePageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePageInput, DescribePageOutputResponse>())
@@ -541,7 +550,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePageOutputResponse, DescribePageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribePageOutputResponse, DescribePageOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePageOutputResponse, DescribePageOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -561,6 +570,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetContactInput, GetContactOutputResponse, GetContactOutputError>(id: "getContact")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContactInput, GetContactOutputResponse, GetContactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContactInput, GetContactOutputResponse>())
@@ -577,7 +587,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContactOutputResponse, GetContactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContactOutputResponse, GetContactOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContactOutputResponse, GetContactOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -597,6 +607,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetContactChannelInput, GetContactChannelOutputResponse, GetContactChannelOutputError>(id: "getContactChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContactChannelInput, GetContactChannelOutputResponse, GetContactChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContactChannelInput, GetContactChannelOutputResponse>())
@@ -613,7 +624,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContactChannelOutputResponse, GetContactChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContactChannelOutputResponse, GetContactChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContactChannelOutputResponse, GetContactChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -633,6 +644,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetContactPolicyInput, GetContactPolicyOutputResponse, GetContactPolicyOutputError>(id: "getContactPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetContactPolicyInput, GetContactPolicyOutputResponse, GetContactPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetContactPolicyInput, GetContactPolicyOutputResponse>())
@@ -649,7 +661,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContactPolicyOutputResponse, GetContactPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContactPolicyOutputResponse, GetContactPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContactPolicyOutputResponse, GetContactPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -669,6 +681,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListContactChannelsInput, ListContactChannelsOutputResponse, ListContactChannelsOutputError>(id: "listContactChannels")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListContactChannelsInput, ListContactChannelsOutputResponse, ListContactChannelsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListContactChannelsInput, ListContactChannelsOutputResponse>())
@@ -685,7 +698,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListContactChannelsOutputResponse, ListContactChannelsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListContactChannelsOutputResponse, ListContactChannelsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListContactChannelsOutputResponse, ListContactChannelsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -705,6 +718,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListContactsInput, ListContactsOutputResponse, ListContactsOutputError>(id: "listContacts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListContactsInput, ListContactsOutputResponse, ListContactsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListContactsInput, ListContactsOutputResponse>())
@@ -721,7 +735,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListContactsOutputResponse, ListContactsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListContactsOutputResponse, ListContactsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListContactsOutputResponse, ListContactsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -741,6 +755,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListEngagementsInput, ListEngagementsOutputResponse, ListEngagementsOutputError>(id: "listEngagements")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEngagementsInput, ListEngagementsOutputResponse, ListEngagementsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEngagementsInput, ListEngagementsOutputResponse>())
@@ -757,7 +772,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEngagementsOutputResponse, ListEngagementsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListEngagementsOutputResponse, ListEngagementsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEngagementsOutputResponse, ListEngagementsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -777,6 +792,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPageReceiptsInput, ListPageReceiptsOutputResponse, ListPageReceiptsOutputError>(id: "listPageReceipts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPageReceiptsInput, ListPageReceiptsOutputResponse, ListPageReceiptsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPageReceiptsInput, ListPageReceiptsOutputResponse>())
@@ -793,7 +809,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPageReceiptsOutputResponse, ListPageReceiptsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPageReceiptsOutputResponse, ListPageReceiptsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPageReceiptsOutputResponse, ListPageReceiptsOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -813,6 +829,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPagesByContactInput, ListPagesByContactOutputResponse, ListPagesByContactOutputError>(id: "listPagesByContact")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPagesByContactInput, ListPagesByContactOutputResponse, ListPagesByContactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPagesByContactInput, ListPagesByContactOutputResponse>())
@@ -829,7 +846,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPagesByContactOutputResponse, ListPagesByContactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPagesByContactOutputResponse, ListPagesByContactOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPagesByContactOutputResponse, ListPagesByContactOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -849,6 +866,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListPagesByEngagementInput, ListPagesByEngagementOutputResponse, ListPagesByEngagementOutputError>(id: "listPagesByEngagement")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPagesByEngagementInput, ListPagesByEngagementOutputResponse, ListPagesByEngagementOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPagesByEngagementInput, ListPagesByEngagementOutputResponse>())
@@ -865,7 +883,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPagesByEngagementOutputResponse, ListPagesByEngagementOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPagesByEngagementOutputResponse, ListPagesByEngagementOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPagesByEngagementOutputResponse, ListPagesByEngagementOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -885,6 +903,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -901,7 +920,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -921,6 +940,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutContactPolicyInput, PutContactPolicyOutputResponse, PutContactPolicyOutputError>(id: "putContactPolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutContactPolicyInput, PutContactPolicyOutputResponse, PutContactPolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutContactPolicyInput, PutContactPolicyOutputResponse>())
@@ -937,7 +957,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutContactPolicyOutputResponse, PutContactPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutContactPolicyOutputResponse, PutContactPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutContactPolicyOutputResponse, PutContactPolicyOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -957,6 +977,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<SendActivationCodeInput, SendActivationCodeOutputResponse, SendActivationCodeOutputError>(id: "sendActivationCode")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendActivationCodeInput, SendActivationCodeOutputResponse, SendActivationCodeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendActivationCodeInput, SendActivationCodeOutputResponse>())
@@ -973,7 +994,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendActivationCodeOutputResponse, SendActivationCodeOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendActivationCodeOutputResponse, SendActivationCodeOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendActivationCodeOutputResponse, SendActivationCodeOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -993,6 +1014,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StartEngagementInput, StartEngagementOutputResponse, StartEngagementOutputError>(id: "startEngagement")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartEngagementOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -1017,7 +1039,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartEngagementOutputResponse, StartEngagementOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartEngagementOutputResponse, StartEngagementOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartEngagementOutputResponse, StartEngagementOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1037,6 +1059,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<StopEngagementInput, StopEngagementOutputResponse, StopEngagementOutputError>(id: "stopEngagement")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopEngagementInput, StopEngagementOutputResponse, StopEngagementOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopEngagementInput, StopEngagementOutputResponse>())
@@ -1053,7 +1076,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopEngagementOutputResponse, StopEngagementOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopEngagementOutputResponse, StopEngagementOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopEngagementOutputResponse, StopEngagementOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1073,6 +1096,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -1089,7 +1113,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1109,6 +1133,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1125,7 +1150,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1145,6 +1170,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateContactInput, UpdateContactOutputResponse, UpdateContactOutputError>(id: "updateContact")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateContactInput, UpdateContactOutputResponse, UpdateContactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateContactInput, UpdateContactOutputResponse>())
@@ -1161,7 +1187,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateContactOutputResponse, UpdateContactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateContactOutputResponse, UpdateContactOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateContactOutputResponse, UpdateContactOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1181,6 +1207,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "ssm-contacts")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateContactChannelInput, UpdateContactChannelOutputResponse, UpdateContactChannelOutputError>(id: "updateContactChannel")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateContactChannelInput, UpdateContactChannelOutputResponse, UpdateContactChannelOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateContactChannelInput, UpdateContactChannelOutputResponse>())
@@ -1197,7 +1224,7 @@ extension SSMContactsClient: SSMContactsClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateContactChannelOutputResponse, UpdateContactChannelOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateContactChannelOutputResponse, UpdateContactChannelOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateContactChannelOutputResponse, UpdateContactChannelOutputError>())
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
