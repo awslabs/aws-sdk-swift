@@ -32,7 +32,7 @@ extension EventStream.HeaderValue {
             return .int32(value: Int32(value))
         case .int64(let value):
             return .int64(value: Int64(value))
-        case .data(let value):
+        case .byteArray(let value):
             return .byteBuf(value: value)
         case .string(let value):
             return .string(value: value)
@@ -56,11 +56,11 @@ extension EventStreamHeader {
         case .int16(value: let value):
             return .init(name: name, value: .int16(value))
         case .int32(value: let value):
-            return .init(name: name, value: .int32(Int(value)))
+            return .init(name: name, value: .int32(value))
         case .int64(value: let value):
-            return .init(name: name, value: .int64(Int(value)))
+            return .init(name: name, value: .int64(value))
         case .byteBuf(value: let value):
-            return .init(name: name, value: .data(value))
+            return .init(name: name, value: .byteArray(value))
         case .string(value: let value):
             return .init(name: name, value: .string(value))
         case .timestamp(value: let value):

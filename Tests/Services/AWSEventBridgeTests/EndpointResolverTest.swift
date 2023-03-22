@@ -990,8 +990,8 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "name": "sigv4a",
                         "signingName": "events",
+                        "name": "sigv4a",
                         "signingRegionSet": [
                             "*"
                         ] as [AnyHashable]
@@ -1101,8 +1101,8 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "name": "sigv4a",
                         "signingName": "events",
+                        "name": "sigv4a",
                         "signingRegionSet": [
                             "*"
                         ] as [AnyHashable]
@@ -1133,8 +1133,8 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "name": "sigv4a",
                         "signingName": "events",
+                        "name": "sigv4a",
                         "signingRegionSet": [
                             "*"
                         ] as [AnyHashable]

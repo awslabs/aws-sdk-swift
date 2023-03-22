@@ -145,7 +145,7 @@ class MessageMarshallableGenerator(
             ShapeType.SHORT -> "int16"
             ShapeType.INTEGER -> "int32"
             ShapeType.LONG -> "int64"
-            ShapeType.BLOB -> "data"
+            ShapeType.BLOB -> "byteArray"
             ShapeType.STRING -> "string"
             ShapeType.TIMESTAMP -> "timestamp"
             else -> throw CodegenException("unsupported shape type `${target.type}` for eventHeader member `$member`; target: $target")

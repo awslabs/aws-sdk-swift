@@ -45,7 +45,7 @@ let validMessageWithAllHeaders = EventStream.Message(
         .init(name: "short", value: .int16(20_000)),
         .init(name: "int", value: .int32(500_000)),
         .init(name: "long", value: .int64(50_000_000_000)),
-        .init(name: "bytes", value: .data("some bytes".data(using: .utf8)!)),
+        .init(name: "bytes", value: .byteArray("some bytes".data(using: .utf8)!)),
         .init(name: "str", value: .string("some str")),
         .init(name: "time", value: .timestamp(Date(timeIntervalSince1970: 5_000_000))),
         .init(name: "uuid", value: .uuid(UUID(uuidString: "b79bc914-de21-4e13-b8b2-bc47e85b7f0b")!))

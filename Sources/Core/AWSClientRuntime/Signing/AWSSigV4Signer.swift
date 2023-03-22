@@ -68,7 +68,7 @@ public class AWSSigV4Signer {
         let binarySignature = signature.hexaData
 
         let message = EventStream.Message(headers: [ .init(name: ":date", value: .timestamp(signingConfig.date)),
-                                                     .init(name: ":chunk-signature", value: .data(binarySignature))],
+                                                     .init(name: ":chunk-signature", value: .byteArray(binarySignature))],
                                            payload: payload)
 
         return SigningResult(output: message, signature: signature)
