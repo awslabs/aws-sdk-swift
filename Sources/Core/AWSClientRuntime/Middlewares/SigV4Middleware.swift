@@ -32,7 +32,7 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
 
         let originalRequest = input.build()
         let crtUnsignedRequest: HTTPRequestBase
-        if context.isBidiStreamingEnabled() {
+        if context.isBidirectionalStreamingEnabled() {
             crtUnsignedRequest = try originalRequest.toHttp2Request()
         } else {
             crtUnsignedRequest = try originalRequest.toHttpRequest()
