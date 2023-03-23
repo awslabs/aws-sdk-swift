@@ -149,31 +149,31 @@ class MessageMarshallableGenerator(
     }
 
 /**
- *
- *     if let headerValue = value.blob {
- *         headers.append(.init(name: "blob", value: .byteArray(headerValue)))
- *     }
- *     if let headerValue = value.boolean {
- *         headers.append(.init(name: "boolean", value: .bool(headerValue)))
- *     }
- *     if let headerValue = value.byte {
- *         headers.append(.init(name: "byte", value: .byte(headerValue)))
- *     }
- *     if let headerValue = value.int {
- *         headers.append(.init(name: "int", value: .int32(Int32(headerValue))))
- *     }
- *     if let headerValue = value.long {
- *         headers.append(.init(name: "long", value: .int64(Int64(headerValue))))
- *     }
- *     if let headerValue = value.short {
- *         headers.append(.init(name: "short", value: .int16(headerValue)))
- *     }
- *     if let headerValue = value.string {
- *         headers.append(.init(name: "string", value: .string(headerValue)))
- *     }
- *     if let headerValue = value.timestamp {
- *         headers.append(.init(name: "timestamp", value: .timestamp(headerValue)))
- *     }
+     *
+     *     if let headerValue = value.blob {
+     *         headers.append(.init(name: "blob", value: .byteArray(headerValue)))
+     *     }
+     *     if let headerValue = value.boolean {
+     *         headers.append(.init(name: "boolean", value: .bool(headerValue)))
+     *     }
+     *     if let headerValue = value.byte {
+     *         headers.append(.init(name: "byte", value: .byte(headerValue)))
+     *     }
+     *     if let headerValue = value.int {
+     *         headers.append(.init(name: "int", value: .int32(Int32(headerValue))))
+     *     }
+     *     if let headerValue = value.long {
+     *         headers.append(.init(name: "long", value: .int64(Int64(headerValue))))
+     *     }
+     *     if let headerValue = value.short {
+     *         headers.append(.init(name: "short", value: .int16(headerValue)))
+     *     }
+     *     if let headerValue = value.string {
+     *         headers.append(.init(name: "string", value: .string(headerValue)))
+     *     }
+     *     if let headerValue = value.timestamp {
+     *         headers.append(.init(name: "timestamp", value: .timestamp(headerValue)))
+     *     }
 */
     private fun renderSerializeEventHeader(ctx: ProtocolGenerator.GenerationContext, member: MemberShape, writer: SwiftWriter) {
         val target = ctx.model.expectShape(member.target)
