@@ -1079,7 +1079,7 @@ case (false, true):
     ]
 case (false, false):
     package.dependencies += [
-        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.12.0")),
+        .package(url: "https://github.com/awslabs/smithy-swift", .branch("jangirg/feat/es-codegen")),
         .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.6.1")), // TODO: change to aws-crt-swift repo once merged
     ]
 }
