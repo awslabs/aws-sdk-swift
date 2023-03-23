@@ -85,10 +85,6 @@ extension HttpContext {
         attributes.set(key: HttpContext.messageEncoder, value: messageEncoder)
         attributes.set(key: HttpContext.messageSigner, value: messageSigner)
 
-        // setup server to client
-        let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-        attributes.set(key: HttpContext.messageDecoder, value: messageDecoder)
-
         // enable the flag
         attributes.set(key: HttpContext.bidirectionalStreaming, value: true)
     }

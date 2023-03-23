@@ -349,8 +349,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "dynamodb",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]

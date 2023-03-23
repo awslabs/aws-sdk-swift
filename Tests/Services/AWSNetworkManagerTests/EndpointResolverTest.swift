@@ -29,8 +29,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "networkmanager",
-                        "name": "sigv4",
-                        "signingRegion": "us-west-2"
+                        "signingRegion": "us-west-2",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -117,8 +117,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "networkmanager",
-                        "name": "sigv4",
-                        "signingRegion": "us-west-2"
+                        "signingRegion": "us-west-2",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -225,8 +225,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "networkmanager",
-                        "name": "sigv4",
-                        "signingRegion": "us-gov-west-1"
+                        "signingRegion": "us-gov-west-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -313,8 +313,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "networkmanager",
-                        "name": "sigv4",
-                        "signingRegion": "us-gov-west-1"
+                        "signingRegion": "us-gov-west-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]

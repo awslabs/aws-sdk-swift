@@ -62,7 +62,7 @@ class Route53InvalidBatchErrorIntegrationTests {
         val expectedContents =
             """
             extension ChangeResourceRecordSetsOutputError: ClientRuntime.HttpResponseBinding {
-                public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
+                public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
                     if let customBatchError = CustomInvalidBatchError.makeFromHttpResponse(httpResponse) {
                         let invalidChangeBatchError = InvalidChangeBatch(
                             customError: customBatchError,

@@ -2582,7 +2582,7 @@ public struct StartCallAnalyticsStreamTranscriptionInput: Swift.Equatable {
 }
 
 extension StartCallAnalyticsStreamTranscriptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -2612,7 +2612,7 @@ public enum StartCallAnalyticsStreamTranscriptionOutputError: Swift.Error, Swift
 }
 
 extension StartCallAnalyticsStreamTranscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let contentIdentificationTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-content-identification-type") {
             self.contentIdentificationType = TranscribeStreamingClientTypes.ContentIdentificationType(rawValue: contentIdentificationTypeHeaderValue)
         } else {
@@ -2683,7 +2683,8 @@ extension StartCallAnalyticsStreamTranscriptionOutputResponse: ClientRuntime.Htt
         } else {
             self.vocabularyName = nil
         }
-        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder, let messageDecoder = messageDecoder {
+        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
+            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
             let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
             self.callAnalyticsTranscriptResultStream = decoderStream.toAsyncStream()
         } else {
@@ -2921,7 +2922,7 @@ public struct StartMedicalStreamTranscriptionInput: Swift.Equatable {
 }
 
 extension StartMedicalStreamTranscriptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -2951,7 +2952,7 @@ public enum StartMedicalStreamTranscriptionOutputError: Swift.Error, Swift.Equat
 }
 
 extension StartMedicalStreamTranscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let contentIdentificationTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-content-identification-type") {
             self.contentIdentificationType = TranscribeStreamingClientTypes.MedicalContentIdentificationType(rawValue: contentIdentificationTypeHeaderValue)
         } else {
@@ -3012,7 +3013,8 @@ extension StartMedicalStreamTranscriptionOutputResponse: ClientRuntime.HttpRespo
         } else {
             self.vocabularyName = nil
         }
-        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder, let messageDecoder = messageDecoder {
+        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
+            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
             let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<TranscribeStreamingClientTypes.MedicalTranscriptResultStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
             self.transcriptResultStream = decoderStream.toAsyncStream()
         } else {
@@ -3309,7 +3311,7 @@ public struct StartStreamTranscriptionInput: Swift.Equatable {
 }
 
 extension StartStreamTranscriptionOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
@@ -3339,7 +3341,7 @@ public enum StartStreamTranscriptionOutputError: Swift.Error, Swift.Equatable {
 }
 
 extension StartStreamTranscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, messageDecoder: ClientRuntime.MessageDecoder? = nil) throws {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if let contentIdentificationTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-transcribe-content-identification-type") {
             self.contentIdentificationType = TranscribeStreamingClientTypes.ContentIdentificationType(rawValue: contentIdentificationTypeHeaderValue)
         } else {
@@ -3450,7 +3452,8 @@ extension StartStreamTranscriptionOutputResponse: ClientRuntime.HttpResponseBind
         } else {
             self.vocabularyNames = nil
         }
-        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder, let messageDecoder = messageDecoder {
+        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
+            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
             let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<TranscribeStreamingClientTypes.TranscriptResultStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
             self.transcriptResultStream = decoderStream.toAsyncStream()
         } else {

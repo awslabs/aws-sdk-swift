@@ -30,10 +30,9 @@ class AWSRestJson1HttpResponseBindingErrorGeneratable : HttpResponseBindingError
 
             writer.openBlock("extension \$L: \$N {", "}", operationErrorName, ClientRuntimeTypes.Http.HttpResponseBinding) {
                 writer.openBlock(
-                    "public init(httpResponse: \$N, decoder: \$D, messageDecoder: \$D) throws {", "}",
+                    "public init(httpResponse: \$N, decoder: \$D) throws {", "}",
                     ClientRuntimeTypes.Http.HttpResponse,
-                    ClientRuntimeTypes.Serde.ResponseDecoder,
-                    ClientRuntimeTypes.Serde.MessageDecoder
+                    ClientRuntimeTypes.Serde.ResponseDecoder
                 ) {
                     writer.write("let errorDetails = try \$N(httpResponse: httpResponse)", AWSClientRuntimeTypes.RestJSON.RestJSONError)
                     writer.write("let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)")

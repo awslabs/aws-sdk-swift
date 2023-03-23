@@ -29,8 +29,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "route53",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -57,8 +57,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "route53",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -105,8 +105,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "route53",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -153,8 +153,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "route53",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -181,8 +181,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "route53",
-                        "name": "sigv4",
-                        "signingRegion": "cn-northwest-1"
+                        "signingRegion": "cn-northwest-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -269,8 +269,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "route53",
-                        "name": "sigv4",
-                        "signingRegion": "cn-northwest-1"
+                        "signingRegion": "cn-northwest-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -297,8 +297,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "route53",
-                        "name": "sigv4",
-                        "signingRegion": "us-gov-west-1"
+                        "signingRegion": "us-gov-west-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -325,8 +325,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "route53",
-                        "name": "sigv4",
-                        "signingRegion": "us-gov-west-1"
+                        "signingRegion": "us-gov-west-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -373,8 +373,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "route53",
-                        "name": "sigv4",
-                        "signingRegion": "us-gov-west-1"
+                        "signingRegion": "us-gov-west-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -421,8 +421,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "route53",
-                        "name": "sigv4",
-                        "signingRegion": "us-gov-west-1"
+                        "signingRegion": "us-gov-west-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -449,8 +449,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "route53",
-                        "name": "sigv4",
-                        "signingRegion": "us-iso-east-1"
+                        "signingRegion": "us-iso-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -497,8 +497,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "route53",
-                        "name": "sigv4",
-                        "signingRegion": "us-iso-east-1"
+                        "signingRegion": "us-iso-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -525,8 +525,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "route53",
-                        "name": "sigv4",
-                        "signingRegion": "us-isob-east-1"
+                        "signingRegion": "us-isob-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -573,8 +573,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "route53",
-                        "name": "sigv4",
-                        "signingRegion": "us-isob-east-1"
+                        "signingRegion": "us-isob-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]

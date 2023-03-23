@@ -29,10 +29,9 @@ class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGen
 
             writer.openBlock("extension \$L: \$N {", "}", operationErrorName, ClientRuntimeTypes.Http.HttpResponseBinding) {
                 writer.openBlock(
-                    "public init(httpResponse: \$N, decoder: \$D, messageDecoder: \$D) throws {", "}",
+                    "public init(httpResponse: \$N, decoder: \$D) throws {", "}",
                     ClientRuntimeTypes.Http.HttpResponse,
-                    ClientRuntimeTypes.Serde.ResponseDecoder,
-                    ClientRuntimeTypes.Serde.MessageDecoder
+                    ClientRuntimeTypes.Serde.ResponseDecoder
                 ) {
                     writer.write("let errorDetails = try Ec2QueryError(httpResponse: httpResponse)")
                     writer.write("try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)")

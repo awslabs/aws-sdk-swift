@@ -29,7 +29,7 @@ class RestJSONErrorTests: HttpResponseTestBase {
 
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .secondsSince1970
-        guard let greetingWithErrorsError = try? GreetingWithErrorsError(httpResponse: httpResponse, decoder: decoder, messageDecoder: nil) else {
+        guard let greetingWithErrorsError = try? GreetingWithErrorsError(httpResponse: httpResponse, decoder: decoder) else {
             XCTFail("Failed to deserialize the error shape")
             return
         }
@@ -133,7 +133,7 @@ public enum GreetingWithErrorsError {
 }
 
 extension GreetingWithErrorsError: HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder?, messageDecoder: ClientRuntime.MessageDecoder?) throws {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder?) throws {
         let errorDetails = try RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
         try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
