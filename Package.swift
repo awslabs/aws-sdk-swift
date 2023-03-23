@@ -1061,7 +1061,6 @@ let package = Package(
     ]
 )
 
-setenv("AWS_SWIFT_SDK_USE_LOCAL_DEPS", "1", 1)
 let useLocalDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_LOCAL_DEPS"] != nil
 let useMainDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_MAIN_DEPS"] != nil
 
