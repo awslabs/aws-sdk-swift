@@ -41,7 +41,7 @@ extension HttpContext {
     /// Returns the request signature for the event stream operation
     /// - Returns: `String` request signature
     public func getRequestSignature() -> String {
-        return attributes.get(key: AttributeKey<String>(name: "AWS_HTTP_SIGNATURE"))!
+        return attributes.get(key: Self.requestSignature)!
     }
 
     /// Returns the signing config for the event stream message
