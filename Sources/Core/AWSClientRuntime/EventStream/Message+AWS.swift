@@ -9,6 +9,8 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 
 extension EventStream {
+    /// The type of the `EventStream.Message`
+    /// It allows for the message to be decoded into the correct type.
     public enum MessageType {
         /// Represents an `event` message type.
         /// All events include the headers
