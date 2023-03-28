@@ -91,6 +91,8 @@ public class S3Client {
                 configuration: .init(fileBasedConfigurationStore: fileBasedConfigurationStore)
             )
             
+            let resolvedEndpointsResolver = try endpointResolver ?? DefaultEndpointResolver()
+            
             self.disableMultiRegionAccessPoints = disableMultiRegionAccessPoints
             self.endpoint = endpoint
             if let endpointResolver = endpointResolver {
