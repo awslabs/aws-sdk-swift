@@ -9,32 +9,38 @@ import ClientRuntime
 
 public struct ProfileRegionProvider: RegionProvider {
     let logger: SwiftLogger
-    let store: FileBasedConfiguration.Store
-    let sources: FileBasedConfiguration.Sources
+    let fileBasedConfigurationProvider: FileBasedConfigurationProviding
     let profileName: String
+    let configFilePath: String?
+    let credentialsFilePath: String?
 
     init(
-        sources: FileBasedConfiguration.Sources,
+        fileBasedConfigurationProvider: FileBasedConfigurationProviding,
         profileName: String,
-        store: FileBasedConfiguration.Store
+        configFilePath: String? = nil,
+        credentialsFilePath: String? = nil
     ) {
         self.logger = SwiftLogger(label: "ProfileRegionResolver")
-        self.sources = sources
+        self.fileBasedConfigurationProvider = fileBasedConfigurationProvider
         self.profileName = profileName
-        self.store = store
+        self.configFilePath = configFilePath
+        self.credentialsFilePath = credentialsFilePath
     }
 
     public func resolveRegion() async throws -> String? {
-        guard let configuration = try await store.configuration(for: sources) else {
-            logger.debug("No configuration files found at \(sources.configPath) or \(sources.credentialPath)")
+        guard let configuration = try await fileBasedConfigurationProvider.fileBasedConfiguration(
+            configFilePath: configFilePath,
+            credentialsFilePath: credentialsFilePath
+        ) else {
+            logger.debug("Failed to resolve region from configuration file. No configuration file found.")
             return nil
         }
         
         guard let profile = configuration.section(for: profileName) else {
-            logger.debug("Profile with name: \(profileName) doesn not exist in configuration files at \(sources.configPath) or \(sources.credentialPath)")
+            logger.debug("Failed to resolve region from configuration file. No profile with name: \(profileName)")
             return nil
         }
         
-        return profile.value(for: .region)
+        return profile.string(for: .region)
     }
 }

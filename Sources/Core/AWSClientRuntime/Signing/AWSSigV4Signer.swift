@@ -14,7 +14,7 @@ public class AWSSigV4Signer {
 
     public static func sigV4SignedURL(
         requestBuilder: SdkHttpRequestBuilder,
-        credentialsProvider: CredentialsProvider,
+        credentialsProvider: CredentialsProviding,
         signingName: Swift.String,
         signingRegion: Swift.String,
         date: ClientRuntime.Date,

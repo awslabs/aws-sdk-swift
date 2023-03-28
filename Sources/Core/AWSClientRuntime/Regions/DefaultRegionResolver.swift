@@ -18,7 +18,7 @@ public struct DefaultRegionResolver: RegionResolver {
         self.providers = try providers ?? [
             BundleRegionProvider(),
             EnvironmentRegionProvider(),
-            ProfileRegionProvider(),
+            //ProfileRegionProvider(),
             IMDSRegionProvider()
         ]
         #endif
