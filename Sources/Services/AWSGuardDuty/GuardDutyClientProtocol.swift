@@ -14,7 +14,7 @@ public protocol GuardDutyClientProtocol {
     func archiveFindings(input: ArchiveFindingsInput) async throws -> ArchiveFindingsOutputResponse
     /// Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     func createDetector(input: CreateDetectorInput) async throws -> CreateDetectorOutputResponse
-    /// Creates a filter using the specified finding criteria.
+    /// Creates a filter using the specified finding criteria. The maximum number of saved filters per Amazon Web Services account per Region is 100. For more information, see [Quotas for GuardDuty](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_limits.html).
     func createFilter(input: CreateFilterInput) async throws -> CreateFilterOutputResponse
     /// Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with Amazon Web Services infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the administrator account can use this operation.
     func createIPSet(input: CreateIPSetInput) async throws -> CreateIPSetOutputResponse
@@ -36,7 +36,7 @@ public protocol GuardDutyClientProtocol {
     func deleteInvitations(input: DeleteInvitationsInput) async throws -> DeleteInvitationsOutputResponse
     /// Deletes the IPSet specified by the ipSetId. IPSets are called trusted IP lists in the console user interface.
     func deleteIPSet(input: DeleteIPSetInput) async throws -> DeleteIPSetOutputResponse
-    /// Deletes GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs.
+    /// Deletes GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disable GuardDuty for a member account in your organization.
     func deleteMembers(input: DeleteMembersInput) async throws -> DeleteMembersOutputResponse
     /// Deletes the publishing definition with the specified destinationId.
     func deletePublishingDestination(input: DeletePublishingDestinationInput) async throws -> DeletePublishingDestinationOutputResponse
@@ -50,12 +50,12 @@ public protocol GuardDutyClientProtocol {
     func describePublishingDestination(input: DescribePublishingDestinationInput) async throws -> DescribePublishingDestinationOutputResponse
     /// Disables an Amazon Web Services account within the Organization as the GuardDuty delegated administrator.
     func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput) async throws -> DisableOrganizationAdminAccountOutputResponse
-    /// Disassociates the current GuardDuty member account from its administrator account.
+    /// Disassociates the current GuardDuty member account from its administrator account. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disable GuardDuty in a member account.
     func disassociateFromAdministratorAccount(input: DisassociateFromAdministratorAccountInput) async throws -> DisassociateFromAdministratorAccountOutputResponse
     /// Disassociates the current GuardDuty member account from its administrator account.
     @available(*, deprecated, message: "This operation is deprecated, use DisassociateFromAdministratorAccount instead")
     func disassociateFromMasterAccount(input: DisassociateFromMasterAccountInput) async throws -> DisassociateFromMasterAccountOutputResponse
-    /// Disassociates GuardDuty member accounts (to the current administrator account) specified by the account IDs.
+    /// Disassociates GuardDuty member accounts (to the current administrator account) specified by the account IDs. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disassociate a member account before removing them from your Amazon Web Services organization.
     func disassociateMembers(input: DisassociateMembersInput) async throws -> DisassociateMembersOutputResponse
     /// Enables an Amazon Web Services account within the organization as the GuardDuty delegated administrator.
     func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutputResponse
@@ -110,9 +110,9 @@ public protocol GuardDutyClientProtocol {
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the administrator account are returned.
     func listThreatIntelSets(input: ListThreatIntelSetsInput) async throws -> ListThreatIntelSetsOutputResponse
-    /// Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped monitoring with the StopMonitoringMembers operation.
+    /// Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped monitoring with the [StopMonitoringMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_StopMonitoringMembers.html) operation.
     func startMonitoringMembers(input: StartMonitoringMembersInput) async throws -> StartMonitoringMembersOutputResponse
-    /// Stops GuardDuty monitoring for the specified member accounts. Use the StartMonitoringMembers operation to restart monitoring for those accounts.
+    /// Stops GuardDuty monitoring for the specified member accounts. Use the StartMonitoringMembers operation to restart monitoring for those accounts. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to stop monitoring the member accounts in your organization.
     func stopMonitoringMembers(input: StopMonitoringMembersInput) async throws -> StopMonitoringMembersOutputResponse
     /// Adds tags to a resource.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
@@ -132,7 +132,7 @@ public protocol GuardDutyClientProtocol {
     func updateMalwareScanSettings(input: UpdateMalwareScanSettingsInput) async throws -> UpdateMalwareScanSettingsOutputResponse
     /// Contains information on member accounts to be updated. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     func updateMemberDetectors(input: UpdateMemberDetectorsInput) async throws -> UpdateMemberDetectorsOutputResponse
-    /// Updates the delegated administrator account with the values provided. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
+    /// Configures the delegated administrator account with the provided values. You must provide the value for either autoEnableOrganizationMembers or autoEnable. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutputResponse
     /// Updates information about the publishing destination specified by the destinationId.
     func updatePublishingDestination(input: UpdatePublishingDestinationInput) async throws -> UpdatePublishingDestinationOutputResponse

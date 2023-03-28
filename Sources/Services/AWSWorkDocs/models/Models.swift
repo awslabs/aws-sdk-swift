@@ -645,6 +645,35 @@ extension AddResourcePermissionsOutputResponseBody: Swift.Decodable {
 }
 
 extension WorkDocsClientTypes {
+    public enum AdditionalResponseFieldType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case weburl
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdditionalResponseFieldType] {
+            return [
+                .weburl,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .weburl: return "WEBURL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AdditionalResponseFieldType(rawValue: rawValue) ?? AdditionalResponseFieldType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WorkDocsClientTypes {
     public enum BooleanEnumType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `false`
         case `true`
@@ -802,6 +831,7 @@ extension WorkDocsClientTypes.CommentMetadata: Swift.Codable {
         case commentId = "CommentId"
         case commentStatus = "CommentStatus"
         case contributor = "Contributor"
+        case contributorId = "ContributorId"
         case createdTimestamp = "CreatedTimestamp"
         case recipientId = "RecipientId"
     }
@@ -816,6 +846,9 @@ extension WorkDocsClientTypes.CommentMetadata: Swift.Codable {
         }
         if let contributor = self.contributor {
             try encodeContainer.encode(contributor, forKey: .contributor)
+        }
+        if let contributorId = self.contributorId {
+            try encodeContainer.encode(contributorId, forKey: .contributorId)
         }
         if let createdTimestamp = self.createdTimestamp {
             try encodeContainer.encodeTimestamp(createdTimestamp, format: .epochSeconds, forKey: .createdTimestamp)
@@ -837,6 +870,8 @@ extension WorkDocsClientTypes.CommentMetadata: Swift.Codable {
         commentStatus = commentStatusDecoded
         let recipientIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recipientId)
         recipientId = recipientIdDecoded
+        let contributorIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contributorId)
+        contributorId = contributorIdDecoded
     }
 }
 
@@ -849,6 +884,8 @@ extension WorkDocsClientTypes {
         public var commentStatus: WorkDocsClientTypes.CommentStatusType?
         /// The user who made the comment.
         public var contributor: WorkDocsClientTypes.User?
+        /// The ID of the user who made the comment.
+        public var contributorId: Swift.String?
         /// The timestamp that the comment was created.
         public var createdTimestamp: ClientRuntime.Date?
         /// The ID of the user being replied to.
@@ -858,6 +895,7 @@ extension WorkDocsClientTypes {
             commentId: Swift.String? = nil,
             commentStatus: WorkDocsClientTypes.CommentStatusType? = nil,
             contributor: WorkDocsClientTypes.User? = nil,
+            contributorId: Swift.String? = nil,
             createdTimestamp: ClientRuntime.Date? = nil,
             recipientId: Swift.String? = nil
         )
@@ -865,6 +903,7 @@ extension WorkDocsClientTypes {
             self.commentId = commentId
             self.commentStatus = commentStatus
             self.contributor = contributor
+            self.contributorId = contributorId
             self.createdTimestamp = createdTimestamp
             self.recipientId = recipientId
         }
@@ -1040,6 +1079,59 @@ extension ConflictingOperationExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension WorkDocsClientTypes {
+    public enum ContentCategoryType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case audio
+        case document
+        case image
+        case other
+        case pdf
+        case presentation
+        case sourceCode
+        case spreadsheet
+        case video
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContentCategoryType] {
+            return [
+                .audio,
+                .document,
+                .image,
+                .other,
+                .pdf,
+                .presentation,
+                .sourceCode,
+                .spreadsheet,
+                .video,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .audio: return "AUDIO"
+            case .document: return "DOCUMENT"
+            case .image: return "IMAGE"
+            case .other: return "OTHER"
+            case .pdf: return "PDF"
+            case .presentation: return "PRESENTATION"
+            case .sourceCode: return "SOURCE_CODE"
+            case .spreadsheet: return "SPREADSHEET"
+            case .video: return "VIDEO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ContentCategoryType(rawValue: rawValue) ?? ContentCategoryType.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -1401,7 +1493,7 @@ public struct CreateCustomMetadataOutputResponse: Swift.Equatable {
 
 extension CreateFolderInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateFolderInput(name: \(Swift.String(describing: name)), parentFolderId: \(Swift.String(describing: parentFolderId)), authenticationToken: \"CONTENT_REDACTED\")"}
+        "CreateFolderInput(parentFolderId: \(Swift.String(describing: parentFolderId)), authenticationToken: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateFolderInput: Swift.Encodable {
@@ -1841,7 +1933,7 @@ extension CreateNotificationSubscriptionOutputResponseBody: Swift.Decodable {
 
 extension CreateUserInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateUserInput(givenName: \(Swift.String(describing: givenName)), organizationId: \(Swift.String(describing: organizationId)), storageRule: \(Swift.String(describing: storageRule)), surname: \(Swift.String(describing: surname)), timeZoneId: \(Swift.String(describing: timeZoneId)), username: \(Swift.String(describing: username)), authenticationToken: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\", password: \"CONTENT_REDACTED\")"}
+        "CreateUserInput(organizationId: \(Swift.String(describing: organizationId)), storageRule: \(Swift.String(describing: storageRule)), timeZoneId: \(Swift.String(describing: timeZoneId)), authenticationToken: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\", givenName: \"CONTENT_REDACTED\", password: \"CONTENT_REDACTED\", surname: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateUserInput: Swift.Encodable {
@@ -2114,6 +2206,51 @@ extension CustomMetadataLimitExceededExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension WorkDocsClientTypes.DateRangeType: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endValue = "EndValue"
+        case startValue = "StartValue"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endValue = self.endValue {
+            try encodeContainer.encodeTimestamp(endValue, format: .epochSeconds, forKey: .endValue)
+        }
+        if let startValue = self.startValue {
+            try encodeContainer.encodeTimestamp(startValue, format: .epochSeconds, forKey: .startValue)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startValueDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startValue)
+        startValue = startValueDecoded
+        let endValueDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endValue)
+        endValue = endValueDecoded
+    }
+}
+
+extension WorkDocsClientTypes {
+    /// Filters results based on timestamp range (in epochs).
+    public struct DateRangeType: Swift.Equatable {
+        /// Timestamp range end value (in epochs).
+        public var endValue: ClientRuntime.Date?
+        /// Timestamp range start value (in epochs)
+        public var startValue: ClientRuntime.Date?
+
+        public init (
+            endValue: ClientRuntime.Date? = nil,
+            startValue: ClientRuntime.Date? = nil
+        )
+        {
+            self.endValue = endValue
+            self.startValue = startValue
+        }
+    }
+
 }
 
 extension DeactivateUserInput: Swift.CustomDebugStringConvertible {
@@ -5263,6 +5400,11 @@ extension WorkDocsClientTypes.DocumentVersionMetadata: Swift.Codable {
     }
 }
 
+extension WorkDocsClientTypes.DocumentVersionMetadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DocumentVersionMetadata(contentCreatedTimestamp: \(Swift.String(describing: contentCreatedTimestamp)), contentModifiedTimestamp: \(Swift.String(describing: contentModifiedTimestamp)), contentType: \(Swift.String(describing: contentType)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), creatorId: \(Swift.String(describing: creatorId)), id: \(Swift.String(describing: id)), modifiedTimestamp: \(Swift.String(describing: modifiedTimestamp)), signature: \(Swift.String(describing: signature)), size: \(Swift.String(describing: size)), source: \(Swift.String(describing: source)), status: \(Swift.String(describing: status)), thumbnail: \(Swift.String(describing: thumbnail)), name: \"CONTENT_REDACTED\")"}
+}
+
 extension WorkDocsClientTypes {
     /// Describes a version of a document.
     public struct DocumentVersionMetadata: Swift.Equatable {
@@ -5583,6 +5725,215 @@ extension FailedDependencyExceptionBody: Swift.Decodable {
     }
 }
 
+extension WorkDocsClientTypes.Filters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ancestorIds = "AncestorIds"
+        case contentCategories = "ContentCategories"
+        case createdRange = "CreatedRange"
+        case labels = "Labels"
+        case modifiedRange = "ModifiedRange"
+        case principals = "Principals"
+        case resourceTypes = "ResourceTypes"
+        case searchCollectionTypes = "SearchCollectionTypes"
+        case sizeRange = "SizeRange"
+        case textLocales = "TextLocales"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ancestorIds = ancestorIds {
+            var ancestorIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ancestorIds)
+            for searchancestorid0 in ancestorIds {
+                try ancestorIdsContainer.encode(searchancestorid0)
+            }
+        }
+        if let contentCategories = contentCategories {
+            var contentCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contentCategories)
+            for contentcategorytype0 in contentCategories {
+                try contentCategoriesContainer.encode(contentcategorytype0.rawValue)
+            }
+        }
+        if let createdRange = self.createdRange {
+            try encodeContainer.encode(createdRange, forKey: .createdRange)
+        }
+        if let labels = labels {
+            var labelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labels)
+            for searchlabel0 in labels {
+                try labelsContainer.encode(searchlabel0)
+            }
+        }
+        if let modifiedRange = self.modifiedRange {
+            try encodeContainer.encode(modifiedRange, forKey: .modifiedRange)
+        }
+        if let principals = principals {
+            var principalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .principals)
+            for searchprincipaltype0 in principals {
+                try principalsContainer.encode(searchprincipaltype0)
+            }
+        }
+        if let resourceTypes = resourceTypes {
+            var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
+            for searchresourcetype0 in resourceTypes {
+                try resourceTypesContainer.encode(searchresourcetype0.rawValue)
+            }
+        }
+        if let searchCollectionTypes = searchCollectionTypes {
+            var searchCollectionTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .searchCollectionTypes)
+            for searchcollectiontype0 in searchCollectionTypes {
+                try searchCollectionTypesContainer.encode(searchcollectiontype0.rawValue)
+            }
+        }
+        if let sizeRange = self.sizeRange {
+            try encodeContainer.encode(sizeRange, forKey: .sizeRange)
+        }
+        if let textLocales = textLocales {
+            var textLocalesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textLocales)
+            for languagecodetype0 in textLocales {
+                try textLocalesContainer.encode(languagecodetype0.rawValue)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let textLocalesContainer = try containerValues.decodeIfPresent([WorkDocsClientTypes.LanguageCodeType?].self, forKey: .textLocales)
+        var textLocalesDecoded0:[WorkDocsClientTypes.LanguageCodeType]? = nil
+        if let textLocalesContainer = textLocalesContainer {
+            textLocalesDecoded0 = [WorkDocsClientTypes.LanguageCodeType]()
+            for enum0 in textLocalesContainer {
+                if let enum0 = enum0 {
+                    textLocalesDecoded0?.append(enum0)
+                }
+            }
+        }
+        textLocales = textLocalesDecoded0
+        let contentCategoriesContainer = try containerValues.decodeIfPresent([WorkDocsClientTypes.ContentCategoryType?].self, forKey: .contentCategories)
+        var contentCategoriesDecoded0:[WorkDocsClientTypes.ContentCategoryType]? = nil
+        if let contentCategoriesContainer = contentCategoriesContainer {
+            contentCategoriesDecoded0 = [WorkDocsClientTypes.ContentCategoryType]()
+            for enum0 in contentCategoriesContainer {
+                if let enum0 = enum0 {
+                    contentCategoriesDecoded0?.append(enum0)
+                }
+            }
+        }
+        contentCategories = contentCategoriesDecoded0
+        let resourceTypesContainer = try containerValues.decodeIfPresent([WorkDocsClientTypes.SearchResourceType?].self, forKey: .resourceTypes)
+        var resourceTypesDecoded0:[WorkDocsClientTypes.SearchResourceType]? = nil
+        if let resourceTypesContainer = resourceTypesContainer {
+            resourceTypesDecoded0 = [WorkDocsClientTypes.SearchResourceType]()
+            for enum0 in resourceTypesContainer {
+                if let enum0 = enum0 {
+                    resourceTypesDecoded0?.append(enum0)
+                }
+            }
+        }
+        resourceTypes = resourceTypesDecoded0
+        let labelsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .labels)
+        var labelsDecoded0:[Swift.String]? = nil
+        if let labelsContainer = labelsContainer {
+            labelsDecoded0 = [Swift.String]()
+            for string0 in labelsContainer {
+                if let string0 = string0 {
+                    labelsDecoded0?.append(string0)
+                }
+            }
+        }
+        labels = labelsDecoded0
+        let principalsContainer = try containerValues.decodeIfPresent([WorkDocsClientTypes.SearchPrincipalType?].self, forKey: .principals)
+        var principalsDecoded0:[WorkDocsClientTypes.SearchPrincipalType]? = nil
+        if let principalsContainer = principalsContainer {
+            principalsDecoded0 = [WorkDocsClientTypes.SearchPrincipalType]()
+            for structure0 in principalsContainer {
+                if let structure0 = structure0 {
+                    principalsDecoded0?.append(structure0)
+                }
+            }
+        }
+        principals = principalsDecoded0
+        let ancestorIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ancestorIds)
+        var ancestorIdsDecoded0:[Swift.String]? = nil
+        if let ancestorIdsContainer = ancestorIdsContainer {
+            ancestorIdsDecoded0 = [Swift.String]()
+            for string0 in ancestorIdsContainer {
+                if let string0 = string0 {
+                    ancestorIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        ancestorIds = ancestorIdsDecoded0
+        let searchCollectionTypesContainer = try containerValues.decodeIfPresent([WorkDocsClientTypes.SearchCollectionType?].self, forKey: .searchCollectionTypes)
+        var searchCollectionTypesDecoded0:[WorkDocsClientTypes.SearchCollectionType]? = nil
+        if let searchCollectionTypesContainer = searchCollectionTypesContainer {
+            searchCollectionTypesDecoded0 = [WorkDocsClientTypes.SearchCollectionType]()
+            for enum0 in searchCollectionTypesContainer {
+                if let enum0 = enum0 {
+                    searchCollectionTypesDecoded0?.append(enum0)
+                }
+            }
+        }
+        searchCollectionTypes = searchCollectionTypesDecoded0
+        let sizeRangeDecoded = try containerValues.decodeIfPresent(WorkDocsClientTypes.LongRangeType.self, forKey: .sizeRange)
+        sizeRange = sizeRangeDecoded
+        let createdRangeDecoded = try containerValues.decodeIfPresent(WorkDocsClientTypes.DateRangeType.self, forKey: .createdRange)
+        createdRange = createdRangeDecoded
+        let modifiedRangeDecoded = try containerValues.decodeIfPresent(WorkDocsClientTypes.DateRangeType.self, forKey: .modifiedRange)
+        modifiedRange = modifiedRangeDecoded
+    }
+}
+
+extension WorkDocsClientTypes {
+    /// Filters results based on entity metadata.
+    public struct Filters: Swift.Equatable {
+        /// Filter based on resource’s path.
+        public var ancestorIds: [Swift.String]?
+        /// Filters by content category.
+        public var contentCategories: [WorkDocsClientTypes.ContentCategoryType]?
+        /// Filter based on resource’s creation timestamp.
+        public var createdRange: WorkDocsClientTypes.DateRangeType?
+        /// Filter by labels using exact match.
+        public var labels: [Swift.String]?
+        /// Filter based on resource’s modified timestamp.
+        public var modifiedRange: WorkDocsClientTypes.DateRangeType?
+        /// Filter based on UserIds or GroupIds.
+        public var principals: [WorkDocsClientTypes.SearchPrincipalType]?
+        /// Filters based on entity type.
+        public var resourceTypes: [WorkDocsClientTypes.SearchResourceType]?
+        /// Filter based on file groupings.
+        public var searchCollectionTypes: [WorkDocsClientTypes.SearchCollectionType]?
+        /// Filter based on size (in bytes).
+        public var sizeRange: WorkDocsClientTypes.LongRangeType?
+        /// Filters by the locale of the content or comment.
+        public var textLocales: [WorkDocsClientTypes.LanguageCodeType]?
+
+        public init (
+            ancestorIds: [Swift.String]? = nil,
+            contentCategories: [WorkDocsClientTypes.ContentCategoryType]? = nil,
+            createdRange: WorkDocsClientTypes.DateRangeType? = nil,
+            labels: [Swift.String]? = nil,
+            modifiedRange: WorkDocsClientTypes.DateRangeType? = nil,
+            principals: [WorkDocsClientTypes.SearchPrincipalType]? = nil,
+            resourceTypes: [WorkDocsClientTypes.SearchResourceType]? = nil,
+            searchCollectionTypes: [WorkDocsClientTypes.SearchCollectionType]? = nil,
+            sizeRange: WorkDocsClientTypes.LongRangeType? = nil,
+            textLocales: [WorkDocsClientTypes.LanguageCodeType]? = nil
+        )
+        {
+            self.ancestorIds = ancestorIds
+            self.contentCategories = contentCategories
+            self.createdRange = createdRange
+            self.labels = labels
+            self.modifiedRange = modifiedRange
+            self.principals = principals
+            self.resourceTypes = resourceTypes
+            self.searchCollectionTypes = searchCollectionTypes
+            self.sizeRange = sizeRange
+            self.textLocales = textLocales
+        }
+    }
+
+}
+
 extension WorkDocsClientTypes {
     public enum FolderContentType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case all
@@ -5707,6 +6058,11 @@ extension WorkDocsClientTypes.FolderMetadata: Swift.Codable {
         let latestVersionSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latestVersionSize)
         latestVersionSize = latestVersionSizeDecoded
     }
+}
+
+extension WorkDocsClientTypes.FolderMetadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "FolderMetadata(createdTimestamp: \(Swift.String(describing: createdTimestamp)), creatorId: \(Swift.String(describing: creatorId)), id: \(Swift.String(describing: id)), labels: \(Swift.String(describing: labels)), latestVersionSize: \(Swift.String(describing: latestVersionSize)), modifiedTimestamp: \(Swift.String(describing: modifiedTimestamp)), parentFolderId: \(Swift.String(describing: parentFolderId)), resourceState: \(Swift.String(describing: resourceState)), signature: \(Swift.String(describing: signature)), size: \(Swift.String(describing: size)), name: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkDocsClientTypes {
@@ -6977,7 +7333,7 @@ extension IllegalUserStateExceptionBody: Swift.Decodable {
 
 extension InitiateDocumentVersionUploadInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InitiateDocumentVersionUploadInput(contentCreatedTimestamp: \(Swift.String(describing: contentCreatedTimestamp)), contentModifiedTimestamp: \(Swift.String(describing: contentModifiedTimestamp)), contentType: \(Swift.String(describing: contentType)), documentSizeInBytes: \(Swift.String(describing: documentSizeInBytes)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), parentFolderId: \(Swift.String(describing: parentFolderId)), authenticationToken: \"CONTENT_REDACTED\")"}
+        "InitiateDocumentVersionUploadInput(contentCreatedTimestamp: \(Swift.String(describing: contentCreatedTimestamp)), contentModifiedTimestamp: \(Swift.String(describing: contentModifiedTimestamp)), contentType: \(Swift.String(describing: contentType)), documentSizeInBytes: \(Swift.String(describing: documentSizeInBytes)), id: \(Swift.String(describing: id)), parentFolderId: \(Swift.String(describing: parentFolderId)), authenticationToken: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension InitiateDocumentVersionUploadInput: Swift.Encodable {
@@ -7128,6 +7484,7 @@ extension InitiateDocumentVersionUploadOutputError {
         case "EntityAlreadyExistsException" : self = .entityAlreadyExistsException(try EntityAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EntityNotExistsException" : self = .entityNotExistsException(try EntityNotExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "FailedDependencyException" : self = .failedDependencyException(try FailedDependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidPasswordException" : self = .invalidPasswordException(try InvalidPasswordException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ProhibitedStateException" : self = .prohibitedStateException(try ProhibitedStateException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -7147,6 +7504,7 @@ public enum InitiateDocumentVersionUploadOutputError: Swift.Error, Swift.Equatab
     case entityAlreadyExistsException(EntityAlreadyExistsException)
     case entityNotExistsException(EntityNotExistsException)
     case failedDependencyException(FailedDependencyException)
+    case invalidArgumentException(InvalidArgumentException)
     case invalidPasswordException(InvalidPasswordException)
     case limitExceededException(LimitExceededException)
     case prohibitedStateException(ProhibitedStateException)
@@ -7418,6 +7776,125 @@ extension InvalidPasswordExceptionBody: Swift.Decodable {
     }
 }
 
+extension WorkDocsClientTypes {
+    public enum LanguageCodeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ar
+        case bg
+        case bn
+        case cs
+        case da
+        case de
+        case `default`
+        case el
+        case en
+        case es
+        case fa
+        case fi
+        case fr
+        case hi
+        case hu
+        case id
+        case it
+        case ja
+        case ko
+        case lt
+        case lv
+        case nl
+        case no
+        case pt
+        case ro
+        case ru
+        case sv
+        case sw
+        case th
+        case tr
+        case zh
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LanguageCodeType] {
+            return [
+                .ar,
+                .bg,
+                .bn,
+                .cs,
+                .da,
+                .de,
+                .default,
+                .el,
+                .en,
+                .es,
+                .fa,
+                .fi,
+                .fr,
+                .hi,
+                .hu,
+                .id,
+                .it,
+                .ja,
+                .ko,
+                .lt,
+                .lv,
+                .nl,
+                .no,
+                .pt,
+                .ro,
+                .ru,
+                .sv,
+                .sw,
+                .th,
+                .tr,
+                .zh,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ar: return "AR"
+            case .bg: return "BG"
+            case .bn: return "BN"
+            case .cs: return "CS"
+            case .da: return "DA"
+            case .de: return "DE"
+            case .default: return "DEFAULT"
+            case .el: return "EL"
+            case .en: return "EN"
+            case .es: return "ES"
+            case .fa: return "FA"
+            case .fi: return "FI"
+            case .fr: return "FR"
+            case .hi: return "HI"
+            case .hu: return "HU"
+            case .id: return "ID"
+            case .it: return "IT"
+            case .ja: return "JA"
+            case .ko: return "KO"
+            case .lt: return "LT"
+            case .lv: return "LV"
+            case .nl: return "NL"
+            case .no: return "NO"
+            case .pt: return "PT"
+            case .ro: return "RO"
+            case .ru: return "RU"
+            case .sv: return "SV"
+            case .sw: return "SW"
+            case .th: return "TH"
+            case .tr: return "TR"
+            case .zh: return "ZH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LanguageCodeType(rawValue: rawValue) ?? LanguageCodeType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -7529,6 +8006,51 @@ extension WorkDocsClientTypes {
     }
 }
 
+extension WorkDocsClientTypes.LongRangeType: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endValue = "EndValue"
+        case startValue = "StartValue"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endValue = self.endValue {
+            try encodeContainer.encode(endValue, forKey: .endValue)
+        }
+        if let startValue = self.startValue {
+            try encodeContainer.encode(startValue, forKey: .startValue)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startValueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startValue)
+        startValue = startValueDecoded
+        let endValueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endValue)
+        endValue = endValueDecoded
+    }
+}
+
+extension WorkDocsClientTypes {
+    /// Filter based on size (in bytes).
+    public struct LongRangeType: Swift.Equatable {
+        /// The size end range (in bytes).
+        public var endValue: Swift.Int?
+        /// The size start range (in bytes).
+        public var startValue: Swift.Int?
+
+        public init (
+            endValue: Swift.Int? = nil,
+            startValue: Swift.Int? = nil
+        )
+        {
+            self.endValue = endValue
+            self.startValue = startValue
+        }
+    }
+
+}
+
 extension WorkDocsClientTypes.NotificationOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case emailMessage = "EmailMessage"
@@ -7577,6 +8099,47 @@ extension WorkDocsClientTypes {
         }
     }
 
+}
+
+extension WorkDocsClientTypes {
+    public enum OrderByFieldType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case createdTimestamp
+        case modifiedTimestamp
+        case name
+        case relevance
+        case size
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrderByFieldType] {
+            return [
+                .createdTimestamp,
+                .modifiedTimestamp,
+                .name,
+                .relevance,
+                .size,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .createdTimestamp: return "CREATED_TIMESTAMP"
+            case .modifiedTimestamp: return "MODIFIED_TIMESTAMP"
+            case .name: return "NAME"
+            case .relevance: return "RELEVANCE"
+            case .size: return "SIZE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OrderByFieldType(rawValue: rawValue) ?? OrderByFieldType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension WorkDocsClientTypes {
@@ -7790,6 +8353,44 @@ extension WorkDocsClientTypes {
         }
     }
 
+}
+
+extension WorkDocsClientTypes {
+    public enum PrincipalRoleType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case contributor
+        case coowner
+        case owner
+        case viewer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PrincipalRoleType] {
+            return [
+                .contributor,
+                .coowner,
+                .owner,
+                .viewer,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .contributor: return "CONTRIBUTOR"
+            case .coowner: return "COOWNER"
+            case .owner: return "OWNER"
+            case .viewer: return "VIEWER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PrincipalRoleType(rawValue: rawValue) ?? PrincipalRoleType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension WorkDocsClientTypes {
@@ -8274,6 +8875,11 @@ extension WorkDocsClientTypes.ResourceMetadata: Swift.Codable {
     }
 }
 
+extension WorkDocsClientTypes.ResourceMetadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ResourceMetadata(id: \(Swift.String(describing: id)), owner: \(Swift.String(describing: owner)), parentId: \(Swift.String(describing: parentId)), type: \(Swift.String(describing: type)), versionId: \(Swift.String(describing: versionId)), name: \"CONTENT_REDACTED\", originalName: \"CONTENT_REDACTED\")"}
+}
+
 extension WorkDocsClientTypes {
     /// Describes the metadata of a resource.
     public struct ResourceMetadata: Swift.Equatable {
@@ -8384,6 +8990,11 @@ extension WorkDocsClientTypes.ResourcePathComponent: Swift.Codable {
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
     }
+}
+
+extension WorkDocsClientTypes.ResourcePathComponent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ResourcePathComponent(id: \(Swift.String(describing: id)), name: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkDocsClientTypes {
@@ -8504,6 +9115,134 @@ extension WorkDocsClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ResourceType(rawValue: rawValue) ?? ResourceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WorkDocsClientTypes.ResponseItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case commentMetadata = "CommentMetadata"
+        case documentMetadata = "DocumentMetadata"
+        case documentVersionMetadata = "DocumentVersionMetadata"
+        case folderMetadata = "FolderMetadata"
+        case resourceType = "ResourceType"
+        case webUrl = "WebUrl"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let commentMetadata = self.commentMetadata {
+            try encodeContainer.encode(commentMetadata, forKey: .commentMetadata)
+        }
+        if let documentMetadata = self.documentMetadata {
+            try encodeContainer.encode(documentMetadata, forKey: .documentMetadata)
+        }
+        if let documentVersionMetadata = self.documentVersionMetadata {
+            try encodeContainer.encode(documentVersionMetadata, forKey: .documentVersionMetadata)
+        }
+        if let folderMetadata = self.folderMetadata {
+            try encodeContainer.encode(folderMetadata, forKey: .folderMetadata)
+        }
+        if let resourceType = self.resourceType {
+            try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
+        }
+        if let webUrl = self.webUrl {
+            try encodeContainer.encode(webUrl, forKey: .webUrl)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceTypeDecoded = try containerValues.decodeIfPresent(WorkDocsClientTypes.ResponseItemType.self, forKey: .resourceType)
+        resourceType = resourceTypeDecoded
+        let webUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .webUrl)
+        webUrl = webUrlDecoded
+        let documentMetadataDecoded = try containerValues.decodeIfPresent(WorkDocsClientTypes.DocumentMetadata.self, forKey: .documentMetadata)
+        documentMetadata = documentMetadataDecoded
+        let folderMetadataDecoded = try containerValues.decodeIfPresent(WorkDocsClientTypes.FolderMetadata.self, forKey: .folderMetadata)
+        folderMetadata = folderMetadataDecoded
+        let commentMetadataDecoded = try containerValues.decodeIfPresent(WorkDocsClientTypes.CommentMetadata.self, forKey: .commentMetadata)
+        commentMetadata = commentMetadataDecoded
+        let documentVersionMetadataDecoded = try containerValues.decodeIfPresent(WorkDocsClientTypes.DocumentVersionMetadata.self, forKey: .documentVersionMetadata)
+        documentVersionMetadata = documentVersionMetadataDecoded
+    }
+}
+
+extension WorkDocsClientTypes.ResponseItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ResponseItem(commentMetadata: \(Swift.String(describing: commentMetadata)), documentMetadata: \(Swift.String(describing: documentMetadata)), documentVersionMetadata: \(Swift.String(describing: documentVersionMetadata)), folderMetadata: \(Swift.String(describing: folderMetadata)), resourceType: \(Swift.String(describing: resourceType)), webUrl: \"CONTENT_REDACTED\")"}
+}
+
+extension WorkDocsClientTypes {
+    /// List of Documents, Folders, Comments, and Document Versions matching the query.
+    public struct ResponseItem: Swift.Equatable {
+        /// The comment that matches the query.
+        public var commentMetadata: WorkDocsClientTypes.CommentMetadata?
+        /// The document that matches the query.
+        public var documentMetadata: WorkDocsClientTypes.DocumentMetadata?
+        /// The document version that matches the metadata.
+        public var documentVersionMetadata: WorkDocsClientTypes.DocumentVersionMetadata?
+        /// The folder that matches the query.
+        public var folderMetadata: WorkDocsClientTypes.FolderMetadata?
+        /// The type of item being returned.
+        public var resourceType: WorkDocsClientTypes.ResponseItemType?
+        /// The webUrl of the item being returned.
+        public var webUrl: Swift.String?
+
+        public init (
+            commentMetadata: WorkDocsClientTypes.CommentMetadata? = nil,
+            documentMetadata: WorkDocsClientTypes.DocumentMetadata? = nil,
+            documentVersionMetadata: WorkDocsClientTypes.DocumentVersionMetadata? = nil,
+            folderMetadata: WorkDocsClientTypes.FolderMetadata? = nil,
+            resourceType: WorkDocsClientTypes.ResponseItemType? = nil,
+            webUrl: Swift.String? = nil
+        )
+        {
+            self.commentMetadata = commentMetadata
+            self.documentMetadata = documentMetadata
+            self.documentVersionMetadata = documentVersionMetadata
+            self.folderMetadata = folderMetadata
+            self.resourceType = resourceType
+            self.webUrl = webUrl
+        }
+    }
+
+}
+
+extension WorkDocsClientTypes {
+    public enum ResponseItemType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case comment
+        case document
+        case documentVersion
+        case folder
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResponseItemType] {
+            return [
+                .comment,
+                .document,
+                .documentVersion,
+                .folder,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .comment: return "COMMENT"
+            case .document: return "DOCUMENT"
+            case .documentVersion: return "DOCUMENT_VERSION"
+            case .folder: return "FOLDER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResponseItemType(rawValue: rawValue) ?? ResponseItemType.sdkUnknown(rawValue)
         }
     }
 }
@@ -8672,6 +9411,485 @@ extension WorkDocsClientTypes {
             self = RoleType(rawValue: rawValue) ?? RoleType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension WorkDocsClientTypes {
+    public enum SearchCollectionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case owned
+        case sharedWithMe
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchCollectionType] {
+            return [
+                .owned,
+                .sharedWithMe,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .owned: return "OWNED"
+            case .sharedWithMe: return "SHARED_WITH_ME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SearchCollectionType(rawValue: rawValue) ?? SearchCollectionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WorkDocsClientTypes.SearchPrincipalType: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id = "Id"
+        case roles = "Roles"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let roles = roles {
+            var rolesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .roles)
+            for principalroletype0 in roles {
+                try rolesContainer.encode(principalroletype0.rawValue)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let rolesContainer = try containerValues.decodeIfPresent([WorkDocsClientTypes.PrincipalRoleType?].self, forKey: .roles)
+        var rolesDecoded0:[WorkDocsClientTypes.PrincipalRoleType]? = nil
+        if let rolesContainer = rolesContainer {
+            rolesDecoded0 = [WorkDocsClientTypes.PrincipalRoleType]()
+            for enum0 in rolesContainer {
+                if let enum0 = enum0 {
+                    rolesDecoded0?.append(enum0)
+                }
+            }
+        }
+        roles = rolesDecoded0
+    }
+}
+
+extension WorkDocsClientTypes {
+    /// Filter based on UserIds or GroupIds.
+    public struct SearchPrincipalType: Swift.Equatable {
+        /// UserIds or GroupIds.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The Role of a User or Group.
+        public var roles: [WorkDocsClientTypes.PrincipalRoleType]?
+
+        public init (
+            id: Swift.String? = nil,
+            roles: [WorkDocsClientTypes.PrincipalRoleType]? = nil
+        )
+        {
+            self.id = id
+            self.roles = roles
+        }
+    }
+
+}
+
+extension WorkDocsClientTypes {
+    public enum SearchQueryScopeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case content
+        case name
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchQueryScopeType] {
+            return [
+                .content,
+                .name,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .content: return "CONTENT"
+            case .name: return "NAME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SearchQueryScopeType(rawValue: rawValue) ?? SearchQueryScopeType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WorkDocsClientTypes {
+    public enum SearchResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case comment
+        case document
+        case documentVersion
+        case folder
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchResourceType] {
+            return [
+                .comment,
+                .document,
+                .documentVersion,
+                .folder,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .comment: return "COMMENT"
+            case .document: return "DOCUMENT"
+            case .documentVersion: return "DOCUMENT_VERSION"
+            case .folder: return "FOLDER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SearchResourceType(rawValue: rawValue) ?? SearchResourceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SearchResourcesInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SearchResourcesInput(additionalResponseFields: \(Swift.String(describing: additionalResponseFields)), filters: \(Swift.String(describing: filters)), limit: \(Swift.String(describing: limit)), marker: \(Swift.String(describing: marker)), orderBy: \(Swift.String(describing: orderBy)), organizationId: \(Swift.String(describing: organizationId)), queryScopes: \(Swift.String(describing: queryScopes)), authenticationToken: \"CONTENT_REDACTED\", queryText: \"CONTENT_REDACTED\")"}
+}
+
+extension SearchResourcesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalResponseFields = "AdditionalResponseFields"
+        case filters = "Filters"
+        case limit = "Limit"
+        case marker = "Marker"
+        case orderBy = "OrderBy"
+        case organizationId = "OrganizationId"
+        case queryScopes = "QueryScopes"
+        case queryText = "QueryText"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalResponseFields = additionalResponseFields {
+            var additionalResponseFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalResponseFields)
+            for additionalresponsefieldtype0 in additionalResponseFields {
+                try additionalResponseFieldsContainer.encode(additionalresponsefieldtype0.rawValue)
+            }
+        }
+        if let filters = self.filters {
+            try encodeContainer.encode(filters, forKey: .filters)
+        }
+        if let limit = self.limit {
+            try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let marker = self.marker {
+            try encodeContainer.encode(marker, forKey: .marker)
+        }
+        if let orderBy = orderBy {
+            var orderByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orderBy)
+            for searchsortresult0 in orderBy {
+                try orderByContainer.encode(searchsortresult0)
+            }
+        }
+        if let organizationId = self.organizationId {
+            try encodeContainer.encode(organizationId, forKey: .organizationId)
+        }
+        if let queryScopes = queryScopes {
+            var queryScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queryScopes)
+            for searchqueryscopetype0 in queryScopes {
+                try queryScopesContainer.encode(searchqueryscopetype0.rawValue)
+            }
+        }
+        if let queryText = self.queryText {
+            try encodeContainer.encode(queryText, forKey: .queryText)
+        }
+    }
+}
+
+extension SearchResourcesInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let authenticationToken = authenticationToken {
+            items.add(Header(name: "Authentication", value: Swift.String(authenticationToken)))
+        }
+        return items
+    }
+}
+
+extension SearchResourcesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/api/v1/search"
+    }
+}
+
+public struct SearchResourcesInput: Swift.Equatable {
+    /// A list of attributes to include in the response. Used to request fields that are not normally returned in a standard response.
+    public var additionalResponseFields: [WorkDocsClientTypes.AdditionalResponseFieldType]?
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
+    public var authenticationToken: Swift.String?
+    /// Filters results based on entity metadata.
+    public var filters: WorkDocsClientTypes.Filters?
+    /// Max results count per page.
+    public var limit: Swift.Int?
+    /// The marker for the next set of results.
+    public var marker: Swift.String?
+    /// Order by results in one or more categories.
+    public var orderBy: [WorkDocsClientTypes.SearchSortResult]?
+    /// Filters based on the resource owner OrgId. This is a mandatory parameter when using Admin SigV4 credentials.
+    public var organizationId: Swift.String?
+    /// Filter based on the text field type. A Folder has only a name and no content. A Comment has only content and no name. A Document or Document Version has a name and content
+    public var queryScopes: [WorkDocsClientTypes.SearchQueryScopeType]?
+    /// The String to search for. Searches across different text fields based on request parameters. Use double quotes around the query string for exact phrase matches.
+    public var queryText: Swift.String?
+
+    public init (
+        additionalResponseFields: [WorkDocsClientTypes.AdditionalResponseFieldType]? = nil,
+        authenticationToken: Swift.String? = nil,
+        filters: WorkDocsClientTypes.Filters? = nil,
+        limit: Swift.Int? = nil,
+        marker: Swift.String? = nil,
+        orderBy: [WorkDocsClientTypes.SearchSortResult]? = nil,
+        organizationId: Swift.String? = nil,
+        queryScopes: [WorkDocsClientTypes.SearchQueryScopeType]? = nil,
+        queryText: Swift.String? = nil
+    )
+    {
+        self.additionalResponseFields = additionalResponseFields
+        self.authenticationToken = authenticationToken
+        self.filters = filters
+        self.limit = limit
+        self.marker = marker
+        self.orderBy = orderBy
+        self.organizationId = organizationId
+        self.queryScopes = queryScopes
+        self.queryText = queryText
+    }
+}
+
+struct SearchResourcesInputBody: Swift.Equatable {
+    let queryText: Swift.String?
+    let queryScopes: [WorkDocsClientTypes.SearchQueryScopeType]?
+    let organizationId: Swift.String?
+    let additionalResponseFields: [WorkDocsClientTypes.AdditionalResponseFieldType]?
+    let filters: WorkDocsClientTypes.Filters?
+    let orderBy: [WorkDocsClientTypes.SearchSortResult]?
+    let limit: Swift.Int?
+    let marker: Swift.String?
+}
+
+extension SearchResourcesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalResponseFields = "AdditionalResponseFields"
+        case filters = "Filters"
+        case limit = "Limit"
+        case marker = "Marker"
+        case orderBy = "OrderBy"
+        case organizationId = "OrganizationId"
+        case queryScopes = "QueryScopes"
+        case queryText = "QueryText"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queryTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryText)
+        queryText = queryTextDecoded
+        let queryScopesContainer = try containerValues.decodeIfPresent([WorkDocsClientTypes.SearchQueryScopeType?].self, forKey: .queryScopes)
+        var queryScopesDecoded0:[WorkDocsClientTypes.SearchQueryScopeType]? = nil
+        if let queryScopesContainer = queryScopesContainer {
+            queryScopesDecoded0 = [WorkDocsClientTypes.SearchQueryScopeType]()
+            for enum0 in queryScopesContainer {
+                if let enum0 = enum0 {
+                    queryScopesDecoded0?.append(enum0)
+                }
+            }
+        }
+        queryScopes = queryScopesDecoded0
+        let organizationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationId)
+        organizationId = organizationIdDecoded
+        let additionalResponseFieldsContainer = try containerValues.decodeIfPresent([WorkDocsClientTypes.AdditionalResponseFieldType?].self, forKey: .additionalResponseFields)
+        var additionalResponseFieldsDecoded0:[WorkDocsClientTypes.AdditionalResponseFieldType]? = nil
+        if let additionalResponseFieldsContainer = additionalResponseFieldsContainer {
+            additionalResponseFieldsDecoded0 = [WorkDocsClientTypes.AdditionalResponseFieldType]()
+            for enum0 in additionalResponseFieldsContainer {
+                if let enum0 = enum0 {
+                    additionalResponseFieldsDecoded0?.append(enum0)
+                }
+            }
+        }
+        additionalResponseFields = additionalResponseFieldsDecoded0
+        let filtersDecoded = try containerValues.decodeIfPresent(WorkDocsClientTypes.Filters.self, forKey: .filters)
+        filters = filtersDecoded
+        let orderByContainer = try containerValues.decodeIfPresent([WorkDocsClientTypes.SearchSortResult?].self, forKey: .orderBy)
+        var orderByDecoded0:[WorkDocsClientTypes.SearchSortResult]? = nil
+        if let orderByContainer = orderByContainer {
+            orderByDecoded0 = [WorkDocsClientTypes.SearchSortResult]()
+            for structure0 in orderByContainer {
+                if let structure0 = structure0 {
+                    orderByDecoded0?.append(structure0)
+                }
+            }
+        }
+        orderBy = orderByDecoded0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
+        limit = limitDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+extension SearchResourcesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension SearchResourcesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedOperationException" : self = .unauthorizedOperationException(try UnauthorizedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedResourceAccessException" : self = .unauthorizedResourceAccessException(try UnauthorizedResourceAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum SearchResourcesOutputError: Swift.Error, Swift.Equatable {
+    case invalidArgumentException(InvalidArgumentException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unauthorizedOperationException(UnauthorizedOperationException)
+    case unauthorizedResourceAccessException(UnauthorizedResourceAccessException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension SearchResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: SearchResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.items = output.items
+            self.marker = output.marker
+        } else {
+            self.items = nil
+            self.marker = nil
+        }
+    }
+}
+
+public struct SearchResourcesOutputResponse: Swift.Equatable {
+    /// List of Documents, Folders, Comments, and Document Versions matching the query.
+    public var items: [WorkDocsClientTypes.ResponseItem]?
+    /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
+    public var marker: Swift.String?
+
+    public init (
+        items: [WorkDocsClientTypes.ResponseItem]? = nil,
+        marker: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.marker = marker
+    }
+}
+
+struct SearchResourcesOutputResponseBody: Swift.Equatable {
+    let items: [WorkDocsClientTypes.ResponseItem]?
+    let marker: Swift.String?
+}
+
+extension SearchResourcesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items = "Items"
+        case marker = "Marker"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([WorkDocsClientTypes.ResponseItem?].self, forKey: .items)
+        var itemsDecoded0:[WorkDocsClientTypes.ResponseItem]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [WorkDocsClientTypes.ResponseItem]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+extension WorkDocsClientTypes.SearchSortResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case field = "Field"
+        case order = "Order"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let field = self.field {
+            try encodeContainer.encode(field.rawValue, forKey: .field)
+        }
+        if let order = self.order {
+            try encodeContainer.encode(order.rawValue, forKey: .order)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldDecoded = try containerValues.decodeIfPresent(WorkDocsClientTypes.OrderByFieldType.self, forKey: .field)
+        field = fieldDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(WorkDocsClientTypes.SortOrder.self, forKey: .order)
+        order = orderDecoded
+    }
+}
+
+extension WorkDocsClientTypes {
+    /// The result of the sort operation.
+    public struct SearchSortResult: Swift.Equatable {
+        /// Sort search results based on this field name.
+        public var field: WorkDocsClientTypes.OrderByFieldType?
+        /// Sort direction.
+        public var order: WorkDocsClientTypes.SortOrder?
+
+        public init (
+            field: WorkDocsClientTypes.OrderByFieldType? = nil,
+            order: WorkDocsClientTypes.SortOrder? = nil
+        )
+        {
+            self.field = field
+            self.order = order
+        }
+    }
+
 }
 
 extension ServiceUnavailableException {
@@ -8902,6 +10120,38 @@ extension WorkDocsClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ShareStatusType(rawValue: rawValue) ?? ShareStatusType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WorkDocsClientTypes {
+    public enum SortOrder: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortOrder] {
+            return [
+                .asc,
+                .desc,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "ASC"
+            case .desc: return "DESC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SortOrder(rawValue: rawValue) ?? SortOrder.sdkUnknown(rawValue)
         }
     }
 }
@@ -9422,7 +10672,7 @@ extension UnauthorizedResourceAccessExceptionBody: Swift.Decodable {
 
 extension UpdateDocumentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateDocumentInput(documentId: \(Swift.String(describing: documentId)), name: \(Swift.String(describing: name)), parentFolderId: \(Swift.String(describing: parentFolderId)), resourceState: \(Swift.String(describing: resourceState)), authenticationToken: \"CONTENT_REDACTED\")"}
+        "UpdateDocumentInput(documentId: \(Swift.String(describing: documentId)), parentFolderId: \(Swift.String(describing: parentFolderId)), resourceState: \(Swift.String(describing: resourceState)), authenticationToken: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateDocumentInput: Swift.Encodable {
@@ -9698,7 +10948,7 @@ public struct UpdateDocumentVersionOutputResponse: Swift.Equatable {
 
 extension UpdateFolderInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateFolderInput(folderId: \(Swift.String(describing: folderId)), name: \(Swift.String(describing: name)), parentFolderId: \(Swift.String(describing: parentFolderId)), resourceState: \(Swift.String(describing: resourceState)), authenticationToken: \"CONTENT_REDACTED\")"}
+        "UpdateFolderInput(folderId: \(Swift.String(describing: folderId)), parentFolderId: \(Swift.String(describing: parentFolderId)), resourceState: \(Swift.String(describing: resourceState)), authenticationToken: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateFolderInput: Swift.Encodable {
@@ -9846,7 +11096,7 @@ public struct UpdateFolderOutputResponse: Swift.Equatable {
 
 extension UpdateUserInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateUserInput(givenName: \(Swift.String(describing: givenName)), grantPoweruserPrivileges: \(Swift.String(describing: grantPoweruserPrivileges)), locale: \(Swift.String(describing: locale)), storageRule: \(Swift.String(describing: storageRule)), surname: \(Swift.String(describing: surname)), timeZoneId: \(Swift.String(describing: timeZoneId)), type: \(Swift.String(describing: type)), userId: \(Swift.String(describing: userId)), authenticationToken: \"CONTENT_REDACTED\")"}
+        "UpdateUserInput(grantPoweruserPrivileges: \(Swift.String(describing: grantPoweruserPrivileges)), locale: \(Swift.String(describing: locale)), storageRule: \(Swift.String(describing: storageRule)), timeZoneId: \(Swift.String(describing: timeZoneId)), type: \(Swift.String(describing: type)), userId: \(Swift.String(describing: userId)), authenticationToken: \"CONTENT_REDACTED\", givenName: \"CONTENT_REDACTED\", surname: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateUserInput: Swift.Encodable {
@@ -10236,7 +11486,7 @@ extension WorkDocsClientTypes.User: Swift.Codable {
 
 extension WorkDocsClientTypes.User: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "User(createdTimestamp: \(Swift.String(describing: createdTimestamp)), givenName: \(Swift.String(describing: givenName)), id: \(Swift.String(describing: id)), locale: \(Swift.String(describing: locale)), modifiedTimestamp: \(Swift.String(describing: modifiedTimestamp)), organizationId: \(Swift.String(describing: organizationId)), recycleBinFolderId: \(Swift.String(describing: recycleBinFolderId)), rootFolderId: \(Swift.String(describing: rootFolderId)), status: \(Swift.String(describing: status)), storage: \(Swift.String(describing: storage)), surname: \(Swift.String(describing: surname)), timeZoneId: \(Swift.String(describing: timeZoneId)), type: \(Swift.String(describing: type)), username: \(Swift.String(describing: username)), emailAddress: \"CONTENT_REDACTED\")"}
+        "User(createdTimestamp: \(Swift.String(describing: createdTimestamp)), id: \(Swift.String(describing: id)), locale: \(Swift.String(describing: locale)), modifiedTimestamp: \(Swift.String(describing: modifiedTimestamp)), organizationId: \(Swift.String(describing: organizationId)), recycleBinFolderId: \(Swift.String(describing: recycleBinFolderId)), rootFolderId: \(Swift.String(describing: rootFolderId)), status: \(Swift.String(describing: status)), storage: \(Swift.String(describing: storage)), timeZoneId: \(Swift.String(describing: timeZoneId)), type: \(Swift.String(describing: type)), emailAddress: \"CONTENT_REDACTED\", givenName: \"CONTENT_REDACTED\", surname: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkDocsClientTypes {
@@ -10388,7 +11638,7 @@ extension WorkDocsClientTypes.UserMetadata: Swift.Codable {
 
 extension WorkDocsClientTypes.UserMetadata: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UserMetadata(givenName: \(Swift.String(describing: givenName)), id: \(Swift.String(describing: id)), surname: \(Swift.String(describing: surname)), username: \(Swift.String(describing: username)), emailAddress: \"CONTENT_REDACTED\")"}
+        "UserMetadata(id: \(Swift.String(describing: id)), emailAddress: \"CONTENT_REDACTED\", givenName: \"CONTENT_REDACTED\", surname: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkDocsClientTypes {

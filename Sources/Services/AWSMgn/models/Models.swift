@@ -63,6 +63,62 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension MgnClientTypes {
+    public enum ActionCategory: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case backup
+        case configuration
+        case disasterRecovery
+        case licenseAndSubscription
+        case networking
+        case observability
+        case operatingSystem
+        case other
+        case security
+        case validation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ActionCategory] {
+            return [
+                .backup,
+                .configuration,
+                .disasterRecovery,
+                .licenseAndSubscription,
+                .networking,
+                .observability,
+                .operatingSystem,
+                .other,
+                .security,
+                .validation,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .backup: return "BACKUP"
+            case .configuration: return "CONFIGURATION"
+            case .disasterRecovery: return "DISASTER_RECOVERY"
+            case .licenseAndSubscription: return "LICENSE_AND_SUBSCRIPTION"
+            case .networking: return "NETWORKING"
+            case .observability: return "OBSERVABILITY"
+            case .operatingSystem: return "OPERATING_SYSTEM"
+            case .other: return "OTHER"
+            case .security: return "SECURITY"
+            case .validation: return "VALIDATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ActionCategory(rawValue: rawValue) ?? ActionCategory.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MgnClientTypes.Application: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationAggregatedStatus
@@ -1161,7 +1217,7 @@ public enum ChangeServerLifeCycleStateOutputError: Swift.Error, Swift.Equatable 
 
 extension ChangeServerLifeCycleStateOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ChangeServerLifeCycleStateOutputResponse(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
+        "ChangeServerLifeCycleStateOutputResponse(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), fqdnForActionFramework: \(Swift.String(describing: fqdnForActionFramework)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), userProvidedID: \(Swift.String(describing: userProvidedID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension ChangeServerLifeCycleStateOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -1173,6 +1229,7 @@ extension ChangeServerLifeCycleStateOutputResponse: ClientRuntime.HttpResponseBi
             self.applicationID = output.applicationID
             self.arn = output.arn
             self.dataReplicationInfo = output.dataReplicationInfo
+            self.fqdnForActionFramework = output.fqdnForActionFramework
             self.isArchived = output.isArchived
             self.launchedInstance = output.launchedInstance
             self.lifeCycle = output.lifeCycle
@@ -1180,11 +1237,13 @@ extension ChangeServerLifeCycleStateOutputResponse: ClientRuntime.HttpResponseBi
             self.sourceProperties = output.sourceProperties
             self.sourceServerID = output.sourceServerID
             self.tags = output.tags
+            self.userProvidedID = output.userProvidedID
             self.vcenterClientID = output.vcenterClientID
         } else {
             self.applicationID = nil
             self.arn = nil
             self.dataReplicationInfo = nil
+            self.fqdnForActionFramework = nil
             self.isArchived = nil
             self.launchedInstance = nil
             self.lifeCycle = nil
@@ -1192,6 +1251,7 @@ extension ChangeServerLifeCycleStateOutputResponse: ClientRuntime.HttpResponseBi
             self.sourceProperties = nil
             self.sourceServerID = nil
             self.tags = nil
+            self.userProvidedID = nil
             self.vcenterClientID = nil
         }
     }
@@ -1204,6 +1264,8 @@ public struct ChangeServerLifeCycleStateOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// Source server data replication info.
     public var dataReplicationInfo: MgnClientTypes.DataReplicationInfo?
+    /// Source server fqdn for action framework.
+    public var fqdnForActionFramework: Swift.String?
     /// Source server archived status.
     public var isArchived: Swift.Bool?
     /// Source server launched instance.
@@ -1218,6 +1280,8 @@ public struct ChangeServerLifeCycleStateOutputResponse: Swift.Equatable {
     public var sourceServerID: Swift.String?
     /// Source server Tags.
     public var tags: [Swift.String:Swift.String]?
+    /// Source server user provided ID.
+    public var userProvidedID: Swift.String?
     /// Source server vCenter client id.
     public var vcenterClientID: Swift.String?
 
@@ -1225,6 +1289,7 @@ public struct ChangeServerLifeCycleStateOutputResponse: Swift.Equatable {
         applicationID: Swift.String? = nil,
         arn: Swift.String? = nil,
         dataReplicationInfo: MgnClientTypes.DataReplicationInfo? = nil,
+        fqdnForActionFramework: Swift.String? = nil,
         isArchived: Swift.Bool? = nil,
         launchedInstance: MgnClientTypes.LaunchedInstance? = nil,
         lifeCycle: MgnClientTypes.LifeCycle? = nil,
@@ -1232,12 +1297,14 @@ public struct ChangeServerLifeCycleStateOutputResponse: Swift.Equatable {
         sourceProperties: MgnClientTypes.SourceProperties? = nil,
         sourceServerID: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
+        userProvidedID: Swift.String? = nil,
         vcenterClientID: Swift.String? = nil
     )
     {
         self.applicationID = applicationID
         self.arn = arn
         self.dataReplicationInfo = dataReplicationInfo
+        self.fqdnForActionFramework = fqdnForActionFramework
         self.isArchived = isArchived
         self.launchedInstance = launchedInstance
         self.lifeCycle = lifeCycle
@@ -1245,6 +1312,7 @@ public struct ChangeServerLifeCycleStateOutputResponse: Swift.Equatable {
         self.sourceProperties = sourceProperties
         self.sourceServerID = sourceServerID
         self.tags = tags
+        self.userProvidedID = userProvidedID
         self.vcenterClientID = vcenterClientID
     }
 }
@@ -1261,6 +1329,8 @@ struct ChangeServerLifeCycleStateOutputResponseBody: Swift.Equatable {
     let replicationType: MgnClientTypes.ReplicationType?
     let vcenterClientID: Swift.String?
     let applicationID: Swift.String?
+    let userProvidedID: Swift.String?
+    let fqdnForActionFramework: Swift.String?
 }
 
 extension ChangeServerLifeCycleStateOutputResponseBody: Swift.Decodable {
@@ -1268,6 +1338,7 @@ extension ChangeServerLifeCycleStateOutputResponseBody: Swift.Decodable {
         case applicationID
         case arn
         case dataReplicationInfo
+        case fqdnForActionFramework
         case isArchived
         case launchedInstance
         case lifeCycle
@@ -1275,6 +1346,7 @@ extension ChangeServerLifeCycleStateOutputResponseBody: Swift.Decodable {
         case sourceProperties
         case sourceServerID
         case tags
+        case userProvidedID
         case vcenterClientID
     }
 
@@ -1311,6 +1383,10 @@ extension ChangeServerLifeCycleStateOutputResponseBody: Swift.Decodable {
         vcenterClientID = vcenterClientIDDecoded
         let applicationIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationID)
         applicationID = applicationIDDecoded
+        let userProvidedIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userProvidedID)
+        userProvidedID = userProvidedIDDecoded
+        let fqdnForActionFrameworkDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fqdnForActionFramework)
+        fqdnForActionFramework = fqdnForActionFrameworkDecoded
     }
 }
 
@@ -5525,7 +5601,7 @@ public enum DisconnectFromServiceOutputError: Swift.Error, Swift.Equatable {
 
 extension DisconnectFromServiceOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DisconnectFromServiceOutputResponse(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
+        "DisconnectFromServiceOutputResponse(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), fqdnForActionFramework: \(Swift.String(describing: fqdnForActionFramework)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), userProvidedID: \(Swift.String(describing: userProvidedID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension DisconnectFromServiceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5537,6 +5613,7 @@ extension DisconnectFromServiceOutputResponse: ClientRuntime.HttpResponseBinding
             self.applicationID = output.applicationID
             self.arn = output.arn
             self.dataReplicationInfo = output.dataReplicationInfo
+            self.fqdnForActionFramework = output.fqdnForActionFramework
             self.isArchived = output.isArchived
             self.launchedInstance = output.launchedInstance
             self.lifeCycle = output.lifeCycle
@@ -5544,11 +5621,13 @@ extension DisconnectFromServiceOutputResponse: ClientRuntime.HttpResponseBinding
             self.sourceProperties = output.sourceProperties
             self.sourceServerID = output.sourceServerID
             self.tags = output.tags
+            self.userProvidedID = output.userProvidedID
             self.vcenterClientID = output.vcenterClientID
         } else {
             self.applicationID = nil
             self.arn = nil
             self.dataReplicationInfo = nil
+            self.fqdnForActionFramework = nil
             self.isArchived = nil
             self.launchedInstance = nil
             self.lifeCycle = nil
@@ -5556,6 +5635,7 @@ extension DisconnectFromServiceOutputResponse: ClientRuntime.HttpResponseBinding
             self.sourceProperties = nil
             self.sourceServerID = nil
             self.tags = nil
+            self.userProvidedID = nil
             self.vcenterClientID = nil
         }
     }
@@ -5568,6 +5648,8 @@ public struct DisconnectFromServiceOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// Source server data replication info.
     public var dataReplicationInfo: MgnClientTypes.DataReplicationInfo?
+    /// Source server fqdn for action framework.
+    public var fqdnForActionFramework: Swift.String?
     /// Source server archived status.
     public var isArchived: Swift.Bool?
     /// Source server launched instance.
@@ -5582,6 +5664,8 @@ public struct DisconnectFromServiceOutputResponse: Swift.Equatable {
     public var sourceServerID: Swift.String?
     /// Source server Tags.
     public var tags: [Swift.String:Swift.String]?
+    /// Source server user provided ID.
+    public var userProvidedID: Swift.String?
     /// Source server vCenter client id.
     public var vcenterClientID: Swift.String?
 
@@ -5589,6 +5673,7 @@ public struct DisconnectFromServiceOutputResponse: Swift.Equatable {
         applicationID: Swift.String? = nil,
         arn: Swift.String? = nil,
         dataReplicationInfo: MgnClientTypes.DataReplicationInfo? = nil,
+        fqdnForActionFramework: Swift.String? = nil,
         isArchived: Swift.Bool? = nil,
         launchedInstance: MgnClientTypes.LaunchedInstance? = nil,
         lifeCycle: MgnClientTypes.LifeCycle? = nil,
@@ -5596,12 +5681,14 @@ public struct DisconnectFromServiceOutputResponse: Swift.Equatable {
         sourceProperties: MgnClientTypes.SourceProperties? = nil,
         sourceServerID: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
+        userProvidedID: Swift.String? = nil,
         vcenterClientID: Swift.String? = nil
     )
     {
         self.applicationID = applicationID
         self.arn = arn
         self.dataReplicationInfo = dataReplicationInfo
+        self.fqdnForActionFramework = fqdnForActionFramework
         self.isArchived = isArchived
         self.launchedInstance = launchedInstance
         self.lifeCycle = lifeCycle
@@ -5609,6 +5696,7 @@ public struct DisconnectFromServiceOutputResponse: Swift.Equatable {
         self.sourceProperties = sourceProperties
         self.sourceServerID = sourceServerID
         self.tags = tags
+        self.userProvidedID = userProvidedID
         self.vcenterClientID = vcenterClientID
     }
 }
@@ -5625,6 +5713,8 @@ struct DisconnectFromServiceOutputResponseBody: Swift.Equatable {
     let replicationType: MgnClientTypes.ReplicationType?
     let vcenterClientID: Swift.String?
     let applicationID: Swift.String?
+    let userProvidedID: Swift.String?
+    let fqdnForActionFramework: Swift.String?
 }
 
 extension DisconnectFromServiceOutputResponseBody: Swift.Decodable {
@@ -5632,6 +5722,7 @@ extension DisconnectFromServiceOutputResponseBody: Swift.Decodable {
         case applicationID
         case arn
         case dataReplicationInfo
+        case fqdnForActionFramework
         case isArchived
         case launchedInstance
         case lifeCycle
@@ -5639,6 +5730,7 @@ extension DisconnectFromServiceOutputResponseBody: Swift.Decodable {
         case sourceProperties
         case sourceServerID
         case tags
+        case userProvidedID
         case vcenterClientID
     }
 
@@ -5675,6 +5767,10 @@ extension DisconnectFromServiceOutputResponseBody: Swift.Decodable {
         vcenterClientID = vcenterClientIDDecoded
         let applicationIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationID)
         applicationID = applicationIDDecoded
+        let userProvidedIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userProvidedID)
+        userProvidedID = userProvidedIDDecoded
+        let fqdnForActionFrameworkDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fqdnForActionFramework)
+        fqdnForActionFramework = fqdnForActionFrameworkDecoded
     }
 }
 
@@ -5788,6 +5884,294 @@ extension MgnClientTypes {
 
 }
 
+extension MgnClientTypes.ExportErrorData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rawError
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let rawError = self.rawError {
+            try encodeContainer.encode(rawError, forKey: .rawError)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rawErrorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rawError)
+        rawError = rawErrorDecoded
+    }
+}
+
+extension MgnClientTypes {
+    /// Export errors data.
+    public struct ExportErrorData: Swift.Equatable {
+        /// Export errors data raw error.
+        public var rawError: Swift.String?
+
+        public init (
+            rawError: Swift.String? = nil
+        )
+        {
+            self.rawError = rawError
+        }
+    }
+
+}
+
+extension MgnClientTypes {
+    public enum ExportStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case pending
+        case started
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportStatus] {
+            return [
+                .failed,
+                .pending,
+                .started,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .started: return "STARTED"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExportStatus(rawValue: rawValue) ?? ExportStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MgnClientTypes.ExportTask: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDateTime
+        case endDateTime
+        case exportID
+        case progressPercentage
+        case s3Bucket
+        case s3BucketOwner
+        case s3Key
+        case status
+        case summary
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationDateTime = self.creationDateTime {
+            try encodeContainer.encode(creationDateTime, forKey: .creationDateTime)
+        }
+        if let endDateTime = self.endDateTime {
+            try encodeContainer.encode(endDateTime, forKey: .endDateTime)
+        }
+        if let exportID = self.exportID {
+            try encodeContainer.encode(exportID, forKey: .exportID)
+        }
+        if let progressPercentage = self.progressPercentage {
+            try encodeContainer.encode(progressPercentage, forKey: .progressPercentage)
+        }
+        if let s3Bucket = self.s3Bucket {
+            try encodeContainer.encode(s3Bucket, forKey: .s3Bucket)
+        }
+        if let s3BucketOwner = self.s3BucketOwner {
+            try encodeContainer.encode(s3BucketOwner, forKey: .s3BucketOwner)
+        }
+        if let s3Key = self.s3Key {
+            try encodeContainer.encode(s3Key, forKey: .s3Key)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let summary = self.summary {
+            try encodeContainer.encode(summary, forKey: .summary)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let exportIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exportID)
+        exportID = exportIDDecoded
+        let s3BucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Bucket)
+        s3Bucket = s3BucketDecoded
+        let s3KeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Key)
+        s3Key = s3KeyDecoded
+        let s3BucketOwnerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketOwner)
+        s3BucketOwner = s3BucketOwnerDecoded
+        let creationDateTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let endDateTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endDateTime)
+        endDateTime = endDateTimeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ExportStatus.self, forKey: .status)
+        status = statusDecoded
+        let progressPercentageDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .progressPercentage)
+        progressPercentage = progressPercentageDecoded
+        let summaryDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ExportTaskSummary.self, forKey: .summary)
+        summary = summaryDecoded
+    }
+}
+
+extension MgnClientTypes {
+    /// Export task.
+    public struct ExportTask: Swift.Equatable {
+        /// Export task creation datetime.
+        public var creationDateTime: Swift.String?
+        /// Export task end datetime.
+        public var endDateTime: Swift.String?
+        /// Export task id.
+        public var exportID: Swift.String?
+        /// Export task progress percentage.
+        public var progressPercentage: Swift.Float?
+        /// Export task s3 bucket.
+        public var s3Bucket: Swift.String?
+        /// Export task s3 bucket owner.
+        public var s3BucketOwner: Swift.String?
+        /// Export task s3 key.
+        public var s3Key: Swift.String?
+        /// Export task status.
+        public var status: MgnClientTypes.ExportStatus?
+        /// Export task summary.
+        public var summary: MgnClientTypes.ExportTaskSummary?
+
+        public init (
+            creationDateTime: Swift.String? = nil,
+            endDateTime: Swift.String? = nil,
+            exportID: Swift.String? = nil,
+            progressPercentage: Swift.Float? = nil,
+            s3Bucket: Swift.String? = nil,
+            s3BucketOwner: Swift.String? = nil,
+            s3Key: Swift.String? = nil,
+            status: MgnClientTypes.ExportStatus? = nil,
+            summary: MgnClientTypes.ExportTaskSummary? = nil
+        )
+        {
+            self.creationDateTime = creationDateTime
+            self.endDateTime = endDateTime
+            self.exportID = exportID
+            self.progressPercentage = progressPercentage
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+            self.s3Key = s3Key
+            self.status = status
+            self.summary = summary
+        }
+    }
+
+}
+
+extension MgnClientTypes.ExportTaskError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorData
+        case errorDateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorData = self.errorData {
+            try encodeContainer.encode(errorData, forKey: .errorData)
+        }
+        if let errorDateTime = self.errorDateTime {
+            try encodeContainer.encode(errorDateTime, forKey: .errorDateTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorDateTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorDateTime)
+        errorDateTime = errorDateTimeDecoded
+        let errorDataDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ExportErrorData.self, forKey: .errorData)
+        errorData = errorDataDecoded
+    }
+}
+
+extension MgnClientTypes {
+    /// Export task error.
+    public struct ExportTaskError: Swift.Equatable {
+        /// Export task error data.
+        public var errorData: MgnClientTypes.ExportErrorData?
+        /// Export task error datetime.
+        public var errorDateTime: Swift.String?
+
+        public init (
+            errorData: MgnClientTypes.ExportErrorData? = nil,
+            errorDateTime: Swift.String? = nil
+        )
+        {
+            self.errorData = errorData
+            self.errorDateTime = errorDateTime
+        }
+    }
+
+}
+
+extension MgnClientTypes.ExportTaskSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationsCount
+        case serversCount
+        case wavesCount
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if applicationsCount != 0 {
+            try encodeContainer.encode(applicationsCount, forKey: .applicationsCount)
+        }
+        if serversCount != 0 {
+            try encodeContainer.encode(serversCount, forKey: .serversCount)
+        }
+        if wavesCount != 0 {
+            try encodeContainer.encode(wavesCount, forKey: .wavesCount)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serversCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .serversCount) ?? 0
+        serversCount = serversCountDecoded
+        let applicationsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .applicationsCount) ?? 0
+        applicationsCount = applicationsCountDecoded
+        let wavesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .wavesCount) ?? 0
+        wavesCount = wavesCountDecoded
+    }
+}
+
+extension MgnClientTypes {
+    /// Export task summary.
+    public struct ExportTaskSummary: Swift.Equatable {
+        /// Export task summary applications count.
+        public var applicationsCount: Swift.Int
+        /// Export task summary servers count.
+        public var serversCount: Swift.Int
+        /// Export task summary waves count.
+        public var wavesCount: Swift.Int
+
+        public init (
+            applicationsCount: Swift.Int = 0,
+            serversCount: Swift.Int = 0,
+            wavesCount: Swift.Int = 0
+        )
+        {
+            self.applicationsCount = applicationsCount
+            self.serversCount = serversCount
+            self.wavesCount = wavesCount
+        }
+    }
+
+}
+
 extension FinalizeCutoverInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sourceServerID
@@ -5866,7 +6250,7 @@ public enum FinalizeCutoverOutputError: Swift.Error, Swift.Equatable {
 
 extension FinalizeCutoverOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "FinalizeCutoverOutputResponse(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
+        "FinalizeCutoverOutputResponse(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), fqdnForActionFramework: \(Swift.String(describing: fqdnForActionFramework)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), userProvidedID: \(Swift.String(describing: userProvidedID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension FinalizeCutoverOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5878,6 +6262,7 @@ extension FinalizeCutoverOutputResponse: ClientRuntime.HttpResponseBinding {
             self.applicationID = output.applicationID
             self.arn = output.arn
             self.dataReplicationInfo = output.dataReplicationInfo
+            self.fqdnForActionFramework = output.fqdnForActionFramework
             self.isArchived = output.isArchived
             self.launchedInstance = output.launchedInstance
             self.lifeCycle = output.lifeCycle
@@ -5885,11 +6270,13 @@ extension FinalizeCutoverOutputResponse: ClientRuntime.HttpResponseBinding {
             self.sourceProperties = output.sourceProperties
             self.sourceServerID = output.sourceServerID
             self.tags = output.tags
+            self.userProvidedID = output.userProvidedID
             self.vcenterClientID = output.vcenterClientID
         } else {
             self.applicationID = nil
             self.arn = nil
             self.dataReplicationInfo = nil
+            self.fqdnForActionFramework = nil
             self.isArchived = nil
             self.launchedInstance = nil
             self.lifeCycle = nil
@@ -5897,6 +6284,7 @@ extension FinalizeCutoverOutputResponse: ClientRuntime.HttpResponseBinding {
             self.sourceProperties = nil
             self.sourceServerID = nil
             self.tags = nil
+            self.userProvidedID = nil
             self.vcenterClientID = nil
         }
     }
@@ -5909,6 +6297,8 @@ public struct FinalizeCutoverOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// Source server data replication info.
     public var dataReplicationInfo: MgnClientTypes.DataReplicationInfo?
+    /// Source server fqdn for action framework.
+    public var fqdnForActionFramework: Swift.String?
     /// Source server archived status.
     public var isArchived: Swift.Bool?
     /// Source server launched instance.
@@ -5923,6 +6313,8 @@ public struct FinalizeCutoverOutputResponse: Swift.Equatable {
     public var sourceServerID: Swift.String?
     /// Source server Tags.
     public var tags: [Swift.String:Swift.String]?
+    /// Source server user provided ID.
+    public var userProvidedID: Swift.String?
     /// Source server vCenter client id.
     public var vcenterClientID: Swift.String?
 
@@ -5930,6 +6322,7 @@ public struct FinalizeCutoverOutputResponse: Swift.Equatable {
         applicationID: Swift.String? = nil,
         arn: Swift.String? = nil,
         dataReplicationInfo: MgnClientTypes.DataReplicationInfo? = nil,
+        fqdnForActionFramework: Swift.String? = nil,
         isArchived: Swift.Bool? = nil,
         launchedInstance: MgnClientTypes.LaunchedInstance? = nil,
         lifeCycle: MgnClientTypes.LifeCycle? = nil,
@@ -5937,12 +6330,14 @@ public struct FinalizeCutoverOutputResponse: Swift.Equatable {
         sourceProperties: MgnClientTypes.SourceProperties? = nil,
         sourceServerID: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
+        userProvidedID: Swift.String? = nil,
         vcenterClientID: Swift.String? = nil
     )
     {
         self.applicationID = applicationID
         self.arn = arn
         self.dataReplicationInfo = dataReplicationInfo
+        self.fqdnForActionFramework = fqdnForActionFramework
         self.isArchived = isArchived
         self.launchedInstance = launchedInstance
         self.lifeCycle = lifeCycle
@@ -5950,6 +6345,7 @@ public struct FinalizeCutoverOutputResponse: Swift.Equatable {
         self.sourceProperties = sourceProperties
         self.sourceServerID = sourceServerID
         self.tags = tags
+        self.userProvidedID = userProvidedID
         self.vcenterClientID = vcenterClientID
     }
 }
@@ -5966,6 +6362,8 @@ struct FinalizeCutoverOutputResponseBody: Swift.Equatable {
     let replicationType: MgnClientTypes.ReplicationType?
     let vcenterClientID: Swift.String?
     let applicationID: Swift.String?
+    let userProvidedID: Swift.String?
+    let fqdnForActionFramework: Swift.String?
 }
 
 extension FinalizeCutoverOutputResponseBody: Swift.Decodable {
@@ -5973,6 +6371,7 @@ extension FinalizeCutoverOutputResponseBody: Swift.Decodable {
         case applicationID
         case arn
         case dataReplicationInfo
+        case fqdnForActionFramework
         case isArchived
         case launchedInstance
         case lifeCycle
@@ -5980,6 +6379,7 @@ extension FinalizeCutoverOutputResponseBody: Swift.Decodable {
         case sourceProperties
         case sourceServerID
         case tags
+        case userProvidedID
         case vcenterClientID
     }
 
@@ -6016,6 +6416,10 @@ extension FinalizeCutoverOutputResponseBody: Swift.Decodable {
         vcenterClientID = vcenterClientIDDecoded
         let applicationIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationID)
         applicationID = applicationIDDecoded
+        let userProvidedIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userProvidedID)
+        userProvidedID = userProvidedIDDecoded
+        let fqdnForActionFrameworkDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fqdnForActionFramework)
+        fqdnForActionFramework = fqdnForActionFrameworkDecoded
     }
 }
 
@@ -6635,6 +7039,501 @@ extension MgnClientTypes {
             self.hostname = hostname
             self.vmPath = vmPath
             self.vmWareUuid = vmWareUuid
+        }
+    }
+
+}
+
+extension MgnClientTypes.ImportErrorData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationID
+        case ec2LaunchTemplateID
+        case rawError
+        case rowNumber
+        case sourceServerID
+        case waveID
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationID = self.applicationID {
+            try encodeContainer.encode(applicationID, forKey: .applicationID)
+        }
+        if let ec2LaunchTemplateID = self.ec2LaunchTemplateID {
+            try encodeContainer.encode(ec2LaunchTemplateID, forKey: .ec2LaunchTemplateID)
+        }
+        if let rawError = self.rawError {
+            try encodeContainer.encode(rawError, forKey: .rawError)
+        }
+        if rowNumber != 0 {
+            try encodeContainer.encode(rowNumber, forKey: .rowNumber)
+        }
+        if let sourceServerID = self.sourceServerID {
+            try encodeContainer.encode(sourceServerID, forKey: .sourceServerID)
+        }
+        if let waveID = self.waveID {
+            try encodeContainer.encode(waveID, forKey: .waveID)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceServerIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceServerID)
+        sourceServerID = sourceServerIDDecoded
+        let applicationIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationID)
+        applicationID = applicationIDDecoded
+        let waveIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .waveID)
+        waveID = waveIDDecoded
+        let ec2LaunchTemplateIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ec2LaunchTemplateID)
+        ec2LaunchTemplateID = ec2LaunchTemplateIDDecoded
+        let rowNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rowNumber) ?? 0
+        rowNumber = rowNumberDecoded
+        let rawErrorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rawError)
+        rawError = rawErrorDecoded
+    }
+}
+
+extension MgnClientTypes {
+    /// Import error data.
+    public struct ImportErrorData: Swift.Equatable {
+        /// Import error data application ID.
+        public var applicationID: Swift.String?
+        /// Import error data ec2 LaunchTemplate ID.
+        public var ec2LaunchTemplateID: Swift.String?
+        /// Import error data raw error.
+        public var rawError: Swift.String?
+        /// Import error data row number.
+        public var rowNumber: Swift.Int
+        /// Import error data source server ID.
+        public var sourceServerID: Swift.String?
+        /// Import error data wave id.
+        public var waveID: Swift.String?
+
+        public init (
+            applicationID: Swift.String? = nil,
+            ec2LaunchTemplateID: Swift.String? = nil,
+            rawError: Swift.String? = nil,
+            rowNumber: Swift.Int = 0,
+            sourceServerID: Swift.String? = nil,
+            waveID: Swift.String? = nil
+        )
+        {
+            self.applicationID = applicationID
+            self.ec2LaunchTemplateID = ec2LaunchTemplateID
+            self.rawError = rawError
+            self.rowNumber = rowNumber
+            self.sourceServerID = sourceServerID
+            self.waveID = waveID
+        }
+    }
+
+}
+
+extension MgnClientTypes {
+    public enum ImportErrorType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case processingError
+        case validationError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImportErrorType] {
+            return [
+                .processingError,
+                .validationError,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .processingError: return "PROCESSING_ERROR"
+            case .validationError: return "VALIDATION_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ImportErrorType(rawValue: rawValue) ?? ImportErrorType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MgnClientTypes {
+    public enum ImportStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case pending
+        case started
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImportStatus] {
+            return [
+                .failed,
+                .pending,
+                .started,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .started: return "STARTED"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ImportStatus(rawValue: rawValue) ?? ImportStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MgnClientTypes.ImportTask: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDateTime
+        case endDateTime
+        case importID
+        case progressPercentage
+        case s3BucketSource
+        case status
+        case summary
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationDateTime = self.creationDateTime {
+            try encodeContainer.encode(creationDateTime, forKey: .creationDateTime)
+        }
+        if let endDateTime = self.endDateTime {
+            try encodeContainer.encode(endDateTime, forKey: .endDateTime)
+        }
+        if let importID = self.importID {
+            try encodeContainer.encode(importID, forKey: .importID)
+        }
+        if let progressPercentage = self.progressPercentage {
+            try encodeContainer.encode(progressPercentage, forKey: .progressPercentage)
+        }
+        if let s3BucketSource = self.s3BucketSource {
+            try encodeContainer.encode(s3BucketSource, forKey: .s3BucketSource)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let summary = self.summary {
+            try encodeContainer.encode(summary, forKey: .summary)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let importIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .importID)
+        importID = importIDDecoded
+        let s3BucketSourceDecoded = try containerValues.decodeIfPresent(MgnClientTypes.S3BucketSource.self, forKey: .s3BucketSource)
+        s3BucketSource = s3BucketSourceDecoded
+        let creationDateTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let endDateTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endDateTime)
+        endDateTime = endDateTimeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ImportStatus.self, forKey: .status)
+        status = statusDecoded
+        let progressPercentageDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .progressPercentage)
+        progressPercentage = progressPercentageDecoded
+        let summaryDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ImportTaskSummary.self, forKey: .summary)
+        summary = summaryDecoded
+    }
+}
+
+extension MgnClientTypes {
+    /// Import task.
+    public struct ImportTask: Swift.Equatable {
+        /// Import task creation datetime.
+        public var creationDateTime: Swift.String?
+        /// Import task end datetime.
+        public var endDateTime: Swift.String?
+        /// Import task id.
+        public var importID: Swift.String?
+        /// Import task progress percentage.
+        public var progressPercentage: Swift.Float?
+        /// Import task s3 bucket source.
+        public var s3BucketSource: MgnClientTypes.S3BucketSource?
+        /// Import task status.
+        public var status: MgnClientTypes.ImportStatus?
+        /// Import task summary.
+        public var summary: MgnClientTypes.ImportTaskSummary?
+
+        public init (
+            creationDateTime: Swift.String? = nil,
+            endDateTime: Swift.String? = nil,
+            importID: Swift.String? = nil,
+            progressPercentage: Swift.Float? = nil,
+            s3BucketSource: MgnClientTypes.S3BucketSource? = nil,
+            status: MgnClientTypes.ImportStatus? = nil,
+            summary: MgnClientTypes.ImportTaskSummary? = nil
+        )
+        {
+            self.creationDateTime = creationDateTime
+            self.endDateTime = endDateTime
+            self.importID = importID
+            self.progressPercentage = progressPercentage
+            self.s3BucketSource = s3BucketSource
+            self.status = status
+            self.summary = summary
+        }
+    }
+
+}
+
+extension MgnClientTypes.ImportTaskError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorData
+        case errorDateTime
+        case errorType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorData = self.errorData {
+            try encodeContainer.encode(errorData, forKey: .errorData)
+        }
+        if let errorDateTime = self.errorDateTime {
+            try encodeContainer.encode(errorDateTime, forKey: .errorDateTime)
+        }
+        if let errorType = self.errorType {
+            try encodeContainer.encode(errorType.rawValue, forKey: .errorType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorDateTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorDateTime)
+        errorDateTime = errorDateTimeDecoded
+        let errorTypeDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ImportErrorType.self, forKey: .errorType)
+        errorType = errorTypeDecoded
+        let errorDataDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ImportErrorData.self, forKey: .errorData)
+        errorData = errorDataDecoded
+    }
+}
+
+extension MgnClientTypes {
+    /// Import task error.
+    public struct ImportTaskError: Swift.Equatable {
+        /// Import task error data.
+        public var errorData: MgnClientTypes.ImportErrorData?
+        /// Import task error datetime.
+        public var errorDateTime: Swift.String?
+        /// Import task error type.
+        public var errorType: MgnClientTypes.ImportErrorType?
+
+        public init (
+            errorData: MgnClientTypes.ImportErrorData? = nil,
+            errorDateTime: Swift.String? = nil,
+            errorType: MgnClientTypes.ImportErrorType? = nil
+        )
+        {
+            self.errorData = errorData
+            self.errorDateTime = errorDateTime
+            self.errorType = errorType
+        }
+    }
+
+}
+
+extension MgnClientTypes.ImportTaskSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applications
+        case servers
+        case waves
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applications = self.applications {
+            try encodeContainer.encode(applications, forKey: .applications)
+        }
+        if let servers = self.servers {
+            try encodeContainer.encode(servers, forKey: .servers)
+        }
+        if let waves = self.waves {
+            try encodeContainer.encode(waves, forKey: .waves)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let wavesDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ImportTaskSummaryWaves.self, forKey: .waves)
+        waves = wavesDecoded
+        let applicationsDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ImportTaskSummaryApplications.self, forKey: .applications)
+        applications = applicationsDecoded
+        let serversDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ImportTaskSummaryServers.self, forKey: .servers)
+        servers = serversDecoded
+    }
+}
+
+extension MgnClientTypes {
+    /// Import task summary.
+    public struct ImportTaskSummary: Swift.Equatable {
+        /// Import task summary applications.
+        public var applications: MgnClientTypes.ImportTaskSummaryApplications?
+        /// Import task summary servers.
+        public var servers: MgnClientTypes.ImportTaskSummaryServers?
+        /// Import task summary waves.
+        public var waves: MgnClientTypes.ImportTaskSummaryWaves?
+
+        public init (
+            applications: MgnClientTypes.ImportTaskSummaryApplications? = nil,
+            servers: MgnClientTypes.ImportTaskSummaryServers? = nil,
+            waves: MgnClientTypes.ImportTaskSummaryWaves? = nil
+        )
+        {
+            self.applications = applications
+            self.servers = servers
+            self.waves = waves
+        }
+    }
+
+}
+
+extension MgnClientTypes.ImportTaskSummaryApplications: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdCount
+        case modifiedCount
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if createdCount != 0 {
+            try encodeContainer.encode(createdCount, forKey: .createdCount)
+        }
+        if modifiedCount != 0 {
+            try encodeContainer.encode(modifiedCount, forKey: .modifiedCount)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let createdCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .createdCount) ?? 0
+        createdCount = createdCountDecoded
+        let modifiedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .modifiedCount) ?? 0
+        modifiedCount = modifiedCountDecoded
+    }
+}
+
+extension MgnClientTypes {
+    /// Import task summary applications.
+    public struct ImportTaskSummaryApplications: Swift.Equatable {
+        /// Import task summary applications created count.
+        public var createdCount: Swift.Int
+        /// Import task summary applications modified count.
+        public var modifiedCount: Swift.Int
+
+        public init (
+            createdCount: Swift.Int = 0,
+            modifiedCount: Swift.Int = 0
+        )
+        {
+            self.createdCount = createdCount
+            self.modifiedCount = modifiedCount
+        }
+    }
+
+}
+
+extension MgnClientTypes.ImportTaskSummaryServers: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdCount
+        case modifiedCount
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if createdCount != 0 {
+            try encodeContainer.encode(createdCount, forKey: .createdCount)
+        }
+        if modifiedCount != 0 {
+            try encodeContainer.encode(modifiedCount, forKey: .modifiedCount)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let createdCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .createdCount) ?? 0
+        createdCount = createdCountDecoded
+        let modifiedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .modifiedCount) ?? 0
+        modifiedCount = modifiedCountDecoded
+    }
+}
+
+extension MgnClientTypes {
+    /// Import task summary servers.
+    public struct ImportTaskSummaryServers: Swift.Equatable {
+        /// Import task summary servers created count.
+        public var createdCount: Swift.Int
+        /// Import task summary servers modified count.
+        public var modifiedCount: Swift.Int
+
+        public init (
+            createdCount: Swift.Int = 0,
+            modifiedCount: Swift.Int = 0
+        )
+        {
+            self.createdCount = createdCount
+            self.modifiedCount = modifiedCount
+        }
+    }
+
+}
+
+extension MgnClientTypes.ImportTaskSummaryWaves: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdCount
+        case modifiedCount
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if createdCount != 0 {
+            try encodeContainer.encode(createdCount, forKey: .createdCount)
+        }
+        if modifiedCount != 0 {
+            try encodeContainer.encode(modifiedCount, forKey: .modifiedCount)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let createdCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .createdCount) ?? 0
+        createdCount = createdCountDecoded
+        let modifiedCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .modifiedCount) ?? 0
+        modifiedCount = modifiedCountDecoded
+    }
+}
+
+extension MgnClientTypes {
+    /// Import task summery waves.
+    public struct ImportTaskSummaryWaves: Swift.Equatable {
+        /// Import task summery waves created count.
+        public var createdCount: Swift.Int
+        /// Import task summery waves modified count.
+        public var modifiedCount: Swift.Int
+
+        public init (
+            createdCount: Swift.Int = 0,
+            modifiedCount: Swift.Int = 0
+        )
+        {
+            self.createdCount = createdCount
+            self.modifiedCount = modifiedCount
         }
     }
 
@@ -8147,6 +9046,7 @@ extension MgnClientTypes {
         case disconnected
         case discovered
         case notReady
+        case pendingInstallation
         case readyForCutover
         case readyForTest
         case stopped
@@ -8160,6 +9060,7 @@ extension MgnClientTypes {
                 .disconnected,
                 .discovered,
                 .notReady,
+                .pendingInstallation,
                 .readyForCutover,
                 .readyForTest,
                 .stopped,
@@ -8178,6 +9079,7 @@ extension MgnClientTypes {
             case .disconnected: return "DISCONNECTED"
             case .discovered: return "DISCOVERED"
             case .notReady: return "NOT_READY"
+            case .pendingInstallation: return "PENDING_INSTALLATION"
             case .readyForCutover: return "READY_FOR_CUTOVER"
             case .readyForTest: return "READY_FOR_TEST"
             case .stopped: return "STOPPED"
@@ -8420,6 +9322,728 @@ extension MgnClientTypes {
             self.applicationIDs = applicationIDs
             self.isArchived = isArchived
             self.waveIDs = waveIDs
+        }
+    }
+
+}
+
+extension ListExportErrorsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportID
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let exportID = self.exportID {
+            try encodeContainer.encode(exportID, forKey: .exportID)
+        }
+        if maxResults != 0 {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListExportErrorsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListExportErrors"
+    }
+}
+
+/// List export errors request.
+public struct ListExportErrorsInput: Swift.Equatable {
+    /// List export errors request export id.
+    /// This member is required.
+    public var exportID: Swift.String?
+    /// List export errors request max results.
+    public var maxResults: Swift.Int
+    /// List export errors request next token.
+    public var nextToken: Swift.String?
+
+    public init (
+        exportID: Swift.String? = nil,
+        maxResults: Swift.Int = 0,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.exportID = exportID
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListExportErrorsInputBody: Swift.Equatable {
+    let exportID: Swift.String?
+    let maxResults: Swift.Int
+    let nextToken: Swift.String?
+}
+
+extension ListExportErrorsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportID
+        case maxResults
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let exportIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exportID)
+        exportID = exportIDDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListExportErrorsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListExportErrorsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "UninitializedAccountException" : self = .uninitializedAccountException(try UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListExportErrorsOutputError: Swift.Error, Swift.Equatable {
+    case uninitializedAccountException(UninitializedAccountException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListExportErrorsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListExportErrorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.items = output.items
+            self.nextToken = output.nextToken
+        } else {
+            self.items = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+/// List export errors response.
+public struct ListExportErrorsOutputResponse: Swift.Equatable {
+    /// List export errors response items.
+    public var items: [MgnClientTypes.ExportTaskError]?
+    /// List export errors response next token.
+    public var nextToken: Swift.String?
+
+    public init (
+        items: [MgnClientTypes.ExportTaskError]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+struct ListExportErrorsOutputResponseBody: Swift.Equatable {
+    let items: [MgnClientTypes.ExportTaskError]?
+    let nextToken: Swift.String?
+}
+
+extension ListExportErrorsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([MgnClientTypes.ExportTaskError?].self, forKey: .items)
+        var itemsDecoded0:[MgnClientTypes.ExportTaskError]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [MgnClientTypes.ExportTaskError]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListExportsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = self.filters {
+            try encodeContainer.encode(filters, forKey: .filters)
+        }
+        if maxResults != 0 {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListExportsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListExports"
+    }
+}
+
+/// List export request.
+public struct ListExportsInput: Swift.Equatable {
+    /// List exports request filters.
+    public var filters: MgnClientTypes.ListExportsRequestFilters?
+    /// List export request max results.
+    public var maxResults: Swift.Int
+    /// List export request next token.
+    public var nextToken: Swift.String?
+
+    public init (
+        filters: MgnClientTypes.ListExportsRequestFilters? = nil,
+        maxResults: Swift.Int = 0,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListExportsInputBody: Swift.Equatable {
+    let filters: MgnClientTypes.ListExportsRequestFilters?
+    let maxResults: Swift.Int
+    let nextToken: Swift.String?
+}
+
+extension ListExportsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters
+        case maxResults
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filtersDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ListExportsRequestFilters.self, forKey: .filters)
+        filters = filtersDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListExportsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListExportsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "UninitializedAccountException" : self = .uninitializedAccountException(try UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListExportsOutputError: Swift.Error, Swift.Equatable {
+    case uninitializedAccountException(UninitializedAccountException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListExportsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListExportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.items = output.items
+            self.nextToken = output.nextToken
+        } else {
+            self.items = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+/// List export response.
+public struct ListExportsOutputResponse: Swift.Equatable {
+    /// List export response items.
+    public var items: [MgnClientTypes.ExportTask]?
+    /// List export response next token.
+    public var nextToken: Swift.String?
+
+    public init (
+        items: [MgnClientTypes.ExportTask]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+struct ListExportsOutputResponseBody: Swift.Equatable {
+    let items: [MgnClientTypes.ExportTask]?
+    let nextToken: Swift.String?
+}
+
+extension ListExportsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([MgnClientTypes.ExportTask?].self, forKey: .items)
+        var itemsDecoded0:[MgnClientTypes.ExportTask]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [MgnClientTypes.ExportTask]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension MgnClientTypes.ListExportsRequestFilters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportIDs
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let exportIDs = exportIDs {
+            var exportIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exportIDs)
+            for exportid0 in exportIDs {
+                try exportIDsContainer.encode(exportid0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let exportIDsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .exportIDs)
+        var exportIDsDecoded0:[Swift.String]? = nil
+        if let exportIDsContainer = exportIDsContainer {
+            exportIDsDecoded0 = [Swift.String]()
+            for string0 in exportIDsContainer {
+                if let string0 = string0 {
+                    exportIDsDecoded0?.append(string0)
+                }
+            }
+        }
+        exportIDs = exportIDsDecoded0
+    }
+}
+
+extension MgnClientTypes {
+    /// List exports request filters.
+    public struct ListExportsRequestFilters: Swift.Equatable {
+        /// List exports request filters export ids.
+        public var exportIDs: [Swift.String]?
+
+        public init (
+            exportIDs: [Swift.String]? = nil
+        )
+        {
+            self.exportIDs = exportIDs
+        }
+    }
+
+}
+
+extension ListImportErrorsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case importID
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let importID = self.importID {
+            try encodeContainer.encode(importID, forKey: .importID)
+        }
+        if maxResults != 0 {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListImportErrorsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListImportErrors"
+    }
+}
+
+/// List import errors request.
+public struct ListImportErrorsInput: Swift.Equatable {
+    /// List import errors request import id.
+    /// This member is required.
+    public var importID: Swift.String?
+    /// List import errors request max results.
+    public var maxResults: Swift.Int
+    /// List import errors request next token.
+    public var nextToken: Swift.String?
+
+    public init (
+        importID: Swift.String? = nil,
+        maxResults: Swift.Int = 0,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.importID = importID
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListImportErrorsInputBody: Swift.Equatable {
+    let importID: Swift.String?
+    let maxResults: Swift.Int
+    let nextToken: Swift.String?
+}
+
+extension ListImportErrorsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case importID
+        case maxResults
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let importIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .importID)
+        importID = importIDDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListImportErrorsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListImportErrorsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "UninitializedAccountException" : self = .uninitializedAccountException(try UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListImportErrorsOutputError: Swift.Error, Swift.Equatable {
+    case uninitializedAccountException(UninitializedAccountException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListImportErrorsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListImportErrorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.items = output.items
+            self.nextToken = output.nextToken
+        } else {
+            self.items = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+/// List imports errors response.
+public struct ListImportErrorsOutputResponse: Swift.Equatable {
+    /// List imports errors response items.
+    public var items: [MgnClientTypes.ImportTaskError]?
+    /// List imports errors response next token.
+    public var nextToken: Swift.String?
+
+    public init (
+        items: [MgnClientTypes.ImportTaskError]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+struct ListImportErrorsOutputResponseBody: Swift.Equatable {
+    let items: [MgnClientTypes.ImportTaskError]?
+    let nextToken: Swift.String?
+}
+
+extension ListImportErrorsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([MgnClientTypes.ImportTaskError?].self, forKey: .items)
+        var itemsDecoded0:[MgnClientTypes.ImportTaskError]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [MgnClientTypes.ImportTaskError]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListImportsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = self.filters {
+            try encodeContainer.encode(filters, forKey: .filters)
+        }
+        if maxResults != 0 {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListImportsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListImports"
+    }
+}
+
+/// List imports request.
+public struct ListImportsInput: Swift.Equatable {
+    /// List imports request filters.
+    public var filters: MgnClientTypes.ListImportsRequestFilters?
+    /// List imports request max results.
+    public var maxResults: Swift.Int
+    /// List imports request next token.
+    public var nextToken: Swift.String?
+
+    public init (
+        filters: MgnClientTypes.ListImportsRequestFilters? = nil,
+        maxResults: Swift.Int = 0,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListImportsInputBody: Swift.Equatable {
+    let filters: MgnClientTypes.ListImportsRequestFilters?
+    let maxResults: Swift.Int
+    let nextToken: Swift.String?
+}
+
+extension ListImportsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters
+        case maxResults
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filtersDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ListImportsRequestFilters.self, forKey: .filters)
+        filters = filtersDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListImportsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListImportsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "UninitializedAccountException" : self = .uninitializedAccountException(try UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListImportsOutputError: Swift.Error, Swift.Equatable {
+    case uninitializedAccountException(UninitializedAccountException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListImportsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListImportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.items = output.items
+            self.nextToken = output.nextToken
+        } else {
+            self.items = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+/// List import response.
+public struct ListImportsOutputResponse: Swift.Equatable {
+    /// List import response items.
+    public var items: [MgnClientTypes.ImportTask]?
+    /// List import response next token.
+    public var nextToken: Swift.String?
+
+    public init (
+        items: [MgnClientTypes.ImportTask]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+struct ListImportsOutputResponseBody: Swift.Equatable {
+    let items: [MgnClientTypes.ImportTask]?
+    let nextToken: Swift.String?
+}
+
+extension ListImportsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([MgnClientTypes.ImportTask?].self, forKey: .items)
+        var itemsDecoded0:[MgnClientTypes.ImportTask]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [MgnClientTypes.ImportTask]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension MgnClientTypes.ListImportsRequestFilters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case importIDs
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let importIDs = importIDs {
+            var importIDsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .importIDs)
+            for importid0 in importIDs {
+                try importIDsContainer.encode(importid0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let importIDsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .importIDs)
+        var importIDsDecoded0:[Swift.String]? = nil
+        if let importIDsContainer = importIDsContainer {
+            importIDsDecoded0 = [Swift.String]()
+            for string0 in importIDsContainer {
+                if let string0 = string0 {
+                    importIDsDecoded0?.append(string0)
+                }
+            }
+        }
+        importIDs = importIDsDecoded0
+    }
+}
+
+extension MgnClientTypes {
+    /// List imports request filters.
+    public struct ListImportsRequestFilters: Swift.Equatable {
+        /// List imports request filters import IDs.
+        public var importIDs: [Swift.String]?
+
+        public init (
+            importIDs: [Swift.String]? = nil
+        )
+        {
+            self.importIDs = importIDs
         }
     }
 
@@ -9163,7 +10787,7 @@ public enum MarkAsArchivedOutputError: Swift.Error, Swift.Equatable {
 
 extension MarkAsArchivedOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "MarkAsArchivedOutputResponse(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
+        "MarkAsArchivedOutputResponse(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), fqdnForActionFramework: \(Swift.String(describing: fqdnForActionFramework)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), userProvidedID: \(Swift.String(describing: userProvidedID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension MarkAsArchivedOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -9175,6 +10799,7 @@ extension MarkAsArchivedOutputResponse: ClientRuntime.HttpResponseBinding {
             self.applicationID = output.applicationID
             self.arn = output.arn
             self.dataReplicationInfo = output.dataReplicationInfo
+            self.fqdnForActionFramework = output.fqdnForActionFramework
             self.isArchived = output.isArchived
             self.launchedInstance = output.launchedInstance
             self.lifeCycle = output.lifeCycle
@@ -9182,11 +10807,13 @@ extension MarkAsArchivedOutputResponse: ClientRuntime.HttpResponseBinding {
             self.sourceProperties = output.sourceProperties
             self.sourceServerID = output.sourceServerID
             self.tags = output.tags
+            self.userProvidedID = output.userProvidedID
             self.vcenterClientID = output.vcenterClientID
         } else {
             self.applicationID = nil
             self.arn = nil
             self.dataReplicationInfo = nil
+            self.fqdnForActionFramework = nil
             self.isArchived = nil
             self.launchedInstance = nil
             self.lifeCycle = nil
@@ -9194,6 +10821,7 @@ extension MarkAsArchivedOutputResponse: ClientRuntime.HttpResponseBinding {
             self.sourceProperties = nil
             self.sourceServerID = nil
             self.tags = nil
+            self.userProvidedID = nil
             self.vcenterClientID = nil
         }
     }
@@ -9206,6 +10834,8 @@ public struct MarkAsArchivedOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// Source server data replication info.
     public var dataReplicationInfo: MgnClientTypes.DataReplicationInfo?
+    /// Source server fqdn for action framework.
+    public var fqdnForActionFramework: Swift.String?
     /// Source server archived status.
     public var isArchived: Swift.Bool?
     /// Source server launched instance.
@@ -9220,6 +10850,8 @@ public struct MarkAsArchivedOutputResponse: Swift.Equatable {
     public var sourceServerID: Swift.String?
     /// Source server Tags.
     public var tags: [Swift.String:Swift.String]?
+    /// Source server user provided ID.
+    public var userProvidedID: Swift.String?
     /// Source server vCenter client id.
     public var vcenterClientID: Swift.String?
 
@@ -9227,6 +10859,7 @@ public struct MarkAsArchivedOutputResponse: Swift.Equatable {
         applicationID: Swift.String? = nil,
         arn: Swift.String? = nil,
         dataReplicationInfo: MgnClientTypes.DataReplicationInfo? = nil,
+        fqdnForActionFramework: Swift.String? = nil,
         isArchived: Swift.Bool? = nil,
         launchedInstance: MgnClientTypes.LaunchedInstance? = nil,
         lifeCycle: MgnClientTypes.LifeCycle? = nil,
@@ -9234,12 +10867,14 @@ public struct MarkAsArchivedOutputResponse: Swift.Equatable {
         sourceProperties: MgnClientTypes.SourceProperties? = nil,
         sourceServerID: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
+        userProvidedID: Swift.String? = nil,
         vcenterClientID: Swift.String? = nil
     )
     {
         self.applicationID = applicationID
         self.arn = arn
         self.dataReplicationInfo = dataReplicationInfo
+        self.fqdnForActionFramework = fqdnForActionFramework
         self.isArchived = isArchived
         self.launchedInstance = launchedInstance
         self.lifeCycle = lifeCycle
@@ -9247,6 +10882,7 @@ public struct MarkAsArchivedOutputResponse: Swift.Equatable {
         self.sourceProperties = sourceProperties
         self.sourceServerID = sourceServerID
         self.tags = tags
+        self.userProvidedID = userProvidedID
         self.vcenterClientID = vcenterClientID
     }
 }
@@ -9263,6 +10899,8 @@ struct MarkAsArchivedOutputResponseBody: Swift.Equatable {
     let replicationType: MgnClientTypes.ReplicationType?
     let vcenterClientID: Swift.String?
     let applicationID: Swift.String?
+    let userProvidedID: Swift.String?
+    let fqdnForActionFramework: Swift.String?
 }
 
 extension MarkAsArchivedOutputResponseBody: Swift.Decodable {
@@ -9270,6 +10908,7 @@ extension MarkAsArchivedOutputResponseBody: Swift.Decodable {
         case applicationID
         case arn
         case dataReplicationInfo
+        case fqdnForActionFramework
         case isArchived
         case launchedInstance
         case lifeCycle
@@ -9277,6 +10916,7 @@ extension MarkAsArchivedOutputResponseBody: Swift.Decodable {
         case sourceProperties
         case sourceServerID
         case tags
+        case userProvidedID
         case vcenterClientID
     }
 
@@ -9313,6 +10953,10 @@ extension MarkAsArchivedOutputResponseBody: Swift.Decodable {
         vcenterClientID = vcenterClientIDDecoded
         let applicationIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationID)
         applicationID = applicationIDDecoded
+        let userProvidedIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userProvidedID)
+        userProvidedID = userProvidedIDDecoded
+        let fqdnForActionFrameworkDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fqdnForActionFramework)
+        fqdnForActionFramework = fqdnForActionFrameworkDecoded
     }
 }
 
@@ -9703,8 +11347,11 @@ extension PutSourceServerActionInput: Swift.Encodable {
         case actionID
         case actionName
         case active
+        case category
+        case description
         case documentIdentifier
         case documentVersion
+        case externalParameters
         case mustSucceedForCutover
         case order
         case parameters
@@ -9723,11 +11370,23 @@ extension PutSourceServerActionInput: Swift.Encodable {
         if let active = self.active {
             try encodeContainer.encode(active, forKey: .active)
         }
+        if let category = self.category {
+            try encodeContainer.encode(category.rawValue, forKey: .category)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
         if let documentIdentifier = self.documentIdentifier {
             try encodeContainer.encode(documentIdentifier, forKey: .documentIdentifier)
         }
         if let documentVersion = self.documentVersion {
             try encodeContainer.encode(documentVersion, forKey: .documentVersion)
+        }
+        if let externalParameters = externalParameters {
+            var externalParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .externalParameters)
+            for (dictKey0, ssmDocumentExternalParameters0) in externalParameters {
+                try externalParametersContainer.encode(ssmDocumentExternalParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let mustSucceedForCutover = self.mustSucceedForCutover {
             try encodeContainer.encode(mustSucceedForCutover, forKey: .mustSucceedForCutover)
@@ -9768,11 +11427,17 @@ public struct PutSourceServerActionInput: Swift.Equatable {
     public var actionName: Swift.String?
     /// Source server post migration custom action active status.
     public var active: Swift.Bool?
+    /// Source server post migration custom action category.
+    public var category: MgnClientTypes.ActionCategory?
+    /// Source server post migration custom action description.
+    public var description: Swift.String?
     /// Source server post migration custom action document identifier.
     /// This member is required.
     public var documentIdentifier: Swift.String?
     /// Source server post migration custom action document version.
     public var documentVersion: Swift.String?
+    /// Source server post migration custom action external parameters.
+    public var externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]?
     /// Source server post migration custom action must succeed for cutover.
     public var mustSucceedForCutover: Swift.Bool?
     /// Source server post migration custom action order.
@@ -9790,8 +11455,11 @@ public struct PutSourceServerActionInput: Swift.Equatable {
         actionID: Swift.String? = nil,
         actionName: Swift.String? = nil,
         active: Swift.Bool? = nil,
+        category: MgnClientTypes.ActionCategory? = nil,
+        description: Swift.String? = nil,
         documentIdentifier: Swift.String? = nil,
         documentVersion: Swift.String? = nil,
+        externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil,
         mustSucceedForCutover: Swift.Bool? = nil,
         order: Swift.Int = 0,
         parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]? = nil,
@@ -9802,8 +11470,11 @@ public struct PutSourceServerActionInput: Swift.Equatable {
         self.actionID = actionID
         self.actionName = actionName
         self.active = active
+        self.category = category
+        self.description = description
         self.documentIdentifier = documentIdentifier
         self.documentVersion = documentVersion
+        self.externalParameters = externalParameters
         self.mustSucceedForCutover = mustSucceedForCutover
         self.order = order
         self.parameters = parameters
@@ -9823,6 +11494,9 @@ struct PutSourceServerActionInputBody: Swift.Equatable {
     let timeoutSeconds: Swift.Int
     let mustSucceedForCutover: Swift.Bool?
     let parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]?
+    let externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]?
+    let description: Swift.String?
+    let category: MgnClientTypes.ActionCategory?
 }
 
 extension PutSourceServerActionInputBody: Swift.Decodable {
@@ -9830,8 +11504,11 @@ extension PutSourceServerActionInputBody: Swift.Decodable {
         case actionID
         case actionName
         case active
+        case category
+        case description
         case documentIdentifier
         case documentVersion
+        case externalParameters
         case mustSucceedForCutover
         case order
         case parameters
@@ -9877,6 +11554,21 @@ extension PutSourceServerActionInputBody: Swift.Decodable {
             }
         }
         parameters = parametersDecoded0
+        let externalParametersContainer = try containerValues.decodeIfPresent([Swift.String: MgnClientTypes.SsmExternalParameter?].self, forKey: .externalParameters)
+        var externalParametersDecoded0: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil
+        if let externalParametersContainer = externalParametersContainer {
+            externalParametersDecoded0 = [Swift.String:MgnClientTypes.SsmExternalParameter]()
+            for (key0, ssmexternalparameter0) in externalParametersContainer {
+                if let ssmexternalparameter0 = ssmexternalparameter0 {
+                    externalParametersDecoded0?[key0] = ssmexternalparameter0
+                }
+            }
+        }
+        externalParameters = externalParametersDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let categoryDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ActionCategory.self, forKey: .category)
+        category = categoryDecoded
     }
 }
 
@@ -9917,8 +11609,11 @@ extension PutSourceServerActionOutputResponse: ClientRuntime.HttpResponseBinding
             self.actionID = output.actionID
             self.actionName = output.actionName
             self.active = output.active
+            self.category = output.category
+            self.description = output.description
             self.documentIdentifier = output.documentIdentifier
             self.documentVersion = output.documentVersion
+            self.externalParameters = output.externalParameters
             self.mustSucceedForCutover = output.mustSucceedForCutover
             self.order = output.order
             self.parameters = output.parameters
@@ -9927,8 +11622,11 @@ extension PutSourceServerActionOutputResponse: ClientRuntime.HttpResponseBinding
             self.actionID = nil
             self.actionName = nil
             self.active = nil
+            self.category = nil
+            self.description = nil
             self.documentIdentifier = nil
             self.documentVersion = nil
+            self.externalParameters = nil
             self.mustSucceedForCutover = nil
             self.order = 0
             self.parameters = nil
@@ -9944,10 +11642,16 @@ public struct PutSourceServerActionOutputResponse: Swift.Equatable {
     public var actionName: Swift.String?
     /// Source server post migration custom action active status.
     public var active: Swift.Bool?
+    /// Source server post migration custom action category.
+    public var category: MgnClientTypes.ActionCategory?
+    /// Source server post migration custom action description.
+    public var description: Swift.String?
     /// Source server post migration custom action document identifier.
     public var documentIdentifier: Swift.String?
     /// Source server post migration custom action document version.
     public var documentVersion: Swift.String?
+    /// Source server post migration custom action external parameters.
+    public var externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]?
     /// Source server post migration custom action must succeed for cutover.
     public var mustSucceedForCutover: Swift.Bool?
     /// Source server post migration custom action order.
@@ -9961,8 +11665,11 @@ public struct PutSourceServerActionOutputResponse: Swift.Equatable {
         actionID: Swift.String? = nil,
         actionName: Swift.String? = nil,
         active: Swift.Bool? = nil,
+        category: MgnClientTypes.ActionCategory? = nil,
+        description: Swift.String? = nil,
         documentIdentifier: Swift.String? = nil,
         documentVersion: Swift.String? = nil,
+        externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil,
         mustSucceedForCutover: Swift.Bool? = nil,
         order: Swift.Int = 0,
         parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]? = nil,
@@ -9972,8 +11679,11 @@ public struct PutSourceServerActionOutputResponse: Swift.Equatable {
         self.actionID = actionID
         self.actionName = actionName
         self.active = active
+        self.category = category
+        self.description = description
         self.documentIdentifier = documentIdentifier
         self.documentVersion = documentVersion
+        self.externalParameters = externalParameters
         self.mustSucceedForCutover = mustSucceedForCutover
         self.order = order
         self.parameters = parameters
@@ -9991,6 +11701,9 @@ struct PutSourceServerActionOutputResponseBody: Swift.Equatable {
     let timeoutSeconds: Swift.Int
     let mustSucceedForCutover: Swift.Bool?
     let parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]?
+    let externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]?
+    let description: Swift.String?
+    let category: MgnClientTypes.ActionCategory?
 }
 
 extension PutSourceServerActionOutputResponseBody: Swift.Decodable {
@@ -9998,8 +11711,11 @@ extension PutSourceServerActionOutputResponseBody: Swift.Decodable {
         case actionID
         case actionName
         case active
+        case category
+        case description
         case documentIdentifier
         case documentVersion
+        case externalParameters
         case mustSucceedForCutover
         case order
         case parameters
@@ -10042,6 +11758,21 @@ extension PutSourceServerActionOutputResponseBody: Swift.Decodable {
             }
         }
         parameters = parametersDecoded0
+        let externalParametersContainer = try containerValues.decodeIfPresent([Swift.String: MgnClientTypes.SsmExternalParameter?].self, forKey: .externalParameters)
+        var externalParametersDecoded0: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil
+        if let externalParametersContainer = externalParametersContainer {
+            externalParametersDecoded0 = [Swift.String:MgnClientTypes.SsmExternalParameter]()
+            for (key0, ssmexternalparameter0) in externalParametersContainer {
+                if let ssmexternalparameter0 = ssmexternalparameter0 {
+                    externalParametersDecoded0?[key0] = ssmexternalparameter0
+                }
+            }
+        }
+        externalParameters = externalParametersDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let categoryDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ActionCategory.self, forKey: .category)
+        category = categoryDecoded
     }
 }
 
@@ -10050,8 +11781,11 @@ extension PutTemplateActionInput: Swift.Encodable {
         case actionID
         case actionName
         case active
+        case category
+        case description
         case documentIdentifier
         case documentVersion
+        case externalParameters
         case launchConfigurationTemplateID
         case mustSucceedForCutover
         case operatingSystem
@@ -10071,11 +11805,23 @@ extension PutTemplateActionInput: Swift.Encodable {
         if let active = self.active {
             try encodeContainer.encode(active, forKey: .active)
         }
+        if let category = self.category {
+            try encodeContainer.encode(category.rawValue, forKey: .category)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
         if let documentIdentifier = self.documentIdentifier {
             try encodeContainer.encode(documentIdentifier, forKey: .documentIdentifier)
         }
         if let documentVersion = self.documentVersion {
             try encodeContainer.encode(documentVersion, forKey: .documentVersion)
+        }
+        if let externalParameters = externalParameters {
+            var externalParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .externalParameters)
+            for (dictKey0, ssmDocumentExternalParameters0) in externalParameters {
+                try externalParametersContainer.encode(ssmDocumentExternalParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let launchConfigurationTemplateID = self.launchConfigurationTemplateID {
             try encodeContainer.encode(launchConfigurationTemplateID, forKey: .launchConfigurationTemplateID)
@@ -10119,11 +11865,17 @@ public struct PutTemplateActionInput: Swift.Equatable {
     public var actionName: Swift.String?
     /// Template post migration custom action active status.
     public var active: Swift.Bool?
+    /// Template post migration custom action category.
+    public var category: MgnClientTypes.ActionCategory?
+    /// Template post migration custom action description.
+    public var description: Swift.String?
     /// Template post migration custom action document identifier.
     /// This member is required.
     public var documentIdentifier: Swift.String?
     /// Template post migration custom action document version.
     public var documentVersion: Swift.String?
+    /// Template post migration custom action external parameters.
+    public var externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]?
     /// Launch configuration template ID.
     /// This member is required.
     public var launchConfigurationTemplateID: Swift.String?
@@ -10143,8 +11895,11 @@ public struct PutTemplateActionInput: Swift.Equatable {
         actionID: Swift.String? = nil,
         actionName: Swift.String? = nil,
         active: Swift.Bool? = nil,
+        category: MgnClientTypes.ActionCategory? = nil,
+        description: Swift.String? = nil,
         documentIdentifier: Swift.String? = nil,
         documentVersion: Swift.String? = nil,
+        externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil,
         launchConfigurationTemplateID: Swift.String? = nil,
         mustSucceedForCutover: Swift.Bool? = nil,
         operatingSystem: Swift.String? = nil,
@@ -10156,8 +11911,11 @@ public struct PutTemplateActionInput: Swift.Equatable {
         self.actionID = actionID
         self.actionName = actionName
         self.active = active
+        self.category = category
+        self.description = description
         self.documentIdentifier = documentIdentifier
         self.documentVersion = documentVersion
+        self.externalParameters = externalParameters
         self.launchConfigurationTemplateID = launchConfigurationTemplateID
         self.mustSucceedForCutover = mustSucceedForCutover
         self.operatingSystem = operatingSystem
@@ -10179,6 +11937,9 @@ struct PutTemplateActionInputBody: Swift.Equatable {
     let mustSucceedForCutover: Swift.Bool?
     let parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]?
     let operatingSystem: Swift.String?
+    let externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]?
+    let description: Swift.String?
+    let category: MgnClientTypes.ActionCategory?
 }
 
 extension PutTemplateActionInputBody: Swift.Decodable {
@@ -10186,8 +11947,11 @@ extension PutTemplateActionInputBody: Swift.Decodable {
         case actionID
         case actionName
         case active
+        case category
+        case description
         case documentIdentifier
         case documentVersion
+        case externalParameters
         case launchConfigurationTemplateID
         case mustSucceedForCutover
         case operatingSystem
@@ -10236,6 +12000,21 @@ extension PutTemplateActionInputBody: Swift.Decodable {
         parameters = parametersDecoded0
         let operatingSystemDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operatingSystem)
         operatingSystem = operatingSystemDecoded
+        let externalParametersContainer = try containerValues.decodeIfPresent([Swift.String: MgnClientTypes.SsmExternalParameter?].self, forKey: .externalParameters)
+        var externalParametersDecoded0: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil
+        if let externalParametersContainer = externalParametersContainer {
+            externalParametersDecoded0 = [Swift.String:MgnClientTypes.SsmExternalParameter]()
+            for (key0, ssmexternalparameter0) in externalParametersContainer {
+                if let ssmexternalparameter0 = ssmexternalparameter0 {
+                    externalParametersDecoded0?[key0] = ssmexternalparameter0
+                }
+            }
+        }
+        externalParameters = externalParametersDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let categoryDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ActionCategory.self, forKey: .category)
+        category = categoryDecoded
     }
 }
 
@@ -10276,8 +12055,11 @@ extension PutTemplateActionOutputResponse: ClientRuntime.HttpResponseBinding {
             self.actionID = output.actionID
             self.actionName = output.actionName
             self.active = output.active
+            self.category = output.category
+            self.description = output.description
             self.documentIdentifier = output.documentIdentifier
             self.documentVersion = output.documentVersion
+            self.externalParameters = output.externalParameters
             self.mustSucceedForCutover = output.mustSucceedForCutover
             self.operatingSystem = output.operatingSystem
             self.order = output.order
@@ -10287,8 +12069,11 @@ extension PutTemplateActionOutputResponse: ClientRuntime.HttpResponseBinding {
             self.actionID = nil
             self.actionName = nil
             self.active = nil
+            self.category = nil
+            self.description = nil
             self.documentIdentifier = nil
             self.documentVersion = nil
+            self.externalParameters = nil
             self.mustSucceedForCutover = nil
             self.operatingSystem = nil
             self.order = 0
@@ -10305,10 +12090,16 @@ public struct PutTemplateActionOutputResponse: Swift.Equatable {
     public var actionName: Swift.String?
     /// Template post migration custom action active status.
     public var active: Swift.Bool?
+    /// Template post migration custom action category.
+    public var category: MgnClientTypes.ActionCategory?
+    /// Template post migration custom action description.
+    public var description: Swift.String?
     /// Template post migration custom action document identifier.
     public var documentIdentifier: Swift.String?
     /// Template post migration custom action document version.
     public var documentVersion: Swift.String?
+    /// Template post migration custom action external parameters.
+    public var externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]?
     /// Template post migration custom action must succeed for cutover.
     public var mustSucceedForCutover: Swift.Bool?
     /// Operating system eligible for this template post migration custom action.
@@ -10324,8 +12115,11 @@ public struct PutTemplateActionOutputResponse: Swift.Equatable {
         actionID: Swift.String? = nil,
         actionName: Swift.String? = nil,
         active: Swift.Bool? = nil,
+        category: MgnClientTypes.ActionCategory? = nil,
+        description: Swift.String? = nil,
         documentIdentifier: Swift.String? = nil,
         documentVersion: Swift.String? = nil,
+        externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil,
         mustSucceedForCutover: Swift.Bool? = nil,
         operatingSystem: Swift.String? = nil,
         order: Swift.Int = 0,
@@ -10336,8 +12130,11 @@ public struct PutTemplateActionOutputResponse: Swift.Equatable {
         self.actionID = actionID
         self.actionName = actionName
         self.active = active
+        self.category = category
+        self.description = description
         self.documentIdentifier = documentIdentifier
         self.documentVersion = documentVersion
+        self.externalParameters = externalParameters
         self.mustSucceedForCutover = mustSucceedForCutover
         self.operatingSystem = operatingSystem
         self.order = order
@@ -10357,6 +12154,9 @@ struct PutTemplateActionOutputResponseBody: Swift.Equatable {
     let mustSucceedForCutover: Swift.Bool?
     let parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]?
     let operatingSystem: Swift.String?
+    let externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]?
+    let description: Swift.String?
+    let category: MgnClientTypes.ActionCategory?
 }
 
 extension PutTemplateActionOutputResponseBody: Swift.Decodable {
@@ -10364,8 +12164,11 @@ extension PutTemplateActionOutputResponseBody: Swift.Decodable {
         case actionID
         case actionName
         case active
+        case category
+        case description
         case documentIdentifier
         case documentVersion
+        case externalParameters
         case mustSucceedForCutover
         case operatingSystem
         case order
@@ -10411,6 +12214,21 @@ extension PutTemplateActionOutputResponseBody: Swift.Decodable {
         parameters = parametersDecoded0
         let operatingSystemDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operatingSystem)
         operatingSystem = operatingSystemDecoded
+        let externalParametersContainer = try containerValues.decodeIfPresent([Swift.String: MgnClientTypes.SsmExternalParameter?].self, forKey: .externalParameters)
+        var externalParametersDecoded0: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil
+        if let externalParametersContainer = externalParametersContainer {
+            externalParametersDecoded0 = [Swift.String:MgnClientTypes.SsmExternalParameter]()
+            for (key0, ssmexternalparameter0) in externalParametersContainer {
+                if let ssmexternalparameter0 = ssmexternalparameter0 {
+                    externalParametersDecoded0?[key0] = ssmexternalparameter0
+                }
+            }
+        }
+        externalParameters = externalParametersDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let categoryDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ActionCategory.self, forKey: .category)
+        category = categoryDecoded
     }
 }
 
@@ -11237,7 +13055,7 @@ public enum RetryDataReplicationOutputError: Swift.Error, Swift.Equatable {
 
 extension RetryDataReplicationOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RetryDataReplicationOutputResponse(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
+        "RetryDataReplicationOutputResponse(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), fqdnForActionFramework: \(Swift.String(describing: fqdnForActionFramework)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), userProvidedID: \(Swift.String(describing: userProvidedID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension RetryDataReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -11249,6 +13067,7 @@ extension RetryDataReplicationOutputResponse: ClientRuntime.HttpResponseBinding 
             self.applicationID = output.applicationID
             self.arn = output.arn
             self.dataReplicationInfo = output.dataReplicationInfo
+            self.fqdnForActionFramework = output.fqdnForActionFramework
             self.isArchived = output.isArchived
             self.launchedInstance = output.launchedInstance
             self.lifeCycle = output.lifeCycle
@@ -11256,11 +13075,13 @@ extension RetryDataReplicationOutputResponse: ClientRuntime.HttpResponseBinding 
             self.sourceProperties = output.sourceProperties
             self.sourceServerID = output.sourceServerID
             self.tags = output.tags
+            self.userProvidedID = output.userProvidedID
             self.vcenterClientID = output.vcenterClientID
         } else {
             self.applicationID = nil
             self.arn = nil
             self.dataReplicationInfo = nil
+            self.fqdnForActionFramework = nil
             self.isArchived = nil
             self.launchedInstance = nil
             self.lifeCycle = nil
@@ -11268,6 +13089,7 @@ extension RetryDataReplicationOutputResponse: ClientRuntime.HttpResponseBinding 
             self.sourceProperties = nil
             self.sourceServerID = nil
             self.tags = nil
+            self.userProvidedID = nil
             self.vcenterClientID = nil
         }
     }
@@ -11280,6 +13102,8 @@ public struct RetryDataReplicationOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// Source server data replication info.
     public var dataReplicationInfo: MgnClientTypes.DataReplicationInfo?
+    /// Source server fqdn for action framework.
+    public var fqdnForActionFramework: Swift.String?
     /// Source server archived status.
     public var isArchived: Swift.Bool?
     /// Source server launched instance.
@@ -11294,6 +13118,8 @@ public struct RetryDataReplicationOutputResponse: Swift.Equatable {
     public var sourceServerID: Swift.String?
     /// Source server Tags.
     public var tags: [Swift.String:Swift.String]?
+    /// Source server user provided ID.
+    public var userProvidedID: Swift.String?
     /// Source server vCenter client id.
     public var vcenterClientID: Swift.String?
 
@@ -11301,6 +13127,7 @@ public struct RetryDataReplicationOutputResponse: Swift.Equatable {
         applicationID: Swift.String? = nil,
         arn: Swift.String? = nil,
         dataReplicationInfo: MgnClientTypes.DataReplicationInfo? = nil,
+        fqdnForActionFramework: Swift.String? = nil,
         isArchived: Swift.Bool? = nil,
         launchedInstance: MgnClientTypes.LaunchedInstance? = nil,
         lifeCycle: MgnClientTypes.LifeCycle? = nil,
@@ -11308,12 +13135,14 @@ public struct RetryDataReplicationOutputResponse: Swift.Equatable {
         sourceProperties: MgnClientTypes.SourceProperties? = nil,
         sourceServerID: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
+        userProvidedID: Swift.String? = nil,
         vcenterClientID: Swift.String? = nil
     )
     {
         self.applicationID = applicationID
         self.arn = arn
         self.dataReplicationInfo = dataReplicationInfo
+        self.fqdnForActionFramework = fqdnForActionFramework
         self.isArchived = isArchived
         self.launchedInstance = launchedInstance
         self.lifeCycle = lifeCycle
@@ -11321,6 +13150,7 @@ public struct RetryDataReplicationOutputResponse: Swift.Equatable {
         self.sourceProperties = sourceProperties
         self.sourceServerID = sourceServerID
         self.tags = tags
+        self.userProvidedID = userProvidedID
         self.vcenterClientID = vcenterClientID
     }
 }
@@ -11337,6 +13167,8 @@ struct RetryDataReplicationOutputResponseBody: Swift.Equatable {
     let replicationType: MgnClientTypes.ReplicationType?
     let vcenterClientID: Swift.String?
     let applicationID: Swift.String?
+    let userProvidedID: Swift.String?
+    let fqdnForActionFramework: Swift.String?
 }
 
 extension RetryDataReplicationOutputResponseBody: Swift.Decodable {
@@ -11344,6 +13176,7 @@ extension RetryDataReplicationOutputResponseBody: Swift.Decodable {
         case applicationID
         case arn
         case dataReplicationInfo
+        case fqdnForActionFramework
         case isArchived
         case launchedInstance
         case lifeCycle
@@ -11351,6 +13184,7 @@ extension RetryDataReplicationOutputResponseBody: Swift.Decodable {
         case sourceProperties
         case sourceServerID
         case tags
+        case userProvidedID
         case vcenterClientID
     }
 
@@ -11387,7 +13221,68 @@ extension RetryDataReplicationOutputResponseBody: Swift.Decodable {
         vcenterClientID = vcenterClientIDDecoded
         let applicationIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationID)
         applicationID = applicationIDDecoded
+        let userProvidedIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userProvidedID)
+        userProvidedID = userProvidedIDDecoded
+        let fqdnForActionFrameworkDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fqdnForActionFramework)
+        fqdnForActionFramework = fqdnForActionFrameworkDecoded
     }
+}
+
+extension MgnClientTypes.S3BucketSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3Bucket
+        case s3BucketOwner
+        case s3Key
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let s3Bucket = self.s3Bucket {
+            try encodeContainer.encode(s3Bucket, forKey: .s3Bucket)
+        }
+        if let s3BucketOwner = self.s3BucketOwner {
+            try encodeContainer.encode(s3BucketOwner, forKey: .s3BucketOwner)
+        }
+        if let s3Key = self.s3Key {
+            try encodeContainer.encode(s3Key, forKey: .s3Key)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3BucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Bucket)
+        s3Bucket = s3BucketDecoded
+        let s3KeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Key)
+        s3Key = s3KeyDecoded
+        let s3BucketOwnerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketOwner)
+        s3BucketOwner = s3BucketOwnerDecoded
+    }
+}
+
+extension MgnClientTypes {
+    /// S3 bucket source.
+    public struct S3BucketSource: Swift.Equatable {
+        /// S3 bucket source s3 bucket.
+        /// This member is required.
+        public var s3Bucket: Swift.String?
+        /// S3 bucket source s3 bucket owner.
+        public var s3BucketOwner: Swift.String?
+        /// S3 bucket source s3 key.
+        /// This member is required.
+        public var s3Key: Swift.String?
+
+        public init (
+            s3Bucket: Swift.String? = nil,
+            s3BucketOwner: Swift.String? = nil,
+            s3Key: Swift.String? = nil
+        )
+        {
+            self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
+            self.s3Key = s3Key
+        }
+    }
+
 }
 
 extension ServiceQuotaExceededException {
@@ -11647,6 +13542,7 @@ extension MgnClientTypes.SourceServer: Swift.Codable {
         case applicationID
         case arn
         case dataReplicationInfo
+        case fqdnForActionFramework
         case isArchived
         case launchedInstance
         case lifeCycle
@@ -11654,6 +13550,7 @@ extension MgnClientTypes.SourceServer: Swift.Codable {
         case sourceProperties
         case sourceServerID
         case tags
+        case userProvidedID
         case vcenterClientID
     }
 
@@ -11667,6 +13564,9 @@ extension MgnClientTypes.SourceServer: Swift.Codable {
         }
         if let dataReplicationInfo = self.dataReplicationInfo {
             try encodeContainer.encode(dataReplicationInfo, forKey: .dataReplicationInfo)
+        }
+        if let fqdnForActionFramework = self.fqdnForActionFramework {
+            try encodeContainer.encode(fqdnForActionFramework, forKey: .fqdnForActionFramework)
         }
         if let isArchived = self.isArchived {
             try encodeContainer.encode(isArchived, forKey: .isArchived)
@@ -11691,6 +13591,9 @@ extension MgnClientTypes.SourceServer: Swift.Codable {
             for (dictKey0, tagsMap0) in tags {
                 try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let userProvidedID = self.userProvidedID {
+            try encodeContainer.encode(userProvidedID, forKey: .userProvidedID)
         }
         if let vcenterClientID = self.vcenterClientID {
             try encodeContainer.encode(vcenterClientID, forKey: .vcenterClientID)
@@ -11730,12 +13633,16 @@ extension MgnClientTypes.SourceServer: Swift.Codable {
         vcenterClientID = vcenterClientIDDecoded
         let applicationIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationID)
         applicationID = applicationIDDecoded
+        let userProvidedIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userProvidedID)
+        userProvidedID = userProvidedIDDecoded
+        let fqdnForActionFrameworkDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fqdnForActionFramework)
+        fqdnForActionFramework = fqdnForActionFrameworkDecoded
     }
 }
 
 extension MgnClientTypes.SourceServer: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SourceServer(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
+        "SourceServer(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), fqdnForActionFramework: \(Swift.String(describing: fqdnForActionFramework)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), userProvidedID: \(Swift.String(describing: userProvidedID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension MgnClientTypes {
@@ -11746,6 +13653,8 @@ extension MgnClientTypes {
         public var arn: Swift.String?
         /// Source server data replication info.
         public var dataReplicationInfo: MgnClientTypes.DataReplicationInfo?
+        /// Source server fqdn for action framework.
+        public var fqdnForActionFramework: Swift.String?
         /// Source server archived status.
         public var isArchived: Swift.Bool?
         /// Source server launched instance.
@@ -11760,6 +13669,8 @@ extension MgnClientTypes {
         public var sourceServerID: Swift.String?
         /// Source server Tags.
         public var tags: [Swift.String:Swift.String]?
+        /// Source server user provided ID.
+        public var userProvidedID: Swift.String?
         /// Source server vCenter client id.
         public var vcenterClientID: Swift.String?
 
@@ -11767,6 +13678,7 @@ extension MgnClientTypes {
             applicationID: Swift.String? = nil,
             arn: Swift.String? = nil,
             dataReplicationInfo: MgnClientTypes.DataReplicationInfo? = nil,
+            fqdnForActionFramework: Swift.String? = nil,
             isArchived: Swift.Bool? = nil,
             launchedInstance: MgnClientTypes.LaunchedInstance? = nil,
             lifeCycle: MgnClientTypes.LifeCycle? = nil,
@@ -11774,12 +13686,14 @@ extension MgnClientTypes {
             sourceProperties: MgnClientTypes.SourceProperties? = nil,
             sourceServerID: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil,
+            userProvidedID: Swift.String? = nil,
             vcenterClientID: Swift.String? = nil
         )
         {
             self.applicationID = applicationID
             self.arn = arn
             self.dataReplicationInfo = dataReplicationInfo
+            self.fqdnForActionFramework = fqdnForActionFramework
             self.isArchived = isArchived
             self.launchedInstance = launchedInstance
             self.lifeCycle = lifeCycle
@@ -11787,6 +13701,7 @@ extension MgnClientTypes {
             self.sourceProperties = sourceProperties
             self.sourceServerID = sourceServerID
             self.tags = tags
+            self.userProvidedID = userProvidedID
             self.vcenterClientID = vcenterClientID
         }
     }
@@ -11798,8 +13713,11 @@ extension MgnClientTypes.SourceServerActionDocument: Swift.Codable {
         case actionID
         case actionName
         case active
+        case category
+        case description
         case documentIdentifier
         case documentVersion
+        case externalParameters
         case mustSucceedForCutover
         case order
         case parameters
@@ -11817,11 +13735,23 @@ extension MgnClientTypes.SourceServerActionDocument: Swift.Codable {
         if let active = self.active {
             try encodeContainer.encode(active, forKey: .active)
         }
+        if let category = self.category {
+            try encodeContainer.encode(category.rawValue, forKey: .category)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
         if let documentIdentifier = self.documentIdentifier {
             try encodeContainer.encode(documentIdentifier, forKey: .documentIdentifier)
         }
         if let documentVersion = self.documentVersion {
             try encodeContainer.encode(documentVersion, forKey: .documentVersion)
+        }
+        if let externalParameters = externalParameters {
+            var externalParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .externalParameters)
+            for (dictKey0, ssmDocumentExternalParameters0) in externalParameters {
+                try externalParametersContainer.encode(ssmDocumentExternalParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let mustSucceedForCutover = self.mustSucceedForCutover {
             try encodeContainer.encode(mustSucceedForCutover, forKey: .mustSucceedForCutover)
@@ -11879,6 +13809,21 @@ extension MgnClientTypes.SourceServerActionDocument: Swift.Codable {
             }
         }
         parameters = parametersDecoded0
+        let externalParametersContainer = try containerValues.decodeIfPresent([Swift.String: MgnClientTypes.SsmExternalParameter?].self, forKey: .externalParameters)
+        var externalParametersDecoded0: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil
+        if let externalParametersContainer = externalParametersContainer {
+            externalParametersDecoded0 = [Swift.String:MgnClientTypes.SsmExternalParameter]()
+            for (key0, ssmexternalparameter0) in externalParametersContainer {
+                if let ssmexternalparameter0 = ssmexternalparameter0 {
+                    externalParametersDecoded0?[key0] = ssmexternalparameter0
+                }
+            }
+        }
+        externalParameters = externalParametersDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let categoryDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ActionCategory.self, forKey: .category)
+        category = categoryDecoded
     }
 }
 
@@ -11890,10 +13835,16 @@ extension MgnClientTypes {
         public var actionName: Swift.String?
         /// Source server post migration custom action active status.
         public var active: Swift.Bool?
+        /// Source server post migration custom action category.
+        public var category: MgnClientTypes.ActionCategory?
+        /// Source server post migration custom action description.
+        public var description: Swift.String?
         /// Source server post migration custom action document identifier.
         public var documentIdentifier: Swift.String?
         /// Source server post migration custom action document version.
         public var documentVersion: Swift.String?
+        /// Source server post migration custom action external parameters.
+        public var externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]?
         /// Source server post migration custom action must succeed for cutover.
         public var mustSucceedForCutover: Swift.Bool?
         /// Source server post migration custom action order.
@@ -11907,8 +13858,11 @@ extension MgnClientTypes {
             actionID: Swift.String? = nil,
             actionName: Swift.String? = nil,
             active: Swift.Bool? = nil,
+            category: MgnClientTypes.ActionCategory? = nil,
+            description: Swift.String? = nil,
             documentIdentifier: Swift.String? = nil,
             documentVersion: Swift.String? = nil,
+            externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil,
             mustSucceedForCutover: Swift.Bool? = nil,
             order: Swift.Int = 0,
             parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]? = nil,
@@ -11918,8 +13872,11 @@ extension MgnClientTypes {
             self.actionID = actionID
             self.actionName = actionName
             self.active = active
+            self.category = category
+            self.description = description
             self.documentIdentifier = documentIdentifier
             self.documentVersion = documentVersion
+            self.externalParameters = externalParameters
             self.mustSucceedForCutover = mustSucceedForCutover
             self.order = order
             self.parameters = parameters
@@ -11979,6 +13936,7 @@ extension MgnClientTypes {
 extension MgnClientTypes.SsmDocument: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actionName
+        case externalParameters
         case mustSucceedForCutover
         case parameters
         case ssmDocumentName
@@ -11989,6 +13947,12 @@ extension MgnClientTypes.SsmDocument: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actionName = self.actionName {
             try encodeContainer.encode(actionName, forKey: .actionName)
+        }
+        if let externalParameters = externalParameters {
+            var externalParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .externalParameters)
+            for (dictKey0, ssmDocumentExternalParameters0) in externalParameters {
+                try externalParametersContainer.encode(ssmDocumentExternalParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let mustSucceedForCutover = self.mustSucceedForCutover {
             try encodeContainer.encode(mustSucceedForCutover, forKey: .mustSucceedForCutover)
@@ -12038,6 +14002,17 @@ extension MgnClientTypes.SsmDocument: Swift.Codable {
             }
         }
         parameters = parametersDecoded0
+        let externalParametersContainer = try containerValues.decodeIfPresent([Swift.String: MgnClientTypes.SsmExternalParameter?].self, forKey: .externalParameters)
+        var externalParametersDecoded0: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil
+        if let externalParametersContainer = externalParametersContainer {
+            externalParametersDecoded0 = [Swift.String:MgnClientTypes.SsmExternalParameter]()
+            for (key0, ssmexternalparameter0) in externalParametersContainer {
+                if let ssmexternalparameter0 = ssmexternalparameter0 {
+                    externalParametersDecoded0?[key0] = ssmexternalparameter0
+                }
+            }
+        }
+        externalParameters = externalParametersDecoded0
     }
 }
 
@@ -12047,6 +14022,8 @@ extension MgnClientTypes {
         /// User-friendly name for the AWS Systems Manager Document.
         /// This member is required.
         public var actionName: Swift.String?
+        /// AWS Systems Manager Document external parameters.
+        public var externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]?
         /// If true, Cutover will not be enabled if the document has failed.
         public var mustSucceedForCutover: Swift.Bool?
         /// AWS Systems Manager Document parameters.
@@ -12059,6 +14036,7 @@ extension MgnClientTypes {
 
         public init (
             actionName: Swift.String? = nil,
+            externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil,
             mustSucceedForCutover: Swift.Bool? = nil,
             parameters: [Swift.String:[MgnClientTypes.SsmParameterStoreParameter]]? = nil,
             ssmDocumentName: Swift.String? = nil,
@@ -12066,6 +14044,7 @@ extension MgnClientTypes {
         )
         {
             self.actionName = actionName
+            self.externalParameters = externalParameters
             self.mustSucceedForCutover = mustSucceedForCutover
             self.parameters = parameters
             self.ssmDocumentName = ssmDocumentName
@@ -12105,6 +14084,43 @@ extension MgnClientTypes {
             self = SsmDocumentType(rawValue: rawValue) ?? SsmDocumentType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension MgnClientTypes.SsmExternalParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dynamicpath = "dynamicPath"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .dynamicpath(dynamicpath):
+                try container.encode(dynamicpath, forKey: .dynamicpath)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let dynamicpathDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .dynamicpath)
+        if let dynamicpath = dynamicpathDecoded {
+            self = .dynamicpath(dynamicpath)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension MgnClientTypes {
+    /// AWS Systems Manager Document external parameter.
+    public enum SsmExternalParameter: Swift.Equatable {
+        /// AWS Systems Manager Document external parameters dynamic path.
+        case dynamicpath(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+
 }
 
 extension MgnClientTypes.SsmParameterStoreParameter: Swift.Codable {
@@ -12339,6 +14355,281 @@ extension StartCutoverOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension StartExportInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3Bucket
+        case s3BucketOwner
+        case s3Key
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let s3Bucket = self.s3Bucket {
+            try encodeContainer.encode(s3Bucket, forKey: .s3Bucket)
+        }
+        if let s3BucketOwner = self.s3BucketOwner {
+            try encodeContainer.encode(s3BucketOwner, forKey: .s3BucketOwner)
+        }
+        if let s3Key = self.s3Key {
+            try encodeContainer.encode(s3Key, forKey: .s3Key)
+        }
+    }
+}
+
+extension StartExportInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/StartExport"
+    }
+}
+
+/// Start export request.
+public struct StartExportInput: Swift.Equatable {
+    /// Start export request s3 bucket.
+    /// This member is required.
+    public var s3Bucket: Swift.String?
+    /// Start export request s3 bucket owner.
+    public var s3BucketOwner: Swift.String?
+    /// Start export request s3key.
+    /// This member is required.
+    public var s3Key: Swift.String?
+
+    public init (
+        s3Bucket: Swift.String? = nil,
+        s3BucketOwner: Swift.String? = nil,
+        s3Key: Swift.String? = nil
+    )
+    {
+        self.s3Bucket = s3Bucket
+        self.s3BucketOwner = s3BucketOwner
+        self.s3Key = s3Key
+    }
+}
+
+struct StartExportInputBody: Swift.Equatable {
+    let s3Bucket: Swift.String?
+    let s3Key: Swift.String?
+    let s3BucketOwner: Swift.String?
+}
+
+extension StartExportInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3Bucket
+        case s3BucketOwner
+        case s3Key
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3BucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Bucket)
+        s3Bucket = s3BucketDecoded
+        let s3KeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Key)
+        s3Key = s3KeyDecoded
+        let s3BucketOwnerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketOwner)
+        s3BucketOwner = s3BucketOwnerDecoded
+    }
+}
+
+extension StartExportOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartExportOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UninitializedAccountException" : self = .uninitializedAccountException(try UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StartExportOutputError: Swift.Error, Swift.Equatable {
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case uninitializedAccountException(UninitializedAccountException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartExportOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: StartExportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.exportTask = output.exportTask
+        } else {
+            self.exportTask = nil
+        }
+    }
+}
+
+/// Start export response.
+public struct StartExportOutputResponse: Swift.Equatable {
+    /// Start export response export task.
+    public var exportTask: MgnClientTypes.ExportTask?
+
+    public init (
+        exportTask: MgnClientTypes.ExportTask? = nil
+    )
+    {
+        self.exportTask = exportTask
+    }
+}
+
+struct StartExportOutputResponseBody: Swift.Equatable {
+    let exportTask: MgnClientTypes.ExportTask?
+}
+
+extension StartExportOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportTask
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let exportTaskDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ExportTask.self, forKey: .exportTask)
+        exportTask = exportTaskDecoded
+    }
+}
+
+extension StartImportInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case s3BucketSource
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let s3BucketSource = self.s3BucketSource {
+            try encodeContainer.encode(s3BucketSource, forKey: .s3BucketSource)
+        }
+    }
+}
+
+extension StartImportInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/StartImport"
+    }
+}
+
+/// Start import request.
+public struct StartImportInput: Swift.Equatable {
+    /// Start import request client token.
+    public var clientToken: Swift.String?
+    /// Start import request s3 bucket source.
+    /// This member is required.
+    public var s3BucketSource: MgnClientTypes.S3BucketSource?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        s3BucketSource: MgnClientTypes.S3BucketSource? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.s3BucketSource = s3BucketSource
+    }
+}
+
+struct StartImportInputBody: Swift.Equatable {
+    let clientToken: Swift.String?
+    let s3BucketSource: MgnClientTypes.S3BucketSource?
+}
+
+extension StartImportInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case s3BucketSource
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let s3BucketSourceDecoded = try containerValues.decodeIfPresent(MgnClientTypes.S3BucketSource.self, forKey: .s3BucketSource)
+        s3BucketSource = s3BucketSourceDecoded
+    }
+}
+
+extension StartImportOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartImportOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UninitializedAccountException" : self = .uninitializedAccountException(try UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StartImportOutputError: Swift.Error, Swift.Equatable {
+    case conflictException(ConflictException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case uninitializedAccountException(UninitializedAccountException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartImportOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: StartImportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.importTask = output.importTask
+        } else {
+            self.importTask = nil
+        }
+    }
+}
+
+/// Start import response.
+public struct StartImportOutputResponse: Swift.Equatable {
+    /// Start import response import task.
+    public var importTask: MgnClientTypes.ImportTask?
+
+    public init (
+        importTask: MgnClientTypes.ImportTask? = nil
+    )
+    {
+        self.importTask = importTask
+    }
+}
+
+struct StartImportOutputResponseBody: Swift.Equatable {
+    let importTask: MgnClientTypes.ImportTask?
+}
+
+extension StartImportOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case importTask
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let importTaskDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ImportTask.self, forKey: .importTask)
+        importTask = importTaskDecoded
+    }
+}
+
 extension StartReplicationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sourceServerID
@@ -12419,7 +14710,7 @@ public enum StartReplicationOutputError: Swift.Error, Swift.Equatable {
 
 extension StartReplicationOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartReplicationOutputResponse(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
+        "StartReplicationOutputResponse(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), fqdnForActionFramework: \(Swift.String(describing: fqdnForActionFramework)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), userProvidedID: \(Swift.String(describing: userProvidedID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension StartReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -12431,6 +14722,7 @@ extension StartReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
             self.applicationID = output.applicationID
             self.arn = output.arn
             self.dataReplicationInfo = output.dataReplicationInfo
+            self.fqdnForActionFramework = output.fqdnForActionFramework
             self.isArchived = output.isArchived
             self.launchedInstance = output.launchedInstance
             self.lifeCycle = output.lifeCycle
@@ -12438,11 +14730,13 @@ extension StartReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
             self.sourceProperties = output.sourceProperties
             self.sourceServerID = output.sourceServerID
             self.tags = output.tags
+            self.userProvidedID = output.userProvidedID
             self.vcenterClientID = output.vcenterClientID
         } else {
             self.applicationID = nil
             self.arn = nil
             self.dataReplicationInfo = nil
+            self.fqdnForActionFramework = nil
             self.isArchived = nil
             self.launchedInstance = nil
             self.lifeCycle = nil
@@ -12450,6 +14744,7 @@ extension StartReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
             self.sourceProperties = nil
             self.sourceServerID = nil
             self.tags = nil
+            self.userProvidedID = nil
             self.vcenterClientID = nil
         }
     }
@@ -12462,6 +14757,8 @@ public struct StartReplicationOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// Source server data replication info.
     public var dataReplicationInfo: MgnClientTypes.DataReplicationInfo?
+    /// Source server fqdn for action framework.
+    public var fqdnForActionFramework: Swift.String?
     /// Source server archived status.
     public var isArchived: Swift.Bool?
     /// Source server launched instance.
@@ -12476,6 +14773,8 @@ public struct StartReplicationOutputResponse: Swift.Equatable {
     public var sourceServerID: Swift.String?
     /// Source server Tags.
     public var tags: [Swift.String:Swift.String]?
+    /// Source server user provided ID.
+    public var userProvidedID: Swift.String?
     /// Source server vCenter client id.
     public var vcenterClientID: Swift.String?
 
@@ -12483,6 +14782,7 @@ public struct StartReplicationOutputResponse: Swift.Equatable {
         applicationID: Swift.String? = nil,
         arn: Swift.String? = nil,
         dataReplicationInfo: MgnClientTypes.DataReplicationInfo? = nil,
+        fqdnForActionFramework: Swift.String? = nil,
         isArchived: Swift.Bool? = nil,
         launchedInstance: MgnClientTypes.LaunchedInstance? = nil,
         lifeCycle: MgnClientTypes.LifeCycle? = nil,
@@ -12490,12 +14790,14 @@ public struct StartReplicationOutputResponse: Swift.Equatable {
         sourceProperties: MgnClientTypes.SourceProperties? = nil,
         sourceServerID: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
+        userProvidedID: Swift.String? = nil,
         vcenterClientID: Swift.String? = nil
     )
     {
         self.applicationID = applicationID
         self.arn = arn
         self.dataReplicationInfo = dataReplicationInfo
+        self.fqdnForActionFramework = fqdnForActionFramework
         self.isArchived = isArchived
         self.launchedInstance = launchedInstance
         self.lifeCycle = lifeCycle
@@ -12503,6 +14805,7 @@ public struct StartReplicationOutputResponse: Swift.Equatable {
         self.sourceProperties = sourceProperties
         self.sourceServerID = sourceServerID
         self.tags = tags
+        self.userProvidedID = userProvidedID
         self.vcenterClientID = vcenterClientID
     }
 }
@@ -12519,6 +14822,8 @@ struct StartReplicationOutputResponseBody: Swift.Equatable {
     let replicationType: MgnClientTypes.ReplicationType?
     let vcenterClientID: Swift.String?
     let applicationID: Swift.String?
+    let userProvidedID: Swift.String?
+    let fqdnForActionFramework: Swift.String?
 }
 
 extension StartReplicationOutputResponseBody: Swift.Decodable {
@@ -12526,6 +14831,7 @@ extension StartReplicationOutputResponseBody: Swift.Decodable {
         case applicationID
         case arn
         case dataReplicationInfo
+        case fqdnForActionFramework
         case isArchived
         case launchedInstance
         case lifeCycle
@@ -12533,6 +14839,7 @@ extension StartReplicationOutputResponseBody: Swift.Decodable {
         case sourceProperties
         case sourceServerID
         case tags
+        case userProvidedID
         case vcenterClientID
     }
 
@@ -12569,6 +14876,10 @@ extension StartReplicationOutputResponseBody: Swift.Decodable {
         vcenterClientID = vcenterClientIDDecoded
         let applicationIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationID)
         applicationID = applicationIDDecoded
+        let userProvidedIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userProvidedID)
+        userProvidedID = userProvidedIDDecoded
+        let fqdnForActionFrameworkDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fqdnForActionFramework)
+        fqdnForActionFramework = fqdnForActionFrameworkDecoded
     }
 }
 
@@ -12878,8 +15189,11 @@ extension MgnClientTypes.TemplateActionDocument: Swift.Codable {
         case actionID
         case actionName
         case active
+        case category
+        case description
         case documentIdentifier
         case documentVersion
+        case externalParameters
         case mustSucceedForCutover
         case operatingSystem
         case order
@@ -12898,11 +15212,23 @@ extension MgnClientTypes.TemplateActionDocument: Swift.Codable {
         if let active = self.active {
             try encodeContainer.encode(active, forKey: .active)
         }
+        if let category = self.category {
+            try encodeContainer.encode(category.rawValue, forKey: .category)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
         if let documentIdentifier = self.documentIdentifier {
             try encodeContainer.encode(documentIdentifier, forKey: .documentIdentifier)
         }
         if let documentVersion = self.documentVersion {
             try encodeContainer.encode(documentVersion, forKey: .documentVersion)
+        }
+        if let externalParameters = externalParameters {
+            var externalParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .externalParameters)
+            for (dictKey0, ssmDocumentExternalParameters0) in externalParameters {
+                try externalParametersContainer.encode(ssmDocumentExternalParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let mustSucceedForCutover = self.mustSucceedForCutover {
             try encodeContainer.encode(mustSucceedForCutover, forKey: .mustSucceedForCutover)
@@ -12965,6 +15291,21 @@ extension MgnClientTypes.TemplateActionDocument: Swift.Codable {
         parameters = parametersDecoded0
         let operatingSystemDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operatingSystem)
         operatingSystem = operatingSystemDecoded
+        let externalParametersContainer = try containerValues.decodeIfPresent([Swift.String: MgnClientTypes.SsmExternalParameter?].self, forKey: .externalParameters)
+        var externalParametersDecoded0: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil
+        if let externalParametersContainer = externalParametersContainer {
+            externalParametersDecoded0 = [Swift.String:MgnClientTypes.SsmExternalParameter]()
+            for (key0, ssmexternalparameter0) in externalParametersContainer {
+                if let ssmexternalparameter0 = ssmexternalparameter0 {
+                    externalParametersDecoded0?[key0] = ssmexternalparameter0
+                }
+            }
+        }
+        externalParameters = externalParametersDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let categoryDecoded = try containerValues.decodeIfPresent(MgnClientTypes.ActionCategory.self, forKey: .category)
+        category = categoryDecoded
     }
 }
 
@@ -12976,10 +15317,16 @@ extension MgnClientTypes {
         public var actionName: Swift.String?
         /// Template post migration custom action active status.
         public var active: Swift.Bool?
+        /// Template post migration custom action category.
+        public var category: MgnClientTypes.ActionCategory?
+        /// Template post migration custom action description.
+        public var description: Swift.String?
         /// Template post migration custom action document identifier.
         public var documentIdentifier: Swift.String?
         /// Template post migration custom action document version.
         public var documentVersion: Swift.String?
+        /// Template post migration custom action external parameters.
+        public var externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]?
         /// Template post migration custom action must succeed for cutover.
         public var mustSucceedForCutover: Swift.Bool?
         /// Operating system eligible for this template post migration custom action.
@@ -12995,8 +15342,11 @@ extension MgnClientTypes {
             actionID: Swift.String? = nil,
             actionName: Swift.String? = nil,
             active: Swift.Bool? = nil,
+            category: MgnClientTypes.ActionCategory? = nil,
+            description: Swift.String? = nil,
             documentIdentifier: Swift.String? = nil,
             documentVersion: Swift.String? = nil,
+            externalParameters: [Swift.String:MgnClientTypes.SsmExternalParameter]? = nil,
             mustSucceedForCutover: Swift.Bool? = nil,
             operatingSystem: Swift.String? = nil,
             order: Swift.Int = 0,
@@ -13007,8 +15357,11 @@ extension MgnClientTypes {
             self.actionID = actionID
             self.actionName = actionName
             self.active = active
+            self.category = category
+            self.description = description
             self.documentIdentifier = documentIdentifier
             self.documentVersion = documentVersion
+            self.externalParameters = externalParameters
             self.mustSucceedForCutover = mustSucceedForCutover
             self.operatingSystem = operatingSystem
             self.order = order
@@ -15995,7 +18348,7 @@ public enum UpdateSourceServerReplicationTypeOutputError: Swift.Error, Swift.Equ
 
 extension UpdateSourceServerReplicationTypeOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateSourceServerReplicationTypeOutputResponse(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
+        "UpdateSourceServerReplicationTypeOutputResponse(applicationID: \(Swift.String(describing: applicationID)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), fqdnForActionFramework: \(Swift.String(describing: fqdnForActionFramework)), isArchived: \(Swift.String(describing: isArchived)), launchedInstance: \(Swift.String(describing: launchedInstance)), lifeCycle: \(Swift.String(describing: lifeCycle)), replicationType: \(Swift.String(describing: replicationType)), sourceProperties: \(Swift.String(describing: sourceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), userProvidedID: \(Swift.String(describing: userProvidedID)), vcenterClientID: \(Swift.String(describing: vcenterClientID)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateSourceServerReplicationTypeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16007,6 +18360,7 @@ extension UpdateSourceServerReplicationTypeOutputResponse: ClientRuntime.HttpRes
             self.applicationID = output.applicationID
             self.arn = output.arn
             self.dataReplicationInfo = output.dataReplicationInfo
+            self.fqdnForActionFramework = output.fqdnForActionFramework
             self.isArchived = output.isArchived
             self.launchedInstance = output.launchedInstance
             self.lifeCycle = output.lifeCycle
@@ -16014,11 +18368,13 @@ extension UpdateSourceServerReplicationTypeOutputResponse: ClientRuntime.HttpRes
             self.sourceProperties = output.sourceProperties
             self.sourceServerID = output.sourceServerID
             self.tags = output.tags
+            self.userProvidedID = output.userProvidedID
             self.vcenterClientID = output.vcenterClientID
         } else {
             self.applicationID = nil
             self.arn = nil
             self.dataReplicationInfo = nil
+            self.fqdnForActionFramework = nil
             self.isArchived = nil
             self.launchedInstance = nil
             self.lifeCycle = nil
@@ -16026,6 +18382,7 @@ extension UpdateSourceServerReplicationTypeOutputResponse: ClientRuntime.HttpRes
             self.sourceProperties = nil
             self.sourceServerID = nil
             self.tags = nil
+            self.userProvidedID = nil
             self.vcenterClientID = nil
         }
     }
@@ -16038,6 +18395,8 @@ public struct UpdateSourceServerReplicationTypeOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// Source server data replication info.
     public var dataReplicationInfo: MgnClientTypes.DataReplicationInfo?
+    /// Source server fqdn for action framework.
+    public var fqdnForActionFramework: Swift.String?
     /// Source server archived status.
     public var isArchived: Swift.Bool?
     /// Source server launched instance.
@@ -16052,6 +18411,8 @@ public struct UpdateSourceServerReplicationTypeOutputResponse: Swift.Equatable {
     public var sourceServerID: Swift.String?
     /// Source server Tags.
     public var tags: [Swift.String:Swift.String]?
+    /// Source server user provided ID.
+    public var userProvidedID: Swift.String?
     /// Source server vCenter client id.
     public var vcenterClientID: Swift.String?
 
@@ -16059,6 +18420,7 @@ public struct UpdateSourceServerReplicationTypeOutputResponse: Swift.Equatable {
         applicationID: Swift.String? = nil,
         arn: Swift.String? = nil,
         dataReplicationInfo: MgnClientTypes.DataReplicationInfo? = nil,
+        fqdnForActionFramework: Swift.String? = nil,
         isArchived: Swift.Bool? = nil,
         launchedInstance: MgnClientTypes.LaunchedInstance? = nil,
         lifeCycle: MgnClientTypes.LifeCycle? = nil,
@@ -16066,12 +18428,14 @@ public struct UpdateSourceServerReplicationTypeOutputResponse: Swift.Equatable {
         sourceProperties: MgnClientTypes.SourceProperties? = nil,
         sourceServerID: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
+        userProvidedID: Swift.String? = nil,
         vcenterClientID: Swift.String? = nil
     )
     {
         self.applicationID = applicationID
         self.arn = arn
         self.dataReplicationInfo = dataReplicationInfo
+        self.fqdnForActionFramework = fqdnForActionFramework
         self.isArchived = isArchived
         self.launchedInstance = launchedInstance
         self.lifeCycle = lifeCycle
@@ -16079,6 +18443,7 @@ public struct UpdateSourceServerReplicationTypeOutputResponse: Swift.Equatable {
         self.sourceProperties = sourceProperties
         self.sourceServerID = sourceServerID
         self.tags = tags
+        self.userProvidedID = userProvidedID
         self.vcenterClientID = vcenterClientID
     }
 }
@@ -16095,6 +18460,8 @@ struct UpdateSourceServerReplicationTypeOutputResponseBody: Swift.Equatable {
     let replicationType: MgnClientTypes.ReplicationType?
     let vcenterClientID: Swift.String?
     let applicationID: Swift.String?
+    let userProvidedID: Swift.String?
+    let fqdnForActionFramework: Swift.String?
 }
 
 extension UpdateSourceServerReplicationTypeOutputResponseBody: Swift.Decodable {
@@ -16102,6 +18469,7 @@ extension UpdateSourceServerReplicationTypeOutputResponseBody: Swift.Decodable {
         case applicationID
         case arn
         case dataReplicationInfo
+        case fqdnForActionFramework
         case isArchived
         case launchedInstance
         case lifeCycle
@@ -16109,6 +18477,7 @@ extension UpdateSourceServerReplicationTypeOutputResponseBody: Swift.Decodable {
         case sourceProperties
         case sourceServerID
         case tags
+        case userProvidedID
         case vcenterClientID
     }
 
@@ -16145,6 +18514,10 @@ extension UpdateSourceServerReplicationTypeOutputResponseBody: Swift.Decodable {
         vcenterClientID = vcenterClientIDDecoded
         let applicationIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationID)
         applicationID = applicationIDDecoded
+        let userProvidedIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userProvidedID)
+        userProvidedID = userProvidedIDDecoded
+        let fqdnForActionFrameworkDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fqdnForActionFramework)
+        fqdnForActionFramework = fqdnForActionFrameworkDecoded
     }
 }
 

@@ -112,7 +112,6 @@ extension CreateHttpNamespaceOutputError {
         case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NamespaceAlreadyExists" : self = .namespaceAlreadyExists(try NamespaceAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceLimitExceeded" : self = .resourceLimitExceeded(try ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -124,7 +123,6 @@ public enum CreateHttpNamespaceOutputError: Swift.Error, Swift.Equatable {
     case duplicateRequest(DuplicateRequest)
     case invalidInput(InvalidInput)
     case namespaceAlreadyExists(NamespaceAlreadyExists)
-    case requestLimitExceeded(RequestLimitExceeded)
     case resourceLimitExceeded(ResourceLimitExceeded)
     case tooManyTagsException(TooManyTagsException)
     case unknown(UnknownAWSHttpServiceError)
@@ -306,7 +304,6 @@ extension CreatePrivateDnsNamespaceOutputError {
         case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NamespaceAlreadyExists" : self = .namespaceAlreadyExists(try NamespaceAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceLimitExceeded" : self = .resourceLimitExceeded(try ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -318,7 +315,6 @@ public enum CreatePrivateDnsNamespaceOutputError: Swift.Error, Swift.Equatable {
     case duplicateRequest(DuplicateRequest)
     case invalidInput(InvalidInput)
     case namespaceAlreadyExists(NamespaceAlreadyExists)
-    case requestLimitExceeded(RequestLimitExceeded)
     case resourceLimitExceeded(ResourceLimitExceeded)
     case tooManyTagsException(TooManyTagsException)
     case unknown(UnknownAWSHttpServiceError)
@@ -487,7 +483,6 @@ extension CreatePublicDnsNamespaceOutputError {
         case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NamespaceAlreadyExists" : self = .namespaceAlreadyExists(try NamespaceAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceLimitExceeded" : self = .resourceLimitExceeded(try ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -499,7 +494,6 @@ public enum CreatePublicDnsNamespaceOutputError: Swift.Error, Swift.Equatable {
     case duplicateRequest(DuplicateRequest)
     case invalidInput(InvalidInput)
     case namespaceAlreadyExists(NamespaceAlreadyExists)
-    case requestLimitExceeded(RequestLimitExceeded)
     case resourceLimitExceeded(ResourceLimitExceeded)
     case tooManyTagsException(TooManyTagsException)
     case unknown(UnknownAWSHttpServiceError)
@@ -722,7 +716,6 @@ extension CreateServiceOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NamespaceNotFound" : self = .namespaceNotFound(try NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceLimitExceeded" : self = .resourceLimitExceeded(try ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceAlreadyExists" : self = .serviceAlreadyExists(try ServiceAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -734,7 +727,6 @@ extension CreateServiceOutputError {
 public enum CreateServiceOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case namespaceNotFound(NamespaceNotFound)
-    case requestLimitExceeded(RequestLimitExceeded)
     case resourceLimitExceeded(ResourceLimitExceeded)
     case serviceAlreadyExists(ServiceAlreadyExists)
     case tooManyTagsException(TooManyTagsException)
@@ -928,7 +920,6 @@ extension DeleteNamespaceOutputError {
         case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NamespaceNotFound" : self = .namespaceNotFound(try NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -939,7 +930,6 @@ public enum DeleteNamespaceOutputError: Swift.Error, Swift.Equatable {
     case duplicateRequest(DuplicateRequest)
     case invalidInput(InvalidInput)
     case namespaceNotFound(NamespaceNotFound)
-    case requestLimitExceeded(RequestLimitExceeded)
     case resourceInUse(ResourceInUse)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -1045,7 +1035,6 @@ extension DeleteServiceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -1055,7 +1044,6 @@ extension DeleteServiceOutputError {
 
 public enum DeleteServiceOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
-    case requestLimitExceeded(RequestLimitExceeded)
     case resourceInUse(ResourceInUse)
     case serviceNotFound(ServiceNotFound)
     case unknown(UnknownAWSHttpServiceError)
@@ -1146,7 +1134,6 @@ extension DeregisterInstanceOutputError {
         case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InstanceNotFound" : self = .instanceNotFound(try InstanceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -1158,7 +1145,6 @@ public enum DeregisterInstanceOutputError: Swift.Error, Swift.Equatable {
     case duplicateRequest(DuplicateRequest)
     case instanceNotFound(InstanceNotFound)
     case invalidInput(InvalidInput)
-    case requestLimitExceeded(RequestLimitExceeded)
     case resourceInUse(ResourceInUse)
     case serviceNotFound(ServiceNotFound)
     case unknown(UnknownAWSHttpServiceError)
@@ -1843,7 +1829,6 @@ extension GetInstanceOutputError {
         switch errorType {
         case "InstanceNotFound" : self = .instanceNotFound(try InstanceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -1853,7 +1838,6 @@ extension GetInstanceOutputError {
 public enum GetInstanceOutputError: Swift.Error, Swift.Equatable {
     case instanceNotFound(InstanceNotFound)
     case invalidInput(InvalidInput)
-    case requestLimitExceeded(RequestLimitExceeded)
     case serviceNotFound(ServiceNotFound)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -2008,7 +1992,6 @@ extension GetInstancesHealthStatusOutputError {
         switch errorType {
         case "InstanceNotFound" : self = .instanceNotFound(try InstanceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -2018,7 +2001,6 @@ extension GetInstancesHealthStatusOutputError {
 public enum GetInstancesHealthStatusOutputError: Swift.Error, Swift.Equatable {
     case instanceNotFound(InstanceNotFound)
     case invalidInput(InvalidInput)
-    case requestLimitExceeded(RequestLimitExceeded)
     case serviceNotFound(ServiceNotFound)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -2257,7 +2239,6 @@ extension GetOperationOutputError {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "OperationNotFound" : self = .operationNotFound(try OperationNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -2266,7 +2247,6 @@ extension GetOperationOutputError {
 public enum GetOperationOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
     case operationNotFound(OperationNotFound)
-    case requestLimitExceeded(RequestLimitExceeded)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -2371,7 +2351,6 @@ extension GetServiceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -2380,7 +2359,6 @@ extension GetServiceOutputError {
 
 public enum GetServiceOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
-    case requestLimitExceeded(RequestLimitExceeded)
     case serviceNotFound(ServiceNotFound)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -3169,7 +3147,6 @@ extension ListInstancesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -3178,7 +3155,6 @@ extension ListInstancesOutputError {
 
 public enum ListInstancesOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
-    case requestLimitExceeded(RequestLimitExceeded)
     case serviceNotFound(ServiceNotFound)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -3338,7 +3314,6 @@ extension ListNamespacesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -3346,7 +3321,6 @@ extension ListNamespacesOutputError {
 
 public enum ListNamespacesOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
-    case requestLimitExceeded(RequestLimitExceeded)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -3505,7 +3479,6 @@ extension ListOperationsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -3513,7 +3486,6 @@ extension ListOperationsOutputError {
 
 public enum ListOperationsOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
-    case requestLimitExceeded(RequestLimitExceeded)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -3672,7 +3644,6 @@ extension ListServicesOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -3680,7 +3651,6 @@ extension ListServicesOutputError {
 
 public enum ListServicesOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
-    case requestLimitExceeded(RequestLimitExceeded)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -3804,7 +3774,6 @@ extension ListTagsForResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -3813,7 +3782,6 @@ extension ListTagsForResourceOutputError {
 
 public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
-    case requestLimitExceeded(RequestLimitExceeded)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -5459,7 +5427,6 @@ extension RegisterInstanceOutputError {
         switch errorType {
         case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceLimitExceeded" : self = .resourceLimitExceeded(try ResourceLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -5471,7 +5438,6 @@ extension RegisterInstanceOutputError {
 public enum RegisterInstanceOutputError: Swift.Error, Swift.Equatable {
     case duplicateRequest(DuplicateRequest)
     case invalidInput(InvalidInput)
-    case requestLimitExceeded(RequestLimitExceeded)
     case resourceInUse(ResourceInUse)
     case resourceLimitExceeded(ResourceLimitExceeded)
     case serviceNotFound(ServiceNotFound)
@@ -6583,7 +6549,6 @@ extension TagResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -6593,7 +6558,6 @@ extension TagResourceOutputError {
 
 public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
-    case requestLimitExceeded(RequestLimitExceeded)
     case resourceNotFoundException(ResourceNotFoundException)
     case tooManyTagsException(TooManyTagsException)
     case unknown(UnknownAWSHttpServiceError)
@@ -6756,7 +6720,6 @@ extension UntagResourceOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -6765,7 +6728,6 @@ extension UntagResourceOutputError {
 
 public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case invalidInput(InvalidInput)
-    case requestLimitExceeded(RequestLimitExceeded)
     case resourceNotFoundException(ResourceNotFoundException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -6867,7 +6829,6 @@ extension UpdateHttpNamespaceOutputError {
         case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NamespaceNotFound" : self = .namespaceNotFound(try NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -6878,7 +6839,6 @@ public enum UpdateHttpNamespaceOutputError: Swift.Error, Swift.Equatable {
     case duplicateRequest(DuplicateRequest)
     case invalidInput(InvalidInput)
     case namespaceNotFound(NamespaceNotFound)
-    case requestLimitExceeded(RequestLimitExceeded)
     case resourceInUse(ResourceInUse)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -7012,7 +6972,6 @@ extension UpdateInstanceCustomHealthStatusOutputError {
         case "CustomHealthNotFound" : self = .customHealthNotFound(try CustomHealthNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InstanceNotFound" : self = .instanceNotFound(try InstanceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -7023,7 +6982,6 @@ public enum UpdateInstanceCustomHealthStatusOutputError: Swift.Error, Swift.Equa
     case customHealthNotFound(CustomHealthNotFound)
     case instanceNotFound(InstanceNotFound)
     case invalidInput(InvalidInput)
-    case requestLimitExceeded(RequestLimitExceeded)
     case serviceNotFound(ServiceNotFound)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -7125,7 +7083,6 @@ extension UpdatePrivateDnsNamespaceOutputError {
         case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NamespaceNotFound" : self = .namespaceNotFound(try NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -7136,7 +7093,6 @@ public enum UpdatePrivateDnsNamespaceOutputError: Swift.Error, Swift.Equatable {
     case duplicateRequest(DuplicateRequest)
     case invalidInput(InvalidInput)
     case namespaceNotFound(NamespaceNotFound)
-    case requestLimitExceeded(RequestLimitExceeded)
     case resourceInUse(ResourceInUse)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -7269,7 +7225,6 @@ extension UpdatePublicDnsNamespaceOutputError {
         case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NamespaceNotFound" : self = .namespaceNotFound(try NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceInUse" : self = .resourceInUse(try ResourceInUse(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -7280,7 +7235,6 @@ public enum UpdatePublicDnsNamespaceOutputError: Swift.Error, Swift.Equatable {
     case duplicateRequest(DuplicateRequest)
     case invalidInput(InvalidInput)
     case namespaceNotFound(NamespaceNotFound)
-    case requestLimitExceeded(RequestLimitExceeded)
     case resourceInUse(ResourceInUse)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -7400,7 +7354,6 @@ extension UpdateServiceOutputError {
         switch errorType {
         case "DuplicateRequest" : self = .duplicateRequest(try DuplicateRequest(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidInput" : self = .invalidInput(try InvalidInput(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "RequestLimitExceeded" : self = .requestLimitExceeded(try RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceNotFound" : self = .serviceNotFound(try ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -7410,7 +7363,6 @@ extension UpdateServiceOutputError {
 public enum UpdateServiceOutputError: Swift.Error, Swift.Equatable {
     case duplicateRequest(DuplicateRequest)
     case invalidInput(InvalidInput)
-    case requestLimitExceeded(RequestLimitExceeded)
     case serviceNotFound(ServiceNotFound)
     case unknown(UnknownAWSHttpServiceError)
 }

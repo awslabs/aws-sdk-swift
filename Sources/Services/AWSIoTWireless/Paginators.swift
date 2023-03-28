@@ -40,6 +40,7 @@ extension IoTWirelessClient {
 extension ListDeviceProfilesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListDeviceProfilesInput {
         return ListDeviceProfilesInput(
+            deviceProfileType: self.deviceProfileType,
             maxResults: self.maxResults,
             nextToken: token
         )}

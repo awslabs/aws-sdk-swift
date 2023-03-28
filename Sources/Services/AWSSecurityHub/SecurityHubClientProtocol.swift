@@ -110,7 +110,7 @@ public protocol SecurityHubClientProtocol {
     ///
     /// A permissions policy is added that permits the administrator account to view the findings generated in the member account. To remove the association between the administrator and member accounts, use the DisassociateFromMasterAccount or DisassociateMembers operation.
     func createMembers(input: CreateMembersInput) async throws -> CreateMembersOutputResponse
-    /// Declines invitations to become a member account. This operation is only used by accounts that are not part of an organization. Organization accounts do not receive invitations.
+    /// Declines invitations to become a member account. A prospective member account uses this operation to decline an invitation to become a member. This operation is only called by member accounts that aren't part of an organization. Organization accounts don't receive invitations.
     func declineInvitations(input: DeclineInvitationsInput) async throws -> DeclineInvitationsOutputResponse
     /// Deletes a custom action target from Security Hub. Deleting a custom action target does not affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action.
     func deleteActionTarget(input: DeleteActionTargetInput) async throws -> DeleteActionTargetOutputResponse
@@ -118,7 +118,7 @@ public protocol SecurityHubClientProtocol {
     func deleteFindingAggregator(input: DeleteFindingAggregatorInput) async throws -> DeleteFindingAggregatorOutputResponse
     /// Deletes the insight specified by the InsightArn.
     func deleteInsight(input: DeleteInsightInput) async throws -> DeleteInsightOutputResponse
-    /// Deletes invitations received by the Amazon Web Services account to become a member account. This operation is only used by accounts that are not part of an organization. Organization accounts do not receive invitations.
+    /// Deletes invitations received by the Amazon Web Services account to become a member account. A Security Hub administrator account can use this operation to delete invitations sent to one or more member accounts. This operation is only used to delete invitations that are sent to member accounts that aren't part of an organization. Organization accounts don't receive invitations.
     func deleteInvitations(input: DeleteInvitationsInput) async throws -> DeleteInvitationsOutputResponse
     /// Deletes the specified member accounts from Security Hub. Can be used to delete member accounts that belong to an organization as well as member accounts that were invited manually.
     func deleteMembers(input: DeleteMembersInput) async throws -> DeleteMembersOutputResponse

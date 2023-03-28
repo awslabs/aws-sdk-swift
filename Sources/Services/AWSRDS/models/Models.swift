@@ -4259,6 +4259,57 @@ extension CreateBlueGreenDeploymentOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateCustomDBEngineVersionFault {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if let data = httpResponse.body.toBytes()?.getData(),
+            let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<CreateCustomDBEngineVersionFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.message = output.error.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// An error occurred while trying to create the CEV.
+public struct CreateCustomDBEngineVersionFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct CreateCustomDBEngineVersionFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension CreateCustomDBEngineVersionFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension CreateCustomDBEngineVersionInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -4430,6 +4481,7 @@ extension CreateCustomDBEngineVersionOutputError: ClientRuntime.HttpResponseBind
 extension CreateCustomDBEngineVersionOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "CreateCustomDBEngineVersionFault" : self = .createCustomDBEngineVersionFault(try CreateCustomDBEngineVersionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CustomDBEngineVersionAlreadyExistsFault" : self = .customDBEngineVersionAlreadyExistsFault(try CustomDBEngineVersionAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CustomDBEngineVersionQuotaExceededFault" : self = .customDBEngineVersionQuotaExceededFault(try CustomDBEngineVersionQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "Ec2ImagePropertiesNotSupportedFault" : self = .ec2ImagePropertiesNotSupportedFault(try Ec2ImagePropertiesNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -4440,6 +4492,7 @@ extension CreateCustomDBEngineVersionOutputError {
 }
 
 public enum CreateCustomDBEngineVersionOutputError: Swift.Error, Swift.Equatable {
+    case createCustomDBEngineVersionFault(CreateCustomDBEngineVersionFault)
     case customDBEngineVersionAlreadyExistsFault(CustomDBEngineVersionAlreadyExistsFault)
     case customDBEngineVersionQuotaExceededFault(CustomDBEngineVersionQuotaExceededFault)
     case ec2ImagePropertiesNotSupportedFault(Ec2ImagePropertiesNotSupportedFault)
@@ -5601,9 +5654,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
     public var enablePerformanceInsights: Swift.Bool?
     /// The name of the database engine to be used for this DB cluster. Valid Values:
     ///
-    /// * aurora (for MySQL 5.6-compatible Aurora)
-    ///
-    /// * aurora-mysql (for MySQL 5.7-compatible and MySQL 8.0-compatible Aurora)
+    /// * aurora-mysql
     ///
     /// * aurora-postgresql
     ///
@@ -5615,26 +5666,24 @@ public struct CreateDBClusterInput: Swift.Equatable {
     /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
     /// This member is required.
     public var engine: Swift.String?
-    /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, global, or multimaster. The parallelquery engine mode isn't required for Aurora MySQL version 1.23 and higher 1.x versions, and version 2.09 and higher 2.x versions. The global engine mode isn't required for Aurora MySQL version 1.22 and higher 1.x versions, and global engine mode isn't required for any 2.x versions. The multimaster engine mode only applies for DB clusters created with Aurora MySQL version 5.6.10a. The serverless engine mode only applies for Aurora Serverless v1 DB clusters. For Aurora PostgreSQL, the global engine mode isn't required, and both the parallelquery and the multimaster engine modes currently aren't supported. Limitations and requirements apply to some DB engine modes. For more information, see the following sections in the Amazon Aurora User Guide:
+    /// The DB engine mode of the DB cluster, either provisioned or serverless. The serverless engine mode only applies for Aurora Serverless v1 DB clusters. Limitations and requirements apply to some DB engine modes. For more information, see the following sections in the Amazon Aurora User Guide:
     ///
     /// * [Limitations of Aurora Serverless v1](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html#aurora-serverless.limitations)
     ///
     /// * [Requirements for Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.requirements.html)
     ///
-    /// * [Limitations of Parallel Query](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-mysql-parallel-query.html#aurora-mysql-parallel-query-limitations)
+    /// * [Limitations of parallel query](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-mysql-parallel-query.html#aurora-mysql-parallel-query-limitations)
     ///
-    /// * [Limitations of Aurora Global Databases](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html#aurora-global-database.limitations)
-    ///
-    /// * [Limitations of Multi-Master Clusters](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-multi-master.html#aurora-multi-master-limitations)
+    /// * [Limitations of Aurora global databases](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html#aurora-global-database.limitations)
     ///
     ///
     /// Valid for: Aurora DB clusters only
     public var engineMode: Swift.String?
-    /// The version number of the database engine to use. To list all of the available engine versions for MySQL 5.6-compatible Aurora, use the following command: aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for MySQL 5.7-compatible and MySQL 8.0-compatible Aurora, use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for Aurora PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for MySQL, use the following command: aws rds describe-db-engine-versions --engine mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine postgres --query "DBEngineVersions[].EngineVersion" Aurora MySQL For information, see [MySQL on Amazon RDS Versions](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Updates.html) in the Amazon Aurora User Guide. Aurora PostgreSQL For information, see [Amazon Aurora PostgreSQL releases and engine versions](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraPostgreSQL.Updates.20180305.html) in the Amazon Aurora User Guide. MySQL For information, see [MySQL on Amazon RDS Versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt) in the Amazon RDS User Guide. PostgreSQL For information, see [Amazon RDS for PostgreSQL versions and extensions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts) in the Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// The version number of the database engine to use. To list all of the available engine versions for Aurora MySQL version 2 (5.7-compatible) and version 3 (MySQL 8.0-compatible), use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" You can supply either 5.7 or 8.0 to use the default engine version for Aurora MySQL version 2 or version 3, respectively. To list all of the available engine versions for Aurora PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for MySQL, use the following command: aws rds describe-db-engine-versions --engine mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine postgres --query "DBEngineVersions[].EngineVersion" Aurora MySQL For information, see [Database engine updates for Amazon Aurora MySQL](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Updates.html) in the Amazon Aurora User Guide. Aurora PostgreSQL For information, see [Amazon Aurora PostgreSQL releases and engine versions](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraPostgreSQL.Updates.20180305.html) in the Amazon Aurora User Guide. MySQL For information, see [Amazon RDS for MySQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt) in the Amazon RDS User Guide. PostgreSQL For information, see [Amazon RDS for PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts) in the Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var engineVersion: Swift.String?
     /// The global cluster ID of an Aurora cluster that becomes the primary cluster in the new global database cluster. Valid for: Aurora DB clusters only
     public var globalClusterIdentifier: Swift.String?
-    /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for each DB instance in the Multi-AZ DB cluster. For information about valid IOPS values, see [Amazon RDS Provisioned IOPS storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS) in the Amazon RDS User Guide. This setting is required to create a Multi-AZ DB cluster. Constraints: Must be a multiple between .5 and 50 of the storage amount for the DB cluster. Valid for: Multi-AZ DB clusters only
+    /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for each DB instance in the Multi-AZ DB cluster. For information about valid IOPS values, see [Provisioned IOPS storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS) in the Amazon RDS User Guide. This setting is required to create a Multi-AZ DB cluster. Constraints: Must be a multiple between .5 and 50 of the storage amount for the DB cluster. Valid for: Multi-AZ DB clusters only
     public var iops: Swift.Int?
     /// The Amazon Web Services KMS key identifier for an encrypted DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. When a KMS key isn't specified in KmsKeyId:
     ///
@@ -23867,8 +23916,6 @@ public struct DescribeDBEngineVersionsInput: Swift.Equatable {
     public var defaultOnly: Swift.Bool
     /// The database engine to return. Valid Values:
     ///
-    /// * aurora (for MySQL 5.6-compatible Aurora)
-    ///
     /// * aurora-mysql (for MySQL 5.7-compatible and MySQL 8.0-compatible Aurora)
     ///
     /// * aurora-postgresql
@@ -28925,8 +28972,6 @@ public struct DescribeOrderableDBInstanceOptionsInput: Swift.Equatable {
     public var dbInstanceClass: Swift.String?
     /// The name of the engine to retrieve DB instance options for. Valid Values:
     ///
-    /// * aurora (for MySQL 5.6-compatible Aurora)
-    ///
     /// * aurora-mysql (for MySQL 5.7-compatible and MySQL 8.0-compatible Aurora)
     ///
     /// * aurora-postgresql
@@ -32149,7 +32194,7 @@ extension RDSClientTypes {
         public var globalClusterArn: Swift.String?
         /// Contains a user-supplied global database cluster identifier. This identifier is the unique key that identifies a global database cluster.
         public var globalClusterIdentifier: Swift.String?
-        /// The list of cluster IDs for secondary clusters within the global database cluster. Currently limited to 1 item.
+        /// The list of primary and secondary clusters within the global database cluster.
         public var globalClusterMembers: [RDSClientTypes.GlobalClusterMember]?
         /// The Amazon Web Services Region-unique, immutable identifier for the global database cluster. This identifier is found in Amazon Web Services CloudTrail log entries whenever the Amazon Web Services KMS key for the DB cluster is accessed.
         public var globalClusterResourceId: Swift.String?
@@ -36148,7 +36193,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     public var enableIAMDatabaseAuthentication: Swift.Bool?
     /// A value that indicates whether to turn on Performance Insights for the DB cluster. For more information, see [ Using Amazon Performance Insights](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html) in the Amazon RDS User Guide. Valid for: Multi-AZ DB clusters only
     public var enablePerformanceInsights: Swift.Bool?
-    /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. To list all of the available engine versions for MySQL 5.6-compatible Aurora, use the following command: aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for MySQL 5.7-compatible and MySQL 8.0-compatible Aurora, use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for Aurora PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for MySQL, use the following command: aws rds describe-db-engine-versions --engine mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine postgres --query "DBEngineVersions[].EngineVersion" Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. To list all of the available engine versions for Aurora MySQL version 2 (5.7-compatible) and version 3 (MySQL 8.0-compatible), use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for Aurora PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for MySQL, use the following command: aws rds describe-db-engine-versions --engine mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine postgres --query "DBEngineVersions[].EngineVersion" Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var engineVersion: Swift.String?
     /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for each DB instance in the Multi-AZ DB cluster. For information about valid IOPS values, see [Amazon RDS Provisioned IOPS storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS) in the Amazon RDS User Guide. Constraints: Must be a multiple between .5 and 50 of the storage amount for the DB cluster. Valid for: Multi-AZ DB clusters only
     public var iops: Swift.Int?
@@ -45110,14 +45155,14 @@ public struct RestoreDBClusterFromS3Input: Swift.Equatable {
     public var domain: Swift.String?
     /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
     public var domainIAMRoleName: Swift.String?
-    /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. Aurora MySQL Possible values are audit, error, general, and slowquery. Aurora PostgreSQL Possible value is postgresql. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide.
+    /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. Aurora MySQL Possible values are audit, error, general, and slowquery. For more information about exporting CloudWatch Logs for Amazon Aurora, see [Publishing Database Logs to Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch) in the Amazon Aurora User Guide.
     public var enableCloudwatchLogsExports: [Swift.String]?
     /// A value that indicates whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide.
     public var enableIAMDatabaseAuthentication: Swift.Bool?
-    /// The name of the database engine to be used for this DB cluster. Valid Values: aurora (for MySQL 5.6-compatible Aurora) and aurora-mysql (for MySQL 5.7-compatible and MySQL 8.0-compatible Aurora)
+    /// The name of the database engine to be used for this DB cluster. Valid Values: aurora-mysql (for MySQL 5.7-compatible and MySQL 8.0-compatible Aurora)
     /// This member is required.
     public var engine: Swift.String?
-    /// The version number of the database engine to use. To list all of the available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command: aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for aurora-mysql (for MySQL 5.7-compatible and MySQL 8.0-compatible Aurora), use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" Aurora MySQL Example: 5.6.10a, 5.6.mysql_aurora.1.19.2, 5.7.mysql_aurora.2.07.1, 8.0.mysql_aurora.3.02.0
+    /// The version number of the database engine to use. To list all of the available engine versions for aurora-mysql (MySQL 5.7-compatible and MySQL 8.0-compatible Aurora), use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" Aurora MySQL Examples: 5.7.mysql_aurora.2.07.1, 8.0.mysql_aurora.3.02.0
     public var engineVersion: Swift.String?
     /// The Amazon Web Services KMS key identifier for an encrypted DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If the StorageEncrypted parameter is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     public var kmsKeyId: Swift.String?
@@ -45768,7 +45813,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
     public var engine: Swift.String?
     /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, global, or multimaster. For more information, see [ CreateDBCluster](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBCluster.html). Valid for: Aurora DB clusters only
     public var engineMode: Swift.String?
-    /// The version of the database engine to use for the new DB cluster. To list all of the available engine versions for MySQL 5.6-compatible Aurora, use the following command: aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for MySQL 5.7-compatible and MySQL 8.0-compatible Aurora, use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for Aurora PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for MySQL, use the following command: aws rds describe-db-engine-versions --engine mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine postgres --query "DBEngineVersions[].EngineVersion" Aurora MySQL See [MySQL on Amazon RDS Versions](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Updates.html) in the Amazon Aurora User Guide. Aurora PostgreSQL See [Amazon Aurora PostgreSQL releases and engine versions](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraPostgreSQL.Updates.20180305.html) in the Amazon Aurora User Guide. MySQL See [MySQL on Amazon RDS Versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt) in the Amazon RDS User Guide. PostgreSQL See [Amazon RDS for PostgreSQL versions and extensions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts) in the Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// The version of the database engine to use for the new DB cluster. If you don't specify an engine version, the default version for the database engine in the Amazon Web Services Region is used. To list all of the available engine versions for MySQL 5.7-compatible and MySQL 8.0-compatible Aurora, use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for Aurora PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for MySQL, use the following command: aws rds describe-db-engine-versions --engine mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine postgres --query "DBEngineVersions[].EngineVersion" Aurora MySQL See [Database engine updates for Amazon Aurora MySQL](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Updates.html) in the Amazon Aurora User Guide. Aurora PostgreSQL See [Amazon Aurora PostgreSQL releases and engine versions](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraPostgreSQL.Updates.20180305.html) in the Amazon Aurora User Guide. MySQL See [Amazon RDS for MySQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt) in the Amazon RDS User Guide. PostgreSQL See [Amazon RDS for PostgreSQL versions and extensions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts) in the Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var engineVersion: Swift.String?
     /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for each DB instance in the Multi-AZ DB cluster. For information about valid IOPS values, see [Amazon RDS Provisioned IOPS storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS) in the Amazon RDS User Guide. Constraints: Must be a multiple between .5 and 50 of the storage amount for the DB instance. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var iops: Swift.Int?
@@ -50719,7 +50764,24 @@ public struct StartExportTaskInput: Swift.Equatable {
     /// A unique identifier for the export task. This ID isn't an identifier for the Amazon S3 bucket where the data is to be exported.
     /// This member is required.
     public var exportTaskIdentifier: Swift.String?
-    /// The name of the IAM role to use for writing to the Amazon S3 bucket when exporting a snapshot or cluster.
+    /// The name of the IAM role to use for writing to the Amazon S3 bucket when exporting a snapshot or cluster. In the IAM policy attached to your IAM role, include the following required actions to allow the transfer of files from Amazon RDS or Amazon Aurora to an S3 bucket:
+    ///
+    /// * s3:PutObject*
+    ///
+    /// * s3:GetObject*
+    ///
+    /// * s3:ListBucket
+    ///
+    /// * s3:DeleteObject*
+    ///
+    /// * s3:GetBucketLocation
+    ///
+    ///
+    /// In the policy, include the resources to identify the S3 bucket and objects in the bucket. The following list of resources shows the Amazon Resource Name (ARN) format for accessing S3:
+    ///
+    /// * arn:aws:s3:::your-s3-bucket
+    ///
+    /// * arn:aws:s3:::your-s3-bucket/*
     /// This member is required.
     public var iamRoleArn: Swift.String?
     /// The ID of the Amazon Web Services KMS key to use to encrypt the data exported to Amazon S3. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. The caller of this operation must be authorized to run the following operations. These can be set in the Amazon Web Services KMS key policy:
@@ -52125,21 +52187,25 @@ extension RDSClientTypes.SwitchoverDetail: Swift.Codable {
 }
 
 extension RDSClientTypes {
-    /// Contains the details about a blue/green deployment. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [ Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
+    /// Contains the details about a blue/green deployment. For more information, see [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/blue-green-deployments.html) in the Amazon RDS User Guide and [Using Amazon RDS Blue/Green Deployments for database updates](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/blue-green-deployments.html) in the Amazon Aurora User Guide.
     public struct SwitchoverDetail: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of a resource in the blue environment.
         public var sourceMember: Swift.String?
         /// The switchover status of a resource in a blue/green deployment. Values:
         ///
-        /// * preparing-for-switchover - The resource is being prepared to switch over.
+        /// * PROVISIONING - The resource is being prepared to switch over.
         ///
-        /// * ready-for-switchover - The resource is ready to switch over.
+        /// * AVAILABLE - The resource is ready to switch over.
         ///
-        /// * switchover-in-progress - The resource is being switched over.
+        /// * SWITCHOVER_IN_PROGRESS - The resource is being switched over.
         ///
-        /// * switchover-completed - The resource has been switched over.
+        /// * SWITCHOVER_COMPLETED - The resource has been switched over.
         ///
-        /// * switchover-failed - The resource attempted to switch over but failed.
+        /// * SWITCHOVER_FAILED - The resource attempted to switch over but failed.
+        ///
+        /// * MISSING_SOURCE - The source resource has been deleted.
+        ///
+        /// * MISSING_TARGET - The target resource has been deleted.
         public var status: Swift.String?
         /// The Amazon Resource Name (ARN) of a resource in the green environment.
         public var targetMember: Swift.String?

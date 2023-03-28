@@ -371,6 +371,7 @@ extension GuardDutyClientTypes.AccountFreeTrialInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "accountId"
         case dataSources = "dataSources"
+        case features = "features"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -381,6 +382,12 @@ extension GuardDutyClientTypes.AccountFreeTrialInfo: Swift.Codable {
         if let dataSources = self.dataSources {
             try encodeContainer.encode(dataSources, forKey: .dataSources)
         }
+        if let features = features {
+            var featuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .features)
+            for freetrialfeatureconfigurationresult0 in features {
+                try featuresContainer.encode(freetrialfeatureconfigurationresult0)
+            }
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -389,6 +396,17 @@ extension GuardDutyClientTypes.AccountFreeTrialInfo: Swift.Codable {
         accountId = accountIdDecoded
         let dataSourcesDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.DataSourcesFreeTrial.self, forKey: .dataSources)
         dataSources = dataSourcesDecoded
+        let featuresContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.FreeTrialFeatureConfigurationResult?].self, forKey: .features)
+        var featuresDecoded0:[GuardDutyClientTypes.FreeTrialFeatureConfigurationResult]? = nil
+        if let featuresContainer = featuresContainer {
+            featuresDecoded0 = [GuardDutyClientTypes.FreeTrialFeatureConfigurationResult]()
+            for structure0 in featuresContainer {
+                if let structure0 = structure0 {
+                    featuresDecoded0?.append(structure0)
+                }
+            }
+        }
+        features = featuresDecoded0
     }
 }
 
@@ -398,15 +416,20 @@ extension GuardDutyClientTypes {
         /// The account identifier of the GuardDuty member account.
         public var accountId: Swift.String?
         /// Describes the data source enabled for the GuardDuty member account.
+        @available(*, deprecated, message: "This parameter is deprecated, use Features instead")
         public var dataSources: GuardDutyClientTypes.DataSourcesFreeTrial?
+        /// A list of features enabled for the GuardDuty account.
+        public var features: [GuardDutyClientTypes.FreeTrialFeatureConfigurationResult]?
 
         public init (
             accountId: Swift.String? = nil,
-            dataSources: GuardDutyClientTypes.DataSourcesFreeTrial? = nil
+            dataSources: GuardDutyClientTypes.DataSourcesFreeTrial? = nil,
+            features: [GuardDutyClientTypes.FreeTrialFeatureConfigurationResult]? = nil
         )
         {
             self.accountId = accountId
             self.dataSources = dataSources
+            self.features = features
         }
     }
 
@@ -455,6 +478,7 @@ extension GuardDutyClientTypes.Action: Swift.Codable {
         case kubernetesApiCallAction = "kubernetesApiCallAction"
         case networkConnectionAction = "networkConnectionAction"
         case portProbeAction = "portProbeAction"
+        case rdsLoginAttemptAction = "rdsLoginAttemptAction"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -477,6 +501,9 @@ extension GuardDutyClientTypes.Action: Swift.Codable {
         if let portProbeAction = self.portProbeAction {
             try encodeContainer.encode(portProbeAction, forKey: .portProbeAction)
         }
+        if let rdsLoginAttemptAction = self.rdsLoginAttemptAction {
+            try encodeContainer.encode(rdsLoginAttemptAction, forKey: .rdsLoginAttemptAction)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -493,6 +520,8 @@ extension GuardDutyClientTypes.Action: Swift.Codable {
         portProbeAction = portProbeActionDecoded
         let kubernetesApiCallActionDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.KubernetesApiCallAction.self, forKey: .kubernetesApiCallAction)
         kubernetesApiCallAction = kubernetesApiCallActionDecoded
+        let rdsLoginAttemptActionDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.RdsLoginAttemptAction.self, forKey: .rdsLoginAttemptAction)
+        rdsLoginAttemptAction = rdsLoginAttemptActionDecoded
     }
 }
 
@@ -511,6 +540,8 @@ extension GuardDutyClientTypes {
         public var networkConnectionAction: GuardDutyClientTypes.NetworkConnectionAction?
         /// Information about the PORT_PROBE action described in this finding.
         public var portProbeAction: GuardDutyClientTypes.PortProbeAction?
+        /// Information about RDS_LOGIN_ATTEMPT action described in this finding.
+        public var rdsLoginAttemptAction: GuardDutyClientTypes.RdsLoginAttemptAction?
 
         public init (
             actionType: Swift.String? = nil,
@@ -518,7 +549,8 @@ extension GuardDutyClientTypes {
             dnsRequestAction: GuardDutyClientTypes.DnsRequestAction? = nil,
             kubernetesApiCallAction: GuardDutyClientTypes.KubernetesApiCallAction? = nil,
             networkConnectionAction: GuardDutyClientTypes.NetworkConnectionAction? = nil,
-            portProbeAction: GuardDutyClientTypes.PortProbeAction? = nil
+            portProbeAction: GuardDutyClientTypes.PortProbeAction? = nil,
+            rdsLoginAttemptAction: GuardDutyClientTypes.RdsLoginAttemptAction? = nil
         )
         {
             self.actionType = actionType
@@ -527,6 +559,7 @@ extension GuardDutyClientTypes {
             self.kubernetesApiCallAction = kubernetesApiCallAction
             self.networkConnectionAction = networkConnectionAction
             self.portProbeAction = portProbeAction
+            self.rdsLoginAttemptAction = rdsLoginAttemptAction
         }
     }
 
@@ -774,6 +807,41 @@ extension ArchiveFindingsOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ArchiveFindingsOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension GuardDutyClientTypes {
+    public enum AutoEnableMembers: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
+        case new
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutoEnableMembers] {
+            return [
+                .all,
+                .new,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .new: return "NEW"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AutoEnableMembers(rawValue: rawValue) ?? AutoEnableMembers.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension GuardDutyClientTypes.AwsApiCallAction: Swift.Codable {
@@ -1558,6 +1626,7 @@ extension CreateDetectorInput: Swift.Encodable {
         case clientToken = "clientToken"
         case dataSources = "dataSources"
         case enable = "enable"
+        case features = "features"
         case findingPublishingFrequency = "findingPublishingFrequency"
         case tags = "tags"
     }
@@ -1572,6 +1641,12 @@ extension CreateDetectorInput: Swift.Encodable {
         }
         if let enable = self.enable {
             try encodeContainer.encode(enable, forKey: .enable)
+        }
+        if let features = features {
+            var featuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .features)
+            for detectorfeatureconfiguration0 in features {
+                try featuresContainer.encode(detectorfeatureconfiguration0)
+            }
         }
         if let findingPublishingFrequency = self.findingPublishingFrequency {
             try encodeContainer.encode(findingPublishingFrequency.rawValue, forKey: .findingPublishingFrequency)
@@ -1595,10 +1670,13 @@ public struct CreateDetectorInput: Swift.Equatable {
     /// The idempotency token for the create request.
     public var clientToken: Swift.String?
     /// Describes which data sources will be enabled for the detector. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
+    @available(*, deprecated, message: "This parameter is deprecated, use Features instead")
     public var dataSources: GuardDutyClientTypes.DataSourceConfigurations?
     /// A Boolean value that specifies whether the detector is to be enabled.
     /// This member is required.
     public var enable: Swift.Bool?
+    /// A list of features that will be configured for the detector.
+    public var features: [GuardDutyClientTypes.DetectorFeatureConfiguration]?
     /// A value that specifies how frequently updated findings are exported.
     public var findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency?
     /// The tags to be added to a new detector resource.
@@ -1608,6 +1686,7 @@ public struct CreateDetectorInput: Swift.Equatable {
         clientToken: Swift.String? = nil,
         dataSources: GuardDutyClientTypes.DataSourceConfigurations? = nil,
         enable: Swift.Bool? = nil,
+        features: [GuardDutyClientTypes.DetectorFeatureConfiguration]? = nil,
         findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -1615,6 +1694,7 @@ public struct CreateDetectorInput: Swift.Equatable {
         self.clientToken = clientToken
         self.dataSources = dataSources
         self.enable = enable
+        self.features = features
         self.findingPublishingFrequency = findingPublishingFrequency
         self.tags = tags
     }
@@ -1626,6 +1706,7 @@ struct CreateDetectorInputBody: Swift.Equatable {
     let findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency?
     let dataSources: GuardDutyClientTypes.DataSourceConfigurations?
     let tags: [Swift.String:Swift.String]?
+    let features: [GuardDutyClientTypes.DetectorFeatureConfiguration]?
 }
 
 extension CreateDetectorInputBody: Swift.Decodable {
@@ -1633,6 +1714,7 @@ extension CreateDetectorInputBody: Swift.Decodable {
         case clientToken = "clientToken"
         case dataSources = "dataSources"
         case enable = "enable"
+        case features = "features"
         case findingPublishingFrequency = "findingPublishingFrequency"
         case tags = "tags"
     }
@@ -1658,6 +1740,17 @@ extension CreateDetectorInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let featuresContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.DetectorFeatureConfiguration?].self, forKey: .features)
+        var featuresDecoded0:[GuardDutyClientTypes.DetectorFeatureConfiguration]? = nil
+        if let featuresContainer = featuresContainer {
+            featuresDecoded0 = [GuardDutyClientTypes.DetectorFeatureConfiguration]()
+            for structure0 in featuresContainer {
+                if let structure0 = structure0 {
+                    featuresDecoded0?.append(structure0)
+                }
+            }
+        }
+        features = featuresDecoded0
     }
 }
 
@@ -1790,7 +1883,7 @@ public struct CreateFilterInput: Swift.Equatable {
     public var action: GuardDutyClientTypes.FilterAction?
     /// The idempotency token for the create request.
     public var clientToken: Swift.String?
-    /// The description of the filter. Valid characters include alphanumeric characters, and special characters such as -, ., :, { }, [ ], ( ), /, \t, \n, \x0B, \f, \r, _, and whitespace.
+    /// The description of the filter. Valid characters include alphanumeric characters, and special characters such as hyphen, period, colon, underscore, parentheses ({ }, [ ], and ( )), forward slash, horizontal tab, vertical tab, newline, form feed, return, and whitespace.
     public var description: Swift.String?
     /// The ID of the detector belonging to the GuardDuty account that you want to create a filter for.
     /// This member is required.
@@ -4249,6 +4342,23 @@ extension DescribeMalwareScansOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeOrganizationConfigurationInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
 extension DescribeOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let detectorId = detectorId else {
@@ -4262,12 +4372,20 @@ public struct DescribeOrganizationConfigurationInput: Swift.Equatable {
     /// The ID of the detector to retrieve information about the delegated administrator from.
     /// This member is required.
     public var detectorId: Swift.String?
+    /// You can use this parameter to indicate the maximum number of items that you want in the response.
+    public var maxResults: Swift.Int?
+    /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+    public var nextToken: Swift.String?
 
     public init (
-        detectorId: Swift.String? = nil
+        detectorId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
     )
     {
         self.detectorId = detectorId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
     }
 }
 
@@ -4311,35 +4429,60 @@ extension DescribeOrganizationConfigurationOutputResponse: ClientRuntime.HttpRes
             let data = reader.toBytes().getData()
             let output: DescribeOrganizationConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoEnable = output.autoEnable
+            self.autoEnableOrganizationMembers = output.autoEnableOrganizationMembers
             self.dataSources = output.dataSources
+            self.features = output.features
             self.memberAccountLimitReached = output.memberAccountLimitReached
+            self.nextToken = output.nextToken
         } else {
             self.autoEnable = false
+            self.autoEnableOrganizationMembers = nil
             self.dataSources = nil
+            self.features = nil
             self.memberAccountLimitReached = false
+            self.nextToken = nil
         }
     }
 }
 
 public struct DescribeOrganizationConfigurationOutputResponse: Swift.Equatable {
     /// Indicates whether GuardDuty is automatically enabled for accounts added to the organization.
-    /// This member is required.
+    @available(*, deprecated, message: "This field is deprecated, use AutoEnableOrganizationMembers instead")
     public var autoEnable: Swift.Bool
+    /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization.
+    ///
+    /// * NEW: Indicates that new accounts joining the organization are configured to have GuardDuty enabled automatically.
+    ///
+    /// * ALL: Indicates that all accounts (new and existing members) in the organization are configured to have GuardDuty enabled automatically.
+    ///
+    /// * NONE: Indicates that no account in the organization will be configured to have GuardDuty enabled automatically.
+    public var autoEnableOrganizationMembers: GuardDutyClientTypes.AutoEnableMembers?
     /// Describes which data sources are enabled automatically for member accounts.
+    @available(*, deprecated, message: "This parameter is deprecated, use Features instead")
     public var dataSources: GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult?
+    /// A list of features that are configured for this organization.
+    public var features: [GuardDutyClientTypes.OrganizationFeatureConfigurationResult]?
     /// Indicates whether the maximum number of allowed member accounts are already associated with the delegated administrator account for your organization.
     /// This member is required.
     public var memberAccountLimitReached: Swift.Bool
+    /// The pagination parameter to be used on the next list operation to retrieve more items.
+    public var nextToken: Swift.String?
 
     public init (
         autoEnable: Swift.Bool = false,
+        autoEnableOrganizationMembers: GuardDutyClientTypes.AutoEnableMembers? = nil,
         dataSources: GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult? = nil,
-        memberAccountLimitReached: Swift.Bool = false
+        features: [GuardDutyClientTypes.OrganizationFeatureConfigurationResult]? = nil,
+        memberAccountLimitReached: Swift.Bool = false,
+        nextToken: Swift.String? = nil
     )
     {
         self.autoEnable = autoEnable
+        self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
         self.dataSources = dataSources
+        self.features = features
         self.memberAccountLimitReached = memberAccountLimitReached
+        self.nextToken = nextToken
     }
 }
 
@@ -4347,13 +4490,19 @@ struct DescribeOrganizationConfigurationOutputResponseBody: Swift.Equatable {
     let autoEnable: Swift.Bool
     let memberAccountLimitReached: Swift.Bool
     let dataSources: GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult?
+    let features: [GuardDutyClientTypes.OrganizationFeatureConfigurationResult]?
+    let nextToken: Swift.String?
+    let autoEnableOrganizationMembers: GuardDutyClientTypes.AutoEnableMembers?
 }
 
 extension DescribeOrganizationConfigurationOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoEnable = "autoEnable"
+        case autoEnableOrganizationMembers = "autoEnableOrganizationMembers"
         case dataSources = "dataSources"
+        case features = "features"
         case memberAccountLimitReached = "memberAccountLimitReached"
+        case nextToken = "nextToken"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -4364,6 +4513,21 @@ extension DescribeOrganizationConfigurationOutputResponseBody: Swift.Decodable {
         memberAccountLimitReached = memberAccountLimitReachedDecoded
         let dataSourcesDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult.self, forKey: .dataSources)
         dataSources = dataSourcesDecoded
+        let featuresContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.OrganizationFeatureConfigurationResult?].self, forKey: .features)
+        var featuresDecoded0:[GuardDutyClientTypes.OrganizationFeatureConfigurationResult]? = nil
+        if let featuresContainer = featuresContainer {
+            featuresDecoded0 = [GuardDutyClientTypes.OrganizationFeatureConfigurationResult]()
+            for structure0 in featuresContainer {
+                if let structure0 = structure0 {
+                    featuresDecoded0?.append(structure0)
+                }
+            }
+        }
+        features = featuresDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let autoEnableOrganizationMembersDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.AutoEnableMembers.self, forKey: .autoEnableOrganizationMembers)
+        autoEnableOrganizationMembers = autoEnableOrganizationMembersDecoded
     }
 }
 
@@ -4644,6 +4808,191 @@ extension GuardDutyClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = DestinationType(rawValue: rawValue) ?? DestinationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+    public enum DetectorFeature: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ebsMalwareProtection
+        case eksAuditLogs
+        case rdsLoginEvents
+        case s3DataEvents
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DetectorFeature] {
+            return [
+                .ebsMalwareProtection,
+                .eksAuditLogs,
+                .rdsLoginEvents,
+                .s3DataEvents,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ebsMalwareProtection: return "EBS_MALWARE_PROTECTION"
+            case .eksAuditLogs: return "EKS_AUDIT_LOGS"
+            case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
+            case .s3DataEvents: return "S3_DATA_EVENTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DetectorFeature(rawValue: rawValue) ?? DetectorFeature.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GuardDutyClientTypes.DetectorFeatureConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "name"
+        case status = "status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.DetectorFeature.self, forKey: .name)
+        name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FeatureStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about a GuardDuty feature.
+    public struct DetectorFeatureConfiguration: Swift.Equatable {
+        /// The name of the feature.
+        public var name: GuardDutyClientTypes.DetectorFeature?
+        /// The status of the feature.
+        public var status: GuardDutyClientTypes.FeatureStatus?
+
+        public init (
+            name: GuardDutyClientTypes.DetectorFeature? = nil,
+            status: GuardDutyClientTypes.FeatureStatus? = nil
+        )
+        {
+            self.name = name
+            self.status = status
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.DetectorFeatureConfigurationResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "name"
+        case status = "status"
+        case updatedAt = "updatedAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.DetectorFeatureResult.self, forKey: .name)
+        name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FeatureStatus.self, forKey: .status)
+        status = statusDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about a GuardDuty feature.
+    public struct DetectorFeatureConfigurationResult: Swift.Equatable {
+        /// Indicates the name of the feature that can be enabled for the detector.
+        public var name: GuardDutyClientTypes.DetectorFeatureResult?
+        /// Indicates the status of the feature that is enabled for the detector.
+        public var status: GuardDutyClientTypes.FeatureStatus?
+        /// The timestamp at which the feature object was updated.
+        public var updatedAt: ClientRuntime.Date?
+
+        public init (
+            name: GuardDutyClientTypes.DetectorFeatureResult? = nil,
+            status: GuardDutyClientTypes.FeatureStatus? = nil,
+            updatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes {
+    public enum DetectorFeatureResult: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cloudTrail
+        case dnsLogs
+        case ebsMalwareProtection
+        case eksAuditLogs
+        case flowLogs
+        case rdsLoginEvents
+        case s3DataEvents
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DetectorFeatureResult] {
+            return [
+                .cloudTrail,
+                .dnsLogs,
+                .ebsMalwareProtection,
+                .eksAuditLogs,
+                .flowLogs,
+                .rdsLoginEvents,
+                .s3DataEvents,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudTrail: return "CLOUD_TRAIL"
+            case .dnsLogs: return "DNS_LOGS"
+            case .ebsMalwareProtection: return "EBS_MALWARE_PROTECTION"
+            case .eksAuditLogs: return "EKS_AUDIT_LOGS"
+            case .flowLogs: return "FLOW_LOGS"
+            case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
+            case .s3DataEvents: return "S3_DATA_EVENTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DetectorFeatureResult(rawValue: rawValue) ?? DetectorFeatureResult.sdkUnknown(rawValue)
         }
     }
 }
@@ -5875,6 +6224,38 @@ extension GuardDutyClientTypes {
 }
 
 extension GuardDutyClientTypes {
+    public enum FeatureStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeatureStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FeatureStatus(rawValue: rawValue) ?? FeatureStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
     public enum Feedback: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case notUseful
         case useful
@@ -6464,6 +6845,98 @@ extension GuardDutyClientTypes {
 
 }
 
+extension GuardDutyClientTypes.FreeTrialFeatureConfigurationResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case freeTrialDaysRemaining = "freeTrialDaysRemaining"
+        case name = "name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if freeTrialDaysRemaining != 0 {
+            try encodeContainer.encode(freeTrialDaysRemaining, forKey: .freeTrialDaysRemaining)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FreeTrialFeatureResult.self, forKey: .name)
+        name = nameDecoded
+        let freeTrialDaysRemainingDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .freeTrialDaysRemaining) ?? 0
+        freeTrialDaysRemaining = freeTrialDaysRemainingDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the free trial period for a feature.
+    public struct FreeTrialFeatureConfigurationResult: Swift.Equatable {
+        /// The number of the remaining free trial days for the feature.
+        public var freeTrialDaysRemaining: Swift.Int
+        /// The name of the feature for which the free trial is configured.
+        public var name: GuardDutyClientTypes.FreeTrialFeatureResult?
+
+        public init (
+            freeTrialDaysRemaining: Swift.Int = 0,
+            name: GuardDutyClientTypes.FreeTrialFeatureResult? = nil
+        )
+        {
+            self.freeTrialDaysRemaining = freeTrialDaysRemaining
+            self.name = name
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes {
+    public enum FreeTrialFeatureResult: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cloudTrail
+        case dnsLogs
+        case ebsMalwareProtection
+        case eksAuditLogs
+        case flowLogs
+        case rdsLoginEvents
+        case s3DataEvents
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FreeTrialFeatureResult] {
+            return [
+                .cloudTrail,
+                .dnsLogs,
+                .ebsMalwareProtection,
+                .eksAuditLogs,
+                .flowLogs,
+                .rdsLoginEvents,
+                .s3DataEvents,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudTrail: return "CLOUD_TRAIL"
+            case .dnsLogs: return "DNS_LOGS"
+            case .ebsMalwareProtection: return "EBS_MALWARE_PROTECTION"
+            case .eksAuditLogs: return "EKS_AUDIT_LOGS"
+            case .flowLogs: return "FLOW_LOGS"
+            case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
+            case .s3DataEvents: return "S3_DATA_EVENTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FreeTrialFeatureResult(rawValue: rawValue) ?? FreeTrialFeatureResult.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension GuardDutyClientTypes.GeoLocation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lat = "lat"
@@ -6669,6 +7142,7 @@ extension GetDetectorOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: GetDetectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
             self.dataSources = output.dataSources
+            self.features = output.features
             self.findingPublishingFrequency = output.findingPublishingFrequency
             self.serviceRole = output.serviceRole
             self.status = output.status
@@ -6677,6 +7151,7 @@ extension GetDetectorOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.createdAt = nil
             self.dataSources = nil
+            self.features = nil
             self.findingPublishingFrequency = nil
             self.serviceRole = nil
             self.status = nil
@@ -6690,7 +7165,10 @@ public struct GetDetectorOutputResponse: Swift.Equatable {
     /// The timestamp of when the detector was created.
     public var createdAt: Swift.String?
     /// Describes which data sources are enabled for the detector.
+    @available(*, deprecated, message: "This parameter is deprecated, use Features instead")
     public var dataSources: GuardDutyClientTypes.DataSourceConfigurationsResult?
+    /// Describes the features that have been enabled for the detector.
+    public var features: [GuardDutyClientTypes.DetectorFeatureConfigurationResult]?
     /// The publishing frequency of the finding.
     public var findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency?
     /// The GuardDuty service role.
@@ -6707,6 +7185,7 @@ public struct GetDetectorOutputResponse: Swift.Equatable {
     public init (
         createdAt: Swift.String? = nil,
         dataSources: GuardDutyClientTypes.DataSourceConfigurationsResult? = nil,
+        features: [GuardDutyClientTypes.DetectorFeatureConfigurationResult]? = nil,
         findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency? = nil,
         serviceRole: Swift.String? = nil,
         status: GuardDutyClientTypes.DetectorStatus? = nil,
@@ -6716,6 +7195,7 @@ public struct GetDetectorOutputResponse: Swift.Equatable {
     {
         self.createdAt = createdAt
         self.dataSources = dataSources
+        self.features = features
         self.findingPublishingFrequency = findingPublishingFrequency
         self.serviceRole = serviceRole
         self.status = status
@@ -6732,12 +7212,14 @@ struct GetDetectorOutputResponseBody: Swift.Equatable {
     let updatedAt: Swift.String?
     let dataSources: GuardDutyClientTypes.DataSourceConfigurationsResult?
     let tags: [Swift.String:Swift.String]?
+    let features: [GuardDutyClientTypes.DetectorFeatureConfigurationResult]?
 }
 
 extension GetDetectorOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdAt = "createdAt"
         case dataSources = "dataSources"
+        case features = "features"
         case findingPublishingFrequency = "findingPublishingFrequency"
         case serviceRole = "serviceRole"
         case status = "status"
@@ -6770,6 +7252,17 @@ extension GetDetectorOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let featuresContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.DetectorFeatureConfigurationResult?].self, forKey: .features)
+        var featuresDecoded0:[GuardDutyClientTypes.DetectorFeatureConfigurationResult]? = nil
+        if let featuresContainer = featuresContainer {
+            featuresDecoded0 = [GuardDutyClientTypes.DetectorFeatureConfigurationResult]()
+            for structure0 in featuresContainer {
+                if let structure0 = structure0 {
+                    featuresDecoded0?.append(structure0)
+                }
+            }
+        }
+        features = featuresDecoded0
     }
 }
 
@@ -11305,6 +11798,71 @@ extension GuardDutyClientTypes {
 
 }
 
+extension GuardDutyClientTypes.LoginAttribute: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case application = "application"
+        case failedLoginAttempts = "failedLoginAttempts"
+        case successfulLoginAttempts = "successfulLoginAttempts"
+        case user = "user"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let application = self.application {
+            try encodeContainer.encode(application, forKey: .application)
+        }
+        if failedLoginAttempts != 0 {
+            try encodeContainer.encode(failedLoginAttempts, forKey: .failedLoginAttempts)
+        }
+        if successfulLoginAttempts != 0 {
+            try encodeContainer.encode(successfulLoginAttempts, forKey: .successfulLoginAttempts)
+        }
+        if let user = self.user {
+            try encodeContainer.encode(user, forKey: .user)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .user)
+        user = userDecoded
+        let applicationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .application)
+        application = applicationDecoded
+        let failedLoginAttemptsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedLoginAttempts) ?? 0
+        failedLoginAttempts = failedLoginAttemptsDecoded
+        let successfulLoginAttemptsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .successfulLoginAttempts) ?? 0
+        successfulLoginAttempts = successfulLoginAttemptsDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Information about the login attempts.
+    public struct LoginAttribute: Swift.Equatable {
+        /// Indicates the application name used to attempt log in.
+        public var application: Swift.String?
+        /// Represents the sum of failed (unsuccessful) login attempts made to establish a connection to the database instance.
+        public var failedLoginAttempts: Swift.Int
+        /// Represents the sum of successful connections (a correct combination of login attributes) made to the database instance by the actor.
+        public var successfulLoginAttempts: Swift.Int
+        /// Indicates the user name which attempted to log in.
+        public var user: Swift.String?
+
+        public init (
+            application: Swift.String? = nil,
+            failedLoginAttempts: Swift.Int = 0,
+            successfulLoginAttempts: Swift.Int = 0,
+            user: Swift.String? = nil
+        )
+        {
+            self.application = application
+            self.failedLoginAttempts = failedLoginAttempts
+            self.successfulLoginAttempts = successfulLoginAttempts
+            self.user = user
+        }
+    }
+
+}
+
 extension GuardDutyClientTypes.MalwareProtectionConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case scanEc2InstanceWithFindings = "scanEc2InstanceWithFindings"
@@ -11599,6 +12157,7 @@ extension GuardDutyClientTypes.MemberDataSourceConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "accountId"
         case dataSources = "dataSources"
+        case features = "features"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11609,6 +12168,12 @@ extension GuardDutyClientTypes.MemberDataSourceConfiguration: Swift.Codable {
         if let dataSources = self.dataSources {
             try encodeContainer.encode(dataSources, forKey: .dataSources)
         }
+        if let features = features {
+            var featuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .features)
+            for memberfeaturesconfigurationresult0 in features {
+                try featuresContainer.encode(memberfeaturesconfigurationresult0)
+            }
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -11617,6 +12182,17 @@ extension GuardDutyClientTypes.MemberDataSourceConfiguration: Swift.Codable {
         accountId = accountIdDecoded
         let dataSourcesDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.DataSourceConfigurationsResult.self, forKey: .dataSources)
         dataSources = dataSourcesDecoded
+        let featuresContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.MemberFeaturesConfigurationResult?].self, forKey: .features)
+        var featuresDecoded0:[GuardDutyClientTypes.MemberFeaturesConfigurationResult]? = nil
+        if let featuresContainer = featuresContainer {
+            featuresDecoded0 = [GuardDutyClientTypes.MemberFeaturesConfigurationResult]()
+            for structure0 in featuresContainer {
+                if let structure0 = structure0 {
+                    featuresDecoded0?.append(structure0)
+                }
+            }
+        }
+        features = featuresDecoded0
     }
 }
 
@@ -11627,16 +12203,120 @@ extension GuardDutyClientTypes {
         /// This member is required.
         public var accountId: Swift.String?
         /// Contains information on the status of data sources for the account.
-        /// This member is required.
+        @available(*, deprecated, message: "This parameter is deprecated, use Features instead")
         public var dataSources: GuardDutyClientTypes.DataSourceConfigurationsResult?
+        /// Contains information about the status of the features for the member account.
+        public var features: [GuardDutyClientTypes.MemberFeaturesConfigurationResult]?
 
         public init (
             accountId: Swift.String? = nil,
-            dataSources: GuardDutyClientTypes.DataSourceConfigurationsResult? = nil
+            dataSources: GuardDutyClientTypes.DataSourceConfigurationsResult? = nil,
+            features: [GuardDutyClientTypes.MemberFeaturesConfigurationResult]? = nil
         )
         {
             self.accountId = accountId
             self.dataSources = dataSources
+            self.features = features
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.MemberFeaturesConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "name"
+        case status = "status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.OrgFeature.self, forKey: .name)
+        name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FeatureStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the features for the member account.
+    public struct MemberFeaturesConfiguration: Swift.Equatable {
+        /// The name of the feature.
+        public var name: GuardDutyClientTypes.OrgFeature?
+        /// The status of the feature.
+        public var status: GuardDutyClientTypes.FeatureStatus?
+
+        public init (
+            name: GuardDutyClientTypes.OrgFeature? = nil,
+            status: GuardDutyClientTypes.FeatureStatus? = nil
+        )
+        {
+            self.name = name
+            self.status = status
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.MemberFeaturesConfigurationResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "name"
+        case status = "status"
+        case updatedAt = "updatedAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.OrgFeature.self, forKey: .name)
+        name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FeatureStatus.self, forKey: .status)
+        status = statusDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the features for the member account.
+    public struct MemberFeaturesConfigurationResult: Swift.Equatable {
+        /// Indicates the name of the feature that is enabled for the detector.
+        public var name: GuardDutyClientTypes.OrgFeature?
+        /// Indicates the status of the feature that is enabled for the detector.
+        public var status: GuardDutyClientTypes.FeatureStatus?
+        /// The timestamp at which the feature object was updated.
+        public var updatedAt: ClientRuntime.Date?
+
+        public init (
+            name: GuardDutyClientTypes.OrgFeature? = nil,
+            status: GuardDutyClientTypes.FeatureStatus? = nil,
+            updatedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
         }
     }
 
@@ -11930,6 +12610,76 @@ extension GuardDutyClientTypes {
     }
 }
 
+extension GuardDutyClientTypes {
+    public enum OrgFeature: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ebsMalwareProtection
+        case eksAuditLogs
+        case rdsLoginEvents
+        case s3DataEvents
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrgFeature] {
+            return [
+                .ebsMalwareProtection,
+                .eksAuditLogs,
+                .rdsLoginEvents,
+                .s3DataEvents,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ebsMalwareProtection: return "EBS_MALWARE_PROTECTION"
+            case .eksAuditLogs: return "EKS_AUDIT_LOGS"
+            case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
+            case .s3DataEvents: return "S3_DATA_EVENTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OrgFeature(rawValue: rawValue) ?? OrgFeature.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+    public enum OrgFeatureStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case new
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrgFeatureStatus] {
+            return [
+                .new,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .new: return "NEW"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OrgFeatureStatus(rawValue: rawValue) ?? OrgFeatureStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension GuardDutyClientTypes.Organization: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case asn = "asn"
@@ -12171,6 +12921,96 @@ extension GuardDutyClientTypes {
         )
         {
             self.autoEnable = autoEnable
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.OrganizationFeatureConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoEnable = "autoEnable"
+        case name = "name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoEnable = self.autoEnable {
+            try encodeContainer.encode(autoEnable.rawValue, forKey: .autoEnable)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.OrgFeature.self, forKey: .name)
+        name = nameDecoded
+        let autoEnableDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.OrgFeatureStatus.self, forKey: .autoEnable)
+        autoEnable = autoEnableDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// A list of features which will be configured for the organization.
+    public struct OrganizationFeatureConfiguration: Swift.Equatable {
+        /// The status of the feature that will be configured for the organization.
+        public var autoEnable: GuardDutyClientTypes.OrgFeatureStatus?
+        /// The name of the feature that will be configured for the organization.
+        public var name: GuardDutyClientTypes.OrgFeature?
+
+        public init (
+            autoEnable: GuardDutyClientTypes.OrgFeatureStatus? = nil,
+            name: GuardDutyClientTypes.OrgFeature? = nil
+        )
+        {
+            self.autoEnable = autoEnable
+            self.name = name
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.OrganizationFeatureConfigurationResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoEnable = "autoEnable"
+        case name = "name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoEnable = self.autoEnable {
+            try encodeContainer.encode(autoEnable.rawValue, forKey: .autoEnable)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.OrgFeature.self, forKey: .name)
+        name = nameDecoded
+        let autoEnableDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.OrgFeatureStatus.self, forKey: .autoEnable)
+        autoEnable = autoEnableDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// A list of features which will be configured for the organization.
+    public struct OrganizationFeatureConfigurationResult: Swift.Equatable {
+        /// Describes how The status of the feature that are configured for the member accounts within the organization. If you set AutoEnable to NEW, a feature will be configured for only the new accounts when they join the organization. If you set AutoEnable to NONE, no feature will be configured for the accounts when they join the organization.
+        public var autoEnable: GuardDutyClientTypes.OrgFeatureStatus?
+        /// The name of the feature that is configured for the member accounts within the organization.
+        public var name: GuardDutyClientTypes.OrgFeature?
+
+        public init (
+            autoEnable: GuardDutyClientTypes.OrgFeatureStatus? = nil,
+            name: GuardDutyClientTypes.OrgFeature? = nil
+        )
+        {
+            self.autoEnable = autoEnable
+            self.name = name
         }
     }
 
@@ -12897,6 +13737,235 @@ extension GuardDutyClientTypes {
     }
 }
 
+extension GuardDutyClientTypes.RdsDbInstanceDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbClusterIdentifier = "dbClusterIdentifier"
+        case dbInstanceArn = "dbInstanceArn"
+        case dbInstanceIdentifier = "dbInstanceIdentifier"
+        case engine = "engine"
+        case engineVersion = "engineVersion"
+        case tags = "tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dbClusterIdentifier = self.dbClusterIdentifier {
+            try encodeContainer.encode(dbClusterIdentifier, forKey: .dbClusterIdentifier)
+        }
+        if let dbInstanceArn = self.dbInstanceArn {
+            try encodeContainer.encode(dbInstanceArn, forKey: .dbInstanceArn)
+        }
+        if let dbInstanceIdentifier = self.dbInstanceIdentifier {
+            try encodeContainer.encode(dbInstanceIdentifier, forKey: .dbInstanceIdentifier)
+        }
+        if let engine = self.engine {
+            try encodeContainer.encode(engine, forKey: .engine)
+        }
+        if let engineVersion = self.engineVersion {
+            try encodeContainer.encode(engineVersion, forKey: .engineVersion)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dbInstanceIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceIdentifier)
+        dbInstanceIdentifier = dbInstanceIdentifierDecoded
+        let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
+        engine = engineDecoded
+        let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
+        engineVersion = engineVersionDecoded
+        let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
+        dbClusterIdentifier = dbClusterIdentifierDecoded
+        let dbInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbInstanceArn)
+        dbInstanceArn = dbInstanceArnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[GuardDutyClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [GuardDutyClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the resource type RDSDBInstance involved in a GuardDuty finding.
+    public struct RdsDbInstanceDetails: Swift.Equatable {
+        /// The identifier of the database cluster that contains the database instance ID involved in the finding.
+        public var dbClusterIdentifier: Swift.String?
+        /// The Amazon Resource Name (ARN) that identifies the database instance involved in the finding.
+        public var dbInstanceArn: Swift.String?
+        /// The identifier associated to the database instance that was involved in the finding.
+        public var dbInstanceIdentifier: Swift.String?
+        /// The database engine of the database instance involved in the finding.
+        public var engine: Swift.String?
+        /// The version of the database engine that was involved in the finding.
+        public var engineVersion: Swift.String?
+        /// Instance tag key-value pairs associated with the database instance ID.
+        public var tags: [GuardDutyClientTypes.Tag]?
+
+        public init (
+            dbClusterIdentifier: Swift.String? = nil,
+            dbInstanceArn: Swift.String? = nil,
+            dbInstanceIdentifier: Swift.String? = nil,
+            engine: Swift.String? = nil,
+            engineVersion: Swift.String? = nil,
+            tags: [GuardDutyClientTypes.Tag]? = nil
+        )
+        {
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbInstanceArn = dbInstanceArn
+            self.dbInstanceIdentifier = dbInstanceIdentifier
+            self.engine = engine
+            self.engineVersion = engineVersion
+            self.tags = tags
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.RdsDbUserDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case application = "application"
+        case authMethod = "authMethod"
+        case database = "database"
+        case ssl = "ssl"
+        case user = "user"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let application = self.application {
+            try encodeContainer.encode(application, forKey: .application)
+        }
+        if let authMethod = self.authMethod {
+            try encodeContainer.encode(authMethod, forKey: .authMethod)
+        }
+        if let database = self.database {
+            try encodeContainer.encode(database, forKey: .database)
+        }
+        if let ssl = self.ssl {
+            try encodeContainer.encode(ssl, forKey: .ssl)
+        }
+        if let user = self.user {
+            try encodeContainer.encode(user, forKey: .user)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .user)
+        user = userDecoded
+        let applicationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .application)
+        application = applicationDecoded
+        let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
+        database = databaseDecoded
+        let sslDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ssl)
+        ssl = sslDecoded
+        let authMethodDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authMethod)
+        authMethod = authMethodDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the user and authentication details for a database instance involved in the finding.
+    public struct RdsDbUserDetails: Swift.Equatable {
+        /// The application name used in the anomalous login attempt.
+        public var application: Swift.String?
+        /// The authentication method used by the user involved in the finding.
+        public var authMethod: Swift.String?
+        /// The name of the database instance involved in the anomalous login attempt.
+        public var database: Swift.String?
+        /// The version of the Secure Socket Layer (SSL) used for the network.
+        public var ssl: Swift.String?
+        /// The user name used in the anomalous login attempt.
+        public var user: Swift.String?
+
+        public init (
+            application: Swift.String? = nil,
+            authMethod: Swift.String? = nil,
+            database: Swift.String? = nil,
+            ssl: Swift.String? = nil,
+            user: Swift.String? = nil
+        )
+        {
+            self.application = application
+            self.authMethod = authMethod
+            self.database = database
+            self.ssl = ssl
+            self.user = user
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes.RdsLoginAttemptAction: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case loginAttributes = "LoginAttributes"
+        case remoteIpDetails = "remoteIpDetails"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let loginAttributes = loginAttributes {
+            var loginAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .loginAttributes)
+            for loginattribute0 in loginAttributes {
+                try loginAttributesContainer.encode(loginattribute0)
+            }
+        }
+        if let remoteIpDetails = self.remoteIpDetails {
+            try encodeContainer.encode(remoteIpDetails, forKey: .remoteIpDetails)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let remoteIpDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.RemoteIpDetails.self, forKey: .remoteIpDetails)
+        remoteIpDetails = remoteIpDetailsDecoded
+        let loginAttributesContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.LoginAttribute?].self, forKey: .loginAttributes)
+        var loginAttributesDecoded0:[GuardDutyClientTypes.LoginAttribute]? = nil
+        if let loginAttributesContainer = loginAttributesContainer {
+            loginAttributesDecoded0 = [GuardDutyClientTypes.LoginAttribute]()
+            for structure0 in loginAttributesContainer {
+                if let structure0 = structure0 {
+                    loginAttributesDecoded0?.append(structure0)
+                }
+            }
+        }
+        loginAttributes = loginAttributesDecoded0
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Indicates that a login attempt was made to the potentially compromised database from a remote IP address.
+    public struct RdsLoginAttemptAction: Swift.Equatable {
+        /// Indicates the login attributes used in the login attempt.
+        public var loginAttributes: [GuardDutyClientTypes.LoginAttribute]?
+        /// Contains information about the remote IP address of the connection.
+        public var remoteIpDetails: GuardDutyClientTypes.RemoteIpDetails?
+
+        public init (
+            loginAttributes: [GuardDutyClientTypes.LoginAttribute]? = nil,
+            remoteIpDetails: GuardDutyClientTypes.RemoteIpDetails? = nil
+        )
+        {
+            self.loginAttributes = loginAttributes
+            self.remoteIpDetails = remoteIpDetails
+        }
+    }
+
+}
+
 extension GuardDutyClientTypes.RemoteAccountDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "accountId"
@@ -13071,6 +14140,8 @@ extension GuardDutyClientTypes.Resource: Swift.Codable {
         case eksClusterDetails = "eksClusterDetails"
         case instanceDetails = "instanceDetails"
         case kubernetesDetails = "kubernetesDetails"
+        case rdsDbInstanceDetails = "rdsDbInstanceDetails"
+        case rdsDbUserDetails = "rdsDbUserDetails"
         case resourceType = "resourceType"
         case s3BucketDetails = "s3BucketDetails"
     }
@@ -13097,6 +14168,12 @@ extension GuardDutyClientTypes.Resource: Swift.Codable {
         }
         if let kubernetesDetails = self.kubernetesDetails {
             try encodeContainer.encode(kubernetesDetails, forKey: .kubernetesDetails)
+        }
+        if let rdsDbInstanceDetails = self.rdsDbInstanceDetails {
+            try encodeContainer.encode(rdsDbInstanceDetails, forKey: .rdsDbInstanceDetails)
+        }
+        if let rdsDbUserDetails = self.rdsDbUserDetails {
+            try encodeContainer.encode(rdsDbUserDetails, forKey: .rdsDbUserDetails)
         }
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType, forKey: .resourceType)
@@ -13138,6 +14215,10 @@ extension GuardDutyClientTypes.Resource: Swift.Codable {
         ecsClusterDetails = ecsClusterDetailsDecoded
         let containerDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.Container.self, forKey: .containerDetails)
         containerDetails = containerDetailsDecoded
+        let rdsDbInstanceDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.RdsDbInstanceDetails.self, forKey: .rdsDbInstanceDetails)
+        rdsDbInstanceDetails = rdsDbInstanceDetailsDecoded
+        let rdsDbUserDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.RdsDbUserDetails.self, forKey: .rdsDbUserDetails)
+        rdsDbUserDetails = rdsDbUserDetailsDecoded
     }
 }
 
@@ -13158,6 +14239,10 @@ extension GuardDutyClientTypes {
         public var instanceDetails: GuardDutyClientTypes.InstanceDetails?
         /// Details about the Kubernetes user and workload involved in a Kubernetes finding.
         public var kubernetesDetails: GuardDutyClientTypes.KubernetesDetails?
+        /// Contains information about the database instance to which an anomalous login attempt was made.
+        public var rdsDbInstanceDetails: GuardDutyClientTypes.RdsDbInstanceDetails?
+        /// Contains information about the user details through which anomalous login attempt was made.
+        public var rdsDbUserDetails: GuardDutyClientTypes.RdsDbUserDetails?
         /// The type of Amazon Web Services resource.
         public var resourceType: Swift.String?
         /// Contains information on the S3 bucket.
@@ -13171,6 +14256,8 @@ extension GuardDutyClientTypes {
             eksClusterDetails: GuardDutyClientTypes.EksClusterDetails? = nil,
             instanceDetails: GuardDutyClientTypes.InstanceDetails? = nil,
             kubernetesDetails: GuardDutyClientTypes.KubernetesDetails? = nil,
+            rdsDbInstanceDetails: GuardDutyClientTypes.RdsDbInstanceDetails? = nil,
+            rdsDbUserDetails: GuardDutyClientTypes.RdsDbUserDetails? = nil,
             resourceType: Swift.String? = nil,
             s3BucketDetails: [GuardDutyClientTypes.S3BucketDetail]? = nil
         )
@@ -13182,6 +14269,8 @@ extension GuardDutyClientTypes {
             self.eksClusterDetails = eksClusterDetails
             self.instanceDetails = instanceDetails
             self.kubernetesDetails = kubernetesDetails
+            self.rdsDbInstanceDetails = rdsDbInstanceDetails
+            self.rdsDbUserDetails = rdsDbUserDetails
             self.resourceType = resourceType
             self.s3BucketDetails = s3BucketDetails
         }
@@ -15600,6 +16689,7 @@ extension UpdateDetectorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataSources = "dataSources"
         case enable = "enable"
+        case features = "features"
         case findingPublishingFrequency = "findingPublishingFrequency"
     }
 
@@ -15610,6 +16700,12 @@ extension UpdateDetectorInput: Swift.Encodable {
         }
         if let enable = self.enable {
             try encodeContainer.encode(enable, forKey: .enable)
+        }
+        if let features = features {
+            var featuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .features)
+            for detectorfeatureconfiguration0 in features {
+                try featuresContainer.encode(detectorfeatureconfiguration0)
+            }
         }
         if let findingPublishingFrequency = self.findingPublishingFrequency {
             try encodeContainer.encode(findingPublishingFrequency.rawValue, forKey: .findingPublishingFrequency)
@@ -15628,12 +16724,15 @@ extension UpdateDetectorInput: ClientRuntime.URLPathProvider {
 
 public struct UpdateDetectorInput: Swift.Equatable {
     /// Describes which data sources will be updated. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
+    @available(*, deprecated, message: "This parameter is deprecated, use Features instead")
     public var dataSources: GuardDutyClientTypes.DataSourceConfigurations?
     /// The unique ID of the detector to update.
     /// This member is required.
     public var detectorId: Swift.String?
     /// Specifies whether the detector is enabled or not enabled.
     public var enable: Swift.Bool?
+    /// Provides the features that will be updated for the detector.
+    public var features: [GuardDutyClientTypes.DetectorFeatureConfiguration]?
     /// An enum value that specifies how frequently findings are exported, such as to CloudWatch Events.
     public var findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency?
 
@@ -15641,12 +16740,14 @@ public struct UpdateDetectorInput: Swift.Equatable {
         dataSources: GuardDutyClientTypes.DataSourceConfigurations? = nil,
         detectorId: Swift.String? = nil,
         enable: Swift.Bool? = nil,
+        features: [GuardDutyClientTypes.DetectorFeatureConfiguration]? = nil,
         findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency? = nil
     )
     {
         self.dataSources = dataSources
         self.detectorId = detectorId
         self.enable = enable
+        self.features = features
         self.findingPublishingFrequency = findingPublishingFrequency
     }
 }
@@ -15655,12 +16756,14 @@ struct UpdateDetectorInputBody: Swift.Equatable {
     let enable: Swift.Bool?
     let findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency?
     let dataSources: GuardDutyClientTypes.DataSourceConfigurations?
+    let features: [GuardDutyClientTypes.DetectorFeatureConfiguration]?
 }
 
 extension UpdateDetectorInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataSources = "dataSources"
         case enable = "enable"
+        case features = "features"
         case findingPublishingFrequency = "findingPublishingFrequency"
     }
 
@@ -15672,6 +16775,17 @@ extension UpdateDetectorInputBody: Swift.Decodable {
         findingPublishingFrequency = findingPublishingFrequencyDecoded
         let dataSourcesDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.DataSourceConfigurations.self, forKey: .dataSources)
         dataSources = dataSourcesDecoded
+        let featuresContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.DetectorFeatureConfiguration?].self, forKey: .features)
+        var featuresDecoded0:[GuardDutyClientTypes.DetectorFeatureConfiguration]? = nil
+        if let featuresContainer = featuresContainer {
+            featuresDecoded0 = [GuardDutyClientTypes.DetectorFeatureConfiguration]()
+            for structure0 in featuresContainer {
+                if let structure0 = structure0 {
+                    featuresDecoded0?.append(structure0)
+                }
+            }
+        }
+        features = featuresDecoded0
     }
 }
 
@@ -16227,6 +17341,7 @@ extension UpdateMemberDetectorsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountIds = "accountIds"
         case dataSources = "dataSources"
+        case features = "features"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -16239,6 +17354,12 @@ extension UpdateMemberDetectorsInput: Swift.Encodable {
         }
         if let dataSources = self.dataSources {
             try encodeContainer.encode(dataSources, forKey: .dataSources)
+        }
+        if let features = features {
+            var featuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .features)
+            for memberfeaturesconfiguration0 in features {
+                try featuresContainer.encode(memberfeaturesconfiguration0)
+            }
         }
     }
 }
@@ -16257,32 +17378,39 @@ public struct UpdateMemberDetectorsInput: Swift.Equatable {
     /// This member is required.
     public var accountIds: [Swift.String]?
     /// Describes which data sources will be updated.
+    @available(*, deprecated, message: "This parameter is deprecated, use Features instead")
     public var dataSources: GuardDutyClientTypes.DataSourceConfigurations?
     /// The detector ID of the administrator account.
     /// This member is required.
     public var detectorId: Swift.String?
+    /// A list of features that will be updated for the specified member accounts.
+    public var features: [GuardDutyClientTypes.MemberFeaturesConfiguration]?
 
     public init (
         accountIds: [Swift.String]? = nil,
         dataSources: GuardDutyClientTypes.DataSourceConfigurations? = nil,
-        detectorId: Swift.String? = nil
+        detectorId: Swift.String? = nil,
+        features: [GuardDutyClientTypes.MemberFeaturesConfiguration]? = nil
     )
     {
         self.accountIds = accountIds
         self.dataSources = dataSources
         self.detectorId = detectorId
+        self.features = features
     }
 }
 
 struct UpdateMemberDetectorsInputBody: Swift.Equatable {
     let accountIds: [Swift.String]?
     let dataSources: GuardDutyClientTypes.DataSourceConfigurations?
+    let features: [GuardDutyClientTypes.MemberFeaturesConfiguration]?
 }
 
 extension UpdateMemberDetectorsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountIds = "accountIds"
         case dataSources = "dataSources"
+        case features = "features"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -16300,6 +17428,17 @@ extension UpdateMemberDetectorsInputBody: Swift.Decodable {
         accountIds = accountIdsDecoded0
         let dataSourcesDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.DataSourceConfigurations.self, forKey: .dataSources)
         dataSources = dataSourcesDecoded
+        let featuresContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.MemberFeaturesConfiguration?].self, forKey: .features)
+        var featuresDecoded0:[GuardDutyClientTypes.MemberFeaturesConfiguration]? = nil
+        if let featuresContainer = featuresContainer {
+            featuresDecoded0 = [GuardDutyClientTypes.MemberFeaturesConfiguration]()
+            for structure0 in featuresContainer {
+                if let structure0 = structure0 {
+                    featuresDecoded0?.append(structure0)
+                }
+            }
+        }
+        features = featuresDecoded0
     }
 }
 
@@ -16381,7 +17520,9 @@ extension UpdateMemberDetectorsOutputResponseBody: Swift.Decodable {
 extension UpdateOrganizationConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoEnable = "autoEnable"
+        case autoEnableOrganizationMembers = "autoEnableOrganizationMembers"
         case dataSources = "dataSources"
+        case features = "features"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -16389,8 +17530,17 @@ extension UpdateOrganizationConfigurationInput: Swift.Encodable {
         if let autoEnable = self.autoEnable {
             try encodeContainer.encode(autoEnable, forKey: .autoEnable)
         }
+        if let autoEnableOrganizationMembers = self.autoEnableOrganizationMembers {
+            try encodeContainer.encode(autoEnableOrganizationMembers.rawValue, forKey: .autoEnableOrganizationMembers)
+        }
         if let dataSources = self.dataSources {
             try encodeContainer.encode(dataSources, forKey: .dataSources)
+        }
+        if let features = features {
+            var featuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .features)
+            for organizationfeatureconfiguration0 in features {
+                try featuresContainer.encode(organizationfeatureconfiguration0)
+            }
         }
     }
 }
@@ -16406,35 +17556,54 @@ extension UpdateOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
 
 public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
     /// Indicates whether to automatically enable member accounts in the organization.
-    /// This member is required.
+    @available(*, deprecated, message: "This field is deprecated, use AutoEnableOrganizationMembers instead")
     public var autoEnable: Swift.Bool?
+    /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization.
+    ///
+    /// * NEW: Indicates that new accounts joining the organization are configured to have GuardDuty enabled automatically.
+    ///
+    /// * ALL: Indicates that all accounts (new and existing members) in the organization are configured to have GuardDuty enabled automatically.
+    ///
+    /// * NONE: Indicates that no account in the organization will be configured to have GuardDuty enabled automatically.
+    public var autoEnableOrganizationMembers: GuardDutyClientTypes.AutoEnableMembers?
     /// Describes which data sources will be updated.
+    @available(*, deprecated, message: "This parameter is deprecated, use Features instead")
     public var dataSources: GuardDutyClientTypes.OrganizationDataSourceConfigurations?
-    /// The ID of the detector to update the delegated administrator for.
+    /// The ID of the detector that configures the delegated administrator.
     /// This member is required.
     public var detectorId: Swift.String?
+    /// A list of features that will be configured for the organization.
+    public var features: [GuardDutyClientTypes.OrganizationFeatureConfiguration]?
 
     public init (
         autoEnable: Swift.Bool? = nil,
+        autoEnableOrganizationMembers: GuardDutyClientTypes.AutoEnableMembers? = nil,
         dataSources: GuardDutyClientTypes.OrganizationDataSourceConfigurations? = nil,
-        detectorId: Swift.String? = nil
+        detectorId: Swift.String? = nil,
+        features: [GuardDutyClientTypes.OrganizationFeatureConfiguration]? = nil
     )
     {
         self.autoEnable = autoEnable
+        self.autoEnableOrganizationMembers = autoEnableOrganizationMembers
         self.dataSources = dataSources
         self.detectorId = detectorId
+        self.features = features
     }
 }
 
 struct UpdateOrganizationConfigurationInputBody: Swift.Equatable {
     let autoEnable: Swift.Bool?
     let dataSources: GuardDutyClientTypes.OrganizationDataSourceConfigurations?
+    let features: [GuardDutyClientTypes.OrganizationFeatureConfiguration]?
+    let autoEnableOrganizationMembers: GuardDutyClientTypes.AutoEnableMembers?
 }
 
 extension UpdateOrganizationConfigurationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoEnable = "autoEnable"
+        case autoEnableOrganizationMembers = "autoEnableOrganizationMembers"
         case dataSources = "dataSources"
+        case features = "features"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -16443,6 +17612,19 @@ extension UpdateOrganizationConfigurationInputBody: Swift.Decodable {
         autoEnable = autoEnableDecoded
         let dataSourcesDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.OrganizationDataSourceConfigurations.self, forKey: .dataSources)
         dataSources = dataSourcesDecoded
+        let featuresContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.OrganizationFeatureConfiguration?].self, forKey: .features)
+        var featuresDecoded0:[GuardDutyClientTypes.OrganizationFeatureConfiguration]? = nil
+        if let featuresContainer = featuresContainer {
+            featuresDecoded0 = [GuardDutyClientTypes.OrganizationFeatureConfiguration]()
+            for structure0 in featuresContainer {
+                if let structure0 = structure0 {
+                    featuresDecoded0?.append(structure0)
+                }
+            }
+        }
+        features = featuresDecoded0
+        let autoEnableOrganizationMembersDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.AutoEnableMembers.self, forKey: .autoEnableOrganizationMembers)
+        autoEnableOrganizationMembers = autoEnableOrganizationMembersDecoded
     }
 }
 
@@ -16747,6 +17929,7 @@ extension GuardDutyClientTypes.UsageCriteria: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountIds = "accountIds"
         case dataSources = "dataSources"
+        case features = "features"
         case resources = "resources"
     }
 
@@ -16762,6 +17945,12 @@ extension GuardDutyClientTypes.UsageCriteria: Swift.Codable {
             var dataSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSources)
             for datasource0 in dataSources {
                 try dataSourcesContainer.encode(datasource0.rawValue)
+            }
+        }
+        if let features = features {
+            var featuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .features)
+            for usagefeature0 in features {
+                try featuresContainer.encode(usagefeature0.rawValue)
             }
         }
         if let resources = resources {
@@ -16807,6 +17996,17 @@ extension GuardDutyClientTypes.UsageCriteria: Swift.Codable {
             }
         }
         resources = resourcesDecoded0
+        let featuresContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.UsageFeature?].self, forKey: .features)
+        var featuresDecoded0:[GuardDutyClientTypes.UsageFeature]? = nil
+        if let featuresContainer = featuresContainer {
+            featuresDecoded0 = [GuardDutyClientTypes.UsageFeature]()
+            for enum0 in featuresContainer {
+                if let enum0 = enum0 {
+                    featuresDecoded0?.append(enum0)
+                }
+            }
+        }
+        features = featuresDecoded0
     }
 }
 
@@ -16816,19 +18016,23 @@ extension GuardDutyClientTypes {
         /// The account IDs to aggregate usage statistics from.
         public var accountIds: [Swift.String]?
         /// The data sources to aggregate usage statistics from.
-        /// This member is required.
+        @available(*, deprecated, message: "This parameter is deprecated, use Features instead")
         public var dataSources: [GuardDutyClientTypes.DataSource]?
+        /// The features to aggregate usage statistics from.
+        public var features: [GuardDutyClientTypes.UsageFeature]?
         /// The resources to aggregate usage statistics from. Only accepts exact resource names.
         public var resources: [Swift.String]?
 
         public init (
             accountIds: [Swift.String]? = nil,
             dataSources: [GuardDutyClientTypes.DataSource]? = nil,
+            features: [GuardDutyClientTypes.UsageFeature]? = nil,
             resources: [Swift.String]? = nil
         )
         {
             self.accountIds = accountIds
             self.dataSources = dataSources
+            self.features = features
             self.resources = resources
         }
     }
@@ -16874,6 +18078,104 @@ extension GuardDutyClientTypes {
         )
         {
             self.dataSource = dataSource
+            self.total = total
+        }
+    }
+
+}
+
+extension GuardDutyClientTypes {
+    public enum UsageFeature: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cloudTrail
+        case dnsLogs
+        case ebsMalwareProtection
+        case eksAuditLogs
+        case eksRuntimeMonitoring
+        case flowLogs
+        case lambdaNetworkLogs
+        case rdsLoginEvents
+        case s3DataEvents
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UsageFeature] {
+            return [
+                .cloudTrail,
+                .dnsLogs,
+                .ebsMalwareProtection,
+                .eksAuditLogs,
+                .eksRuntimeMonitoring,
+                .flowLogs,
+                .lambdaNetworkLogs,
+                .rdsLoginEvents,
+                .s3DataEvents,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudTrail: return "CLOUD_TRAIL"
+            case .dnsLogs: return "DNS_LOGS"
+            case .ebsMalwareProtection: return "EBS_MALWARE_PROTECTION"
+            case .eksAuditLogs: return "EKS_AUDIT_LOGS"
+            case .eksRuntimeMonitoring: return "EKS_RUNTIME_MONITORING"
+            case .flowLogs: return "FLOW_LOGS"
+            case .lambdaNetworkLogs: return "LAMBDA_NETWORK_LOGS"
+            case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
+            case .s3DataEvents: return "S3_DATA_EVENTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UsageFeature(rawValue: rawValue) ?? UsageFeature.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GuardDutyClientTypes.UsageFeatureResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case feature = "feature"
+        case total = "total"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let feature = self.feature {
+            try encodeContainer.encode(feature.rawValue, forKey: .feature)
+        }
+        if let total = self.total {
+            try encodeContainer.encode(total, forKey: .total)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let featureDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.UsageFeature.self, forKey: .feature)
+        feature = featureDecoded
+        let totalDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.Total.self, forKey: .total)
+        total = totalDecoded
+    }
+}
+
+extension GuardDutyClientTypes {
+    /// Contains information about the result of the total usage based on the feature.
+    public struct UsageFeatureResult: Swift.Equatable {
+        /// The feature that generated the usage cost.
+        public var feature: GuardDutyClientTypes.UsageFeature?
+        /// Contains the total usage with the corresponding currency unit for that value.
+        public var total: GuardDutyClientTypes.Total?
+
+        public init (
+            feature: GuardDutyClientTypes.UsageFeature? = nil,
+            total: GuardDutyClientTypes.Total? = nil
+        )
+        {
+            self.feature = feature
             self.total = total
         }
     }
@@ -16929,6 +18231,7 @@ extension GuardDutyClientTypes {
     public enum UsageStatisticType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case sumByAccount
         case sumByDataSource
+        case sumByFeatures
         case sumByResource
         case topResources
         case sdkUnknown(Swift.String)
@@ -16937,6 +18240,7 @@ extension GuardDutyClientTypes {
             return [
                 .sumByAccount,
                 .sumByDataSource,
+                .sumByFeatures,
                 .sumByResource,
                 .topResources,
                 .sdkUnknown("")
@@ -16950,6 +18254,7 @@ extension GuardDutyClientTypes {
             switch self {
             case .sumByAccount: return "SUM_BY_ACCOUNT"
             case .sumByDataSource: return "SUM_BY_DATA_SOURCE"
+            case .sumByFeatures: return "SUM_BY_FEATURES"
             case .sumByResource: return "SUM_BY_RESOURCE"
             case .topResources: return "TOP_RESOURCES"
             case let .sdkUnknown(s): return s
@@ -16967,6 +18272,7 @@ extension GuardDutyClientTypes.UsageStatistics: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sumByAccount = "sumByAccount"
         case sumByDataSource = "sumByDataSource"
+        case sumByFeature = "sumByFeature"
         case sumByResource = "sumByResource"
         case topResources = "topResources"
     }
@@ -16983,6 +18289,12 @@ extension GuardDutyClientTypes.UsageStatistics: Swift.Codable {
             var sumByDataSourceContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sumByDataSource)
             for usagedatasourceresult0 in sumByDataSource {
                 try sumByDataSourceContainer.encode(usagedatasourceresult0)
+            }
+        }
+        if let sumByFeature = sumByFeature {
+            var sumByFeatureContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sumByFeature)
+            for usagefeatureresult0 in sumByFeature {
+                try sumByFeatureContainer.encode(usagefeatureresult0)
             }
         }
         if let sumByResource = sumByResource {
@@ -17045,6 +18357,17 @@ extension GuardDutyClientTypes.UsageStatistics: Swift.Codable {
             }
         }
         topResources = topResourcesDecoded0
+        let sumByFeatureContainer = try containerValues.decodeIfPresent([GuardDutyClientTypes.UsageFeatureResult?].self, forKey: .sumByFeature)
+        var sumByFeatureDecoded0:[GuardDutyClientTypes.UsageFeatureResult]? = nil
+        if let sumByFeatureContainer = sumByFeatureContainer {
+            sumByFeatureDecoded0 = [GuardDutyClientTypes.UsageFeatureResult]()
+            for structure0 in sumByFeatureContainer {
+                if let structure0 = structure0 {
+                    sumByFeatureDecoded0?.append(structure0)
+                }
+            }
+        }
+        sumByFeature = sumByFeatureDecoded0
     }
 }
 
@@ -17055,6 +18378,8 @@ extension GuardDutyClientTypes {
         public var sumByAccount: [GuardDutyClientTypes.UsageAccountResult]?
         /// The usage statistic sum organized by on data source.
         public var sumByDataSource: [GuardDutyClientTypes.UsageDataSourceResult]?
+        /// The usage statistic sum organized by feature.
+        public var sumByFeature: [GuardDutyClientTypes.UsageFeatureResult]?
         /// The usage statistic sum organized by resource.
         public var sumByResource: [GuardDutyClientTypes.UsageResourceResult]?
         /// Lists the top 50 resources that have generated the most GuardDuty usage, in order from most to least expensive.
@@ -17063,12 +18388,14 @@ extension GuardDutyClientTypes {
         public init (
             sumByAccount: [GuardDutyClientTypes.UsageAccountResult]? = nil,
             sumByDataSource: [GuardDutyClientTypes.UsageDataSourceResult]? = nil,
+            sumByFeature: [GuardDutyClientTypes.UsageFeatureResult]? = nil,
             sumByResource: [GuardDutyClientTypes.UsageResourceResult]? = nil,
             topResources: [GuardDutyClientTypes.UsageResourceResult]? = nil
         )
         {
             self.sumByAccount = sumByAccount
             self.sumByDataSource = sumByDataSource
+            self.sumByFeature = sumByFeature
             self.sumByResource = sumByResource
             self.topResources = topResources
         }

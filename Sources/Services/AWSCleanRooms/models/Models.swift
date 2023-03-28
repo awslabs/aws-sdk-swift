@@ -2203,6 +2203,7 @@ extension CreateCollaborationInput: Swift.Encodable {
         case members
         case name
         case queryLogStatus
+        case tags
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2234,6 +2235,12 @@ extension CreateCollaborationInput: Swift.Encodable {
         if let queryLogStatus = self.queryLogStatus {
             try encodeContainer.encode(queryLogStatus.rawValue, forKey: .queryLogStatus)
         }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
     }
 }
 
@@ -2264,6 +2271,8 @@ public struct CreateCollaborationInput: Swift.Equatable {
     /// An indicator as to whether query logging has been enabled or disabled for the collaboration.
     /// This member is required.
     public var queryLogStatus: CleanRoomsClientTypes.CollaborationQueryLogStatus?
+    /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
+    public var tags: [Swift.String:Swift.String]?
 
     public init (
         creatorDisplayName: Swift.String? = nil,
@@ -2272,7 +2281,8 @@ public struct CreateCollaborationInput: Swift.Equatable {
         description: Swift.String? = nil,
         members: [CleanRoomsClientTypes.MemberSpecification]? = nil,
         name: Swift.String? = nil,
-        queryLogStatus: CleanRoomsClientTypes.CollaborationQueryLogStatus? = nil
+        queryLogStatus: CleanRoomsClientTypes.CollaborationQueryLogStatus? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.creatorDisplayName = creatorDisplayName
@@ -2282,6 +2292,7 @@ public struct CreateCollaborationInput: Swift.Equatable {
         self.members = members
         self.name = name
         self.queryLogStatus = queryLogStatus
+        self.tags = tags
     }
 }
 
@@ -2293,6 +2304,7 @@ struct CreateCollaborationInputBody: Swift.Equatable {
     let creatorDisplayName: Swift.String?
     let dataEncryptionMetadata: CleanRoomsClientTypes.DataEncryptionMetadata?
     let queryLogStatus: CleanRoomsClientTypes.CollaborationQueryLogStatus?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension CreateCollaborationInputBody: Swift.Decodable {
@@ -2304,6 +2316,7 @@ extension CreateCollaborationInputBody: Swift.Decodable {
         case members
         case name
         case queryLogStatus
+        case tags
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -2340,6 +2353,17 @@ extension CreateCollaborationInputBody: Swift.Decodable {
         dataEncryptionMetadata = dataEncryptionMetadataDecoded
         let queryLogStatusDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.CollaborationQueryLogStatus.self, forKey: .queryLogStatus)
         queryLogStatus = queryLogStatusDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -2564,6 +2588,7 @@ extension CreateConfiguredTableAssociationInput: Swift.Encodable {
         case description
         case name
         case roleArn
+        case tags
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2579,6 +2604,12 @@ extension CreateConfiguredTableAssociationInput: Swift.Encodable {
         }
         if let roleArn = self.roleArn {
             try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
     }
 }
@@ -2607,13 +2638,16 @@ public struct CreateConfiguredTableAssociationInput: Swift.Equatable {
     /// The service will assume this role to access catalog metadata and query the table.
     /// This member is required.
     public var roleArn: Swift.String?
+    /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
+    public var tags: [Swift.String:Swift.String]?
 
     public init (
         configuredTableIdentifier: Swift.String? = nil,
         description: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
-        roleArn: Swift.String? = nil
+        roleArn: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.configuredTableIdentifier = configuredTableIdentifier
@@ -2621,6 +2655,7 @@ public struct CreateConfiguredTableAssociationInput: Swift.Equatable {
         self.membershipIdentifier = membershipIdentifier
         self.name = name
         self.roleArn = roleArn
+        self.tags = tags
     }
 }
 
@@ -2629,6 +2664,7 @@ struct CreateConfiguredTableAssociationInputBody: Swift.Equatable {
     let description: Swift.String?
     let configuredTableIdentifier: Swift.String?
     let roleArn: Swift.String?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension CreateConfiguredTableAssociationInputBody: Swift.Decodable {
@@ -2637,6 +2673,7 @@ extension CreateConfiguredTableAssociationInputBody: Swift.Decodable {
         case description
         case name
         case roleArn
+        case tags
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -2649,6 +2686,17 @@ extension CreateConfiguredTableAssociationInputBody: Swift.Decodable {
         configuredTableIdentifier = configuredTableIdentifierDecoded
         let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
         roleArn = roleArnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -2735,6 +2783,7 @@ extension CreateConfiguredTableInput: Swift.Encodable {
         case description
         case name
         case tableReference
+        case tags
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2756,6 +2805,12 @@ extension CreateConfiguredTableInput: Swift.Encodable {
         }
         if let tableReference = self.tableReference {
             try encodeContainer.encode(tableReference, forKey: .tableReference)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
     }
 }
@@ -2781,13 +2836,16 @@ public struct CreateConfiguredTableInput: Swift.Equatable {
     /// A reference to the AWS Glue table being configured.
     /// This member is required.
     public var tableReference: CleanRoomsClientTypes.TableReference?
+    /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
+    public var tags: [Swift.String:Swift.String]?
 
     public init (
         allowedColumns: [Swift.String]? = nil,
         analysisMethod: CleanRoomsClientTypes.AnalysisMethod? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
-        tableReference: CleanRoomsClientTypes.TableReference? = nil
+        tableReference: CleanRoomsClientTypes.TableReference? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.allowedColumns = allowedColumns
@@ -2795,6 +2853,7 @@ public struct CreateConfiguredTableInput: Swift.Equatable {
         self.description = description
         self.name = name
         self.tableReference = tableReference
+        self.tags = tags
     }
 }
 
@@ -2804,6 +2863,7 @@ struct CreateConfiguredTableInputBody: Swift.Equatable {
     let tableReference: CleanRoomsClientTypes.TableReference?
     let allowedColumns: [Swift.String]?
     let analysisMethod: CleanRoomsClientTypes.AnalysisMethod?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension CreateConfiguredTableInputBody: Swift.Decodable {
@@ -2813,6 +2873,7 @@ extension CreateConfiguredTableInputBody: Swift.Decodable {
         case description
         case name
         case tableReference
+        case tags
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -2836,6 +2897,17 @@ extension CreateConfiguredTableInputBody: Swift.Decodable {
         allowedColumns = allowedColumnsDecoded0
         let analysisMethodDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisMethod.self, forKey: .analysisMethod)
         analysisMethod = analysisMethodDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -2919,6 +2991,7 @@ extension CreateMembershipInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collaborationIdentifier
         case queryLogStatus
+        case tags
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2928,6 +3001,12 @@ extension CreateMembershipInput: Swift.Encodable {
         }
         if let queryLogStatus = self.queryLogStatus {
             try encodeContainer.encode(queryLogStatus.rawValue, forKey: .queryLogStatus)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
     }
 }
@@ -2945,26 +3024,32 @@ public struct CreateMembershipInput: Swift.Equatable {
     /// An indicator as to whether query logging has been enabled or disabled for the collaboration.
     /// This member is required.
     public var queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus?
+    /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
+    public var tags: [Swift.String:Swift.String]?
 
     public init (
         collaborationIdentifier: Swift.String? = nil,
-        queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus? = nil
+        queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.collaborationIdentifier = collaborationIdentifier
         self.queryLogStatus = queryLogStatus
+        self.tags = tags
     }
 }
 
 struct CreateMembershipInputBody: Swift.Equatable {
     let collaborationIdentifier: Swift.String?
     let queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension CreateMembershipInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collaborationIdentifier
         case queryLogStatus
+        case tags
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -2973,6 +3058,17 @@ extension CreateMembershipInputBody: Swift.Decodable {
         collaborationIdentifier = collaborationIdentifierDecoded
         let queryLogStatusDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.MembershipQueryLogStatus.self, forKey: .queryLogStatus)
         queryLogStatus = queryLogStatusDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -4825,6 +4921,7 @@ extension ListConfiguredTableAssociationsOutputError {
         switch errorType {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -4835,6 +4932,7 @@ extension ListConfiguredTableAssociationsOutputError {
 public enum ListConfiguredTableAssociationsOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
@@ -5407,6 +5505,7 @@ extension ListProtectedQueriesOutputError {
         switch errorType {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -5417,6 +5516,7 @@ extension ListProtectedQueriesOutputError {
 public enum ListProtectedQueriesOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
@@ -5635,6 +5735,112 @@ extension ListSchemasOutputResponseBody: Swift.Decodable {
         schemaSummaries = schemaSummariesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let resourceArn = resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) associated with the resource you want to list tags on.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init (
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct ListTagsForResourceInputBody: Swift.Equatable {
+}
+
+extension ListTagsForResourceInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListTagsForResourceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.tags = output.tags
+        } else {
+            self.tags = nil
+        }
+    }
+}
+
+public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+    /// A map of objects specifying each key name and value.
+    /// This member is required.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init (
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.tags = tags
+    }
+}
+
+struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -7311,7 +7517,7 @@ extension CleanRoomsClientTypes {
         /// A name for the schema. The schema relation is referred to by this name when queried by a protected query.
         /// This member is required.
         public var name: Swift.String?
-        /// The partition keys for the data set underlying this schema.
+        /// The partition keys for the dataset underlying this schema.
         /// This member is required.
         public var partitionKeys: [CleanRoomsClientTypes.Column]?
         /// The type of schema. The only valid value is currently `TABLE`.
@@ -7781,13 +7987,115 @@ extension CleanRoomsClientTypes.TableReference: Swift.Codable {
 }
 
 extension CleanRoomsClientTypes {
-    /// A pointer to the data set that underlies this table. Currently, this can only be an AWS Glue table.
+    /// A pointer to the dataset that underlies this table. Currently, this can only be an AWS Glue table.
     public enum TableReference: Swift.Equatable {
         /// If present, a reference to the AWS Glue table referred to by this table reference.
         case glue(CleanRoomsClientTypes.GlueTableReference)
         case sdkUnknown(Swift.String)
     }
 
+}
+
+extension TagResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension TagResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let resourceArn = resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+public struct TagResourceInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) associated with the resource you want to tag.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// A map of objects specifying each key name and value.
+    /// This member is required.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init (
+        resourceArn: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.tags = tags
+    }
+}
+
+struct TagResourceInputBody: Swift.Equatable {
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension TagResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension TagResourceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct TagResourceOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension CleanRoomsClientTypes {
@@ -7869,6 +8177,93 @@ extension ThrottlingExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension UntagResourceInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let tagKeys = tagKeys else {
+                let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            tagKeys.forEach { queryItemValue in
+                let queryItem = ClientRuntime.URLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension UntagResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let resourceArn = resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+public struct UntagResourceInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) associated with the resource you want to remove the tag from.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// A list of key names of tags to be removed.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init (
+        resourceArn: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.tagKeys = tagKeys
+    }
+}
+
+struct UntagResourceInputBody: Swift.Equatable {
+}
+
+extension UntagResourceInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UntagResourceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UntagResourceOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension UpdateCollaborationInput: Swift.Encodable {
@@ -8835,12 +9230,14 @@ extension CleanRoomsClientTypes {
     public enum ValidationExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case fieldValidationFailed
         case invalidConfiguration
+        case invalidQuery
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ValidationExceptionReason] {
             return [
                 .fieldValidationFailed,
                 .invalidConfiguration,
+                .invalidQuery,
                 .sdkUnknown("")
             ]
         }
@@ -8852,6 +9249,7 @@ extension CleanRoomsClientTypes {
             switch self {
             case .fieldValidationFailed: return "FIELD_VALIDATION_FAILED"
             case .invalidConfiguration: return "INVALID_CONFIGURATION"
+            case .invalidQuery: return "INVALID_QUERY"
             case let .sdkUnknown(s): return s
             }
         }

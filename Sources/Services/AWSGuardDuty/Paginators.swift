@@ -36,6 +36,28 @@ extension PaginatorSequence where Input == DescribeMalwareScansInput, Output == 
     }
 }
 extension GuardDutyClient {
+    /// Paginate over `[DescribeOrganizationConfigurationOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeOrganizationConfigurationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrganizationConfigurationOutputResponse`
+    public func describeOrganizationConfigurationPaginated(input: DescribeOrganizationConfigurationInput) -> ClientRuntime.PaginatorSequence<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutputResponse>(input: input, inputKey: \DescribeOrganizationConfigurationInput.nextToken, outputKey: \DescribeOrganizationConfigurationOutputResponse.nextToken, paginationFunction: self.describeOrganizationConfiguration(input:))
+    }
+}
+
+extension DescribeOrganizationConfigurationInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeOrganizationConfigurationInput {
+        return DescribeOrganizationConfigurationInput(
+            detectorId: self.detectorId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+extension GuardDutyClient {
     /// Paginate over `[GetUsageStatisticsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

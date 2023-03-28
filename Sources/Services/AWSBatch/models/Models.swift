@@ -870,7 +870,7 @@ extension BatchClientTypes {
         public var eksConfiguration: BatchClientTypes.EksConfiguration?
         /// The service role that's associated with the compute environment that allows Batch to make calls to Amazon Web Services API operations on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html) in the Batch User Guide.
         public var serviceRole: Swift.String?
-        /// The state of the compute environment. The valid values are ENABLED or DISABLED. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. However, they scale in to minvCpus value after instances become idle.
+        /// The state of the compute environment. The valid values are ENABLED or DISABLED. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. Compute environments in a DISABLED state may continue to incur billing charges. To prevent additional charges, turn off and then delete the compute environment. For more information, see [State](https://docs.aws.amazon.com/batch/latest/userguide/compute_environment_parameters.html#compute_environment_state) in the Batch User Guide. When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
         public var state: BatchClientTypes.CEState?
         /// The current status of the compute environment (for example, CREATING or VALID).
         public var status: BatchClientTypes.CEStatus?
@@ -1413,7 +1413,7 @@ extension BatchClientTypes {
         public var allocationStrategy: BatchClientTypes.CRUpdateAllocationStrategy?
         /// The maximum percentage that a Spot Instance price can be when compared with the On-Demand price for that instance type before instances are launched. For example, if your maximum percentage is 20%, the Spot price must be less than 20% of the current On-Demand price for that Amazon EC2 instance. You always pay the lowest (market) price and never more than your maximum percentage. For most use cases, we recommend leaving this field empty. When updating a compute environment, changing the bid percentage requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var bidPercentage: Swift.Int?
-        /// The desired number of Amazon EC2 vCPUS in the compute environment. Batch modifies this value between the minimum and maximum values based on job queue demand. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. Batch doesn't support changing the desired number of vCPUs of an existing compute environment. Don't specify this parameter for compute environments using Amazon EKS clusters.
+        /// The desired number of Amazon EC2 vCPUS in the compute environment. Batch modifies this value between the minimum and maximum values based on job queue demand. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. Batch doesn't support changing the desired number of vCPUs of an existing compute environment. Don't specify this parameter for compute environments using Amazon EKS clusters. When you update the desiredvCpus setting, the value must be between the minvCpus and maxvCpus values. Additionally, the updated desiredvCpus value must be greater than or equal to the current desiredvCpus value. For more information, see [Troubleshooting Batch](https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#error-desired-vcpus-update) in the Batch User Guide.
         public var desiredvCpus: Swift.Int?
         /// Provides information used to select Amazon Machine Images (AMIs) for EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. To remove the EC2 configuration and any custom AMI ID specified in imageIdOverride, set this value to an empty string. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var ec2Configuration: [BatchClientTypes.Ec2Configuration]?
@@ -1491,6 +1491,7 @@ extension BatchClientTypes.ContainerDetail: Swift.Codable {
         case command
         case containerInstanceArn
         case environment
+        case ephemeralStorage
         case executionRoleArn
         case exitCode
         case fargatePlatformConfiguration
@@ -1532,6 +1533,9 @@ extension BatchClientTypes.ContainerDetail: Swift.Codable {
             for keyvaluepair0 in environment {
                 try environmentContainer.encode(keyvaluepair0)
             }
+        }
+        if let ephemeralStorage = self.ephemeralStorage {
+            try encodeContainer.encode(ephemeralStorage, forKey: .ephemeralStorage)
         }
         if let executionRoleArn = self.executionRoleArn {
             try encodeContainer.encode(executionRoleArn, forKey: .executionRoleArn)
@@ -1748,6 +1752,8 @@ extension BatchClientTypes.ContainerDetail: Swift.Codable {
         networkConfiguration = networkConfigurationDecoded
         let fargatePlatformConfigurationDecoded = try containerValues.decodeIfPresent(BatchClientTypes.FargatePlatformConfiguration.self, forKey: .fargatePlatformConfiguration)
         fargatePlatformConfiguration = fargatePlatformConfigurationDecoded
+        let ephemeralStorageDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EphemeralStorage.self, forKey: .ephemeralStorage)
+        ephemeralStorage = ephemeralStorageDecoded
     }
 }
 
@@ -1760,6 +1766,8 @@ extension BatchClientTypes {
         public var containerInstanceArn: Swift.String?
         /// The environment variables to pass to a container. Environment variables cannot start with "AWS_BATCH". This naming convention is reserved for variables that Batch sets.
         public var environment: [BatchClientTypes.KeyValuePair]?
+        /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate.
+        public var ephemeralStorage: BatchClientTypes.EphemeralStorage?
         /// The Amazon Resource Name (ARN) of the execution role that Batch can assume. For more information, see [Batch execution IAM role](https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html) in the Batch User Guide.
         public var executionRoleArn: Swift.String?
         /// The exit code to return upon completion.
@@ -1811,6 +1819,7 @@ extension BatchClientTypes {
             command: [Swift.String]? = nil,
             containerInstanceArn: Swift.String? = nil,
             environment: [BatchClientTypes.KeyValuePair]? = nil,
+            ephemeralStorage: BatchClientTypes.EphemeralStorage? = nil,
             executionRoleArn: Swift.String? = nil,
             exitCode: Swift.Int? = nil,
             fargatePlatformConfiguration: BatchClientTypes.FargatePlatformConfiguration? = nil,
@@ -1839,6 +1848,7 @@ extension BatchClientTypes {
             self.command = command
             self.containerInstanceArn = containerInstanceArn
             self.environment = environment
+            self.ephemeralStorage = ephemeralStorage
             self.executionRoleArn = executionRoleArn
             self.exitCode = exitCode
             self.fargatePlatformConfiguration = fargatePlatformConfiguration
@@ -1994,6 +2004,7 @@ extension BatchClientTypes.ContainerProperties: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case command
         case environment
+        case ephemeralStorage
         case executionRoleArn
         case fargatePlatformConfiguration
         case image
@@ -2027,6 +2038,9 @@ extension BatchClientTypes.ContainerProperties: Swift.Codable {
             for keyvaluepair0 in environment {
                 try environmentContainer.encode(keyvaluepair0)
             }
+        }
+        if let ephemeralStorage = self.ephemeralStorage {
+            try encodeContainer.encode(ephemeralStorage, forKey: .ephemeralStorage)
         }
         if let executionRoleArn = self.executionRoleArn {
             try encodeContainer.encode(executionRoleArn, forKey: .executionRoleArn)
@@ -2204,6 +2218,8 @@ extension BatchClientTypes.ContainerProperties: Swift.Codable {
         networkConfiguration = networkConfigurationDecoded
         let fargatePlatformConfigurationDecoded = try containerValues.decodeIfPresent(BatchClientTypes.FargatePlatformConfiguration.self, forKey: .fargatePlatformConfiguration)
         fargatePlatformConfiguration = fargatePlatformConfigurationDecoded
+        let ephemeralStorageDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EphemeralStorage.self, forKey: .ephemeralStorage)
+        ephemeralStorage = ephemeralStorageDecoded
     }
 }
 
@@ -2214,6 +2230,8 @@ extension BatchClientTypes {
         public var command: [Swift.String]?
         /// The environment variables to pass to a container. This parameter maps to Env in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --env option to [docker run](https://docs.docker.com/engine/reference/run/). We don't recommend using plaintext environment variables for sensitive information, such as credential data. Environment variables cannot start with "AWS_BATCH". This naming convention is reserved for variables that Batch sets.
         public var environment: [BatchClientTypes.KeyValuePair]?
+        /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate.
+        public var ephemeralStorage: BatchClientTypes.EphemeralStorage?
         /// The Amazon Resource Name (ARN) of the execution role that Batch can assume. For jobs that run on Fargate resources, you must provide an execution role. For more information, see [Batch execution IAM role](https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html) in the Batch User Guide.
         public var executionRoleArn: Swift.String?
         /// The platform configuration for jobs that are running on Fargate resources. Jobs that are running on EC2 resources must not specify this parameter.
@@ -2266,6 +2284,7 @@ extension BatchClientTypes {
         public init (
             command: [Swift.String]? = nil,
             environment: [BatchClientTypes.KeyValuePair]? = nil,
+            ephemeralStorage: BatchClientTypes.EphemeralStorage? = nil,
             executionRoleArn: Swift.String? = nil,
             fargatePlatformConfiguration: BatchClientTypes.FargatePlatformConfiguration? = nil,
             image: Swift.String? = nil,
@@ -2288,6 +2307,7 @@ extension BatchClientTypes {
         {
             self.command = command
             self.environment = environment
+            self.ephemeralStorage = ephemeralStorage
             self.executionRoleArn = executionRoleArn
             self.fargatePlatformConfiguration = fargatePlatformConfiguration
             self.image = image
@@ -2417,7 +2437,7 @@ public struct CreateComputeEnvironmentInput: Swift.Equatable {
     public var eksConfiguration: BatchClientTypes.EksConfiguration?
     /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html) in the Batch User Guide. If your account already created the Batch service-linked role, that role is used by default for your compute environment unless you specify a different role here. If the Batch service-linked role doesn't exist in your account, and no role is specified here, the service attempts to create the Batch service-linked role in your account. If your specified role has a path other than /, then you must specify either the full role ARN (recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/, specify /foo/bar as the role name. For more information, see [Friendly names and paths](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names) in the IAM User Guide. Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
     public var serviceRole: Swift.String?
-    /// The state of the compute environment. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. However, they scale in to minvCpus value after instances become idle.
+    /// The state of the compute environment. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. Compute environments in a DISABLED state may continue to incur billing charges. To prevent additional charges, turn off and then delete the compute environment. For more information, see [State](https://docs.aws.amazon.com/batch/latest/userguide/compute_environment_parameters.html#compute_environment_state) in the Batch User Guide. When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
     public var state: BatchClientTypes.CEState?
     /// The tags that you apply to the compute environment to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in Amazon Web Services General Reference. These tags can be updated or removed using the [TagResource](https://docs.aws.amazon.com/batch/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/batch/latest/APIReference/API_UntagResource.html) API operations. These tags don't propagate to the underlying compute resources.
     public var tags: [Swift.String:Swift.String]?
@@ -5396,11 +5416,57 @@ extension BatchClientTypes {
 
 }
 
+extension BatchClientTypes.EksMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case labels
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let labels = labels {
+            var labelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .labels)
+            for (dictKey0, eksLabelsMap0) in labels {
+                try labelsContainer.encode(eksLabelsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let labelsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .labels)
+        var labelsDecoded0: [Swift.String:Swift.String]? = nil
+        if let labelsContainer = labelsContainer {
+            labelsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in labelsContainer {
+                if let string0 = string0 {
+                    labelsDecoded0?[key0] = string0
+                }
+            }
+        }
+        labels = labelsDecoded0
+    }
+}
+
+extension BatchClientTypes {
+    public struct EksMetadata: Swift.Equatable {
+        public var labels: [Swift.String:Swift.String]?
+
+        public init (
+            labels: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.labels = labels
+        }
+    }
+
+}
+
 extension BatchClientTypes.EksPodProperties: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case containers
         case dnsPolicy
         case hostNetwork
+        case metadata
         case serviceAccountName
         case volumes
     }
@@ -5418,6 +5484,9 @@ extension BatchClientTypes.EksPodProperties: Swift.Codable {
         }
         if let hostNetwork = self.hostNetwork {
             try encodeContainer.encode(hostNetwork, forKey: .hostNetwork)
+        }
+        if let metadata = self.metadata {
+            try encodeContainer.encode(metadata, forKey: .metadata)
         }
         if let serviceAccountName = self.serviceAccountName {
             try encodeContainer.encode(serviceAccountName, forKey: .serviceAccountName)
@@ -5460,6 +5529,8 @@ extension BatchClientTypes.EksPodProperties: Swift.Codable {
             }
         }
         volumes = volumesDecoded0
+        let metadataDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EksMetadata.self, forKey: .metadata)
+        metadata = metadataDecoded
     }
 }
 
@@ -5472,6 +5543,7 @@ extension BatchClientTypes {
         public var dnsPolicy: Swift.String?
         /// Indicates if the pod uses the hosts' network IP address. The default value is true. Setting this to false enables the Kubernetes pod networking model. Most Batch workloads are egress-only and don't require the overhead of IP allocation for each pod for incoming connections. For more information, see [Host namespaces](https://kubernetes.io/docs/concepts/security/pod-security-policy/#host-namespaces) and [Pod networking](https://kubernetes.io/docs/concepts/workloads/pods/#pod-networking) in the Kubernetes documentation.
         public var hostNetwork: Swift.Bool?
+        public var metadata: BatchClientTypes.EksMetadata?
         /// The name of the service account that's used to run the pod. For more information, see [Kubernetes service accounts](https://docs.aws.amazon.com/eks/latest/userguide/service-accounts.html) and [Configure a Kubernetes service account to assume an IAM role](https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html) in the Amazon EKS User Guide and [Configure service accounts for pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation.
         public var serviceAccountName: Swift.String?
         /// Specifies the volumes for a job definition that uses Amazon EKS resources.
@@ -5481,6 +5553,7 @@ extension BatchClientTypes {
             containers: [BatchClientTypes.EksContainer]? = nil,
             dnsPolicy: Swift.String? = nil,
             hostNetwork: Swift.Bool? = nil,
+            metadata: BatchClientTypes.EksMetadata? = nil,
             serviceAccountName: Swift.String? = nil,
             volumes: [BatchClientTypes.EksVolume]? = nil
         )
@@ -5488,6 +5561,7 @@ extension BatchClientTypes {
             self.containers = containers
             self.dnsPolicy = dnsPolicy
             self.hostNetwork = hostNetwork
+            self.metadata = metadata
             self.serviceAccountName = serviceAccountName
             self.volumes = volumes
         }
@@ -5617,6 +5691,7 @@ extension BatchClientTypes {
 extension BatchClientTypes.EksPodPropertiesOverride: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case containers
+        case metadata
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -5626,6 +5701,9 @@ extension BatchClientTypes.EksPodPropertiesOverride: Swift.Codable {
             for ekscontaineroverride0 in containers {
                 try containersContainer.encode(ekscontaineroverride0)
             }
+        }
+        if let metadata = self.metadata {
+            try encodeContainer.encode(metadata, forKey: .metadata)
         }
     }
 
@@ -5642,6 +5720,8 @@ extension BatchClientTypes.EksPodPropertiesOverride: Swift.Codable {
             }
         }
         containers = containersDecoded0
+        let metadataDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EksMetadata.self, forKey: .metadata)
+        metadata = metadataDecoded
     }
 }
 
@@ -5650,12 +5730,15 @@ extension BatchClientTypes {
     public struct EksPodPropertiesOverride: Swift.Equatable {
         /// The overrides for the container that's used on the Amazon EKS pod.
         public var containers: [BatchClientTypes.EksContainerOverride]?
+        public var metadata: BatchClientTypes.EksMetadata?
 
         public init (
-            containers: [BatchClientTypes.EksContainerOverride]? = nil
+            containers: [BatchClientTypes.EksContainerOverride]? = nil,
+            metadata: BatchClientTypes.EksMetadata? = nil
         )
         {
             self.containers = containers
+            self.metadata = metadata
         }
     }
 
@@ -5873,6 +5956,42 @@ extension BatchClientTypes {
             self.hostPath = hostPath
             self.name = name
             self.secret = secret
+        }
+    }
+
+}
+
+extension BatchClientTypes.EphemeralStorage: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sizeInGiB
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sizeInGiB = self.sizeInGiB {
+            try encodeContainer.encode(sizeInGiB, forKey: .sizeInGiB)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sizeInGiBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sizeInGiB)
+        sizeInGiB = sizeInGiBDecoded
+    }
+}
+
+extension BatchClientTypes {
+    /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate.
+    public struct EphemeralStorage: Swift.Equatable {
+        /// The total amount, in GiB, of ephemeral storage to set for the task. The minimum supported value is 21 GiB and the maximum supported value is 200 GiB.
+        /// This member is required.
+        public var sizeInGiB: Swift.Int?
+
+        public init (
+            sizeInGiB: Swift.Int? = nil
+        )
+        {
+            self.sizeInGiB = sizeInGiB
         }
     }
 
@@ -8955,7 +9074,7 @@ extension BatchClientTypes {
         /// The type of resource to assign to a container. The supported resources include GPU, MEMORY, and VCPU.
         /// This member is required.
         public var type: BatchClientTypes.ResourceType?
-        /// The quantity of the specified resource to reserve for the container. The values vary based on the type specified. type="GPU" The number of physical GPUs to reserve for the container. Make sure that the number of GPUs reserved for all containers in a job doesn't exceed the number of available GPUs on the compute resource that the job is launched on. GPUs aren't available for jobs that are running on Fargate resources. type="MEMORY" The memory hard limit (in MiB) present to the container. This parameter is supported for jobs that are running on EC2 resources. If your container attempts to exceed the memory specified, the container is terminated. This parameter maps to Memory in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --memory option to [docker run](https://docs.docker.com/engine/reference/run/). You must specify at least 4 MiB of memory for a job. This is required but can be specified in several places for multi-node parallel (MNP) jobs. It must be specified for each node at least once. This parameter maps to Memory in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --memory option to [docker run](https://docs.docker.com/engine/reference/run/). If you're trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see [Memory management](https://docs.aws.amazon.com/batch/latest/userguide/memory-management.html) in the Batch User Guide. For jobs that are running on Fargate resources, then value is the hard limit (in MiB), and must match one of the supported values and the VCPU values must be one of the values supported for that memory value. value = 512 VCPU = 0.25 value = 1024 VCPU = 0.25 or 0.5 value = 2048 VCPU = 0.25, 0.5, or 1 value = 3072 VCPU = 0.5, or 1 value = 4096 VCPU = 0.5, 1, or 2 value = 5120, 6144, or 7168 VCPU = 1 or 2 value = 8192 VCPU = 1, 2, 4, or 8 value = 9216, 10240, 11264, 12288, 13312, 14336, or 15360 VCPU = 2 or 4 value = 16384 VCPU = 2, 4, or 8 value = 17408, 18432, 19456, 21504, 22528, 23552, 25600, 26624, 27648, 29696, or 30720 VCPU = 4 value = 20480, 24576, or 28672 VCPU = 4 or 8 value = 36864, 45056, 53248, or 61440 VCPU = 8 value = 32768, 40960, 49152, or 57344 VCPU = 8 or 16 value = 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880 VCPU = 16 type="VCPU" The number of vCPUs reserved for the container. This parameter maps to CpuShares in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --cpu-shares option to [docker run](https://docs.docker.com/engine/reference/run/). Each vCPU is equivalent to 1,024 CPU shares. For EC2 resources, you must specify at least one vCPU. This is required but can be specified in several places; it must be specified for each node at least once. The default for the Fargate On-Demand vCPU resource count quota is 6 vCPUs. For more information about Fargate quotas, see [Fargate quotas](https://docs.aws.amazon.com/general/latest/gr/ecs-service.html#service-quotas-fargate) in the Amazon Web Services General Reference. For jobs that are running on Fargate resources, then value must match one of the supported values and the MEMORY values must be one of the values supported for that VCPU value. The supported values are 0.25, 0.5, 1, 2, 4, 8, and 16 value = 0.25 MEMORY = 512, 1024, or 2048 value = 0.5 MEMORY = 1024, 2048, 3072, or 4096 value = 1 MEMORY = 2048, 3072, 4096, 5120, 6144, 7168, or 8192 value = 2 MEMORY = 4096, 5120, 6144, 7168, 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, or 16384 value = 4 MEMORY = 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, 16384, 17408, 18432, 19456, 20480, 21504, 22528, 23552, 24576, 25600, 26624, 27648, 28672, 29696, or 30720 value = 8 MEMORY = 16384, 20480, 24576, 28672, 32768, 36864, 40960, 45056, 49152, 53248, 57344, or 61440 value = 16 MEMORY = 32768, 40960, 49152, 57344, 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880
+        /// The quantity of the specified resource to reserve for the container. The values vary based on the type specified. type="GPU" The number of physical GPUs to reserve for the container. Make sure that the number of GPUs reserved for all containers in a job doesn't exceed the number of available GPUs on the compute resource that the job is launched on. GPUs aren't available for jobs that are running on Fargate resources. type="MEMORY" The memory hard limit (in MiB) present to the container. This parameter is supported for jobs that are running on EC2 resources. If your container attempts to exceed the memory specified, the container is terminated. This parameter maps to Memory in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --memory option to [docker run](https://docs.docker.com/engine/reference/run/). You must specify at least 4 MiB of memory for a job. This is required but can be specified in several places for multi-node parallel (MNP) jobs. It must be specified for each node at least once. This parameter maps to Memory in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --memory option to [docker run](https://docs.docker.com/engine/reference/run/). If you're trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see [Memory management](https://docs.aws.amazon.com/batch/latest/userguide/memory-management.html) in the Batch User Guide. For jobs that are running on Fargate resources, then value is the hard limit (in MiB), and must match one of the supported values and the VCPU values must be one of the values supported for that memory value. value = 512 VCPU = 0.25 value = 1024 VCPU = 0.25 or 0.5 value = 2048 VCPU = 0.25, 0.5, or 1 value = 3072 VCPU = 0.5, or 1 value = 4096 VCPU = 0.5, 1, or 2 value = 5120, 6144, or 7168 VCPU = 1 or 2 value = 8192 VCPU = 1, 2, or 4 value = 9216, 10240, 11264, 12288, 13312, 14336, or 15360 VCPU = 2 or 4 value = 16384 VCPU = 2, 4, or 8 value = 17408, 18432, 19456, 21504, 22528, 23552, 25600, 26624, 27648, 29696, or 30720 VCPU = 4 value = 20480, 24576, or 28672 VCPU = 4 or 8 value = 36864, 45056, 53248, or 61440 VCPU = 8 value = 32768, 40960, 49152, or 57344 VCPU = 8 or 16 value = 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880 VCPU = 16 type="VCPU" The number of vCPUs reserved for the container. This parameter maps to CpuShares in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --cpu-shares option to [docker run](https://docs.docker.com/engine/reference/run/). Each vCPU is equivalent to 1,024 CPU shares. For EC2 resources, you must specify at least one vCPU. This is required but can be specified in several places; it must be specified for each node at least once. The default for the Fargate On-Demand vCPU resource count quota is 6 vCPUs. For more information about Fargate quotas, see [Fargate quotas](https://docs.aws.amazon.com/general/latest/gr/ecs-service.html#service-quotas-fargate) in the Amazon Web Services General Reference. For jobs that are running on Fargate resources, then value must match one of the supported values and the MEMORY values must be one of the values supported for that VCPU value. The supported values are 0.25, 0.5, 1, 2, 4, 8, and 16 value = 0.25 MEMORY = 512, 1024, or 2048 value = 0.5 MEMORY = 1024, 2048, 3072, or 4096 value = 1 MEMORY = 2048, 3072, 4096, 5120, 6144, 7168, or 8192 value = 2 MEMORY = 4096, 5120, 6144, 7168, 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, or 16384 value = 4 MEMORY = 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, 16384, 17408, 18432, 19456, 20480, 21504, 22528, 23552, 24576, 25600, 26624, 27648, 28672, 29696, or 30720 value = 8 MEMORY = 16384, 20480, 24576, 28672, 32768, 36864, 40960, 45056, 49152, 53248, 57344, or 61440 value = 16 MEMORY = 32768, 40960, 49152, 57344, 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880
         /// This member is required.
         public var value: Swift.String?
 
@@ -9456,7 +9575,7 @@ public struct SubmitJobInput: Swift.Equatable {
     public var dependsOn: [BatchClientTypes.JobDependency]?
     /// An object that can only be specified for jobs that are run on Amazon EKS resources with various properties that override defaults for the job definition.
     public var eksPropertiesOverride: BatchClientTypes.EksPropertiesOverride?
-    /// The job definition used by this job. This value can be one of name, name:revision, or the Amazon Resource Name (ARN) for the job definition. If name is specified without a revision then the latest active revision is used.
+    /// The job definition used by this job. This value can be one of definition-name, definition-name:revision, or the Amazon Resource Name (ARN) for the job definition, with or without the revision (arn:aws:batch:region:account:job-definition/definition-name:revision , or arn:aws:batch:region:account:job-definition/definition-name ). If the revision is not specified, then the latest active revision is used.
     /// This member is required.
     public var jobDefinition: Swift.String?
     /// The name of the job. It can be up to 128 letters long. The first character must be alphanumeric, can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
@@ -10166,7 +10285,7 @@ public struct UpdateComputeEnvironmentInput: Swift.Equatable {
     public var computeResources: BatchClientTypes.ComputeResourceUpdate?
     /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see [Batch service IAM role](https://docs.aws.amazon.com/batch/latest/userguide/service_IAM_role.html) in the Batch User Guide. If the compute environment has a service-linked role, it can't be changed to use a regular IAM role. Likewise, if the compute environment has a regular IAM role, it can't be changed to use a service-linked role. To update the parameters for the compute environment that require an infrastructure update to change, the AWSServiceRoleForBatch service-linked role must be used. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. If your specified role has a path other than /, then you must either specify the full role ARN (recommended) or prefix the role name with the path. Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
     public var serviceRole: Swift.String?
-    /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. However, they scale in to minvCpus value after instances become idle.
+    /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. Compute environments in a DISABLED state may continue to incur billing charges. To prevent additional charges, turn off and then delete the compute environment. For more information, see [State](https://docs.aws.amazon.com/batch/latest/userguide/compute_environment_parameters.html#compute_environment_state) in the Batch User Guide. When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
     public var state: BatchClientTypes.CEState?
     /// The maximum number of vCPUs expected to be used for an unmanaged compute environment. Don't specify this parameter for a managed compute environment. This parameter is only used for fair share scheduling to reserve vCPU capacity for new share identifiers. If this parameter isn't provided for a fair share job queue, no vCPU capacity is reserved.
     public var unmanagedvCpus: Swift.Int?
