@@ -214,7 +214,7 @@ extension EventStreamTestClient: EventStreamTestClientProtocol {
                       .withSigningName(value: "event-stream-test")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        context.setupBidirectionalStreaming()
+        try context.setupBidirectionalStreaming()
         var operation = ClientRuntime.OperationStack<TestStreamOpInput, TestStreamOpOutputResponse, TestStreamOpOutputError>(id: "testStreamOp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TestStreamOpInput, TestStreamOpOutputResponse, TestStreamOpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestStreamOpInput, TestStreamOpOutputResponse>())

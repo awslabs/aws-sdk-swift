@@ -74,7 +74,7 @@ extension HttpContext {
 
     /// Setups context with encoder, decoder and signer for bidirectional streaming
     /// and sets the bidirectional streaming flag
-    public func setupBidirectionalStreaming() {
+    public func setupBidirectionalStreaming() throws {
         // setup client to server
         let messageEncoder = AWSClientRuntime.AWSEventStream.AWSMessageEncoder()
         let messageSigner = AWSClientRuntime.AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {
@@ -87,6 +87,9 @@ extension HttpContext {
 
         // enable the flag
         attributes.set(key: HttpContext.bidirectionalStreaming, value: true)
+
+        // set ALPN list to H2 and H1 both
+        try SDKDefaultIO.shared.setAlpnList(["h2", "http/1.1"])
     }
 }
 

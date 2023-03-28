@@ -38,7 +38,7 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
         op: OperationShape
     ) {
         if (op.isInputEventStream(ctx.model) && op.isOutputEventStream(ctx.model)) {
-            writer.write("context.setupBidirectionalStreaming()")
+            writer.write("try context.setupBidirectionalStreaming()")
         }
     }
 
