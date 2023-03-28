@@ -9,14 +9,14 @@ import Foundation
 
 @_spi(Internal)
 public struct FileBasedConfigurationStore<T: FileBasedConfiguration> {
-    public typealias Cache = FunctionCache<FileBasedConfigurationSources, T>
+    typealias Cache = FunctionCache<FileBasedConfigurationSources, T>
     private let cache: Cache
     
     public let defaultConfigFilePath: String
     
     public let defaultCredentialsFilePath: String
     
-    public init(
+    init(
         cache: Cache,
         defaultConfigFilePath: String,
         defaultCredentialsFilePath: String

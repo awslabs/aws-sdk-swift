@@ -25,53 +25,20 @@ public extension CredentialsProvider {
     ///
     /// - Returns: A credentials provider that uses the provided the object confirming to `CredentialsProviding` to source the credentials.
     static func custom(_ provider: CredentialsProviding) -> Self {
-        self.init { _ in provider }
+        self.init(identifier: "Custom") { _ in provider }
     }
 }
 
 // MARK: - Static Credentials Provider
 
 public extension CredentialsProvider {
-    /// Options to configure a static credentials provider
-    struct StaticOptions {
-        public let accessKey: String
-        public let secret: String
-        public let sessionToken: String?
-        
-        public init(
-            accessKey: String,
-            secret: String,
-            sessionToken: String? = nil
-        ) {
-            self.accessKey = accessKey
-            self.secret = secret
-            self.sessionToken = sessionToken
-        }
-    }
-    
-    /// Creates a credentials provider for a fixed set of credentials
-    ///
-    /// - Parameter options: Options that configure the credentials provider.
-    ///
-    /// - Returns: A credentials provider for a fixed set of credentials
-    static func fromStatic(_ options: StaticOptions) throws -> CredentialsProvider {
-        .makeWithCRTCredentialsProvider { _ in
-            try CRTCredentialsProvider(source: .static(
-                accessKey: options.accessKey,
-                secret: options.secret,
-                sessionToken: options.sessionToken,
-                shutdownCallback: nil
-            ))
-        }
-    }
-    
     /// Creates a credentials provider for a fixed set of credentials
     ///
     /// - Parameter credentials: The credentials that this provider will provide.
     ///
     /// - Returns: A credentials provider for a fixed set of credentials
-    static func fromStatic(_ credentials: AWSCredentials) throws -> CredentialsProvider {
-        .makeWithCRTCredentialsProvider { _ in
+    static func fromStatic(_ credentials: Credentials) throws -> CredentialsProvider {
+        .makeWithCRTCredentialsProvider(identifier: "Static") { _ in
             try CRTCredentialsProvider(source: .static(
                 accessKey: credentials.accessKey,
                 secret: credentials.secret,
@@ -89,7 +56,7 @@ public extension CredentialsProvider {
     /// - `AWS_SECRET_ACCESS_KEY`
     /// - `AWS_SESSION_TOKEN`
     static func fromEnv() throws -> Self {
-        .makeWithCRTCredentialsProvider { _ in
+        .makeWithCRTCredentialsProvider(identifier: "Environment") { _ in
             try CRTCredentialsProvider(source: .environment())
         }
     }
@@ -159,7 +126,7 @@ public extension CredentialsProvider {
     ///
     /// - Returns: A credentials provider that gets credentials from a profile.
     static func fromProfile(_ options: ProfileOptions = .init()) throws -> Self {
-        .makeWithCRTCredentialsProvider { dependencies in
+        .makeWithCRTCredentialsProvider(identifier: "Profile") { dependencies in
             let fileBasedConfiguration = try await dependencies.fileBasedConfigurationStore._fileBasedConfiguration(
                 configFilePath: options.configFilePath,
                 credentialsFilePath: options.credentialsFilePath
@@ -224,16 +191,16 @@ public extension CredentialsProvider {
     ///
     /// - Returns: A credential provider that uses another provider to assume a role from the AWS Security Token Service (STS).
     static func fromSTS(_ options: STSOptions) throws -> CredentialsProvider {
-        .makeWithCRTCredentialsProvider { dependencies in
-            let provider = try await options.credentialsProvider.makeProvider(dependencies)
-            guard let crtWrapper = provider as? CRTCredentialsProviderWrapper else {
-                throw ClientError.authError("Unsupported credentials provider.")
-            }
+        .makeWithCRTCredentialsProvider(identifier: "STS Assume Role") { configuration in
+            var provider = options.credentialsProvider
+            try await provider.configure(configuration)
+            
+            let adapter = CredentialsProviderCRTAdapter(credentialsProvider: provider)
                         
             return try CRTCredentialsProvider(source: .sts(
                 bootstrap: bootstrap,
                 tlsContext: tlsContext,
-                credentialsProvider: .init(provider: crtWrapper.crtCredentialsProvider),
+                credentialsProvider: .init(provider: adapter),
                 roleArn: options.roleArn,
                 sessionName: options.sessionName,
                 duration: options.durationSeconds
@@ -280,7 +247,7 @@ public extension CredentialsProvider {
     ///
     /// - Returns: A credential provider that exchanges a Web Identity Token for credentials from the AWS Security Token Service (STS).
     static func fromWebIdentity(_ options: WebIdentityOptions = .init()) throws -> CredentialsProvider {
-        .makeWithCRTCredentialsProvider { dependencies in
+        .makeWithCRTCredentialsProvider(identifier: "STS Web Identity") { dependencies in
             let fileBasedConfiguration = try await dependencies.fileBasedConfigurationStore._fileBasedConfiguration(
                 configFilePath: options.configFilePath,
                 credentialsFilePath: options.credentialsFilePath
@@ -385,14 +352,14 @@ public extension CredentialsProvider {
     ///
     /// - Returns: A credentials provider that caches the credentials sourced from the provided credentials provider.
     static func fromCached(_ options: CachedOptions) throws -> CredentialsProvider {
-        .makeWithCRTCredentialsProvider { dependencies in
-            let provider = try await options.source.makeProvider(dependencies)
-            guard let crtWrapper = provider as? CRTCredentialsProviderWrapper else {
-                throw ClientError.authError("Unsupported credentials provider.")
-            }
+        .makeWithCRTCredentialsProvider(identifier: "Cached") { configuration in
+            var provider = options.source
+            try await provider.configure(configuration)
+            
+            let adapter = CredentialsProviderCRTAdapter(credentialsProvider: provider)
             
             return try CRTCredentialsProvider(source: .cached(
-                source: .init(provider: crtWrapper.crtCredentialsProvider),
+                source: .init(provider: adapter),
                 refreshTime: options.refreshTime
             ))
         }
@@ -416,7 +383,7 @@ public extension CredentialsProvider {
     ///
     /// - Returns: A credential provider that uses the default AWS credential provider chain used by most AWS SDKs.
     static func fromDefaultChain() throws -> CredentialsProvider {
-        .makeWithCRTCredentialsProvider { dependencies in
+        .makeWithCRTCredentialsProvider(identifier: "Default Chain") { dependencies in
             let fileBasedConfiguration = try await dependencies.fileBasedConfigurationStore._fileBasedConfiguration()
             
             return try CRTCredentialsProvider(source: .defaultChain(

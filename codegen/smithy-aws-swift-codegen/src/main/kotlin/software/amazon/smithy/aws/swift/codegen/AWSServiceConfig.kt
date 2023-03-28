@@ -31,6 +31,8 @@ const val USE_DUAL_STACK_CONFIG_NAME = "useDualStack"
 const val RUNTIME_CONFIG_NAME = "runtimeConfig"
 const val ENDPOINT_CONFIG_NAME = "endpoint"
 
+const val FILE_BASED_CONFIG_LOCAL_NAME = "fileBasedConfigurationStore"
+
 val runtimeConfig = ConfigField(
     RUNTIME_CONFIG_NAME,
     type = ClientRuntimeTypes.Core.SDKRuntimeConfiguration,
@@ -53,13 +55,22 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
         var awsConfigs = (otherConfigs + serviceConfigs + runtimeConfig).sortedBy { it.memberName }
 
         // init with region and runtime config
-        writer.openBlock("public init(", ") throws {") {
+        writer.openBlock("public init(", ") async throws {") {
             awsConfigs.forEachIndexed { index, config ->
                 val terminator = if (index != awsConfigs.lastIndex) ", " else ""
                 writer.write("${config.memberName}: ${config.paramFormatter}$terminator", config.type)
             }
         }
         writer.indent()
+
+        // Resolve the runtime config
+        // let runtimeConfig = try runtimeConfig ?? ClientRuntime.DefaultSDKRuntimeConfiguration("S3Client")
+        writer.write("let runtimeConfig = try runtimeConfig ?? \$N(\"${serviceName}\")", ClientRuntimeTypes.Core.DefaultSDKRuntimeConfiguration)
+
+
+        // Create our file based config store
+        writer.write("let \$N = try CRTFiledBasedConfigurationStore()", FILE_BASED_CONFIG_LOCAL_NAME)
+
         awsConfigs.forEach {
             when (it.memberName) {
                 SIGNING_REGION_CONFIG_NAME -> {
@@ -67,16 +78,10 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
                 }
 
                 CREDENTIALS_PROVIDER_CONFIG_NAME -> {
-                    writer.openBlock("if let credProvider = ${it.memberName} {", "} else {") {
-                        writer.write(
-                            "self.${it.memberName} = try \$N.fromCustom(credProvider)",
-                            AWSClientRuntimeTypes.Core.AWSCredentialsProvider
-                        )
+                    writer.openBlock("self.\$N = try await \$N.resolvedProvider(", ")", it.memberName, AWSClientRuntimeTypes.Core.AWSCredentialsProvider) {
+                        writer.write("\$N,", it.memberName)
+                        writer.write("configuration: .init(fileBasedConfigurationStore: \$N)", FILE_BASED_CONFIG_LOCAL_NAME)
                     }
-                    writer.indent().write(
-                        "self.${it.memberName} = try \$N.fromChain()", AWSClientRuntimeTypes.Core.AWSCredentialsProvider
-                    )
-                    writer.dedent().write("}")
                 }
 
                 ENDPOINT_RESOLVER -> {

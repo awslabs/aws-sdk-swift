@@ -10,8 +10,8 @@ import Foundation
 /// A cache that provides function memoization.
 /// The cache stores the ouputs of the provided function call and returns the cached output when given the same input again.
 /// If the function call throws an error, it s not cached.
-public actor FunctionCache<Input: Hashable, Output> {
-    public typealias Function = (Input) async throws -> Output
+actor FunctionCache<Input: Hashable, Output> {
+    typealias Function = (Input) async throws -> Output
     private let f: Function
     
     // Future Improvement:
@@ -23,12 +23,12 @@ public actor FunctionCache<Input: Hashable, Output> {
     private var activeTasks = [Input: Task<Output, Error>]()
     
     /// Creates a function cache that will store the outputs of the provided function.
-    public init(_ f: @escaping Function) {
+    init(_ f: @escaping Function) {
         self.f = f
     }
 }
 
-public extension FunctionCache {
+extension FunctionCache {
     /// Returns the `Output` by retrieving the value from the cache or executing the function using the provided input.
     /// If an output exists in the cache for the provided input, it returns that.
     /// Otherwise it executes the function (provided in the initailizer), stores the output in the cache, and then returns it.
