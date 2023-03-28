@@ -28,9 +28,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingRegion": "us-west-2",
                         "name": "sigv4",
-                        "signingName": "route53-recovery-control-config",
-                        "signingRegion": "us-west-2"
+                        "signingName": "route53-recovery-control-config"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]

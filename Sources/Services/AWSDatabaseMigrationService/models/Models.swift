@@ -12204,6 +12204,38 @@ extension KMSThrottlingFaultBody: Swift.Decodable {
 }
 
 extension DatabaseMigrationClientTypes {
+    public enum KafkaSaslMechanism: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case plain
+        case scramSha512
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KafkaSaslMechanism] {
+            return [
+                .plain,
+                .scramSha512,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .plain: return "plain"
+            case .scramSha512: return "scram-sha-512"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KafkaSaslMechanism(rawValue: rawValue) ?? KafkaSaslMechanism.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
     public enum KafkaSecurityProtocol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case plaintext
         case saslSsl
@@ -12253,6 +12285,7 @@ extension DatabaseMigrationClientTypes.KafkaSettings: Swift.Codable {
         case messageMaxBytes = "MessageMaxBytes"
         case noHexPrefix = "NoHexPrefix"
         case partitionIncludeSchemaTable = "PartitionIncludeSchemaTable"
+        case saslMechanism = "SaslMechanism"
         case saslPassword = "SaslPassword"
         case saslUsername = "SaslUsername"
         case securityProtocol = "SecurityProtocol"
@@ -12294,6 +12327,9 @@ extension DatabaseMigrationClientTypes.KafkaSettings: Swift.Codable {
         }
         if let partitionIncludeSchemaTable = self.partitionIncludeSchemaTable {
             try encodeContainer.encode(partitionIncludeSchemaTable, forKey: .partitionIncludeSchemaTable)
+        }
+        if let saslMechanism = self.saslMechanism {
+            try encodeContainer.encode(saslMechanism.rawValue, forKey: .saslMechanism)
         }
         if let saslPassword = self.saslPassword {
             try encodeContainer.encode(saslPassword, forKey: .saslPassword)
@@ -12359,12 +12395,14 @@ extension DatabaseMigrationClientTypes.KafkaSettings: Swift.Codable {
         saslPassword = saslPasswordDecoded
         let noHexPrefixDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .noHexPrefix)
         noHexPrefix = noHexPrefixDecoded
+        let saslMechanismDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.KafkaSaslMechanism.self, forKey: .saslMechanism)
+        saslMechanism = saslMechanismDecoded
     }
 }
 
 extension DatabaseMigrationClientTypes.KafkaSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "KafkaSettings(broker: \(Swift.String(describing: broker)), includeControlDetails: \(Swift.String(describing: includeControlDetails)), includeNullAndEmpty: \(Swift.String(describing: includeNullAndEmpty)), includePartitionValue: \(Swift.String(describing: includePartitionValue)), includeTableAlterOperations: \(Swift.String(describing: includeTableAlterOperations)), includeTransactionDetails: \(Swift.String(describing: includeTransactionDetails)), messageFormat: \(Swift.String(describing: messageFormat)), messageMaxBytes: \(Swift.String(describing: messageMaxBytes)), noHexPrefix: \(Swift.String(describing: noHexPrefix)), partitionIncludeSchemaTable: \(Swift.String(describing: partitionIncludeSchemaTable)), saslUsername: \(Swift.String(describing: saslUsername)), securityProtocol: \(Swift.String(describing: securityProtocol)), sslCaCertificateArn: \(Swift.String(describing: sslCaCertificateArn)), sslClientCertificateArn: \(Swift.String(describing: sslClientCertificateArn)), sslClientKeyArn: \(Swift.String(describing: sslClientKeyArn)), topic: \(Swift.String(describing: topic)), saslPassword: \"CONTENT_REDACTED\", sslClientKeyPassword: \"CONTENT_REDACTED\")"}
+        "KafkaSettings(broker: \(Swift.String(describing: broker)), includeControlDetails: \(Swift.String(describing: includeControlDetails)), includeNullAndEmpty: \(Swift.String(describing: includeNullAndEmpty)), includePartitionValue: \(Swift.String(describing: includePartitionValue)), includeTableAlterOperations: \(Swift.String(describing: includeTableAlterOperations)), includeTransactionDetails: \(Swift.String(describing: includeTransactionDetails)), messageFormat: \(Swift.String(describing: messageFormat)), messageMaxBytes: \(Swift.String(describing: messageMaxBytes)), noHexPrefix: \(Swift.String(describing: noHexPrefix)), partitionIncludeSchemaTable: \(Swift.String(describing: partitionIncludeSchemaTable)), saslMechanism: \(Swift.String(describing: saslMechanism)), saslUsername: \(Swift.String(describing: saslUsername)), securityProtocol: \(Swift.String(describing: securityProtocol)), sslCaCertificateArn: \(Swift.String(describing: sslCaCertificateArn)), sslClientCertificateArn: \(Swift.String(describing: sslClientCertificateArn)), sslClientKeyArn: \(Swift.String(describing: sslClientKeyArn)), topic: \(Swift.String(describing: topic)), saslPassword: \"CONTENT_REDACTED\", sslClientKeyPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension DatabaseMigrationClientTypes {
@@ -12390,6 +12428,8 @@ extension DatabaseMigrationClientTypes {
         public var noHexPrefix: Swift.Bool?
         /// Prefixes schema and table names to partition values, when the partition type is primary-key-type. Doing this increases data distribution among Kafka partitions. For example, suppose that a SysBench schema has thousands of tables and each table has only limited range for a primary key. In this case, the same primary key is sent from thousands of tables to the same partition, which causes throttling. The default is false.
         public var partitionIncludeSchemaTable: Swift.Bool?
+        /// For SASL/SSL authentication, DMS supports the SCRAM-SHA-512 mechanism by default. DMS versions 3.5.0 and later also support the PLAIN mechanism. To use the PLAIN mechanism, set this parameter to PLAIN.
+        public var saslMechanism: DatabaseMigrationClientTypes.KafkaSaslMechanism?
         /// The secure password you created when you first set up your MSK cluster to validate a client identity and make an encrypted connection between server and client using SASL-SSL authentication.
         public var saslPassword: Swift.String?
         /// The secure user name you created when you first set up your MSK cluster to validate a client identity and make an encrypted connection between server and client using SASL-SSL authentication.
@@ -12418,6 +12458,7 @@ extension DatabaseMigrationClientTypes {
             messageMaxBytes: Swift.Int? = nil,
             noHexPrefix: Swift.Bool? = nil,
             partitionIncludeSchemaTable: Swift.Bool? = nil,
+            saslMechanism: DatabaseMigrationClientTypes.KafkaSaslMechanism? = nil,
             saslPassword: Swift.String? = nil,
             saslUsername: Swift.String? = nil,
             securityProtocol: DatabaseMigrationClientTypes.KafkaSecurityProtocol? = nil,
@@ -12438,6 +12479,7 @@ extension DatabaseMigrationClientTypes {
             self.messageMaxBytes = messageMaxBytes
             self.noHexPrefix = noHexPrefix
             self.partitionIncludeSchemaTable = partitionIncludeSchemaTable
+            self.saslMechanism = saslMechanism
             self.saslPassword = saslPassword
             self.saslUsername = saslUsername
             self.securityProtocol = securityProtocol
@@ -12843,6 +12885,7 @@ extension DatabaseMigrationClientTypes.MicrosoftSQLServerSettings: Swift.Codable
         case bcpPacketSize = "BcpPacketSize"
         case controlTablesFileGroup = "ControlTablesFileGroup"
         case databaseName = "DatabaseName"
+        case forceLobLookup = "ForceLobLookup"
         case password = "Password"
         case port = "Port"
         case querySingleAlwaysOnNode = "QuerySingleAlwaysOnNode"
@@ -12851,6 +12894,7 @@ extension DatabaseMigrationClientTypes.MicrosoftSQLServerSettings: Swift.Codable
         case secretsManagerAccessRoleArn = "SecretsManagerAccessRoleArn"
         case secretsManagerSecretId = "SecretsManagerSecretId"
         case serverName = "ServerName"
+        case tlogAccessMode = "TlogAccessMode"
         case trimSpaceInChar = "TrimSpaceInChar"
         case useBcpFullLoad = "UseBcpFullLoad"
         case useThirdPartyBackupDevice = "UseThirdPartyBackupDevice"
@@ -12867,6 +12911,9 @@ extension DatabaseMigrationClientTypes.MicrosoftSQLServerSettings: Swift.Codable
         }
         if let databaseName = self.databaseName {
             try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let forceLobLookup = self.forceLobLookup {
+            try encodeContainer.encode(forceLobLookup, forKey: .forceLobLookup)
         }
         if let password = self.password {
             try encodeContainer.encode(password, forKey: .password)
@@ -12891,6 +12938,9 @@ extension DatabaseMigrationClientTypes.MicrosoftSQLServerSettings: Swift.Codable
         }
         if let serverName = self.serverName {
             try encodeContainer.encode(serverName, forKey: .serverName)
+        }
+        if let tlogAccessMode = self.tlogAccessMode {
+            try encodeContainer.encode(tlogAccessMode.rawValue, forKey: .tlogAccessMode)
         }
         if let trimSpaceInChar = self.trimSpaceInChar {
             try encodeContainer.encode(trimSpaceInChar, forKey: .trimSpaceInChar)
@@ -12938,12 +12988,16 @@ extension DatabaseMigrationClientTypes.MicrosoftSQLServerSettings: Swift.Codable
         secretsManagerSecretId = secretsManagerSecretIdDecoded
         let trimSpaceInCharDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .trimSpaceInChar)
         trimSpaceInChar = trimSpaceInCharDecoded
+        let tlogAccessModeDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.TlogAccessMode.self, forKey: .tlogAccessMode)
+        tlogAccessMode = tlogAccessModeDecoded
+        let forceLobLookupDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceLobLookup)
+        forceLobLookup = forceLobLookupDecoded
     }
 }
 
 extension DatabaseMigrationClientTypes.MicrosoftSQLServerSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "MicrosoftSQLServerSettings(bcpPacketSize: \(Swift.String(describing: bcpPacketSize)), controlTablesFileGroup: \(Swift.String(describing: controlTablesFileGroup)), databaseName: \(Swift.String(describing: databaseName)), port: \(Swift.String(describing: port)), querySingleAlwaysOnNode: \(Swift.String(describing: querySingleAlwaysOnNode)), readBackupOnly: \(Swift.String(describing: readBackupOnly)), safeguardPolicy: \(Swift.String(describing: safeguardPolicy)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), trimSpaceInChar: \(Swift.String(describing: trimSpaceInChar)), useBcpFullLoad: \(Swift.String(describing: useBcpFullLoad)), useThirdPartyBackupDevice: \(Swift.String(describing: useThirdPartyBackupDevice)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
+        "MicrosoftSQLServerSettings(bcpPacketSize: \(Swift.String(describing: bcpPacketSize)), controlTablesFileGroup: \(Swift.String(describing: controlTablesFileGroup)), databaseName: \(Swift.String(describing: databaseName)), forceLobLookup: \(Swift.String(describing: forceLobLookup)), port: \(Swift.String(describing: port)), querySingleAlwaysOnNode: \(Swift.String(describing: querySingleAlwaysOnNode)), readBackupOnly: \(Swift.String(describing: readBackupOnly)), safeguardPolicy: \(Swift.String(describing: safeguardPolicy)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), tlogAccessMode: \(Swift.String(describing: tlogAccessMode)), trimSpaceInChar: \(Swift.String(describing: trimSpaceInChar)), useBcpFullLoad: \(Swift.String(describing: useBcpFullLoad)), useThirdPartyBackupDevice: \(Swift.String(describing: useThirdPartyBackupDevice)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension DatabaseMigrationClientTypes {
@@ -12955,6 +13009,8 @@ extension DatabaseMigrationClientTypes {
         public var controlTablesFileGroup: Swift.String?
         /// Database name for the endpoint.
         public var databaseName: Swift.String?
+        /// Forces LOB lookup on inline LOB.
+        public var forceLobLookup: Swift.Bool?
         /// Endpoint connection password.
         public var password: Swift.String?
         /// Endpoint TCP port.
@@ -12971,6 +13027,8 @@ extension DatabaseMigrationClientTypes {
         public var secretsManagerSecretId: Swift.String?
         /// Fully qualified domain name of the endpoint. For an Amazon RDS SQL Server instance, this is the output of [DescribeDBInstances](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html), in the [Endpoint](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_Endpoint.html).Address field.
         public var serverName: Swift.String?
+        /// Indicates the mode used to fetch CDC data.
+        public var tlogAccessMode: DatabaseMigrationClientTypes.TlogAccessMode?
         /// Use the TrimSpaceInChar source endpoint setting to trim data on CHAR and NCHAR data types during migration. The default value is true.
         public var trimSpaceInChar: Swift.Bool?
         /// Use this to attribute to transfer data for full-load operations using BCP. When the target table contains an identity column that does not exist in the source table, you must disable the use BCP for loading table option.
@@ -12984,6 +13042,7 @@ extension DatabaseMigrationClientTypes {
             bcpPacketSize: Swift.Int? = nil,
             controlTablesFileGroup: Swift.String? = nil,
             databaseName: Swift.String? = nil,
+            forceLobLookup: Swift.Bool? = nil,
             password: Swift.String? = nil,
             port: Swift.Int? = nil,
             querySingleAlwaysOnNode: Swift.Bool? = nil,
@@ -12992,6 +13051,7 @@ extension DatabaseMigrationClientTypes {
             secretsManagerAccessRoleArn: Swift.String? = nil,
             secretsManagerSecretId: Swift.String? = nil,
             serverName: Swift.String? = nil,
+            tlogAccessMode: DatabaseMigrationClientTypes.TlogAccessMode? = nil,
             trimSpaceInChar: Swift.Bool? = nil,
             useBcpFullLoad: Swift.Bool? = nil,
             useThirdPartyBackupDevice: Swift.Bool? = nil,
@@ -13001,6 +13061,7 @@ extension DatabaseMigrationClientTypes {
             self.bcpPacketSize = bcpPacketSize
             self.controlTablesFileGroup = controlTablesFileGroup
             self.databaseName = databaseName
+            self.forceLobLookup = forceLobLookup
             self.password = password
             self.port = port
             self.querySingleAlwaysOnNode = querySingleAlwaysOnNode
@@ -13009,6 +13070,7 @@ extension DatabaseMigrationClientTypes {
             self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
             self.secretsManagerSecretId = secretsManagerSecretId
             self.serverName = serverName
+            self.tlogAccessMode = tlogAccessMode
             self.trimSpaceInChar = trimSpaceInChar
             self.useBcpFullLoad = useBcpFullLoad
             self.useThirdPartyBackupDevice = useThirdPartyBackupDevice
@@ -15040,6 +15102,7 @@ extension DatabaseMigrationClientTypes.OracleSettings: Swift.Codable {
         case asmServer = "AsmServer"
         case asmUser = "AsmUser"
         case charLengthSemantics = "CharLengthSemantics"
+        case convertTimestampWithZoneToUTC = "ConvertTimestampWithZoneToUTC"
         case databaseName = "DatabaseName"
         case directPathNoLog = "DirectPathNoLog"
         case directPathParallelLoad = "DirectPathParallelLoad"
@@ -15104,6 +15167,9 @@ extension DatabaseMigrationClientTypes.OracleSettings: Swift.Codable {
         }
         if let charLengthSemantics = self.charLengthSemantics {
             try encodeContainer.encode(charLengthSemantics.rawValue, forKey: .charLengthSemantics)
+        }
+        if let convertTimestampWithZoneToUTC = self.convertTimestampWithZoneToUTC {
+            try encodeContainer.encode(convertTimestampWithZoneToUTC, forKey: .convertTimestampWithZoneToUTC)
         }
         if let databaseName = self.databaseName {
             try encodeContainer.encode(databaseName, forKey: .databaseName)
@@ -15296,12 +15362,14 @@ extension DatabaseMigrationClientTypes.OracleSettings: Swift.Codable {
         secretsManagerOracleAsmSecretId = secretsManagerOracleAsmSecretIdDecoded
         let trimSpaceInCharDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .trimSpaceInChar)
         trimSpaceInChar = trimSpaceInCharDecoded
+        let convertTimestampWithZoneToUTCDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .convertTimestampWithZoneToUTC)
+        convertTimestampWithZoneToUTC = convertTimestampWithZoneToUTCDecoded
     }
 }
 
 extension DatabaseMigrationClientTypes.OracleSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "OracleSettings(accessAlternateDirectly: \(Swift.String(describing: accessAlternateDirectly)), addSupplementalLogging: \(Swift.String(describing: addSupplementalLogging)), additionalArchivedLogDestId: \(Swift.String(describing: additionalArchivedLogDestId)), allowSelectNestedTables: \(Swift.String(describing: allowSelectNestedTables)), archivedLogDestId: \(Swift.String(describing: archivedLogDestId)), archivedLogsOnly: \(Swift.String(describing: archivedLogsOnly)), asmServer: \(Swift.String(describing: asmServer)), asmUser: \(Swift.String(describing: asmUser)), charLengthSemantics: \(Swift.String(describing: charLengthSemantics)), databaseName: \(Swift.String(describing: databaseName)), directPathNoLog: \(Swift.String(describing: directPathNoLog)), directPathParallelLoad: \(Swift.String(describing: directPathParallelLoad)), enableHomogenousTablespace: \(Swift.String(describing: enableHomogenousTablespace)), extraArchivedLogDestIds: \(Swift.String(describing: extraArchivedLogDestIds)), failTasksOnLobTruncation: \(Swift.String(describing: failTasksOnLobTruncation)), numberDatatypeScale: \(Swift.String(describing: numberDatatypeScale)), oraclePathPrefix: \(Swift.String(describing: oraclePathPrefix)), parallelAsmReadThreads: \(Swift.String(describing: parallelAsmReadThreads)), port: \(Swift.String(describing: port)), readAheadBlocks: \(Swift.String(describing: readAheadBlocks)), readTableSpaceName: \(Swift.String(describing: readTableSpaceName)), replacePathPrefix: \(Swift.String(describing: replacePathPrefix)), retryInterval: \(Swift.String(describing: retryInterval)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerOracleAsmAccessRoleArn: \(Swift.String(describing: secretsManagerOracleAsmAccessRoleArn)), secretsManagerOracleAsmSecretId: \(Swift.String(describing: secretsManagerOracleAsmSecretId)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), securityDbEncryptionName: \(Swift.String(describing: securityDbEncryptionName)), serverName: \(Swift.String(describing: serverName)), spatialDataOptionToGeoJsonFunctionName: \(Swift.String(describing: spatialDataOptionToGeoJsonFunctionName)), standbyDelayTime: \(Swift.String(describing: standbyDelayTime)), trimSpaceInChar: \(Swift.String(describing: trimSpaceInChar)), useAlternateFolderForOnline: \(Swift.String(describing: useAlternateFolderForOnline)), useBFile: \(Swift.String(describing: useBFile)), useDirectPathFullLoad: \(Swift.String(describing: useDirectPathFullLoad)), useLogminerReader: \(Swift.String(describing: useLogminerReader)), usePathPrefix: \(Swift.String(describing: usePathPrefix)), username: \(Swift.String(describing: username)), asmPassword: \"CONTENT_REDACTED\", password: \"CONTENT_REDACTED\", securityDbEncryption: \"CONTENT_REDACTED\")"}
+        "OracleSettings(accessAlternateDirectly: \(Swift.String(describing: accessAlternateDirectly)), addSupplementalLogging: \(Swift.String(describing: addSupplementalLogging)), additionalArchivedLogDestId: \(Swift.String(describing: additionalArchivedLogDestId)), allowSelectNestedTables: \(Swift.String(describing: allowSelectNestedTables)), archivedLogDestId: \(Swift.String(describing: archivedLogDestId)), archivedLogsOnly: \(Swift.String(describing: archivedLogsOnly)), asmServer: \(Swift.String(describing: asmServer)), asmUser: \(Swift.String(describing: asmUser)), charLengthSemantics: \(Swift.String(describing: charLengthSemantics)), convertTimestampWithZoneToUTC: \(Swift.String(describing: convertTimestampWithZoneToUTC)), databaseName: \(Swift.String(describing: databaseName)), directPathNoLog: \(Swift.String(describing: directPathNoLog)), directPathParallelLoad: \(Swift.String(describing: directPathParallelLoad)), enableHomogenousTablespace: \(Swift.String(describing: enableHomogenousTablespace)), extraArchivedLogDestIds: \(Swift.String(describing: extraArchivedLogDestIds)), failTasksOnLobTruncation: \(Swift.String(describing: failTasksOnLobTruncation)), numberDatatypeScale: \(Swift.String(describing: numberDatatypeScale)), oraclePathPrefix: \(Swift.String(describing: oraclePathPrefix)), parallelAsmReadThreads: \(Swift.String(describing: parallelAsmReadThreads)), port: \(Swift.String(describing: port)), readAheadBlocks: \(Swift.String(describing: readAheadBlocks)), readTableSpaceName: \(Swift.String(describing: readTableSpaceName)), replacePathPrefix: \(Swift.String(describing: replacePathPrefix)), retryInterval: \(Swift.String(describing: retryInterval)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerOracleAsmAccessRoleArn: \(Swift.String(describing: secretsManagerOracleAsmAccessRoleArn)), secretsManagerOracleAsmSecretId: \(Swift.String(describing: secretsManagerOracleAsmSecretId)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), securityDbEncryptionName: \(Swift.String(describing: securityDbEncryptionName)), serverName: \(Swift.String(describing: serverName)), spatialDataOptionToGeoJsonFunctionName: \(Swift.String(describing: spatialDataOptionToGeoJsonFunctionName)), standbyDelayTime: \(Swift.String(describing: standbyDelayTime)), trimSpaceInChar: \(Swift.String(describing: trimSpaceInChar)), useAlternateFolderForOnline: \(Swift.String(describing: useAlternateFolderForOnline)), useBFile: \(Swift.String(describing: useBFile)), useDirectPathFullLoad: \(Swift.String(describing: useDirectPathFullLoad)), useLogminerReader: \(Swift.String(describing: useLogminerReader)), usePathPrefix: \(Swift.String(describing: usePathPrefix)), username: \(Swift.String(describing: username)), asmPassword: \"CONTENT_REDACTED\", password: \"CONTENT_REDACTED\", securityDbEncryption: \"CONTENT_REDACTED\")"}
 }
 
 extension DatabaseMigrationClientTypes {
@@ -15327,6 +15395,8 @@ extension DatabaseMigrationClientTypes {
         public var asmUser: Swift.String?
         /// Specifies whether the length of a character column is in bytes or in characters. To indicate that the character column length is in characters, set this attribute to CHAR. Otherwise, the character column length is in bytes. Example: charLengthSemantics=CHAR;
         public var charLengthSemantics: DatabaseMigrationClientTypes.CharLengthSemantics?
+        /// When true, converts timestamps with the timezone datatype to their UTC value.
+        public var convertTimestampWithZoneToUTC: Swift.Bool?
         /// Database name for the endpoint.
         public var databaseName: Swift.String?
         /// When set to true, this attribute helps to increase the commit rate on the Oracle target database by writing directly to tables and not writing a trail to database logs.
@@ -15401,6 +15471,7 @@ extension DatabaseMigrationClientTypes {
             asmServer: Swift.String? = nil,
             asmUser: Swift.String? = nil,
             charLengthSemantics: DatabaseMigrationClientTypes.CharLengthSemantics? = nil,
+            convertTimestampWithZoneToUTC: Swift.Bool? = nil,
             databaseName: Swift.String? = nil,
             directPathNoLog: Swift.Bool? = nil,
             directPathParallelLoad: Swift.Bool? = nil,
@@ -15444,6 +15515,7 @@ extension DatabaseMigrationClientTypes {
             self.asmServer = asmServer
             self.asmUser = asmUser
             self.charLengthSemantics = charLengthSemantics
+            self.convertTimestampWithZoneToUTC = convertTimestampWithZoneToUTC
             self.databaseName = databaseName
             self.directPathNoLog = directPathNoLog
             self.directPathParallelLoad = directPathParallelLoad
@@ -15770,6 +15842,7 @@ extension DatabaseMigrationClientTypes.PostgreSQLSettings: Swift.Codable {
         case heartbeatEnable = "HeartbeatEnable"
         case heartbeatFrequency = "HeartbeatFrequency"
         case heartbeatSchema = "HeartbeatSchema"
+        case mapBooleanAsBoolean = "MapBooleanAsBoolean"
         case maxFileSize = "MaxFileSize"
         case password = "Password"
         case pluginName = "PluginName"
@@ -15810,6 +15883,9 @@ extension DatabaseMigrationClientTypes.PostgreSQLSettings: Swift.Codable {
         }
         if let heartbeatSchema = self.heartbeatSchema {
             try encodeContainer.encode(heartbeatSchema, forKey: .heartbeatSchema)
+        }
+        if let mapBooleanAsBoolean = self.mapBooleanAsBoolean {
+            try encodeContainer.encode(mapBooleanAsBoolean, forKey: .mapBooleanAsBoolean)
         }
         if let maxFileSize = self.maxFileSize {
             try encodeContainer.encode(maxFileSize, forKey: .maxFileSize)
@@ -15883,12 +15959,14 @@ extension DatabaseMigrationClientTypes.PostgreSQLSettings: Swift.Codable {
         secretsManagerSecretId = secretsManagerSecretIdDecoded
         let trimSpaceInCharDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .trimSpaceInChar)
         trimSpaceInChar = trimSpaceInCharDecoded
+        let mapBooleanAsBooleanDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .mapBooleanAsBoolean)
+        mapBooleanAsBoolean = mapBooleanAsBooleanDecoded
     }
 }
 
 extension DatabaseMigrationClientTypes.PostgreSQLSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PostgreSQLSettings(afterConnectScript: \(Swift.String(describing: afterConnectScript)), captureDdls: \(Swift.String(describing: captureDdls)), databaseName: \(Swift.String(describing: databaseName)), ddlArtifactsSchema: \(Swift.String(describing: ddlArtifactsSchema)), executeTimeout: \(Swift.String(describing: executeTimeout)), failTasksOnLobTruncation: \(Swift.String(describing: failTasksOnLobTruncation)), heartbeatEnable: \(Swift.String(describing: heartbeatEnable)), heartbeatFrequency: \(Swift.String(describing: heartbeatFrequency)), heartbeatSchema: \(Swift.String(describing: heartbeatSchema)), maxFileSize: \(Swift.String(describing: maxFileSize)), pluginName: \(Swift.String(describing: pluginName)), port: \(Swift.String(describing: port)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), slotName: \(Swift.String(describing: slotName)), trimSpaceInChar: \(Swift.String(describing: trimSpaceInChar)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
+        "PostgreSQLSettings(afterConnectScript: \(Swift.String(describing: afterConnectScript)), captureDdls: \(Swift.String(describing: captureDdls)), databaseName: \(Swift.String(describing: databaseName)), ddlArtifactsSchema: \(Swift.String(describing: ddlArtifactsSchema)), executeTimeout: \(Swift.String(describing: executeTimeout)), failTasksOnLobTruncation: \(Swift.String(describing: failTasksOnLobTruncation)), heartbeatEnable: \(Swift.String(describing: heartbeatEnable)), heartbeatFrequency: \(Swift.String(describing: heartbeatFrequency)), heartbeatSchema: \(Swift.String(describing: heartbeatSchema)), mapBooleanAsBoolean: \(Swift.String(describing: mapBooleanAsBoolean)), maxFileSize: \(Swift.String(describing: maxFileSize)), pluginName: \(Swift.String(describing: pluginName)), port: \(Swift.String(describing: port)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), slotName: \(Swift.String(describing: slotName)), trimSpaceInChar: \(Swift.String(describing: trimSpaceInChar)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension DatabaseMigrationClientTypes {
@@ -15912,6 +15990,8 @@ extension DatabaseMigrationClientTypes {
         public var heartbeatFrequency: Swift.Int?
         /// Sets the schema in which the heartbeat artifacts are created.
         public var heartbeatSchema: Swift.String?
+        /// When true, lets PostgreSQL migrate the boolean type as boolean. By default, PostgreSQL migrates booleans as varchar(5).
+        public var mapBooleanAsBoolean: Swift.Bool?
         /// Specifies the maximum size (in KB) of any .csv file used to transfer data to PostgreSQL. Example: maxFileSize=512
         public var maxFileSize: Swift.Int?
         /// Endpoint connection password.
@@ -15943,6 +16023,7 @@ extension DatabaseMigrationClientTypes {
             heartbeatEnable: Swift.Bool? = nil,
             heartbeatFrequency: Swift.Int? = nil,
             heartbeatSchema: Swift.String? = nil,
+            mapBooleanAsBoolean: Swift.Bool? = nil,
             maxFileSize: Swift.Int? = nil,
             password: Swift.String? = nil,
             pluginName: DatabaseMigrationClientTypes.PluginNameValue? = nil,
@@ -15964,6 +16045,7 @@ extension DatabaseMigrationClientTypes {
             self.heartbeatEnable = heartbeatEnable
             self.heartbeatFrequency = heartbeatFrequency
             self.heartbeatSchema = heartbeatSchema
+            self.mapBooleanAsBoolean = mapBooleanAsBoolean
             self.maxFileSize = maxFileSize
             self.password = password
             self.pluginName = pluginName
@@ -16681,6 +16763,7 @@ extension DatabaseMigrationClientTypes.RedshiftSettings: Swift.Codable {
         case explicitIds = "ExplicitIds"
         case fileTransferUploadStreams = "FileTransferUploadStreams"
         case loadTimeout = "LoadTimeout"
+        case mapBooleanAsBoolean = "MapBooleanAsBoolean"
         case maxFileSize = "MaxFileSize"
         case password = "Password"
         case port = "Port"
@@ -16742,6 +16825,9 @@ extension DatabaseMigrationClientTypes.RedshiftSettings: Swift.Codable {
         }
         if let loadTimeout = self.loadTimeout {
             try encodeContainer.encode(loadTimeout, forKey: .loadTimeout)
+        }
+        if let mapBooleanAsBoolean = self.mapBooleanAsBoolean {
+            try encodeContainer.encode(mapBooleanAsBoolean, forKey: .mapBooleanAsBoolean)
         }
         if let maxFileSize = self.maxFileSize {
             try encodeContainer.encode(maxFileSize, forKey: .maxFileSize)
@@ -16855,12 +16941,14 @@ extension DatabaseMigrationClientTypes.RedshiftSettings: Swift.Codable {
         secretsManagerAccessRoleArn = secretsManagerAccessRoleArnDecoded
         let secretsManagerSecretIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretsManagerSecretId)
         secretsManagerSecretId = secretsManagerSecretIdDecoded
+        let mapBooleanAsBooleanDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .mapBooleanAsBoolean)
+        mapBooleanAsBoolean = mapBooleanAsBooleanDecoded
     }
 }
 
 extension DatabaseMigrationClientTypes.RedshiftSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RedshiftSettings(acceptAnyDate: \(Swift.String(describing: acceptAnyDate)), afterConnectScript: \(Swift.String(describing: afterConnectScript)), bucketFolder: \(Swift.String(describing: bucketFolder)), bucketName: \(Swift.String(describing: bucketName)), caseSensitiveNames: \(Swift.String(describing: caseSensitiveNames)), compUpdate: \(Swift.String(describing: compUpdate)), connectionTimeout: \(Swift.String(describing: connectionTimeout)), databaseName: \(Swift.String(describing: databaseName)), dateFormat: \(Swift.String(describing: dateFormat)), emptyAsNull: \(Swift.String(describing: emptyAsNull)), encryptionMode: \(Swift.String(describing: encryptionMode)), explicitIds: \(Swift.String(describing: explicitIds)), fileTransferUploadStreams: \(Swift.String(describing: fileTransferUploadStreams)), loadTimeout: \(Swift.String(describing: loadTimeout)), maxFileSize: \(Swift.String(describing: maxFileSize)), port: \(Swift.String(describing: port)), removeQuotes: \(Swift.String(describing: removeQuotes)), replaceChars: \(Swift.String(describing: replaceChars)), replaceInvalidChars: \(Swift.String(describing: replaceInvalidChars)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), serverSideEncryptionKmsKeyId: \(Swift.String(describing: serverSideEncryptionKmsKeyId)), serviceAccessRoleArn: \(Swift.String(describing: serviceAccessRoleArn)), timeFormat: \(Swift.String(describing: timeFormat)), trimBlanks: \(Swift.String(describing: trimBlanks)), truncateColumns: \(Swift.String(describing: truncateColumns)), username: \(Swift.String(describing: username)), writeBufferSize: \(Swift.String(describing: writeBufferSize)), password: \"CONTENT_REDACTED\")"}
+        "RedshiftSettings(acceptAnyDate: \(Swift.String(describing: acceptAnyDate)), afterConnectScript: \(Swift.String(describing: afterConnectScript)), bucketFolder: \(Swift.String(describing: bucketFolder)), bucketName: \(Swift.String(describing: bucketName)), caseSensitiveNames: \(Swift.String(describing: caseSensitiveNames)), compUpdate: \(Swift.String(describing: compUpdate)), connectionTimeout: \(Swift.String(describing: connectionTimeout)), databaseName: \(Swift.String(describing: databaseName)), dateFormat: \(Swift.String(describing: dateFormat)), emptyAsNull: \(Swift.String(describing: emptyAsNull)), encryptionMode: \(Swift.String(describing: encryptionMode)), explicitIds: \(Swift.String(describing: explicitIds)), fileTransferUploadStreams: \(Swift.String(describing: fileTransferUploadStreams)), loadTimeout: \(Swift.String(describing: loadTimeout)), mapBooleanAsBoolean: \(Swift.String(describing: mapBooleanAsBoolean)), maxFileSize: \(Swift.String(describing: maxFileSize)), port: \(Swift.String(describing: port)), removeQuotes: \(Swift.String(describing: removeQuotes)), replaceChars: \(Swift.String(describing: replaceChars)), replaceInvalidChars: \(Swift.String(describing: replaceInvalidChars)), secretsManagerAccessRoleArn: \(Swift.String(describing: secretsManagerAccessRoleArn)), secretsManagerSecretId: \(Swift.String(describing: secretsManagerSecretId)), serverName: \(Swift.String(describing: serverName)), serverSideEncryptionKmsKeyId: \(Swift.String(describing: serverSideEncryptionKmsKeyId)), serviceAccessRoleArn: \(Swift.String(describing: serviceAccessRoleArn)), timeFormat: \(Swift.String(describing: timeFormat)), trimBlanks: \(Swift.String(describing: trimBlanks)), truncateColumns: \(Swift.String(describing: truncateColumns)), username: \(Swift.String(describing: username)), writeBufferSize: \(Swift.String(describing: writeBufferSize)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension DatabaseMigrationClientTypes {
@@ -16894,6 +16982,8 @@ extension DatabaseMigrationClientTypes {
         public var fileTransferUploadStreams: Swift.Int?
         /// The amount of time to wait (in milliseconds) before timing out of operations performed by DMS on a Redshift cluster, such as Redshift COPY, INSERT, DELETE, and UPDATE.
         public var loadTimeout: Swift.Int?
+        /// When true, lets Redshift migrate the boolean type as boolean. By default, Redshift migrates booleans as varchar(1).
+        public var mapBooleanAsBoolean: Swift.Bool?
         /// The maximum size (in KB) of any .csv file used to load data on an S3 bucket and transfer data to Amazon Redshift. It defaults to 1048576KB (1 GB).
         public var maxFileSize: Swift.Int?
         /// The password for the user named in the username property.
@@ -16942,6 +17032,7 @@ extension DatabaseMigrationClientTypes {
             explicitIds: Swift.Bool? = nil,
             fileTransferUploadStreams: Swift.Int? = nil,
             loadTimeout: Swift.Int? = nil,
+            mapBooleanAsBoolean: Swift.Bool? = nil,
             maxFileSize: Swift.Int? = nil,
             password: Swift.String? = nil,
             port: Swift.Int? = nil,
@@ -16974,6 +17065,7 @@ extension DatabaseMigrationClientTypes {
             self.explicitIds = explicitIds
             self.fileTransferUploadStreams = fileTransferUploadStreams
             self.loadTimeout = loadTimeout
+            self.mapBooleanAsBoolean = mapBooleanAsBoolean
             self.maxFileSize = maxFileSize
             self.password = password
             self.port = port
@@ -19503,6 +19595,7 @@ extension DatabaseMigrationClientTypes.S3Settings: Swift.Codable {
         case encryptionMode = "EncryptionMode"
         case expectedBucketOwner = "ExpectedBucketOwner"
         case externalTableDefinition = "ExternalTableDefinition"
+        case glueCatalogGeneration = "GlueCatalogGeneration"
         case ignoreHeaderRows = "IgnoreHeaderRows"
         case includeOpForFullLoad = "IncludeOpForFullLoad"
         case maxFileSize = "MaxFileSize"
@@ -19600,6 +19693,9 @@ extension DatabaseMigrationClientTypes.S3Settings: Swift.Codable {
         }
         if let externalTableDefinition = self.externalTableDefinition {
             try encodeContainer.encode(externalTableDefinition, forKey: .externalTableDefinition)
+        }
+        if let glueCatalogGeneration = self.glueCatalogGeneration {
+            try encodeContainer.encode(glueCatalogGeneration, forKey: .glueCatalogGeneration)
         }
         if let ignoreHeaderRows = self.ignoreHeaderRows {
             try encodeContainer.encode(ignoreHeaderRows, forKey: .ignoreHeaderRows)
@@ -19724,6 +19820,8 @@ extension DatabaseMigrationClientTypes.S3Settings: Swift.Codable {
         addTrailingPaddingCharacter = addTrailingPaddingCharacterDecoded
         let expectedBucketOwnerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expectedBucketOwner)
         expectedBucketOwner = expectedBucketOwnerDecoded
+        let glueCatalogGenerationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .glueCatalogGeneration)
+        glueCatalogGeneration = glueCatalogGenerationDecoded
     }
 }
 
@@ -19816,6 +19914,8 @@ extension DatabaseMigrationClientTypes {
         public var expectedBucketOwner: Swift.String?
         /// Specifies how tables are defined in the S3 source files only.
         public var externalTableDefinition: Swift.String?
+        /// When true, allows Glue to catalog your S3 bucket. Creating an Glue catalog lets you use Athena to query your data.
+        public var glueCatalogGeneration: Swift.Bool?
         /// When this value is set to 1, DMS ignores the first row header in a .csv file. A value of 1 turns on the feature; a value of 0 turns off the feature. The default is 0.
         public var ignoreHeaderRows: Swift.Int?
         /// A value that enables a full load to write INSERT operations to the comma-separated value (.csv) output files only to indicate how the rows were added to the source database. DMS supports the IncludeOpForFullLoad parameter in versions 3.1.4 and later. For full load, records can only be inserted. By default (the false setting), no information is recorded in these output files for a full load to indicate that the rows were inserted at the source database. If IncludeOpForFullLoad is set to true or y, the INSERT is recorded as an I annotation in the first field of the .csv file. This allows the format of your target records from a full load to be consistent with the target records from a CDC load. This setting works together with the CdcInsertsOnly and the CdcInsertsAndUpdates parameters for output to .csv files only. For more information about how these settings work together, see [Indicating Source DB Operations in Migrated S3 Data](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.Configuring.InsertOps) in the Database Migration Service User Guide..
@@ -19871,6 +19971,7 @@ extension DatabaseMigrationClientTypes {
             encryptionMode: DatabaseMigrationClientTypes.EncryptionModeValue? = nil,
             expectedBucketOwner: Swift.String? = nil,
             externalTableDefinition: Swift.String? = nil,
+            glueCatalogGeneration: Swift.Bool? = nil,
             ignoreHeaderRows: Swift.Int? = nil,
             includeOpForFullLoad: Swift.Bool? = nil,
             maxFileSize: Swift.Int? = nil,
@@ -19913,6 +20014,7 @@ extension DatabaseMigrationClientTypes {
             self.encryptionMode = encryptionMode
             self.expectedBucketOwner = expectedBucketOwner
             self.externalTableDefinition = externalTableDefinition
+            self.glueCatalogGeneration = glueCatalogGeneration
             self.ignoreHeaderRows = ignoreHeaderRows
             self.includeOpForFullLoad = includeOpForFullLoad
             self.maxFileSize = maxFileSize
@@ -22099,6 +22201,44 @@ extension TestConnectionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.Connection.self, forKey: .connection)
         connection = connectionDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    public enum TlogAccessMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case backuponly
+        case preferbackup
+        case prefertlog
+        case tlogonly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TlogAccessMode] {
+            return [
+                .backuponly,
+                .preferbackup,
+                .prefertlog,
+                .tlogonly,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .backuponly: return "BackupOnly"
+            case .preferbackup: return "PreferBackup"
+            case .prefertlog: return "PreferTlog"
+            case .tlogonly: return "TlogOnly"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TlogAccessMode(rawValue: rawValue) ?? TlogAccessMode.sdkUnknown(rawValue)
+        }
     }
 }
 

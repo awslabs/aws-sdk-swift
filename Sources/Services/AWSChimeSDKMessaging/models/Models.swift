@@ -328,7 +328,7 @@ extension ChimeSDKMessagingClientTypes.BatchChannelMemberships: Swift.Codable {
 extension ChimeSDKMessagingClientTypes {
     /// The membership information, including member ARNs, the channel ARN, and membership types.
     public struct BatchChannelMemberships: Swift.Equatable {
-        /// The ARN of the channel to which you're adding users.
+        /// The ARN of the channel to which you're adding members.
         public var channelArn: Swift.String?
         /// The identifier of the member who invited another member.
         public var invitedBy: ChimeSDKMessagingClientTypes.Identity?
@@ -336,7 +336,7 @@ extension ChimeSDKMessagingClientTypes {
         public var members: [ChimeSDKMessagingClientTypes.Identity]?
         /// The ID of the SubChannel.
         public var subChannelId: Swift.String?
-        /// The membership types set for the channel users.
+        /// The membership types set for the channel members.
         public var type: ChimeSDKMessagingClientTypes.ChannelMembershipType?
 
         public init (
@@ -466,13 +466,13 @@ extension BatchCreateChannelMembershipInput: ClientRuntime.URLPathProvider {
 }
 
 public struct BatchCreateChannelMembershipInput: Swift.Equatable {
-    /// The ARN of the channel to which you're adding users.
+    /// The ARN of the channel to which you're adding users or bots.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
-    /// The AppInstanceUserArns of the members you want to add to the channel.
+    /// The ARNs of the members you want to add to the channel. Only AppInstanceUsers and AppInstanceBots can be added as a channel member.
     /// This member is required.
     public var memberArns: [Swift.String]?
     /// The ID of the SubChannel in the request. Only required when creating membership in a SubChannel for a moderator in an elastic channel.
@@ -632,6 +632,7 @@ extension ChimeSDKMessagingClientTypes.Channel: Swift.Codable {
         case createdBy = "CreatedBy"
         case createdTimestamp = "CreatedTimestamp"
         case elasticChannelConfiguration = "ElasticChannelConfiguration"
+        case expirationSettings = "ExpirationSettings"
         case lastMessageTimestamp = "LastMessageTimestamp"
         case lastUpdatedTimestamp = "LastUpdatedTimestamp"
         case metadata = "Metadata"
@@ -656,6 +657,9 @@ extension ChimeSDKMessagingClientTypes.Channel: Swift.Codable {
         }
         if let elasticChannelConfiguration = self.elasticChannelConfiguration {
             try encodeContainer.encode(elasticChannelConfiguration, forKey: .elasticChannelConfiguration)
+        }
+        if let expirationSettings = self.expirationSettings {
+            try encodeContainer.encode(expirationSettings, forKey: .expirationSettings)
         }
         if let lastMessageTimestamp = self.lastMessageTimestamp {
             try encodeContainer.encodeTimestamp(lastMessageTimestamp, format: .epochSeconds, forKey: .lastMessageTimestamp)
@@ -701,12 +705,14 @@ extension ChimeSDKMessagingClientTypes.Channel: Swift.Codable {
         channelFlowArn = channelFlowArnDecoded
         let elasticChannelConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKMessagingClientTypes.ElasticChannelConfiguration.self, forKey: .elasticChannelConfiguration)
         elasticChannelConfiguration = elasticChannelConfigurationDecoded
+        let expirationSettingsDecoded = try containerValues.decodeIfPresent(ChimeSDKMessagingClientTypes.ExpirationSettings.self, forKey: .expirationSettings)
+        expirationSettings = expirationSettingsDecoded
     }
 }
 
 extension ChimeSDKMessagingClientTypes.Channel: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Channel(channelArn: \(Swift.String(describing: channelArn)), channelFlowArn: \(Swift.String(describing: channelFlowArn)), createdBy: \(Swift.String(describing: createdBy)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), elasticChannelConfiguration: \(Swift.String(describing: elasticChannelConfiguration)), lastMessageTimestamp: \(Swift.String(describing: lastMessageTimestamp)), lastUpdatedTimestamp: \(Swift.String(describing: lastUpdatedTimestamp)), mode: \(Swift.String(describing: mode)), privacy: \(Swift.String(describing: privacy)), metadata: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "Channel(channelArn: \(Swift.String(describing: channelArn)), channelFlowArn: \(Swift.String(describing: channelFlowArn)), createdBy: \(Swift.String(describing: createdBy)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), elasticChannelConfiguration: \(Swift.String(describing: elasticChannelConfiguration)), expirationSettings: \(Swift.String(describing: expirationSettings)), lastMessageTimestamp: \(Swift.String(describing: lastMessageTimestamp)), lastUpdatedTimestamp: \(Swift.String(describing: lastUpdatedTimestamp)), mode: \(Swift.String(describing: mode)), privacy: \(Swift.String(describing: privacy)), metadata: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension ChimeSDKMessagingClientTypes {
@@ -722,6 +728,8 @@ extension ChimeSDKMessagingClientTypes {
         public var createdTimestamp: ClientRuntime.Date?
         /// The attributes required to configure and create an elastic channel. An elastic channel can support a maximum of 1-million members.
         public var elasticChannelConfiguration: ChimeSDKMessagingClientTypes.ElasticChannelConfiguration?
+        /// Settings that control when a channel expires.
+        public var expirationSettings: ChimeSDKMessagingClientTypes.ExpirationSettings?
         /// The time at which a member sent the last message in the channel.
         public var lastMessageTimestamp: ClientRuntime.Date?
         /// The time at which a channel was last updated.
@@ -741,6 +749,7 @@ extension ChimeSDKMessagingClientTypes {
             createdBy: ChimeSDKMessagingClientTypes.Identity? = nil,
             createdTimestamp: ClientRuntime.Date? = nil,
             elasticChannelConfiguration: ChimeSDKMessagingClientTypes.ElasticChannelConfiguration? = nil,
+            expirationSettings: ChimeSDKMessagingClientTypes.ExpirationSettings? = nil,
             lastMessageTimestamp: ClientRuntime.Date? = nil,
             lastUpdatedTimestamp: ClientRuntime.Date? = nil,
             metadata: Swift.String? = nil,
@@ -754,6 +763,7 @@ extension ChimeSDKMessagingClientTypes {
             self.createdBy = createdBy
             self.createdTimestamp = createdTimestamp
             self.elasticChannelConfiguration = elasticChannelConfiguration
+            self.expirationSettings = expirationSettings
             self.lastMessageTimestamp = lastMessageTimestamp
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.metadata = metadata
@@ -1052,7 +1062,7 @@ extension ChannelFlowCallbackInput: Swift.Encodable {
         if let channelMessage = self.channelMessage {
             try encodeContainer.encode(channelMessage, forKey: .channelMessage)
         }
-        if deleteResource != false {
+        if let deleteResource = self.deleteResource {
             try encodeContainer.encode(deleteResource, forKey: .deleteResource)
         }
     }
@@ -1088,13 +1098,13 @@ public struct ChannelFlowCallbackInput: Swift.Equatable {
     /// This member is required.
     public var channelMessage: ChimeSDKMessagingClientTypes.ChannelMessageCallback?
     /// When a processor determines that a message needs to be DENIED, pass this parameter with a value of true.
-    public var deleteResource: Swift.Bool
+    public var deleteResource: Swift.Bool?
 
     public init (
         callbackId: Swift.String? = nil,
         channelArn: Swift.String? = nil,
         channelMessage: ChimeSDKMessagingClientTypes.ChannelMessageCallback? = nil,
-        deleteResource: Swift.Bool = false
+        deleteResource: Swift.Bool? = nil
     )
     {
         self.callbackId = callbackId
@@ -1106,7 +1116,7 @@ public struct ChannelFlowCallbackInput: Swift.Equatable {
 
 struct ChannelFlowCallbackInputBody: Swift.Equatable {
     let callbackId: Swift.String?
-    let deleteResource: Swift.Bool
+    let deleteResource: Swift.Bool?
     let channelMessage: ChimeSDKMessagingClientTypes.ChannelMessageCallback?
 }
 
@@ -1121,7 +1131,7 @@ extension ChannelFlowCallbackInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let callbackIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .callbackId)
         callbackId = callbackIdDecoded
-        let deleteResourceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteResource) ?? false
+        let deleteResourceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteResource)
         deleteResource = deleteResourceDecoded
         let channelMessageDecoded = try containerValues.decodeIfPresent(ChimeSDKMessagingClientTypes.ChannelMessageCallback.self, forKey: .channelMessage)
         channelMessage = channelMessageDecoded
@@ -1531,6 +1541,7 @@ extension ChimeSDKMessagingClientTypes.ChannelMessage: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channelArn = "ChannelArn"
         case content = "Content"
+        case contentType = "ContentType"
         case createdTimestamp = "CreatedTimestamp"
         case lastEditedTimestamp = "LastEditedTimestamp"
         case lastUpdatedTimestamp = "LastUpdatedTimestamp"
@@ -1552,6 +1563,9 @@ extension ChimeSDKMessagingClientTypes.ChannelMessage: Swift.Codable {
         }
         if let content = self.content {
             try encodeContainer.encode(content, forKey: .content)
+        }
+        if let contentType = self.contentType {
+            try encodeContainer.encode(contentType, forKey: .contentType)
         }
         if let createdTimestamp = self.createdTimestamp {
             try encodeContainer.encodeTimestamp(createdTimestamp, format: .epochSeconds, forKey: .createdTimestamp)
@@ -1633,12 +1647,14 @@ extension ChimeSDKMessagingClientTypes.ChannelMessage: Swift.Codable {
         messageAttributes = messageAttributesDecoded0
         let subChannelIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subChannelId)
         subChannelId = subChannelIdDecoded
+        let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
+        contentType = contentTypeDecoded
     }
 }
 
 extension ChimeSDKMessagingClientTypes.ChannelMessage: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ChannelMessage(channelArn: \(Swift.String(describing: channelArn)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), lastEditedTimestamp: \(Swift.String(describing: lastEditedTimestamp)), lastUpdatedTimestamp: \(Swift.String(describing: lastUpdatedTimestamp)), messageAttributes: \(Swift.String(describing: messageAttributes)), messageId: \(Swift.String(describing: messageId)), persistence: \(Swift.String(describing: persistence)), redacted: \(Swift.String(describing: redacted)), sender: \(Swift.String(describing: sender)), status: \(Swift.String(describing: status)), subChannelId: \(Swift.String(describing: subChannelId)), type: \(Swift.String(describing: type)), content: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\")"}
+        "ChannelMessage(channelArn: \(Swift.String(describing: channelArn)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), lastEditedTimestamp: \(Swift.String(describing: lastEditedTimestamp)), lastUpdatedTimestamp: \(Swift.String(describing: lastUpdatedTimestamp)), messageAttributes: \(Swift.String(describing: messageAttributes)), messageId: \(Swift.String(describing: messageId)), persistence: \(Swift.String(describing: persistence)), redacted: \(Swift.String(describing: redacted)), sender: \(Swift.String(describing: sender)), status: \(Swift.String(describing: status)), subChannelId: \(Swift.String(describing: subChannelId)), type: \(Swift.String(describing: type)), content: \"CONTENT_REDACTED\", contentType: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\")"}
 }
 
 extension ChimeSDKMessagingClientTypes {
@@ -1648,6 +1664,8 @@ extension ChimeSDKMessagingClientTypes {
         public var channelArn: Swift.String?
         /// The message content.
         public var content: Swift.String?
+        /// The content type of the channel message.
+        public var contentType: Swift.String?
         /// The time at which the message was created.
         public var createdTimestamp: ClientRuntime.Date?
         /// The time at which a message was edited.
@@ -1676,6 +1694,7 @@ extension ChimeSDKMessagingClientTypes {
         public init (
             channelArn: Swift.String? = nil,
             content: Swift.String? = nil,
+            contentType: Swift.String? = nil,
             createdTimestamp: ClientRuntime.Date? = nil,
             lastEditedTimestamp: ClientRuntime.Date? = nil,
             lastUpdatedTimestamp: ClientRuntime.Date? = nil,
@@ -1692,6 +1711,7 @@ extension ChimeSDKMessagingClientTypes {
         {
             self.channelArn = channelArn
             self.content = content
+            self.contentType = contentType
             self.createdTimestamp = createdTimestamp
             self.lastEditedTimestamp = lastEditedTimestamp
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
@@ -1712,6 +1732,7 @@ extension ChimeSDKMessagingClientTypes {
 extension ChimeSDKMessagingClientTypes.ChannelMessageCallback: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case content = "Content"
+        case contentType = "ContentType"
         case messageAttributes = "MessageAttributes"
         case messageId = "MessageId"
         case metadata = "Metadata"
@@ -1723,6 +1744,9 @@ extension ChimeSDKMessagingClientTypes.ChannelMessageCallback: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let content = self.content {
             try encodeContainer.encode(content, forKey: .content)
+        }
+        if let contentType = self.contentType {
+            try encodeContainer.encode(contentType, forKey: .contentType)
         }
         if let messageAttributes = messageAttributes {
             var messageAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .messageAttributes)
@@ -1767,12 +1791,14 @@ extension ChimeSDKMessagingClientTypes.ChannelMessageCallback: Swift.Codable {
         messageAttributes = messageAttributesDecoded0
         let subChannelIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subChannelId)
         subChannelId = subChannelIdDecoded
+        let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
+        contentType = contentTypeDecoded
     }
 }
 
 extension ChimeSDKMessagingClientTypes.ChannelMessageCallback: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ChannelMessageCallback(messageAttributes: \(Swift.String(describing: messageAttributes)), messageId: \(Swift.String(describing: messageId)), pushNotification: \(Swift.String(describing: pushNotification)), subChannelId: \(Swift.String(describing: subChannelId)), content: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\")"}
+        "ChannelMessageCallback(messageAttributes: \(Swift.String(describing: messageAttributes)), messageId: \(Swift.String(describing: messageId)), pushNotification: \(Swift.String(describing: pushNotification)), subChannelId: \(Swift.String(describing: subChannelId)), content: \"CONTENT_REDACTED\", contentType: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\")"}
 }
 
 extension ChimeSDKMessagingClientTypes {
@@ -1780,6 +1806,8 @@ extension ChimeSDKMessagingClientTypes {
     public struct ChannelMessageCallback: Swift.Equatable {
         /// The message content.
         public var content: Swift.String?
+        /// The content type of the call-back message.
+        public var contentType: Swift.String?
         /// The attributes for the message, used for message filtering along with a FilterRule defined in the PushNotificationPreferences.
         public var messageAttributes: [Swift.String:ChimeSDKMessagingClientTypes.MessageAttributeValue]?
         /// The message ID.
@@ -1794,6 +1822,7 @@ extension ChimeSDKMessagingClientTypes {
 
         public init (
             content: Swift.String? = nil,
+            contentType: Swift.String? = nil,
             messageAttributes: [Swift.String:ChimeSDKMessagingClientTypes.MessageAttributeValue]? = nil,
             messageId: Swift.String? = nil,
             metadata: Swift.String? = nil,
@@ -1802,6 +1831,7 @@ extension ChimeSDKMessagingClientTypes {
         )
         {
             self.content = content
+            self.contentType = contentType
             self.messageAttributes = messageAttributes
             self.messageId = messageId
             self.metadata = metadata
@@ -1930,6 +1960,7 @@ extension ChimeSDKMessagingClientTypes {
 extension ChimeSDKMessagingClientTypes.ChannelMessageSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case content = "Content"
+        case contentType = "ContentType"
         case createdTimestamp = "CreatedTimestamp"
         case lastEditedTimestamp = "LastEditedTimestamp"
         case lastUpdatedTimestamp = "LastUpdatedTimestamp"
@@ -1946,6 +1977,9 @@ extension ChimeSDKMessagingClientTypes.ChannelMessageSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let content = self.content {
             try encodeContainer.encode(content, forKey: .content)
+        }
+        if let contentType = self.contentType {
+            try encodeContainer.encode(contentType, forKey: .contentType)
         }
         if let createdTimestamp = self.createdTimestamp {
             try encodeContainer.encodeTimestamp(createdTimestamp, format: .epochSeconds, forKey: .createdTimestamp)
@@ -2015,12 +2049,14 @@ extension ChimeSDKMessagingClientTypes.ChannelMessageSummary: Swift.Codable {
             }
         }
         messageAttributes = messageAttributesDecoded0
+        let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
+        contentType = contentTypeDecoded
     }
 }
 
 extension ChimeSDKMessagingClientTypes.ChannelMessageSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ChannelMessageSummary(createdTimestamp: \(Swift.String(describing: createdTimestamp)), lastEditedTimestamp: \(Swift.String(describing: lastEditedTimestamp)), lastUpdatedTimestamp: \(Swift.String(describing: lastUpdatedTimestamp)), messageAttributes: \(Swift.String(describing: messageAttributes)), messageId: \(Swift.String(describing: messageId)), redacted: \(Swift.String(describing: redacted)), sender: \(Swift.String(describing: sender)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), content: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\")"}
+        "ChannelMessageSummary(createdTimestamp: \(Swift.String(describing: createdTimestamp)), lastEditedTimestamp: \(Swift.String(describing: lastEditedTimestamp)), lastUpdatedTimestamp: \(Swift.String(describing: lastUpdatedTimestamp)), messageAttributes: \(Swift.String(describing: messageAttributes)), messageId: \(Swift.String(describing: messageId)), redacted: \(Swift.String(describing: redacted)), sender: \(Swift.String(describing: sender)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), content: \"CONTENT_REDACTED\", contentType: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\")"}
 }
 
 extension ChimeSDKMessagingClientTypes {
@@ -2028,6 +2064,8 @@ extension ChimeSDKMessagingClientTypes {
     public struct ChannelMessageSummary: Swift.Equatable {
         /// The content of the message.
         public var content: Swift.String?
+        /// The content type of the channel messsage listed in the summary.
+        public var contentType: Swift.String?
         /// The time at which the message summary was created.
         public var createdTimestamp: ClientRuntime.Date?
         /// The time at which a message was last edited.
@@ -2051,6 +2089,7 @@ extension ChimeSDKMessagingClientTypes {
 
         public init (
             content: Swift.String? = nil,
+            contentType: Swift.String? = nil,
             createdTimestamp: ClientRuntime.Date? = nil,
             lastEditedTimestamp: ClientRuntime.Date? = nil,
             lastUpdatedTimestamp: ClientRuntime.Date? = nil,
@@ -2064,6 +2103,7 @@ extension ChimeSDKMessagingClientTypes {
         )
         {
             self.content = content
+            self.contentType = contentType
             self.createdTimestamp = createdTimestamp
             self.lastEditedTimestamp = lastEditedTimestamp
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
@@ -2497,7 +2537,7 @@ public struct CreateChannelBanInput: Swift.Equatable {
     /// The ARN of the ban request.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The AppInstanceUserArn of the member being banned.
@@ -2826,7 +2866,7 @@ extension CreateChannelFlowOutputResponseBody: Swift.Decodable {
 
 extension CreateChannelInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateChannelInput(appInstanceArn: \(Swift.String(describing: appInstanceArn)), chimeBearer: \(Swift.String(describing: chimeBearer)), elasticChannelConfiguration: \(Swift.String(describing: elasticChannelConfiguration)), memberArns: \(Swift.String(describing: memberArns)), mode: \(Swift.String(describing: mode)), moderatorArns: \(Swift.String(describing: moderatorArns)), privacy: \(Swift.String(describing: privacy)), tags: \(Swift.String(describing: tags)), channelId: \"CONTENT_REDACTED\", clientRequestToken: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateChannelInput(appInstanceArn: \(Swift.String(describing: appInstanceArn)), chimeBearer: \(Swift.String(describing: chimeBearer)), elasticChannelConfiguration: \(Swift.String(describing: elasticChannelConfiguration)), expirationSettings: \(Swift.String(describing: expirationSettings)), memberArns: \(Swift.String(describing: memberArns)), mode: \(Swift.String(describing: mode)), moderatorArns: \(Swift.String(describing: moderatorArns)), privacy: \(Swift.String(describing: privacy)), tags: \(Swift.String(describing: tags)), channelId: \"CONTENT_REDACTED\", clientRequestToken: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateChannelInput: Swift.Encodable {
@@ -2835,6 +2875,7 @@ extension CreateChannelInput: Swift.Encodable {
         case channelId = "ChannelId"
         case clientRequestToken = "ClientRequestToken"
         case elasticChannelConfiguration = "ElasticChannelConfiguration"
+        case expirationSettings = "ExpirationSettings"
         case memberArns = "MemberArns"
         case metadata = "Metadata"
         case mode = "Mode"
@@ -2857,6 +2898,9 @@ extension CreateChannelInput: Swift.Encodable {
         }
         if let elasticChannelConfiguration = self.elasticChannelConfiguration {
             try encodeContainer.encode(elasticChannelConfiguration, forKey: .elasticChannelConfiguration)
+        }
+        if let expirationSettings = self.expirationSettings {
+            try encodeContainer.encode(expirationSettings, forKey: .expirationSettings)
         }
         if let memberArns = memberArns {
             var memberArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .memberArns)
@@ -2913,7 +2957,7 @@ public struct CreateChannelInput: Swift.Equatable {
     public var appInstanceArn: Swift.String?
     /// The ID of the channel in the request.
     public var channelId: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The client token for the request. An Idempotency token.
@@ -2921,6 +2965,8 @@ public struct CreateChannelInput: Swift.Equatable {
     public var clientRequestToken: Swift.String?
     /// The attributes required to configure and create an elastic channel. An elastic channel can support a maximum of 1-million users, excluding moderators.
     public var elasticChannelConfiguration: ChimeSDKMessagingClientTypes.ElasticChannelConfiguration?
+    /// Settings that control the interval after which the channel is automatically deleted.
+    public var expirationSettings: ChimeSDKMessagingClientTypes.ExpirationSettings?
     /// The ARNs of the channel members in the request.
     public var memberArns: [Swift.String]?
     /// The metadata of the creation request. Limited to 1KB and UTF-8.
@@ -2943,6 +2989,7 @@ public struct CreateChannelInput: Swift.Equatable {
         chimeBearer: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
         elasticChannelConfiguration: ChimeSDKMessagingClientTypes.ElasticChannelConfiguration? = nil,
+        expirationSettings: ChimeSDKMessagingClientTypes.ExpirationSettings? = nil,
         memberArns: [Swift.String]? = nil,
         metadata: Swift.String? = nil,
         mode: ChimeSDKMessagingClientTypes.ChannelMode? = nil,
@@ -2957,6 +3004,7 @@ public struct CreateChannelInput: Swift.Equatable {
         self.chimeBearer = chimeBearer
         self.clientRequestToken = clientRequestToken
         self.elasticChannelConfiguration = elasticChannelConfiguration
+        self.expirationSettings = expirationSettings
         self.memberArns = memberArns
         self.metadata = metadata
         self.mode = mode
@@ -2979,6 +3027,7 @@ struct CreateChannelInputBody: Swift.Equatable {
     let memberArns: [Swift.String]?
     let moderatorArns: [Swift.String]?
     let elasticChannelConfiguration: ChimeSDKMessagingClientTypes.ElasticChannelConfiguration?
+    let expirationSettings: ChimeSDKMessagingClientTypes.ExpirationSettings?
 }
 
 extension CreateChannelInputBody: Swift.Decodable {
@@ -2987,6 +3036,7 @@ extension CreateChannelInputBody: Swift.Decodable {
         case channelId = "ChannelId"
         case clientRequestToken = "ClientRequestToken"
         case elasticChannelConfiguration = "ElasticChannelConfiguration"
+        case expirationSettings = "ExpirationSettings"
         case memberArns = "MemberArns"
         case metadata = "Metadata"
         case mode = "Mode"
@@ -3047,6 +3097,8 @@ extension CreateChannelInputBody: Swift.Decodable {
         moderatorArns = moderatorArnsDecoded0
         let elasticChannelConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKMessagingClientTypes.ElasticChannelConfiguration.self, forKey: .elasticChannelConfiguration)
         elasticChannelConfiguration = elasticChannelConfigurationDecoded
+        let expirationSettingsDecoded = try containerValues.decodeIfPresent(ChimeSDKMessagingClientTypes.ExpirationSettings.self, forKey: .expirationSettings)
+        expirationSettings = expirationSettingsDecoded
     }
 }
 
@@ -3094,7 +3146,7 @@ public struct CreateChannelMembershipInput: Swift.Equatable {
     /// The ARN of the channel to which you're adding users.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The AppInstanceUserArn of the member you want to add to the channel.
@@ -3284,7 +3336,7 @@ public struct CreateChannelModeratorInput: Swift.Equatable {
     /// The AppInstanceUserArn of the moderator.
     /// This member is required.
     public var channelModeratorArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
 
@@ -3506,7 +3558,7 @@ public struct DeleteChannelBanInput: Swift.Equatable {
     /// The ARN of the channel from which the AppInstanceUser was banned.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The ARN of the AppInstanceUser that you want to reinstate.
@@ -3687,7 +3739,7 @@ public struct DeleteChannelInput: Swift.Equatable {
     /// The ARN of the channel being deleted.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The ID of the SubChannel in the request.
@@ -3753,7 +3805,7 @@ public struct DeleteChannelMembershipInput: Swift.Equatable {
     /// The ARN of the channel from which you want to remove the user.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The AppInstanceUserArn of the member that you're removing from the channel.
@@ -3868,7 +3920,7 @@ public struct DeleteChannelMessageInput: Swift.Equatable {
     /// The ARN of the channel.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The ID of the message being deleted.
@@ -3971,7 +4023,7 @@ public struct DeleteChannelModeratorInput: Swift.Equatable {
     /// The AppInstanceUserArn of the moderator being deleted.
     /// This member is required.
     public var channelModeratorArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
 
@@ -4080,6 +4132,77 @@ public struct DeleteChannelOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension DeleteMessagingStreamingConfigurationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let appInstanceArn = appInstanceArn else {
+            return nil
+        }
+        return "/app-instances/\(appInstanceArn.urlPercentEncoding())/streaming-configurations"
+    }
+}
+
+public struct DeleteMessagingStreamingConfigurationsInput: Swift.Equatable {
+    /// The ARN of the streaming configurations being deleted.
+    /// This member is required.
+    public var appInstanceArn: Swift.String?
+
+    public init (
+        appInstanceArn: Swift.String? = nil
+    )
+    {
+        self.appInstanceArn = appInstanceArn
+    }
+}
+
+struct DeleteMessagingStreamingConfigurationsInputBody: Swift.Equatable {
+}
+
+extension DeleteMessagingStreamingConfigurationsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteMessagingStreamingConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteMessagingStreamingConfigurationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteMessagingStreamingConfigurationsOutputError: Swift.Error, Swift.Equatable {
+    case forbiddenException(ForbiddenException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteMessagingStreamingConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteMessagingStreamingConfigurationsOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension DescribeChannelBanInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
@@ -4106,7 +4229,7 @@ public struct DescribeChannelBanInput: Swift.Equatable {
     /// The ARN of the channel from which the user is banned.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The AppInstanceUserArn of the member being banned.
@@ -4336,7 +4459,7 @@ public struct DescribeChannelInput: Swift.Equatable {
     /// The ARN of the channel.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
 
@@ -4395,13 +4518,13 @@ extension DescribeChannelMembershipForAppInstanceUserInput: ClientRuntime.URLPat
 }
 
 public struct DescribeChannelMembershipForAppInstanceUserInput: Swift.Equatable {
-    /// The ARN of the user in a channel.
+    /// The ARN of the user or bot in a channel.
     /// This member is required.
     public var appInstanceUserArn: Swift.String?
     /// The ARN of the channel to which the user belongs.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
 
@@ -4538,7 +4661,7 @@ public struct DescribeChannelMembershipInput: Swift.Equatable {
     /// The ARN of the channel.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The AppInstanceUserArn of the member.
@@ -4681,13 +4804,13 @@ extension DescribeChannelModeratedByAppInstanceUserInput: ClientRuntime.URLPathP
 }
 
 public struct DescribeChannelModeratedByAppInstanceUserInput: Swift.Equatable {
-    /// The ARN of the AppInstanceUser in the moderated channel.
+    /// The ARN of the user or bot in the moderated channel.
     /// This member is required.
     public var appInstanceUserArn: Swift.String?
     /// The ARN of the moderated channel.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
 
@@ -4814,7 +4937,7 @@ public struct DescribeChannelModeratorInput: Swift.Equatable {
     /// The AppInstanceUserArn of the channel moderator.
     /// This member is required.
     public var channelModeratorArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
 
@@ -5217,6 +5340,85 @@ extension ChimeSDKMessagingClientTypes {
 }
 
 extension ChimeSDKMessagingClientTypes {
+    public enum ExpirationCriterion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case createdTimestamp
+        case lastMessageTimestamp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExpirationCriterion] {
+            return [
+                .createdTimestamp,
+                .lastMessageTimestamp,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .createdTimestamp: return "CREATED_TIMESTAMP"
+            case .lastMessageTimestamp: return "LAST_MESSAGE_TIMESTAMP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExpirationCriterion(rawValue: rawValue) ?? ExpirationCriterion.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ChimeSDKMessagingClientTypes.ExpirationSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expirationCriterion = "ExpirationCriterion"
+        case expirationDays = "ExpirationDays"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let expirationCriterion = self.expirationCriterion {
+            try encodeContainer.encode(expirationCriterion.rawValue, forKey: .expirationCriterion)
+        }
+        if let expirationDays = self.expirationDays {
+            try encodeContainer.encode(expirationDays, forKey: .expirationDays)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let expirationDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .expirationDays)
+        expirationDays = expirationDaysDecoded
+        let expirationCriterionDecoded = try containerValues.decodeIfPresent(ChimeSDKMessagingClientTypes.ExpirationCriterion.self, forKey: .expirationCriterion)
+        expirationCriterion = expirationCriterionDecoded
+    }
+}
+
+extension ChimeSDKMessagingClientTypes {
+    /// Settings that control the interval after which a channel is deleted.
+    public struct ExpirationSettings: Swift.Equatable {
+        /// The conditions that must be met for a channel to expire.
+        /// This member is required.
+        public var expirationCriterion: ChimeSDKMessagingClientTypes.ExpirationCriterion?
+        /// The period in days after which the system automatically deletes a channel.
+        /// This member is required.
+        public var expirationDays: Swift.Int?
+
+        public init (
+            expirationCriterion: ChimeSDKMessagingClientTypes.ExpirationCriterion? = nil,
+            expirationDays: Swift.Int? = nil
+        )
+        {
+            self.expirationCriterion = expirationCriterion
+            self.expirationDays = expirationDays
+        }
+    }
+
+}
+
+extension ChimeSDKMessagingClientTypes {
     public enum FallbackAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case abort
         case `continue`
@@ -5335,7 +5537,7 @@ public struct GetChannelMembershipPreferencesInput: Swift.Equatable {
     /// The ARN of the channel.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserARN of the user making the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The AppInstanceUserArn of the member retrieving the preferences.
@@ -5495,7 +5697,7 @@ public struct GetChannelMessageInput: Swift.Equatable {
     /// The ARN of the channel.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The ID of the message.
@@ -5838,6 +6040,121 @@ extension GetMessagingSessionEndpointOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetMessagingStreamingConfigurationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let appInstanceArn = appInstanceArn else {
+            return nil
+        }
+        return "/app-instances/\(appInstanceArn.urlPercentEncoding())/streaming-configurations"
+    }
+}
+
+public struct GetMessagingStreamingConfigurationsInput: Swift.Equatable {
+    /// The ARN of the streaming configurations.
+    /// This member is required.
+    public var appInstanceArn: Swift.String?
+
+    public init (
+        appInstanceArn: Swift.String? = nil
+    )
+    {
+        self.appInstanceArn = appInstanceArn
+    }
+}
+
+struct GetMessagingStreamingConfigurationsInputBody: Swift.Equatable {
+}
+
+extension GetMessagingStreamingConfigurationsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetMessagingStreamingConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetMessagingStreamingConfigurationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetMessagingStreamingConfigurationsOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case notFoundException(NotFoundException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetMessagingStreamingConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetMessagingStreamingConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.streamingConfigurations = output.streamingConfigurations
+        } else {
+            self.streamingConfigurations = nil
+        }
+    }
+}
+
+public struct GetMessagingStreamingConfigurationsOutputResponse: Swift.Equatable {
+    /// The streaming settings.
+    public var streamingConfigurations: [ChimeSDKMessagingClientTypes.StreamingConfiguration]?
+
+    public init (
+        streamingConfigurations: [ChimeSDKMessagingClientTypes.StreamingConfiguration]? = nil
+    )
+    {
+        self.streamingConfigurations = streamingConfigurations
+    }
+}
+
+struct GetMessagingStreamingConfigurationsOutputResponseBody: Swift.Equatable {
+    let streamingConfigurations: [ChimeSDKMessagingClientTypes.StreamingConfiguration]?
+}
+
+extension GetMessagingStreamingConfigurationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamingConfigurations = "StreamingConfigurations"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamingConfigurationsContainer = try containerValues.decodeIfPresent([ChimeSDKMessagingClientTypes.StreamingConfiguration?].self, forKey: .streamingConfigurations)
+        var streamingConfigurationsDecoded0:[ChimeSDKMessagingClientTypes.StreamingConfiguration]? = nil
+        if let streamingConfigurationsContainer = streamingConfigurationsContainer {
+            streamingConfigurationsDecoded0 = [ChimeSDKMessagingClientTypes.StreamingConfiguration]()
+            for structure0 in streamingConfigurationsContainer {
+                if let structure0 = structure0 {
+                    streamingConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        streamingConfigurations = streamingConfigurationsDecoded0
+    }
+}
+
 extension ChimeSDKMessagingClientTypes.Identity: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
@@ -5869,7 +6186,7 @@ extension ChimeSDKMessagingClientTypes.Identity: Swift.CustomDebugStringConverti
 }
 
 extension ChimeSDKMessagingClientTypes {
-    /// The details of a user.
+    /// The details of a user or bot.
     public struct Identity: Swift.Equatable {
         /// The ARN in an Identity.
         public var arn: Swift.String?
@@ -6009,7 +6326,7 @@ public struct ListChannelBansInput: Swift.Equatable {
     /// The ARN of the channel.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The maximum number of bans that you want returned.
@@ -6352,9 +6669,9 @@ extension ListChannelMembershipsForAppInstanceUserInput: ClientRuntime.URLPathPr
 }
 
 public struct ListChannelMembershipsForAppInstanceUserInput: Swift.Equatable {
-    /// The ARN of the AppInstanceUsers
+    /// The ARN of the user or bot.
     public var appInstanceUserArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The maximum number of users that you want returned.
@@ -6535,7 +6852,7 @@ public struct ListChannelMembershipsInput: Swift.Equatable {
     /// The maximum number of channel memberships that you want returned.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The maximum number of channel memberships that you want returned.
@@ -6742,7 +7059,7 @@ public struct ListChannelMessagesInput: Swift.Equatable {
     /// The ARN of the channel.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The maximum number of messages that you want returned.
@@ -6951,7 +7268,7 @@ public struct ListChannelModeratorsInput: Swift.Equatable {
     /// The ARN of the channel.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The maximum number of moderators that you want returned.
@@ -7303,7 +7620,7 @@ public struct ListChannelsInput: Swift.Equatable {
     /// The ARN of the AppInstance.
     /// This member is required.
     public var appInstanceArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The maximum number of channels that you want to return.
@@ -7382,9 +7699,9 @@ extension ListChannelsModeratedByAppInstanceUserInput: ClientRuntime.URLPathProv
 }
 
 public struct ListChannelsModeratedByAppInstanceUserInput: Swift.Equatable {
-    /// The ARN of the user in the moderated channel.
+    /// The ARN of the user or bot in the moderated channel.
     public var appInstanceUserArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The maximum number of channels in the request.
@@ -7964,6 +8281,38 @@ extension ChimeSDKMessagingClientTypes {
 
 }
 
+extension ChimeSDKMessagingClientTypes {
+    public enum MessagingDataType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case channel
+        case channelmessage
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MessagingDataType] {
+            return [
+                .channel,
+                .channelmessage,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .channel: return "Channel"
+            case .channelmessage: return "ChannelMessage"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MessagingDataType(rawValue: rawValue) ?? MessagingDataType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ChimeSDKMessagingClientTypes.MessagingSessionEndpoint: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case url = "Url"
@@ -8313,6 +8662,160 @@ extension ChimeSDKMessagingClientTypes {
     }
 }
 
+extension PutChannelExpirationSettingsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expirationSettings = "ExpirationSettings"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let expirationSettings = self.expirationSettings {
+            try encodeContainer.encode(expirationSettings, forKey: .expirationSettings)
+        }
+    }
+}
+
+extension PutChannelExpirationSettingsInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let chimeBearer = chimeBearer {
+            items.add(Header(name: "x-amz-chime-bearer", value: Swift.String(chimeBearer)))
+        }
+        return items
+    }
+}
+
+extension PutChannelExpirationSettingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let channelArn = channelArn else {
+            return nil
+        }
+        return "/channels/\(channelArn.urlPercentEncoding())/expiration-settings"
+    }
+}
+
+public struct PutChannelExpirationSettingsInput: Swift.Equatable {
+    /// The ARN of the channel.
+    /// This member is required.
+    public var channelArn: Swift.String?
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
+    public var chimeBearer: Swift.String?
+    /// Settings that control the interval after which a channel is deleted.
+    public var expirationSettings: ChimeSDKMessagingClientTypes.ExpirationSettings?
+
+    public init (
+        channelArn: Swift.String? = nil,
+        chimeBearer: Swift.String? = nil,
+        expirationSettings: ChimeSDKMessagingClientTypes.ExpirationSettings? = nil
+    )
+    {
+        self.channelArn = channelArn
+        self.chimeBearer = chimeBearer
+        self.expirationSettings = expirationSettings
+    }
+}
+
+struct PutChannelExpirationSettingsInputBody: Swift.Equatable {
+    let expirationSettings: ChimeSDKMessagingClientTypes.ExpirationSettings?
+}
+
+extension PutChannelExpirationSettingsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expirationSettings = "ExpirationSettings"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let expirationSettingsDecoded = try containerValues.decodeIfPresent(ChimeSDKMessagingClientTypes.ExpirationSettings.self, forKey: .expirationSettings)
+        expirationSettings = expirationSettingsDecoded
+    }
+}
+
+extension PutChannelExpirationSettingsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutChannelExpirationSettingsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PutChannelExpirationSettingsOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutChannelExpirationSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: PutChannelExpirationSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.channelArn = output.channelArn
+            self.expirationSettings = output.expirationSettings
+        } else {
+            self.channelArn = nil
+            self.expirationSettings = nil
+        }
+    }
+}
+
+public struct PutChannelExpirationSettingsOutputResponse: Swift.Equatable {
+    /// The channel ARN.
+    public var channelArn: Swift.String?
+    /// Settings that control the interval after which a channel is deleted.
+    public var expirationSettings: ChimeSDKMessagingClientTypes.ExpirationSettings?
+
+    public init (
+        channelArn: Swift.String? = nil,
+        expirationSettings: ChimeSDKMessagingClientTypes.ExpirationSettings? = nil
+    )
+    {
+        self.channelArn = channelArn
+        self.expirationSettings = expirationSettings
+    }
+}
+
+struct PutChannelExpirationSettingsOutputResponseBody: Swift.Equatable {
+    let channelArn: Swift.String?
+    let expirationSettings: ChimeSDKMessagingClientTypes.ExpirationSettings?
+}
+
+extension PutChannelExpirationSettingsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channelArn = "ChannelArn"
+        case expirationSettings = "ExpirationSettings"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let channelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelArn)
+        channelArn = channelArnDecoded
+        let expirationSettingsDecoded = try containerValues.decodeIfPresent(ChimeSDKMessagingClientTypes.ExpirationSettings.self, forKey: .expirationSettings)
+        expirationSettings = expirationSettingsDecoded
+    }
+}
+
 extension PutChannelMembershipPreferencesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case preferences = "Preferences"
@@ -8352,10 +8855,10 @@ public struct PutChannelMembershipPreferencesInput: Swift.Equatable {
     /// The ARN of the channel.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserARN of the user making the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
-    /// The AppInstanceUserArn of the member setting the preferences.
+    /// The ARN of the member setting the preferences.
     /// This member is required.
     public var memberArn: Swift.String?
     /// The channel membership preferences of an AppInstanceUser .
@@ -8487,6 +8990,160 @@ extension PutChannelMembershipPreferencesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension PutMessagingStreamingConfigurationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamingConfigurations = "StreamingConfigurations"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let streamingConfigurations = streamingConfigurations {
+            var streamingConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .streamingConfigurations)
+            for streamingconfiguration0 in streamingConfigurations {
+                try streamingConfigurationsContainer.encode(streamingconfiguration0)
+            }
+        }
+    }
+}
+
+extension PutMessagingStreamingConfigurationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let appInstanceArn = appInstanceArn else {
+            return nil
+        }
+        return "/app-instances/\(appInstanceArn.urlPercentEncoding())/streaming-configurations"
+    }
+}
+
+public struct PutMessagingStreamingConfigurationsInput: Swift.Equatable {
+    /// The ARN of the streaming configuration.
+    /// This member is required.
+    public var appInstanceArn: Swift.String?
+    /// The streaming configurations.
+    /// This member is required.
+    public var streamingConfigurations: [ChimeSDKMessagingClientTypes.StreamingConfiguration]?
+
+    public init (
+        appInstanceArn: Swift.String? = nil,
+        streamingConfigurations: [ChimeSDKMessagingClientTypes.StreamingConfiguration]? = nil
+    )
+    {
+        self.appInstanceArn = appInstanceArn
+        self.streamingConfigurations = streamingConfigurations
+    }
+}
+
+struct PutMessagingStreamingConfigurationsInputBody: Swift.Equatable {
+    let streamingConfigurations: [ChimeSDKMessagingClientTypes.StreamingConfiguration]?
+}
+
+extension PutMessagingStreamingConfigurationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamingConfigurations = "StreamingConfigurations"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamingConfigurationsContainer = try containerValues.decodeIfPresent([ChimeSDKMessagingClientTypes.StreamingConfiguration?].self, forKey: .streamingConfigurations)
+        var streamingConfigurationsDecoded0:[ChimeSDKMessagingClientTypes.StreamingConfiguration]? = nil
+        if let streamingConfigurationsContainer = streamingConfigurationsContainer {
+            streamingConfigurationsDecoded0 = [ChimeSDKMessagingClientTypes.StreamingConfiguration]()
+            for structure0 in streamingConfigurationsContainer {
+                if let structure0 = structure0 {
+                    streamingConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        streamingConfigurations = streamingConfigurationsDecoded0
+    }
+}
+
+extension PutMessagingStreamingConfigurationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutMessagingStreamingConfigurationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PutMessagingStreamingConfigurationsOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case notFoundException(NotFoundException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutMessagingStreamingConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: PutMessagingStreamingConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.streamingConfigurations = output.streamingConfigurations
+        } else {
+            self.streamingConfigurations = nil
+        }
+    }
+}
+
+public struct PutMessagingStreamingConfigurationsOutputResponse: Swift.Equatable {
+    /// The requested streaming configurations.
+    public var streamingConfigurations: [ChimeSDKMessagingClientTypes.StreamingConfiguration]?
+
+    public init (
+        streamingConfigurations: [ChimeSDKMessagingClientTypes.StreamingConfiguration]? = nil
+    )
+    {
+        self.streamingConfigurations = streamingConfigurations
+    }
+}
+
+struct PutMessagingStreamingConfigurationsOutputResponseBody: Swift.Equatable {
+    let streamingConfigurations: [ChimeSDKMessagingClientTypes.StreamingConfiguration]?
+}
+
+extension PutMessagingStreamingConfigurationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamingConfigurations = "StreamingConfigurations"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamingConfigurationsContainer = try containerValues.decodeIfPresent([ChimeSDKMessagingClientTypes.StreamingConfiguration?].self, forKey: .streamingConfigurations)
+        var streamingConfigurationsDecoded0:[ChimeSDKMessagingClientTypes.StreamingConfiguration]? = nil
+        if let streamingConfigurationsContainer = streamingConfigurationsContainer {
+            streamingConfigurationsDecoded0 = [ChimeSDKMessagingClientTypes.StreamingConfiguration]()
+            for structure0 in streamingConfigurationsContainer {
+                if let structure0 = structure0 {
+                    streamingConfigurationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        streamingConfigurations = streamingConfigurationsDecoded0
+    }
+}
+
 extension RedactChannelMessageInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case subChannelId = "SubChannelId"
@@ -8536,7 +9193,7 @@ public struct RedactChannelMessageInput: Swift.Equatable {
     /// The ARN of the channel containing the messages that you want to redact.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The ID of the message being redacted.
@@ -9066,13 +9723,14 @@ extension ChimeSDKMessagingClientTypes {
 
 extension SendChannelMessageInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SendChannelMessageInput(channelArn: \(Swift.String(describing: channelArn)), chimeBearer: \(Swift.String(describing: chimeBearer)), messageAttributes: \(Swift.String(describing: messageAttributes)), persistence: \(Swift.String(describing: persistence)), pushNotification: \(Swift.String(describing: pushNotification)), subChannelId: \(Swift.String(describing: subChannelId)), type: \(Swift.String(describing: type)), clientRequestToken: \"CONTENT_REDACTED\", content: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\")"}
+        "SendChannelMessageInput(channelArn: \(Swift.String(describing: channelArn)), chimeBearer: \(Swift.String(describing: chimeBearer)), messageAttributes: \(Swift.String(describing: messageAttributes)), persistence: \(Swift.String(describing: persistence)), pushNotification: \(Swift.String(describing: pushNotification)), subChannelId: \(Swift.String(describing: subChannelId)), type: \(Swift.String(describing: type)), clientRequestToken: \"CONTENT_REDACTED\", content: \"CONTENT_REDACTED\", contentType: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\")"}
 }
 
 extension SendChannelMessageInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken = "ClientRequestToken"
         case content = "Content"
+        case contentType = "ContentType"
         case messageAttributes = "MessageAttributes"
         case metadata = "Metadata"
         case persistence = "Persistence"
@@ -9088,6 +9746,9 @@ extension SendChannelMessageInput: Swift.Encodable {
         }
         if let content = self.content {
             try encodeContainer.encode(content, forKey: .content)
+        }
+        if let contentType = self.contentType {
+            try encodeContainer.encode(contentType, forKey: .contentType)
         }
         if let messageAttributes = messageAttributes {
             var messageAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .messageAttributes)
@@ -9136,7 +9797,7 @@ public struct SendChannelMessageInput: Swift.Equatable {
     /// The ARN of the channel.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The Idempotency token for each client request.
@@ -9145,6 +9806,8 @@ public struct SendChannelMessageInput: Swift.Equatable {
     /// The content of the message.
     /// This member is required.
     public var content: Swift.String?
+    /// The content type of the channel message.
+    public var contentType: Swift.String?
     /// The attributes for the message, used for message filtering along with a FilterRule defined in the PushNotificationPreferences.
     public var messageAttributes: [Swift.String:ChimeSDKMessagingClientTypes.MessageAttributeValue]?
     /// The optional metadata for each message.
@@ -9165,6 +9828,7 @@ public struct SendChannelMessageInput: Swift.Equatable {
         chimeBearer: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
         content: Swift.String? = nil,
+        contentType: Swift.String? = nil,
         messageAttributes: [Swift.String:ChimeSDKMessagingClientTypes.MessageAttributeValue]? = nil,
         metadata: Swift.String? = nil,
         persistence: ChimeSDKMessagingClientTypes.ChannelMessagePersistenceType? = nil,
@@ -9177,6 +9841,7 @@ public struct SendChannelMessageInput: Swift.Equatable {
         self.chimeBearer = chimeBearer
         self.clientRequestToken = clientRequestToken
         self.content = content
+        self.contentType = contentType
         self.messageAttributes = messageAttributes
         self.metadata = metadata
         self.persistence = persistence
@@ -9195,12 +9860,14 @@ struct SendChannelMessageInputBody: Swift.Equatable {
     let pushNotification: ChimeSDKMessagingClientTypes.PushNotificationConfiguration?
     let messageAttributes: [Swift.String:ChimeSDKMessagingClientTypes.MessageAttributeValue]?
     let subChannelId: Swift.String?
+    let contentType: Swift.String?
 }
 
 extension SendChannelMessageInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken = "ClientRequestToken"
         case content = "Content"
+        case contentType = "ContentType"
         case messageAttributes = "MessageAttributes"
         case metadata = "Metadata"
         case persistence = "Persistence"
@@ -9236,6 +9903,8 @@ extension SendChannelMessageInputBody: Swift.Decodable {
         messageAttributes = messageAttributesDecoded0
         let subChannelIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subChannelId)
         subChannelId = subChannelIdDecoded
+        let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
+        contentType = contentTypeDecoded
     }
 }
 
@@ -9496,6 +10165,53 @@ extension ChimeSDKMessagingClientTypes {
             self = SortOrder(rawValue: rawValue) ?? SortOrder.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ChimeSDKMessagingClientTypes.StreamingConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataType = "DataType"
+        case resourceArn = "ResourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataType = self.dataType {
+            try encodeContainer.encode(dataType.rawValue, forKey: .dataType)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataTypeDecoded = try containerValues.decodeIfPresent(ChimeSDKMessagingClientTypes.MessagingDataType.self, forKey: .dataType)
+        dataType = dataTypeDecoded
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+    }
+}
+
+extension ChimeSDKMessagingClientTypes {
+    /// The configuration for connecting a messaging stream to Amazon Kinesis.
+    public struct StreamingConfiguration: Swift.Equatable {
+        /// The data type of the configuration.
+        /// This member is required.
+        public var dataType: ChimeSDKMessagingClientTypes.MessagingDataType?
+        /// The ARN of the resource in the configuration.
+        /// This member is required.
+        public var resourceArn: Swift.String?
+
+        public init (
+            dataType: ChimeSDKMessagingClientTypes.MessagingDataType? = nil,
+            resourceArn: Swift.String? = nil
+        )
+        {
+            self.dataType = dataType
+            self.resourceArn = resourceArn
+        }
+    }
+
 }
 
 extension ChimeSDKMessagingClientTypes.SubChannelSummary: Swift.Codable {
@@ -10179,7 +10895,7 @@ public struct UpdateChannelInput: Swift.Equatable {
     /// The ARN of the channel.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The metadata for the update request.
@@ -10231,12 +10947,13 @@ extension UpdateChannelInputBody: Swift.Decodable {
 
 extension UpdateChannelMessageInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateChannelMessageInput(channelArn: \(Swift.String(describing: channelArn)), chimeBearer: \(Swift.String(describing: chimeBearer)), messageId: \(Swift.String(describing: messageId)), subChannelId: \(Swift.String(describing: subChannelId)), content: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\")"}
+        "UpdateChannelMessageInput(channelArn: \(Swift.String(describing: channelArn)), chimeBearer: \(Swift.String(describing: chimeBearer)), messageId: \(Swift.String(describing: messageId)), subChannelId: \(Swift.String(describing: subChannelId)), content: \"CONTENT_REDACTED\", contentType: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateChannelMessageInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case content = "Content"
+        case contentType = "ContentType"
         case metadata = "Metadata"
         case subChannelId = "SubChannelId"
     }
@@ -10245,6 +10962,9 @@ extension UpdateChannelMessageInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let content = self.content {
             try encodeContainer.encode(content, forKey: .content)
+        }
+        if let contentType = self.contentType {
+            try encodeContainer.encode(contentType, forKey: .contentType)
         }
         if let metadata = self.metadata {
             try encodeContainer.encode(metadata, forKey: .metadata)
@@ -10281,11 +11001,14 @@ public struct UpdateChannelMessageInput: Swift.Equatable {
     /// The ARN of the channel.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The content of the message being updated.
+    /// This member is required.
     public var content: Swift.String?
+    /// The content type of the channel message.
+    public var contentType: Swift.String?
     /// The ID string of the message being updated.
     /// This member is required.
     public var messageId: Swift.String?
@@ -10298,6 +11021,7 @@ public struct UpdateChannelMessageInput: Swift.Equatable {
         channelArn: Swift.String? = nil,
         chimeBearer: Swift.String? = nil,
         content: Swift.String? = nil,
+        contentType: Swift.String? = nil,
         messageId: Swift.String? = nil,
         metadata: Swift.String? = nil,
         subChannelId: Swift.String? = nil
@@ -10306,6 +11030,7 @@ public struct UpdateChannelMessageInput: Swift.Equatable {
         self.channelArn = channelArn
         self.chimeBearer = chimeBearer
         self.content = content
+        self.contentType = contentType
         self.messageId = messageId
         self.metadata = metadata
         self.subChannelId = subChannelId
@@ -10316,11 +11041,13 @@ struct UpdateChannelMessageInputBody: Swift.Equatable {
     let content: Swift.String?
     let metadata: Swift.String?
     let subChannelId: Swift.String?
+    let contentType: Swift.String?
 }
 
 extension UpdateChannelMessageInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case content = "Content"
+        case contentType = "ContentType"
         case metadata = "Metadata"
         case subChannelId = "SubChannelId"
     }
@@ -10333,6 +11060,8 @@ extension UpdateChannelMessageInputBody: Swift.Decodable {
         metadata = metadataDecoded
         let subChannelIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subChannelId)
         subChannelId = subChannelIdDecoded
+        let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
+        contentType = contentTypeDecoded
     }
 }
 
@@ -10552,7 +11281,7 @@ public struct UpdateChannelReadMarkerInput: Swift.Equatable {
     /// The ARN of the channel.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// The AppInstanceUserArn of the user that makes the API call.
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call.
     /// This member is required.
     public var chimeBearer: Swift.String?
     /// The ID of the SubChannel in the request.

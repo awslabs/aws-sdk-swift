@@ -345,7 +345,7 @@ extension IoTTwinMakerClientTypes.BundleInformation: Swift.Codable {
 }
 
 extension IoTTwinMakerClientTypes {
-    /// Information about pricing bundle.
+    /// Information about the pricing bundle.
     public struct BundleInformation: Swift.Equatable {
         /// The bundle names.
         /// This member is required.
@@ -489,7 +489,7 @@ extension IoTTwinMakerClientTypes.ComponentPropertyGroupRequest: Swift.Codable {
 }
 
 extension IoTTwinMakerClientTypes {
-    ///
+    /// The component property group request.
     public struct ComponentPropertyGroupRequest: Swift.Equatable {
         /// The group type.
         public var groupType: IoTTwinMakerClientTypes.GroupType?
@@ -1745,6 +1745,7 @@ extension CreateSceneInput: Swift.Encodable {
         case contentLocation
         case description
         case sceneId
+        case sceneMetadata
         case tags
     }
 
@@ -1764,6 +1765,12 @@ extension CreateSceneInput: Swift.Encodable {
         }
         if let sceneId = self.sceneId {
             try encodeContainer.encode(sceneId, forKey: .sceneId)
+        }
+        if let sceneMetadata = sceneMetadata {
+            var sceneMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sceneMetadata)
+            for (dictKey0, sceneMetadataMap0) in sceneMetadata {
+                try sceneMetadataContainer.encode(sceneMetadataMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -1794,6 +1801,8 @@ public struct CreateSceneInput: Swift.Equatable {
     /// The ID of the scene.
     /// This member is required.
     public var sceneId: Swift.String?
+    /// The request metadata.
+    public var sceneMetadata: [Swift.String:Swift.String]?
     /// Metadata that you can use to manage the scene.
     public var tags: [Swift.String:Swift.String]?
     /// The ID of the workspace that contains the scene.
@@ -1805,6 +1814,7 @@ public struct CreateSceneInput: Swift.Equatable {
         contentLocation: Swift.String? = nil,
         description: Swift.String? = nil,
         sceneId: Swift.String? = nil,
+        sceneMetadata: [Swift.String:Swift.String]? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         workspaceId: Swift.String? = nil
     )
@@ -1813,6 +1823,7 @@ public struct CreateSceneInput: Swift.Equatable {
         self.contentLocation = contentLocation
         self.description = description
         self.sceneId = sceneId
+        self.sceneMetadata = sceneMetadata
         self.tags = tags
         self.workspaceId = workspaceId
     }
@@ -1824,6 +1835,7 @@ struct CreateSceneInputBody: Swift.Equatable {
     let description: Swift.String?
     let capabilities: [Swift.String]?
     let tags: [Swift.String:Swift.String]?
+    let sceneMetadata: [Swift.String:Swift.String]?
 }
 
 extension CreateSceneInputBody: Swift.Decodable {
@@ -1832,6 +1844,7 @@ extension CreateSceneInputBody: Swift.Decodable {
         case contentLocation
         case description
         case sceneId
+        case sceneMetadata
         case tags
     }
 
@@ -1865,6 +1878,17 @@ extension CreateSceneInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let sceneMetadataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .sceneMetadata)
+        var sceneMetadataDecoded0: [Swift.String:Swift.String]? = nil
+        if let sceneMetadataContainer = sceneMetadataContainer {
+            sceneMetadataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, scenemetadatavalue0) in sceneMetadataContainer {
+                if let scenemetadatavalue0 = scenemetadatavalue0 {
+                    sceneMetadataDecoded0?[key0] = scenemetadatavalue0
+                }
+            }
+        }
+        sceneMetadata = sceneMetadataDecoded0
     }
 }
 
@@ -1986,15 +2010,15 @@ extension CreateSyncJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateSyncJobInput: Swift.Equatable {
-    /// The SyncJob IAM role. This IAM role is used by the sync job to read from the syncSource, and create, update or delete the corresponding resources.
+    /// The SyncJob IAM role. This IAM role is used by the SyncJob to read from the syncSource, and create, update, or delete the corresponding resources.
     /// This member is required.
     public var syncRole: Swift.String?
-    /// The sync source. Currently the only supported syncSoucre is SITEWISE .
+    /// The sync source. Currently the only supported syncSoource is SITEWISE .
     /// This member is required.
     public var syncSource: Swift.String?
     /// The SyncJob tags.
     public var tags: [Swift.String:Swift.String]?
-    /// The workspace Id.
+    /// The workspace ID.
     /// This member is required.
     public var workspaceId: Swift.String?
 
@@ -2930,10 +2954,10 @@ extension DeleteSyncJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteSyncJobInput: Swift.Equatable {
-    /// The sync source. Currently the only supported syncSoucre is SITEWISE .
+    /// The sync source. Currently the only supported syncSource is SITEWISE .
     /// This member is required.
     public var syncSource: Swift.String?
-    /// The workspace Id.
+    /// The workspace ID.
     /// This member is required.
     public var workspaceId: Swift.String?
 
@@ -3868,7 +3892,7 @@ public struct GetComponentTypeOutputResponse: Swift.Equatable {
     public var propertyGroups: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupResponse]?
     /// The current status of the component type.
     public var status: IoTTwinMakerClientTypes.Status?
-    /// The syncSource of the sync job, if this entity was created by a sync job.
+    /// The syncSource of the SyncJob, if this entity was created by a SyncJob.
     public var syncSource: Swift.String?
     /// The date and time when the component was last updated.
     /// This member is required.
@@ -5049,7 +5073,9 @@ extension GetSceneOutputResponse: ClientRuntime.HttpResponseBinding {
             self.contentLocation = output.contentLocation
             self.creationDateTime = output.creationDateTime
             self.description = output.description
+            self.generatedSceneMetadata = output.generatedSceneMetadata
             self.sceneId = output.sceneId
+            self.sceneMetadata = output.sceneMetadata
             self.updateDateTime = output.updateDateTime
             self.workspaceId = output.workspaceId
         } else {
@@ -5058,7 +5084,9 @@ extension GetSceneOutputResponse: ClientRuntime.HttpResponseBinding {
             self.contentLocation = nil
             self.creationDateTime = nil
             self.description = nil
+            self.generatedSceneMetadata = nil
             self.sceneId = nil
+            self.sceneMetadata = nil
             self.updateDateTime = nil
             self.workspaceId = nil
         }
@@ -5079,9 +5107,13 @@ public struct GetSceneOutputResponse: Swift.Equatable {
     public var creationDateTime: ClientRuntime.Date?
     /// The description of the scene.
     public var description: Swift.String?
+    /// The generated scene metadata.
+    public var generatedSceneMetadata: [Swift.String:Swift.String]?
     /// The ID of the scene.
     /// This member is required.
     public var sceneId: Swift.String?
+    /// The response metadata.
+    public var sceneMetadata: [Swift.String:Swift.String]?
     /// The date and time when the scene was last updated.
     /// This member is required.
     public var updateDateTime: ClientRuntime.Date?
@@ -5095,7 +5127,9 @@ public struct GetSceneOutputResponse: Swift.Equatable {
         contentLocation: Swift.String? = nil,
         creationDateTime: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        generatedSceneMetadata: [Swift.String:Swift.String]? = nil,
         sceneId: Swift.String? = nil,
+        sceneMetadata: [Swift.String:Swift.String]? = nil,
         updateDateTime: ClientRuntime.Date? = nil,
         workspaceId: Swift.String? = nil
     )
@@ -5105,7 +5139,9 @@ public struct GetSceneOutputResponse: Swift.Equatable {
         self.contentLocation = contentLocation
         self.creationDateTime = creationDateTime
         self.description = description
+        self.generatedSceneMetadata = generatedSceneMetadata
         self.sceneId = sceneId
+        self.sceneMetadata = sceneMetadata
         self.updateDateTime = updateDateTime
         self.workspaceId = workspaceId
     }
@@ -5120,6 +5156,8 @@ struct GetSceneOutputResponseBody: Swift.Equatable {
     let updateDateTime: ClientRuntime.Date?
     let description: Swift.String?
     let capabilities: [Swift.String]?
+    let sceneMetadata: [Swift.String:Swift.String]?
+    let generatedSceneMetadata: [Swift.String:Swift.String]?
 }
 
 extension GetSceneOutputResponseBody: Swift.Decodable {
@@ -5129,7 +5167,9 @@ extension GetSceneOutputResponseBody: Swift.Decodable {
         case contentLocation
         case creationDateTime
         case description
+        case generatedSceneMetadata
         case sceneId
+        case sceneMetadata
         case updateDateTime
         case workspaceId
     }
@@ -5161,6 +5201,28 @@ extension GetSceneOutputResponseBody: Swift.Decodable {
             }
         }
         capabilities = capabilitiesDecoded0
+        let sceneMetadataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .sceneMetadata)
+        var sceneMetadataDecoded0: [Swift.String:Swift.String]? = nil
+        if let sceneMetadataContainer = sceneMetadataContainer {
+            sceneMetadataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, scenemetadatavalue0) in sceneMetadataContainer {
+                if let scenemetadatavalue0 = scenemetadatavalue0 {
+                    sceneMetadataDecoded0?[key0] = scenemetadatavalue0
+                }
+            }
+        }
+        sceneMetadata = sceneMetadataDecoded0
+        let generatedSceneMetadataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .generatedSceneMetadata)
+        var generatedSceneMetadataDecoded0: [Swift.String:Swift.String]? = nil
+        if let generatedSceneMetadataContainer = generatedSceneMetadataContainer {
+            generatedSceneMetadataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, scenemetadatavalue0) in generatedSceneMetadataContainer {
+                if let scenemetadatavalue0 = scenemetadatavalue0 {
+                    generatedSceneMetadataDecoded0?[key0] = scenemetadatavalue0
+                }
+            }
+        }
+        generatedSceneMetadata = generatedSceneMetadataDecoded0
     }
 }
 
@@ -5187,10 +5249,10 @@ extension GetSyncJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetSyncJobInput: Swift.Equatable {
-    /// The sync soucre. Currently the only supported syncSoucre is SITEWISE .
+    /// The sync source. Currently the only supported syncSource is SITEWISE .
     /// This member is required.
     public var syncSource: Swift.String?
-    /// The workspace Id.
+    /// The workspace ID.
     public var workspaceId: Swift.String?
 
     public init (
@@ -5282,7 +5344,7 @@ public struct GetSyncJobOutputResponse: Swift.Equatable {
     /// The sync IAM role.
     /// This member is required.
     public var syncRole: Swift.String?
-    /// The sync soucre. Currently the only supported syncSoucre is SITEWISE .
+    /// The sync soucre. Currently the only supported syncSource is SITEWISE .
     /// This member is required.
     public var syncSource: Swift.String?
     /// The update date and time.
@@ -6554,13 +6616,19 @@ extension ListSyncResourcesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListSyncResourcesInput: Swift.Equatable {
-    /// A list of objects that filter the request.
+    /// A list of objects that filter the request. The following filter combinations are supported:
+    ///
+    /// * Filter with state
+    ///
+    /// * Filter with ResourceType and ResourceId
+    ///
+    /// * Filter with ResourceType and ExternalId
     public var filters: [IoTTwinMakerClientTypes.SyncResourceFilter]?
     /// The maximum number of results to return at one time. The default is 50. Valid Range: Minimum value of 0. Maximum value of 200.
     public var maxResults: Swift.Int?
     /// The string that specifies the next page of results.
     public var nextToken: Swift.String?
-    /// The sync soucre. Currently the only supported syncSoucre is SITEWISE .
+    /// The sync source. Currently the only supported syncSource is SITEWISE .
     /// This member is required.
     public var syncSource: Swift.String?
     /// The ID of the workspace that contains the sync job.
@@ -7297,7 +7365,7 @@ extension IoTTwinMakerClientTypes {
         /// The set date and time for updating a pricing plan.
         /// This member is required.
         public var updateDateTime: ClientRuntime.Date?
-        /// The update reason, for changing a pricing plan.
+        /// The update reason for changing a pricing plan.
         /// This member is required.
         public var updateReason: IoTTwinMakerClientTypes.UpdateReason?
 
@@ -7876,7 +7944,7 @@ extension IoTTwinMakerClientTypes.PropertyLatestValue: Swift.Codable {
 extension IoTTwinMakerClientTypes {
     /// The latest value of the property.
     public struct PropertyLatestValue: Swift.Equatable {
-        /// An object that specifies information about a property.>
+        /// An object that specifies information about a property.
         /// This member is required.
         public var propertyReference: IoTTwinMakerClientTypes.EntityPropertyReference?
         /// The value of the property.
@@ -8951,11 +9019,11 @@ extension IoTTwinMakerClientTypes {
     public enum SyncResourceFilter: Swift.Equatable {
         /// The sync resource filter's state.
         case state(IoTTwinMakerClientTypes.SyncResourceState)
-        /// The sync resource filter resoucre type
+        /// The sync resource filter resource type
         case resourcetype(IoTTwinMakerClientTypes.SyncResourceType)
-        /// The sync resource filter resource Id.
+        /// The sync resource filter resource ID.
         case resourceid(Swift.String)
-        /// The external Id.
+        /// The external ID.
         case externalid(Swift.String)
         case sdkUnknown(Swift.String)
     }
@@ -9094,9 +9162,9 @@ extension IoTTwinMakerClientTypes.SyncResourceSummary: Swift.Codable {
 extension IoTTwinMakerClientTypes {
     /// The sync resource summary.
     public struct SyncResourceSummary: Swift.Equatable {
-        /// The external Id.
+        /// The external ID.
         public var externalId: Swift.String?
-        /// The resource Id.
+        /// The resource ID.
         public var resourceId: Swift.String?
         /// The resource type.
         public var resourceType: IoTTwinMakerClientTypes.SyncResourceType?
@@ -9654,7 +9722,7 @@ public struct UpdateComponentTypeInput: Swift.Equatable {
     public var isSingleton: Swift.Bool?
     /// An object that maps strings to the property definitions in the component type. Each string in the mapping must be unique to this object.
     public var propertyDefinitions: [Swift.String:IoTTwinMakerClientTypes.PropertyDefinitionRequest]?
-    /// The property groups
+    /// The property groups.
     public var propertyGroups: [Swift.String:IoTTwinMakerClientTypes.PropertyGroupRequest]?
     /// The ID of the workspace.
     /// This member is required.
@@ -10263,6 +10331,7 @@ extension UpdateSceneInput: Swift.Encodable {
         case capabilities
         case contentLocation
         case description
+        case sceneMetadata
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -10278,6 +10347,12 @@ extension UpdateSceneInput: Swift.Encodable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let sceneMetadata = sceneMetadata {
+            var sceneMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sceneMetadata)
+            for (dictKey0, sceneMetadataMap0) in sceneMetadata {
+                try sceneMetadataContainer.encode(sceneMetadataMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
     }
 }
@@ -10304,6 +10379,8 @@ public struct UpdateSceneInput: Swift.Equatable {
     /// The ID of the scene.
     /// This member is required.
     public var sceneId: Swift.String?
+    /// The scene metadata.
+    public var sceneMetadata: [Swift.String:Swift.String]?
     /// The ID of the workspace that contains the scene.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -10313,6 +10390,7 @@ public struct UpdateSceneInput: Swift.Equatable {
         contentLocation: Swift.String? = nil,
         description: Swift.String? = nil,
         sceneId: Swift.String? = nil,
+        sceneMetadata: [Swift.String:Swift.String]? = nil,
         workspaceId: Swift.String? = nil
     )
     {
@@ -10320,6 +10398,7 @@ public struct UpdateSceneInput: Swift.Equatable {
         self.contentLocation = contentLocation
         self.description = description
         self.sceneId = sceneId
+        self.sceneMetadata = sceneMetadata
         self.workspaceId = workspaceId
     }
 }
@@ -10328,6 +10407,7 @@ struct UpdateSceneInputBody: Swift.Equatable {
     let contentLocation: Swift.String?
     let description: Swift.String?
     let capabilities: [Swift.String]?
+    let sceneMetadata: [Swift.String:Swift.String]?
 }
 
 extension UpdateSceneInputBody: Swift.Decodable {
@@ -10335,6 +10415,7 @@ extension UpdateSceneInputBody: Swift.Decodable {
         case capabilities
         case contentLocation
         case description
+        case sceneMetadata
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -10354,6 +10435,17 @@ extension UpdateSceneInputBody: Swift.Decodable {
             }
         }
         capabilities = capabilitiesDecoded0
+        let sceneMetadataContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .sceneMetadata)
+        var sceneMetadataDecoded0: [Swift.String:Swift.String]? = nil
+        if let sceneMetadataContainer = sceneMetadataContainer {
+            sceneMetadataDecoded0 = [Swift.String:Swift.String]()
+            for (key0, scenemetadatavalue0) in sceneMetadataContainer {
+                if let scenemetadatavalue0 = scenemetadatavalue0 {
+                    sceneMetadataDecoded0?[key0] = scenemetadatavalue0
+                }
+            }
+        }
+        sceneMetadata = sceneMetadataDecoded0
     }
 }
 

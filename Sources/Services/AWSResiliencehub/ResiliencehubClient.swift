@@ -234,13 +234,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<AddDraftAppVersionResourceMappingsOutputResponse, AddDraftAppVersionResourceMappingsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddDraftAppVersionResourceMappingsOutputResponse, AddDraftAppVersionResourceMappingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AddDraftAppVersionResourceMappingsOutputResponse, AddDraftAppVersionResourceMappingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddDraftAppVersionResourceMappingsOutputResponse, AddDraftAppVersionResourceMappingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddDraftAppVersionResourceMappingsOutputResponse, AddDraftAppVersionResourceMappingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Creates an AWS Resilience Hub application. An AWS Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a AWS Resilience Hub application, you provide an application name, resources from one or more–up to five–CloudFormation stacks, and an appropriate resiliency policy. After you create an AWS Resilience Hub application, you publish it so that you can run a resiliency assessment on it. You can then use recommendations from the assessment to improve resiliency by running another assessment, comparing results, and then iterating the process until you achieve your goals for recovery time objective (RTO) and recovery point objective (RPO).
+    /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an application name, resources from one or more–up to five–CloudFormation stacks, and an appropriate resiliency policy. After you create an Resilience Hub application, you publish it so that you can run a resiliency assessment on it. You can then use recommendations from the assessment to improve resiliency by running another assessment, comparing results, and then iterating the process until you achieve your goals for recovery time objective (RTO) and recovery point objective (RPO).
     public func createApp(input: CreateAppInput) async throws -> CreateAppOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -277,13 +277,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateAppOutputResponse, CreateAppOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppOutputResponse, CreateAppOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAppOutputResponse, CreateAppOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppOutputResponse, CreateAppOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppOutputResponse, CreateAppOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Creates a new Application Component in the AWS Resilience Hub application. This API updates the AWS Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the AWS Resilience Hub application using the PublishAppVersion API.
+    /// Creates a new Application Component in the Resilience Hub application. This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     public func createAppVersionAppComponent(input: CreateAppVersionAppComponentInput) async throws -> CreateAppVersionAppComponentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -320,17 +320,17 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateAppVersionAppComponentOutputResponse, CreateAppVersionAppComponentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppVersionAppComponentOutputResponse, CreateAppVersionAppComponentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAppVersionAppComponentOutputResponse, CreateAppVersionAppComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppVersionAppComponentOutputResponse, CreateAppVersionAppComponentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppVersionAppComponentOutputResponse, CreateAppVersionAppComponentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Adds a resource to the AWS Resilience Hub applicationand assigns it to the specified Application Components. If you specify a new Application Component, AWS Resilience Hub will automatically create the Application Component.
+    /// Adds a resource to the Resilience Hub application and assigns it to the specified Application Components. If you specify a new Application Component, Resilience Hub will automatically create the Application Component.
     ///
-    /// * This action has no effect outside AWS Resilience Hub.
+    /// * This action has no effect outside Resilience Hub.
     ///
-    /// * This API updates the AWS Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the AWS Resilience Hub application using the PublishAppVersion API.
+    /// * This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
     /// * To update application version with new physicalResourceID, you must call ResolveAppVersionResources API.
     public func createAppVersionResource(input: CreateAppVersionResourceInput) async throws -> CreateAppVersionResourceOutputResponse
@@ -369,13 +369,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateAppVersionResourceOutputResponse, CreateAppVersionResourceOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAppVersionResourceOutputResponse, CreateAppVersionResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateAppVersionResourceOutputResponse, CreateAppVersionResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAppVersionResourceOutputResponse, CreateAppVersionResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAppVersionResourceOutputResponse, CreateAppVersionResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Creates a new recommendation template for the AWS Resilience Hub application.
+    /// Creates a new recommendation template for the Resilience Hub application.
     public func createRecommendationTemplate(input: CreateRecommendationTemplateInput) async throws -> CreateRecommendationTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -412,8 +412,8 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateRecommendationTemplateOutputResponse, CreateRecommendationTemplateOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRecommendationTemplateOutputResponse, CreateRecommendationTemplateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateRecommendationTemplateOutputResponse, CreateRecommendationTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRecommendationTemplateOutputResponse, CreateRecommendationTemplateOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRecommendationTemplateOutputResponse, CreateRecommendationTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -455,13 +455,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateResiliencyPolicyOutputResponse, CreateResiliencyPolicyOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateResiliencyPolicyOutputResponse, CreateResiliencyPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateResiliencyPolicyOutputResponse, CreateResiliencyPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateResiliencyPolicyOutputResponse, CreateResiliencyPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateResiliencyPolicyOutputResponse, CreateResiliencyPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Deletes an AWS Resilience Hub application. This is a destructive action that can't be undone.
+    /// Deletes an Resilience Hub application. This is a destructive action that can't be undone.
     public func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -498,13 +498,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteAppOutputResponse, DeleteAppOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppOutputResponse, DeleteAppOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAppOutputResponse, DeleteAppOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppOutputResponse, DeleteAppOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppOutputResponse, DeleteAppOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Deletes an AWS Resilience Hub application assessment. This is a destructive action that can't be undone.
+    /// Deletes an Resilience Hub application assessment. This is a destructive action that can't be undone.
     public func deleteAppAssessment(input: DeleteAppAssessmentInput) async throws -> DeleteAppAssessmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -541,13 +541,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteAppAssessmentOutputResponse, DeleteAppAssessmentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppAssessmentOutputResponse, DeleteAppAssessmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAppAssessmentOutputResponse, DeleteAppAssessmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppAssessmentOutputResponse, DeleteAppAssessmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppAssessmentOutputResponse, DeleteAppAssessmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Deletes the input source and all of its imported resources from the AWS Resilience Hub application.
+    /// Deletes the input source and all of its imported resources from the Resilience Hub application.
     public func deleteAppInputSource(input: DeleteAppInputSourceInput) async throws -> DeleteAppInputSourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -584,15 +584,15 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteAppInputSourceOutputResponse, DeleteAppInputSourceOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppInputSourceOutputResponse, DeleteAppInputSourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAppInputSourceOutputResponse, DeleteAppInputSourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppInputSourceOutputResponse, DeleteAppInputSourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppInputSourceOutputResponse, DeleteAppInputSourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Deletes an Application Component from the AWS Resilience Hub application.
+    /// Deletes an Application Component from the Resilience Hub application.
     ///
-    /// * This API updates the AWS Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the AWS Resilience Hub application using the PublishAppVersion API.
+    /// * This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
     /// * You will not be able to delete an Application Component if it has resources associated with it.
     public func deleteAppVersionAppComponent(input: DeleteAppVersionAppComponentInput) async throws -> DeleteAppVersionAppComponentOutputResponse
@@ -631,19 +631,19 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteAppVersionAppComponentOutputResponse, DeleteAppVersionAppComponentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppVersionAppComponentOutputResponse, DeleteAppVersionAppComponentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAppVersionAppComponentOutputResponse, DeleteAppVersionAppComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppVersionAppComponentOutputResponse, DeleteAppVersionAppComponentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppVersionAppComponentOutputResponse, DeleteAppVersionAppComponentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Deletes a resource from the AWS Resilience Hub application.
+    /// Deletes a resource from the Resilience Hub application.
     ///
     /// * You can only delete a manually added resource. To exclude non-manually added resources, use the UpdateAppVersionResource API.
     ///
-    /// * This action has no effect outside AWS Resilience Hub.
+    /// * This action has no effect outside Resilience Hub.
     ///
-    /// * This API updates the AWS Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the AWS Resilience Hub application using the PublishAppVersion API.
+    /// * This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     public func deleteAppVersionResource(input: DeleteAppVersionResourceInput) async throws -> DeleteAppVersionResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -680,8 +680,8 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteAppVersionResourceOutputResponse, DeleteAppVersionResourceOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAppVersionResourceOutputResponse, DeleteAppVersionResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAppVersionResourceOutputResponse, DeleteAppVersionResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAppVersionResourceOutputResponse, DeleteAppVersionResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAppVersionResourceOutputResponse, DeleteAppVersionResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -723,8 +723,8 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteRecommendationTemplateOutputResponse, DeleteRecommendationTemplateOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRecommendationTemplateOutputResponse, DeleteRecommendationTemplateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteRecommendationTemplateOutputResponse, DeleteRecommendationTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRecommendationTemplateOutputResponse, DeleteRecommendationTemplateOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRecommendationTemplateOutputResponse, DeleteRecommendationTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -766,13 +766,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteResiliencyPolicyOutputResponse, DeleteResiliencyPolicyOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResiliencyPolicyOutputResponse, DeleteResiliencyPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteResiliencyPolicyOutputResponse, DeleteResiliencyPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResiliencyPolicyOutputResponse, DeleteResiliencyPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResiliencyPolicyOutputResponse, DeleteResiliencyPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Describes an AWS Resilience Hub application.
+    /// Describes an Resilience Hub application.
     public func describeApp(input: DescribeAppInput) async throws -> DescribeAppOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -801,13 +801,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeAppOutputResponse, DescribeAppOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppOutputResponse, DescribeAppOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAppOutputResponse, DescribeAppOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppOutputResponse, DescribeAppOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppOutputResponse, DescribeAppOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Describes an assessment for an AWS Resilience Hub application.
+    /// Describes an assessment for an Resilience Hub application.
     public func describeAppAssessment(input: DescribeAppAssessmentInput) async throws -> DescribeAppAssessmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -836,13 +836,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeAppAssessmentOutputResponse, DescribeAppAssessmentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppAssessmentOutputResponse, DescribeAppAssessmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAppAssessmentOutputResponse, DescribeAppAssessmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppAssessmentOutputResponse, DescribeAppAssessmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppAssessmentOutputResponse, DescribeAppAssessmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Describes the AWS Resilience Hub application version.
+    /// Describes the Resilience Hub application version.
     public func describeAppVersion(input: DescribeAppVersionInput) async throws -> DescribeAppVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -871,13 +871,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeAppVersionOutputResponse, DescribeAppVersionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppVersionOutputResponse, DescribeAppVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionOutputResponse, DescribeAppVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppVersionOutputResponse, DescribeAppVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionOutputResponse, DescribeAppVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Describes an Application Component in the AWS Resilience Hub application.
+    /// Describes an Application Component in the Resilience Hub application.
     public func describeAppVersionAppComponent(input: DescribeAppVersionAppComponentInput) async throws -> DescribeAppVersionAppComponentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -906,13 +906,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeAppVersionAppComponentOutputResponse, DescribeAppVersionAppComponentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppVersionAppComponentOutputResponse, DescribeAppVersionAppComponentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionAppComponentOutputResponse, DescribeAppVersionAppComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppVersionAppComponentOutputResponse, DescribeAppVersionAppComponentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionAppComponentOutputResponse, DescribeAppVersionAppComponentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Describes a resource of the AWS Resilience Hub application. This API accepts only one of the following parameters to descibe the resource:
+    /// Describes a resource of the Resilience Hub application. This API accepts only one of the following parameters to descibe the resource:
     ///
     /// * resourceName
     ///
@@ -947,8 +947,8 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeAppVersionResourceOutputResponse, DescribeAppVersionResourceOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppVersionResourceOutputResponse, DescribeAppVersionResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionResourceOutputResponse, DescribeAppVersionResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppVersionResourceOutputResponse, DescribeAppVersionResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionResourceOutputResponse, DescribeAppVersionResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -982,13 +982,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeAppVersionResourcesResolutionStatusOutputResponse, DescribeAppVersionResourcesResolutionStatusOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppVersionResourcesResolutionStatusOutputResponse, DescribeAppVersionResourcesResolutionStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionResourcesResolutionStatusOutputResponse, DescribeAppVersionResourcesResolutionStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppVersionResourcesResolutionStatusOutputResponse, DescribeAppVersionResourcesResolutionStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionResourcesResolutionStatusOutputResponse, DescribeAppVersionResourcesResolutionStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Describes details about an AWS Resilience Hub application.
+    /// Describes details about an Resilience Hub application.
     public func describeAppVersionTemplate(input: DescribeAppVersionTemplateInput) async throws -> DescribeAppVersionTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1017,8 +1017,8 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeAppVersionTemplateOutputResponse, DescribeAppVersionTemplateOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAppVersionTemplateOutputResponse, DescribeAppVersionTemplateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionTemplateOutputResponse, DescribeAppVersionTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAppVersionTemplateOutputResponse, DescribeAppVersionTemplateOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAppVersionTemplateOutputResponse, DescribeAppVersionTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1052,13 +1052,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeDraftAppVersionResourcesImportStatusOutputResponse, DescribeDraftAppVersionResourcesImportStatusOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeDraftAppVersionResourcesImportStatusOutputResponse, DescribeDraftAppVersionResourcesImportStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeDraftAppVersionResourcesImportStatusOutputResponse, DescribeDraftAppVersionResourcesImportStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeDraftAppVersionResourcesImportStatusOutputResponse, DescribeDraftAppVersionResourcesImportStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeDraftAppVersionResourcesImportStatusOutputResponse, DescribeDraftAppVersionResourcesImportStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Describes a specified resiliency policy for an AWS Resilience Hub application. The returned policy object includes creation time, data location constraints, the Amazon Resource Name (ARN) for the policy, tags, tier, and more.
+    /// Describes a specified resiliency policy for an Resilience Hub application. The returned policy object includes creation time, data location constraints, the Amazon Resource Name (ARN) for the policy, tags, tier, and more.
     public func describeResiliencyPolicy(input: DescribeResiliencyPolicyInput) async throws -> DescribeResiliencyPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1087,13 +1087,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeResiliencyPolicyOutputResponse, DescribeResiliencyPolicyOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeResiliencyPolicyOutputResponse, DescribeResiliencyPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeResiliencyPolicyOutputResponse, DescribeResiliencyPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeResiliencyPolicyOutputResponse, DescribeResiliencyPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeResiliencyPolicyOutputResponse, DescribeResiliencyPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Imports resources to AWS Resilience Hub application draft version from different input sources. For more information about the input sources supported by AWS Resilience Hub, see [Discover the structure and describe your Resilience Hub application](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html).
+    /// Imports resources to Resilience Hub application draft version from different input sources. For more information about the input sources supported by Resilience Hub, see [Discover the structure and describe your Resilience Hub application](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html).
     public func importResourcesToDraftAppVersion(input: ImportResourcesToDraftAppVersionInput) async throws -> ImportResourcesToDraftAppVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1122,13 +1122,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ImportResourcesToDraftAppVersionOutputResponse, ImportResourcesToDraftAppVersionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ImportResourcesToDraftAppVersionOutputResponse, ImportResourcesToDraftAppVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ImportResourcesToDraftAppVersionOutputResponse, ImportResourcesToDraftAppVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ImportResourcesToDraftAppVersionOutputResponse, ImportResourcesToDraftAppVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ImportResourcesToDraftAppVersionOutputResponse, ImportResourcesToDraftAppVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Lists the alarm recommendations for an AWS Resilience Hub application.
+    /// Lists the alarm recommendations for an Resilience Hub application.
     public func listAlarmRecommendations(input: ListAlarmRecommendationsInput) async throws -> ListAlarmRecommendationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1157,13 +1157,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListAlarmRecommendationsOutputResponse, ListAlarmRecommendationsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAlarmRecommendationsOutputResponse, ListAlarmRecommendationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAlarmRecommendationsOutputResponse, ListAlarmRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAlarmRecommendationsOutputResponse, ListAlarmRecommendationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAlarmRecommendationsOutputResponse, ListAlarmRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Lists the assessments for an AWS Resilience Hub application. You can use request parameters to refine the results for the response object.
+    /// Lists the assessments for an Resilience Hub application. You can use request parameters to refine the results for the response object.
     public func listAppAssessments(input: ListAppAssessmentsInput) async throws -> ListAppAssessmentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1190,13 +1190,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListAppAssessmentsOutputResponse, ListAppAssessmentsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppAssessmentsOutputResponse, ListAppAssessmentsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAppAssessmentsOutputResponse, ListAppAssessmentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppAssessmentsOutputResponse, ListAppAssessmentsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppAssessmentsOutputResponse, ListAppAssessmentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Lists the compliances for an AWS Resilience Hub Application Component.
+    /// Lists the compliances for an Resilience Hub Application Component.
     public func listAppComponentCompliances(input: ListAppComponentCompliancesInput) async throws -> ListAppComponentCompliancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1225,13 +1225,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListAppComponentCompliancesOutputResponse, ListAppComponentCompliancesOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppComponentCompliancesOutputResponse, ListAppComponentCompliancesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAppComponentCompliancesOutputResponse, ListAppComponentCompliancesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppComponentCompliancesOutputResponse, ListAppComponentCompliancesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppComponentCompliancesOutputResponse, ListAppComponentCompliancesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Lists the recommendations for an AWS Resilience Hub Application Component.
+    /// Lists the recommendations for an Resilience Hub Application Component.
     public func listAppComponentRecommendations(input: ListAppComponentRecommendationsInput) async throws -> ListAppComponentRecommendationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1260,13 +1260,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListAppComponentRecommendationsOutputResponse, ListAppComponentRecommendationsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppComponentRecommendationsOutputResponse, ListAppComponentRecommendationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAppComponentRecommendationsOutputResponse, ListAppComponentRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppComponentRecommendationsOutputResponse, ListAppComponentRecommendationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppComponentRecommendationsOutputResponse, ListAppComponentRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Lists all the input sources of the AWS Resilience Hub application. For more information about the input sources supported by AWS Resilience Hub, see [Discover the structure and describe your Resilience Hub application](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html).
+    /// Lists all the input sources of the Resilience Hub application. For more information about the input sources supported by Resilience Hub, see [Discover the structure and describe your Resilience Hub application](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html).
     public func listAppInputSources(input: ListAppInputSourcesInput) async throws -> ListAppInputSourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1295,13 +1295,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListAppInputSourcesOutputResponse, ListAppInputSourcesOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppInputSourcesOutputResponse, ListAppInputSourcesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAppInputSourcesOutputResponse, ListAppInputSourcesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppInputSourcesOutputResponse, ListAppInputSourcesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppInputSourcesOutputResponse, ListAppInputSourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Lists all the Application Components in the AWS Resilience Hub application.
+    /// Lists all the Application Components in the Resilience Hub application.
     public func listAppVersionAppComponents(input: ListAppVersionAppComponentsInput) async throws -> ListAppVersionAppComponentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1330,8 +1330,8 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListAppVersionAppComponentsOutputResponse, ListAppVersionAppComponentsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppVersionAppComponentsOutputResponse, ListAppVersionAppComponentsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionAppComponentsOutputResponse, ListAppVersionAppComponentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppVersionAppComponentsOutputResponse, ListAppVersionAppComponentsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionAppComponentsOutputResponse, ListAppVersionAppComponentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1365,13 +1365,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListAppVersionResourceMappingsOutputResponse, ListAppVersionResourceMappingsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppVersionResourceMappingsOutputResponse, ListAppVersionResourceMappingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionResourceMappingsOutputResponse, ListAppVersionResourceMappingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppVersionResourceMappingsOutputResponse, ListAppVersionResourceMappingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionResourceMappingsOutputResponse, ListAppVersionResourceMappingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Lists all the resources in an AWS Resilience Hub application.
+    /// Lists all the resources in an Resilience Hub application.
     public func listAppVersionResources(input: ListAppVersionResourcesInput) async throws -> ListAppVersionResourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1400,13 +1400,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListAppVersionResourcesOutputResponse, ListAppVersionResourcesOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppVersionResourcesOutputResponse, ListAppVersionResourcesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionResourcesOutputResponse, ListAppVersionResourcesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppVersionResourcesOutputResponse, ListAppVersionResourcesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionResourcesOutputResponse, ListAppVersionResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Lists the different versions for the AWS Resilience Hub applications.
+    /// Lists the different versions for the Resilience Hub applications.
     public func listAppVersions(input: ListAppVersionsInput) async throws -> ListAppVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1435,13 +1435,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListAppVersionsOutputResponse, ListAppVersionsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppVersionsOutputResponse, ListAppVersionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionsOutputResponse, ListAppVersionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppVersionsOutputResponse, ListAppVersionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppVersionsOutputResponse, ListAppVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Lists your AWS Resilience Hub applications. You can filter applications using only one filter at a time or without using any filter. If you try to filter applications using multiple filters, you will get the following error: An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this operation.
+    /// Lists your Resilience Hub applications. You can filter applications using only one filter at a time or without using any filter. If you try to filter applications using multiple filters, you will get the following error: An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this operation.
     public func listApps(input: ListAppsInput) async throws -> ListAppsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1468,13 +1468,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListAppsOutputResponse, ListAppsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAppsOutputResponse, ListAppsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAppsOutputResponse, ListAppsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAppsOutputResponse, ListAppsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAppsOutputResponse, ListAppsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Lists the recommendation templates for the AWS Resilience Hub applications.
+    /// Lists the recommendation templates for the Resilience Hub applications.
     public func listRecommendationTemplates(input: ListRecommendationTemplatesInput) async throws -> ListRecommendationTemplatesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1501,13 +1501,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListRecommendationTemplatesOutputResponse, ListRecommendationTemplatesOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRecommendationTemplatesOutputResponse, ListRecommendationTemplatesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListRecommendationTemplatesOutputResponse, ListRecommendationTemplatesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRecommendationTemplatesOutputResponse, ListRecommendationTemplatesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRecommendationTemplatesOutputResponse, ListRecommendationTemplatesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Lists the resiliency policies for the AWS Resilience Hub applications.
+    /// Lists the resiliency policies for the Resilience Hub applications.
     public func listResiliencyPolicies(input: ListResiliencyPoliciesInput) async throws -> ListResiliencyPoliciesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1534,13 +1534,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListResiliencyPoliciesOutputResponse, ListResiliencyPoliciesOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListResiliencyPoliciesOutputResponse, ListResiliencyPoliciesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListResiliencyPoliciesOutputResponse, ListResiliencyPoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListResiliencyPoliciesOutputResponse, ListResiliencyPoliciesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListResiliencyPoliciesOutputResponse, ListResiliencyPoliciesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Lists the standard operating procedure (SOP) recommendations for the AWS Resilience Hub applications.
+    /// Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications.
     public func listSopRecommendations(input: ListSopRecommendationsInput) async throws -> ListSopRecommendationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1569,13 +1569,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListSopRecommendationsOutputResponse, ListSopRecommendationsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSopRecommendationsOutputResponse, ListSopRecommendationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSopRecommendationsOutputResponse, ListSopRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSopRecommendationsOutputResponse, ListSopRecommendationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSopRecommendationsOutputResponse, ListSopRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Lists the suggested resiliency policies for the AWS Resilience Hub applications.
+    /// Lists the suggested resiliency policies for the Resilience Hub applications.
     public func listSuggestedResiliencyPolicies(input: ListSuggestedResiliencyPoliciesInput) async throws -> ListSuggestedResiliencyPoliciesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1602,13 +1602,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListSuggestedResiliencyPoliciesOutputResponse, ListSuggestedResiliencyPoliciesOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSuggestedResiliencyPoliciesOutputResponse, ListSuggestedResiliencyPoliciesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListSuggestedResiliencyPoliciesOutputResponse, ListSuggestedResiliencyPoliciesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSuggestedResiliencyPoliciesOutputResponse, ListSuggestedResiliencyPoliciesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSuggestedResiliencyPoliciesOutputResponse, ListSuggestedResiliencyPoliciesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Lists the tags for your resources in your AWS Resilience Hub applications.
+    /// Lists the tags for your resources in your Resilience Hub applications.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1634,13 +1634,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Lists the test recommendations for the AWS Resilience Hub application.
+    /// Lists the test recommendations for the Resilience Hub application.
     public func listTestRecommendations(input: ListTestRecommendationsInput) async throws -> ListTestRecommendationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1669,13 +1669,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListTestRecommendationsOutputResponse, ListTestRecommendationsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTestRecommendationsOutputResponse, ListTestRecommendationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTestRecommendationsOutputResponse, ListTestRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTestRecommendationsOutputResponse, ListTestRecommendationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTestRecommendationsOutputResponse, ListTestRecommendationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Lists the resources that are not currently supported in AWS Resilience Hub. An unsupported resource is a resource that exists in the object that was used to create an app, but is not supported by AWS Resilience Hub.
+    /// Lists the resources that are not currently supported in Resilience Hub. An unsupported resource is a resource that exists in the object that was used to create an app, but is not supported by Resilience Hub.
     public func listUnsupportedAppVersionResources(input: ListUnsupportedAppVersionResourcesInput) async throws -> ListUnsupportedAppVersionResourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1704,13 +1704,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListUnsupportedAppVersionResourcesOutputResponse, ListUnsupportedAppVersionResourcesOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListUnsupportedAppVersionResourcesOutputResponse, ListUnsupportedAppVersionResourcesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListUnsupportedAppVersionResourcesOutputResponse, ListUnsupportedAppVersionResourcesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListUnsupportedAppVersionResourcesOutputResponse, ListUnsupportedAppVersionResourcesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListUnsupportedAppVersionResourcesOutputResponse, ListUnsupportedAppVersionResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Publishes a new version of a specific AWS Resilience Hub application.
+    /// Publishes a new version of a specific Resilience Hub application.
     public func publishAppVersion(input: PublishAppVersionInput) async throws -> PublishAppVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1739,13 +1739,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PublishAppVersionOutputResponse, PublishAppVersionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PublishAppVersionOutputResponse, PublishAppVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PublishAppVersionOutputResponse, PublishAppVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PublishAppVersionOutputResponse, PublishAppVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PublishAppVersionOutputResponse, PublishAppVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Adds or updates the app template for an AWS Resilience Hub application draft version.
+    /// Adds or updates the app template for an Resilience Hub application draft version.
     public func putDraftAppVersionTemplate(input: PutDraftAppVersionTemplateInput) async throws -> PutDraftAppVersionTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1774,8 +1774,8 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutDraftAppVersionTemplateOutputResponse, PutDraftAppVersionTemplateOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutDraftAppVersionTemplateOutputResponse, PutDraftAppVersionTemplateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutDraftAppVersionTemplateOutputResponse, PutDraftAppVersionTemplateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutDraftAppVersionTemplateOutputResponse, PutDraftAppVersionTemplateOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutDraftAppVersionTemplateOutputResponse, PutDraftAppVersionTemplateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1809,8 +1809,8 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<RemoveDraftAppVersionResourceMappingsOutputResponse, RemoveDraftAppVersionResourceMappingsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveDraftAppVersionResourceMappingsOutputResponse, RemoveDraftAppVersionResourceMappingsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RemoveDraftAppVersionResourceMappingsOutputResponse, RemoveDraftAppVersionResourceMappingsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveDraftAppVersionResourceMappingsOutputResponse, RemoveDraftAppVersionResourceMappingsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveDraftAppVersionResourceMappingsOutputResponse, RemoveDraftAppVersionResourceMappingsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1844,8 +1844,8 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ResolveAppVersionResourcesOutputResponse, ResolveAppVersionResourcesOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ResolveAppVersionResourcesOutputResponse, ResolveAppVersionResourcesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ResolveAppVersionResourcesOutputResponse, ResolveAppVersionResourcesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ResolveAppVersionResourcesOutputResponse, ResolveAppVersionResourcesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ResolveAppVersionResourcesOutputResponse, ResolveAppVersionResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1887,8 +1887,8 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartAppAssessmentOutputResponse, StartAppAssessmentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartAppAssessmentOutputResponse, StartAppAssessmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartAppAssessmentOutputResponse, StartAppAssessmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartAppAssessmentOutputResponse, StartAppAssessmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartAppAssessmentOutputResponse, StartAppAssessmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1922,8 +1922,8 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1955,8 +1955,8 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1990,13 +1990,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateAppOutputResponse, UpdateAppOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppOutputResponse, UpdateAppOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAppOutputResponse, UpdateAppOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppOutputResponse, UpdateAppOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppOutputResponse, UpdateAppOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Updates the AWS Resilience Hub application version. This API updates the AWS Resilience Hub application draft version. To use this information for running resiliency assessments, you must publish the AWS Resilience Hub application using the PublishAppVersion API.
+    /// Updates the Resilience Hub application version. This API updates the Resilience Hub application draft version. To use this information for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     public func updateAppVersion(input: UpdateAppVersionInput) async throws -> UpdateAppVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2025,13 +2025,13 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateAppVersionOutputResponse, UpdateAppVersionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppVersionOutputResponse, UpdateAppVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAppVersionOutputResponse, UpdateAppVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppVersionOutputResponse, UpdateAppVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppVersionOutputResponse, UpdateAppVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Updates an existing Application Component in the AWS Resilience Hub application. This API updates the AWS Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the AWS Resilience Hub application using the PublishAppVersion API.
+    /// Updates an existing Application Component in the Resilience Hub application. This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     public func updateAppVersionAppComponent(input: UpdateAppVersionAppComponentInput) async throws -> UpdateAppVersionAppComponentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2060,17 +2060,17 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateAppVersionAppComponentOutputResponse, UpdateAppVersionAppComponentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppVersionAppComponentOutputResponse, UpdateAppVersionAppComponentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAppVersionAppComponentOutputResponse, UpdateAppVersionAppComponentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppVersionAppComponentOutputResponse, UpdateAppVersionAppComponentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppVersionAppComponentOutputResponse, UpdateAppVersionAppComponentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Updates the resource details in the AWS Resilience Hub application.
+    /// Updates the resource details in the Resilience Hub application.
     ///
-    /// * This action has no effect outside AWS Resilience Hub.
+    /// * This action has no effect outside Resilience Hub.
     ///
-    /// * This API updates the AWS Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the AWS Resilience Hub application using the PublishAppVersion API.
+    /// * This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
     /// * To update application version with new physicalResourceID, you must call ResolveAppVersionResources API.
     public func updateAppVersionResource(input: UpdateAppVersionResourceInput) async throws -> UpdateAppVersionResourceOutputResponse
@@ -2101,8 +2101,8 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateAppVersionResourceOutputResponse, UpdateAppVersionResourceOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAppVersionResourceOutputResponse, UpdateAppVersionResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateAppVersionResourceOutputResponse, UpdateAppVersionResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAppVersionResourceOutputResponse, UpdateAppVersionResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAppVersionResourceOutputResponse, UpdateAppVersionResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2136,8 +2136,8 @@ extension ResiliencehubClient: ResiliencehubClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateResiliencyPolicyOutputResponse, UpdateResiliencyPolicyOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateResiliencyPolicyOutputResponse, UpdateResiliencyPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateResiliencyPolicyOutputResponse, UpdateResiliencyPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateResiliencyPolicyOutputResponse, UpdateResiliencyPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateResiliencyPolicyOutputResponse, UpdateResiliencyPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }

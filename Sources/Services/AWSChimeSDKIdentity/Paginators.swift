@@ -25,6 +25,28 @@ extension ListAppInstanceAdminsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension ChimeSDKIdentityClient {
+    /// Paginate over `[ListAppInstanceBotsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAppInstanceBotsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAppInstanceBotsOutputResponse`
+    public func listAppInstanceBotsPaginated(input: ListAppInstanceBotsInput) -> ClientRuntime.PaginatorSequence<ListAppInstanceBotsInput, ListAppInstanceBotsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListAppInstanceBotsInput, ListAppInstanceBotsOutputResponse>(input: input, inputKey: \ListAppInstanceBotsInput.nextToken, outputKey: \ListAppInstanceBotsOutputResponse.nextToken, paginationFunction: self.listAppInstanceBots(input:))
+    }
+}
+
+extension ListAppInstanceBotsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAppInstanceBotsInput {
+        return ListAppInstanceBotsInput(
+            appInstanceArn: self.appInstanceArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+extension ChimeSDKIdentityClient {
     /// Paginate over `[ListAppInstancesOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

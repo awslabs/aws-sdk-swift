@@ -2007,7 +2007,7 @@ extension ConfigClientTypes.ConfigRule: Swift.Codable {
 }
 
 extension ConfigClientTypes {
-    /// Config rules evaluate the configuration settings of your Amazon Web Services resources. A rule can run when Config detects a configuration change to an Amazon Web Services resource or at a periodic frequency that you choose (for example, every 24 hours). There are two types of rules: Config Managed Rules and Config Custom Rules. Managed rules are predefined, customizable rules created by Config. For a list of managed rules, see [List of Config Managed Rules](https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html). Custom rules are rules that you can create using either Guard or Lambda functions. Guard ([Guard GitHub Repository](https://github.com/aws-cloudformation/cloudformation-guard)) is a policy-as-code language that allows you to write policies that are enforced by Config Custom Policy rules. Lambda uses custom code that you upload to evaluate a custom rule. It is invoked by events that are published to it by an event source, which Config invokes when the custom rule is initiated. For more information about developing and using Config rules, see [Evaluating Amazon Web Services resource Configurations with Config](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html) in the Config Developer Guide. You can use the Amazon Web Services CLI and Amazon Web Services SDKs if you want to create a rule that triggers evaluations for your resources when Config delivers the configuration snapshot. For more information, see [ConfigSnapshotDeliveryProperties].
+    /// Config rules evaluate the configuration settings of your Amazon Web Services resources. A rule can run when Config detects a configuration change to an Amazon Web Services resource or at a periodic frequency that you choose (for example, every 24 hours). There are two types of rules: Config Managed Rules and Config Custom Rules. Config Managed Rules are predefined, customizable rules created by Config. For a list of managed rules, see [List of Config Managed Rules](https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html). Config Custom Rules are rules that you create from scratch. There are two ways to create Config custom rules: with Lambda functions ([ Lambda Developer Guide](https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function)) and with Guard ([Guard GitHub Repository](https://github.com/aws-cloudformation/cloudformation-guard)), a policy-as-code language. Config custom rules created with Lambda are called Config Custom Lambda Rules and Config custom rules created with Guard are called Config Custom Policy Rules. For more information about developing and using Config rules, see [Evaluating Resource with Config Rules](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html) in the Config Developer Guide. You can use the Amazon Web Services CLI and Amazon Web Services SDKs if you want to create a rule that triggers evaluations for your resources when Config delivers the configuration snapshot. For more information, see [ConfigSnapshotDeliveryProperties].
     public struct ConfigRule: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the Config rule.
         public var configRuleArn: Swift.String?
@@ -3078,17 +3078,17 @@ extension ConfigClientTypes.ConfigurationRecorderStatus: Swift.Codable {
 }
 
 extension ConfigClientTypes {
-    /// The current status of the configuration recorder.
+    /// The current status of the configuration recorder. For a detailed status of recording events over time, add your Config events to CloudWatch metrics and use CloudWatch metrics.
     public struct ConfigurationRecorderStatus: Swift.Equatable {
-        /// The error code indicating that the recording failed.
+        /// The latest error code from when the recorder last failed.
         public var lastErrorCode: Swift.String?
-        /// The message indicating that the recording failed due to an error.
+        /// The latest error message from when the recorder last failed.
         public var lastErrorMessage: Swift.String?
         /// The time the recorder was last started.
         public var lastStartTime: ClientRuntime.Date?
-        /// The last (previous) status of the recorder.
+        /// The status of the latest recording event processed by the recorder.
         public var lastStatus: ConfigClientTypes.RecorderStatus?
-        /// The time when the status was last changed.
+        /// The time of the latest change in status of an recording event processed by the recorder.
         public var lastStatusChangeTime: ClientRuntime.Date?
         /// The time the recorder was last stopped.
         public var lastStopTime: ClientRuntime.Date?
@@ -3309,7 +3309,7 @@ extension ConfigClientTypes.ConformancePackComplianceSummary: Swift.Codable {
 extension ConfigClientTypes {
     /// Summary includes the name and status of the conformance pack.
     public struct ConformancePackComplianceSummary: Swift.Equatable {
-        /// The status of the conformance pack. The allowed values are COMPLIANT, NON_COMPLIANT and INSUFFICIENT_DATA.
+        /// The status of the conformance pack.
         /// This member is required.
         public var conformancePackComplianceStatus: ConfigClientTypes.ConformancePackComplianceType?
         /// The name of the conformance pack name.
@@ -3754,7 +3754,7 @@ extension ConfigClientTypes.ConformancePackRuleCompliance: Swift.Codable {
 extension ConfigClientTypes {
     /// Compliance information of one or more Config rules within a conformance pack. You can filter using Config rule names and compliance types.
     public struct ConformancePackRuleCompliance: Swift.Equatable {
-        /// Compliance of the Config rule. The allowed values are COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA.
+        /// Compliance of the Config rule.
         public var complianceType: ConfigClientTypes.ConformancePackComplianceType?
         /// Name of the Config rule.
         public var configRuleName: Swift.String?
@@ -3954,7 +3954,7 @@ extension ConformancePackTemplateValidationException {
     }
 }
 
-/// You have specified a template that is invalid or supported.
+/// You have specified a template that is not valid or supported.
 public struct ConformancePackTemplateValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -5714,7 +5714,7 @@ extension DescribeAggregateComplianceByConfigRulesInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -5736,14 +5736,14 @@ public struct DescribeAggregateComplianceByConfigRulesInput: Swift.Equatable {
     /// Filters the results by ConfigRuleComplianceFilters object.
     public var filters: ConfigClientTypes.ConfigRuleComplianceFilters?
     /// The maximum number of evaluation results returned on each page. The default is maximum. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
     public init (
         configurationAggregatorName: Swift.String? = nil,
         filters: ConfigClientTypes.ConfigRuleComplianceFilters? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -5757,7 +5757,7 @@ public struct DescribeAggregateComplianceByConfigRulesInput: Swift.Equatable {
 struct DescribeAggregateComplianceByConfigRulesInputBody: Swift.Equatable {
     let configurationAggregatorName: Swift.String?
     let filters: ConfigClientTypes.ConfigRuleComplianceFilters?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -5775,7 +5775,7 @@ extension DescribeAggregateComplianceByConfigRulesInputBody: Swift.Decodable {
         configurationAggregatorName = configurationAggregatorNameDecoded
         let filtersDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ConfigRuleComplianceFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -5886,7 +5886,7 @@ extension DescribeAggregateComplianceByConformancePacksInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -5908,14 +5908,14 @@ public struct DescribeAggregateComplianceByConformancePacksInput: Swift.Equatabl
     /// Filters the result by AggregateConformancePackComplianceFilters object.
     public var filters: ConfigClientTypes.AggregateConformancePackComplianceFilters?
     /// The maximum number of conformance packs compliance details returned on each page. The default is maximum. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
     public init (
         configurationAggregatorName: Swift.String? = nil,
         filters: ConfigClientTypes.AggregateConformancePackComplianceFilters? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -5929,7 +5929,7 @@ public struct DescribeAggregateComplianceByConformancePacksInput: Swift.Equatabl
 struct DescribeAggregateComplianceByConformancePacksInputBody: Swift.Equatable {
     let configurationAggregatorName: Swift.String?
     let filters: ConfigClientTypes.AggregateConformancePackComplianceFilters?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -5947,7 +5947,7 @@ extension DescribeAggregateComplianceByConformancePacksInputBody: Swift.Decodabl
         configurationAggregatorName = configurationAggregatorNameDecoded
         let filtersDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.AggregateConformancePackComplianceFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -6050,7 +6050,7 @@ extension DescribeAggregationAuthorizationsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -6067,12 +6067,12 @@ extension DescribeAggregationAuthorizationsInput: ClientRuntime.URLPathProvider 
 
 public struct DescribeAggregationAuthorizationsInput: Swift.Equatable {
     /// The maximum number of AggregationAuthorizations returned on each page. The default is maximum. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
     public init (
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -6082,7 +6082,7 @@ public struct DescribeAggregationAuthorizationsInput: Swift.Equatable {
 }
 
 struct DescribeAggregationAuthorizationsInputBody: Swift.Equatable {
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -6094,7 +6094,7 @@ extension DescribeAggregationAuthorizationsInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -6222,7 +6222,7 @@ extension DescribeComplianceByConfigRuleInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct DescribeComplianceByConfigRuleInput: Swift.Equatable {
-    /// Filters the results by compliance. The allowed values are COMPLIANT and NON_COMPLIANT.
+    /// Filters the results by compliance.
     public var complianceTypes: [ConfigClientTypes.ComplianceType]?
     /// Specify one or more Config rule names to filter the results by rule.
     public var configRuleNames: [Swift.String]?
@@ -6387,7 +6387,7 @@ extension DescribeComplianceByResourceInput: Swift.Encodable {
                 try complianceTypesContainer.encode(compliancetype0.rawValue)
             }
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -6410,10 +6410,10 @@ extension DescribeComplianceByResourceInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct DescribeComplianceByResourceInput: Swift.Equatable {
-    /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA.
+    /// Filters the results by compliance.
     public var complianceTypes: [ConfigClientTypes.ComplianceType]?
     /// The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a number greater than 100. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
     /// The ID of the Amazon Web Services resource for which you want compliance information. You can specify only one resource ID. If you specify a resource ID, you must also specify a type for ResourceType.
@@ -6423,7 +6423,7 @@ public struct DescribeComplianceByResourceInput: Swift.Equatable {
 
     public init (
         complianceTypes: [ConfigClientTypes.ComplianceType]? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: Swift.String? = nil
@@ -6441,7 +6441,7 @@ struct DescribeComplianceByResourceInputBody: Swift.Equatable {
     let resourceType: Swift.String?
     let resourceId: Swift.String?
     let complianceTypes: [ConfigClientTypes.ComplianceType]?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -6471,7 +6471,7 @@ extension DescribeComplianceByResourceInputBody: Swift.Decodable {
             }
         }
         complianceTypes = complianceTypesDecoded0
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -6578,7 +6578,7 @@ extension DescribeConfigRuleEvaluationStatusInput: Swift.Encodable {
                 try configRuleNamesContainer.encode(configrulename0)
             }
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -6598,13 +6598,13 @@ public struct DescribeConfigRuleEvaluationStatusInput: Swift.Equatable {
     /// The name of the Config managed rules for which you want status information. If you do not specify any names, Config returns status information for all Config managed rules that you use.
     public var configRuleNames: [Swift.String]?
     /// The number of rule evaluation results that you want returned. This parameter is required if the rule limit for your account is more than the default of 150 rules. For information about requesting a rule limit increase, see [Config Limits](http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_config) in the Amazon Web Services General Reference Guide.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
     public init (
         configRuleNames: [Swift.String]? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -6617,7 +6617,7 @@ public struct DescribeConfigRuleEvaluationStatusInput: Swift.Equatable {
 struct DescribeConfigRuleEvaluationStatusInputBody: Swift.Equatable {
     let configRuleNames: [Swift.String]?
     let nextToken: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
 }
 
 extension DescribeConfigRuleEvaluationStatusInputBody: Swift.Decodable {
@@ -6642,7 +6642,7 @@ extension DescribeConfigRuleEvaluationStatusInputBody: Swift.Decodable {
         configRuleNames = configRuleNamesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
     }
 }
@@ -6754,7 +6754,7 @@ extension ConfigClientTypes.DescribeConfigRulesFilters: Swift.Codable {
 }
 
 extension ConfigClientTypes {
-    /// Returns a filtered list of Detective or Proactive Config rules. By default, if the filter is not defined, this API returns an unfiltered list.
+    /// Returns a filtered list of Detective or Proactive Config rules. By default, if the filter is not defined, this API returns an unfiltered list. For more information on Detective or Proactive Config rules, see [ Evaluation Mode ](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config-rules.html) in the Config Developer Guide.
     public struct DescribeConfigRulesFilters: Swift.Equatable {
         /// The mode of an evaluation. The valid values are Detective or Proactive.
         public var evaluationMode: ConfigClientTypes.EvaluationMode?
@@ -6803,7 +6803,7 @@ extension DescribeConfigRulesInput: ClientRuntime.URLPathProvider {
 public struct DescribeConfigRulesInput: Swift.Equatable {
     /// The names of the Config rules for which you want details. If you do not specify any names, Config returns details for all your rules.
     public var configRuleNames: [Swift.String]?
-    /// Returns a list of Detecive or Proactive Config rules. By default, this API returns an unfiltered list.
+    /// Returns a list of Detective or Proactive Config rules. By default, this API returns an unfiltered list. For more information on Detective or Proactive Config rules, see [ Evaluation Mode ](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config-rules.html) in the Config Developer Guide.
     public var filters: ConfigClientTypes.DescribeConfigRulesFilters?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
@@ -6953,7 +6953,7 @@ extension DescribeConfigurationAggregatorSourcesStatusInput: Swift.Encodable {
         if let configurationAggregatorName = self.configurationAggregatorName {
             try encodeContainer.encode(configurationAggregatorName, forKey: .configurationAggregatorName)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -6979,7 +6979,7 @@ public struct DescribeConfigurationAggregatorSourcesStatusInput: Swift.Equatable
     /// This member is required.
     public var configurationAggregatorName: Swift.String?
     /// The maximum number of AggregatorSourceStatus returned on each page. The default is maximum. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
     /// Filters the status type.
@@ -6993,7 +6993,7 @@ public struct DescribeConfigurationAggregatorSourcesStatusInput: Swift.Equatable
 
     public init (
         configurationAggregatorName: Swift.String? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         updateStatus: [ConfigClientTypes.AggregatedSourceStatusType]? = nil
     )
@@ -7009,7 +7009,7 @@ struct DescribeConfigurationAggregatorSourcesStatusInputBody: Swift.Equatable {
     let configurationAggregatorName: Swift.String?
     let updateStatus: [ConfigClientTypes.AggregatedSourceStatusType]?
     let nextToken: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
 }
 
 extension DescribeConfigurationAggregatorSourcesStatusInputBody: Swift.Decodable {
@@ -7037,7 +7037,7 @@ extension DescribeConfigurationAggregatorSourcesStatusInputBody: Swift.Decodable
         updateStatus = updateStatusDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
     }
 }
@@ -7145,7 +7145,7 @@ extension DescribeConfigurationAggregatorsInput: Swift.Encodable {
                 try configurationAggregatorNamesContainer.encode(configurationaggregatorname0)
             }
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -7164,13 +7164,13 @@ public struct DescribeConfigurationAggregatorsInput: Swift.Equatable {
     /// The name of the configuration aggregators.
     public var configurationAggregatorNames: [Swift.String]?
     /// The maximum number of configuration aggregators returned on each page. The default is maximum. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
     public init (
         configurationAggregatorNames: [Swift.String]? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -7183,7 +7183,7 @@ public struct DescribeConfigurationAggregatorsInput: Swift.Equatable {
 struct DescribeConfigurationAggregatorsInputBody: Swift.Equatable {
     let configurationAggregatorNames: [Swift.String]?
     let nextToken: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
 }
 
 extension DescribeConfigurationAggregatorsInputBody: Swift.Decodable {
@@ -7208,7 +7208,7 @@ extension DescribeConfigurationAggregatorsInputBody: Swift.Decodable {
         configurationAggregatorNames = configurationAggregatorNamesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
     }
 }
@@ -7583,7 +7583,7 @@ extension DescribeConformancePackComplianceInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -7605,14 +7605,14 @@ public struct DescribeConformancePackComplianceInput: Swift.Equatable {
     /// A ConformancePackComplianceFilters object.
     public var filters: ConfigClientTypes.ConformancePackComplianceFilters?
     /// The maximum number of Config rules within a conformance pack are returned on each page.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
     public init (
         conformancePackName: Swift.String? = nil,
         filters: ConfigClientTypes.ConformancePackComplianceFilters? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -7626,7 +7626,7 @@ public struct DescribeConformancePackComplianceInput: Swift.Equatable {
 struct DescribeConformancePackComplianceInputBody: Swift.Equatable {
     let conformancePackName: Swift.String?
     let filters: ConfigClientTypes.ConformancePackComplianceFilters?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -7644,7 +7644,7 @@ extension DescribeConformancePackComplianceInputBody: Swift.Decodable {
         conformancePackName = conformancePackNameDecoded
         let filtersDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ConformancePackComplianceFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -7768,7 +7768,7 @@ extension DescribeConformancePackStatusInput: Swift.Encodable {
                 try conformancePackNamesContainer.encode(conformancepackname0)
             }
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -7787,13 +7787,13 @@ public struct DescribeConformancePackStatusInput: Swift.Equatable {
     /// Comma-separated list of conformance pack names.
     public var conformancePackNames: [Swift.String]?
     /// The maximum number of conformance packs status returned on each page.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
     public init (
         conformancePackNames: [Swift.String]? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -7805,7 +7805,7 @@ public struct DescribeConformancePackStatusInput: Swift.Equatable {
 
 struct DescribeConformancePackStatusInputBody: Swift.Equatable {
     let conformancePackNames: [Swift.String]?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -7829,7 +7829,7 @@ extension DescribeConformancePackStatusInputBody: Swift.Decodable {
             }
         }
         conformancePackNames = conformancePackNamesDecoded0
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -7937,7 +7937,7 @@ extension DescribeConformancePacksInput: Swift.Encodable {
                 try conformancePackNamesContainer.encode(conformancepackname0)
             }
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -7956,13 +7956,13 @@ public struct DescribeConformancePacksInput: Swift.Equatable {
     /// Comma-separated list of conformance pack names for which you want details. If you do not specify any names, Config returns details for all your conformance packs.
     public var conformancePackNames: [Swift.String]?
     /// The maximum number of conformance packs returned on each page.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
     public init (
         conformancePackNames: [Swift.String]? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -7974,7 +7974,7 @@ public struct DescribeConformancePacksInput: Swift.Equatable {
 
 struct DescribeConformancePacksInputBody: Swift.Equatable {
     let conformancePackNames: [Swift.String]?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -7998,7 +7998,7 @@ extension DescribeConformancePacksInputBody: Swift.Decodable {
             }
         }
         conformancePackNames = conformancePackNamesDecoded0
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -8368,7 +8368,7 @@ extension DescribeOrganizationConfigRuleStatusesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -8391,14 +8391,14 @@ extension DescribeOrganizationConfigRuleStatusesInput: ClientRuntime.URLPathProv
 
 public struct DescribeOrganizationConfigRuleStatusesInput: Swift.Equatable {
     /// The maximum number of OrganizationConfigRuleStatuses returned on each page. If you do no specify a number, Config uses the default. The default is 100.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
     /// The names of organization Config rules for which you want status details. If you do not specify any names, Config returns details for all your organization Config rules.
     public var organizationConfigRuleNames: [Swift.String]?
 
     public init (
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationConfigRuleNames: [Swift.String]? = nil
     )
@@ -8411,7 +8411,7 @@ public struct DescribeOrganizationConfigRuleStatusesInput: Swift.Equatable {
 
 struct DescribeOrganizationConfigRuleStatusesInputBody: Swift.Equatable {
     let organizationConfigRuleNames: [Swift.String]?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -8435,7 +8435,7 @@ extension DescribeOrganizationConfigRuleStatusesInputBody: Swift.Decodable {
             }
         }
         organizationConfigRuleNames = organizationConfigRuleNamesDecoded0
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -8539,7 +8539,7 @@ extension DescribeOrganizationConfigRulesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -8562,14 +8562,14 @@ extension DescribeOrganizationConfigRulesInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeOrganizationConfigRulesInput: Swift.Equatable {
     /// The maximum number of organization Config rules returned on each page. If you do no specify a number, Config uses the default. The default is 100.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
     /// The names of organization Config rules for which you want details. If you do not specify any names, Config returns details for all your organization Config rules.
     public var organizationConfigRuleNames: [Swift.String]?
 
     public init (
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationConfigRuleNames: [Swift.String]? = nil
     )
@@ -8582,7 +8582,7 @@ public struct DescribeOrganizationConfigRulesInput: Swift.Equatable {
 
 struct DescribeOrganizationConfigRulesInputBody: Swift.Equatable {
     let organizationConfigRuleNames: [Swift.String]?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -8606,7 +8606,7 @@ extension DescribeOrganizationConfigRulesInputBody: Swift.Decodable {
             }
         }
         organizationConfigRuleNames = organizationConfigRuleNamesDecoded0
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -8710,7 +8710,7 @@ extension DescribeOrganizationConformancePackStatusesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -8733,14 +8733,14 @@ extension DescribeOrganizationConformancePackStatusesInput: ClientRuntime.URLPat
 
 public struct DescribeOrganizationConformancePackStatusesInput: Swift.Equatable {
     /// The maximum number of OrganizationConformancePackStatuses returned on each page. If you do no specify a number, Config uses the default. The default is 100.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
     /// The names of organization conformance packs for which you want status details. If you do not specify any names, Config returns details for all your organization conformance packs.
     public var organizationConformancePackNames: [Swift.String]?
 
     public init (
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationConformancePackNames: [Swift.String]? = nil
     )
@@ -8753,7 +8753,7 @@ public struct DescribeOrganizationConformancePackStatusesInput: Swift.Equatable 
 
 struct DescribeOrganizationConformancePackStatusesInputBody: Swift.Equatable {
     let organizationConformancePackNames: [Swift.String]?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -8777,7 +8777,7 @@ extension DescribeOrganizationConformancePackStatusesInputBody: Swift.Decodable 
             }
         }
         organizationConformancePackNames = organizationConformancePackNamesDecoded0
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -8881,7 +8881,7 @@ extension DescribeOrganizationConformancePacksInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -8904,14 +8904,14 @@ extension DescribeOrganizationConformancePacksInput: ClientRuntime.URLPathProvid
 
 public struct DescribeOrganizationConformancePacksInput: Swift.Equatable {
     /// The maximum number of organization config packs returned on each page. If you do no specify a number, Config uses the default. The default is 100.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
     /// The name that you assign to an organization conformance pack.
     public var organizationConformancePackNames: [Swift.String]?
 
     public init (
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationConformancePackNames: [Swift.String]? = nil
     )
@@ -8924,7 +8924,7 @@ public struct DescribeOrganizationConformancePacksInput: Swift.Equatable {
 
 struct DescribeOrganizationConformancePacksInputBody: Swift.Equatable {
     let organizationConformancePackNames: [Swift.String]?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -8948,7 +8948,7 @@ extension DescribeOrganizationConformancePacksInputBody: Swift.Decodable {
             }
         }
         organizationConformancePackNames = organizationConformancePackNamesDecoded0
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -9051,7 +9051,7 @@ extension DescribePendingAggregationRequestsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -9068,12 +9068,12 @@ extension DescribePendingAggregationRequestsInput: ClientRuntime.URLPathProvider
 
 public struct DescribePendingAggregationRequestsInput: Swift.Equatable {
     /// The maximum number of evaluation results returned on each page. The default is maximum. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
     public init (
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -9083,7 +9083,7 @@ public struct DescribePendingAggregationRequestsInput: Swift.Equatable {
 }
 
 struct DescribePendingAggregationRequestsInputBody: Swift.Equatable {
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -9095,7 +9095,7 @@ extension DescribePendingAggregationRequestsInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -9331,7 +9331,7 @@ extension DescribeRemediationExceptionsInput: Swift.Encodable {
         if let configRuleName = self.configRuleName {
             try encodeContainer.encode(configRuleName, forKey: .configRuleName)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -9357,7 +9357,7 @@ public struct DescribeRemediationExceptionsInput: Swift.Equatable {
     /// This member is required.
     public var configRuleName: Swift.String?
     /// The maximum number of RemediationExceptionResourceKey returned on each page. The default is 25. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
     public var nextToken: Swift.String?
     /// An exception list of resource exception keys to be processed with the current request. Config adds exception for each resource key. For example, Config adds 3 exceptions for 3 resource keys.
@@ -9365,7 +9365,7 @@ public struct DescribeRemediationExceptionsInput: Swift.Equatable {
 
     public init (
         configRuleName: Swift.String? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceKeys: [ConfigClientTypes.RemediationExceptionResourceKey]? = nil
     )
@@ -9380,7 +9380,7 @@ public struct DescribeRemediationExceptionsInput: Swift.Equatable {
 struct DescribeRemediationExceptionsInputBody: Swift.Equatable {
     let configRuleName: Swift.String?
     let resourceKeys: [ConfigClientTypes.RemediationExceptionResourceKey]?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -9407,7 +9407,7 @@ extension DescribeRemediationExceptionsInputBody: Swift.Decodable {
             }
         }
         resourceKeys = resourceKeysDecoded0
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -9511,7 +9511,7 @@ extension DescribeRemediationExecutionStatusInput: Swift.Encodable {
         if let configRuleName = self.configRuleName {
             try encodeContainer.encode(configRuleName, forKey: .configRuleName)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -9537,7 +9537,7 @@ public struct DescribeRemediationExecutionStatusInput: Swift.Equatable {
     /// This member is required.
     public var configRuleName: Swift.String?
     /// The maximum number of RemediationExecutionStatuses returned on each page. The default is maximum. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
     /// A list of resource keys to be processed with the current request. Each element in the list consists of the resource type and resource ID.
@@ -9545,7 +9545,7 @@ public struct DescribeRemediationExecutionStatusInput: Swift.Equatable {
 
     public init (
         configRuleName: Swift.String? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceKeys: [ConfigClientTypes.ResourceKey]? = nil
     )
@@ -9560,7 +9560,7 @@ public struct DescribeRemediationExecutionStatusInput: Swift.Equatable {
 struct DescribeRemediationExecutionStatusInputBody: Swift.Equatable {
     let configRuleName: Swift.String?
     let resourceKeys: [ConfigClientTypes.ResourceKey]?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -9587,7 +9587,7 @@ extension DescribeRemediationExecutionStatusInputBody: Swift.Decodable {
             }
         }
         resourceKeys = resourceKeysDecoded0
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -10646,7 +10646,7 @@ extension GetAggregateComplianceDetailsByConfigRuleInput: Swift.Encodable {
         if let configurationAggregatorName = self.configurationAggregatorName {
             try encodeContainer.encode(configurationAggregatorName, forKey: .configurationAggregatorName)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -10677,7 +10677,7 @@ public struct GetAggregateComplianceDetailsByConfigRuleInput: Swift.Equatable {
     /// This member is required.
     public var configurationAggregatorName: Swift.String?
     /// The maximum number of evaluation results returned on each page. The default is 50. You cannot specify a number greater than 100. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
@@ -10687,7 +10687,7 @@ public struct GetAggregateComplianceDetailsByConfigRuleInput: Swift.Equatable {
         complianceType: ConfigClientTypes.ComplianceType? = nil,
         configRuleName: Swift.String? = nil,
         configurationAggregatorName: Swift.String? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -10707,7 +10707,7 @@ struct GetAggregateComplianceDetailsByConfigRuleInputBody: Swift.Equatable {
     let accountId: Swift.String?
     let awsRegion: Swift.String?
     let complianceType: ConfigClientTypes.ComplianceType?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -10734,7 +10734,7 @@ extension GetAggregateComplianceDetailsByConfigRuleInputBody: Swift.Decodable {
         awsRegion = awsRegionDecoded
         let complianceTypeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ComplianceType.self, forKey: .complianceType)
         complianceType = complianceTypeDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -10849,7 +10849,7 @@ extension GetAggregateConfigRuleComplianceSummaryInput: Swift.Encodable {
         if let groupByKey = self.groupByKey {
             try encodeContainer.encode(groupByKey.rawValue, forKey: .groupByKey)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -10873,7 +10873,7 @@ public struct GetAggregateConfigRuleComplianceSummaryInput: Swift.Equatable {
     /// Groups the result based on ACCOUNT_ID or AWS_REGION.
     public var groupByKey: ConfigClientTypes.ConfigRuleComplianceSummaryGroupKey?
     /// The maximum number of evaluation results returned on each page. The default is 1000. You cannot specify a number greater than 1000. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
@@ -10881,7 +10881,7 @@ public struct GetAggregateConfigRuleComplianceSummaryInput: Swift.Equatable {
         configurationAggregatorName: Swift.String? = nil,
         filters: ConfigClientTypes.ConfigRuleComplianceSummaryFilters? = nil,
         groupByKey: ConfigClientTypes.ConfigRuleComplianceSummaryGroupKey? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -10897,7 +10897,7 @@ struct GetAggregateConfigRuleComplianceSummaryInputBody: Swift.Equatable {
     let configurationAggregatorName: Swift.String?
     let filters: ConfigClientTypes.ConfigRuleComplianceSummaryFilters?
     let groupByKey: ConfigClientTypes.ConfigRuleComplianceSummaryGroupKey?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -10918,7 +10918,7 @@ extension GetAggregateConfigRuleComplianceSummaryInputBody: Swift.Decodable {
         filters = filtersDecoded
         let groupByKeyDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ConfigRuleComplianceSummaryGroupKey.self, forKey: .groupByKey)
         groupByKey = groupByKeyDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -11043,7 +11043,7 @@ extension GetAggregateConformancePackComplianceSummaryInput: Swift.Encodable {
         if let groupByKey = self.groupByKey {
             try encodeContainer.encode(groupByKey.rawValue, forKey: .groupByKey)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -11067,7 +11067,7 @@ public struct GetAggregateConformancePackComplianceSummaryInput: Swift.Equatable
     /// Groups the result based on Amazon Web Services account ID or Amazon Web Services Region.
     public var groupByKey: ConfigClientTypes.AggregateConformancePackComplianceSummaryGroupKey?
     /// The maximum number of results returned on each page. The default is maximum. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
@@ -11075,7 +11075,7 @@ public struct GetAggregateConformancePackComplianceSummaryInput: Swift.Equatable
         configurationAggregatorName: Swift.String? = nil,
         filters: ConfigClientTypes.AggregateConformancePackComplianceSummaryFilters? = nil,
         groupByKey: ConfigClientTypes.AggregateConformancePackComplianceSummaryGroupKey? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -11091,7 +11091,7 @@ struct GetAggregateConformancePackComplianceSummaryInputBody: Swift.Equatable {
     let configurationAggregatorName: Swift.String?
     let filters: ConfigClientTypes.AggregateConformancePackComplianceSummaryFilters?
     let groupByKey: ConfigClientTypes.AggregateConformancePackComplianceSummaryGroupKey?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -11112,7 +11112,7 @@ extension GetAggregateConformancePackComplianceSummaryInputBody: Swift.Decodable
         filters = filtersDecoded
         let groupByKeyDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.AggregateConformancePackComplianceSummaryGroupKey.self, forKey: .groupByKey)
         groupByKey = groupByKeyDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -11237,7 +11237,7 @@ extension GetAggregateDiscoveredResourceCountsInput: Swift.Encodable {
         if let groupByKey = self.groupByKey {
             try encodeContainer.encode(groupByKey.rawValue, forKey: .groupByKey)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -11261,7 +11261,7 @@ public struct GetAggregateDiscoveredResourceCountsInput: Swift.Equatable {
     /// The key to group the resource counts.
     public var groupByKey: ConfigClientTypes.ResourceCountGroupKey?
     /// The maximum number of [GroupedResourceCount] objects returned on each page. The default is 1000. You cannot specify a number greater than 1000. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
@@ -11269,7 +11269,7 @@ public struct GetAggregateDiscoveredResourceCountsInput: Swift.Equatable {
         configurationAggregatorName: Swift.String? = nil,
         filters: ConfigClientTypes.ResourceCountFilters? = nil,
         groupByKey: ConfigClientTypes.ResourceCountGroupKey? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -11285,7 +11285,7 @@ struct GetAggregateDiscoveredResourceCountsInputBody: Swift.Equatable {
     let configurationAggregatorName: Swift.String?
     let filters: ConfigClientTypes.ResourceCountFilters?
     let groupByKey: ConfigClientTypes.ResourceCountGroupKey?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -11306,7 +11306,7 @@ extension GetAggregateDiscoveredResourceCountsInputBody: Swift.Decodable {
         filters = filtersDecoded
         let groupByKeyDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceCountGroupKey.self, forKey: .groupByKey)
         groupByKey = groupByKeyDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -11571,7 +11571,7 @@ extension GetComplianceDetailsByConfigRuleInput: Swift.Encodable {
         if let configRuleName = self.configRuleName {
             try encodeContainer.encode(configRuleName, forKey: .configRuleName)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -11588,20 +11588,20 @@ extension GetComplianceDetailsByConfigRuleInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct GetComplianceDetailsByConfigRuleInput: Swift.Equatable {
-    /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE.
+    /// Filters the results by compliance. INSUFFICIENT_DATA is a valid ComplianceType that is returned when an Config rule cannot be evaluated. However, INSUFFICIENT_DATA cannot be used as a ComplianceType for filtering results.
     public var complianceTypes: [ConfigClientTypes.ComplianceType]?
     /// The name of the Config rule for which you want compliance information.
     /// This member is required.
     public var configRuleName: Swift.String?
     /// The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a number greater than 100. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
     public init (
         complianceTypes: [ConfigClientTypes.ComplianceType]? = nil,
         configRuleName: Swift.String? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -11615,7 +11615,7 @@ public struct GetComplianceDetailsByConfigRuleInput: Swift.Equatable {
 struct GetComplianceDetailsByConfigRuleInputBody: Swift.Equatable {
     let configRuleName: Swift.String?
     let complianceTypes: [ConfigClientTypes.ComplianceType]?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -11642,7 +11642,7 @@ extension GetComplianceDetailsByConfigRuleInputBody: Swift.Decodable {
             }
         }
         complianceTypes = complianceTypesDecoded0
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -11776,7 +11776,7 @@ extension GetComplianceDetailsByResourceInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct GetComplianceDetailsByResourceInput: Swift.Equatable {
-    /// Filters the results by compliance. The allowed values are COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE.
+    /// Filters the results by compliance. INSUFFICIENT_DATA is a valid ComplianceType that is returned when an Config rule cannot be evaluated. However, INSUFFICIENT_DATA cannot be used as a ComplianceType for filtering results.
     public var complianceTypes: [ConfigClientTypes.ComplianceType]?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
@@ -12166,7 +12166,7 @@ extension GetConformancePackComplianceDetailsInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -12188,14 +12188,14 @@ public struct GetConformancePackComplianceDetailsInput: Swift.Equatable {
     /// A ConformancePackEvaluationFilters object.
     public var filters: ConfigClientTypes.ConformancePackEvaluationFilters?
     /// The maximum number of evaluation results returned on each page. If you do no specify a number, Config uses the default. The default is 100.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
     public init (
         conformancePackName: Swift.String? = nil,
         filters: ConfigClientTypes.ConformancePackEvaluationFilters? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -12209,7 +12209,7 @@ public struct GetConformancePackComplianceDetailsInput: Swift.Equatable {
 struct GetConformancePackComplianceDetailsInputBody: Swift.Equatable {
     let conformancePackName: Swift.String?
     let filters: ConfigClientTypes.ConformancePackEvaluationFilters?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -12227,7 +12227,7 @@ extension GetConformancePackComplianceDetailsInputBody: Swift.Decodable {
         conformancePackName = conformancePackNameDecoded
         let filtersDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ConformancePackEvaluationFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -12350,7 +12350,7 @@ extension GetConformancePackComplianceSummaryInput: Swift.Encodable {
                 try conformancePackNamesContainer.encode(conformancepackname0)
             }
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -12370,13 +12370,13 @@ public struct GetConformancePackComplianceSummaryInput: Swift.Equatable {
     /// This member is required.
     public var conformancePackNames: [Swift.String]?
     /// The maximum number of conformance packs returned on each page.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
     public init (
         conformancePackNames: [Swift.String]? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -12388,7 +12388,7 @@ public struct GetConformancePackComplianceSummaryInput: Swift.Equatable {
 
 struct GetConformancePackComplianceSummaryInputBody: Swift.Equatable {
     let conformancePackNames: [Swift.String]?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -12412,7 +12412,7 @@ extension GetConformancePackComplianceSummaryInputBody: Swift.Decodable {
             }
         }
         conformancePackNames = conformancePackNamesDecoded0
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -12624,7 +12624,7 @@ extension GetDiscoveredResourceCountsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -12647,14 +12647,14 @@ extension GetDiscoveredResourceCountsInput: ClientRuntime.URLPathProvider {
 
 public struct GetDiscoveredResourceCountsInput: Swift.Equatable {
     /// The maximum number of [ResourceCount] objects returned on each page. The default is 100. You cannot specify a number greater than 100. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
     /// The comma-separated list that specifies the resource types that you want Config to return (for example, "AWS::EC2::Instance", "AWS::IAM::User"). If a value for resourceTypes is not specified, Config returns all resource types that Config is recording in the region for your account. If the configuration recorder is turned off, Config returns an empty list of [ResourceCount] objects. If the configuration recorder is not recording a specific resource type (for example, S3 buckets), that resource type is not returned in the list of [ResourceCount] objects.
     public var resourceTypes: [Swift.String]?
 
     public init (
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceTypes: [Swift.String]? = nil
     )
@@ -12667,7 +12667,7 @@ public struct GetDiscoveredResourceCountsInput: Swift.Equatable {
 
 struct GetDiscoveredResourceCountsInputBody: Swift.Equatable {
     let resourceTypes: [Swift.String]?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -12691,7 +12691,7 @@ extension GetDiscoveredResourceCountsInputBody: Swift.Decodable {
             }
         }
         resourceTypes = resourceTypesDecoded0
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -12813,7 +12813,7 @@ extension GetOrganizationConfigRuleDetailedStatusInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -12835,7 +12835,7 @@ public struct GetOrganizationConfigRuleDetailedStatusInput: Swift.Equatable {
     /// A StatusDetailFilters object.
     public var filters: ConfigClientTypes.StatusDetailFilters?
     /// The maximum number of OrganizationConfigRuleDetailedStatus returned on each page. If you do not specify a number, Config uses the default. The default is 100.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
     /// The name of your organization Config rule for which you want status details for member accounts.
@@ -12844,7 +12844,7 @@ public struct GetOrganizationConfigRuleDetailedStatusInput: Swift.Equatable {
 
     public init (
         filters: ConfigClientTypes.StatusDetailFilters? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationConfigRuleName: Swift.String? = nil
     )
@@ -12859,7 +12859,7 @@ public struct GetOrganizationConfigRuleDetailedStatusInput: Swift.Equatable {
 struct GetOrganizationConfigRuleDetailedStatusInputBody: Swift.Equatable {
     let organizationConfigRuleName: Swift.String?
     let filters: ConfigClientTypes.StatusDetailFilters?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -12877,7 +12877,7 @@ extension GetOrganizationConfigRuleDetailedStatusInputBody: Swift.Decodable {
         organizationConfigRuleName = organizationConfigRuleNameDecoded
         let filtersDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.StatusDetailFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -12985,7 +12985,7 @@ extension GetOrganizationConformancePackDetailedStatusInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -13007,7 +13007,7 @@ public struct GetOrganizationConformancePackDetailedStatusInput: Swift.Equatable
     /// An OrganizationResourceDetailedStatusFilters object.
     public var filters: ConfigClientTypes.OrganizationResourceDetailedStatusFilters?
     /// The maximum number of OrganizationConformancePackDetailedStatuses returned on each page. If you do not specify a number, Config uses the default. The default is 100.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
     /// The name of organization conformance pack for which you want status details for member accounts.
@@ -13016,7 +13016,7 @@ public struct GetOrganizationConformancePackDetailedStatusInput: Swift.Equatable
 
     public init (
         filters: ConfigClientTypes.OrganizationResourceDetailedStatusFilters? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationConformancePackName: Swift.String? = nil
     )
@@ -13031,7 +13031,7 @@ public struct GetOrganizationConformancePackDetailedStatusInput: Swift.Equatable
 struct GetOrganizationConformancePackDetailedStatusInputBody: Swift.Equatable {
     let organizationConformancePackName: Swift.String?
     let filters: ConfigClientTypes.OrganizationResourceDetailedStatusFilters?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -13049,7 +13049,7 @@ extension GetOrganizationConformancePackDetailedStatusInputBody: Swift.Decodable
         organizationConformancePackName = organizationConformancePackNameDecoded
         let filtersDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.OrganizationResourceDetailedStatusFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -13279,7 +13279,7 @@ extension GetResourceConfigHistoryInput: Swift.Encodable {
         if let laterTime = self.laterTime {
             try encodeContainer.encodeTimestamp(laterTime, format: .epochSeconds, forKey: .laterTime)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -13309,7 +13309,7 @@ public struct GetResourceConfigHistoryInput: Swift.Equatable {
     /// The time stamp that indicates a later time. If not specified, current time is taken.
     public var laterTime: ClientRuntime.Date?
     /// The maximum number of configuration items returned on each page. The default is 10. You cannot specify a number greater than 100. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
     /// The ID of the resource (for example., sg-xxxxxx).
@@ -13323,7 +13323,7 @@ public struct GetResourceConfigHistoryInput: Swift.Equatable {
         chronologicalOrder: ConfigClientTypes.ChronologicalOrder? = nil,
         earlierTime: ClientRuntime.Date? = nil,
         laterTime: ClientRuntime.Date? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: ConfigClientTypes.ResourceType? = nil
@@ -13345,7 +13345,7 @@ struct GetResourceConfigHistoryInputBody: Swift.Equatable {
     let laterTime: ClientRuntime.Date?
     let earlierTime: ClientRuntime.Date?
     let chronologicalOrder: ConfigClientTypes.ChronologicalOrder?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -13372,7 +13372,7 @@ extension GetResourceConfigHistoryInputBody: Swift.Decodable {
         earlierTime = earlierTimeDecoded
         let chronologicalOrderDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ChronologicalOrder.self, forKey: .chronologicalOrder)
         chronologicalOrder = chronologicalOrderDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -14043,7 +14043,7 @@ extension InvalidDeliveryChannelNameException {
     }
 }
 
-/// The specified delivery channel name is invalid.
+/// The specified delivery channel name is not valid.
 public struct InvalidDeliveryChannelNameException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -14202,7 +14202,7 @@ extension InvalidNextTokenException {
     }
 }
 
-/// The specified next token is invalid. Specify the nextToken string that was returned in the previous response to get the next page of results.
+/// The specified next token is not valid. Specify the nextToken string that was returned in the previous response to get the next page of results.
 public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -14255,7 +14255,7 @@ extension InvalidParameterValueException {
     }
 }
 
-/// One or more of the specified parameters are invalid. Verify that your parameters are valid and try again.
+/// One or more of the specified parameters are not valid. Verify that your parameters are valid and try again.
 public struct InvalidParameterValueException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -14308,7 +14308,7 @@ extension InvalidRecordingGroupException {
     }
 }
 
-/// Config throws an exception if the recording group does not contain a valid list of resource types. Invalid values might also be incorrectly formatted.
+/// Config throws an exception if the recording group does not contain a valid list of resource types. Values that are not valid might also be incorrectly formatted.
 public struct InvalidRecordingGroupException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -14361,7 +14361,7 @@ extension InvalidResultTokenException {
     }
 }
 
-/// The specified ResultToken is invalid.
+/// The specified ResultToken is not valid.
 public struct InvalidResultTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -14467,7 +14467,7 @@ extension InvalidS3KeyPrefixException {
     }
 }
 
-/// The specified Amazon S3 key prefix is invalid.
+/// The specified Amazon S3 key prefix is not valid.
 public struct InvalidS3KeyPrefixException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -14520,7 +14520,7 @@ extension InvalidS3KmsKeyArnException {
     }
 }
 
-/// The specified Amazon KMS Key ARN is invalid.
+/// The specified Amazon KMS Key ARN is not valid.
 public struct InvalidS3KmsKeyArnException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -14626,7 +14626,7 @@ extension InvalidTimeRangeException {
     }
 }
 
-/// The specified time range is invalid. The earlier time is not chronologically before the later time.
+/// The specified time range is not valid. The earlier time is not chronologically before the later time.
 public struct InvalidTimeRangeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -14785,7 +14785,7 @@ extension ListAggregateDiscoveredResourcesInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -14810,7 +14810,7 @@ public struct ListAggregateDiscoveredResourcesInput: Swift.Equatable {
     /// Filters the results based on the ResourceFilters object.
     public var filters: ConfigClientTypes.ResourceFilters?
     /// The maximum number of resource identifiers returned on each page. You cannot specify a number greater than 100. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
     /// The type of resources that you want Config to list in the response.
@@ -14820,7 +14820,7 @@ public struct ListAggregateDiscoveredResourcesInput: Swift.Equatable {
     public init (
         configurationAggregatorName: Swift.String? = nil,
         filters: ConfigClientTypes.ResourceFilters? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceType: ConfigClientTypes.ResourceType? = nil
     )
@@ -14837,7 +14837,7 @@ struct ListAggregateDiscoveredResourcesInputBody: Swift.Equatable {
     let configurationAggregatorName: Swift.String?
     let resourceType: ConfigClientTypes.ResourceType?
     let filters: ConfigClientTypes.ResourceFilters?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -14858,7 +14858,7 @@ extension ListAggregateDiscoveredResourcesInputBody: Swift.Decodable {
         resourceType = resourceTypeDecoded
         let filtersDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -14967,7 +14967,7 @@ extension ListConformancePackComplianceScoresInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -14992,8 +14992,8 @@ public struct ListConformancePackComplianceScoresInput: Swift.Equatable {
     /// Filters the results based on the ConformancePackComplianceScoresFilters.
     public var filters: ConfigClientTypes.ConformancePackComplianceScoresFilters?
     /// The maximum number of conformance pack compliance scores returned on each page.
-    public var limit: Swift.Int
-    /// The nextToken string in a prior request that you can use to get the paginated response for next set of conformance pack compliance scores.
+    public var limit: Swift.Int?
+    /// The nextToken string in a prior request that you can use to get the paginated response for the next set of conformance pack compliance scores.
     public var nextToken: Swift.String?
     /// Sorts your conformance pack compliance scores in either ascending or descending order, depending on SortOrder. By default, conformance pack compliance scores are sorted in alphabetical order by name of the conformance pack. Enter SCORE, to sort conformance pack compliance scores by the numerical value of the compliance score.
     public var sortBy: ConfigClientTypes.SortBy?
@@ -15002,7 +15002,7 @@ public struct ListConformancePackComplianceScoresInput: Swift.Equatable {
 
     public init (
         filters: ConfigClientTypes.ConformancePackComplianceScoresFilters? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: ConfigClientTypes.SortBy? = nil,
         sortOrder: ConfigClientTypes.SortOrder? = nil
@@ -15020,7 +15020,7 @@ struct ListConformancePackComplianceScoresInputBody: Swift.Equatable {
     let filters: ConfigClientTypes.ConformancePackComplianceScoresFilters?
     let sortOrder: ConfigClientTypes.SortOrder?
     let sortBy: ConfigClientTypes.SortBy?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -15041,7 +15041,7 @@ extension ListConformancePackComplianceScoresInputBody: Swift.Decodable {
         sortOrder = sortOrderDecoded
         let sortByDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.SortBy.self, forKey: .sortBy)
         sortBy = sortByDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -15147,10 +15147,10 @@ extension ListDiscoveredResourcesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if includeDeletedResources != false {
+        if let includeDeletedResources = self.includeDeletedResources {
             try encodeContainer.encode(includeDeletedResources, forKey: .includeDeletedResources)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -15180,12 +15180,12 @@ extension ListDiscoveredResourcesInput: ClientRuntime.URLPathProvider {
 ///
 public struct ListDiscoveredResourcesInput: Swift.Equatable {
     /// Specifies whether Config includes deleted resources in the results. By default, deleted resources are not included.
-    public var includeDeletedResources: Swift.Bool
+    public var includeDeletedResources: Swift.Bool?
     /// The maximum number of resource identifiers returned on each page. The default is 100. You cannot specify a number greater than 100. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
-    /// The IDs of only those resources that you want Config to list in the response. If you do not specify this parameter, Config lists all resources of the specified type that it has discovered.
+    /// The IDs of only those resources that you want Config to list in the response. If you do not specify this parameter, Config lists all resources of the specified type that it has discovered. You can list a minimum of 1 resourceID and a maximum of 20 resourceIds.
     public var resourceIds: [Swift.String]?
     /// The custom name of only those resources that you want Config to list in the response. If you do not specify this parameter, Config lists all resources of the specified type that it has discovered.
     public var resourceName: Swift.String?
@@ -15194,8 +15194,8 @@ public struct ListDiscoveredResourcesInput: Swift.Equatable {
     public var resourceType: ConfigClientTypes.ResourceType?
 
     public init (
-        includeDeletedResources: Swift.Bool = false,
-        limit: Swift.Int = 0,
+        includeDeletedResources: Swift.Bool? = nil,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceIds: [Swift.String]? = nil,
         resourceName: Swift.String? = nil,
@@ -15215,8 +15215,8 @@ struct ListDiscoveredResourcesInputBody: Swift.Equatable {
     let resourceType: ConfigClientTypes.ResourceType?
     let resourceIds: [Swift.String]?
     let resourceName: Swift.String?
-    let limit: Swift.Int
-    let includeDeletedResources: Swift.Bool
+    let limit: Swift.Int?
+    let includeDeletedResources: Swift.Bool?
     let nextToken: Swift.String?
 }
 
@@ -15247,9 +15247,9 @@ extension ListDiscoveredResourcesInputBody: Swift.Decodable {
         resourceIds = resourceIdsDecoded0
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
-        let includeDeletedResourcesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeDeletedResources) ?? false
+        let includeDeletedResourcesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeDeletedResources)
         includeDeletedResources = includeDeletedResourcesDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -15357,7 +15357,7 @@ extension ListResourceEvaluationsInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -15376,13 +15376,13 @@ public struct ListResourceEvaluationsInput: Swift.Equatable {
     /// Returns a ResourceEvaluationFilters object.
     public var filters: ConfigClientTypes.ResourceEvaluationFilters?
     /// The maximum number of evaluations returned on each page. The default is 10. You cannot specify a number greater than 100. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
     public init (
         filters: ConfigClientTypes.ResourceEvaluationFilters? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -15394,7 +15394,7 @@ public struct ListResourceEvaluationsInput: Swift.Equatable {
 
 struct ListResourceEvaluationsInputBody: Swift.Equatable {
     let filters: ConfigClientTypes.ResourceEvaluationFilters?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -15409,7 +15409,7 @@ extension ListResourceEvaluationsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filtersDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.ResourceEvaluationFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -15654,7 +15654,7 @@ extension ListTagsForResourceInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -15674,7 +15674,7 @@ extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
 
 public struct ListTagsForResourceInput: Swift.Equatable {
     /// The maximum number of tags returned on each page. The limit maximum is 50. You cannot specify a number greater than 50. If you specify 0, Config uses the default.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator and AggregatorAuthorization.
@@ -15682,7 +15682,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     public var resourceArn: Swift.String?
 
     public init (
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
     )
@@ -15695,7 +15695,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
 
 struct ListTagsForResourceInputBody: Swift.Equatable {
     let resourceArn: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -15710,7 +15710,7 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -16749,7 +16749,7 @@ extension NoSuchConfigRuleException {
     }
 }
 
-/// The Config rule in the request is invalid. Verify that the rule is an Config Custom Policy rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
+/// The Config rule in the request is not valid. Verify that the rule is an Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
 public struct NoSuchConfigRuleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -17067,7 +17067,7 @@ extension NoSuchOrganizationConfigRuleException {
     }
 }
 
-/// The Config rule in the request is invalid. Verify that the rule is an organization Config Custom Policy rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
+/// The Config rule in the request is not valid. Verify that the rule is an organization Config Process Check rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
 public struct NoSuchOrganizationConfigRuleException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -18111,7 +18111,7 @@ extension OrganizationConformancePackTemplateValidationException {
     }
 }
 
-/// You have specified a template that is invalid or supported.
+/// You have specified a template that is not valid or supported.
 public struct OrganizationConformancePackTemplateValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -19953,7 +19953,7 @@ extension PutEvaluationsInput: Swift.Encodable {
         if let resultToken = self.resultToken {
             try encodeContainer.encode(resultToken, forKey: .resultToken)
         }
-        if testMode != false {
+        if let testMode = self.testMode {
             try encodeContainer.encode(testMode, forKey: .testMode)
         }
     }
@@ -19973,12 +19973,12 @@ public struct PutEvaluationsInput: Swift.Equatable {
     /// This member is required.
     public var resultToken: Swift.String?
     /// Use this parameter to specify a test run for PutEvaluations. You can verify whether your Lambda function will deliver evaluation results to Config. No updates occur to your existing evaluations, and evaluation results are not sent to Config. When TestMode is true, PutEvaluations doesn't require a valid value for the ResultToken parameter, but the value cannot be null.
-    public var testMode: Swift.Bool
+    public var testMode: Swift.Bool?
 
     public init (
         evaluations: [ConfigClientTypes.Evaluation]? = nil,
         resultToken: Swift.String? = nil,
-        testMode: Swift.Bool = false
+        testMode: Swift.Bool? = nil
     )
     {
         self.evaluations = evaluations
@@ -19990,7 +19990,7 @@ public struct PutEvaluationsInput: Swift.Equatable {
 struct PutEvaluationsInputBody: Swift.Equatable {
     let evaluations: [ConfigClientTypes.Evaluation]?
     let resultToken: Swift.String?
-    let testMode: Swift.Bool
+    let testMode: Swift.Bool?
 }
 
 extension PutEvaluationsInputBody: Swift.Decodable {
@@ -20015,7 +20015,7 @@ extension PutEvaluationsInputBody: Swift.Decodable {
         evaluations = evaluationsDecoded0
         let resultTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resultToken)
         resultToken = resultTokenDecoded
-        let testModeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .testMode) ?? false
+        let testModeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .testMode)
         testMode = testModeDecoded
     }
 }
@@ -21071,7 +21071,7 @@ extension PutRetentionConfigurationInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if retentionPeriodInDays != 0 {
+        if let retentionPeriodInDays = self.retentionPeriodInDays {
             try encodeContainer.encode(retentionPeriodInDays, forKey: .retentionPeriodInDays)
         }
     }
@@ -21086,10 +21086,10 @@ extension PutRetentionConfigurationInput: ClientRuntime.URLPathProvider {
 public struct PutRetentionConfigurationInput: Swift.Equatable {
     /// Number of days Config stores your historical information. Currently, only applicable to the configuration item history.
     /// This member is required.
-    public var retentionPeriodInDays: Swift.Int
+    public var retentionPeriodInDays: Swift.Int?
 
     public init (
-        retentionPeriodInDays: Swift.Int = 0
+        retentionPeriodInDays: Swift.Int? = nil
     )
     {
         self.retentionPeriodInDays = retentionPeriodInDays
@@ -21097,7 +21097,7 @@ public struct PutRetentionConfigurationInput: Swift.Equatable {
 }
 
 struct PutRetentionConfigurationInputBody: Swift.Equatable {
-    let retentionPeriodInDays: Swift.Int
+    let retentionPeriodInDays: Swift.Int?
 }
 
 extension PutRetentionConfigurationInputBody: Swift.Decodable {
@@ -21107,7 +21107,7 @@ extension PutRetentionConfigurationInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let retentionPeriodInDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriodInDays) ?? 0
+        let retentionPeriodInDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .retentionPeriodInDays)
         retentionPeriodInDays = retentionPeriodInDaysDecoded
     }
 }
@@ -21448,7 +21448,7 @@ extension ConfigClientTypes {
         public var allSupported: Swift.Bool
         /// Specifies whether Config includes all supported types of global resources (for example, IAM resources) with the resources that it records. Before you can set this option to true, you must set the allSupported option to true. If you set this option to true, when Config adds support for a new type of global resource, it starts recording resources of that type automatically. The configuration details for any global resource are the same in all regions. To prevent duplicate configuration items, you should consider customizing Config in only one region to record global resources.
         public var includeGlobalResourceTypes: Swift.Bool
-        /// A comma-separated list that specifies the types of Amazon Web Services resources for which Config records configuration changes (for example, AWS::EC2::Instance or AWS::CloudTrail::Trail). To record all configuration changes, you must set the allSupported option to true. If you set this option to false, when Config adds support for a new type of resource, it will not record resources of that type unless you manually add that type to your recording group. For a list of valid resourceTypes values, see the resourceType Value column in [Supported Amazon Web Services resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources).
+        /// A comma-separated list that specifies the types of Amazon Web Services resources for which Config records configuration changes (for example, AWS::EC2::Instance or AWS::CloudTrail::Trail). To record all configuration changes, you must set the allSupported option to true. If you set the AllSupported option to false and populate the ResourceTypes option with values, when Config adds support for a new type of resource, it will not record resources of that type unless you manually add that type to your recording group. For a list of valid resourceTypes values, see the resourceType Value column in [Supported Amazon Web Services resource Types](https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources).
         public var resourceTypes: [ConfigClientTypes.ResourceType]?
 
         public init (
@@ -22434,7 +22434,7 @@ extension ConfigClientTypes {
         /// The resource definition to be evaluated as per the resource configuration schema type.
         /// This member is required.
         public var resourceConfiguration: Swift.String?
-        /// The schema type of the resource configuration.
+        /// The schema type of the resource configuration. You can find the [Resource type schema](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html), or CFN_RESOURCE_SCHEMA, in "Amazon Web Services public extensions" within the CloudFormation registry or with the following CLI commmand: aws cloudformation describe-type --type-name "AWS::S3::Bucket" --type RESOURCE. For more information, see [Managing extensions through the CloudFormation registry](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html#registry-view) and [Amazon Web Services resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) in the CloudFormation User Guide.
         public var resourceConfigurationSchemaType: ConfigClientTypes.ResourceConfigurationSchemaType?
         /// A unique resource ID for an evaluation.
         /// This member is required.
@@ -22959,8 +22959,11 @@ extension ConfigClientTypes {
         case accessanalyzeranalyzer
         case accountpublicaccessblock
         case alarm
+        case amazonmqbroker
         case api
         case appconfigapplication
+        case appconfigconfigurationprofile
+        case appconfigenvironment
         case appsyncgraphqlapi
         case application
         case applicationversion
@@ -22970,12 +22973,15 @@ extension ConfigClientTypes {
         case autoscalinggroup
         case backupplan
         case backuprecoverypoint
+        case backupreportplan
         case backupselection
         case backupvault
         case batchcomputeenvironment
         case batchjobqueue
         case bucket
+        case budgetsbudgetsaction
         case certificate
+        case cloud9environmentec2
         case cloudformationproduct
         case cloudformationprovisionedproduct
         case cluster
@@ -22986,6 +22992,7 @@ extension ConfigClientTypes {
         case codedeployapplication
         case codedeploydeploymentconfig
         case codedeploydeploymentgroup
+        case codegurureviewerrepositoryassociation
         case conformancepackcompliance
         case customergateway
         case dbcluster
@@ -22999,14 +23006,21 @@ extension ConfigClientTypes {
         case dmsreplicationsubnetgroup
         case datasynclocationefs
         case datasynclocationfsxlustre
+        case datasynclocationfsxwindows
+        case datasynclocationhdfs
         case datasynclocationnfs
+        case datasynclocationobjectstorage
         case datasynclocations3
         case datasynclocationsmb
         case datasynctask
         case detectivegraph
+        case devicefarmtestgridproject
         case distribution
         case domain
+        case ec2trafficmirrorsession
+        case ec2trafficmirrortarget
         case ecrpublicrepository
+        case ecrregistrypolicy
         case ecrrepository
         case ecscluster
         case ecsservice
@@ -23014,39 +23028,97 @@ extension ConfigClientTypes {
         case efsaccesspoint
         case efsfilesystem
         case eip
+        case eksaddon
         case ekscluster
         case eksfargateprofile
+        case eksidentityproviderconfig
         case emrsecurityconfiguration
         case egressonlyinternetgateway
         case encryptionconfig
         case environment
+        case eventschemasdiscoverer
+        case eventschemasregistry
+        case eventschemasregistrypolicy
+        case eventschemasschema
         case eventsubscription
+        case eventsapidestination
+        case eventsarchive
+        case eventsconnection
+        case eventsendpoint
+        case eventseventbus
+        case fisexperimenttemplate
         case filedata
         case flowlog
+        case frauddetectorentitytype
+        case frauddetectorlabel
+        case frauddetectoroutcome
+        case frauddetectorvariable
         case function
         case globalacceleratoraccelerator
         case globalacceleratorendpointgroup
         case globalacceleratorlistener
+        case glueclassifier
         case gluejob
+        case gluemltransform
         case group
         case guarddutydetector
+        case guarddutyfilter
         case guarddutyipset
         case guarddutythreatintelset
         case host
         case ipsetv2
+        case ivschannel
+        case ivsplaybackkeypair
+        case ivsrecordingconfiguration
+        case imagebuildercontainerrecipe
+        case imagebuilderdistributionconfiguration
+        case imagebuilderinfrastructureconfiguration
         case instance
         case internetgateway
+        case iotaccountauditconfiguration
+        case iotanalyticschannel
+        case iotanalyticsdataset
+        case iotanalyticsdatastore
+        case iotanalyticspipeline
+        case iotauthorizer
+        case iotcustommetric
+        case iotdimension
+        case ioteventsalarmmodel
+        case ioteventsdetectormodel
+        case ioteventsinput
+        case iotmitigationaction
+        case iotpolicy
+        case iotrolealias
+        case iotscheduledaudit
+        case iotsecurityprofile
+        case iotsitewiseassetmodel
+        case iotsitewisedashboard
+        case iotsitewisegateway
+        case iotsitewiseportal
+        case iotsitewiseproject
+        case iottwinmakerentity
+        case iottwinmakerworkspace
         case key
+        case kinesisanalyticsv2application
         case kinesisstream
         case kinesisstreamconsumer
         case launchconfiguration
         case launchtemplate
+        case lexbot
+        case lexbotalias
+        case lightsailbucket
+        case lightsailcertificate
+        case lightsaildisk
+        case lightsailstaticip
         case listenerv2
         case loadbalancer
         case loadbalancerv2
+        case lookoutmetricsalert
         case mskcluster
         case managedinstanceinventory
         case managedrulesetv2
+        case mediapackagepackagingconfiguration
+        case mediapackagepackaginggroup
         case natgateway
         case networkacl
         case networkfirewallfirewall
@@ -23063,6 +23135,8 @@ extension ConfigClientTypes {
         case protection
         case qldbledger
         case queue
+        case rdsglobalcluster
+        case rumappmonitor
         case ratebasedrule
         case redshifteventsubscription
         case regexpatternsetv2
@@ -23072,10 +23146,16 @@ extension ConfigClientTypes {
         case regionalrulegroup
         case regionalwebacl
         case registeredhainstance
+        case resiliencehubresiliencypolicy
         case resourcecompliance
         case restapi
+        case robomakerrobotapplicationversion
         case role
         case route53hostedzone
+        case route53recoveryreadinesscell
+        case route53recoveryreadinessreadinesscheck
+        case route53recoveryreadinessrecoverygroup
+        case route53resolverfirewalldomainlist
         case route53resolverresolverendpoint
         case route53resolverresolverrule
         case route53resolverresolverruleassociation
@@ -23083,8 +23163,13 @@ extension ConfigClientTypes {
         case rule
         case rulegroup
         case rulegroupv2
+        case s3multiregionaccesspoint
+        case s3storagelens
         case sesconfigurationset
         case sescontactlist
+        case sesreceiptfilter
+        case sesreceiptruleset
+        case sestemplate
         case sagemakercoderepository
         case sagemakermodel
         case sagemakernotebookinstancelifecycleconfig
@@ -23093,6 +23178,7 @@ extension ConfigClientTypes {
         case scheduledaction
         case secret
         case securitygroup
+        case servicediscoveryhttpnamespace
         case servicediscoverypublicdnsnamespace
         case servicediscoveryservice
         case stack
@@ -23105,6 +23191,7 @@ extension ConfigClientTypes {
         case table
         case topic
         case trail
+        case transferworkflow
         case transitgateway
         case transitgatewayattachment
         case transitgatewayroutetable
@@ -23127,8 +23214,11 @@ extension ConfigClientTypes {
                 .accessanalyzeranalyzer,
                 .accountpublicaccessblock,
                 .alarm,
+                .amazonmqbroker,
                 .api,
                 .appconfigapplication,
+                .appconfigconfigurationprofile,
+                .appconfigenvironment,
                 .appsyncgraphqlapi,
                 .application,
                 .applicationversion,
@@ -23138,12 +23228,15 @@ extension ConfigClientTypes {
                 .autoscalinggroup,
                 .backupplan,
                 .backuprecoverypoint,
+                .backupreportplan,
                 .backupselection,
                 .backupvault,
                 .batchcomputeenvironment,
                 .batchjobqueue,
                 .bucket,
+                .budgetsbudgetsaction,
                 .certificate,
+                .cloud9environmentec2,
                 .cloudformationproduct,
                 .cloudformationprovisionedproduct,
                 .cluster,
@@ -23154,6 +23247,7 @@ extension ConfigClientTypes {
                 .codedeployapplication,
                 .codedeploydeploymentconfig,
                 .codedeploydeploymentgroup,
+                .codegurureviewerrepositoryassociation,
                 .conformancepackcompliance,
                 .customergateway,
                 .dbcluster,
@@ -23167,14 +23261,21 @@ extension ConfigClientTypes {
                 .dmsreplicationsubnetgroup,
                 .datasynclocationefs,
                 .datasynclocationfsxlustre,
+                .datasynclocationfsxwindows,
+                .datasynclocationhdfs,
                 .datasynclocationnfs,
+                .datasynclocationobjectstorage,
                 .datasynclocations3,
                 .datasynclocationsmb,
                 .datasynctask,
                 .detectivegraph,
+                .devicefarmtestgridproject,
                 .distribution,
                 .domain,
+                .ec2trafficmirrorsession,
+                .ec2trafficmirrortarget,
                 .ecrpublicrepository,
+                .ecrregistrypolicy,
                 .ecrrepository,
                 .ecscluster,
                 .ecsservice,
@@ -23182,39 +23283,97 @@ extension ConfigClientTypes {
                 .efsaccesspoint,
                 .efsfilesystem,
                 .eip,
+                .eksaddon,
                 .ekscluster,
                 .eksfargateprofile,
+                .eksidentityproviderconfig,
                 .emrsecurityconfiguration,
                 .egressonlyinternetgateway,
                 .encryptionconfig,
                 .environment,
+                .eventschemasdiscoverer,
+                .eventschemasregistry,
+                .eventschemasregistrypolicy,
+                .eventschemasschema,
                 .eventsubscription,
+                .eventsapidestination,
+                .eventsarchive,
+                .eventsconnection,
+                .eventsendpoint,
+                .eventseventbus,
+                .fisexperimenttemplate,
                 .filedata,
                 .flowlog,
+                .frauddetectorentitytype,
+                .frauddetectorlabel,
+                .frauddetectoroutcome,
+                .frauddetectorvariable,
                 .function,
                 .globalacceleratoraccelerator,
                 .globalacceleratorendpointgroup,
                 .globalacceleratorlistener,
+                .glueclassifier,
                 .gluejob,
+                .gluemltransform,
                 .group,
                 .guarddutydetector,
+                .guarddutyfilter,
                 .guarddutyipset,
                 .guarddutythreatintelset,
                 .host,
                 .ipsetv2,
+                .ivschannel,
+                .ivsplaybackkeypair,
+                .ivsrecordingconfiguration,
+                .imagebuildercontainerrecipe,
+                .imagebuilderdistributionconfiguration,
+                .imagebuilderinfrastructureconfiguration,
                 .instance,
                 .internetgateway,
+                .iotaccountauditconfiguration,
+                .iotanalyticschannel,
+                .iotanalyticsdataset,
+                .iotanalyticsdatastore,
+                .iotanalyticspipeline,
+                .iotauthorizer,
+                .iotcustommetric,
+                .iotdimension,
+                .ioteventsalarmmodel,
+                .ioteventsdetectormodel,
+                .ioteventsinput,
+                .iotmitigationaction,
+                .iotpolicy,
+                .iotrolealias,
+                .iotscheduledaudit,
+                .iotsecurityprofile,
+                .iotsitewiseassetmodel,
+                .iotsitewisedashboard,
+                .iotsitewisegateway,
+                .iotsitewiseportal,
+                .iotsitewiseproject,
+                .iottwinmakerentity,
+                .iottwinmakerworkspace,
                 .key,
+                .kinesisanalyticsv2application,
                 .kinesisstream,
                 .kinesisstreamconsumer,
                 .launchconfiguration,
                 .launchtemplate,
+                .lexbot,
+                .lexbotalias,
+                .lightsailbucket,
+                .lightsailcertificate,
+                .lightsaildisk,
+                .lightsailstaticip,
                 .listenerv2,
                 .loadbalancer,
                 .loadbalancerv2,
+                .lookoutmetricsalert,
                 .mskcluster,
                 .managedinstanceinventory,
                 .managedrulesetv2,
+                .mediapackagepackagingconfiguration,
+                .mediapackagepackaginggroup,
                 .natgateway,
                 .networkacl,
                 .networkfirewallfirewall,
@@ -23231,6 +23390,8 @@ extension ConfigClientTypes {
                 .protection,
                 .qldbledger,
                 .queue,
+                .rdsglobalcluster,
+                .rumappmonitor,
                 .ratebasedrule,
                 .redshifteventsubscription,
                 .regexpatternsetv2,
@@ -23240,10 +23401,16 @@ extension ConfigClientTypes {
                 .regionalrulegroup,
                 .regionalwebacl,
                 .registeredhainstance,
+                .resiliencehubresiliencypolicy,
                 .resourcecompliance,
                 .restapi,
+                .robomakerrobotapplicationversion,
                 .role,
                 .route53hostedzone,
+                .route53recoveryreadinesscell,
+                .route53recoveryreadinessreadinesscheck,
+                .route53recoveryreadinessrecoverygroup,
+                .route53resolverfirewalldomainlist,
                 .route53resolverresolverendpoint,
                 .route53resolverresolverrule,
                 .route53resolverresolverruleassociation,
@@ -23251,8 +23418,13 @@ extension ConfigClientTypes {
                 .rule,
                 .rulegroup,
                 .rulegroupv2,
+                .s3multiregionaccesspoint,
+                .s3storagelens,
                 .sesconfigurationset,
                 .sescontactlist,
+                .sesreceiptfilter,
+                .sesreceiptruleset,
+                .sestemplate,
                 .sagemakercoderepository,
                 .sagemakermodel,
                 .sagemakernotebookinstancelifecycleconfig,
@@ -23261,6 +23433,7 @@ extension ConfigClientTypes {
                 .scheduledaction,
                 .secret,
                 .securitygroup,
+                .servicediscoveryhttpnamespace,
                 .servicediscoverypublicdnsnamespace,
                 .servicediscoveryservice,
                 .stack,
@@ -23273,6 +23446,7 @@ extension ConfigClientTypes {
                 .table,
                 .topic,
                 .trail,
+                .transferworkflow,
                 .transitgateway,
                 .transitgatewayattachment,
                 .transitgatewayroutetable,
@@ -23300,8 +23474,11 @@ extension ConfigClientTypes {
             case .accessanalyzeranalyzer: return "AWS::AccessAnalyzer::Analyzer"
             case .accountpublicaccessblock: return "AWS::S3::AccountPublicAccessBlock"
             case .alarm: return "AWS::CloudWatch::Alarm"
+            case .amazonmqbroker: return "AWS::AmazonMQ::Broker"
             case .api: return "AWS::ApiGatewayV2::Api"
             case .appconfigapplication: return "AWS::AppConfig::Application"
+            case .appconfigconfigurationprofile: return "AWS::AppConfig::ConfigurationProfile"
+            case .appconfigenvironment: return "AWS::AppConfig::Environment"
             case .appsyncgraphqlapi: return "AWS::AppSync::GraphQLApi"
             case .application: return "AWS::ElasticBeanstalk::Application"
             case .applicationversion: return "AWS::ElasticBeanstalk::ApplicationVersion"
@@ -23311,12 +23488,15 @@ extension ConfigClientTypes {
             case .autoscalinggroup: return "AWS::AutoScaling::AutoScalingGroup"
             case .backupplan: return "AWS::Backup::BackupPlan"
             case .backuprecoverypoint: return "AWS::Backup::RecoveryPoint"
+            case .backupreportplan: return "AWS::Backup::ReportPlan"
             case .backupselection: return "AWS::Backup::BackupSelection"
             case .backupvault: return "AWS::Backup::BackupVault"
             case .batchcomputeenvironment: return "AWS::Batch::ComputeEnvironment"
             case .batchjobqueue: return "AWS::Batch::JobQueue"
             case .bucket: return "AWS::S3::Bucket"
+            case .budgetsbudgetsaction: return "AWS::Budgets::BudgetsAction"
             case .certificate: return "AWS::ACM::Certificate"
+            case .cloud9environmentec2: return "AWS::Cloud9::EnvironmentEC2"
             case .cloudformationproduct: return "AWS::ServiceCatalog::CloudFormationProduct"
             case .cloudformationprovisionedproduct: return "AWS::ServiceCatalog::CloudFormationProvisionedProduct"
             case .cluster: return "AWS::Redshift::Cluster"
@@ -23327,6 +23507,7 @@ extension ConfigClientTypes {
             case .codedeployapplication: return "AWS::CodeDeploy::Application"
             case .codedeploydeploymentconfig: return "AWS::CodeDeploy::DeploymentConfig"
             case .codedeploydeploymentgroup: return "AWS::CodeDeploy::DeploymentGroup"
+            case .codegurureviewerrepositoryassociation: return "AWS::CodeGuruReviewer::RepositoryAssociation"
             case .conformancepackcompliance: return "AWS::Config::ConformancePackCompliance"
             case .customergateway: return "AWS::EC2::CustomerGateway"
             case .dbcluster: return "AWS::RDS::DBCluster"
@@ -23340,14 +23521,21 @@ extension ConfigClientTypes {
             case .dmsreplicationsubnetgroup: return "AWS::DMS::ReplicationSubnetGroup"
             case .datasynclocationefs: return "AWS::DataSync::LocationEFS"
             case .datasynclocationfsxlustre: return "AWS::DataSync::LocationFSxLustre"
+            case .datasynclocationfsxwindows: return "AWS::DataSync::LocationFSxWindows"
+            case .datasynclocationhdfs: return "AWS::DataSync::LocationHDFS"
             case .datasynclocationnfs: return "AWS::DataSync::LocationNFS"
+            case .datasynclocationobjectstorage: return "AWS::DataSync::LocationObjectStorage"
             case .datasynclocations3: return "AWS::DataSync::LocationS3"
             case .datasynclocationsmb: return "AWS::DataSync::LocationSMB"
             case .datasynctask: return "AWS::DataSync::Task"
             case .detectivegraph: return "AWS::Detective::Graph"
+            case .devicefarmtestgridproject: return "AWS::DeviceFarm::TestGridProject"
             case .distribution: return "AWS::CloudFront::Distribution"
             case .domain: return "AWS::Elasticsearch::Domain"
+            case .ec2trafficmirrorsession: return "AWS::EC2::TrafficMirrorSession"
+            case .ec2trafficmirrortarget: return "AWS::EC2::TrafficMirrorTarget"
             case .ecrpublicrepository: return "AWS::ECR::PublicRepository"
+            case .ecrregistrypolicy: return "AWS::ECR::RegistryPolicy"
             case .ecrrepository: return "AWS::ECR::Repository"
             case .ecscluster: return "AWS::ECS::Cluster"
             case .ecsservice: return "AWS::ECS::Service"
@@ -23355,39 +23543,97 @@ extension ConfigClientTypes {
             case .efsaccesspoint: return "AWS::EFS::AccessPoint"
             case .efsfilesystem: return "AWS::EFS::FileSystem"
             case .eip: return "AWS::EC2::EIP"
+            case .eksaddon: return "AWS::EKS::Addon"
             case .ekscluster: return "AWS::EKS::Cluster"
             case .eksfargateprofile: return "AWS::EKS::FargateProfile"
+            case .eksidentityproviderconfig: return "AWS::EKS::IdentityProviderConfig"
             case .emrsecurityconfiguration: return "AWS::EMR::SecurityConfiguration"
             case .egressonlyinternetgateway: return "AWS::EC2::EgressOnlyInternetGateway"
             case .encryptionconfig: return "AWS::XRay::EncryptionConfig"
             case .environment: return "AWS::ElasticBeanstalk::Environment"
+            case .eventschemasdiscoverer: return "AWS::EventSchemas::Discoverer"
+            case .eventschemasregistry: return "AWS::EventSchemas::Registry"
+            case .eventschemasregistrypolicy: return "AWS::EventSchemas::RegistryPolicy"
+            case .eventschemasschema: return "AWS::EventSchemas::Schema"
             case .eventsubscription: return "AWS::RDS::EventSubscription"
+            case .eventsapidestination: return "AWS::Events::ApiDestination"
+            case .eventsarchive: return "AWS::Events::Archive"
+            case .eventsconnection: return "AWS::Events::Connection"
+            case .eventsendpoint: return "AWS::Events::Endpoint"
+            case .eventseventbus: return "AWS::Events::EventBus"
+            case .fisexperimenttemplate: return "AWS::FIS::ExperimentTemplate"
             case .filedata: return "AWS::SSM::FileData"
             case .flowlog: return "AWS::EC2::FlowLog"
+            case .frauddetectorentitytype: return "AWS::FraudDetector::EntityType"
+            case .frauddetectorlabel: return "AWS::FraudDetector::Label"
+            case .frauddetectoroutcome: return "AWS::FraudDetector::Outcome"
+            case .frauddetectorvariable: return "AWS::FraudDetector::Variable"
             case .function: return "AWS::Lambda::Function"
             case .globalacceleratoraccelerator: return "AWS::GlobalAccelerator::Accelerator"
             case .globalacceleratorendpointgroup: return "AWS::GlobalAccelerator::EndpointGroup"
             case .globalacceleratorlistener: return "AWS::GlobalAccelerator::Listener"
+            case .glueclassifier: return "AWS::Glue::Classifier"
             case .gluejob: return "AWS::Glue::Job"
+            case .gluemltransform: return "AWS::Glue::MLTransform"
             case .group: return "AWS::IAM::Group"
             case .guarddutydetector: return "AWS::GuardDuty::Detector"
+            case .guarddutyfilter: return "AWS::GuardDuty::Filter"
             case .guarddutyipset: return "AWS::GuardDuty::IPSet"
             case .guarddutythreatintelset: return "AWS::GuardDuty::ThreatIntelSet"
             case .host: return "AWS::EC2::Host"
             case .ipsetv2: return "AWS::WAFv2::IPSet"
+            case .ivschannel: return "AWS::IVS::Channel"
+            case .ivsplaybackkeypair: return "AWS::IVS::PlaybackKeyPair"
+            case .ivsrecordingconfiguration: return "AWS::IVS::RecordingConfiguration"
+            case .imagebuildercontainerrecipe: return "AWS::ImageBuilder::ContainerRecipe"
+            case .imagebuilderdistributionconfiguration: return "AWS::ImageBuilder::DistributionConfiguration"
+            case .imagebuilderinfrastructureconfiguration: return "AWS::ImageBuilder::InfrastructureConfiguration"
             case .instance: return "AWS::EC2::Instance"
             case .internetgateway: return "AWS::EC2::InternetGateway"
+            case .iotaccountauditconfiguration: return "AWS::IoT::AccountAuditConfiguration"
+            case .iotanalyticschannel: return "AWS::IoTAnalytics::Channel"
+            case .iotanalyticsdataset: return "AWS::IoTAnalytics::Dataset"
+            case .iotanalyticsdatastore: return "AWS::IoTAnalytics::Datastore"
+            case .iotanalyticspipeline: return "AWS::IoTAnalytics::Pipeline"
+            case .iotauthorizer: return "AWS::IoT::Authorizer"
+            case .iotcustommetric: return "AWS::IoT::CustomMetric"
+            case .iotdimension: return "AWS::IoT::Dimension"
+            case .ioteventsalarmmodel: return "AWS::IoTEvents::AlarmModel"
+            case .ioteventsdetectormodel: return "AWS::IoTEvents::DetectorModel"
+            case .ioteventsinput: return "AWS::IoTEvents::Input"
+            case .iotmitigationaction: return "AWS::IoT::MitigationAction"
+            case .iotpolicy: return "AWS::IoT::Policy"
+            case .iotrolealias: return "AWS::IoT::RoleAlias"
+            case .iotscheduledaudit: return "AWS::IoT::ScheduledAudit"
+            case .iotsecurityprofile: return "AWS::IoT::SecurityProfile"
+            case .iotsitewiseassetmodel: return "AWS::IoTSiteWise::AssetModel"
+            case .iotsitewisedashboard: return "AWS::IoTSiteWise::Dashboard"
+            case .iotsitewisegateway: return "AWS::IoTSiteWise::Gateway"
+            case .iotsitewiseportal: return "AWS::IoTSiteWise::Portal"
+            case .iotsitewiseproject: return "AWS::IoTSiteWise::Project"
+            case .iottwinmakerentity: return "AWS::IoTTwinMaker::Entity"
+            case .iottwinmakerworkspace: return "AWS::IoTTwinMaker::Workspace"
             case .key: return "AWS::KMS::Key"
+            case .kinesisanalyticsv2application: return "AWS::KinesisAnalyticsV2::Application"
             case .kinesisstream: return "AWS::Kinesis::Stream"
             case .kinesisstreamconsumer: return "AWS::Kinesis::StreamConsumer"
             case .launchconfiguration: return "AWS::AutoScaling::LaunchConfiguration"
             case .launchtemplate: return "AWS::EC2::LaunchTemplate"
+            case .lexbot: return "AWS::Lex::Bot"
+            case .lexbotalias: return "AWS::Lex::BotAlias"
+            case .lightsailbucket: return "AWS::Lightsail::Bucket"
+            case .lightsailcertificate: return "AWS::Lightsail::Certificate"
+            case .lightsaildisk: return "AWS::Lightsail::Disk"
+            case .lightsailstaticip: return "AWS::Lightsail::StaticIp"
             case .listenerv2: return "AWS::ElasticLoadBalancingV2::Listener"
             case .loadbalancer: return "AWS::ElasticLoadBalancing::LoadBalancer"
             case .loadbalancerv2: return "AWS::ElasticLoadBalancingV2::LoadBalancer"
+            case .lookoutmetricsalert: return "AWS::LookoutMetrics::Alert"
             case .mskcluster: return "AWS::MSK::Cluster"
             case .managedinstanceinventory: return "AWS::SSM::ManagedInstanceInventory"
             case .managedrulesetv2: return "AWS::WAFv2::ManagedRuleSet"
+            case .mediapackagepackagingconfiguration: return "AWS::MediaPackage::PackagingConfiguration"
+            case .mediapackagepackaginggroup: return "AWS::MediaPackage::PackagingGroup"
             case .natgateway: return "AWS::EC2::NatGateway"
             case .networkacl: return "AWS::EC2::NetworkAcl"
             case .networkfirewallfirewall: return "AWS::NetworkFirewall::Firewall"
@@ -23404,6 +23650,8 @@ extension ConfigClientTypes {
             case .protection: return "AWS::Shield::Protection"
             case .qldbledger: return "AWS::QLDB::Ledger"
             case .queue: return "AWS::SQS::Queue"
+            case .rdsglobalcluster: return "AWS::RDS::GlobalCluster"
+            case .rumappmonitor: return "AWS::RUM::AppMonitor"
             case .ratebasedrule: return "AWS::WAF::RateBasedRule"
             case .redshifteventsubscription: return "AWS::Redshift::EventSubscription"
             case .regexpatternsetv2: return "AWS::WAFv2::RegexPatternSet"
@@ -23413,10 +23661,16 @@ extension ConfigClientTypes {
             case .regionalrulegroup: return "AWS::WAFRegional::RuleGroup"
             case .regionalwebacl: return "AWS::WAFRegional::WebACL"
             case .registeredhainstance: return "AWS::EC2::RegisteredHAInstance"
+            case .resiliencehubresiliencypolicy: return "AWS::ResilienceHub::ResiliencyPolicy"
             case .resourcecompliance: return "AWS::Config::ResourceCompliance"
             case .restapi: return "AWS::ApiGateway::RestApi"
+            case .robomakerrobotapplicationversion: return "AWS::RoboMaker::RobotApplicationVersion"
             case .role: return "AWS::IAM::Role"
             case .route53hostedzone: return "AWS::Route53::HostedZone"
+            case .route53recoveryreadinesscell: return "AWS::Route53RecoveryReadiness::Cell"
+            case .route53recoveryreadinessreadinesscheck: return "AWS::Route53RecoveryReadiness::ReadinessCheck"
+            case .route53recoveryreadinessrecoverygroup: return "AWS::Route53RecoveryReadiness::RecoveryGroup"
+            case .route53resolverfirewalldomainlist: return "AWS::Route53Resolver::FirewallDomainList"
             case .route53resolverresolverendpoint: return "AWS::Route53Resolver::ResolverEndpoint"
             case .route53resolverresolverrule: return "AWS::Route53Resolver::ResolverRule"
             case .route53resolverresolverruleassociation: return "AWS::Route53Resolver::ResolverRuleAssociation"
@@ -23424,8 +23678,13 @@ extension ConfigClientTypes {
             case .rule: return "AWS::WAF::Rule"
             case .rulegroup: return "AWS::WAF::RuleGroup"
             case .rulegroupv2: return "AWS::WAFv2::RuleGroup"
+            case .s3multiregionaccesspoint: return "AWS::S3::MultiRegionAccessPoint"
+            case .s3storagelens: return "AWS::S3::StorageLens"
             case .sesconfigurationset: return "AWS::SES::ConfigurationSet"
             case .sescontactlist: return "AWS::SES::ContactList"
+            case .sesreceiptfilter: return "AWS::SES::ReceiptFilter"
+            case .sesreceiptruleset: return "AWS::SES::ReceiptRuleSet"
+            case .sestemplate: return "AWS::SES::Template"
             case .sagemakercoderepository: return "AWS::SageMaker::CodeRepository"
             case .sagemakermodel: return "AWS::SageMaker::Model"
             case .sagemakernotebookinstancelifecycleconfig: return "AWS::SageMaker::NotebookInstanceLifecycleConfig"
@@ -23434,6 +23693,7 @@ extension ConfigClientTypes {
             case .scheduledaction: return "AWS::AutoScaling::ScheduledAction"
             case .secret: return "AWS::SecretsManager::Secret"
             case .securitygroup: return "AWS::EC2::SecurityGroup"
+            case .servicediscoveryhttpnamespace: return "AWS::ServiceDiscovery::HttpNamespace"
             case .servicediscoverypublicdnsnamespace: return "AWS::ServiceDiscovery::PublicDnsNamespace"
             case .servicediscoveryservice: return "AWS::ServiceDiscovery::Service"
             case .stack: return "AWS::CloudFormation::Stack"
@@ -23446,6 +23706,7 @@ extension ConfigClientTypes {
             case .table: return "AWS::DynamoDB::Table"
             case .topic: return "AWS::SNS::Topic"
             case .trail: return "AWS::CloudTrail::Trail"
+            case .transferworkflow: return "AWS::Transfer::Workflow"
             case .transitgateway: return "AWS::EC2::TransitGateway"
             case .transitgatewayattachment: return "AWS::EC2::TransitGatewayAttachment"
             case .transitgatewayroutetable: return "AWS::EC2::TransitGatewayRouteTable"
@@ -23678,10 +23939,10 @@ extension SelectAggregateResourceConfigInput: Swift.Encodable {
         if let expression = self.expression {
             try encodeContainer.encode(expression, forKey: .expression)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -23704,17 +23965,17 @@ public struct SelectAggregateResourceConfigInput: Swift.Equatable {
     /// This member is required.
     public var expression: Swift.String?
     /// The maximum number of query results returned on each page.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The maximum number of query results returned on each page. Config also allows the Limit request parameter.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
     public init (
         configurationAggregatorName: Swift.String? = nil,
         expression: Swift.String? = nil,
-        limit: Swift.Int = 0,
-        maxResults: Swift.Int = 0,
+        limit: Swift.Int? = nil,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -23729,8 +23990,8 @@ public struct SelectAggregateResourceConfigInput: Swift.Equatable {
 struct SelectAggregateResourceConfigInputBody: Swift.Equatable {
     let expression: Swift.String?
     let configurationAggregatorName: Swift.String?
-    let limit: Swift.Int
-    let maxResults: Swift.Int
+    let limit: Swift.Int?
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -23749,9 +24010,9 @@ extension SelectAggregateResourceConfigInputBody: Swift.Decodable {
         expression = expressionDecoded
         let configurationAggregatorNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationAggregatorName)
         configurationAggregatorName = configurationAggregatorNameDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -23868,7 +24129,7 @@ extension SelectResourceConfigInput: Swift.Encodable {
         if let expression = self.expression {
             try encodeContainer.encode(expression, forKey: .expression)
         }
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextToken = self.nextToken {
@@ -23888,13 +24149,13 @@ public struct SelectResourceConfigInput: Swift.Equatable {
     /// This member is required.
     public var expression: Swift.String?
     /// The maximum number of query results returned on each page.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
     public var nextToken: Swift.String?
 
     public init (
         expression: Swift.String? = nil,
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -23906,7 +24167,7 @@ public struct SelectResourceConfigInput: Swift.Equatable {
 
 struct SelectResourceConfigInputBody: Swift.Equatable {
     let expression: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -23921,7 +24182,7 @@ extension SelectResourceConfigInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let expressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expression)
         expression = expressionDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -24635,7 +24896,7 @@ extension StartResourceEvaluationInput: Swift.Encodable {
         if let evaluationMode = self.evaluationMode {
             try encodeContainer.encode(evaluationMode.rawValue, forKey: .evaluationMode)
         }
-        if evaluationTimeout != 0 {
+        if let evaluationTimeout = self.evaluationTimeout {
             try encodeContainer.encode(evaluationTimeout, forKey: .evaluationTimeout)
         }
         if let resourceDetails = self.resourceDetails {
@@ -24655,11 +24916,11 @@ public struct StartResourceEvaluationInput: Swift.Equatable {
     public var clientToken: Swift.String?
     /// Returns an EvaluationContext object.
     public var evaluationContext: ConfigClientTypes.EvaluationContext?
-    /// The mode of an evaluation. The valid value for this API is Proactive.
+    /// The mode of an evaluation. The valid values for this API are DETECTIVE and PROACTIVE.
     /// This member is required.
     public var evaluationMode: ConfigClientTypes.EvaluationMode?
     /// The timeout for an evaluation. The default is 900 seconds. You cannot specify a number greater than 3600. If you specify 0, Config uses the default.
-    public var evaluationTimeout: Swift.Int
+    public var evaluationTimeout: Swift.Int?
     /// Returns a ResourceDetails object.
     /// This member is required.
     public var resourceDetails: ConfigClientTypes.ResourceDetails?
@@ -24668,7 +24929,7 @@ public struct StartResourceEvaluationInput: Swift.Equatable {
         clientToken: Swift.String? = nil,
         evaluationContext: ConfigClientTypes.EvaluationContext? = nil,
         evaluationMode: ConfigClientTypes.EvaluationMode? = nil,
-        evaluationTimeout: Swift.Int = 0,
+        evaluationTimeout: Swift.Int? = nil,
         resourceDetails: ConfigClientTypes.ResourceDetails? = nil
     )
     {
@@ -24684,7 +24945,7 @@ struct StartResourceEvaluationInputBody: Swift.Equatable {
     let resourceDetails: ConfigClientTypes.ResourceDetails?
     let evaluationContext: ConfigClientTypes.EvaluationContext?
     let evaluationMode: ConfigClientTypes.EvaluationMode?
-    let evaluationTimeout: Swift.Int
+    let evaluationTimeout: Swift.Int?
     let clientToken: Swift.String?
 }
 
@@ -24705,7 +24966,7 @@ extension StartResourceEvaluationInputBody: Swift.Decodable {
         evaluationContext = evaluationContextDecoded
         let evaluationModeDecoded = try containerValues.decodeIfPresent(ConfigClientTypes.EvaluationMode.self, forKey: .evaluationMode)
         evaluationMode = evaluationModeDecoded
-        let evaluationTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationTimeout) ?? 0
+        let evaluationTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationTimeout)
         evaluationTimeout = evaluationTimeoutDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
@@ -25535,7 +25796,7 @@ extension ValidationException {
     }
 }
 
-/// The requested action is invalid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
+/// The requested action is not valid. For PutStoredQuery, you will see this exception if there are missing required fields or if the input value fails the validation, or if you are trying to create more than 300 queries. For GetStoredQuery, ListStoredQuery, and DeleteStoredQuery you will see this exception if there are missing required fields or if the input value fails the validation.
 public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
