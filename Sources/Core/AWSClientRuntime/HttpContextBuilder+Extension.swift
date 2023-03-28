@@ -87,9 +87,6 @@ extension HttpContext {
 
         // enable the flag
         attributes.set(key: HttpContext.bidirectionalStreaming, value: true)
-
-        // set ALPN list to H2 and H1 both
-        try SDKDefaultIO.shared.setAlpnList(["h2", "http/1.1"])
     }
 }
 
