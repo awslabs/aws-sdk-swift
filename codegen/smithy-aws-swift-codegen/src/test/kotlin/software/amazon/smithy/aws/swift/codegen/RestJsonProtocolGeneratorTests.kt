@@ -80,7 +80,7 @@ class RestJsonProtocolGeneratorTests {
             import ClientRuntime
             import Foundation
             import Logging
-                
+            
             public class ExampleClient {
                 public static let clientName = "ExampleClient"
                 let client: ClientRuntime.SdkHttpClient
@@ -150,7 +150,7 @@ class RestJsonProtocolGeneratorTests {
                         let fileBasedConfigurationStore = try CRTFiledBasedConfigurationStore()
 
                         let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver()
-                        
+
                         let resolvedRegion: String?
                         if let region = region {
                             resolvedRegion = region
@@ -159,7 +159,7 @@ class RestJsonProtocolGeneratorTests {
                         }
             
                         let resolvedSigningRegion = signingRegion ?? resolvedRegion
-                        
+            
                         let resolvedCredentialProvider = try await AWSClientRuntime.AWSCredentialsProvider.resolvedProvider(
                             credentialsProvider,
                             configuration: .init(fileBasedConfigurationStore: fileBasedConfigurationStore)
@@ -171,9 +171,9 @@ class RestJsonProtocolGeneratorTests {
                         self.endpoint = endpoint
                         self.endpointResolver = resolvedEndpointsResolver
                         self.frameworkMetadata = frameworkMetadata
-                        self.region = region
-                        self.regionResolver = try regionResolver ?? DefaultRegionResolver()
-                        self.signingRegion = signingRegion ?? region
+                        self.region = resolvedRegion
+                        self.regionResolver = resolvedRegionResolver
+                        self.signingRegion = resolvedSigningRegion
                         self.useDualStack = useDualStack
                         self.useFIPS = useFIPS
                         self.clientLogMode = runtimeConfig.clientLogMode
