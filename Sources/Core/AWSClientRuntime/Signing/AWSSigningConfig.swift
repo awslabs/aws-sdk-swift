@@ -59,7 +59,7 @@ extension AWSSigningConfig {
             service: service,
             region: region,
             date: date,
-            credentials: try credentials.map { try CRTCredentials(credentials:$0) },
+            credentials: try credentials.map { try CRTCredentials(credentials: $0) },
             credentialsProvider: nil, //credentialsProvider?.crtCredentialsProvider,
             expiration: expiration,
             signedBodyHeader: signedBodyHeader.toCRTType(),

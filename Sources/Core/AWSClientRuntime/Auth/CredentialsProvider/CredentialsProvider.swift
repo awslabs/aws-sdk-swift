@@ -52,7 +52,11 @@ extension CredentialsProvider: CredentialsProviding {
     /// This with throw if the credentials provider isn't owned by a service client configuration.
     public func getCredentials() async throws -> Credentials {
         guard let configuredProvider = self.configuredProvider else {
-            throw ClientError.authError("Unsupported access. Please use the credentials provider instance from the service client configuration for example: `client.config.credentialsProvider`")
+            throw ClientError.authError("""
+            Unsupported access. \
+            Please use the credentials provider instance from the service client configuration for example: \
+            `client.config.credentialsProvider`
+            """)
         }
         
         return try await configuredProvider.getCredentials()
