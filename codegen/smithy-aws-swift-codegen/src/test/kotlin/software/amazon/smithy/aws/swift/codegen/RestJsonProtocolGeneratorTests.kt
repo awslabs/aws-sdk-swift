@@ -149,7 +149,7 @@ class RestJsonProtocolGeneratorTests {
 
                         let fileBasedConfigurationStore = try CRTFiledBasedConfigurationStore()
 
-                        let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver()
+                        let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver(fileBasedConfigurationProvider: fileBasedConfigurationStore)
 
                         let resolvedRegion: String?
                         if let region = region {

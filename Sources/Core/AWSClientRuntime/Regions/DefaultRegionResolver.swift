@@ -4,24 +4,20 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
-import AwsCommonRuntimeKit
 import ClientRuntime
 
+@_spi(Internal)
 public struct DefaultRegionResolver: RegionResolver {
     public let providers: [RegionProvider]
     let logger: SwiftLogger
 
-    public init(providers: [RegionProvider]? = nil) throws {
-        #if os(iOS) || os(watchOS) || os(tvOS)
-        self.providers = providers ?? [BundleRegionProvider(), EnvironmentRegionProvider()]
-        #else
-        self.providers = try providers ?? [
+    public init(fileBasedConfigurationProvider: FileBasedConfigurationProviding) throws {
+        self.providers = [
             BundleRegionProvider(),
             EnvironmentRegionProvider(),
-            //ProfileRegionProvider(),
-            IMDSRegionProvider()
+            ProfileRegionProvider(fileBasedConfigurationProvider: fileBasedConfigurationProvider),
+            try IMDSRegionProvider()
         ]
-        #endif
         self.logger = SwiftLogger(label: "DefaultRegionProvider")
     }
 

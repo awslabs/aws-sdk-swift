@@ -71,7 +71,7 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
         writer.write("")
 
         // Resolve the region resolver
-        writer.write("let resolvedRegionResolver = try \$L ?? DefaultRegionResolver()", REGION_RESOLVER)
+        writer.write("let resolvedRegionResolver = try \$L ?? DefaultRegionResolver(fileBasedConfigurationProvider: \$L)", REGION_RESOLVER, FILE_BASED_CONFIG_LOCAL_NAME)
         writer.write("")
 
         // Resolve the region

@@ -4,10 +4,9 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
-import AwsCommonRuntimeKit
 import ClientRuntime
 
-public struct ProfileRegionProvider: RegionProvider {
+struct ProfileRegionProvider: RegionProvider {
     let logger: SwiftLogger
     let fileBasedConfigurationProvider: FileBasedConfigurationProviding
     let profileName: String
@@ -16,18 +15,18 @@ public struct ProfileRegionProvider: RegionProvider {
 
     init(
         fileBasedConfigurationProvider: FileBasedConfigurationProviding,
-        profileName: String,
+        profileName: String? = nil,
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil
     ) {
         self.logger = SwiftLogger(label: "ProfileRegionResolver")
         self.fileBasedConfigurationProvider = fileBasedConfigurationProvider
-        self.profileName = profileName
+        self.profileName = profileName ?? CRTFileBasedConfiguration.defaultProfileName
         self.configFilePath = configFilePath
         self.credentialsFilePath = credentialsFilePath
     }
 
-    public func resolveRegion() async throws -> String? {
+    func resolveRegion() async throws -> String? {
         guard let configuration = try await fileBasedConfigurationProvider.fileBasedConfiguration(
             configFilePath: configFilePath,
             credentialsFilePath: credentialsFilePath
