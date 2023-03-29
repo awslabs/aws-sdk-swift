@@ -379,7 +379,7 @@ public extension CredentialsProvider {
     /// 4. ECS (IAM roles for tasks)
     /// 5. EC2 Instance Metadata (IMDSv2)
     ///
-    /// The credentials resolved from the chain are cached that expires after ... // todo ask waqar what this value is
+    /// The credentials retrieved from the chain are cached for 15 minutes.
     ///
     /// - Returns: A credential provider that uses the default AWS credential provider chain used by most AWS SDKs.
     static func fromDefaultChain() throws -> CredentialsProvider {
