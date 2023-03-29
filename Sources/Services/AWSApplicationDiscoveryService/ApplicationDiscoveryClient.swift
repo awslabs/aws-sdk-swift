@@ -235,8 +235,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<AssociateConfigurationItemsToApplicationOutputResponse, AssociateConfigurationItemsToApplicationOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateConfigurationItemsToApplicationOutputResponse, AssociateConfigurationItemsToApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateConfigurationItemsToApplicationOutputResponse, AssociateConfigurationItemsToApplicationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateConfigurationItemsToApplicationOutputResponse, AssociateConfigurationItemsToApplicationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateConfigurationItemsToApplicationOutputResponse, AssociateConfigurationItemsToApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -271,8 +271,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<BatchDeleteImportDataOutputResponse, BatchDeleteImportDataOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<BatchDeleteImportDataOutputResponse, BatchDeleteImportDataOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteImportDataOutputResponse, BatchDeleteImportDataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<BatchDeleteImportDataOutputResponse, BatchDeleteImportDataOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<BatchDeleteImportDataOutputResponse, BatchDeleteImportDataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -307,8 +307,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateApplicationOutputResponse, CreateApplicationOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateApplicationOutputResponse, CreateApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateApplicationOutputResponse, CreateApplicationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateApplicationOutputResponse, CreateApplicationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateApplicationOutputResponse, CreateApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -343,8 +343,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateTagsOutputResponse, CreateTagsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTagsOutputResponse, CreateTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateTagsOutputResponse, CreateTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTagsOutputResponse, CreateTagsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTagsOutputResponse, CreateTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -379,8 +379,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteApplicationsOutputResponse, DeleteApplicationsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteApplicationsOutputResponse, DeleteApplicationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteApplicationsOutputResponse, DeleteApplicationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteApplicationsOutputResponse, DeleteApplicationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteApplicationsOutputResponse, DeleteApplicationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -415,8 +415,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteTagsOutputResponse, DeleteTagsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTagsOutputResponse, DeleteTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteTagsOutputResponse, DeleteTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTagsOutputResponse, DeleteTagsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTagsOutputResponse, DeleteTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -451,8 +451,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeAgentsOutputResponse, DescribeAgentsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeAgentsOutputResponse, DescribeAgentsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeAgentsOutputResponse, DescribeAgentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeAgentsOutputResponse, DescribeAgentsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeAgentsOutputResponse, DescribeAgentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -498,8 +498,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeConfigurationsOutputResponse, DescribeConfigurationsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigurationsOutputResponse, DescribeConfigurationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigurationsOutputResponse, DescribeConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigurationsOutputResponse, DescribeConfigurationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigurationsOutputResponse, DescribeConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -534,8 +534,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeContinuousExportsOutputResponse, DescribeContinuousExportsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeContinuousExportsOutputResponse, DescribeContinuousExportsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeContinuousExportsOutputResponse, DescribeContinuousExportsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeContinuousExportsOutputResponse, DescribeContinuousExportsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeContinuousExportsOutputResponse, DescribeContinuousExportsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -571,8 +571,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeExportConfigurationsOutputResponse, DescribeExportConfigurationsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeExportConfigurationsOutputResponse, DescribeExportConfigurationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeExportConfigurationsOutputResponse, DescribeExportConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeExportConfigurationsOutputResponse, DescribeExportConfigurationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeExportConfigurationsOutputResponse, DescribeExportConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -607,8 +607,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeExportTasksOutputResponse, DescribeExportTasksOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeExportTasksOutputResponse, DescribeExportTasksOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeExportTasksOutputResponse, DescribeExportTasksOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeExportTasksOutputResponse, DescribeExportTasksOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeExportTasksOutputResponse, DescribeExportTasksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -643,8 +643,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeImportTasksOutputResponse, DescribeImportTasksOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeImportTasksOutputResponse, DescribeImportTasksOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeImportTasksOutputResponse, DescribeImportTasksOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeImportTasksOutputResponse, DescribeImportTasksOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeImportTasksOutputResponse, DescribeImportTasksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -688,8 +688,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeTagsOutputResponse, DescribeTagsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeTagsOutputResponse, DescribeTagsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeTagsOutputResponse, DescribeTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeTagsOutputResponse, DescribeTagsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeTagsOutputResponse, DescribeTagsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -724,8 +724,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DisassociateConfigurationItemsFromApplicationOutputResponse, DisassociateConfigurationItemsFromApplicationOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateConfigurationItemsFromApplicationOutputResponse, DisassociateConfigurationItemsFromApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateConfigurationItemsFromApplicationOutputResponse, DisassociateConfigurationItemsFromApplicationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateConfigurationItemsFromApplicationOutputResponse, DisassociateConfigurationItemsFromApplicationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateConfigurationItemsFromApplicationOutputResponse, DisassociateConfigurationItemsFromApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -761,8 +761,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ExportConfigurationsOutputResponse, ExportConfigurationsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExportConfigurationsOutputResponse, ExportConfigurationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExportConfigurationsOutputResponse, ExportConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExportConfigurationsOutputResponse, ExportConfigurationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExportConfigurationsOutputResponse, ExportConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -797,8 +797,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetDiscoverySummaryOutputResponse, GetDiscoverySummaryOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDiscoverySummaryOutputResponse, GetDiscoverySummaryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDiscoverySummaryOutputResponse, GetDiscoverySummaryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDiscoverySummaryOutputResponse, GetDiscoverySummaryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDiscoverySummaryOutputResponse, GetDiscoverySummaryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -833,8 +833,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListConfigurationsOutputResponse, ListConfigurationsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConfigurationsOutputResponse, ListConfigurationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListConfigurationsOutputResponse, ListConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConfigurationsOutputResponse, ListConfigurationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConfigurationsOutputResponse, ListConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -869,8 +869,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListServerNeighborsOutputResponse, ListServerNeighborsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServerNeighborsOutputResponse, ListServerNeighborsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListServerNeighborsOutputResponse, ListServerNeighborsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServerNeighborsOutputResponse, ListServerNeighborsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServerNeighborsOutputResponse, ListServerNeighborsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -905,8 +905,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartContinuousExportOutputResponse, StartContinuousExportOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartContinuousExportOutputResponse, StartContinuousExportOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartContinuousExportOutputResponse, StartContinuousExportOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartContinuousExportOutputResponse, StartContinuousExportOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartContinuousExportOutputResponse, StartContinuousExportOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -941,8 +941,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartDataCollectionByAgentIdsOutputResponse, StartDataCollectionByAgentIdsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartDataCollectionByAgentIdsOutputResponse, StartDataCollectionByAgentIdsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartDataCollectionByAgentIdsOutputResponse, StartDataCollectionByAgentIdsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDataCollectionByAgentIdsOutputResponse, StartDataCollectionByAgentIdsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDataCollectionByAgentIdsOutputResponse, StartDataCollectionByAgentIdsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -977,8 +977,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartExportTaskOutputResponse, StartExportTaskOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartExportTaskOutputResponse, StartExportTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartExportTaskOutputResponse, StartExportTaskOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartExportTaskOutputResponse, StartExportTaskOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartExportTaskOutputResponse, StartExportTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1032,8 +1032,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartImportTaskOutputResponse, StartImportTaskOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartImportTaskOutputResponse, StartImportTaskOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartImportTaskOutputResponse, StartImportTaskOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartImportTaskOutputResponse, StartImportTaskOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartImportTaskOutputResponse, StartImportTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1068,8 +1068,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StopContinuousExportOutputResponse, StopContinuousExportOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopContinuousExportOutputResponse, StopContinuousExportOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopContinuousExportOutputResponse, StopContinuousExportOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopContinuousExportOutputResponse, StopContinuousExportOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopContinuousExportOutputResponse, StopContinuousExportOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1104,8 +1104,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StopDataCollectionByAgentIdsOutputResponse, StopDataCollectionByAgentIdsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopDataCollectionByAgentIdsOutputResponse, StopDataCollectionByAgentIdsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StopDataCollectionByAgentIdsOutputResponse, StopDataCollectionByAgentIdsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopDataCollectionByAgentIdsOutputResponse, StopDataCollectionByAgentIdsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopDataCollectionByAgentIdsOutputResponse, StopDataCollectionByAgentIdsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1140,8 +1140,8 @@ extension ApplicationDiscoveryClient: ApplicationDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateApplicationOutputResponse, UpdateApplicationOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateApplicationOutputResponse, UpdateApplicationOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateApplicationOutputResponse, UpdateApplicationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateApplicationOutputResponse, UpdateApplicationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateApplicationOutputResponse, UpdateApplicationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }

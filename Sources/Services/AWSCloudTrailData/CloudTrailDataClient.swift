@@ -235,8 +235,8 @@ extension CloudTrailDataClient: CloudTrailDataClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutAuditEventsOutputResponse, PutAuditEventsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAuditEventsOutputResponse, PutAuditEventsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutAuditEventsOutputResponse, PutAuditEventsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutAuditEventsOutputResponse, PutAuditEventsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutAuditEventsOutputResponse, PutAuditEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }

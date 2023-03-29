@@ -862,7 +862,13 @@ extension TextractClientTypes {
         ///
         /// * TABLE - A table that's detected on a document page. A table is grid-based information with two or more rows or columns, with a cell span of one row and one column each.
         ///
+        /// * TABLE_TITLE - The title of a table. A title is typically a line of text above or below a table, or embedded as the first row of a table.
+        ///
+        /// * TABLE_FOOTER - The footer associated with a table. A footer is typically a line or lines of text below a table or embedded as the last row of a table.
+        ///
         /// * CELL - A cell within a detected table. The cell is the parent of the block that contains the text in the cell.
+        ///
+        /// * MERGED_CELL - A cell in a table whose content spans more than one row or column. The Relationships array for this cell contain data from individual cells.
         ///
         /// * SELECTION_ELEMENT - A selection element such as an option button (radio button) or a check box that's detected on a document page. Use the value of SelectionStatus to determine the status of the selection element.
         ///
@@ -874,15 +880,32 @@ extension TextractClientTypes {
         public var blockType: TextractClientTypes.BlockType?
         /// The column in which a table cell appears. The first column position is 1. ColumnIndex isn't returned by DetectDocumentText and GetDocumentTextDetection.
         public var columnIndex: Swift.Int?
-        /// The number of columns that a table cell spans. Currently this value is always 1, even if the number of columns spanned is greater than 1. ColumnSpan isn't returned by DetectDocumentText and GetDocumentTextDetection.
+        /// The number of columns that a table cell spans. ColumnSpan isn't returned by DetectDocumentText and GetDocumentTextDetection.
         public var columnSpan: Swift.Int?
         /// The confidence score that Amazon Textract has in the accuracy of the recognized text and the accuracy of the geometry points around the recognized text.
         public var confidence: Swift.Float?
-        /// The type of entity. The following can be returned:
+        /// The type of entity. The following entity types can be returned by FORMS analysis:
         ///
         /// * KEY - An identifier for a field on the document.
         ///
         /// * VALUE - The field text.
+        ///
+        ///
+        /// The following entity types can be returned by TABLES analysis:
+        ///
+        /// * COLUMN_HEADER - Identifies a cell that is a header of a column.
+        ///
+        /// * TABLE_TITLE - Identifies a cell that is a title within the table.
+        ///
+        /// * TABLE_SECTION_TITLE - Identifies a cell that is a title of a section within a table. A section title is a cell that typically spans an entire row above a section.
+        ///
+        /// * TABLE_FOOTER - Identifies a cell that is a footer of a table.
+        ///
+        /// * TABLE_SUMMARY - Identifies a summary cell of a table. A summary cell can be a row of a table or an additional, smaller table that contains summary information for another table.
+        ///
+        /// * STRUCTURED_TABLE - Identifies a table with column headers where the content of each row corresponds to the headers.
+        ///
+        /// * SEMI_STRUCTURED_TABLE - Identifies a non-structured table.
         ///
         ///
         /// EntityTypes isn't returned by DetectDocumentText and GetDocumentTextDetection.
@@ -891,19 +914,15 @@ extension TextractClientTypes {
         public var geometry: TextractClientTypes.Geometry?
         /// The identifier for the recognized text. The identifier is only unique for a single operation.
         public var id: Swift.String?
-        /// The page on which a block was detected. Page is returned by synchronous and asynchronous operations. Page values greater than 1 are only returned for multipage documents that are in PDF or TIFF format. A scanned image (JPEG/PNG) provided to an asynchronous operation, even if it contains multiple document pages, is considered a single-page document. This means that for scanned images the value of Page is always 1. Synchronous operations operations will also return a Page value of 1 because every input document is considered to be a single-page document.
+        /// The page on which a block was detected. Page is returned by synchronous and asynchronous operations. Page values greater than 1 are only returned for multipage documents that are in PDF or TIFF format. A scanned image (JPEG/PNG) provided to an asynchronous operation, even if it contains multiple document pages, is considered a single-page document. This means that for scanned images the value of Page is always 1. Synchronous operations will also return a Page value of 1 because every input document is considered to be a single-page document.
         public var page: Swift.Int?
         ///
         public var query: TextractClientTypes.Query?
-        /// A list of child blocks of the current block. For example, a LINE object has child blocks for each WORD block that's part of the line of text. There aren't Relationship objects in the list for relationships that don't exist, such as when the current block has no child blocks. The list size can be the following:
-        ///
-        /// * 0 - The block has no child blocks.
-        ///
-        /// * 1 - The block has child blocks.
+        /// A list of relationship objects that describe how blocks are related to each other. For example, a LINE block object contains a CHILD relationship type with the WORD blocks that make up the line of text. There aren't Relationship objects in the list for relationships that don't exist, such as when the current block has no child blocks.
         public var relationships: [TextractClientTypes.Relationship]?
         /// The row in which a table cell is located. The first row position is 1. RowIndex isn't returned by DetectDocumentText and GetDocumentTextDetection.
         public var rowIndex: Swift.Int?
-        /// The number of rows that a table cell spans. Currently this value is always 1, even if the number of rows spanned is greater than 1. RowSpan isn't returned by DetectDocumentText and GetDocumentTextDetection.
+        /// The number of rows that a table cell spans. RowSpan isn't returned by DetectDocumentText and GetDocumentTextDetection.
         public var rowSpan: Swift.Int?
         /// The selection status of a selection element, such as an option button or check box.
         public var selectionStatus: TextractClientTypes.SelectionStatus?
@@ -962,6 +981,8 @@ extension TextractClientTypes {
         case selectionElement
         case signature
         case table
+        case tableFooter
+        case tableTitle
         case title
         case word
         case sdkUnknown(Swift.String)
@@ -978,6 +999,8 @@ extension TextractClientTypes {
                 .selectionElement,
                 .signature,
                 .table,
+                .tableFooter,
+                .tableTitle,
                 .title,
                 .word,
                 .sdkUnknown("")
@@ -999,6 +1022,8 @@ extension TextractClientTypes {
             case .selectionElement: return "SELECTION_ELEMENT"
             case .signature: return "SIGNATURE"
             case .table: return "TABLE"
+            case .tableFooter: return "TABLE_FOOTER"
+            case .tableTitle: return "TABLE_TITLE"
             case .title: return "TITLE"
             case .word: return "WORD"
             case let .sdkUnknown(s): return s
@@ -1425,7 +1450,7 @@ extension TextractClientTypes {
         public var detectedSignatures: [TextractClientTypes.DetectedSignature]?
         /// An array that contains information about the pages of a document, defined by logical boundary.
         public var splitDocuments: [TextractClientTypes.SplitDocument]?
-        /// The type of document that Amazon Textract has detected. See LINK for a list of all types returned by Textract.
+        /// The type of document that Amazon Textract has detected. See [Analyze Lending Response Objects](https://docs.aws.amazon.com/textract/latest/dg/lending-response-objects.html) for a list of all types returned by Textract.
         public var type: Swift.String?
         /// A list of any expected signatures not found in a document group.
         public var undetectedSignatures: [TextractClientTypes.UndetectedSignature]?
@@ -1581,6 +1606,12 @@ extension TextractClientTypes {
     public enum EntityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case columnHeader
         case key
+        case semiStructuredTable
+        case structuredTable
+        case tableFooter
+        case tableSectionTitle
+        case tableSummary
+        case tableTitle
         case value
         case sdkUnknown(Swift.String)
 
@@ -1588,6 +1619,12 @@ extension TextractClientTypes {
             return [
                 .columnHeader,
                 .key,
+                .semiStructuredTable,
+                .structuredTable,
+                .tableFooter,
+                .tableSectionTitle,
+                .tableSummary,
+                .tableTitle,
                 .value,
                 .sdkUnknown("")
             ]
@@ -1600,6 +1637,12 @@ extension TextractClientTypes {
             switch self {
             case .columnHeader: return "COLUMN_HEADER"
             case .key: return "KEY"
+            case .semiStructuredTable: return "SEMI_STRUCTURED_TABLE"
+            case .structuredTable: return "STRUCTURED_TABLE"
+            case .tableFooter: return "TABLE_FOOTER"
+            case .tableSectionTitle: return "TABLE_SECTION_TITLE"
+            case .tableSummary: return "TABLE_SUMMARY"
+            case .tableTitle: return "TABLE_TITLE"
             case .value: return "VALUE"
             case let .sdkUnknown(s): return s
             }
@@ -5098,7 +5141,21 @@ extension TextractClientTypes {
     public struct Relationship: Swift.Equatable {
         /// An array of IDs for related blocks. You can get the type of the relationship from the Type element.
         public var ids: [Swift.String]?
-        /// The type of relationship that the blocks in the IDs array have with the current block. The relationship can be VALUE or CHILD. A relationship of type VALUE is a list that contains the ID of the VALUE block that's associated with the KEY of a key-value pair. A relationship of type CHILD is a list of IDs that identify WORD blocks in the case of lines Cell blocks in the case of Tables, and WORD blocks in the case of Selection Elements.
+        /// The type of relationship between the blocks in the IDs array and the current block. The following list describes the relationship types that can be returned.
+        ///
+        /// * VALUE - A list that contains the ID of the VALUE block that's associated with the KEY of a key-value pair.
+        ///
+        /// * CHILD - A list of IDs that identify blocks found within the current block object. For example, WORD blocks have a CHILD relationship to the LINE block type.
+        ///
+        /// * MERGED_CELL - A list of IDs that identify each of the MERGED_CELL block types in a table.
+        ///
+        /// * ANSWER - A list that contains the ID of the QUERY_RESULT block that’s associated with the corresponding QUERY block.
+        ///
+        /// * TABLE - A list of IDs that identify associated TABLE block types.
+        ///
+        /// * TABLE_TITLE - A list that contains the ID for the TABLE_TITLE block type in a table.
+        ///
+        /// * TABLE_FOOTER - A list of IDs that identify the TABLE_FOOTER block types in a table.
         public var type: TextractClientTypes.RelationshipType?
 
         public init (
@@ -5119,6 +5176,9 @@ extension TextractClientTypes {
         case child
         case complexFeatures
         case mergedCell
+        case table
+        case tableFooter
+        case tableTitle
         case title
         case value
         case sdkUnknown(Swift.String)
@@ -5129,6 +5189,9 @@ extension TextractClientTypes {
                 .child,
                 .complexFeatures,
                 .mergedCell,
+                .table,
+                .tableFooter,
+                .tableTitle,
                 .title,
                 .value,
                 .sdkUnknown("")
@@ -5144,6 +5207,9 @@ extension TextractClientTypes {
             case .child: return "CHILD"
             case .complexFeatures: return "COMPLEX_FEATURES"
             case .mergedCell: return "MERGED_CELL"
+            case .table: return "TABLE"
+            case .tableFooter: return "TABLE_FOOTER"
+            case .tableTitle: return "TABLE_TITLE"
             case .title: return "TITLE"
             case .value: return "VALUE"
             case let .sdkUnknown(s): return s

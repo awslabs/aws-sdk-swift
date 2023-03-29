@@ -230,8 +230,8 @@ extension SSOOIDCClient: SSOOIDCClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTokenInput, CreateTokenOutputResponse>(xmlName: "CreateTokenRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateTokenOutputResponse, CreateTokenOutputError>(retryer: config.retryer))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateTokenOutputResponse, CreateTokenOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTokenOutputResponse, CreateTokenOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTokenOutputResponse, CreateTokenOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -261,8 +261,8 @@ extension SSOOIDCClient: SSOOIDCClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RegisterClientInput, RegisterClientOutputResponse>(xmlName: "RegisterClientRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<RegisterClientOutputResponse, RegisterClientOutputError>(retryer: config.retryer))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RegisterClientOutputResponse, RegisterClientOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterClientOutputResponse, RegisterClientOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterClientOutputResponse, RegisterClientOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -292,8 +292,8 @@ extension SSOOIDCClient: SSOOIDCClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartDeviceAuthorizationInput, StartDeviceAuthorizationOutputResponse>(xmlName: "StartDeviceAuthorizationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartDeviceAuthorizationOutputResponse, StartDeviceAuthorizationOutputError>(retryer: config.retryer))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartDeviceAuthorizationOutputResponse, StartDeviceAuthorizationOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDeviceAuthorizationOutputResponse, StartDeviceAuthorizationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDeviceAuthorizationOutputResponse, StartDeviceAuthorizationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }

@@ -231,8 +231,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<AcceptAttachmentOutputResponse, AcceptAttachmentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptAttachmentOutputResponse, AcceptAttachmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AcceptAttachmentOutputResponse, AcceptAttachmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptAttachmentOutputResponse, AcceptAttachmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcceptAttachmentOutputResponse, AcceptAttachmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -266,8 +266,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<AssociateConnectPeerOutputResponse, AssociateConnectPeerOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateConnectPeerOutputResponse, AssociateConnectPeerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateConnectPeerOutputResponse, AssociateConnectPeerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateConnectPeerOutputResponse, AssociateConnectPeerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateConnectPeerOutputResponse, AssociateConnectPeerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -301,8 +301,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<AssociateCustomerGatewayOutputResponse, AssociateCustomerGatewayOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateCustomerGatewayOutputResponse, AssociateCustomerGatewayOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateCustomerGatewayOutputResponse, AssociateCustomerGatewayOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateCustomerGatewayOutputResponse, AssociateCustomerGatewayOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateCustomerGatewayOutputResponse, AssociateCustomerGatewayOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -336,8 +336,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<AssociateLinkOutputResponse, AssociateLinkOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateLinkOutputResponse, AssociateLinkOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateLinkOutputResponse, AssociateLinkOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateLinkOutputResponse, AssociateLinkOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateLinkOutputResponse, AssociateLinkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -371,8 +371,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<AssociateTransitGatewayConnectPeerOutputResponse, AssociateTransitGatewayConnectPeerOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AssociateTransitGatewayConnectPeerOutputResponse, AssociateTransitGatewayConnectPeerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<AssociateTransitGatewayConnectPeerOutputResponse, AssociateTransitGatewayConnectPeerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AssociateTransitGatewayConnectPeerOutputResponse, AssociateTransitGatewayConnectPeerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AssociateTransitGatewayConnectPeerOutputResponse, AssociateTransitGatewayConnectPeerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -414,8 +414,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateConnectAttachmentOutputResponse, CreateConnectAttachmentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConnectAttachmentOutputResponse, CreateConnectAttachmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateConnectAttachmentOutputResponse, CreateConnectAttachmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConnectAttachmentOutputResponse, CreateConnectAttachmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConnectAttachmentOutputResponse, CreateConnectAttachmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -457,8 +457,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateConnectPeerOutputResponse, CreateConnectPeerOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConnectPeerOutputResponse, CreateConnectPeerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateConnectPeerOutputResponse, CreateConnectPeerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConnectPeerOutputResponse, CreateConnectPeerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConnectPeerOutputResponse, CreateConnectPeerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -492,8 +492,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateConnectionOutputResponse, CreateConnectionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConnectionOutputResponse, CreateConnectionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateConnectionOutputResponse, CreateConnectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConnectionOutputResponse, CreateConnectionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConnectionOutputResponse, CreateConnectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -535,8 +535,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateCoreNetworkOutputResponse, CreateCoreNetworkOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCoreNetworkOutputResponse, CreateCoreNetworkOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateCoreNetworkOutputResponse, CreateCoreNetworkOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCoreNetworkOutputResponse, CreateCoreNetworkOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCoreNetworkOutputResponse, CreateCoreNetworkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -570,8 +570,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateDeviceOutputResponse, CreateDeviceOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateDeviceOutputResponse, CreateDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateDeviceOutputResponse, CreateDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateDeviceOutputResponse, CreateDeviceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateDeviceOutputResponse, CreateDeviceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -605,8 +605,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateGlobalNetworkOutputResponse, CreateGlobalNetworkOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateGlobalNetworkOutputResponse, CreateGlobalNetworkOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateGlobalNetworkOutputResponse, CreateGlobalNetworkOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateGlobalNetworkOutputResponse, CreateGlobalNetworkOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateGlobalNetworkOutputResponse, CreateGlobalNetworkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -640,8 +640,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateLinkOutputResponse, CreateLinkOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLinkOutputResponse, CreateLinkOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateLinkOutputResponse, CreateLinkOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLinkOutputResponse, CreateLinkOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLinkOutputResponse, CreateLinkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -675,8 +675,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateSiteOutputResponse, CreateSiteOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSiteOutputResponse, CreateSiteOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSiteOutputResponse, CreateSiteOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSiteOutputResponse, CreateSiteOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSiteOutputResponse, CreateSiteOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -718,8 +718,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateSiteToSiteVpnAttachmentOutputResponse, CreateSiteToSiteVpnAttachmentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSiteToSiteVpnAttachmentOutputResponse, CreateSiteToSiteVpnAttachmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateSiteToSiteVpnAttachmentOutputResponse, CreateSiteToSiteVpnAttachmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSiteToSiteVpnAttachmentOutputResponse, CreateSiteToSiteVpnAttachmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSiteToSiteVpnAttachmentOutputResponse, CreateSiteToSiteVpnAttachmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -761,8 +761,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateTransitGatewayPeeringOutputResponse, CreateTransitGatewayPeeringOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTransitGatewayPeeringOutputResponse, CreateTransitGatewayPeeringOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateTransitGatewayPeeringOutputResponse, CreateTransitGatewayPeeringOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTransitGatewayPeeringOutputResponse, CreateTransitGatewayPeeringOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTransitGatewayPeeringOutputResponse, CreateTransitGatewayPeeringOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -804,8 +804,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateTransitGatewayRouteTableAttachmentOutputResponse, CreateTransitGatewayRouteTableAttachmentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTransitGatewayRouteTableAttachmentOutputResponse, CreateTransitGatewayRouteTableAttachmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateTransitGatewayRouteTableAttachmentOutputResponse, CreateTransitGatewayRouteTableAttachmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTransitGatewayRouteTableAttachmentOutputResponse, CreateTransitGatewayRouteTableAttachmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTransitGatewayRouteTableAttachmentOutputResponse, CreateTransitGatewayRouteTableAttachmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -847,8 +847,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateVpcAttachmentOutputResponse, CreateVpcAttachmentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVpcAttachmentOutputResponse, CreateVpcAttachmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateVpcAttachmentOutputResponse, CreateVpcAttachmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVpcAttachmentOutputResponse, CreateVpcAttachmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVpcAttachmentOutputResponse, CreateVpcAttachmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -879,8 +879,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteAttachmentOutputResponse, DeleteAttachmentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAttachmentOutputResponse, DeleteAttachmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAttachmentOutputResponse, DeleteAttachmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAttachmentOutputResponse, DeleteAttachmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAttachmentOutputResponse, DeleteAttachmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -911,8 +911,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteConnectPeerOutputResponse, DeleteConnectPeerOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConnectPeerOutputResponse, DeleteConnectPeerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteConnectPeerOutputResponse, DeleteConnectPeerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConnectPeerOutputResponse, DeleteConnectPeerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConnectPeerOutputResponse, DeleteConnectPeerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -943,8 +943,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteConnectionOutputResponse, DeleteConnectionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConnectionOutputResponse, DeleteConnectionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteConnectionOutputResponse, DeleteConnectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConnectionOutputResponse, DeleteConnectionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConnectionOutputResponse, DeleteConnectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -975,8 +975,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteCoreNetworkOutputResponse, DeleteCoreNetworkOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCoreNetworkOutputResponse, DeleteCoreNetworkOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteCoreNetworkOutputResponse, DeleteCoreNetworkOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCoreNetworkOutputResponse, DeleteCoreNetworkOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCoreNetworkOutputResponse, DeleteCoreNetworkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1007,8 +1007,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteCoreNetworkPolicyVersionOutputResponse, DeleteCoreNetworkPolicyVersionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCoreNetworkPolicyVersionOutputResponse, DeleteCoreNetworkPolicyVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteCoreNetworkPolicyVersionOutputResponse, DeleteCoreNetworkPolicyVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCoreNetworkPolicyVersionOutputResponse, DeleteCoreNetworkPolicyVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCoreNetworkPolicyVersionOutputResponse, DeleteCoreNetworkPolicyVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1039,8 +1039,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteDeviceOutputResponse, DeleteDeviceOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteDeviceOutputResponse, DeleteDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteDeviceOutputResponse, DeleteDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteDeviceOutputResponse, DeleteDeviceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteDeviceOutputResponse, DeleteDeviceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1071,8 +1071,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteGlobalNetworkOutputResponse, DeleteGlobalNetworkOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteGlobalNetworkOutputResponse, DeleteGlobalNetworkOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteGlobalNetworkOutputResponse, DeleteGlobalNetworkOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteGlobalNetworkOutputResponse, DeleteGlobalNetworkOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteGlobalNetworkOutputResponse, DeleteGlobalNetworkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1103,8 +1103,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteLinkOutputResponse, DeleteLinkOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLinkOutputResponse, DeleteLinkOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteLinkOutputResponse, DeleteLinkOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLinkOutputResponse, DeleteLinkOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLinkOutputResponse, DeleteLinkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1135,8 +1135,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeletePeeringOutputResponse, DeletePeeringOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeletePeeringOutputResponse, DeletePeeringOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeletePeeringOutputResponse, DeletePeeringOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeletePeeringOutputResponse, DeletePeeringOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeletePeeringOutputResponse, DeletePeeringOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1167,8 +1167,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1199,8 +1199,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteSiteOutputResponse, DeleteSiteOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSiteOutputResponse, DeleteSiteOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteSiteOutputResponse, DeleteSiteOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSiteOutputResponse, DeleteSiteOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSiteOutputResponse, DeleteSiteOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1231,8 +1231,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeregisterTransitGatewayOutputResponse, DeregisterTransitGatewayOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeregisterTransitGatewayOutputResponse, DeregisterTransitGatewayOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeregisterTransitGatewayOutputResponse, DeregisterTransitGatewayOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeregisterTransitGatewayOutputResponse, DeregisterTransitGatewayOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeregisterTransitGatewayOutputResponse, DeregisterTransitGatewayOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1264,8 +1264,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeGlobalNetworksOutputResponse, DescribeGlobalNetworksOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeGlobalNetworksOutputResponse, DescribeGlobalNetworksOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeGlobalNetworksOutputResponse, DescribeGlobalNetworksOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeGlobalNetworksOutputResponse, DescribeGlobalNetworksOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeGlobalNetworksOutputResponse, DescribeGlobalNetworksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1296,8 +1296,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DisassociateConnectPeerOutputResponse, DisassociateConnectPeerOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateConnectPeerOutputResponse, DisassociateConnectPeerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateConnectPeerOutputResponse, DisassociateConnectPeerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateConnectPeerOutputResponse, DisassociateConnectPeerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateConnectPeerOutputResponse, DisassociateConnectPeerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1328,8 +1328,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DisassociateCustomerGatewayOutputResponse, DisassociateCustomerGatewayOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateCustomerGatewayOutputResponse, DisassociateCustomerGatewayOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateCustomerGatewayOutputResponse, DisassociateCustomerGatewayOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateCustomerGatewayOutputResponse, DisassociateCustomerGatewayOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateCustomerGatewayOutputResponse, DisassociateCustomerGatewayOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1361,8 +1361,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DisassociateLinkOutputResponse, DisassociateLinkOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateLinkOutputResponse, DisassociateLinkOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateLinkOutputResponse, DisassociateLinkOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateLinkOutputResponse, DisassociateLinkOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateLinkOutputResponse, DisassociateLinkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1393,8 +1393,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DisassociateTransitGatewayConnectPeerOutputResponse, DisassociateTransitGatewayConnectPeerOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisassociateTransitGatewayConnectPeerOutputResponse, DisassociateTransitGatewayConnectPeerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DisassociateTransitGatewayConnectPeerOutputResponse, DisassociateTransitGatewayConnectPeerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisassociateTransitGatewayConnectPeerOutputResponse, DisassociateTransitGatewayConnectPeerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisassociateTransitGatewayConnectPeerOutputResponse, DisassociateTransitGatewayConnectPeerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1425,8 +1425,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ExecuteCoreNetworkChangeSetOutputResponse, ExecuteCoreNetworkChangeSetOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExecuteCoreNetworkChangeSetOutputResponse, ExecuteCoreNetworkChangeSetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ExecuteCoreNetworkChangeSetOutputResponse, ExecuteCoreNetworkChangeSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ExecuteCoreNetworkChangeSetOutputResponse, ExecuteCoreNetworkChangeSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ExecuteCoreNetworkChangeSetOutputResponse, ExecuteCoreNetworkChangeSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1457,8 +1457,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetConnectAttachmentOutputResponse, GetConnectAttachmentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConnectAttachmentOutputResponse, GetConnectAttachmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetConnectAttachmentOutputResponse, GetConnectAttachmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConnectAttachmentOutputResponse, GetConnectAttachmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConnectAttachmentOutputResponse, GetConnectAttachmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1489,8 +1489,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetConnectPeerOutputResponse, GetConnectPeerOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConnectPeerOutputResponse, GetConnectPeerOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetConnectPeerOutputResponse, GetConnectPeerOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConnectPeerOutputResponse, GetConnectPeerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConnectPeerOutputResponse, GetConnectPeerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1522,8 +1522,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetConnectPeerAssociationsOutputResponse, GetConnectPeerAssociationsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConnectPeerAssociationsOutputResponse, GetConnectPeerAssociationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetConnectPeerAssociationsOutputResponse, GetConnectPeerAssociationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConnectPeerAssociationsOutputResponse, GetConnectPeerAssociationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConnectPeerAssociationsOutputResponse, GetConnectPeerAssociationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1555,8 +1555,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetConnectionsOutputResponse, GetConnectionsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetConnectionsOutputResponse, GetConnectionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetConnectionsOutputResponse, GetConnectionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetConnectionsOutputResponse, GetConnectionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetConnectionsOutputResponse, GetConnectionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1587,8 +1587,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetCoreNetworkOutputResponse, GetCoreNetworkOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCoreNetworkOutputResponse, GetCoreNetworkOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCoreNetworkOutputResponse, GetCoreNetworkOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCoreNetworkOutputResponse, GetCoreNetworkOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCoreNetworkOutputResponse, GetCoreNetworkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1620,8 +1620,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetCoreNetworkChangeEventsOutputResponse, GetCoreNetworkChangeEventsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCoreNetworkChangeEventsOutputResponse, GetCoreNetworkChangeEventsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCoreNetworkChangeEventsOutputResponse, GetCoreNetworkChangeEventsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCoreNetworkChangeEventsOutputResponse, GetCoreNetworkChangeEventsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCoreNetworkChangeEventsOutputResponse, GetCoreNetworkChangeEventsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1653,8 +1653,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetCoreNetworkChangeSetOutputResponse, GetCoreNetworkChangeSetOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCoreNetworkChangeSetOutputResponse, GetCoreNetworkChangeSetOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCoreNetworkChangeSetOutputResponse, GetCoreNetworkChangeSetOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCoreNetworkChangeSetOutputResponse, GetCoreNetworkChangeSetOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCoreNetworkChangeSetOutputResponse, GetCoreNetworkChangeSetOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1686,8 +1686,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetCoreNetworkPolicyOutputResponse, GetCoreNetworkPolicyOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCoreNetworkPolicyOutputResponse, GetCoreNetworkPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCoreNetworkPolicyOutputResponse, GetCoreNetworkPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCoreNetworkPolicyOutputResponse, GetCoreNetworkPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCoreNetworkPolicyOutputResponse, GetCoreNetworkPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1719,8 +1719,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetCustomerGatewayAssociationsOutputResponse, GetCustomerGatewayAssociationsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCustomerGatewayAssociationsOutputResponse, GetCustomerGatewayAssociationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetCustomerGatewayAssociationsOutputResponse, GetCustomerGatewayAssociationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCustomerGatewayAssociationsOutputResponse, GetCustomerGatewayAssociationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCustomerGatewayAssociationsOutputResponse, GetCustomerGatewayAssociationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1752,8 +1752,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetDevicesOutputResponse, GetDevicesOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDevicesOutputResponse, GetDevicesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetDevicesOutputResponse, GetDevicesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDevicesOutputResponse, GetDevicesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDevicesOutputResponse, GetDevicesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1785,8 +1785,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetLinkAssociationsOutputResponse, GetLinkAssociationsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLinkAssociationsOutputResponse, GetLinkAssociationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetLinkAssociationsOutputResponse, GetLinkAssociationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLinkAssociationsOutputResponse, GetLinkAssociationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLinkAssociationsOutputResponse, GetLinkAssociationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1818,8 +1818,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetLinksOutputResponse, GetLinksOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLinksOutputResponse, GetLinksOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetLinksOutputResponse, GetLinksOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLinksOutputResponse, GetLinksOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLinksOutputResponse, GetLinksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1851,8 +1851,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetNetworkResourceCountsOutputResponse, GetNetworkResourceCountsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkResourceCountsOutputResponse, GetNetworkResourceCountsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetNetworkResourceCountsOutputResponse, GetNetworkResourceCountsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkResourceCountsOutputResponse, GetNetworkResourceCountsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkResourceCountsOutputResponse, GetNetworkResourceCountsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1884,8 +1884,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetNetworkResourceRelationshipsOutputResponse, GetNetworkResourceRelationshipsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkResourceRelationshipsOutputResponse, GetNetworkResourceRelationshipsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetNetworkResourceRelationshipsOutputResponse, GetNetworkResourceRelationshipsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkResourceRelationshipsOutputResponse, GetNetworkResourceRelationshipsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkResourceRelationshipsOutputResponse, GetNetworkResourceRelationshipsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1917,8 +1917,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetNetworkResourcesOutputResponse, GetNetworkResourcesOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkResourcesOutputResponse, GetNetworkResourcesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetNetworkResourcesOutputResponse, GetNetworkResourcesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkResourcesOutputResponse, GetNetworkResourcesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkResourcesOutputResponse, GetNetworkResourcesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1952,8 +1952,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetNetworkRoutesOutputResponse, GetNetworkRoutesOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkRoutesOutputResponse, GetNetworkRoutesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetNetworkRoutesOutputResponse, GetNetworkRoutesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkRoutesOutputResponse, GetNetworkRoutesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkRoutesOutputResponse, GetNetworkRoutesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1985,8 +1985,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetNetworkTelemetryOutputResponse, GetNetworkTelemetryOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetNetworkTelemetryOutputResponse, GetNetworkTelemetryOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetNetworkTelemetryOutputResponse, GetNetworkTelemetryOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetNetworkTelemetryOutputResponse, GetNetworkTelemetryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetNetworkTelemetryOutputResponse, GetNetworkTelemetryOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2017,8 +2017,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2049,8 +2049,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetRouteAnalysisOutputResponse, GetRouteAnalysisOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRouteAnalysisOutputResponse, GetRouteAnalysisOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRouteAnalysisOutputResponse, GetRouteAnalysisOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRouteAnalysisOutputResponse, GetRouteAnalysisOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRouteAnalysisOutputResponse, GetRouteAnalysisOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2081,8 +2081,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetSiteToSiteVpnAttachmentOutputResponse, GetSiteToSiteVpnAttachmentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSiteToSiteVpnAttachmentOutputResponse, GetSiteToSiteVpnAttachmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSiteToSiteVpnAttachmentOutputResponse, GetSiteToSiteVpnAttachmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSiteToSiteVpnAttachmentOutputResponse, GetSiteToSiteVpnAttachmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSiteToSiteVpnAttachmentOutputResponse, GetSiteToSiteVpnAttachmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2114,8 +2114,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetSitesOutputResponse, GetSitesOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSitesOutputResponse, GetSitesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetSitesOutputResponse, GetSitesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSitesOutputResponse, GetSitesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSitesOutputResponse, GetSitesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2147,8 +2147,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetTransitGatewayConnectPeerAssociationsOutputResponse, GetTransitGatewayConnectPeerAssociationsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTransitGatewayConnectPeerAssociationsOutputResponse, GetTransitGatewayConnectPeerAssociationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetTransitGatewayConnectPeerAssociationsOutputResponse, GetTransitGatewayConnectPeerAssociationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTransitGatewayConnectPeerAssociationsOutputResponse, GetTransitGatewayConnectPeerAssociationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTransitGatewayConnectPeerAssociationsOutputResponse, GetTransitGatewayConnectPeerAssociationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2179,8 +2179,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetTransitGatewayPeeringOutputResponse, GetTransitGatewayPeeringOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTransitGatewayPeeringOutputResponse, GetTransitGatewayPeeringOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetTransitGatewayPeeringOutputResponse, GetTransitGatewayPeeringOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTransitGatewayPeeringOutputResponse, GetTransitGatewayPeeringOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTransitGatewayPeeringOutputResponse, GetTransitGatewayPeeringOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2212,8 +2212,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetTransitGatewayRegistrationsOutputResponse, GetTransitGatewayRegistrationsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTransitGatewayRegistrationsOutputResponse, GetTransitGatewayRegistrationsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetTransitGatewayRegistrationsOutputResponse, GetTransitGatewayRegistrationsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTransitGatewayRegistrationsOutputResponse, GetTransitGatewayRegistrationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTransitGatewayRegistrationsOutputResponse, GetTransitGatewayRegistrationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2244,8 +2244,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetTransitGatewayRouteTableAttachmentOutputResponse, GetTransitGatewayRouteTableAttachmentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTransitGatewayRouteTableAttachmentOutputResponse, GetTransitGatewayRouteTableAttachmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetTransitGatewayRouteTableAttachmentOutputResponse, GetTransitGatewayRouteTableAttachmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTransitGatewayRouteTableAttachmentOutputResponse, GetTransitGatewayRouteTableAttachmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTransitGatewayRouteTableAttachmentOutputResponse, GetTransitGatewayRouteTableAttachmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2276,8 +2276,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetVpcAttachmentOutputResponse, GetVpcAttachmentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVpcAttachmentOutputResponse, GetVpcAttachmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetVpcAttachmentOutputResponse, GetVpcAttachmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVpcAttachmentOutputResponse, GetVpcAttachmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVpcAttachmentOutputResponse, GetVpcAttachmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2309,8 +2309,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListAttachmentsOutputResponse, ListAttachmentsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAttachmentsOutputResponse, ListAttachmentsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAttachmentsOutputResponse, ListAttachmentsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAttachmentsOutputResponse, ListAttachmentsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAttachmentsOutputResponse, ListAttachmentsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2342,8 +2342,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListConnectPeersOutputResponse, ListConnectPeersOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConnectPeersOutputResponse, ListConnectPeersOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListConnectPeersOutputResponse, ListConnectPeersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConnectPeersOutputResponse, ListConnectPeersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConnectPeersOutputResponse, ListConnectPeersOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2375,8 +2375,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListCoreNetworkPolicyVersionsOutputResponse, ListCoreNetworkPolicyVersionsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCoreNetworkPolicyVersionsOutputResponse, ListCoreNetworkPolicyVersionsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListCoreNetworkPolicyVersionsOutputResponse, ListCoreNetworkPolicyVersionsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCoreNetworkPolicyVersionsOutputResponse, ListCoreNetworkPolicyVersionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCoreNetworkPolicyVersionsOutputResponse, ListCoreNetworkPolicyVersionsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2408,8 +2408,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListCoreNetworksOutputResponse, ListCoreNetworksOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCoreNetworksOutputResponse, ListCoreNetworksOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListCoreNetworksOutputResponse, ListCoreNetworksOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCoreNetworksOutputResponse, ListCoreNetworksOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCoreNetworksOutputResponse, ListCoreNetworksOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2441,8 +2441,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListOrganizationServiceAccessStatusOutputResponse, ListOrganizationServiceAccessStatusOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListOrganizationServiceAccessStatusOutputResponse, ListOrganizationServiceAccessStatusOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListOrganizationServiceAccessStatusOutputResponse, ListOrganizationServiceAccessStatusOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListOrganizationServiceAccessStatusOutputResponse, ListOrganizationServiceAccessStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListOrganizationServiceAccessStatusOutputResponse, ListOrganizationServiceAccessStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2474,8 +2474,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListPeeringsOutputResponse, ListPeeringsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPeeringsOutputResponse, ListPeeringsOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListPeeringsOutputResponse, ListPeeringsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPeeringsOutputResponse, ListPeeringsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPeeringsOutputResponse, ListPeeringsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2506,8 +2506,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2549,8 +2549,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutCoreNetworkPolicyOutputResponse, PutCoreNetworkPolicyOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutCoreNetworkPolicyOutputResponse, PutCoreNetworkPolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutCoreNetworkPolicyOutputResponse, PutCoreNetworkPolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutCoreNetworkPolicyOutputResponse, PutCoreNetworkPolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutCoreNetworkPolicyOutputResponse, PutCoreNetworkPolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2584,8 +2584,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2619,8 +2619,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<RegisterTransitGatewayOutputResponse, RegisterTransitGatewayOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RegisterTransitGatewayOutputResponse, RegisterTransitGatewayOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RegisterTransitGatewayOutputResponse, RegisterTransitGatewayOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RegisterTransitGatewayOutputResponse, RegisterTransitGatewayOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RegisterTransitGatewayOutputResponse, RegisterTransitGatewayOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2651,8 +2651,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<RejectAttachmentOutputResponse, RejectAttachmentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RejectAttachmentOutputResponse, RejectAttachmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RejectAttachmentOutputResponse, RejectAttachmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RejectAttachmentOutputResponse, RejectAttachmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RejectAttachmentOutputResponse, RejectAttachmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2683,8 +2683,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<RestoreCoreNetworkPolicyVersionOutputResponse, RestoreCoreNetworkPolicyVersionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RestoreCoreNetworkPolicyVersionOutputResponse, RestoreCoreNetworkPolicyVersionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<RestoreCoreNetworkPolicyVersionOutputResponse, RestoreCoreNetworkPolicyVersionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreCoreNetworkPolicyVersionOutputResponse, RestoreCoreNetworkPolicyVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreCoreNetworkPolicyVersionOutputResponse, RestoreCoreNetworkPolicyVersionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2718,8 +2718,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartOrganizationServiceAccessUpdateOutputResponse, StartOrganizationServiceAccessUpdateOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartOrganizationServiceAccessUpdateOutputResponse, StartOrganizationServiceAccessUpdateOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartOrganizationServiceAccessUpdateOutputResponse, StartOrganizationServiceAccessUpdateOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartOrganizationServiceAccessUpdateOutputResponse, StartOrganizationServiceAccessUpdateOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartOrganizationServiceAccessUpdateOutputResponse, StartOrganizationServiceAccessUpdateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2753,8 +2753,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartRouteAnalysisOutputResponse, StartRouteAnalysisOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartRouteAnalysisOutputResponse, StartRouteAnalysisOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartRouteAnalysisOutputResponse, StartRouteAnalysisOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartRouteAnalysisOutputResponse, StartRouteAnalysisOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartRouteAnalysisOutputResponse, StartRouteAnalysisOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2788,8 +2788,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2821,8 +2821,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2856,8 +2856,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateConnectionOutputResponse, UpdateConnectionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConnectionOutputResponse, UpdateConnectionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateConnectionOutputResponse, UpdateConnectionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConnectionOutputResponse, UpdateConnectionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConnectionOutputResponse, UpdateConnectionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2891,8 +2891,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateCoreNetworkOutputResponse, UpdateCoreNetworkOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCoreNetworkOutputResponse, UpdateCoreNetworkOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateCoreNetworkOutputResponse, UpdateCoreNetworkOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCoreNetworkOutputResponse, UpdateCoreNetworkOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCoreNetworkOutputResponse, UpdateCoreNetworkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2926,8 +2926,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateDeviceOutputResponse, UpdateDeviceOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateDeviceOutputResponse, UpdateDeviceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateDeviceOutputResponse, UpdateDeviceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateDeviceOutputResponse, UpdateDeviceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateDeviceOutputResponse, UpdateDeviceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2961,8 +2961,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateGlobalNetworkOutputResponse, UpdateGlobalNetworkOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateGlobalNetworkOutputResponse, UpdateGlobalNetworkOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateGlobalNetworkOutputResponse, UpdateGlobalNetworkOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGlobalNetworkOutputResponse, UpdateGlobalNetworkOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGlobalNetworkOutputResponse, UpdateGlobalNetworkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -2996,8 +2996,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateLinkOutputResponse, UpdateLinkOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLinkOutputResponse, UpdateLinkOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateLinkOutputResponse, UpdateLinkOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLinkOutputResponse, UpdateLinkOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLinkOutputResponse, UpdateLinkOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -3031,8 +3031,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateNetworkResourceMetadataOutputResponse, UpdateNetworkResourceMetadataOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateNetworkResourceMetadataOutputResponse, UpdateNetworkResourceMetadataOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkResourceMetadataOutputResponse, UpdateNetworkResourceMetadataOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateNetworkResourceMetadataOutputResponse, UpdateNetworkResourceMetadataOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateNetworkResourceMetadataOutputResponse, UpdateNetworkResourceMetadataOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -3066,8 +3066,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateSiteOutputResponse, UpdateSiteOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSiteOutputResponse, UpdateSiteOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateSiteOutputResponse, UpdateSiteOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSiteOutputResponse, UpdateSiteOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSiteOutputResponse, UpdateSiteOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -3101,8 +3101,8 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateVpcAttachmentOutputResponse, UpdateVpcAttachmentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateVpcAttachmentOutputResponse, UpdateVpcAttachmentOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UpdateVpcAttachmentOutputResponse, UpdateVpcAttachmentOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateVpcAttachmentOutputResponse, UpdateVpcAttachmentOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateVpcAttachmentOutputResponse, UpdateVpcAttachmentOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }

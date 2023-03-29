@@ -28798,6 +28798,7 @@ extension StartChatContactInput: Swift.Encodable {
         case instanceId = "InstanceId"
         case participantDetails = "ParticipantDetails"
         case persistentChat = "PersistentChat"
+        case relatedContactId = "RelatedContactId"
         case supportedMessagingContentTypes = "SupportedMessagingContentTypes"
     }
 
@@ -28830,6 +28831,9 @@ extension StartChatContactInput: Swift.Encodable {
         if let persistentChat = self.persistentChat {
             try encodeContainer.encode(persistentChat, forKey: .persistentChat)
         }
+        if let relatedContactId = self.relatedContactId {
+            try encodeContainer.encode(relatedContactId, forKey: .relatedContactId)
+        }
         if let supportedMessagingContentTypes = supportedMessagingContentTypes {
             var supportedMessagingContentTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedMessagingContentTypes)
             for supportedmessagingcontenttype0 in supportedMessagingContentTypes {
@@ -28848,7 +28852,7 @@ extension StartChatContactInput: ClientRuntime.URLPathProvider {
 public struct StartChatContactInput: Swift.Equatable {
     /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     public var attributes: [Swift.String:Swift.String]?
-    /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minumum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
+    /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
     public var chatDurationInMinutes: Swift.Int?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
@@ -28865,7 +28869,9 @@ public struct StartChatContactInput: Swift.Equatable {
     public var participantDetails: ConnectClientTypes.ParticipantDetails?
     /// Enable persistent chats. For more information about enabling persistent chat, and for example use cases and how to configure for them, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
     public var persistentChat: ConnectClientTypes.PersistentChat?
-    /// The supported chat message content types. Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain: [text/plain, text/markdown, application/json], [text/markdown, text/plain], [text/plain, application/json].
+    /// The unique identifier for an Amazon Connect contact. This identifier is related to the chat starting. You cannot provide data for both RelatedContactId and PersistentChat.
+    public var relatedContactId: Swift.String?
+    /// The supported chat message content types. Supported types are text/plain, text/markdown, application/json, application/vnd.amazonaws.connect.message.interactive, and application/vnd.amazonaws.connect.message.interactive.response. Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain: [text/plain, text/markdown, application/json], [text/markdown, text/plain], [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response]. The type application/vnd.amazonaws.connect.message.interactive is required to use the [Show view](https://docs.aws.amazon.com/connect/latest/adminguide/show-view-block.html) flow block.
     public var supportedMessagingContentTypes: [Swift.String]?
 
     public init (
@@ -28877,6 +28883,7 @@ public struct StartChatContactInput: Swift.Equatable {
         instanceId: Swift.String? = nil,
         participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
         persistentChat: ConnectClientTypes.PersistentChat? = nil,
+        relatedContactId: Swift.String? = nil,
         supportedMessagingContentTypes: [Swift.String]? = nil
     )
     {
@@ -28888,6 +28895,7 @@ public struct StartChatContactInput: Swift.Equatable {
         self.instanceId = instanceId
         self.participantDetails = participantDetails
         self.persistentChat = persistentChat
+        self.relatedContactId = relatedContactId
         self.supportedMessagingContentTypes = supportedMessagingContentTypes
     }
 }
@@ -28902,6 +28910,7 @@ struct StartChatContactInputBody: Swift.Equatable {
     let chatDurationInMinutes: Swift.Int?
     let supportedMessagingContentTypes: [Swift.String]?
     let persistentChat: ConnectClientTypes.PersistentChat?
+    let relatedContactId: Swift.String?
 }
 
 extension StartChatContactInputBody: Swift.Decodable {
@@ -28914,6 +28923,7 @@ extension StartChatContactInputBody: Swift.Decodable {
         case instanceId = "InstanceId"
         case participantDetails = "ParticipantDetails"
         case persistentChat = "PersistentChat"
+        case relatedContactId = "RelatedContactId"
         case supportedMessagingContentTypes = "SupportedMessagingContentTypes"
     }
 
@@ -28955,6 +28965,8 @@ extension StartChatContactInputBody: Swift.Decodable {
         supportedMessagingContentTypes = supportedMessagingContentTypesDecoded0
         let persistentChatDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.PersistentChat.self, forKey: .persistentChat)
         persistentChat = persistentChatDecoded
+        let relatedContactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .relatedContactId)
+        relatedContactId = relatedContactIdDecoded
     }
 }
 

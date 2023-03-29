@@ -103,6 +103,8 @@ public protocol WorkDocsClientProtocol {
     func removeResourcePermission(input: RemoveResourcePermissionInput) async throws -> RemoveResourcePermissionOutputResponse
     /// Recovers a deleted version of an Amazon WorkDocs document.
     func restoreDocumentVersions(input: RestoreDocumentVersionsInput) async throws -> RestoreDocumentVersionsOutputResponse
+    /// Searches metadata and the content of folders, documents, document versions, and comments.
+    func searchResources(input: SearchResourcesInput) async throws -> SearchResourcesOutputResponse
     /// Updates the specified attributes of a document. The user must have access to both the document and its parent folder, if applicable.
     func updateDocument(input: UpdateDocumentInput) async throws -> UpdateDocumentOutputResponse
     /// Changes the status of the document version to ACTIVE. Amazon WorkDocs also sets its document container to ACTIVE. This is the last step in a document upload, after the client uploads the document to an S3-presigned URL returned by [InitiateDocumentVersionUpload].

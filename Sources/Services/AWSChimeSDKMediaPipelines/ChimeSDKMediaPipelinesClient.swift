@@ -242,8 +242,8 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateMediaCapturePipelineOutputResponse, CreateMediaCapturePipelineOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMediaCapturePipelineOutputResponse, CreateMediaCapturePipelineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateMediaCapturePipelineOutputResponse, CreateMediaCapturePipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMediaCapturePipelineOutputResponse, CreateMediaCapturePipelineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMediaCapturePipelineOutputResponse, CreateMediaCapturePipelineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -285,13 +285,99 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateMediaConcatenationPipelineOutputResponse, CreateMediaConcatenationPipelineOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMediaConcatenationPipelineOutputResponse, CreateMediaConcatenationPipelineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateMediaConcatenationPipelineOutputResponse, CreateMediaConcatenationPipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMediaConcatenationPipelineOutputResponse, CreateMediaConcatenationPipelineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMediaConcatenationPipelineOutputResponse, CreateMediaConcatenationPipelineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// Creates a streaming media pipeline in an Amazon Chime SDK meeting.
+    /// Creates a media insights pipeline.
+    public func createMediaInsightsPipeline(input: CreateMediaInsightsPipelineInput) async throws -> CreateMediaInsightsPipelineOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createMediaInsightsPipeline")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<CreateMediaInsightsPipelineInput, CreateMediaInsightsPipelineOutputResponse, CreateMediaInsightsPipelineOutputError>(id: "createMediaInsightsPipeline")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateMediaInsightsPipelineOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.clientRequestToken == nil {
+                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMediaInsightsPipelineInput, CreateMediaInsightsPipelineOutputResponse, CreateMediaInsightsPipelineOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMediaInsightsPipelineInput, CreateMediaInsightsPipelineOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMediaInsightsPipelineOutputResponse, CreateMediaInsightsPipelineOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMediaInsightsPipelineInput, CreateMediaInsightsPipelineOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateMediaInsightsPipelineInput, CreateMediaInsightsPipelineOutputResponse>(xmlName: "CreateMediaInsightsPipelineRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateMediaInsightsPipelineOutputResponse, CreateMediaInsightsPipelineOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMediaInsightsPipelineOutputResponse, CreateMediaInsightsPipelineOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMediaInsightsPipelineOutputResponse, CreateMediaInsightsPipelineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMediaInsightsPipelineOutputResponse, CreateMediaInsightsPipelineOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// A structure that contains the static configurations for a media insights pipeline.
+    public func createMediaInsightsPipelineConfiguration(input: CreateMediaInsightsPipelineConfigurationInput) async throws -> CreateMediaInsightsPipelineConfigurationOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createMediaInsightsPipelineConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<CreateMediaInsightsPipelineConfigurationInput, CreateMediaInsightsPipelineConfigurationOutputResponse, CreateMediaInsightsPipelineConfigurationOutputError>(id: "createMediaInsightsPipelineConfiguration")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateMediaInsightsPipelineConfigurationOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.clientRequestToken == nil {
+                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMediaInsightsPipelineConfigurationInput, CreateMediaInsightsPipelineConfigurationOutputResponse, CreateMediaInsightsPipelineConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMediaInsightsPipelineConfigurationInput, CreateMediaInsightsPipelineConfigurationOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMediaInsightsPipelineConfigurationOutputResponse, CreateMediaInsightsPipelineConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMediaInsightsPipelineConfigurationInput, CreateMediaInsightsPipelineConfigurationOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateMediaInsightsPipelineConfigurationInput, CreateMediaInsightsPipelineConfigurationOutputResponse>(xmlName: "CreateMediaInsightsPipelineConfigurationRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateMediaInsightsPipelineConfigurationOutputResponse, CreateMediaInsightsPipelineConfigurationOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMediaInsightsPipelineConfigurationOutputResponse, CreateMediaInsightsPipelineConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMediaInsightsPipelineConfigurationOutputResponse, CreateMediaInsightsPipelineConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMediaInsightsPipelineConfigurationOutputResponse, CreateMediaInsightsPipelineConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Creates a media live connector pipeline in an Amazon Chime SDK meeting.
     public func createMediaLiveConnectorPipeline(input: CreateMediaLiveConnectorPipelineInput) async throws -> CreateMediaLiveConnectorPipelineOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -328,8 +414,8 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateMediaLiveConnectorPipelineOutputResponse, CreateMediaLiveConnectorPipelineOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMediaLiveConnectorPipelineOutputResponse, CreateMediaLiveConnectorPipelineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateMediaLiveConnectorPipelineOutputResponse, CreateMediaLiveConnectorPipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMediaLiveConnectorPipelineOutputResponse, CreateMediaLiveConnectorPipelineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMediaLiveConnectorPipelineOutputResponse, CreateMediaLiveConnectorPipelineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -360,8 +446,40 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteMediaCapturePipelineOutputResponse, DeleteMediaCapturePipelineOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMediaCapturePipelineOutputResponse, DeleteMediaCapturePipelineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteMediaCapturePipelineOutputResponse, DeleteMediaCapturePipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMediaCapturePipelineOutputResponse, DeleteMediaCapturePipelineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMediaCapturePipelineOutputResponse, DeleteMediaCapturePipelineOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Deletes the specified configuration settings.
+    public func deleteMediaInsightsPipelineConfiguration(input: DeleteMediaInsightsPipelineConfigurationInput) async throws -> DeleteMediaInsightsPipelineConfigurationOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteMediaInsightsPipelineConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<DeleteMediaInsightsPipelineConfigurationInput, DeleteMediaInsightsPipelineConfigurationOutputResponse, DeleteMediaInsightsPipelineConfigurationOutputError>(id: "deleteMediaInsightsPipelineConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMediaInsightsPipelineConfigurationInput, DeleteMediaInsightsPipelineConfigurationOutputResponse, DeleteMediaInsightsPipelineConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMediaInsightsPipelineConfigurationInput, DeleteMediaInsightsPipelineConfigurationOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMediaInsightsPipelineConfigurationOutputResponse, DeleteMediaInsightsPipelineConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteMediaInsightsPipelineConfigurationOutputResponse, DeleteMediaInsightsPipelineConfigurationOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMediaInsightsPipelineConfigurationOutputResponse, DeleteMediaInsightsPipelineConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMediaInsightsPipelineConfigurationOutputResponse, DeleteMediaInsightsPipelineConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMediaInsightsPipelineConfigurationOutputResponse, DeleteMediaInsightsPipelineConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -392,8 +510,8 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteMediaPipelineOutputResponse, DeleteMediaPipelineOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMediaPipelineOutputResponse, DeleteMediaPipelineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteMediaPipelineOutputResponse, DeleteMediaPipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMediaPipelineOutputResponse, DeleteMediaPipelineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMediaPipelineOutputResponse, DeleteMediaPipelineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -424,8 +542,40 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetMediaCapturePipelineOutputResponse, GetMediaCapturePipelineOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMediaCapturePipelineOutputResponse, GetMediaCapturePipelineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetMediaCapturePipelineOutputResponse, GetMediaCapturePipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMediaCapturePipelineOutputResponse, GetMediaCapturePipelineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMediaCapturePipelineOutputResponse, GetMediaCapturePipelineOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Gets the configuration settings for a media insights pipeline.
+    public func getMediaInsightsPipelineConfiguration(input: GetMediaInsightsPipelineConfigurationInput) async throws -> GetMediaInsightsPipelineConfigurationOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getMediaInsightsPipelineConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<GetMediaInsightsPipelineConfigurationInput, GetMediaInsightsPipelineConfigurationOutputResponse, GetMediaInsightsPipelineConfigurationOutputError>(id: "getMediaInsightsPipelineConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMediaInsightsPipelineConfigurationInput, GetMediaInsightsPipelineConfigurationOutputResponse, GetMediaInsightsPipelineConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMediaInsightsPipelineConfigurationInput, GetMediaInsightsPipelineConfigurationOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMediaInsightsPipelineConfigurationOutputResponse, GetMediaInsightsPipelineConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetMediaInsightsPipelineConfigurationOutputResponse, GetMediaInsightsPipelineConfigurationOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMediaInsightsPipelineConfigurationOutputResponse, GetMediaInsightsPipelineConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMediaInsightsPipelineConfigurationOutputResponse, GetMediaInsightsPipelineConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMediaInsightsPipelineConfigurationOutputResponse, GetMediaInsightsPipelineConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -456,8 +606,8 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetMediaPipelineOutputResponse, GetMediaPipelineOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMediaPipelineOutputResponse, GetMediaPipelineOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetMediaPipelineOutputResponse, GetMediaPipelineOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMediaPipelineOutputResponse, GetMediaPipelineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMediaPipelineOutputResponse, GetMediaPipelineOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -489,8 +639,41 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListMediaCapturePipelinesOutputResponse, ListMediaCapturePipelinesOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMediaCapturePipelinesOutputResponse, ListMediaCapturePipelinesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMediaCapturePipelinesOutputResponse, ListMediaCapturePipelinesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMediaCapturePipelinesOutputResponse, ListMediaCapturePipelinesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMediaCapturePipelinesOutputResponse, ListMediaCapturePipelinesOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Lists the available media insights pipeline configurations.
+    public func listMediaInsightsPipelineConfigurations(input: ListMediaInsightsPipelineConfigurationsInput) async throws -> ListMediaInsightsPipelineConfigurationsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listMediaInsightsPipelineConfigurations")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<ListMediaInsightsPipelineConfigurationsInput, ListMediaInsightsPipelineConfigurationsOutputResponse, ListMediaInsightsPipelineConfigurationsOutputError>(id: "listMediaInsightsPipelineConfigurations")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMediaInsightsPipelineConfigurationsInput, ListMediaInsightsPipelineConfigurationsOutputResponse, ListMediaInsightsPipelineConfigurationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMediaInsightsPipelineConfigurationsInput, ListMediaInsightsPipelineConfigurationsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMediaInsightsPipelineConfigurationsOutputResponse, ListMediaInsightsPipelineConfigurationsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMediaInsightsPipelineConfigurationsInput, ListMediaInsightsPipelineConfigurationsOutputResponse>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListMediaInsightsPipelineConfigurationsOutputResponse, ListMediaInsightsPipelineConfigurationsOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMediaInsightsPipelineConfigurationsOutputResponse, ListMediaInsightsPipelineConfigurationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMediaInsightsPipelineConfigurationsOutputResponse, ListMediaInsightsPipelineConfigurationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMediaInsightsPipelineConfigurationsOutputResponse, ListMediaInsightsPipelineConfigurationsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -522,8 +705,8 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListMediaPipelinesOutputResponse, ListMediaPipelinesOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMediaPipelinesOutputResponse, ListMediaPipelinesOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListMediaPipelinesOutputResponse, ListMediaPipelinesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMediaPipelinesOutputResponse, ListMediaPipelinesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMediaPipelinesOutputResponse, ListMediaPipelinesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -555,13 +738,13 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
 
-    /// The ARN of the media pipeline that you want to tag. Consists of he pipeline's endpoint region, resource ID, and pipeline ID.
+    /// The ARN of the media pipeline that you want to tag. Consists of the pipeline's endpoint region, resource ID, and pipeline ID.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -591,8 +774,8 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -627,8 +810,78 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Updates the media insights pipeline's configuration settings.
+    public func updateMediaInsightsPipelineConfiguration(input: UpdateMediaInsightsPipelineConfigurationInput) async throws -> UpdateMediaInsightsPipelineConfigurationOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateMediaInsightsPipelineConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<UpdateMediaInsightsPipelineConfigurationInput, UpdateMediaInsightsPipelineConfigurationOutputResponse, UpdateMediaInsightsPipelineConfigurationOutputError>(id: "updateMediaInsightsPipelineConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMediaInsightsPipelineConfigurationInput, UpdateMediaInsightsPipelineConfigurationOutputResponse, UpdateMediaInsightsPipelineConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMediaInsightsPipelineConfigurationInput, UpdateMediaInsightsPipelineConfigurationOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateMediaInsightsPipelineConfigurationOutputResponse, UpdateMediaInsightsPipelineConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateMediaInsightsPipelineConfigurationInput, UpdateMediaInsightsPipelineConfigurationOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateMediaInsightsPipelineConfigurationInput, UpdateMediaInsightsPipelineConfigurationOutputResponse>(xmlName: "UpdateMediaInsightsPipelineConfigurationRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateMediaInsightsPipelineConfigurationOutputResponse, UpdateMediaInsightsPipelineConfigurationOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMediaInsightsPipelineConfigurationOutputResponse, UpdateMediaInsightsPipelineConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMediaInsightsPipelineConfigurationOutputResponse, UpdateMediaInsightsPipelineConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMediaInsightsPipelineConfigurationOutputResponse, UpdateMediaInsightsPipelineConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Updates the status of a media insights pipeline.
+    public func updateMediaInsightsPipelineStatus(input: UpdateMediaInsightsPipelineStatusInput) async throws -> UpdateMediaInsightsPipelineStatusOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateMediaInsightsPipelineStatus")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<UpdateMediaInsightsPipelineStatusInput, UpdateMediaInsightsPipelineStatusOutputResponse, UpdateMediaInsightsPipelineStatusOutputError>(id: "updateMediaInsightsPipelineStatus")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMediaInsightsPipelineStatusInput, UpdateMediaInsightsPipelineStatusOutputResponse, UpdateMediaInsightsPipelineStatusOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMediaInsightsPipelineStatusInput, UpdateMediaInsightsPipelineStatusOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateMediaInsightsPipelineStatusOutputResponse, UpdateMediaInsightsPipelineStatusOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateMediaInsightsPipelineStatusInput, UpdateMediaInsightsPipelineStatusOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateMediaInsightsPipelineStatusInput, UpdateMediaInsightsPipelineStatusOutputResponse>(xmlName: "UpdateMediaInsightsPipelineStatusRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<UpdateMediaInsightsPipelineStatusOutputResponse, UpdateMediaInsightsPipelineStatusOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMediaInsightsPipelineStatusOutputResponse, UpdateMediaInsightsPipelineStatusOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMediaInsightsPipelineStatusOutputResponse, UpdateMediaInsightsPipelineStatusOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMediaInsightsPipelineStatusOutputResponse, UpdateMediaInsightsPipelineStatusOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }

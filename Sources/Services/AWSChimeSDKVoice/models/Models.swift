@@ -21,6 +21,7 @@ extension AccessDeniedException {
     }
 }
 
+/// You don't have the permissions needed to run this action.
 public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -141,16 +142,27 @@ extension ChimeSDKVoiceClientTypes.Address: Swift.CustomDebugStringConvertible {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// A validated address.
     public struct Address: Swift.Equatable {
+        /// The city of an address.
         public var city: Swift.String?
+        /// The country of an address.
         public var country: Swift.String?
+        /// An address suffix location, such as the S. Unit A in Central Park S. Unit A.
         public var postDirectional: Swift.String?
+        /// The postal code of an address.
         public var postalCode: Swift.String?
+        /// The zip + 4 or postal code + 4 of an address.
         public var postalCodePlus4: Swift.String?
+        /// An address prefix location, such as the N in N. Third St.
         public var preDirectional: Swift.String?
+        /// The state of an address.
         public var state: Swift.String?
+        /// The address street, such as 8th Avenue.
         public var streetName: Swift.String?
+        /// The numeric portion of an address.
         public var streetNumber: Swift.String?
+        /// The address suffix, such as the N in 8th Avenue N.
         public var streetSuffix: Swift.String?
 
         public init (
@@ -253,9 +265,12 @@ extension AssociatePhoneNumbersWithVoiceConnectorGroupInput: ClientRuntime.URLPa
 }
 
 public struct AssociatePhoneNumbersWithVoiceConnectorGroupInput: Swift.Equatable {
+    /// List of phone numbers, in E.164 format.
     /// This member is required.
     public var e164PhoneNumbers: [Swift.String]?
+    /// If true, associates the provided phone numbers with the provided Amazon Chime SDK Voice Connector Group and removes any previously existing associations. If false, does not associate any phone numbers that have previously existing associations.
     public var forceAssociate: Swift.Bool?
+    /// The Amazon Chime SDK Voice Connector group ID.
     /// This member is required.
     public var voiceConnectorGroupId: Swift.String?
 
@@ -350,6 +365,7 @@ extension AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponse: ClientRunt
 }
 
 public struct AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponse: Swift.Equatable {
+    /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
     public var phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]?
 
     public init (
@@ -425,9 +441,12 @@ extension AssociatePhoneNumbersWithVoiceConnectorInput: ClientRuntime.URLPathPro
 }
 
 public struct AssociatePhoneNumbersWithVoiceConnectorInput: Swift.Equatable {
+    /// List of phone numbers, in E.164 format.
     /// This member is required.
     public var e164PhoneNumbers: [Swift.String]?
+    /// If true, associates the provided phone numbers with the provided Amazon Chime SDK Voice Connector and removes any previously existing associations. If false, does not associate any phone numbers that have previously existing associations.
     public var forceAssociate: Swift.Bool?
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -522,6 +541,7 @@ extension AssociatePhoneNumbersWithVoiceConnectorOutputResponse: ClientRuntime.H
 }
 
 public struct AssociatePhoneNumbersWithVoiceConnectorOutputResponse: Swift.Equatable {
+    /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
     public var phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]?
 
     public init (
@@ -576,6 +596,7 @@ extension BadRequestException {
     }
 }
 
+/// The input parameters don't match the service's restrictions.
 public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -650,6 +671,7 @@ extension BatchDeletePhoneNumberInput: ClientRuntime.URLPathProvider {
 }
 
 public struct BatchDeletePhoneNumberInput: Swift.Equatable {
+    /// List of phone number IDs.
     /// This member is required.
     public var phoneNumberIds: [Swift.String]?
 
@@ -734,6 +756,7 @@ extension BatchDeletePhoneNumberOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct BatchDeletePhoneNumberOutputResponse: Swift.Equatable {
+    /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
     public var phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]?
 
     public init (
@@ -802,6 +825,7 @@ extension BatchUpdatePhoneNumberInput: ClientRuntime.URLPathProvider {
 }
 
 public struct BatchUpdatePhoneNumberInput: Swift.Equatable {
+    /// Lists the phone numbers in the update request.
     /// This member is required.
     public var updatePhoneNumberRequestItems: [ChimeSDKVoiceClientTypes.UpdatePhoneNumberRequestItem]?
 
@@ -886,6 +910,7 @@ extension BatchUpdatePhoneNumberOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct BatchUpdatePhoneNumberOutputResponse: Swift.Equatable {
+    /// A list of failed phone numbers and their error messages.
     public var phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]?
 
     public init (
@@ -919,6 +944,61 @@ extension BatchUpdatePhoneNumberOutputResponseBody: Swift.Decodable {
         }
         phoneNumberErrors = phoneNumberErrorsDecoded0
     }
+}
+
+extension ChimeSDKVoiceClientTypes.CallDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case isCaller = "IsCaller"
+        case transactionId = "TransactionId"
+        case voiceConnectorId = "VoiceConnectorId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let isCaller = self.isCaller {
+            try encodeContainer.encode(isCaller, forKey: .isCaller)
+        }
+        if let transactionId = self.transactionId {
+            try encodeContainer.encode(transactionId, forKey: .transactionId)
+        }
+        if let voiceConnectorId = self.voiceConnectorId {
+            try encodeContainer.encode(voiceConnectorId, forKey: .voiceConnectorId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceConnectorIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .voiceConnectorId)
+        voiceConnectorId = voiceConnectorIdDecoded
+        let transactionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionId)
+        transactionId = transactionIdDecoded
+        let isCallerDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isCaller)
+        isCaller = isCallerDecoded
+    }
+}
+
+extension ChimeSDKVoiceClientTypes {
+    /// The details of an Amazon Chime SDK Voice Connector call.
+    public struct CallDetails: Swift.Equatable {
+        /// Identifies a person as the caller or the callee.
+        public var isCaller: Swift.Bool?
+        /// The transaction ID of a Voice Connector call.
+        public var transactionId: Swift.String?
+        /// The Voice Connector ID.
+        public var voiceConnectorId: Swift.String?
+
+        public init (
+            isCaller: Swift.Bool? = nil,
+            transactionId: Swift.String? = nil,
+            voiceConnectorId: Swift.String? = nil
+        )
+        {
+            self.isCaller = isCaller
+            self.transactionId = transactionId
+            self.voiceConnectorId = voiceConnectorId
+        }
+    }
+
 }
 
 extension ChimeSDKVoiceClientTypes {
@@ -1020,13 +1100,21 @@ extension ChimeSDKVoiceClientTypes.CandidateAddress: Swift.CustomDebugStringConv
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// A suggested address.
     public struct CandidateAddress: Swift.Equatable {
+        /// The city of the candidate address.
         public var city: Swift.String?
+        /// The country of the candidate address.
         public var country: Swift.String?
+        /// The postal code of the candidate address.
         public var postalCode: Swift.String?
+        /// The zip + 4 or postal code +4 of the candidate address.
         public var postalCodePlus4: Swift.String?
+        /// The state of the candidate address.
         public var state: Swift.String?
+        /// The street information of the candidate address.
         public var streetInfo: Swift.String?
+        /// The numeric portion of the candidate address.
         public var streetNumber: Swift.String?
 
         public init (
@@ -1102,6 +1190,7 @@ extension ConflictException {
     }
 }
 
+/// Multiple instances of the same request were made simultaneously.
 public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -1170,8 +1259,10 @@ extension CreatePhoneNumberOrderInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreatePhoneNumberOrderInput: Swift.Equatable {
+    /// List of phone numbers, in E.164 format.
     /// This member is required.
     public var e164PhoneNumbers: [Swift.String]?
+    /// The phone number product type.
     /// This member is required.
     public var productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType?
 
@@ -1264,6 +1355,7 @@ extension CreatePhoneNumberOrderOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct CreatePhoneNumberOrderOutputResponse: Swift.Equatable {
+    /// The phone number order details.
     public var phoneNumberOrder: ChimeSDKVoiceClientTypes.PhoneNumberOrder?
 
     public init (
@@ -1348,15 +1440,23 @@ extension CreateProxySessionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateProxySessionInput: Swift.Equatable {
+    /// The proxy session's capabilities.
     /// This member is required.
     public var capabilities: [ChimeSDKVoiceClientTypes.Capability]?
+    /// The number of minutes allowed for the proxy session.
     public var expiryMinutes: Swift.Int?
+    /// The preference for matching the country or area code of the proxy phone number with that of the first participant.
     public var geoMatchLevel: ChimeSDKVoiceClientTypes.GeoMatchLevel?
+    /// The country and area code for the proxy phone number.
     public var geoMatchParams: ChimeSDKVoiceClientTypes.GeoMatchParams?
+    /// The name of the proxy session.
     public var name: Swift.String?
+    /// The preference for proxy phone number reuse, or stickiness, between the same participants across sessions.
     public var numberSelectionBehavior: ChimeSDKVoiceClientTypes.NumberSelectionBehavior?
+    /// The participant phone numbers.
     /// This member is required.
     public var participantPhoneNumbers: [Swift.String]?
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -1488,6 +1588,7 @@ extension CreateProxySessionOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateProxySessionOutputResponse: Swift.Equatable {
+    /// The proxy session details.
     public var proxySession: ChimeSDKVoiceClientTypes.ProxySession?
 
     public init (
@@ -1560,12 +1661,17 @@ extension CreateSipMediaApplicationCallInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateSipMediaApplicationCallInput: Swift.Equatable {
+    /// Context passed to a CreateSipMediaApplication API call. For example, you could pass key-value pairs such as: "FirstName": "John", "LastName": "Doe"
     public var argumentsMap: [Swift.String:Swift.String]?
+    /// The phone number that a user calls from. This is a phone number in your Amazon Chime SDK phone number inventory.
     /// This member is required.
     public var fromPhoneNumber: Swift.String?
+    /// The SIP headers added to an outbound call leg.
     public var sipHeaders: [Swift.String:Swift.String]?
+    /// The ID of the SIP media application.
     /// This member is required.
     public var sipMediaApplicationId: Swift.String?
+    /// The phone number that the service should call.
     /// This member is required.
     public var toPhoneNumber: Swift.String?
 
@@ -1681,6 +1787,7 @@ extension CreateSipMediaApplicationCallOutputResponse: ClientRuntime.HttpRespons
 }
 
 public struct CreateSipMediaApplicationCallOutputResponse: Swift.Equatable {
+    /// The actual call.
     public var sipMediaApplicationCall: ChimeSDKVoiceClientTypes.SipMediaApplicationCall?
 
     public init (
@@ -1738,10 +1845,13 @@ extension CreateSipMediaApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateSipMediaApplicationInput: Swift.Equatable {
+    /// The AWS Region assigned to the SIP media application.
     /// This member is required.
     public var awsRegion: Swift.String?
+    /// List of endpoints (Lambda ARNs) specified for the SIP media application.
     /// This member is required.
     public var endpoints: [ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint]?
+    /// The SIP media application's name.
     /// This member is required.
     public var name: Swift.String?
 
@@ -1842,6 +1952,7 @@ extension CreateSipMediaApplicationOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 public struct CreateSipMediaApplicationOutputResponse: Swift.Equatable {
+    /// The SIP media application details.
     public var sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication?
 
     public init (
@@ -1907,12 +2018,17 @@ extension CreateSipRuleInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateSipRuleInput: Swift.Equatable {
+    /// Disables or enables a SIP rule. You must disable SIP rules before you can delete them.
     public var disabled: Swift.Bool?
+    /// The name of the SIP rule.
     /// This member is required.
     public var name: Swift.String?
+    /// List of SIP media applications, with priority and AWS Region. Only one SIP application per AWS Region can be used.
     public var targetApplications: [ChimeSDKVoiceClientTypes.SipRuleTargetApplication]?
+    /// The type of trigger assigned to the SIP rule in TriggerValue, currently RequestUriHostname or ToPhoneNumber.
     /// This member is required.
     public var triggerType: ChimeSDKVoiceClientTypes.SipRuleTriggerType?
+    /// If TriggerType is RequestUriHostname, the value can be the outbound host name of a Voice Connector. If TriggerType is ToPhoneNumber, the value can be a customer-owned phone number in the E164 format. The SipMediaApplication specified in the SipRule is triggered if the request URI in an incoming SIP request matches the RequestUriHostname, or if the To header in the incoming SIP request matches the ToPhoneNumber value.
     /// This member is required.
     public var triggerValue: Swift.String?
 
@@ -2025,6 +2141,7 @@ extension CreateSipRuleOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateSipRuleOutputResponse: Swift.Equatable {
+    /// The SIP rule information, including the rule ID, triggers, and target applications.
     public var sipRule: ChimeSDKVoiceClientTypes.SipRule?
 
     public init (
@@ -2078,8 +2195,10 @@ extension CreateVoiceConnectorGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateVoiceConnectorGroupInput: Swift.Equatable {
+    /// The name of the Voice Connector group.
     /// This member is required.
     public var name: Swift.String?
+    /// Lists the Voice Connectors that inbound calls are routed to.
     public var voiceConnectorItems: [ChimeSDKVoiceClientTypes.VoiceConnectorItem]?
 
     public init (
@@ -2171,6 +2290,7 @@ extension CreateVoiceConnectorGroupOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 public struct CreateVoiceConnectorGroupOutputResponse: Swift.Equatable {
+    /// The details of the Voice Connector group.
     public var voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup?
 
     public init (
@@ -2225,9 +2345,12 @@ extension CreateVoiceConnectorInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateVoiceConnectorInput: Swift.Equatable {
+    /// The AWS Region in which the Amazon Chime SDK Voice Connector is created. Default value: us-east-1 .
     public var awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion?
+    /// The name of the Voice Connector.
     /// This member is required.
     public var name: Swift.String?
+    /// Enables or disables encryption for the Voice Connector.
     /// This member is required.
     public var requireEncryption: Swift.Bool?
 
@@ -2317,6 +2440,7 @@ extension CreateVoiceConnectorOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct CreateVoiceConnectorOutputResponse: Swift.Equatable {
+    /// The details of the Voice Connector.
     public var voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector?
 
     public init (
@@ -2340,6 +2464,325 @@ extension CreateVoiceConnectorOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let voiceConnectorDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceConnector.self, forKey: .voiceConnector)
         voiceConnector = voiceConnectorDecoded
+    }
+}
+
+extension CreateVoiceProfileDomainInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case description = "Description"
+        case name = "Name"
+        case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let serverSideEncryptionConfiguration = self.serverSideEncryptionConfiguration {
+            try encodeContainer.encode(serverSideEncryptionConfiguration, forKey: .serverSideEncryptionConfiguration)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateVoiceProfileDomainInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/voice-profile-domains"
+    }
+}
+
+public struct CreateVoiceProfileDomainInput: Swift.Equatable {
+    /// The unique identifier for the client request. Use a different token for different domain creation requests.
+    public var clientRequestToken: Swift.String?
+    /// A description of the voice profile domain.
+    public var description: Swift.String?
+    /// The name of the voice profile domain.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The server-side encryption configuration for the request.
+    /// This member is required.
+    public var serverSideEncryptionConfiguration: ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration?
+    /// The tags assigned to the domain.
+    public var tags: [ChimeSDKVoiceClientTypes.Tag]?
+
+    public init (
+        clientRequestToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        serverSideEncryptionConfiguration: ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration? = nil,
+        tags: [ChimeSDKVoiceClientTypes.Tag]? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.description = description
+        self.name = name
+        self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
+        self.tags = tags
+    }
+}
+
+struct CreateVoiceProfileDomainInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let description: Swift.String?
+    let serverSideEncryptionConfiguration: ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration?
+    let clientRequestToken: Swift.String?
+    let tags: [ChimeSDKVoiceClientTypes.Tag]?
+}
+
+extension CreateVoiceProfileDomainInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case description = "Description"
+        case name = "Name"
+        case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let serverSideEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration.self, forKey: .serverSideEncryptionConfiguration)
+        serverSideEncryptionConfiguration = serverSideEncryptionConfigurationDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([ChimeSDKVoiceClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[ChimeSDKVoiceClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ChimeSDKVoiceClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateVoiceProfileDomainOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateVoiceProfileDomainOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateVoiceProfileDomainOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case resourceLimitExceededException(ResourceLimitExceededException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateVoiceProfileDomainOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateVoiceProfileDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.voiceProfileDomain = output.voiceProfileDomain
+        } else {
+            self.voiceProfileDomain = nil
+        }
+    }
+}
+
+public struct CreateVoiceProfileDomainOutputResponse: Swift.Equatable {
+    /// The requested voice profile domain.
+    public var voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain?
+
+    public init (
+        voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain? = nil
+    )
+    {
+        self.voiceProfileDomain = voiceProfileDomain
+    }
+}
+
+struct CreateVoiceProfileDomainOutputResponseBody: Swift.Equatable {
+    let voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain?
+}
+
+extension CreateVoiceProfileDomainOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceProfileDomain = "VoiceProfileDomain"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceProfileDomainDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceProfileDomain.self, forKey: .voiceProfileDomain)
+        voiceProfileDomain = voiceProfileDomainDecoded
+    }
+}
+
+extension CreateVoiceProfileInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case speakerSearchTaskId = "SpeakerSearchTaskId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let speakerSearchTaskId = self.speakerSearchTaskId {
+            try encodeContainer.encode(speakerSearchTaskId, forKey: .speakerSearchTaskId)
+        }
+    }
+}
+
+extension CreateVoiceProfileInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/voice-profiles"
+    }
+}
+
+public struct CreateVoiceProfileInput: Swift.Equatable {
+    /// The ID of the speaker search task.
+    /// This member is required.
+    public var speakerSearchTaskId: Swift.String?
+
+    public init (
+        speakerSearchTaskId: Swift.String? = nil
+    )
+    {
+        self.speakerSearchTaskId = speakerSearchTaskId
+    }
+}
+
+struct CreateVoiceProfileInputBody: Swift.Equatable {
+    let speakerSearchTaskId: Swift.String?
+}
+
+extension CreateVoiceProfileInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case speakerSearchTaskId = "SpeakerSearchTaskId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let speakerSearchTaskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .speakerSearchTaskId)
+        speakerSearchTaskId = speakerSearchTaskIdDecoded
+    }
+}
+
+extension CreateVoiceProfileOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateVoiceProfileOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "GoneException" : self = .goneException(try GoneException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateVoiceProfileOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case goneException(GoneException)
+    case notFoundException(NotFoundException)
+    case resourceLimitExceededException(ResourceLimitExceededException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateVoiceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateVoiceProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.voiceProfile = output.voiceProfile
+        } else {
+            self.voiceProfile = nil
+        }
+    }
+}
+
+public struct CreateVoiceProfileOutputResponse: Swift.Equatable {
+    /// The requested voice profile.
+    public var voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile?
+
+    public init (
+        voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile? = nil
+    )
+    {
+        self.voiceProfile = voiceProfile
+    }
+}
+
+struct CreateVoiceProfileOutputResponseBody: Swift.Equatable {
+    let voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile?
+}
+
+extension CreateVoiceProfileOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceProfile = "VoiceProfile"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceProfileDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceProfile.self, forKey: .voiceProfile)
+        voiceProfile = voiceProfileDecoded
     }
 }
 
@@ -2374,8 +2817,11 @@ extension ChimeSDKVoiceClientTypes.Credential: Swift.CustomDebugStringConvertibl
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The SIP credentials used to authenticate requests to an Amazon Chime SDK Voice Connector.
     public struct Credential: Swift.Equatable {
+        /// The RFC2617 compliant password associated with the SIP credentials, in US-ASCII format.
         public var password: Swift.String?
+        /// The RFC2617 compliant user name associated with the SIP credentials, in US-ASCII format.
         public var username: Swift.String?
 
         public init (
@@ -2427,11 +2873,15 @@ extension ChimeSDKVoiceClientTypes.DNISEmergencyCallingConfiguration: Swift.Cust
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The Dialed Number Identification Service (DNIS) emergency calling configuration details associated with an Amazon Chime SDK Voice Connector's emergency calling configuration.
     public struct DNISEmergencyCallingConfiguration: Swift.Equatable {
+        /// The country from which emergency calls are allowed, in ISO 3166-1 alpha-2 format.
         /// This member is required.
         public var callingCountry: Swift.String?
+        /// The DNIS phone number that you route emergency calls to, in E.164 format.
         /// This member is required.
         public var emergencyPhoneNumber: Swift.String?
+        /// The DNIS phone number for routing test emergency calls to, in E.164 format.
         public var testPhoneNumber: Swift.String?
 
         public init (
@@ -2463,6 +2913,7 @@ extension DeletePhoneNumberInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeletePhoneNumberInput: Swift.Equatable {
+    /// The phone number ID.
     /// This member is required.
     public var phoneNumberId: Swift.String?
 
@@ -2540,8 +2991,10 @@ extension DeleteProxySessionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteProxySessionInput: Swift.Equatable {
+    /// The proxy session ID.
     /// This member is required.
     public var proxySessionId: Swift.String?
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -2618,6 +3071,7 @@ extension DeleteSipMediaApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteSipMediaApplicationInput: Swift.Equatable {
+    /// The SIP media application ID.
     /// This member is required.
     public var sipMediaApplicationId: Swift.String?
 
@@ -2694,6 +3148,7 @@ extension DeleteSipRuleInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteSipRuleInput: Swift.Equatable {
+    /// The SIP rule ID.
     /// This member is required.
     public var sipRuleId: Swift.String?
 
@@ -2770,6 +3225,7 @@ extension DeleteVoiceConnectorEmergencyCallingConfigurationInput: ClientRuntime.
 }
 
 public struct DeleteVoiceConnectorEmergencyCallingConfigurationInput: Swift.Equatable {
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -2844,6 +3300,7 @@ extension DeleteVoiceConnectorGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteVoiceConnectorGroupInput: Swift.Equatable {
+    /// The Voice Connector Group ID.
     /// This member is required.
     public var voiceConnectorGroupId: Swift.String?
 
@@ -2920,6 +3377,7 @@ extension DeleteVoiceConnectorInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteVoiceConnectorInput: Swift.Equatable {
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -2950,6 +3408,7 @@ extension DeleteVoiceConnectorOriginationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteVoiceConnectorOriginationInput: Swift.Equatable {
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -3070,6 +3529,7 @@ extension DeleteVoiceConnectorProxyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteVoiceConnectorProxyInput: Swift.Equatable {
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -3144,6 +3604,7 @@ extension DeleteVoiceConnectorStreamingConfigurationInput: ClientRuntime.URLPath
 }
 
 public struct DeleteVoiceConnectorStreamingConfigurationInput: Swift.Equatable {
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -3244,8 +3705,10 @@ extension DeleteVoiceConnectorTerminationCredentialsInput: ClientRuntime.URLPath
 }
 
 public struct DeleteVoiceConnectorTerminationCredentialsInput: Swift.Equatable {
+    /// The RFC2617 compliant username associated with the SIP credentials, in US-ASCII format.
     /// This member is required.
     public var usernames: [Swift.String]?
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -3338,6 +3801,7 @@ extension DeleteVoiceConnectorTerminationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteVoiceConnectorTerminationInput: Swift.Equatable {
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -3402,6 +3866,164 @@ public struct DeleteVoiceConnectorTerminationOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension DeleteVoiceProfileDomainInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let voiceProfileDomainId = voiceProfileDomainId else {
+            return nil
+        }
+        return "/voice-profile-domains/\(voiceProfileDomainId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteVoiceProfileDomainInput: Swift.Equatable {
+    /// The voice profile domain ID.
+    /// This member is required.
+    public var voiceProfileDomainId: Swift.String?
+
+    public init (
+        voiceProfileDomainId: Swift.String? = nil
+    )
+    {
+        self.voiceProfileDomainId = voiceProfileDomainId
+    }
+}
+
+struct DeleteVoiceProfileDomainInputBody: Swift.Equatable {
+}
+
+extension DeleteVoiceProfileDomainInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteVoiceProfileDomainOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteVoiceProfileDomainOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteVoiceProfileDomainOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case notFoundException(NotFoundException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteVoiceProfileDomainOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteVoiceProfileDomainOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension DeleteVoiceProfileInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let voiceProfileId = voiceProfileId else {
+            return nil
+        }
+        return "/voice-profiles/\(voiceProfileId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteVoiceProfileInput: Swift.Equatable {
+    /// The voice profile ID.
+    /// This member is required.
+    public var voiceProfileId: Swift.String?
+
+    public init (
+        voiceProfileId: Swift.String? = nil
+    )
+    {
+        self.voiceProfileId = voiceProfileId
+    }
+}
+
+struct DeleteVoiceProfileInputBody: Swift.Equatable {
+}
+
+extension DeleteVoiceProfileInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteVoiceProfileOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteVoiceProfileOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteVoiceProfileOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case notFoundException(NotFoundException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteVoiceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteVoiceProfileOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension DisassociatePhoneNumbersFromVoiceConnectorGroupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case e164PhoneNumbers = "E164PhoneNumbers"
@@ -3438,8 +4060,10 @@ extension DisassociatePhoneNumbersFromVoiceConnectorGroupInput: ClientRuntime.UR
 }
 
 public struct DisassociatePhoneNumbersFromVoiceConnectorGroupInput: Swift.Equatable {
+    /// The list of phone numbers, in E.164 format.
     /// This member is required.
     public var e164PhoneNumbers: [Swift.String]?
+    /// The Voice Connector group ID.
     /// This member is required.
     public var voiceConnectorGroupId: Swift.String?
 
@@ -3526,6 +4150,7 @@ extension DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponse: ClientR
 }
 
 public struct DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponse: Swift.Equatable {
+    /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
     public var phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]?
 
     public init (
@@ -3597,8 +4222,10 @@ extension DisassociatePhoneNumbersFromVoiceConnectorInput: ClientRuntime.URLPath
 }
 
 public struct DisassociatePhoneNumbersFromVoiceConnectorInput: Swift.Equatable {
+    /// List of phone numbers, in E.164 format.
     /// This member is required.
     public var e164PhoneNumbers: [Swift.String]?
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -3685,6 +4312,7 @@ extension DisassociatePhoneNumbersFromVoiceConnectorOutputResponse: ClientRuntim
 }
 
 public struct DisassociatePhoneNumbersFromVoiceConnectorOutputResponse: Swift.Equatable {
+    /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
     public var phoneNumberErrors: [ChimeSDKVoiceClientTypes.PhoneNumberError]?
 
     public init (
@@ -3752,7 +4380,9 @@ extension ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration: Swift.Codable 
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The emergency calling configuration details associated with an Amazon Chime SDK Voice Connector.
     public struct EmergencyCallingConfiguration: Swift.Equatable {
+        /// The Dialed Number Identification Service (DNIS) emergency calling configuration details.
         public var dnis: [ChimeSDKVoiceClientTypes.DNISEmergencyCallingConfiguration]?
 
         public init (
@@ -3858,6 +4488,7 @@ extension ForbiddenException {
     }
 }
 
+/// The client is permanently forbidden from making the request.
 public struct ForbiddenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -3957,9 +4588,12 @@ extension ChimeSDKVoiceClientTypes.GeoMatchParams: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The country and area code for a proxy phone number in a proxy phone session.
     public struct GeoMatchParams: Swift.Equatable {
+        /// The area code.
         /// This member is required.
         public var areaCode: Swift.String?
+        /// The country.
         /// This member is required.
         public var country: Swift.String?
 
@@ -4041,6 +4675,7 @@ extension GetGlobalSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetGlobalSettingsOutputResponse: Swift.Equatable {
+    /// The Voice Connector settings.
     public var voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnectorSettings?
 
     public init (
@@ -4082,6 +4717,7 @@ extension GetPhoneNumberInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetPhoneNumberInput: Swift.Equatable {
+    /// The phone number ID.
     /// This member is required.
     public var phoneNumberId: Swift.String?
 
@@ -4112,6 +4748,7 @@ extension GetPhoneNumberOrderInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetPhoneNumberOrderInput: Swift.Equatable {
+    /// The ID of the phone number order .
     /// This member is required.
     public var phoneNumberOrderId: Swift.String?
 
@@ -4180,6 +4817,7 @@ extension GetPhoneNumberOrderOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetPhoneNumberOrderOutputResponse: Swift.Equatable {
+    /// The phone number order details.
     public var phoneNumberOrder: ChimeSDKVoiceClientTypes.PhoneNumberOrder?
 
     public init (
@@ -4254,6 +4892,7 @@ extension GetPhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetPhoneNumberOutputResponse: Swift.Equatable {
+    /// The phone number details.
     public var phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber?
 
     public init (
@@ -4353,7 +4992,9 @@ extension GetPhoneNumberSettingsOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct GetPhoneNumberSettingsOutputResponse: Swift.Equatable {
+    /// The default outbound calling name for the account.
     public var callingName: Swift.String?
+    /// The updated outbound calling name timestamp, in ISO 8601 format.
     public var callingNameUpdatedTimestamp: ClientRuntime.Date?
 
     public init (
@@ -4399,8 +5040,10 @@ extension GetProxySessionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetProxySessionInput: Swift.Equatable {
+    /// The proxy session ID.
     /// This member is required.
     public var proxySessionId: Swift.String?
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -4471,6 +5114,7 @@ extension GetProxySessionOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetProxySessionOutputResponse: Swift.Equatable {
+    /// The proxy session details.
     public var proxySession: ChimeSDKVoiceClientTypes.ProxySession?
 
     public init (
@@ -4507,6 +5151,7 @@ extension GetSipMediaApplicationAlexaSkillConfigurationInput: ClientRuntime.URLP
 }
 
 public struct GetSipMediaApplicationAlexaSkillConfigurationInput: Swift.Equatable {
+    /// The SIP media application ID.
     /// This member is required.
     public var sipMediaApplicationId: Swift.String?
 
@@ -4575,6 +5220,7 @@ extension GetSipMediaApplicationAlexaSkillConfigurationOutputResponse: ClientRun
 }
 
 public struct GetSipMediaApplicationAlexaSkillConfigurationOutputResponse: Swift.Equatable {
+    /// Returns the Alexa Skill configuration.
     public var sipMediaApplicationAlexaSkillConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration?
 
     public init (
@@ -4611,6 +5257,7 @@ extension GetSipMediaApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetSipMediaApplicationInput: Swift.Equatable {
+    /// The SIP media application ID .
     /// This member is required.
     public var sipMediaApplicationId: Swift.String?
 
@@ -4641,6 +5288,7 @@ extension GetSipMediaApplicationLoggingConfigurationInput: ClientRuntime.URLPath
 }
 
 public struct GetSipMediaApplicationLoggingConfigurationInput: Swift.Equatable {
+    /// The SIP media application ID.
     /// This member is required.
     public var sipMediaApplicationId: Swift.String?
 
@@ -4709,6 +5357,7 @@ extension GetSipMediaApplicationLoggingConfigurationOutputResponse: ClientRuntim
 }
 
 public struct GetSipMediaApplicationLoggingConfigurationOutputResponse: Swift.Equatable {
+    /// The actual logging configuration.
     public var sipMediaApplicationLoggingConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration?
 
     public init (
@@ -4783,6 +5432,7 @@ extension GetSipMediaApplicationOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct GetSipMediaApplicationOutputResponse: Swift.Equatable {
+    /// The details of the SIP media application.
     public var sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication?
 
     public init (
@@ -4819,6 +5469,7 @@ extension GetSipRuleInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetSipRuleInput: Swift.Equatable {
+    /// The SIP rule ID.
     /// This member is required.
     public var sipRuleId: Swift.String?
 
@@ -4887,6 +5538,7 @@ extension GetSipRuleOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetSipRuleOutputResponse: Swift.Equatable {
+    /// The SIP rule details.
     public var sipRule: ChimeSDKVoiceClientTypes.SipRule?
 
     public init (
@@ -4913,6 +5565,124 @@ extension GetSipRuleOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetSpeakerSearchTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let voiceConnectorId = voiceConnectorId else {
+            return nil
+        }
+        guard let speakerSearchTaskId = speakerSearchTaskId else {
+            return nil
+        }
+        return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/speaker-search-tasks/\(speakerSearchTaskId.urlPercentEncoding())"
+    }
+}
+
+public struct GetSpeakerSearchTaskInput: Swift.Equatable {
+    /// The ID of the speaker search task.
+    /// This member is required.
+    public var speakerSearchTaskId: Swift.String?
+    /// The Voice Connector ID.
+    /// This member is required.
+    public var voiceConnectorId: Swift.String?
+
+    public init (
+        speakerSearchTaskId: Swift.String? = nil,
+        voiceConnectorId: Swift.String? = nil
+    )
+    {
+        self.speakerSearchTaskId = speakerSearchTaskId
+        self.voiceConnectorId = voiceConnectorId
+    }
+}
+
+struct GetSpeakerSearchTaskInputBody: Swift.Equatable {
+}
+
+extension GetSpeakerSearchTaskInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetSpeakerSearchTaskOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetSpeakerSearchTaskOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetSpeakerSearchTaskOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case notFoundException(NotFoundException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetSpeakerSearchTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetSpeakerSearchTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.speakerSearchTask = output.speakerSearchTask
+        } else {
+            self.speakerSearchTask = nil
+        }
+    }
+}
+
+public struct GetSpeakerSearchTaskOutputResponse: Swift.Equatable {
+    /// The details of the speaker search task.
+    public var speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask?
+
+    public init (
+        speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask? = nil
+    )
+    {
+        self.speakerSearchTask = speakerSearchTask
+    }
+}
+
+struct GetSpeakerSearchTaskOutputResponseBody: Swift.Equatable {
+    let speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask?
+}
+
+extension GetSpeakerSearchTaskOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case speakerSearchTask = "SpeakerSearchTask"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let speakerSearchTaskDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SpeakerSearchTask.self, forKey: .speakerSearchTask)
+        speakerSearchTask = speakerSearchTaskDecoded
+    }
+}
+
 extension GetVoiceConnectorEmergencyCallingConfigurationInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let voiceConnectorId = voiceConnectorId else {
@@ -4923,6 +5693,7 @@ extension GetVoiceConnectorEmergencyCallingConfigurationInput: ClientRuntime.URL
 }
 
 public struct GetVoiceConnectorEmergencyCallingConfigurationInput: Swift.Equatable {
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -4991,6 +5762,7 @@ extension GetVoiceConnectorEmergencyCallingConfigurationOutputResponse: ClientRu
 }
 
 public struct GetVoiceConnectorEmergencyCallingConfigurationOutputResponse: Swift.Equatable {
+    /// The details of the emergency calling configuration.
     public var emergencyCallingConfiguration: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration?
 
     public init (
@@ -5027,6 +5799,7 @@ extension GetVoiceConnectorGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetVoiceConnectorGroupInput: Swift.Equatable {
+    /// The Voice Connector group ID.
     /// This member is required.
     public var voiceConnectorGroupId: Swift.String?
 
@@ -5095,6 +5868,7 @@ extension GetVoiceConnectorGroupOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct GetVoiceConnectorGroupOutputResponse: Swift.Equatable {
+    /// The details of the Voice Connector group.
     public var voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup?
 
     public init (
@@ -5131,6 +5905,7 @@ extension GetVoiceConnectorInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetVoiceConnectorInput: Swift.Equatable {
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -5161,6 +5936,7 @@ extension GetVoiceConnectorLoggingConfigurationInput: ClientRuntime.URLPathProvi
 }
 
 public struct GetVoiceConnectorLoggingConfigurationInput: Swift.Equatable {
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -5229,6 +6005,7 @@ extension GetVoiceConnectorLoggingConfigurationOutputResponse: ClientRuntime.Htt
 }
 
 public struct GetVoiceConnectorLoggingConfigurationOutputResponse: Swift.Equatable {
+    /// The logging configuration details .
     public var loggingConfiguration: ChimeSDKVoiceClientTypes.LoggingConfiguration?
 
     public init (
@@ -5265,6 +6042,7 @@ extension GetVoiceConnectorOriginationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetVoiceConnectorOriginationInput: Swift.Equatable {
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -5333,6 +6111,7 @@ extension GetVoiceConnectorOriginationOutputResponse: ClientRuntime.HttpResponse
 }
 
 public struct GetVoiceConnectorOriginationOutputResponse: Swift.Equatable {
+    /// The origination setting details.
     public var origination: ChimeSDKVoiceClientTypes.Origination?
 
     public init (
@@ -5407,6 +6186,7 @@ extension GetVoiceConnectorOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetVoiceConnectorOutputResponse: Swift.Equatable {
+    /// The Voice Connector details.
     public var voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector?
 
     public init (
@@ -5443,6 +6223,7 @@ extension GetVoiceConnectorProxyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetVoiceConnectorProxyInput: Swift.Equatable {
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -5511,6 +6292,7 @@ extension GetVoiceConnectorProxyOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct GetVoiceConnectorProxyOutputResponse: Swift.Equatable {
+    /// The proxy configuration details.
     public var proxy: ChimeSDKVoiceClientTypes.Proxy?
 
     public init (
@@ -5547,6 +6329,7 @@ extension GetVoiceConnectorStreamingConfigurationInput: ClientRuntime.URLPathPro
 }
 
 public struct GetVoiceConnectorStreamingConfigurationInput: Swift.Equatable {
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -5615,6 +6398,7 @@ extension GetVoiceConnectorStreamingConfigurationOutputResponse: ClientRuntime.H
 }
 
 public struct GetVoiceConnectorStreamingConfigurationOutputResponse: Swift.Equatable {
+    /// The details of the streaming configuration.
     public var streamingConfiguration: ChimeSDKVoiceClientTypes.StreamingConfiguration?
 
     public init (
@@ -5651,6 +6435,7 @@ extension GetVoiceConnectorTerminationHealthInput: ClientRuntime.URLPathProvider
 }
 
 public struct GetVoiceConnectorTerminationHealthInput: Swift.Equatable {
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -5719,6 +6504,7 @@ extension GetVoiceConnectorTerminationHealthOutputResponse: ClientRuntime.HttpRe
 }
 
 public struct GetVoiceConnectorTerminationHealthOutputResponse: Swift.Equatable {
+    /// The termination health details.
     public var terminationHealth: ChimeSDKVoiceClientTypes.TerminationHealth?
 
     public init (
@@ -5755,6 +6541,7 @@ extension GetVoiceConnectorTerminationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetVoiceConnectorTerminationInput: Swift.Equatable {
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -5823,6 +6610,7 @@ extension GetVoiceConnectorTerminationOutputResponse: ClientRuntime.HttpResponse
 }
 
 public struct GetVoiceConnectorTerminationOutputResponse: Swift.Equatable {
+    /// The termination setting details.
     public var termination: ChimeSDKVoiceClientTypes.Termination?
 
     public init (
@@ -5846,6 +6634,450 @@ extension GetVoiceConnectorTerminationOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let terminationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.Termination.self, forKey: .termination)
         termination = terminationDecoded
+    }
+}
+
+extension GetVoiceProfileDomainInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let voiceProfileDomainId = voiceProfileDomainId else {
+            return nil
+        }
+        return "/voice-profile-domains/\(voiceProfileDomainId.urlPercentEncoding())"
+    }
+}
+
+public struct GetVoiceProfileDomainInput: Swift.Equatable {
+    /// The voice profile domain ID.
+    /// This member is required.
+    public var voiceProfileDomainId: Swift.String?
+
+    public init (
+        voiceProfileDomainId: Swift.String? = nil
+    )
+    {
+        self.voiceProfileDomainId = voiceProfileDomainId
+    }
+}
+
+struct GetVoiceProfileDomainInputBody: Swift.Equatable {
+}
+
+extension GetVoiceProfileDomainInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetVoiceProfileDomainOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetVoiceProfileDomainOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetVoiceProfileDomainOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case notFoundException(NotFoundException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetVoiceProfileDomainOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetVoiceProfileDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.voiceProfileDomain = output.voiceProfileDomain
+        } else {
+            self.voiceProfileDomain = nil
+        }
+    }
+}
+
+public struct GetVoiceProfileDomainOutputResponse: Swift.Equatable {
+    /// The details of the voice profile domain.
+    public var voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain?
+
+    public init (
+        voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain? = nil
+    )
+    {
+        self.voiceProfileDomain = voiceProfileDomain
+    }
+}
+
+struct GetVoiceProfileDomainOutputResponseBody: Swift.Equatable {
+    let voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain?
+}
+
+extension GetVoiceProfileDomainOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceProfileDomain = "VoiceProfileDomain"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceProfileDomainDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceProfileDomain.self, forKey: .voiceProfileDomain)
+        voiceProfileDomain = voiceProfileDomainDecoded
+    }
+}
+
+extension GetVoiceProfileInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let voiceProfileId = voiceProfileId else {
+            return nil
+        }
+        return "/voice-profiles/\(voiceProfileId.urlPercentEncoding())"
+    }
+}
+
+public struct GetVoiceProfileInput: Swift.Equatable {
+    /// The voice profile ID.
+    /// This member is required.
+    public var voiceProfileId: Swift.String?
+
+    public init (
+        voiceProfileId: Swift.String? = nil
+    )
+    {
+        self.voiceProfileId = voiceProfileId
+    }
+}
+
+struct GetVoiceProfileInputBody: Swift.Equatable {
+}
+
+extension GetVoiceProfileInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetVoiceProfileOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetVoiceProfileOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetVoiceProfileOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case notFoundException(NotFoundException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetVoiceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetVoiceProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.voiceProfile = output.voiceProfile
+        } else {
+            self.voiceProfile = nil
+        }
+    }
+}
+
+public struct GetVoiceProfileOutputResponse: Swift.Equatable {
+    /// The voice profile details.
+    public var voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile?
+
+    public init (
+        voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile? = nil
+    )
+    {
+        self.voiceProfile = voiceProfile
+    }
+}
+
+struct GetVoiceProfileOutputResponseBody: Swift.Equatable {
+    let voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile?
+}
+
+extension GetVoiceProfileOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceProfile = "VoiceProfile"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceProfileDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceProfile.self, forKey: .voiceProfile)
+        voiceProfile = voiceProfileDecoded
+    }
+}
+
+extension GetVoiceToneAnalysisTaskInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let isCaller = isCaller else {
+                let message = "Creating a URL Query Item failed. isCaller is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let isCallerQueryItem = ClientRuntime.URLQueryItem(name: "isCaller".urlPercentEncoding(), value: Swift.String(isCaller).urlPercentEncoding())
+            items.append(isCallerQueryItem)
+            return items
+        }
+    }
+}
+
+extension GetVoiceToneAnalysisTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let voiceConnectorId = voiceConnectorId else {
+            return nil
+        }
+        guard let voiceToneAnalysisTaskId = voiceToneAnalysisTaskId else {
+            return nil
+        }
+        return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/voice-tone-analysis-tasks/\(voiceToneAnalysisTaskId.urlPercentEncoding())"
+    }
+}
+
+public struct GetVoiceToneAnalysisTaskInput: Swift.Equatable {
+    /// Specifies whether the voice being analyzed is the caller (originator) or the callee (responder).
+    /// This member is required.
+    public var isCaller: Swift.Bool?
+    /// The Voice Connector ID.
+    /// This member is required.
+    public var voiceConnectorId: Swift.String?
+    /// The ID of the voice tone anlysis task.
+    /// This member is required.
+    public var voiceToneAnalysisTaskId: Swift.String?
+
+    public init (
+        isCaller: Swift.Bool? = nil,
+        voiceConnectorId: Swift.String? = nil,
+        voiceToneAnalysisTaskId: Swift.String? = nil
+    )
+    {
+        self.isCaller = isCaller
+        self.voiceConnectorId = voiceConnectorId
+        self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
+    }
+}
+
+struct GetVoiceToneAnalysisTaskInputBody: Swift.Equatable {
+}
+
+extension GetVoiceToneAnalysisTaskInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetVoiceToneAnalysisTaskOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetVoiceToneAnalysisTaskOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetVoiceToneAnalysisTaskOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case notFoundException(NotFoundException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetVoiceToneAnalysisTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetVoiceToneAnalysisTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.voiceToneAnalysisTask = output.voiceToneAnalysisTask
+        } else {
+            self.voiceToneAnalysisTask = nil
+        }
+    }
+}
+
+public struct GetVoiceToneAnalysisTaskOutputResponse: Swift.Equatable {
+    /// The details of the voice tone analysis task.
+    public var voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask?
+
+    public init (
+        voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask? = nil
+    )
+    {
+        self.voiceToneAnalysisTask = voiceToneAnalysisTask
+    }
+}
+
+struct GetVoiceToneAnalysisTaskOutputResponseBody: Swift.Equatable {
+    let voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask?
+}
+
+extension GetVoiceToneAnalysisTaskOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceToneAnalysisTask = "VoiceToneAnalysisTask"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceToneAnalysisTaskDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask.self, forKey: .voiceToneAnalysisTask)
+        voiceToneAnalysisTask = voiceToneAnalysisTaskDecoded
+    }
+}
+
+extension GoneException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GoneExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.code = output.code
+            self.message = output.message
+        } else {
+            self.code = nil
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// Access to the target resource is no longer available at the origin server. This condition is likely to be permanent.
+public struct GoneException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var code: ChimeSDKVoiceClientTypes.ErrorCode?
+    public var message: Swift.String?
+
+    public init (
+        code: ChimeSDKVoiceClientTypes.ErrorCode? = nil,
+        message: Swift.String? = nil
+    )
+    {
+        self.code = code
+        self.message = message
+    }
+}
+
+struct GoneExceptionBody: Swift.Equatable {
+    let code: ChimeSDKVoiceClientTypes.ErrorCode?
+    let message: Swift.String?
+}
+
+extension GoneExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code = "Code"
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.ErrorCode.self, forKey: .code)
+        code = codeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ChimeSDKVoiceClientTypes {
+    public enum LanguageCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case enUs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LanguageCode] {
+            return [
+                .enUs,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .enUs: return "en-US"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LanguageCode(rawValue: rawValue) ?? LanguageCode.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -5915,6 +7147,7 @@ extension ListAvailableVoiceConnectorRegionsOutputResponse: ClientRuntime.HttpRe
 }
 
 public struct ListAvailableVoiceConnectorRegionsOutputResponse: Swift.Equatable {
+    /// The list of AWS Regions.
     public var voiceConnectorRegions: [ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion]?
 
     public init (
@@ -5974,7 +7207,9 @@ extension ListPhoneNumberOrdersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListPhoneNumberOrdersInput: Swift.Equatable {
+    /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
+    /// The token used to retrieve the next page of results.
     public var nextToken: Swift.String?
 
     public init (
@@ -6044,7 +7279,9 @@ extension ListPhoneNumberOrdersOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 public struct ListPhoneNumberOrdersOutputResponse: Swift.Equatable {
+    /// The token used to retrieve the next page of results.
     public var nextToken: Swift.String?
+    /// The phone number order details.
     public var phoneNumberOrders: [ChimeSDKVoiceClientTypes.PhoneNumberOrder]?
 
     public init (
@@ -6126,11 +7363,17 @@ extension ListPhoneNumbersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListPhoneNumbersInput: Swift.Equatable {
+    /// The filter to limit the number of results.
     public var filterName: ChimeSDKVoiceClientTypes.PhoneNumberAssociationName?
+    /// The filter value.
     public var filterValue: Swift.String?
+    /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
+    /// The token used to return the next page of results.
     public var nextToken: Swift.String?
+    /// The phone number product types.
     public var productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType?
+    /// The status of your organization's phone numbers.
     public var status: Swift.String?
 
     public init (
@@ -6210,7 +7453,9 @@ extension ListPhoneNumbersOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListPhoneNumbersOutputResponse: Swift.Equatable {
+    /// The token used to return the next page of results.
     public var nextToken: Swift.String?
+    /// The phone number details.
     public var phoneNumbers: [ChimeSDKVoiceClientTypes.PhoneNumber]?
 
     public init (
@@ -6283,9 +7528,13 @@ extension ListProxySessionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListProxySessionsInput: Swift.Equatable {
+    /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
+    /// The token used to retrieve the next page of results.
     public var nextToken: Swift.String?
+    /// The proxy session status.
     public var status: ChimeSDKVoiceClientTypes.ProxySessionStatus?
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -6362,7 +7611,9 @@ extension ListProxySessionsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListProxySessionsOutputResponse: Swift.Equatable {
+    /// The token used to retrieve the next page of results.
     public var nextToken: Swift.String?
+    /// The proxy sessions' details.
     public var proxySessions: [ChimeSDKVoiceClientTypes.ProxySession]?
 
     public init (
@@ -6428,7 +7679,9 @@ extension ListSipMediaApplicationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListSipMediaApplicationsInput: Swift.Equatable {
+    /// The maximum number of results to return in a single call. Defaults to 100.
     public var maxResults: Swift.Int?
+    /// The token used to return the next page of results.
     public var nextToken: Swift.String?
 
     public init (
@@ -6498,7 +7751,9 @@ extension ListSipMediaApplicationsOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 public struct ListSipMediaApplicationsOutputResponse: Swift.Equatable {
+    /// The token used to return the next page of results.
     public var nextToken: Swift.String?
+    /// The list of SIP media applications and application details.
     public var sipMediaApplications: [ChimeSDKVoiceClientTypes.SipMediaApplication]?
 
     public init (
@@ -6568,8 +7823,11 @@ extension ListSipRulesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListSipRulesInput: Swift.Equatable {
+    /// The maximum number of results to return in a single call. Defaults to 100.
     public var maxResults: Swift.Int?
+    /// The token used to return the next page of results.
     public var nextToken: Swift.String?
+    /// The SIP media application ID.
     public var sipMediaApplicationId: Swift.String?
 
     public init (
@@ -6641,7 +7899,9 @@ extension ListSipRulesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListSipRulesOutputResponse: Swift.Equatable {
+    /// The token used to return the next page of results.
     public var nextToken: Swift.String?
+    /// The list of SIP rules and details.
     public var sipRules: [ChimeSDKVoiceClientTypes.SipRule]?
 
     public init (
@@ -6705,6 +7965,7 @@ extension ListSupportedPhoneNumberCountriesInput: ClientRuntime.URLPathProvider 
 }
 
 public struct ListSupportedPhoneNumberCountriesInput: Swift.Equatable {
+    /// The phone number product type.
     /// This member is required.
     public var productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType?
 
@@ -6773,6 +8034,7 @@ extension ListSupportedPhoneNumberCountriesOutputResponse: ClientRuntime.HttpRes
 }
 
 public struct ListSupportedPhoneNumberCountriesOutputResponse: Swift.Equatable {
+    /// The supported phone number countries.
     public var phoneNumberCountries: [ChimeSDKVoiceClientTypes.PhoneNumberCountry]?
 
     public init (
@@ -6808,6 +8070,136 @@ extension ListSupportedPhoneNumberCountriesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListTagsForResourceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListTagsForResourceInput(resourceARN: \"CONTENT_REDACTED\")"}
+}
+
+extension ListTagsForResourceInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let resourceARN = resourceARN else {
+                let message = "Creating a URL Query Item failed. resourceARN is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let resourceARNQueryItem = ClientRuntime.URLQueryItem(name: "arn".urlPercentEncoding(), value: Swift.String(resourceARN).urlPercentEncoding())
+            items.append(resourceARNQueryItem)
+            return items
+        }
+    }
+}
+
+extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/tags"
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Equatable {
+    /// The resource ARN.
+    /// This member is required.
+    public var resourceARN: Swift.String?
+
+    public init (
+        resourceARN: Swift.String? = nil
+    )
+    {
+        self.resourceARN = resourceARN
+    }
+}
+
+struct ListTagsForResourceInputBody: Swift.Equatable {
+}
+
+extension ListTagsForResourceInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListTagsForResourceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case notFoundException(NotFoundException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.tags = output.tags
+        } else {
+            self.tags = nil
+        }
+    }
+}
+
+public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+    /// The tags in the list.
+    public var tags: [ChimeSDKVoiceClientTypes.Tag]?
+
+    public init (
+        tags: [ChimeSDKVoiceClientTypes.Tag]? = nil
+    )
+    {
+        self.tags = tags
+    }
+}
+
+struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+    let tags: [ChimeSDKVoiceClientTypes.Tag]?
+}
+
+extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagsContainer = try containerValues.decodeIfPresent([ChimeSDKVoiceClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[ChimeSDKVoiceClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ChimeSDKVoiceClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
 extension ListVoiceConnectorGroupsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -6832,7 +8224,9 @@ extension ListVoiceConnectorGroupsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListVoiceConnectorGroupsInput: Swift.Equatable {
+    /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
+    /// The token used to return the next page of results.
     public var nextToken: Swift.String?
 
     public init (
@@ -6902,7 +8296,9 @@ extension ListVoiceConnectorGroupsOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 public struct ListVoiceConnectorGroupsOutputResponse: Swift.Equatable {
+    /// The token used to return the next page of results.
     public var nextToken: Swift.String?
+    /// The details of the Voice Connector groups.
     public var voiceConnectorGroups: [ChimeSDKVoiceClientTypes.VoiceConnectorGroup]?
 
     public init (
@@ -6954,6 +8350,7 @@ extension ListVoiceConnectorTerminationCredentialsInput: ClientRuntime.URLPathPr
 }
 
 public struct ListVoiceConnectorTerminationCredentialsInput: Swift.Equatable {
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -7022,6 +8419,7 @@ extension ListVoiceConnectorTerminationCredentialsOutputResponse: ClientRuntime.
 }
 
 public struct ListVoiceConnectorTerminationCredentialsOutputResponse: Swift.Equatable {
+    /// A list of user names.
     public var usernames: [Swift.String]?
 
     public init (
@@ -7081,7 +8479,9 @@ extension ListVoiceConnectorsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListVoiceConnectorsInput: Swift.Equatable {
+    /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
+    /// The token used to return the next page of results.
     public var nextToken: Swift.String?
 
     public init (
@@ -7151,7 +8551,9 @@ extension ListVoiceConnectorsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListVoiceConnectorsOutputResponse: Swift.Equatable {
+    /// The token used to return the next page of results.
     public var nextToken: Swift.String?
+    /// The details of the Voice Connectors.
     public var voiceConnectors: [ChimeSDKVoiceClientTypes.VoiceConnector]?
 
     public init (
@@ -7193,6 +8595,301 @@ extension ListVoiceConnectorsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListVoiceProfileDomainsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListVoiceProfileDomainsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/voice-profile-domains"
+    }
+}
+
+public struct ListVoiceProfileDomainsInput: Swift.Equatable {
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// The token used to return the next page of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListVoiceProfileDomainsInputBody: Swift.Equatable {
+}
+
+extension ListVoiceProfileDomainsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListVoiceProfileDomainsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListVoiceProfileDomainsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListVoiceProfileDomainsOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case notFoundException(NotFoundException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListVoiceProfileDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListVoiceProfileDomainsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.voiceProfileDomains = output.voiceProfileDomains
+        } else {
+            self.nextToken = nil
+            self.voiceProfileDomains = nil
+        }
+    }
+}
+
+public struct ListVoiceProfileDomainsOutputResponse: Swift.Equatable {
+    /// The token used to return the next page of results.
+    public var nextToken: Swift.String?
+    /// The list of voice profile domains.
+    public var voiceProfileDomains: [ChimeSDKVoiceClientTypes.VoiceProfileDomainSummary]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        voiceProfileDomains: [ChimeSDKVoiceClientTypes.VoiceProfileDomainSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.voiceProfileDomains = voiceProfileDomains
+    }
+}
+
+struct ListVoiceProfileDomainsOutputResponseBody: Swift.Equatable {
+    let voiceProfileDomains: [ChimeSDKVoiceClientTypes.VoiceProfileDomainSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListVoiceProfileDomainsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case voiceProfileDomains = "VoiceProfileDomains"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceProfileDomainsContainer = try containerValues.decodeIfPresent([ChimeSDKVoiceClientTypes.VoiceProfileDomainSummary?].self, forKey: .voiceProfileDomains)
+        var voiceProfileDomainsDecoded0:[ChimeSDKVoiceClientTypes.VoiceProfileDomainSummary]? = nil
+        if let voiceProfileDomainsContainer = voiceProfileDomainsContainer {
+            voiceProfileDomainsDecoded0 = [ChimeSDKVoiceClientTypes.VoiceProfileDomainSummary]()
+            for structure0 in voiceProfileDomainsContainer {
+                if let structure0 = structure0 {
+                    voiceProfileDomainsDecoded0?.append(structure0)
+                }
+            }
+        }
+        voiceProfileDomains = voiceProfileDomainsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListVoiceProfilesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            guard let voiceProfileDomainId = voiceProfileDomainId else {
+                let message = "Creating a URL Query Item failed. voiceProfileDomainId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let voiceProfileDomainIdQueryItem = ClientRuntime.URLQueryItem(name: "voice-profile-domain-id".urlPercentEncoding(), value: Swift.String(voiceProfileDomainId).urlPercentEncoding())
+            items.append(voiceProfileDomainIdQueryItem)
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListVoiceProfilesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/voice-profiles"
+    }
+}
+
+public struct ListVoiceProfilesInput: Swift.Equatable {
+    /// The maximum number of results in the request.
+    public var maxResults: Swift.Int?
+    /// The token used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The ID of the voice profile domain.
+    /// This member is required.
+    public var voiceProfileDomainId: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        voiceProfileDomainId: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.voiceProfileDomainId = voiceProfileDomainId
+    }
+}
+
+struct ListVoiceProfilesInputBody: Swift.Equatable {
+}
+
+extension ListVoiceProfilesInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListVoiceProfilesOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListVoiceProfilesOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListVoiceProfilesOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case notFoundException(NotFoundException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListVoiceProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListVoiceProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.voiceProfiles = output.voiceProfiles
+        } else {
+            self.nextToken = nil
+            self.voiceProfiles = nil
+        }
+    }
+}
+
+public struct ListVoiceProfilesOutputResponse: Swift.Equatable {
+    /// The token used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The list of voice profiles.
+    public var voiceProfiles: [ChimeSDKVoiceClientTypes.VoiceProfileSummary]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        voiceProfiles: [ChimeSDKVoiceClientTypes.VoiceProfileSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.voiceProfiles = voiceProfiles
+    }
+}
+
+struct ListVoiceProfilesOutputResponseBody: Swift.Equatable {
+    let voiceProfiles: [ChimeSDKVoiceClientTypes.VoiceProfileSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListVoiceProfilesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case voiceProfiles = "VoiceProfiles"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceProfilesContainer = try containerValues.decodeIfPresent([ChimeSDKVoiceClientTypes.VoiceProfileSummary?].self, forKey: .voiceProfiles)
+        var voiceProfilesDecoded0:[ChimeSDKVoiceClientTypes.VoiceProfileSummary]? = nil
+        if let voiceProfilesContainer = voiceProfilesContainer {
+            voiceProfilesDecoded0 = [ChimeSDKVoiceClientTypes.VoiceProfileSummary]()
+            for structure0 in voiceProfilesContainer {
+                if let structure0 = structure0 {
+                    voiceProfilesDecoded0?.append(structure0)
+                }
+            }
+        }
+        voiceProfiles = voiceProfilesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ChimeSDKVoiceClientTypes.LoggingConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enableMediaMetricLogs = "EnableMediaMetricLogs"
@@ -7219,8 +8916,11 @@ extension ChimeSDKVoiceClientTypes.LoggingConfiguration: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The logging configuration associated with an Amazon Chime SDK Voice Connector. Specifies whether SIP message logs can be sent to Amazon CloudWatch Logs.
     public struct LoggingConfiguration: Swift.Equatable {
+        /// Enables or disables media metrics logging.
         public var enableMediaMetricLogs: Swift.Bool?
+        /// Boolean that enables sending SIP message logs to Amazon CloudWatch logs.
         public var enableSIPLogs: Swift.Bool?
 
         public init (
@@ -7230,6 +8930,56 @@ extension ChimeSDKVoiceClientTypes {
         {
             self.enableMediaMetricLogs = enableMediaMetricLogs
             self.enableSIPLogs = enableSIPLogs
+        }
+    }
+
+}
+
+extension ChimeSDKVoiceClientTypes.MediaInsightsConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configurationArn = "ConfigurationArn"
+        case disabled = "Disabled"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configurationArn = self.configurationArn {
+            try encodeContainer.encode(configurationArn, forKey: .configurationArn)
+        }
+        if let disabled = self.disabled {
+            try encodeContainer.encode(disabled, forKey: .disabled)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let disabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disabled)
+        disabled = disabledDecoded
+        let configurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationArn)
+        configurationArn = configurationArnDecoded
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.MediaInsightsConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MediaInsightsConfiguration(disabled: \(Swift.String(describing: disabled)), configurationArn: \"CONTENT_REDACTED\")"}
+}
+
+extension ChimeSDKVoiceClientTypes {
+    /// The configuration for a call analytics task.
+    public struct MediaInsightsConfiguration: Swift.Equatable {
+        /// The configuration's ARN.
+        public var configurationArn: Swift.String?
+        /// Denotes the configration as enabled or disabled.
+        public var disabled: Swift.Bool?
+
+        public init (
+            configurationArn: Swift.String? = nil,
+            disabled: Swift.Bool? = nil
+        )
+        {
+            self.configurationArn = configurationArn
+            self.disabled = disabled
         }
     }
 
@@ -7254,6 +9004,7 @@ extension NotFoundException {
     }
 }
 
+/// The requested resource couldn't be found.
 public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -7393,8 +9144,11 @@ extension ChimeSDKVoiceClientTypes.OrderedPhoneNumber: Swift.CustomDebugStringCo
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// A phone number for which an order has been placed.
     public struct OrderedPhoneNumber: Swift.Equatable {
+        /// The phone number, in E.164 format.
         public var e164PhoneNumber: Swift.String?
+        /// The phone number status.
         public var status: ChimeSDKVoiceClientTypes.OrderedPhoneNumberStatus?
 
         public init (
@@ -7482,8 +9236,11 @@ extension ChimeSDKVoiceClientTypes.Origination: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// Origination settings enable your SIP hosts to receive inbound calls using your Amazon Chime SDK Voice Connector. The parameters listed below are not required, but you must use at least one.
     public struct Origination: Swift.Equatable {
+        /// When origination settings are disabled, inbound calls are not enabled for your Amazon Chime SDK Voice Connector. This parameter is not required, but you must specify this parameter or Routes.
         public var disabled: Swift.Bool?
+        /// The call distribution properties defined for your SIP hosts. Valid range: Minimum value of 1. Maximum value of 20. This parameter is not required, but you must specify this parameter or Disabled.
         public var routes: [ChimeSDKVoiceClientTypes.OriginationRoute]?
 
         public init (
@@ -7542,11 +9299,17 @@ extension ChimeSDKVoiceClientTypes.OriginationRoute: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// Origination routes define call distribution properties for your SIP hosts to receive inbound calls using an Amazon Chime SDK Voice Connector. Limit: Ten origination routes for each Voice Connector. The parameters listed below are not required, but you must use at least one.
     public struct OriginationRoute: Swift.Equatable {
+        /// The FQDN or IP address to contact for origination traffic.
         public var host: Swift.String?
+        /// The designated origination route port. Defaults to 5060.
         public var port: Swift.Int?
+        /// The priority associated with the host, with 1 being the highest priority. Higher priority hosts are attempted first.
         public var priority: Swift.Int?
+        /// The protocol to use for the origination route. Encryption-enabled Amazon Chime SDK Voice Connectors use TCP protocol by default.
         public var `protocol`: ChimeSDKVoiceClientTypes.OriginationRouteProtocol?
+        /// The weight assigned to an origination route. When hosts have equal priority, calls are distributed between them based on their relative weights.
         public var weight: Swift.Int?
 
         public init (
@@ -7630,8 +9393,11 @@ extension ChimeSDKVoiceClientTypes.Participant: Swift.CustomDebugStringConvertib
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The phone number and proxy phone number for a participant in an Amazon Chime SDK Voice Connector proxy session.
     public struct Participant: Swift.Equatable {
+        /// The participant's phone number.
         public var phoneNumber: Swift.String?
+        /// The participant's proxy phone number.
         public var proxyPhoneNumber: Swift.String?
 
         public init (
@@ -7761,20 +9527,35 @@ extension ChimeSDKVoiceClientTypes.PhoneNumber: Swift.CustomDebugStringConvertib
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// A phone number used to call an Amazon Chime SDK Voice Connector.
     public struct PhoneNumber: Swift.Equatable {
+        /// The phone number's associations.
         public var associations: [ChimeSDKVoiceClientTypes.PhoneNumberAssociation]?
+        /// The outbound calling name associated with the phone number.
         public var callingName: Swift.String?
+        /// The outbound calling name status.
         public var callingNameStatus: ChimeSDKVoiceClientTypes.CallingNameStatus?
+        /// The phone number's capabilities.
         public var capabilities: ChimeSDKVoiceClientTypes.PhoneNumberCapabilities?
+        /// The phone number's country. Format: ISO 3166-1 alpha-2.
         public var country: Swift.String?
+        /// The phone number creation timestamp, in ISO 8601 format.
         public var createdTimestamp: ClientRuntime.Date?
+        /// The deleted phone number timestamp, in ISO 8601 format.
         public var deletionTimestamp: ClientRuntime.Date?
+        /// The phone number, in E.164 format.
         public var e164PhoneNumber: Swift.String?
+        /// The phone number's order ID.
         public var orderId: Swift.String?
+        /// The phone number's ID.
         public var phoneNumberId: Swift.String?
+        /// The phone number's product type.
         public var productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType?
+        /// The phone number's status.
         public var status: ChimeSDKVoiceClientTypes.PhoneNumberStatus?
+        /// The phone number's type.
         public var type: ChimeSDKVoiceClientTypes.PhoneNumberType?
+        /// The updated phone number timestamp, in ISO 8601 format.
         public var updatedTimestamp: ClientRuntime.Date?
 
         public init (
@@ -7845,9 +9626,13 @@ extension ChimeSDKVoiceClientTypes.PhoneNumberAssociation: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The phone number associations, such as an Amazon Chime SDK account ID, user ID, Voice Connector ID, or Voice Connector group ID.
     public struct PhoneNumberAssociation: Swift.Equatable {
+        /// The timestamp of the phone number association, in ISO 8601 format.
         public var associatedTimestamp: ClientRuntime.Date?
+        /// Defines the association with an Amazon Chime SDK account ID, user ID, Voice Connector ID, or Voice Connector group ID.
         public var name: ChimeSDKVoiceClientTypes.PhoneNumberAssociationName?
+        /// Contains the ID for the entity specified in Name.
         public var value: Swift.String?
 
         public init (
@@ -7949,12 +9734,19 @@ extension ChimeSDKVoiceClientTypes.PhoneNumberCapabilities: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The phone number capabilities for Amazon Chime SDK phone numbers, such as enabled inbound and outbound calling, and text messaging.
     public struct PhoneNumberCapabilities: Swift.Equatable {
+        /// Allows or denies inbound calling for the specified phone number.
         public var inboundCall: Swift.Bool?
+        /// Allows or denies inbound MMS messaging for the specified phone number.
         public var inboundMMS: Swift.Bool?
+        /// Allows or denies inbound SMS messaging for the specified phone number.
         public var inboundSMS: Swift.Bool?
+        /// Allows or denies outbound calling for the specified phone number.
         public var outboundCall: Swift.Bool?
+        /// Allows or denies inbound MMS messaging for the specified phone number.
         public var outboundMMS: Swift.Bool?
+        /// Allows or denies outbound SMS messaging for the specified phone number.
         public var outboundSMS: Swift.Bool?
 
         public init (
@@ -8015,8 +9807,11 @@ extension ChimeSDKVoiceClientTypes.PhoneNumberCountry: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The phone number's country.
     public struct PhoneNumberCountry: Swift.Equatable {
+        /// The phone number country code. Format: ISO 3166-1 alpha-2.
         public var countryCode: Swift.String?
+        /// The supported phone number types.
         public var supportedPhoneNumberTypes: [ChimeSDKVoiceClientTypes.PhoneNumberType]?
 
         public init (
@@ -8068,9 +9863,13 @@ extension ChimeSDKVoiceClientTypes.PhoneNumberError: Swift.CustomDebugStringConv
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// If a phone number action fails for one or more of the phone numbers in a request, a list of the failed phone numbers is returned, along with error codes and error messages.
     public struct PhoneNumberError: Swift.Equatable {
+        /// The error code.
         public var errorCode: ChimeSDKVoiceClientTypes.ErrorCode?
+        /// The error message.
         public var errorMessage: Swift.String?
+        /// The phone number ID for which the action failed.
         public var phoneNumberId: Swift.String?
 
         public init (
@@ -8155,13 +9954,21 @@ extension ChimeSDKVoiceClientTypes.PhoneNumberOrder: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The details of an Amazon Chime SDK phone number order.
     public struct PhoneNumberOrder: Swift.Equatable {
+        /// The phone number order creation time stamp, in ISO 8601 format.
         public var createdTimestamp: ClientRuntime.Date?
+        /// The type of phone number being ordered, local or toll-free.
         public var orderType: ChimeSDKVoiceClientTypes.PhoneNumberOrderType?
+        /// The ordered phone number details, such as the phone number in E.164 format and the phone number status.
         public var orderedPhoneNumbers: [ChimeSDKVoiceClientTypes.OrderedPhoneNumber]?
+        /// The ID of the phone order.
         public var phoneNumberOrderId: Swift.String?
+        /// The phone number order product type.
         public var productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType?
+        /// The status of the phone number order.
         public var status: ChimeSDKVoiceClientTypes.PhoneNumberOrderStatus?
+        /// The updated phone number order time stamp, in ISO 8601 format.
         public var updatedTimestamp: ClientRuntime.Date?
 
         public init (
@@ -8455,10 +10262,15 @@ extension ChimeSDKVoiceClientTypes.Proxy: Swift.CustomDebugStringConvertible {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The proxy configuration for an Amazon Chime SDK Voice Connector.
     public struct Proxy: Swift.Equatable {
+        /// The default number of minutes allowed for proxy sessions.
         public var defaultSessionExpiryMinutes: Swift.Int?
+        /// When true, stops proxy sessions from being created on the specified Amazon Chime SDK Voice Connector.
         public var disabled: Swift.Bool?
+        /// The phone number to route calls to after a proxy session expires.
         public var fallBackPhoneNumber: Swift.String?
+        /// The countries for proxy phone numbers to be selected from.
         public var phoneNumberCountries: [Swift.String]?
 
         public init (
@@ -8593,19 +10405,33 @@ extension ChimeSDKVoiceClientTypes.ProxySession: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The proxy session for an Amazon Chime SDK Voice Connector.
     public struct ProxySession: Swift.Equatable {
+        /// The proxy session capabilities.
         public var capabilities: [ChimeSDKVoiceClientTypes.Capability]?
+        /// The created time stamp, in ISO 8601 format.
         public var createdTimestamp: ClientRuntime.Date?
+        /// The ended time stamp, in ISO 8601 format.
         public var endedTimestamp: ClientRuntime.Date?
+        /// The number of minutes allowed for the proxy session.
         public var expiryMinutes: Swift.Int?
+        /// The preference for matching the country or area code of the proxy phone number with that of the first participant.
         public var geoMatchLevel: ChimeSDKVoiceClientTypes.GeoMatchLevel?
+        /// The country and area code for the proxy phone number.
         public var geoMatchParams: ChimeSDKVoiceClientTypes.GeoMatchParams?
+        /// The proxy session name.
         public var name: Swift.String?
+        /// The preference for proxy phone number reuse, or stickiness, between the same participants across sessions.
         public var numberSelectionBehavior: ChimeSDKVoiceClientTypes.NumberSelectionBehavior?
+        /// The proxy session participants.
         public var participants: [ChimeSDKVoiceClientTypes.Participant]?
+        /// The proxy session ID.
         public var proxySessionId: Swift.String?
+        /// The proxy session status.
         public var status: ChimeSDKVoiceClientTypes.ProxySessionStatus?
+        /// The updated time stamp, in ISO 8601 format.
         public var updatedTimestamp: ClientRuntime.Date?
+        /// The Voice Connector ID.
         public var voiceConnectorId: Swift.String?
 
         public init (
@@ -8700,7 +10526,9 @@ extension PutSipMediaApplicationAlexaSkillConfigurationInput: ClientRuntime.URLP
 }
 
 public struct PutSipMediaApplicationAlexaSkillConfigurationInput: Swift.Equatable {
+    /// The Alexa Skill configuration.
     public var sipMediaApplicationAlexaSkillConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration?
+    /// The SIP media application ID.
     /// This member is required.
     public var sipMediaApplicationId: Swift.String?
 
@@ -8778,6 +10606,7 @@ extension PutSipMediaApplicationAlexaSkillConfigurationOutputResponse: ClientRun
 }
 
 public struct PutSipMediaApplicationAlexaSkillConfigurationOutputResponse: Swift.Equatable {
+    /// Returns the Alexa Skill configuration.
     public var sipMediaApplicationAlexaSkillConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration?
 
     public init (
@@ -8827,8 +10656,10 @@ extension PutSipMediaApplicationLoggingConfigurationInput: ClientRuntime.URLPath
 }
 
 public struct PutSipMediaApplicationLoggingConfigurationInput: Swift.Equatable {
+    /// The SIP media application ID.
     /// This member is required.
     public var sipMediaApplicationId: Swift.String?
+    /// The logging configuration for the specified SIP media application.
     public var sipMediaApplicationLoggingConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration?
 
     public init (
@@ -8905,6 +10736,7 @@ extension PutSipMediaApplicationLoggingConfigurationOutputResponse: ClientRuntim
 }
 
 public struct PutSipMediaApplicationLoggingConfigurationOutputResponse: Swift.Equatable {
+    /// The updated logging configuration for the specified SIP media application.
     public var sipMediaApplicationLoggingConfiguration: ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration?
 
     public init (
@@ -8954,8 +10786,10 @@ extension PutVoiceConnectorEmergencyCallingConfigurationInput: ClientRuntime.URL
 }
 
 public struct PutVoiceConnectorEmergencyCallingConfigurationInput: Swift.Equatable {
+    /// The configuration being updated.
     /// This member is required.
     public var emergencyCallingConfiguration: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration?
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -9033,6 +10867,7 @@ extension PutVoiceConnectorEmergencyCallingConfigurationOutputResponse: ClientRu
 }
 
 public struct PutVoiceConnectorEmergencyCallingConfigurationOutputResponse: Swift.Equatable {
+    /// The updated configuration.
     public var emergencyCallingConfiguration: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration?
 
     public init (
@@ -9082,8 +10917,10 @@ extension PutVoiceConnectorLoggingConfigurationInput: ClientRuntime.URLPathProvi
 }
 
 public struct PutVoiceConnectorLoggingConfigurationInput: Swift.Equatable {
+    /// The logging configuration being updated.
     /// This member is required.
     public var loggingConfiguration: ChimeSDKVoiceClientTypes.LoggingConfiguration?
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -9161,6 +10998,7 @@ extension PutVoiceConnectorLoggingConfigurationOutputResponse: ClientRuntime.Htt
 }
 
 public struct PutVoiceConnectorLoggingConfigurationOutputResponse: Swift.Equatable {
+    /// The updated logging configuration.
     public var loggingConfiguration: ChimeSDKVoiceClientTypes.LoggingConfiguration?
 
     public init (
@@ -9210,8 +11048,10 @@ extension PutVoiceConnectorOriginationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutVoiceConnectorOriginationInput: Swift.Equatable {
+    /// The origination settings being updated.
     /// This member is required.
     public var origination: ChimeSDKVoiceClientTypes.Origination?
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -9289,6 +11129,7 @@ extension PutVoiceConnectorOriginationOutputResponse: ClientRuntime.HttpResponse
 }
 
 public struct PutVoiceConnectorOriginationOutputResponse: Swift.Equatable {
+    /// The updated origination settings.
     public var origination: ChimeSDKVoiceClientTypes.Origination?
 
     public init (
@@ -9358,12 +11199,17 @@ extension PutVoiceConnectorProxyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutVoiceConnectorProxyInput: Swift.Equatable {
+    /// The default number of minutes allowed for proxy session.
     /// This member is required.
     public var defaultSessionExpiryMinutes: Swift.Int?
+    /// When true, stops proxy sessions from being created on the specified Amazon Chime SDK Voice Connector.
     public var disabled: Swift.Bool?
+    /// The phone number to route calls to after a proxy session expires.
     public var fallBackPhoneNumber: Swift.String?
+    /// The countries for proxy phone numbers to be selected from.
     /// This member is required.
     public var phoneNumberPoolCountries: [Swift.String]?
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -9470,6 +11316,7 @@ extension PutVoiceConnectorProxyOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct PutVoiceConnectorProxyOutputResponse: Swift.Equatable {
+    /// The proxy configuration details.
     public var proxy: ChimeSDKVoiceClientTypes.Proxy?
 
     public init (
@@ -9519,8 +11366,10 @@ extension PutVoiceConnectorStreamingConfigurationInput: ClientRuntime.URLPathPro
 }
 
 public struct PutVoiceConnectorStreamingConfigurationInput: Swift.Equatable {
+    /// The streaming settings being updated.
     /// This member is required.
     public var streamingConfiguration: ChimeSDKVoiceClientTypes.StreamingConfiguration?
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -9598,6 +11447,7 @@ extension PutVoiceConnectorStreamingConfigurationOutputResponse: ClientRuntime.H
 }
 
 public struct PutVoiceConnectorStreamingConfigurationOutputResponse: Swift.Equatable {
+    /// The updated streaming settings.
     public var streamingConfiguration: ChimeSDKVoiceClientTypes.StreamingConfiguration?
 
     public init (
@@ -9660,7 +11510,9 @@ extension PutVoiceConnectorTerminationCredentialsInput: ClientRuntime.URLPathPro
 }
 
 public struct PutVoiceConnectorTerminationCredentialsInput: Swift.Equatable {
+    /// The termination credentials being updated.
     public var credentials: [ChimeSDKVoiceClientTypes.Credential]?
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -9766,8 +11618,10 @@ extension PutVoiceConnectorTerminationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutVoiceConnectorTerminationInput: Swift.Equatable {
+    /// The termination settings to be updated.
     /// This member is required.
     public var termination: ChimeSDKVoiceClientTypes.Termination?
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -9847,6 +11701,7 @@ extension PutVoiceConnectorTerminationOutputResponse: ClientRuntime.HttpResponse
 }
 
 public struct PutVoiceConnectorTerminationOutputResponse: Swift.Equatable {
+    /// The updated termination settings.
     public var termination: ChimeSDKVoiceClientTypes.Termination?
 
     public init (
@@ -9892,6 +11747,7 @@ extension ResourceLimitExceededException {
     }
 }
 
+/// The request exceeds the resource limit.
 public struct ResourceLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -9958,6 +11814,7 @@ extension RestorePhoneNumberInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RestorePhoneNumberInput: Swift.Equatable {
+    /// The ID of the phone number being restored.
     /// This member is required.
     public var phoneNumberId: Swift.String?
 
@@ -10028,6 +11885,7 @@ extension RestorePhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct RestorePhoneNumberOutputResponse: Swift.Equatable {
+    /// The restored phone number.
     public var phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber?
 
     public init (
@@ -10103,13 +11961,21 @@ extension SearchAvailablePhoneNumbersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SearchAvailablePhoneNumbersInput: Swift.Equatable {
+    /// Confines a search to just the phone numbers associated with the specified area code.
     public var areaCode: Swift.String?
+    /// Confines a search to just the phone numbers associated with the specified city.
     public var city: Swift.String?
+    /// Confines a search to just the phone numbers associated with the specified country.
     public var country: Swift.String?
+    /// The maximum number of results to return.
     public var maxResults: Swift.Int?
+    /// The token used to return the next page of results.
     public var nextToken: Swift.String?
+    /// Confines a search to just the phone numbers associated with the specified phone number type, either local or toll-free.
     public var phoneNumberType: ChimeSDKVoiceClientTypes.PhoneNumberType?
+    /// Confines a search to just the phone numbers associated with the specified state.
     public var state: Swift.String?
+    /// Confines a search to just the phone numbers associated with the specified toll-free prefix.
     public var tollFreePrefix: Swift.String?
 
     public init (
@@ -10193,7 +12059,9 @@ extension SearchAvailablePhoneNumbersOutputResponse: ClientRuntime.HttpResponseB
 }
 
 public struct SearchAvailablePhoneNumbersOutputResponse: Swift.Equatable {
+    /// Confines a search to just the phone numbers in the E.164 format.
     public var e164PhoneNumbers: [Swift.String]?
+    /// The token used to return the next page of results.
     public var nextToken: Swift.String?
 
     public init (
@@ -10235,6 +12103,47 @@ extension SearchAvailablePhoneNumbersOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kmsKeyArn = "KmsKeyArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let kmsKeyArn = self.kmsKeyArn {
+            try encodeContainer.encode(kmsKeyArn, forKey: .kmsKeyArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ServerSideEncryptionConfiguration(kmsKeyArn: \"CONTENT_REDACTED\")"}
+}
+
+extension ChimeSDKVoiceClientTypes {
+    /// A structure that contains the configuration settings for server-side encryption. We only support symmetric keys. Do not use asymmetric or HMAC keys, or KMS aliases.
+    public struct ServerSideEncryptionConfiguration: Swift.Equatable {
+        /// The ARN of the KMS key used to encrypt the enrollment data in a voice profile domain. Asymmetric customer managed keys are not supported.
+        /// This member is required.
+        public var kmsKeyArn: Swift.String?
+
+        public init (
+            kmsKeyArn: Swift.String? = nil
+        )
+        {
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+
+}
+
 extension ServiceFailureException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10254,6 +12163,7 @@ extension ServiceFailureException {
     }
 }
 
+/// The service encountered an unexpected error.
 public struct ServiceFailureException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -10314,6 +12224,7 @@ extension ServiceUnavailableException {
     }
 }
 
+/// The service is currently unavailable.
 public struct ServiceUnavailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -10417,12 +12328,19 @@ extension ChimeSDKVoiceClientTypes.SipMediaApplication: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The details of the SIP media application, including name and endpoints. An AWS account can have multiple SIP media applications.
     public struct SipMediaApplication: Swift.Equatable {
+        /// The AWS Region in which the SIP media application is created.
         public var awsRegion: Swift.String?
+        /// The SIP media application creation timestamp, in ISO 8601 format.
         public var createdTimestamp: ClientRuntime.Date?
+        /// List of endpoints for SIP media application. Currently, only one endpoint per SIP media application is permitted.
         public var endpoints: [ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint]?
+        /// The SIP media application's name.
         public var name: Swift.String?
+        /// A SIP media application's ID.
         public var sipMediaApplicationId: Swift.String?
+        /// The time at which the SIP media application was updated.
         public var updatedTimestamp: ClientRuntime.Date?
 
         public init (
@@ -10483,9 +12401,12 @@ extension ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration: S
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The Alexa Skill configuration of a SIP media application.
     public struct SipMediaApplicationAlexaSkillConfiguration: Swift.Equatable {
+        /// The ID of the Alexa Skill configuration.
         /// This member is required.
         public var alexaSkillIds: [Swift.String]?
+        /// The status of the Alexa Skill configuration.
         /// This member is required.
         public var alexaSkillStatus: ChimeSDKVoiceClientTypes.AlexaSkillStatus?
 
@@ -10521,7 +12442,9 @@ extension ChimeSDKVoiceClientTypes.SipMediaApplicationCall: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// A Call instance for a SIP media application.
     public struct SipMediaApplicationCall: Swift.Equatable {
+        /// The call's transaction ID.
         public var transactionId: Swift.String?
 
         public init (
@@ -10559,7 +12482,9 @@ extension ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint: Swift.CustomDebu
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The endpoint assigned to a SIP media application.
     public struct SipMediaApplicationEndpoint: Swift.Equatable {
+        /// Valid Amazon Resource Name (ARN) of the Lambda function, version, or alias. The function must be created in the same AWS Region as the SIP media application.
         public var lambdaArn: Swift.String?
 
         public init (
@@ -10592,7 +12517,9 @@ extension ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration: Swif
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The logging configuration of a SIP media application.
     public struct SipMediaApplicationLoggingConfiguration: Swift.Equatable {
+        /// Enables message logging for the specified SIP media application.
         public var enableSipMediaApplicationMessageLogs: Swift.Bool?
 
         public init (
@@ -10679,14 +12606,23 @@ extension ChimeSDKVoiceClientTypes.SipRule: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The details of a SIP rule, including name, triggers, and target applications. An AWS account can have multiple SIP rules.
     public struct SipRule: Swift.Equatable {
+        /// The time at which the SIP rule was created, in ISO 8601 format.
         public var createdTimestamp: ClientRuntime.Date?
+        /// Indicates whether the SIP rule is enabled or disabled. You must disable a rule before you can delete it.
         public var disabled: Swift.Bool?
+        /// A SIP rule's name.
         public var name: Swift.String?
+        /// A SIP rule's ID.
         public var sipRuleId: Swift.String?
+        /// The target SIP media application and other details, such as priority and AWS Region, to be specified in the SIP rule. Only one SIP rule per AWS Region can be provided.
         public var targetApplications: [ChimeSDKVoiceClientTypes.SipRuleTargetApplication]?
+        /// The type of trigger set for a SIP rule, either a phone number or a URI request host name.
         public var triggerType: ChimeSDKVoiceClientTypes.SipRuleTriggerType?
+        /// The value set for a SIP rule's trigger type. Either a phone number or a URI hostname.
         public var triggerValue: Swift.String?
+        /// The time at which the SIP rule was updated, in ISO 8601 format.
         public var updatedTimestamp: ClientRuntime.Date?
 
         public init (
@@ -10745,9 +12681,13 @@ extension ChimeSDKVoiceClientTypes.SipRuleTargetApplication: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// A target SIP media application and other details, such as priority and AWS Region, to be specified in the SIP rule. Only one SIP rule per AWS Region can be provided.
     public struct SipRuleTargetApplication: Swift.Equatable {
+        /// The AWS Region of a rule's target SIP media application.
         public var awsRegion: Swift.String?
+        /// The priority setting of a rule's target SIP media application.
         public var priority: Swift.Int?
+        /// The ID of a rule's target SIP media application.
         public var sipMediaApplicationId: Swift.String?
 
         public init (
@@ -10796,10 +12736,748 @@ extension ChimeSDKVoiceClientTypes {
     }
 }
 
+extension ChimeSDKVoiceClientTypes.SpeakerSearchDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case results = "Results"
+        case voiceprintGenerationStatus = "VoiceprintGenerationStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let results = results {
+            var resultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .results)
+            for speakersearchresult0 in results {
+                try resultsContainer.encode(speakersearchresult0)
+            }
+        }
+        if let voiceprintGenerationStatus = self.voiceprintGenerationStatus {
+            try encodeContainer.encode(voiceprintGenerationStatus, forKey: .voiceprintGenerationStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resultsContainer = try containerValues.decodeIfPresent([ChimeSDKVoiceClientTypes.SpeakerSearchResult?].self, forKey: .results)
+        var resultsDecoded0:[ChimeSDKVoiceClientTypes.SpeakerSearchResult]? = nil
+        if let resultsContainer = resultsContainer {
+            resultsDecoded0 = [ChimeSDKVoiceClientTypes.SpeakerSearchResult]()
+            for structure0 in resultsContainer {
+                if let structure0 = structure0 {
+                    resultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        results = resultsDecoded0
+        let voiceprintGenerationStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .voiceprintGenerationStatus)
+        voiceprintGenerationStatus = voiceprintGenerationStatusDecoded
+    }
+}
+
+extension ChimeSDKVoiceClientTypes {
+    /// The details of a speaker search task.
+    public struct SpeakerSearchDetails: Swift.Equatable {
+        /// The result value in the speaker search details.
+        public var results: [ChimeSDKVoiceClientTypes.SpeakerSearchResult]?
+        /// The status of a voice print generation operation, VoiceprintGenerationSuccess or VoiceprintGenerationFailure..
+        public var voiceprintGenerationStatus: Swift.String?
+
+        public init (
+            results: [ChimeSDKVoiceClientTypes.SpeakerSearchResult]? = nil,
+            voiceprintGenerationStatus: Swift.String? = nil
+        )
+        {
+            self.results = results
+            self.voiceprintGenerationStatus = voiceprintGenerationStatus
+        }
+    }
+
+}
+
+extension ChimeSDKVoiceClientTypes.SpeakerSearchResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case confidenceScore = "ConfidenceScore"
+        case voiceProfileId = "VoiceProfileId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if confidenceScore != 0.0 {
+            try encodeContainer.encode(confidenceScore, forKey: .confidenceScore)
+        }
+        if let voiceProfileId = self.voiceProfileId {
+            try encodeContainer.encode(voiceProfileId, forKey: .voiceProfileId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let confidenceScoreDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .confidenceScore) ?? 0.0
+        confidenceScore = confidenceScoreDecoded
+        let voiceProfileIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .voiceProfileId)
+        voiceProfileId = voiceProfileIdDecoded
+    }
+}
+
+extension ChimeSDKVoiceClientTypes {
+    /// The result of a speaker search analysis.
+    public struct SpeakerSearchResult: Swift.Equatable {
+        /// The confidence score in the speaker search analysis.
+        public var confidenceScore: Swift.Float
+        /// The voice profile ID.
+        public var voiceProfileId: Swift.String?
+
+        public init (
+            confidenceScore: Swift.Float = 0.0,
+            voiceProfileId: Swift.String? = nil
+        )
+        {
+            self.confidenceScore = confidenceScore
+            self.voiceProfileId = voiceProfileId
+        }
+    }
+
+}
+
+extension ChimeSDKVoiceClientTypes.SpeakerSearchTask: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case callDetails = "CallDetails"
+        case createdTimestamp = "CreatedTimestamp"
+        case speakerSearchDetails = "SpeakerSearchDetails"
+        case speakerSearchTaskId = "SpeakerSearchTaskId"
+        case speakerSearchTaskStatus = "SpeakerSearchTaskStatus"
+        case startedTimestamp = "StartedTimestamp"
+        case statusMessage = "StatusMessage"
+        case updatedTimestamp = "UpdatedTimestamp"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let callDetails = self.callDetails {
+            try encodeContainer.encode(callDetails, forKey: .callDetails)
+        }
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .dateTime, forKey: .createdTimestamp)
+        }
+        if let speakerSearchDetails = self.speakerSearchDetails {
+            try encodeContainer.encode(speakerSearchDetails, forKey: .speakerSearchDetails)
+        }
+        if let speakerSearchTaskId = self.speakerSearchTaskId {
+            try encodeContainer.encode(speakerSearchTaskId, forKey: .speakerSearchTaskId)
+        }
+        if let speakerSearchTaskStatus = self.speakerSearchTaskStatus {
+            try encodeContainer.encode(speakerSearchTaskStatus, forKey: .speakerSearchTaskStatus)
+        }
+        if let startedTimestamp = self.startedTimestamp {
+            try encodeContainer.encodeTimestamp(startedTimestamp, format: .dateTime, forKey: .startedTimestamp)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+        if let updatedTimestamp = self.updatedTimestamp {
+            try encodeContainer.encodeTimestamp(updatedTimestamp, format: .dateTime, forKey: .updatedTimestamp)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let speakerSearchTaskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .speakerSearchTaskId)
+        speakerSearchTaskId = speakerSearchTaskIdDecoded
+        let speakerSearchTaskStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .speakerSearchTaskStatus)
+        speakerSearchTaskStatus = speakerSearchTaskStatusDecoded
+        let callDetailsDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.CallDetails.self, forKey: .callDetails)
+        callDetails = callDetailsDecoded
+        let speakerSearchDetailsDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SpeakerSearchDetails.self, forKey: .speakerSearchDetails)
+        speakerSearchDetails = speakerSearchDetailsDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let updatedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedTimestamp)
+        updatedTimestamp = updatedTimestampDecoded
+        let startedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startedTimestamp)
+        startedTimestamp = startedTimestampDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+    }
+}
+
+extension ChimeSDKVoiceClientTypes {
+    /// A representation of an asynchronous request to perform speaker search analysis on a Voice Connector call.
+    public struct SpeakerSearchTask: Swift.Equatable {
+        /// The call details of a speaker search task.
+        public var callDetails: ChimeSDKVoiceClientTypes.CallDetails?
+        /// The time at which a speaker search task was created.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// The details of a speaker search task.
+        public var speakerSearchDetails: ChimeSDKVoiceClientTypes.SpeakerSearchDetails?
+        /// The speaker search task ID.
+        public var speakerSearchTaskId: Swift.String?
+        /// The status of the speaker search task, IN_QUEUE, IN_PROGRESS, PARTIAL_SUCCESS, SUCCEEDED, FAILED, or STOPPED.
+        public var speakerSearchTaskStatus: Swift.String?
+        /// The time at which the speaker search task began.
+        public var startedTimestamp: ClientRuntime.Date?
+        /// A detailed message about the status of a speaker search.
+        public var statusMessage: Swift.String?
+        /// The time at which a speaker search task was updated.
+        public var updatedTimestamp: ClientRuntime.Date?
+
+        public init (
+            callDetails: ChimeSDKVoiceClientTypes.CallDetails? = nil,
+            createdTimestamp: ClientRuntime.Date? = nil,
+            speakerSearchDetails: ChimeSDKVoiceClientTypes.SpeakerSearchDetails? = nil,
+            speakerSearchTaskId: Swift.String? = nil,
+            speakerSearchTaskStatus: Swift.String? = nil,
+            startedTimestamp: ClientRuntime.Date? = nil,
+            statusMessage: Swift.String? = nil,
+            updatedTimestamp: ClientRuntime.Date? = nil
+        )
+        {
+            self.callDetails = callDetails
+            self.createdTimestamp = createdTimestamp
+            self.speakerSearchDetails = speakerSearchDetails
+            self.speakerSearchTaskId = speakerSearchTaskId
+            self.speakerSearchTaskStatus = speakerSearchTaskStatus
+            self.startedTimestamp = startedTimestamp
+            self.statusMessage = statusMessage
+            self.updatedTimestamp = updatedTimestamp
+        }
+    }
+
+}
+
+extension StartSpeakerSearchTaskInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case transactionId = "TransactionId"
+        case voiceProfileDomainId = "VoiceProfileDomainId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let transactionId = self.transactionId {
+            try encodeContainer.encode(transactionId, forKey: .transactionId)
+        }
+        if let voiceProfileDomainId = self.voiceProfileDomainId {
+            try encodeContainer.encode(voiceProfileDomainId, forKey: .voiceProfileDomainId)
+        }
+    }
+}
+
+extension StartSpeakerSearchTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let voiceConnectorId = voiceConnectorId else {
+            return nil
+        }
+        return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/speaker-search-tasks"
+    }
+}
+
+public struct StartSpeakerSearchTaskInput: Swift.Equatable {
+    /// The unique identifier for the client request. Use a different token for different speaker search tasks.
+    public var clientRequestToken: Swift.String?
+    /// The transaction ID of the call being analyzed.
+    /// This member is required.
+    public var transactionId: Swift.String?
+    /// The Voice Connector ID.
+    /// This member is required.
+    public var voiceConnectorId: Swift.String?
+    /// The ID of the voice profile domain that will store the voice profile.
+    /// This member is required.
+    public var voiceProfileDomainId: Swift.String?
+
+    public init (
+        clientRequestToken: Swift.String? = nil,
+        transactionId: Swift.String? = nil,
+        voiceConnectorId: Swift.String? = nil,
+        voiceProfileDomainId: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.transactionId = transactionId
+        self.voiceConnectorId = voiceConnectorId
+        self.voiceProfileDomainId = voiceProfileDomainId
+    }
+}
+
+struct StartSpeakerSearchTaskInputBody: Swift.Equatable {
+    let transactionId: Swift.String?
+    let voiceProfileDomainId: Swift.String?
+    let clientRequestToken: Swift.String?
+}
+
+extension StartSpeakerSearchTaskInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case transactionId = "TransactionId"
+        case voiceProfileDomainId = "VoiceProfileDomainId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let transactionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionId)
+        transactionId = transactionIdDecoded
+        let voiceProfileDomainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .voiceProfileDomainId)
+        voiceProfileDomainId = voiceProfileDomainIdDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+extension StartSpeakerSearchTaskOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartSpeakerSearchTaskOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "GoneException" : self = .goneException(try GoneException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StartSpeakerSearchTaskOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case goneException(GoneException)
+    case notFoundException(NotFoundException)
+    case resourceLimitExceededException(ResourceLimitExceededException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unprocessableEntityException(UnprocessableEntityException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartSpeakerSearchTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: StartSpeakerSearchTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.speakerSearchTask = output.speakerSearchTask
+        } else {
+            self.speakerSearchTask = nil
+        }
+    }
+}
+
+public struct StartSpeakerSearchTaskOutputResponse: Swift.Equatable {
+    /// The details of the speaker search task.
+    public var speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask?
+
+    public init (
+        speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask? = nil
+    )
+    {
+        self.speakerSearchTask = speakerSearchTask
+    }
+}
+
+struct StartSpeakerSearchTaskOutputResponseBody: Swift.Equatable {
+    let speakerSearchTask: ChimeSDKVoiceClientTypes.SpeakerSearchTask?
+}
+
+extension StartSpeakerSearchTaskOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case speakerSearchTask = "SpeakerSearchTask"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let speakerSearchTaskDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.SpeakerSearchTask.self, forKey: .speakerSearchTask)
+        speakerSearchTask = speakerSearchTaskDecoded
+    }
+}
+
+extension StartVoiceToneAnalysisTaskInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case languageCode = "LanguageCode"
+        case transactionId = "TransactionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let languageCode = self.languageCode {
+            try encodeContainer.encode(languageCode.rawValue, forKey: .languageCode)
+        }
+        if let transactionId = self.transactionId {
+            try encodeContainer.encode(transactionId, forKey: .transactionId)
+        }
+    }
+}
+
+extension StartVoiceToneAnalysisTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let voiceConnectorId = voiceConnectorId else {
+            return nil
+        }
+        return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/voice-tone-analysis-tasks"
+    }
+}
+
+public struct StartVoiceToneAnalysisTaskInput: Swift.Equatable {
+    /// The unique identifier for the client request. Use a different token for different voice tone analysis tasks.
+    public var clientRequestToken: Swift.String?
+    /// The language code.
+    /// This member is required.
+    public var languageCode: ChimeSDKVoiceClientTypes.LanguageCode?
+    /// The transaction ID.
+    /// This member is required.
+    public var transactionId: Swift.String?
+    /// The Voice Connector ID.
+    /// This member is required.
+    public var voiceConnectorId: Swift.String?
+
+    public init (
+        clientRequestToken: Swift.String? = nil,
+        languageCode: ChimeSDKVoiceClientTypes.LanguageCode? = nil,
+        transactionId: Swift.String? = nil,
+        voiceConnectorId: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.languageCode = languageCode
+        self.transactionId = transactionId
+        self.voiceConnectorId = voiceConnectorId
+    }
+}
+
+struct StartVoiceToneAnalysisTaskInputBody: Swift.Equatable {
+    let transactionId: Swift.String?
+    let languageCode: ChimeSDKVoiceClientTypes.LanguageCode?
+    let clientRequestToken: Swift.String?
+}
+
+extension StartVoiceToneAnalysisTaskInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case languageCode = "LanguageCode"
+        case transactionId = "TransactionId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let transactionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionId)
+        transactionId = transactionIdDecoded
+        let languageCodeDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.LanguageCode.self, forKey: .languageCode)
+        languageCode = languageCodeDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+    }
+}
+
+extension StartVoiceToneAnalysisTaskOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartVoiceToneAnalysisTaskOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "GoneException" : self = .goneException(try GoneException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StartVoiceToneAnalysisTaskOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case goneException(GoneException)
+    case notFoundException(NotFoundException)
+    case resourceLimitExceededException(ResourceLimitExceededException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unprocessableEntityException(UnprocessableEntityException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartVoiceToneAnalysisTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: StartVoiceToneAnalysisTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.voiceToneAnalysisTask = output.voiceToneAnalysisTask
+        } else {
+            self.voiceToneAnalysisTask = nil
+        }
+    }
+}
+
+public struct StartVoiceToneAnalysisTaskOutputResponse: Swift.Equatable {
+    /// The details of the voice tone analysis task.
+    public var voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask?
+
+    public init (
+        voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask? = nil
+    )
+    {
+        self.voiceToneAnalysisTask = voiceToneAnalysisTask
+    }
+}
+
+struct StartVoiceToneAnalysisTaskOutputResponseBody: Swift.Equatable {
+    let voiceToneAnalysisTask: ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask?
+}
+
+extension StartVoiceToneAnalysisTaskOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceToneAnalysisTask = "VoiceToneAnalysisTask"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceToneAnalysisTaskDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask.self, forKey: .voiceToneAnalysisTask)
+        voiceToneAnalysisTask = voiceToneAnalysisTaskDecoded
+    }
+}
+
+extension StopSpeakerSearchTaskInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "stop"))
+            return items
+        }
+    }
+}
+
+extension StopSpeakerSearchTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let voiceConnectorId = voiceConnectorId else {
+            return nil
+        }
+        guard let speakerSearchTaskId = speakerSearchTaskId else {
+            return nil
+        }
+        return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/speaker-search-tasks/\(speakerSearchTaskId.urlPercentEncoding())"
+    }
+}
+
+public struct StopSpeakerSearchTaskInput: Swift.Equatable {
+    /// The speaker search task ID.
+    /// This member is required.
+    public var speakerSearchTaskId: Swift.String?
+    /// The Voice Connector ID.
+    /// This member is required.
+    public var voiceConnectorId: Swift.String?
+
+    public init (
+        speakerSearchTaskId: Swift.String? = nil,
+        voiceConnectorId: Swift.String? = nil
+    )
+    {
+        self.speakerSearchTaskId = speakerSearchTaskId
+        self.voiceConnectorId = voiceConnectorId
+    }
+}
+
+struct StopSpeakerSearchTaskInputBody: Swift.Equatable {
+}
+
+extension StopSpeakerSearchTaskInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension StopSpeakerSearchTaskOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StopSpeakerSearchTaskOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StopSpeakerSearchTaskOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case notFoundException(NotFoundException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unprocessableEntityException(UnprocessableEntityException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StopSpeakerSearchTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct StopSpeakerSearchTaskOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension StopVoiceToneAnalysisTaskInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "stop"))
+            return items
+        }
+    }
+}
+
+extension StopVoiceToneAnalysisTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let voiceConnectorId = voiceConnectorId else {
+            return nil
+        }
+        guard let voiceToneAnalysisTaskId = voiceToneAnalysisTaskId else {
+            return nil
+        }
+        return "/voice-connectors/\(voiceConnectorId.urlPercentEncoding())/voice-tone-analysis-tasks/\(voiceToneAnalysisTaskId.urlPercentEncoding())"
+    }
+}
+
+public struct StopVoiceToneAnalysisTaskInput: Swift.Equatable {
+    /// The Voice Connector ID.
+    /// This member is required.
+    public var voiceConnectorId: Swift.String?
+    /// The ID of the voice tone analysis task.
+    /// This member is required.
+    public var voiceToneAnalysisTaskId: Swift.String?
+
+    public init (
+        voiceConnectorId: Swift.String? = nil,
+        voiceToneAnalysisTaskId: Swift.String? = nil
+    )
+    {
+        self.voiceConnectorId = voiceConnectorId
+        self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
+    }
+}
+
+struct StopVoiceToneAnalysisTaskInputBody: Swift.Equatable {
+}
+
+extension StopVoiceToneAnalysisTaskInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension StopVoiceToneAnalysisTaskOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StopVoiceToneAnalysisTaskOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnprocessableEntityException" : self = .unprocessableEntityException(try UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StopVoiceToneAnalysisTaskOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case notFoundException(NotFoundException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unprocessableEntityException(UnprocessableEntityException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StopVoiceToneAnalysisTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct StopVoiceToneAnalysisTaskOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension ChimeSDKVoiceClientTypes.StreamingConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataRetentionInHours = "DataRetentionInHours"
         case disabled = "Disabled"
+        case mediaInsightsConfiguration = "MediaInsightsConfiguration"
         case streamingNotificationTargets = "StreamingNotificationTargets"
     }
 
@@ -10810,6 +13488,9 @@ extension ChimeSDKVoiceClientTypes.StreamingConfiguration: Swift.Codable {
         }
         if let disabled = self.disabled {
             try encodeContainer.encode(disabled, forKey: .disabled)
+        }
+        if let mediaInsightsConfiguration = self.mediaInsightsConfiguration {
+            try encodeContainer.encode(mediaInsightsConfiguration, forKey: .mediaInsightsConfiguration)
         }
         if let streamingNotificationTargets = streamingNotificationTargets {
             var streamingNotificationTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .streamingNotificationTargets)
@@ -10836,25 +13517,35 @@ extension ChimeSDKVoiceClientTypes.StreamingConfiguration: Swift.Codable {
             }
         }
         streamingNotificationTargets = streamingNotificationTargetsDecoded0
+        let mediaInsightsConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.MediaInsightsConfiguration.self, forKey: .mediaInsightsConfiguration)
+        mediaInsightsConfiguration = mediaInsightsConfigurationDecoded
     }
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The streaming configuration associated with an Amazon Chime SDK Voice Connector. Specifies whether media streaming is enabled for sending to Amazon Kinesis, and shows the retention period for the Amazon Kinesis data, in hours.
     public struct StreamingConfiguration: Swift.Equatable {
+        /// The amount of time, in hours, to the Kinesis data.
         /// This member is required.
         public var dataRetentionInHours: Swift.Int?
+        /// When true, streaming to Kinesis is off.
         /// This member is required.
         public var disabled: Swift.Bool?
+        /// The call analytics configuration.
+        public var mediaInsightsConfiguration: ChimeSDKVoiceClientTypes.MediaInsightsConfiguration?
+        /// The streaming notification targets.
         public var streamingNotificationTargets: [ChimeSDKVoiceClientTypes.StreamingNotificationTarget]?
 
         public init (
             dataRetentionInHours: Swift.Int? = nil,
             disabled: Swift.Bool? = nil,
+            mediaInsightsConfiguration: ChimeSDKVoiceClientTypes.MediaInsightsConfiguration? = nil,
             streamingNotificationTargets: [ChimeSDKVoiceClientTypes.StreamingNotificationTarget]? = nil
         )
         {
             self.dataRetentionInHours = dataRetentionInHours
             self.disabled = disabled
+            self.mediaInsightsConfiguration = mediaInsightsConfiguration
             self.streamingNotificationTargets = streamingNotificationTargets
         }
     }
@@ -10881,7 +13572,9 @@ extension ChimeSDKVoiceClientTypes.StreamingNotificationTarget: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The target recipient for a streaming configuration notification.
     public struct StreamingNotificationTarget: Swift.Equatable {
+        /// The streaming notification target.
         public var notificationTarget: ChimeSDKVoiceClientTypes.NotificationTarget?
 
         public init (
@@ -10892,6 +13585,190 @@ extension ChimeSDKVoiceClientTypes {
         }
     }
 
+}
+
+extension ChimeSDKVoiceClientTypes.Tag: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key = "Key"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.Tag: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Tag(key: \"CONTENT_REDACTED\", value: \"CONTENT_REDACTED\")"}
+}
+
+extension ChimeSDKVoiceClientTypes {
+    /// Describes a tag applied to a resource.
+    public struct Tag: Swift.Equatable {
+        /// The tag's key.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The tag's value.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init (
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
+extension TagResourceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TagResourceInput(tags: \(Swift.String(describing: tags)), resourceARN: \"CONTENT_REDACTED\")"}
+}
+
+extension TagResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceARN = "ResourceARN"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceARN = self.resourceARN {
+            try encodeContainer.encode(resourceARN, forKey: .resourceARN)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension TagResourceInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "tag-resource"))
+            return items
+        }
+    }
+}
+
+extension TagResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/tags"
+    }
+}
+
+public struct TagResourceInput: Swift.Equatable {
+    /// The ARN of the resource being tagged.
+    /// This member is required.
+    public var resourceARN: Swift.String?
+    /// A list of the tags being added to the resource.
+    /// This member is required.
+    public var tags: [ChimeSDKVoiceClientTypes.Tag]?
+
+    public init (
+        resourceARN: Swift.String? = nil,
+        tags: [ChimeSDKVoiceClientTypes.Tag]? = nil
+    )
+    {
+        self.resourceARN = resourceARN
+        self.tags = tags
+    }
+}
+
+struct TagResourceInputBody: Swift.Equatable {
+    let resourceARN: Swift.String?
+    let tags: [ChimeSDKVoiceClientTypes.Tag]?
+}
+
+extension TagResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceARN = "ResourceARN"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
+        resourceARN = resourceARNDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([ChimeSDKVoiceClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[ChimeSDKVoiceClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ChimeSDKVoiceClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension TagResourceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case notFoundException(NotFoundException)
+    case resourceLimitExceededException(ResourceLimitExceededException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct TagResourceOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension ChimeSDKVoiceClientTypes.Termination: Swift.Codable {
@@ -10967,11 +13844,17 @@ extension ChimeSDKVoiceClientTypes.Termination: Swift.CustomDebugStringConvertib
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// Termination settings enable SIP hosts to make outbound calls using an Amazon Chime SDK Voice Connector.
     public struct Termination: Swift.Equatable {
+        /// The countries to which calls are allowed, in ISO 3166-1 alpha-2 format. Required.
         public var callingRegions: [Swift.String]?
+        /// The IP addresses allowed to make calls, in CIDR format.
         public var cidrAllowedList: [Swift.String]?
+        /// The limit on calls per second. Max value based on account service quota. Default value of 1.
         public var cpsLimit: Swift.Int?
+        /// The default outbound calling number.
         public var defaultPhoneNumber: Swift.String?
+        /// When termination is disabled, outbound calls cannot be made.
         public var disabled: Swift.Bool?
 
         public init (
@@ -11018,8 +13901,11 @@ extension ChimeSDKVoiceClientTypes.TerminationHealth: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The termination health details, including the source IP address and timestamp of the last successful SIP OPTIONS message from your SIP infrastructure.
     public struct TerminationHealth: Swift.Equatable {
+        /// The source IP address.
         public var source: Swift.String?
+        /// The timestamp, in ISO 8601 format.
         public var timestamp: ClientRuntime.Date?
 
         public init (
@@ -11053,6 +13939,7 @@ extension ThrottledClientException {
     }
 }
 
+/// The number of customer requests exceeds the request rate limit.
 public struct ThrottledClientException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -11113,6 +14000,7 @@ extension UnauthorizedClientException {
     }
 }
 
+/// The client isn't authorized to request a resource.
 public struct UnauthorizedClientException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -11154,6 +14042,197 @@ extension UnauthorizedClientExceptionBody: Swift.Decodable {
     }
 }
 
+extension UnprocessableEntityException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UnprocessableEntityExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.code = output.code
+            self.message = output.message
+        } else {
+            self.code = nil
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// A well-formed request couldn't be followed due to semantic errors.
+public struct UnprocessableEntityException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var code: ChimeSDKVoiceClientTypes.ErrorCode?
+    public var message: Swift.String?
+
+    public init (
+        code: ChimeSDKVoiceClientTypes.ErrorCode? = nil,
+        message: Swift.String? = nil
+    )
+    {
+        self.code = code
+        self.message = message
+    }
+}
+
+struct UnprocessableEntityExceptionBody: Swift.Equatable {
+    let code: ChimeSDKVoiceClientTypes.ErrorCode?
+    let message: Swift.String?
+}
+
+extension UnprocessableEntityExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code = "Code"
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.ErrorCode.self, forKey: .code)
+        code = codeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension UntagResourceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UntagResourceInput(tagKeys: \(Swift.String(describing: tagKeys)), resourceARN: \"CONTENT_REDACTED\")"}
+}
+
+extension UntagResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceARN = "ResourceARN"
+        case tagKeys = "TagKeys"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceARN = self.resourceARN {
+            try encodeContainer.encode(resourceARN, forKey: .resourceARN)
+        }
+        if let tagKeys = tagKeys {
+            var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
+            }
+        }
+    }
+}
+
+extension UntagResourceInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            items.append(ClientRuntime.URLQueryItem(name: "operation", value: "untag-resource"))
+            return items
+        }
+    }
+}
+
+extension UntagResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/tags"
+    }
+}
+
+public struct UntagResourceInput: Swift.Equatable {
+    /// The ARN of the resource having its tags removed.
+    /// This member is required.
+    public var resourceARN: Swift.String?
+    /// The keys of the tags being removed from the resource.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init (
+        resourceARN: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    )
+    {
+        self.resourceARN = resourceARN
+        self.tagKeys = tagKeys
+    }
+}
+
+struct UntagResourceInputBody: Swift.Equatable {
+    let resourceARN: Swift.String?
+    let tagKeys: [Swift.String]?
+}
+
+extension UntagResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceARN = "ResourceARN"
+        case tagKeys = "TagKeys"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
+        resourceARN = resourceARNDecoded
+        let tagKeysContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tagKeys)
+        var tagKeysDecoded0:[Swift.String]? = nil
+        if let tagKeysContainer = tagKeysContainer {
+            tagKeysDecoded0 = [Swift.String]()
+            for string0 in tagKeysContainer {
+                if let string0 = string0 {
+                    tagKeysDecoded0?.append(string0)
+                }
+            }
+        }
+        tagKeys = tagKeysDecoded0
+    }
+}
+
+extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UntagResourceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case notFoundException(NotFoundException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UntagResourceOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension UpdateGlobalSettingsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case voiceConnector = "VoiceConnector"
@@ -11174,6 +14253,7 @@ extension UpdateGlobalSettingsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateGlobalSettingsInput: Swift.Equatable {
+    /// The Voice Connector settings.
     public var voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnectorSettings?
 
     public init (
@@ -11274,9 +14354,12 @@ extension UpdatePhoneNumberInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdatePhoneNumberInput: Swift.Equatable {
+    /// The outbound calling name associated with the phone number.
     public var callingName: Swift.String?
+    /// The phone number ID.
     /// This member is required.
     public var phoneNumberId: Swift.String?
+    /// The product type.
     public var productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType?
 
     public init (
@@ -11361,6 +14444,7 @@ extension UpdatePhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdatePhoneNumberOutputResponse: Swift.Equatable {
+    /// The updated phone number details.
     public var phoneNumber: ChimeSDKVoiceClientTypes.PhoneNumber?
 
     public init (
@@ -11424,10 +14508,14 @@ extension ChimeSDKVoiceClientTypes.UpdatePhoneNumberRequestItem: Swift.CustomDeb
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The phone number ID, product type, or calling name fields to update, used with the [BatchUpdatePhoneNumber] and [UpdatePhoneNumber] actions.
     public struct UpdatePhoneNumberRequestItem: Swift.Equatable {
+        /// The outbound calling name to update.
         public var callingName: Swift.String?
+        /// The phone number ID to update.
         /// This member is required.
         public var phoneNumberId: Swift.String?
+        /// The product type to update.
         public var productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType?
 
         public init (
@@ -11469,6 +14557,7 @@ extension UpdatePhoneNumberSettingsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdatePhoneNumberSettingsInput: Swift.Equatable {
+    /// The default outbound calling name for the account.
     /// This member is required.
     public var callingName: Swift.String?
 
@@ -11571,11 +14660,15 @@ extension UpdateProxySessionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateProxySessionInput: Swift.Equatable {
+    /// The proxy session capabilities.
     /// This member is required.
     public var capabilities: [ChimeSDKVoiceClientTypes.Capability]?
+    /// The number of minutes allowed for the proxy session.
     public var expiryMinutes: Swift.Int?
+    /// The proxy session ID.
     /// This member is required.
     public var proxySessionId: Swift.String?
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -11670,6 +14763,7 @@ extension UpdateProxySessionOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateProxySessionOutputResponse: Swift.Equatable {
+    /// The updated proxy session details.
     public var proxySession: ChimeSDKVoiceClientTypes.ProxySession?
 
     public init (
@@ -11725,10 +14819,13 @@ extension UpdateSipMediaApplicationCallInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateSipMediaApplicationCallInput: Swift.Equatable {
+    /// Arguments made available to the Lambda function as part of the CALL_UPDATE_REQUESTED event. Can contain 0-20 key-value pairs.
     /// This member is required.
     public var arguments: [Swift.String:Swift.String]?
+    /// The ID of the SIP media application handling the call.
     /// This member is required.
     public var sipMediaApplicationId: Swift.String?
+    /// The ID of the call transaction.
     /// This member is required.
     public var transactionId: Swift.String?
 
@@ -11819,6 +14916,7 @@ extension UpdateSipMediaApplicationCallOutputResponse: ClientRuntime.HttpRespons
 }
 
 public struct UpdateSipMediaApplicationCallOutputResponse: Swift.Equatable {
+    /// A Call instance for a SIP media application.
     public var sipMediaApplicationCall: ChimeSDKVoiceClientTypes.SipMediaApplicationCall?
 
     public init (
@@ -11875,8 +14973,11 @@ extension UpdateSipMediaApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateSipMediaApplicationInput: Swift.Equatable {
+    /// The new set of endpoints for the specified SIP media application.
     public var endpoints: [ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint]?
+    /// The new name for the specified SIP media application.
     public var name: Swift.String?
+    /// The SIP media application ID.
     /// This member is required.
     public var sipMediaApplicationId: Swift.String?
 
@@ -11971,6 +15072,7 @@ extension UpdateSipMediaApplicationOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 public struct UpdateSipMediaApplicationOutputResponse: Swift.Equatable {
+    /// The updated SIP media application’s details.
     public var sipMediaApplication: ChimeSDKVoiceClientTypes.SipMediaApplication?
 
     public init (
@@ -12031,11 +15133,15 @@ extension UpdateSipRuleInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateSipRuleInput: Swift.Equatable {
+    /// The new value that indicates whether the rule is disabled.
     public var disabled: Swift.Bool?
+    /// The new name for the specified SIP rule.
     /// This member is required.
     public var name: Swift.String?
+    /// The SIP rule ID.
     /// This member is required.
     public var sipRuleId: Swift.String?
+    /// The new list of target applications.
     public var targetApplications: [ChimeSDKVoiceClientTypes.SipRuleTargetApplication]?
 
     public init (
@@ -12137,6 +15243,7 @@ extension UpdateSipRuleOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateSipRuleOutputResponse: Swift.Equatable {
+    /// The updated SIP rule details.
     public var sipRule: ChimeSDKVoiceClientTypes.SipRule?
 
     public init (
@@ -12193,10 +15300,13 @@ extension UpdateVoiceConnectorGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateVoiceConnectorGroupInput: Swift.Equatable {
+    /// The name of the Voice Connector group.
     /// This member is required.
     public var name: Swift.String?
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorGroupId: Swift.String?
+    /// The VoiceConnectorItems to associate with the Voice Connector group.
     /// This member is required.
     public var voiceConnectorItems: [ChimeSDKVoiceClientTypes.VoiceConnectorItem]?
 
@@ -12291,6 +15401,7 @@ extension UpdateVoiceConnectorGroupOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 public struct UpdateVoiceConnectorGroupOutputResponse: Swift.Equatable {
+    /// The updated Voice Connector group.
     public var voiceConnectorGroup: ChimeSDKVoiceClientTypes.VoiceConnectorGroup?
 
     public init (
@@ -12344,10 +15455,13 @@ extension UpdateVoiceConnectorInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateVoiceConnectorInput: Swift.Equatable {
+    /// The name of the Voice Connector.
     /// This member is required.
     public var name: Swift.String?
+    /// When enabled, requires encryption for the Voice Connector.
     /// This member is required.
     public var requireEncryption: Swift.Bool?
+    /// The Voice Connector ID.
     /// This member is required.
     public var voiceConnectorId: Swift.String?
 
@@ -12431,6 +15545,7 @@ extension UpdateVoiceConnectorOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct UpdateVoiceConnectorOutputResponse: Swift.Equatable {
+    /// The updated Voice Connector details.
     public var voiceConnector: ChimeSDKVoiceClientTypes.VoiceConnector?
 
     public init (
@@ -12454,6 +15569,287 @@ extension UpdateVoiceConnectorOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let voiceConnectorDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceConnector.self, forKey: .voiceConnector)
         voiceConnector = voiceConnectorDecoded
+    }
+}
+
+extension UpdateVoiceProfileDomainInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension UpdateVoiceProfileDomainInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let voiceProfileDomainId = voiceProfileDomainId else {
+            return nil
+        }
+        return "/voice-profile-domains/\(voiceProfileDomainId.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateVoiceProfileDomainInput: Swift.Equatable {
+    /// The description of the voice profile domain.
+    public var description: Swift.String?
+    /// The name of the voice profile domain.
+    public var name: Swift.String?
+    /// The domain ID.
+    /// This member is required.
+    public var voiceProfileDomainId: Swift.String?
+
+    public init (
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        voiceProfileDomainId: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.name = name
+        self.voiceProfileDomainId = voiceProfileDomainId
+    }
+}
+
+struct UpdateVoiceProfileDomainInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let description: Swift.String?
+}
+
+extension UpdateVoiceProfileDomainInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case name = "Name"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension UpdateVoiceProfileDomainOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateVoiceProfileDomainOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateVoiceProfileDomainOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case notFoundException(NotFoundException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateVoiceProfileDomainOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateVoiceProfileDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.voiceProfileDomain = output.voiceProfileDomain
+        } else {
+            self.voiceProfileDomain = nil
+        }
+    }
+}
+
+public struct UpdateVoiceProfileDomainOutputResponse: Swift.Equatable {
+    /// The updated details of the voice profile domain.
+    public var voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain?
+
+    public init (
+        voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain? = nil
+    )
+    {
+        self.voiceProfileDomain = voiceProfileDomain
+    }
+}
+
+struct UpdateVoiceProfileDomainOutputResponseBody: Swift.Equatable {
+    let voiceProfileDomain: ChimeSDKVoiceClientTypes.VoiceProfileDomain?
+}
+
+extension UpdateVoiceProfileDomainOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceProfileDomain = "VoiceProfileDomain"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceProfileDomainDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceProfileDomain.self, forKey: .voiceProfileDomain)
+        voiceProfileDomain = voiceProfileDomainDecoded
+    }
+}
+
+extension UpdateVoiceProfileInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case speakerSearchTaskId = "SpeakerSearchTaskId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let speakerSearchTaskId = self.speakerSearchTaskId {
+            try encodeContainer.encode(speakerSearchTaskId, forKey: .speakerSearchTaskId)
+        }
+    }
+}
+
+extension UpdateVoiceProfileInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let voiceProfileId = voiceProfileId else {
+            return nil
+        }
+        return "/voice-profiles/\(voiceProfileId.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateVoiceProfileInput: Swift.Equatable {
+    /// The ID of the speaker search task.
+    /// This member is required.
+    public var speakerSearchTaskId: Swift.String?
+    /// The profile ID.
+    /// This member is required.
+    public var voiceProfileId: Swift.String?
+
+    public init (
+        speakerSearchTaskId: Swift.String? = nil,
+        voiceProfileId: Swift.String? = nil
+    )
+    {
+        self.speakerSearchTaskId = speakerSearchTaskId
+        self.voiceProfileId = voiceProfileId
+    }
+}
+
+struct UpdateVoiceProfileInputBody: Swift.Equatable {
+    let speakerSearchTaskId: Swift.String?
+}
+
+extension UpdateVoiceProfileInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case speakerSearchTaskId = "SpeakerSearchTaskId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let speakerSearchTaskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .speakerSearchTaskId)
+        speakerSearchTaskId = speakerSearchTaskIdDecoded
+    }
+}
+
+extension UpdateVoiceProfileOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateVoiceProfileOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "GoneException" : self = .goneException(try GoneException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateVoiceProfileOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case goneException(GoneException)
+    case notFoundException(NotFoundException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateVoiceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateVoiceProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.voiceProfile = output.voiceProfile
+        } else {
+            self.voiceProfile = nil
+        }
+    }
+}
+
+public struct UpdateVoiceProfileOutputResponse: Swift.Equatable {
+    /// The updated voice profile settings.
+    public var voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile?
+
+    public init (
+        voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile? = nil
+    )
+    {
+        self.voiceProfile = voiceProfile
+    }
+}
+
+struct UpdateVoiceProfileOutputResponseBody: Swift.Equatable {
+    let voiceProfile: ChimeSDKVoiceClientTypes.VoiceProfile?
+}
+
+extension UpdateVoiceProfileOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voiceProfile = "VoiceProfile"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceProfileDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.VoiceProfile.self, forKey: .voiceProfile)
+        voiceProfile = voiceProfileDecoded
     }
 }
 
@@ -12506,18 +15902,25 @@ extension ValidateE911AddressInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ValidateE911AddressInput: Swift.Equatable {
+    /// The AWS account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
+    /// The address city, such as Portland.
     /// This member is required.
     public var city: Swift.String?
+    /// The country in the address being validated.
     /// This member is required.
     public var country: Swift.String?
+    /// The dress postal code, such 04352.
     /// This member is required.
     public var postalCode: Swift.String?
+    /// The address state, such as ME.
     /// This member is required.
     public var state: Swift.String?
+    /// The address street information, such as 8th Avenue.
     /// This member is required.
     public var streetInfo: Swift.String?
+    /// The address street number, such as 200 or 2121.
     /// This member is required.
     public var streetNumber: Swift.String?
 
@@ -12635,9 +16038,13 @@ extension ValidateE911AddressOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ValidateE911AddressOutputResponse: Swift.Equatable {
+    /// The validated address.
     public var address: ChimeSDKVoiceClientTypes.Address?
+    /// The ID that represents the address.
     public var addressExternalId: Swift.String?
+    /// The list of address suggestions..
     public var candidateAddressList: [ChimeSDKVoiceClientTypes.CandidateAddress]?
+    /// Number indicating the result of address validation. 0 means the address was perfect as-is and successfully validated. 1 means the address was corrected. 2 means the address sent was not close enough and was not validated.
     public var validationResult: Swift.Int
 
     public init (
@@ -12753,14 +16160,23 @@ extension ChimeSDKVoiceClientTypes.VoiceConnector: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The Amazon Chime SDK Voice Connector configuration, including outbound host name and encryption settings.
     public struct VoiceConnector: Swift.Equatable {
+        /// The AWS Region in which the Voice Connector is created. Default: us-east-1.
         public var awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion?
+        /// The Voice Connector's creation timestamp, in ISO 8601 format.
         public var createdTimestamp: ClientRuntime.Date?
+        /// The Voice Connector's name.
         public var name: Swift.String?
+        /// The outbound host name for the Voice Connector.
         public var outboundHostName: Swift.String?
+        /// Enables or disables encryption for the Voice Connector.
         public var requireEncryption: Swift.Bool?
+        /// The Voice Connector's updated timestamp, in ISO 8601 format.
         public var updatedTimestamp: ClientRuntime.Date?
+        /// The ARN of the Voice Connector.
         public var voiceConnectorArn: Swift.String?
+        /// The Voice Connector's ID.
         public var voiceConnectorId: Swift.String?
 
         public init (
@@ -12905,12 +16321,19 @@ extension ChimeSDKVoiceClientTypes.VoiceConnectorGroup: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The Amazon Chime SDK Voice Connector group configuration, including associated Voice Connectors. You can include Voice Connectors from different AWS Regions in a group. This creates a fault tolerant mechanism for fallback in case of availability events.
     public struct VoiceConnectorGroup: Swift.Equatable {
+        /// The Voice Connector group's creation time stamp, in ISO 8601 format.
         public var createdTimestamp: ClientRuntime.Date?
+        /// The name of a Voice Connector group.
         public var name: Swift.String?
+        /// The Voice Connector group's creation time stamp, in ISO 8601 format.
         public var updatedTimestamp: ClientRuntime.Date?
+        /// The ARN of the Voice Connector group.
         public var voiceConnectorGroupArn: Swift.String?
+        /// The ID of a Voice Connector group.
         public var voiceConnectorGroupId: Swift.String?
+        /// The Voice Connectors to which you route inbound calls.
         public var voiceConnectorItems: [ChimeSDKVoiceClientTypes.VoiceConnectorItem]?
 
         public init (
@@ -12959,9 +16382,12 @@ extension ChimeSDKVoiceClientTypes.VoiceConnectorItem: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// For Amazon Chime SDK Voice Connector groups, the Amazon Chime SDK Voice Connectors to which you route inbound calls. Includes priority configuration settings. Limit: 3 VoiceConnectorItems per Voice Connector group.
     public struct VoiceConnectorItem: Swift.Equatable {
+        /// The priority setting of a Voice Connector item. Calls are routed to hosts in priority order, with 1 as the highest priority. When hosts have equal priority, the system distributes calls among them based on their relative weight.
         /// This member is required.
         public var priority: Swift.Int?
+        /// The Voice Connector ID.
         /// This member is required.
         public var voiceConnectorId: Swift.String?
 
@@ -12997,7 +16423,9 @@ extension ChimeSDKVoiceClientTypes.VoiceConnectorSettings: Swift.Codable {
 }
 
 extension ChimeSDKVoiceClientTypes {
+    /// The Amazon Chime SDK Voice Connector settings. Includes any Amazon S3 buckets designated for storing call detail records.
     public struct VoiceConnectorSettings: Swift.Equatable {
+        /// The S3 bucket that stores the Voice Connector's call detail records.
         public var cdrBucket: Swift.String?
 
         public init (
@@ -13005,6 +16433,471 @@ extension ChimeSDKVoiceClientTypes {
         )
         {
             self.cdrBucket = cdrBucket
+        }
+    }
+
+}
+
+extension ChimeSDKVoiceClientTypes.VoiceProfile: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTimestamp = "CreatedTimestamp"
+        case expirationTimestamp = "ExpirationTimestamp"
+        case updatedTimestamp = "UpdatedTimestamp"
+        case voiceProfileArn = "VoiceProfileArn"
+        case voiceProfileDomainId = "VoiceProfileDomainId"
+        case voiceProfileId = "VoiceProfileId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .dateTime, forKey: .createdTimestamp)
+        }
+        if let expirationTimestamp = self.expirationTimestamp {
+            try encodeContainer.encodeTimestamp(expirationTimestamp, format: .dateTime, forKey: .expirationTimestamp)
+        }
+        if let updatedTimestamp = self.updatedTimestamp {
+            try encodeContainer.encodeTimestamp(updatedTimestamp, format: .dateTime, forKey: .updatedTimestamp)
+        }
+        if let voiceProfileArn = self.voiceProfileArn {
+            try encodeContainer.encode(voiceProfileArn, forKey: .voiceProfileArn)
+        }
+        if let voiceProfileDomainId = self.voiceProfileDomainId {
+            try encodeContainer.encode(voiceProfileDomainId, forKey: .voiceProfileDomainId)
+        }
+        if let voiceProfileId = self.voiceProfileId {
+            try encodeContainer.encode(voiceProfileId, forKey: .voiceProfileId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceProfileIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .voiceProfileId)
+        voiceProfileId = voiceProfileIdDecoded
+        let voiceProfileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .voiceProfileArn)
+        voiceProfileArn = voiceProfileArnDecoded
+        let voiceProfileDomainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .voiceProfileDomainId)
+        voiceProfileDomainId = voiceProfileDomainIdDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let updatedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedTimestamp)
+        updatedTimestamp = updatedTimestampDecoded
+        let expirationTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .expirationTimestamp)
+        expirationTimestamp = expirationTimestampDecoded
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.VoiceProfile: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "VoiceProfile(createdTimestamp: \(Swift.String(describing: createdTimestamp)), expirationTimestamp: \(Swift.String(describing: expirationTimestamp)), updatedTimestamp: \(Swift.String(describing: updatedTimestamp)), voiceProfileDomainId: \(Swift.String(describing: voiceProfileDomainId)), voiceProfileId: \(Swift.String(describing: voiceProfileId)), voiceProfileArn: \"CONTENT_REDACTED\")"}
+}
+
+extension ChimeSDKVoiceClientTypes {
+    /// The combination of a voice print and caller ID.
+    public struct VoiceProfile: Swift.Equatable {
+        /// The time at which the voice profile was created and enrolled.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// The time at which a voice profile expires unless you re-enroll the caller via the UpdateVoiceProfile API.
+        public var expirationTimestamp: ClientRuntime.Date?
+        /// The time at which the voice profile was last updated.
+        public var updatedTimestamp: ClientRuntime.Date?
+        /// The ARN of the voice profile.
+        public var voiceProfileArn: Swift.String?
+        /// The ID of the domain that contains the voice profile.
+        public var voiceProfileDomainId: Swift.String?
+        /// The ID of the voice profile.
+        public var voiceProfileId: Swift.String?
+
+        public init (
+            createdTimestamp: ClientRuntime.Date? = nil,
+            expirationTimestamp: ClientRuntime.Date? = nil,
+            updatedTimestamp: ClientRuntime.Date? = nil,
+            voiceProfileArn: Swift.String? = nil,
+            voiceProfileDomainId: Swift.String? = nil,
+            voiceProfileId: Swift.String? = nil
+        )
+        {
+            self.createdTimestamp = createdTimestamp
+            self.expirationTimestamp = expirationTimestamp
+            self.updatedTimestamp = updatedTimestamp
+            self.voiceProfileArn = voiceProfileArn
+            self.voiceProfileDomainId = voiceProfileDomainId
+            self.voiceProfileId = voiceProfileId
+        }
+    }
+
+}
+
+extension ChimeSDKVoiceClientTypes.VoiceProfileDomain: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTimestamp = "CreatedTimestamp"
+        case description = "Description"
+        case name = "Name"
+        case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
+        case updatedTimestamp = "UpdatedTimestamp"
+        case voiceProfileDomainArn = "VoiceProfileDomainArn"
+        case voiceProfileDomainId = "VoiceProfileDomainId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .dateTime, forKey: .createdTimestamp)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let serverSideEncryptionConfiguration = self.serverSideEncryptionConfiguration {
+            try encodeContainer.encode(serverSideEncryptionConfiguration, forKey: .serverSideEncryptionConfiguration)
+        }
+        if let updatedTimestamp = self.updatedTimestamp {
+            try encodeContainer.encodeTimestamp(updatedTimestamp, format: .dateTime, forKey: .updatedTimestamp)
+        }
+        if let voiceProfileDomainArn = self.voiceProfileDomainArn {
+            try encodeContainer.encode(voiceProfileDomainArn, forKey: .voiceProfileDomainArn)
+        }
+        if let voiceProfileDomainId = self.voiceProfileDomainId {
+            try encodeContainer.encode(voiceProfileDomainId, forKey: .voiceProfileDomainId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceProfileDomainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .voiceProfileDomainId)
+        voiceProfileDomainId = voiceProfileDomainIdDecoded
+        let voiceProfileDomainArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .voiceProfileDomainArn)
+        voiceProfileDomainArn = voiceProfileDomainArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let serverSideEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration.self, forKey: .serverSideEncryptionConfiguration)
+        serverSideEncryptionConfiguration = serverSideEncryptionConfigurationDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let updatedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedTimestamp)
+        updatedTimestamp = updatedTimestampDecoded
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.VoiceProfileDomain: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "VoiceProfileDomain(createdTimestamp: \(Swift.String(describing: createdTimestamp)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), serverSideEncryptionConfiguration: \(Swift.String(describing: serverSideEncryptionConfiguration)), updatedTimestamp: \(Swift.String(describing: updatedTimestamp)), voiceProfileDomainId: \(Swift.String(describing: voiceProfileDomainId)), voiceProfileDomainArn: \"CONTENT_REDACTED\")"}
+}
+
+extension ChimeSDKVoiceClientTypes {
+    /// A collection of voice profiles.
+    public struct VoiceProfileDomain: Swift.Equatable {
+        /// The time at which the voice profile domain was created.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// The description of the voice profile domain.
+        public var description: Swift.String?
+        /// The name of the voice profile domain.
+        public var name: Swift.String?
+        /// A structure that contains the configuration settings for server-side encryption.
+        public var serverSideEncryptionConfiguration: ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration?
+        /// The time at which the voice profile was last updated.
+        public var updatedTimestamp: ClientRuntime.Date?
+        /// The voice profile domain's Amazon Resource Number (ARN).
+        public var voiceProfileDomainArn: Swift.String?
+        /// The ID of the voice profile domain.
+        public var voiceProfileDomainId: Swift.String?
+
+        public init (
+            createdTimestamp: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            serverSideEncryptionConfiguration: ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration? = nil,
+            updatedTimestamp: ClientRuntime.Date? = nil,
+            voiceProfileDomainArn: Swift.String? = nil,
+            voiceProfileDomainId: Swift.String? = nil
+        )
+        {
+            self.createdTimestamp = createdTimestamp
+            self.description = description
+            self.name = name
+            self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
+            self.updatedTimestamp = updatedTimestamp
+            self.voiceProfileDomainArn = voiceProfileDomainArn
+            self.voiceProfileDomainId = voiceProfileDomainId
+        }
+    }
+
+}
+
+extension ChimeSDKVoiceClientTypes.VoiceProfileDomainSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTimestamp = "CreatedTimestamp"
+        case description = "Description"
+        case name = "Name"
+        case updatedTimestamp = "UpdatedTimestamp"
+        case voiceProfileDomainArn = "VoiceProfileDomainArn"
+        case voiceProfileDomainId = "VoiceProfileDomainId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .dateTime, forKey: .createdTimestamp)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let updatedTimestamp = self.updatedTimestamp {
+            try encodeContainer.encodeTimestamp(updatedTimestamp, format: .dateTime, forKey: .updatedTimestamp)
+        }
+        if let voiceProfileDomainArn = self.voiceProfileDomainArn {
+            try encodeContainer.encode(voiceProfileDomainArn, forKey: .voiceProfileDomainArn)
+        }
+        if let voiceProfileDomainId = self.voiceProfileDomainId {
+            try encodeContainer.encode(voiceProfileDomainId, forKey: .voiceProfileDomainId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceProfileDomainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .voiceProfileDomainId)
+        voiceProfileDomainId = voiceProfileDomainIdDecoded
+        let voiceProfileDomainArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .voiceProfileDomainArn)
+        voiceProfileDomainArn = voiceProfileDomainArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let updatedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedTimestamp)
+        updatedTimestamp = updatedTimestampDecoded
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.VoiceProfileDomainSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "VoiceProfileDomainSummary(createdTimestamp: \(Swift.String(describing: createdTimestamp)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), updatedTimestamp: \(Swift.String(describing: updatedTimestamp)), voiceProfileDomainId: \(Swift.String(describing: voiceProfileDomainId)), voiceProfileDomainArn: \"CONTENT_REDACTED\")"}
+}
+
+extension ChimeSDKVoiceClientTypes {
+    /// A high-level overview of a voice profile domain.
+    public struct VoiceProfileDomainSummary: Swift.Equatable {
+        /// The time at which the voice profile domain summary was created.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// Describes the voice profile domain summary.
+        public var description: Swift.String?
+        /// The name of the voice profile domain summary.
+        public var name: Swift.String?
+        /// The time at which the voice profile domain summary was last updated.
+        public var updatedTimestamp: ClientRuntime.Date?
+        /// The ARN of a voice profile in a voice profile domain summary.
+        public var voiceProfileDomainArn: Swift.String?
+        /// The ID of the voice profile domain summary.
+        public var voiceProfileDomainId: Swift.String?
+
+        public init (
+            createdTimestamp: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            updatedTimestamp: ClientRuntime.Date? = nil,
+            voiceProfileDomainArn: Swift.String? = nil,
+            voiceProfileDomainId: Swift.String? = nil
+        )
+        {
+            self.createdTimestamp = createdTimestamp
+            self.description = description
+            self.name = name
+            self.updatedTimestamp = updatedTimestamp
+            self.voiceProfileDomainArn = voiceProfileDomainArn
+            self.voiceProfileDomainId = voiceProfileDomainId
+        }
+    }
+
+}
+
+extension ChimeSDKVoiceClientTypes.VoiceProfileSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTimestamp = "CreatedTimestamp"
+        case expirationTimestamp = "ExpirationTimestamp"
+        case updatedTimestamp = "UpdatedTimestamp"
+        case voiceProfileArn = "VoiceProfileArn"
+        case voiceProfileDomainId = "VoiceProfileDomainId"
+        case voiceProfileId = "VoiceProfileId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .dateTime, forKey: .createdTimestamp)
+        }
+        if let expirationTimestamp = self.expirationTimestamp {
+            try encodeContainer.encodeTimestamp(expirationTimestamp, format: .dateTime, forKey: .expirationTimestamp)
+        }
+        if let updatedTimestamp = self.updatedTimestamp {
+            try encodeContainer.encodeTimestamp(updatedTimestamp, format: .dateTime, forKey: .updatedTimestamp)
+        }
+        if let voiceProfileArn = self.voiceProfileArn {
+            try encodeContainer.encode(voiceProfileArn, forKey: .voiceProfileArn)
+        }
+        if let voiceProfileDomainId = self.voiceProfileDomainId {
+            try encodeContainer.encode(voiceProfileDomainId, forKey: .voiceProfileDomainId)
+        }
+        if let voiceProfileId = self.voiceProfileId {
+            try encodeContainer.encode(voiceProfileId, forKey: .voiceProfileId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceProfileIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .voiceProfileId)
+        voiceProfileId = voiceProfileIdDecoded
+        let voiceProfileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .voiceProfileArn)
+        voiceProfileArn = voiceProfileArnDecoded
+        let voiceProfileDomainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .voiceProfileDomainId)
+        voiceProfileDomainId = voiceProfileDomainIdDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let updatedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedTimestamp)
+        updatedTimestamp = updatedTimestampDecoded
+        let expirationTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .expirationTimestamp)
+        expirationTimestamp = expirationTimestampDecoded
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.VoiceProfileSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "VoiceProfileSummary(createdTimestamp: \(Swift.String(describing: createdTimestamp)), expirationTimestamp: \(Swift.String(describing: expirationTimestamp)), updatedTimestamp: \(Swift.String(describing: updatedTimestamp)), voiceProfileDomainId: \(Swift.String(describing: voiceProfileDomainId)), voiceProfileId: \(Swift.String(describing: voiceProfileId)), voiceProfileArn: \"CONTENT_REDACTED\")"}
+}
+
+extension ChimeSDKVoiceClientTypes {
+    /// A high-level summary of a voice profile.
+    public struct VoiceProfileSummary: Swift.Equatable {
+        /// The time at which a voice profile summary was created.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// Extends the life of the voice profile. You can use UpdateVoiceProfile to refresh an existing voice profile's voice print and extend the life of the summary.
+        public var expirationTimestamp: ClientRuntime.Date?
+        /// The time at which a voice profile summary was last updated.
+        public var updatedTimestamp: ClientRuntime.Date?
+        /// The ARN of the voice profile in a voice profile summary.
+        public var voiceProfileArn: Swift.String?
+        /// The ID of the voice profile domain in a voice profile summary.
+        public var voiceProfileDomainId: Swift.String?
+        /// The ID of the voice profile in a voice profile summary.
+        public var voiceProfileId: Swift.String?
+
+        public init (
+            createdTimestamp: ClientRuntime.Date? = nil,
+            expirationTimestamp: ClientRuntime.Date? = nil,
+            updatedTimestamp: ClientRuntime.Date? = nil,
+            voiceProfileArn: Swift.String? = nil,
+            voiceProfileDomainId: Swift.String? = nil,
+            voiceProfileId: Swift.String? = nil
+        )
+        {
+            self.createdTimestamp = createdTimestamp
+            self.expirationTimestamp = expirationTimestamp
+            self.updatedTimestamp = updatedTimestamp
+            self.voiceProfileArn = voiceProfileArn
+            self.voiceProfileDomainId = voiceProfileDomainId
+            self.voiceProfileId = voiceProfileId
+        }
+    }
+
+}
+
+extension ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case callDetails = "CallDetails"
+        case createdTimestamp = "CreatedTimestamp"
+        case startedTimestamp = "StartedTimestamp"
+        case statusMessage = "StatusMessage"
+        case updatedTimestamp = "UpdatedTimestamp"
+        case voiceToneAnalysisTaskId = "VoiceToneAnalysisTaskId"
+        case voiceToneAnalysisTaskStatus = "VoiceToneAnalysisTaskStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let callDetails = self.callDetails {
+            try encodeContainer.encode(callDetails, forKey: .callDetails)
+        }
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .dateTime, forKey: .createdTimestamp)
+        }
+        if let startedTimestamp = self.startedTimestamp {
+            try encodeContainer.encodeTimestamp(startedTimestamp, format: .dateTime, forKey: .startedTimestamp)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+        if let updatedTimestamp = self.updatedTimestamp {
+            try encodeContainer.encodeTimestamp(updatedTimestamp, format: .dateTime, forKey: .updatedTimestamp)
+        }
+        if let voiceToneAnalysisTaskId = self.voiceToneAnalysisTaskId {
+            try encodeContainer.encode(voiceToneAnalysisTaskId, forKey: .voiceToneAnalysisTaskId)
+        }
+        if let voiceToneAnalysisTaskStatus = self.voiceToneAnalysisTaskStatus {
+            try encodeContainer.encode(voiceToneAnalysisTaskStatus, forKey: .voiceToneAnalysisTaskStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voiceToneAnalysisTaskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .voiceToneAnalysisTaskId)
+        voiceToneAnalysisTaskId = voiceToneAnalysisTaskIdDecoded
+        let voiceToneAnalysisTaskStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .voiceToneAnalysisTaskStatus)
+        voiceToneAnalysisTaskStatus = voiceToneAnalysisTaskStatusDecoded
+        let callDetailsDecoded = try containerValues.decodeIfPresent(ChimeSDKVoiceClientTypes.CallDetails.self, forKey: .callDetails)
+        callDetails = callDetailsDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let updatedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedTimestamp)
+        updatedTimestamp = updatedTimestampDecoded
+        let startedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startedTimestamp)
+        startedTimestamp = startedTimestampDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+    }
+}
+
+extension ChimeSDKVoiceClientTypes {
+    /// A representation of an asynchronous request to perform voice tone analysis on a Voice Connector call.
+    public struct VoiceToneAnalysisTask: Swift.Equatable {
+        /// The call details of a voice tone analysis task.
+        public var callDetails: ChimeSDKVoiceClientTypes.CallDetails?
+        /// The time at which a voice tone analysis task was created.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// The time at which a voice tone analysis task started.
+        public var startedTimestamp: ClientRuntime.Date?
+        /// The status of a voice tone analysis task.
+        public var statusMessage: Swift.String?
+        /// The time at which a voice tone analysis task was updated.
+        public var updatedTimestamp: ClientRuntime.Date?
+        /// The ID of the voice tone analysis task.
+        public var voiceToneAnalysisTaskId: Swift.String?
+        /// The status of a voice tone analysis task, IN_QUEUE, IN_PROGRESS, PARTIAL_SUCCESS, SUCCEEDED, FAILED, or STOPPED.
+        public var voiceToneAnalysisTaskStatus: Swift.String?
+
+        public init (
+            callDetails: ChimeSDKVoiceClientTypes.CallDetails? = nil,
+            createdTimestamp: ClientRuntime.Date? = nil,
+            startedTimestamp: ClientRuntime.Date? = nil,
+            statusMessage: Swift.String? = nil,
+            updatedTimestamp: ClientRuntime.Date? = nil,
+            voiceToneAnalysisTaskId: Swift.String? = nil,
+            voiceToneAnalysisTaskStatus: Swift.String? = nil
+        )
+        {
+            self.callDetails = callDetails
+            self.createdTimestamp = createdTimestamp
+            self.startedTimestamp = startedTimestamp
+            self.statusMessage = statusMessage
+            self.updatedTimestamp = updatedTimestamp
+            self.voiceToneAnalysisTaskId = voiceToneAnalysisTaskId
+            self.voiceToneAnalysisTaskStatus = voiceToneAnalysisTaskStatus
         }
     }
 

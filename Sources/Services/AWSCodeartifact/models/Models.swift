@@ -245,6 +245,8 @@ public struct AssociateExternalConnectionInput: Swift.Equatable {
     /// * public:maven-gradleplugins - for the Gradle plugins repository.
     ///
     /// * public:maven-commonsware - for the CommonsWare Android repository.
+    ///
+    /// * public:maven-clojars - for the Clojars repository.
     /// This member is required.
     public var externalConnection: Swift.String?
     /// The name of the repository to which the external connection is added.
@@ -530,7 +532,7 @@ public struct CopyPackageVersionsInput: Swift.Equatable {
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     ///
-    /// * The namespace of a generic package is it’s namespace.
+    /// * The namespace of a generic package is its namespace.
     public var namespace: Swift.String?
     /// The name of the package that contains the versions to be copied.
     /// This member is required.
@@ -1424,6 +1426,8 @@ public struct DeletePackageInput: Swift.Equatable {
     /// * The namespace of an npm package is its scope.
     ///
     /// * Python and NuGet packages do not contain corresponding components, packages of those formats do not have a namespace.
+    ///
+    /// * The namespace of a generic package is its namespace.
     public var namespace: Swift.String?
     /// The name of the package to delete.
     /// This member is required.
@@ -1618,7 +1622,7 @@ public struct DeletePackageVersionsInput: Swift.Equatable {
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     ///
-    /// * The namespace of a generic package is it’s namespace.
+    /// * The namespace of a generic package is its namespace.
     public var namespace: Swift.String?
     /// The name of the package with the versions to delete.
     /// This member is required.
@@ -2258,7 +2262,7 @@ public struct DescribePackageInput: Swift.Equatable {
     ///
     /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
     ///
-    /// * The namespace of a generic package is it’s namespace.
+    /// * The namespace of a generic package is its namespace.
     public var namespace: Swift.String?
     /// The name of the requested package.
     /// This member is required.
@@ -2436,7 +2440,7 @@ public struct DescribePackageVersionInput: Swift.Equatable {
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     ///
-    /// * The namespace of a generic package is it’s namespace.
+    /// * The namespace of a generic package is its namespace.
     public var namespace: Swift.String?
     /// The name of the requested package version.
     /// This member is required.
@@ -2925,7 +2929,7 @@ public struct DisposePackageVersionsInput: Swift.Equatable {
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     ///
-    /// * The namespace of a generic package is it’s namespace.
+    /// * The namespace of a generic package is its namespace.
     public var namespace: Swift.String?
     /// The name of the package with the versions you want to dispose.
     /// This member is required.
@@ -3769,7 +3773,7 @@ public struct GetPackageVersionAssetInput: Swift.Equatable {
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     ///
-    /// * The namespace of a generic package is it’s namespace.
+    /// * The namespace of a generic package is its namespace.
     public var namespace: Swift.String?
     /// The name of the package that contains the requested asset.
     /// This member is required.
@@ -3976,8 +3980,6 @@ public struct GetPackageVersionReadmeInput: Swift.Equatable {
     /// This member is required.
     public var format: CodeartifactClientTypes.PackageFormat?
     /// The namespace of the package version with the requested readme file. The package version component that specifies its namespace depends on its type. For example:
-    ///
-    /// * The namespace of a Maven package version is its groupId.
     ///
     /// * The namespace of an npm package version is its scope.
     ///
@@ -4789,7 +4791,7 @@ public struct ListPackageVersionAssetsInput: Swift.Equatable {
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     ///
-    /// * The namespace of a generic package is it’s namespace.
+    /// * The namespace of a generic package is its namespace.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -5056,7 +5058,7 @@ public struct ListPackageVersionDependenciesInput: Swift.Equatable {
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     ///
-    /// * The namespace of a generic package is it’s namespace.
+    /// * The namespace of a generic package is its namespace.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -5333,7 +5335,7 @@ public struct ListPackageVersionsInput: Swift.Equatable {
     ///
     /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
     ///
-    /// * The namespace of a generic package is it’s namespace.
+    /// * The namespace of a generic package is its namespace.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -5604,7 +5606,7 @@ public struct ListPackagesInput: Swift.Equatable {
     ///
     /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
     ///
-    /// * The namespace of a generic package is it’s namespace.
+    /// * The namespace of a generic package is its namespace.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -6312,7 +6314,7 @@ extension CodeartifactClientTypes {
         ///
         /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
         ///
-        /// * The namespace of a generic package is it’s namespace.
+        /// * The namespace of a generic package is its namespace.
         public var namespace: Swift.String?
         /// The package origin configuration for the package.
         public var originConfiguration: CodeartifactClientTypes.PackageOriginConfiguration?
@@ -6506,7 +6508,7 @@ extension CodeartifactClientTypes {
         ///
         /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
         ///
-        /// * The namespace of a generic package is it’s namespace.
+        /// * The namespace of a generic package is its namespace.
         public var namespace: Swift.String?
         /// A [PackageOriginConfiguration](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginConfiguration.html) object that contains a [PackageOriginRestrictions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html) object that contains information about the upstream and publish package origin restrictions.
         public var originConfiguration: CodeartifactClientTypes.PackageOriginConfiguration?
@@ -6651,7 +6653,7 @@ extension CodeartifactClientTypes {
         ///
         /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
         ///
-        /// * The namespace of a generic package is it’s namespace.
+        /// * The namespace of a generic package is its namespace.
         public var namespace: Swift.String?
         /// A [PackageVersionOrigin](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionOrigin.html) object that contains information about how the package version was added to the repository.
         public var origin: CodeartifactClientTypes.PackageVersionOrigin?
@@ -7144,7 +7146,7 @@ public struct PublishPackageVersionInput: Swift.Equatable {
     /// The name of the asset to publish. Asset names can include Unicode letters and numbers, and the following special characters: ~ ! @ ^ & ( ) - ` _ + [ ] { } ; , . `
     /// This member is required.
     public var assetName: Swift.String?
-    /// The SHA256 hash of the assetContent to publish. This value must be calculated by the caller and provided with the request. This value is used as an integrity check to verify that the assetContent has not changed after it was originally sent.
+    /// The SHA256 hash of the assetContent to publish. This value must be calculated by the caller and provided with the request (see [Publishing a generic package](https://docs.aws.amazon.com/codeartifact/latest/ug/using-generic.html#publishing-generic-packages) in the CodeArtifact User Guide). This value is used as an integrity check to verify that the assetContent has not changed after it was originally sent.
     /// This member is required.
     public var assetSHA256: Swift.String?
     /// The name of the domain that contains the repository that contains the package version to publish.
@@ -7166,7 +7168,7 @@ public struct PublishPackageVersionInput: Swift.Equatable {
     /// The name of the repository that the package version will be published to.
     /// This member is required.
     public var repository: Swift.String?
-    /// Specifies whether the package version should remain in the unfinished state. If omitted, the package version status will be set to Published (see [Package version status](https://docs.aws.amazon.com/codeartifact/latest/ug/packages-overview.html#package-version-status.html#package-version-status) in the CodeArtifact User Guide). Valid values: unfinished
+    /// Specifies whether the package version should remain in the unfinished state. If omitted, the package version status will be set to Published (see [Package version status](https://docs.aws.amazon.com/codeartifact/latest/ug/packages-overview.html#package-version-status) in the CodeArtifact User Guide). Valid values: unfinished
     public var unfinished: Swift.Bool?
 
     public init (
@@ -7585,7 +7587,7 @@ public struct PutPackageOriginConfigurationInput: Swift.Equatable {
     ///
     /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
     ///
-    /// * The namespace of a generic package is it’s namespace.
+    /// * The namespace of a generic package is its namespace.
     public var namespace: Swift.String?
     /// The name of the package to be updated.
     /// This member is required.
@@ -7882,6 +7884,7 @@ extension CodeartifactClientTypes.RepositoryDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case administratorAccount
         case arn
+        case createdTime
         case description
         case domainName
         case domainOwner
@@ -7897,6 +7900,9 @@ extension CodeartifactClientTypes.RepositoryDescription: Swift.Codable {
         }
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
@@ -7960,6 +7966,8 @@ extension CodeartifactClientTypes.RepositoryDescription: Swift.Codable {
             }
         }
         externalConnections = externalConnectionsDecoded0
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
     }
 }
 
@@ -7970,6 +7978,8 @@ extension CodeartifactClientTypes {
         public var administratorAccount: Swift.String?
         /// The Amazon Resource Name (ARN) of the repository.
         public var arn: Swift.String?
+        /// A timestamp that represents the date and time the repository was created.
+        public var createdTime: ClientRuntime.Date?
         /// A text description of the repository.
         public var description: Swift.String?
         /// The name of the domain that contains the repository.
@@ -7986,6 +7996,7 @@ extension CodeartifactClientTypes {
         public init (
             administratorAccount: Swift.String? = nil,
             arn: Swift.String? = nil,
+            createdTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             domainName: Swift.String? = nil,
             domainOwner: Swift.String? = nil,
@@ -7996,6 +8007,7 @@ extension CodeartifactClientTypes {
         {
             self.administratorAccount = administratorAccount
             self.arn = arn
+            self.createdTime = createdTime
             self.description = description
             self.domainName = domainName
             self.domainOwner = domainOwner
@@ -8074,6 +8086,7 @@ extension CodeartifactClientTypes.RepositorySummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case administratorAccount
         case arn
+        case createdTime
         case description
         case domainName
         case domainOwner
@@ -8087,6 +8100,9 @@ extension CodeartifactClientTypes.RepositorySummary: Swift.Codable {
         }
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
@@ -8116,6 +8132,8 @@ extension CodeartifactClientTypes.RepositorySummary: Swift.Codable {
         arn = arnDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
     }
 }
 
@@ -8126,6 +8144,8 @@ extension CodeartifactClientTypes {
         public var administratorAccount: Swift.String?
         /// The ARN of the repository.
         public var arn: Swift.String?
+        /// A timestamp that represents the date and time the repository was created.
+        public var createdTime: ClientRuntime.Date?
         /// The description of the repository.
         public var description: Swift.String?
         /// The name of the domain that contains the repository.
@@ -8138,6 +8158,7 @@ extension CodeartifactClientTypes {
         public init (
             administratorAccount: Swift.String? = nil,
             arn: Swift.String? = nil,
+            createdTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             domainName: Swift.String? = nil,
             domainOwner: Swift.String? = nil,
@@ -8146,6 +8167,7 @@ extension CodeartifactClientTypes {
         {
             self.administratorAccount = administratorAccount
             self.arn = arn
+            self.createdTime = createdTime
             self.description = description
             self.domainName = domainName
             self.domainOwner = domainOwner
@@ -8886,7 +8908,7 @@ public struct UpdatePackageVersionsStatusInput: Swift.Equatable {
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     ///
-    /// * The namespace of a generic package is it’s namespace.
+    /// * The namespace of a generic package is its namespace.
     public var namespace: Swift.String?
     /// The name of the package with the version statuses to update.
     /// This member is required.

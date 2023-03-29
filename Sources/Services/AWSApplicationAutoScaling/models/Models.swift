@@ -221,7 +221,7 @@ extension ApplicationAutoScalingClientTypes {
     public struct CustomizedMetricSpecification: Swift.Equatable {
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
         public var dimensions: [ApplicationAutoScalingClientTypes.MetricDimension]?
-        /// The name of the metric. To get the exact metric name, namespace, and dimensions, inspect the [Metric](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html) object that is returned by a call to [ListMetrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html).
+        /// The name of the metric. To get the exact metric name, namespace, and dimensions, inspect the [Metric](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html) object that's returned by a call to [ListMetrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html).
         public var metricName: Swift.String?
         /// The metrics to include in the target tracking scaling policy, as a metric data query. This can include both raw metric and metric math expressions.
         public var metrics: [ApplicationAutoScalingClientTypes.TargetTrackingMetricDataQuery]?
@@ -2136,6 +2136,126 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension ListTagsForResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceARN = "ResourceARN"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceARN = self.resourceARN {
+            try encodeContainer.encode(resourceARN, forKey: .resourceARN)
+        }
+    }
+}
+
+extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Equatable {
+    /// Specify the ARN of the scalable target. For example: arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123 To get the ARN for a scalable target, use [DescribeScalableTargets].
+    /// This member is required.
+    public var resourceARN: Swift.String?
+
+    public init (
+        resourceARN: Swift.String? = nil
+    )
+    {
+        self.resourceARN = resourceARN
+    }
+}
+
+struct ListTagsForResourceInputBody: Swift.Equatable {
+    let resourceARN: Swift.String?
+}
+
+extension ListTagsForResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceARN = "ResourceARN"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
+        resourceARN = resourceARNDecoded
+    }
+}
+
+extension ListTagsForResourceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListTagsForResourceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.tags = output.tags
+        } else {
+            self.tags = nil
+        }
+    }
+}
+
+public struct ListTagsForResourceOutputResponse: Swift.Equatable {
+    /// A list of tags. Each tag consists of a tag key and a tag value.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init (
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.tags = tags
+    }
+}
+
+struct ListTagsForResourceOutputResponseBody: Swift.Equatable {
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
 extension ApplicationAutoScalingClientTypes {
     public enum MetricAggregationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case average
@@ -3126,6 +3246,7 @@ extension RegisterScalableTargetInput: Swift.Encodable {
         case scalableDimension = "ScalableDimension"
         case serviceNamespace = "ServiceNamespace"
         case suspendedState = "SuspendedState"
+        case tags = "Tags"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3151,6 +3272,12 @@ extension RegisterScalableTargetInput: Swift.Encodable {
         if let suspendedState = self.suspendedState {
             try encodeContainer.encode(suspendedState, forKey: .suspendedState)
         }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
     }
 }
 
@@ -3161,7 +3288,7 @@ extension RegisterScalableTargetInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RegisterScalableTargetInput: Swift.Equatable {
-    /// The maximum value that you plan to scale out to. When a scaling policy is in effect, Application Auto Scaling can scale out (expand) as needed to the maximum capacity limit in response to changing demand. This property is required when registering a new scalable target. Although you can specify a large maximum capacity, note that service quotas may impose lower limits. Each service has its own default quotas for the maximum capacity of the resource. If you want to specify a higher limit, you can request an increase. For more information, consult the documentation for that service. For information about the default quotas for each service, see [Service endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/aws-service-information.html) in the Amazon Web Services General Reference.
+    /// The maximum value that you plan to scale out to. When a scaling policy is in effect, Application Auto Scaling can scale out (expand) as needed to the maximum capacity limit in response to changing demand. This property is required when registering a new scalable target. Although you can specify a large maximum capacity, note that service quotas might impose lower limits. Each service has its own default quotas for the maximum capacity of the resource. If you want to specify a higher limit, you can request an increase. For more information, consult the documentation for that service. For information about the default quotas for each service, see [Service endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/aws-service-information.html) in the Amazon Web Services General Reference.
     public var maxCapacity: Swift.Int?
     /// The minimum value that you plan to scale in to. When a scaling policy is in effect, Application Auto Scaling can scale in (contract) as needed to the minimum capacity limit in response to changing demand. This property is required when registering a new scalable target. For the following resources, the minimum value allowed is 0.
     ///
@@ -3278,6 +3405,8 @@ public struct RegisterScalableTargetInput: Swift.Equatable {
     ///
     /// For more information, see [Suspending and resuming scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-suspend-resume-scaling.html) in the Application Auto Scaling User Guide.
     public var suspendedState: ApplicationAutoScalingClientTypes.SuspendedState?
+    /// Assigns one or more tags to the scalable target. Use this parameter to tag the scalable target when it is created. To tag an existing scalable target, use the [TagResource] operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required. You cannot have more than one tag on a scalable target with the same tag key. Use tags to control access to a scalable target. For more information, see [Tagging support for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/resource-tagging-support.html) in the Application Auto Scaling User Guide.
+    public var tags: [Swift.String:Swift.String]?
 
     public init (
         maxCapacity: Swift.Int? = nil,
@@ -3286,7 +3415,8 @@ public struct RegisterScalableTargetInput: Swift.Equatable {
         roleARN: Swift.String? = nil,
         scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension? = nil,
         serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil,
-        suspendedState: ApplicationAutoScalingClientTypes.SuspendedState? = nil
+        suspendedState: ApplicationAutoScalingClientTypes.SuspendedState? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.maxCapacity = maxCapacity
@@ -3296,6 +3426,7 @@ public struct RegisterScalableTargetInput: Swift.Equatable {
         self.scalableDimension = scalableDimension
         self.serviceNamespace = serviceNamespace
         self.suspendedState = suspendedState
+        self.tags = tags
     }
 }
 
@@ -3307,6 +3438,7 @@ struct RegisterScalableTargetInputBody: Swift.Equatable {
     let maxCapacity: Swift.Int?
     let roleARN: Swift.String?
     let suspendedState: ApplicationAutoScalingClientTypes.SuspendedState?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension RegisterScalableTargetInputBody: Swift.Decodable {
@@ -3318,6 +3450,7 @@ extension RegisterScalableTargetInputBody: Swift.Decodable {
         case scalableDimension = "ScalableDimension"
         case serviceNamespace = "ServiceNamespace"
         case suspendedState = "SuspendedState"
+        case tags = "Tags"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -3336,6 +3469,17 @@ extension RegisterScalableTargetInputBody: Swift.Decodable {
         roleARN = roleARNDecoded
         let suspendedStateDecoded = try containerValues.decodeIfPresent(ApplicationAutoScalingClientTypes.SuspendedState.self, forKey: .suspendedState)
         suspendedState = suspendedStateDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -3369,12 +3513,105 @@ public enum RegisterScalableTargetOutputError: Swift.Error, Swift.Equatable {
 
 extension RegisterScalableTargetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: RegisterScalableTargetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.scalableTargetARN = output.scalableTargetARN
+        } else {
+            self.scalableTargetARN = nil
+        }
     }
 }
 
 public struct RegisterScalableTargetOutputResponse: Swift.Equatable {
+    /// The ARN of the scalable target.
+    public var scalableTargetARN: Swift.String?
 
-    public init () { }
+    public init (
+        scalableTargetARN: Swift.String? = nil
+    )
+    {
+        self.scalableTargetARN = scalableTargetARN
+    }
+}
+
+struct RegisterScalableTargetOutputResponseBody: Swift.Equatable {
+    let scalableTargetARN: Swift.String?
+}
+
+extension RegisterScalableTargetOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scalableTargetARN = "ScalableTargetARN"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scalableTargetARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scalableTargetARN)
+        scalableTargetARN = scalableTargetARNDecoded
+    }
+}
+
+extension ResourceNotFoundException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+            self.resourceName = output.resourceName
+        } else {
+            self.message = nil
+            self.resourceName = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The specified resource doesn't exist.
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+    /// The name of the Application Auto Scaling resource. This value is an Amazon Resource Name (ARN).
+    public var resourceName: Swift.String?
+
+    public init (
+        message: Swift.String? = nil,
+        resourceName: Swift.String? = nil
+    )
+    {
+        self.message = message
+        self.resourceName = resourceName
+    }
+}
+
+struct ResourceNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let resourceName: Swift.String?
+}
+
+extension ResourceNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+        case resourceName = "ResourceName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
+    }
 }
 
 extension ApplicationAutoScalingClientTypes {
@@ -3471,6 +3708,7 @@ extension ApplicationAutoScalingClientTypes.ScalableTarget: Swift.Codable {
         case resourceId = "ResourceId"
         case roleARN = "RoleARN"
         case scalableDimension = "ScalableDimension"
+        case scalableTargetARN = "ScalableTargetARN"
         case serviceNamespace = "ServiceNamespace"
         case suspendedState = "SuspendedState"
     }
@@ -3494,6 +3732,9 @@ extension ApplicationAutoScalingClientTypes.ScalableTarget: Swift.Codable {
         }
         if let scalableDimension = self.scalableDimension {
             try encodeContainer.encode(scalableDimension.rawValue, forKey: .scalableDimension)
+        }
+        if let scalableTargetARN = self.scalableTargetARN {
+            try encodeContainer.encode(scalableTargetARN, forKey: .scalableTargetARN)
         }
         if let serviceNamespace = self.serviceNamespace {
             try encodeContainer.encode(serviceNamespace.rawValue, forKey: .serviceNamespace)
@@ -3521,6 +3762,8 @@ extension ApplicationAutoScalingClientTypes.ScalableTarget: Swift.Codable {
         creationTime = creationTimeDecoded
         let suspendedStateDecoded = try containerValues.decodeIfPresent(ApplicationAutoScalingClientTypes.SuspendedState.self, forKey: .suspendedState)
         suspendedState = suspendedStateDecoded
+        let scalableTargetARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scalableTargetARN)
+        scalableTargetARN = scalableTargetARNDecoded
     }
 }
 
@@ -3617,6 +3860,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * neptune:cluster:ReadReplicaCount - The count of read replicas in an Amazon Neptune DB cluster.
         /// This member is required.
         public var scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
+        /// The ARN of the scalable target.
+        public var scalableTargetARN: Swift.String?
         /// The namespace of the Amazon Web Services service that provides the resource, or a custom-resource.
         /// This member is required.
         public var serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace?
@@ -3630,6 +3875,7 @@ extension ApplicationAutoScalingClientTypes {
             resourceId: Swift.String? = nil,
             roleARN: Swift.String? = nil,
             scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension? = nil,
+            scalableTargetARN: Swift.String? = nil,
             serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil,
             suspendedState: ApplicationAutoScalingClientTypes.SuspendedState? = nil
         )
@@ -3640,6 +3886,7 @@ extension ApplicationAutoScalingClientTypes {
             self.resourceId = resourceId
             self.roleARN = roleARN
             self.scalableDimension = scalableDimension
+            self.scalableTargetARN = scalableTargetARN
             self.serviceNamespace = serviceNamespace
             self.suspendedState = suspendedState
         }
@@ -4513,9 +4760,9 @@ extension ApplicationAutoScalingClientTypes.StepAdjustment: Swift.Codable {
 extension ApplicationAutoScalingClientTypes {
     /// Represents a step adjustment for a [StepScalingPolicyConfiguration](https://docs.aws.amazon.com/autoscaling/application/APIReference/API_StepScalingPolicyConfiguration.html). Describes an adjustment based on the difference between the value of the aggregated CloudWatch metric and the breach threshold that you've defined for the alarm. For the following examples, suppose that you have an alarm with a breach threshold of 50:
     ///
-    /// * To trigger the adjustment when the metric is greater than or equal to 50 and less than 60, specify a lower bound of 0 and an upper bound of 10.
+    /// * To initiate the adjustment when the metric is greater than or equal to 50 and less than 60, specify a lower bound of 0 and an upper bound of 10.
     ///
-    /// * To trigger the adjustment when the metric is greater than 40 and less than or equal to 50, specify a lower bound of -10 and an upper bound of 0.
+    /// * To initiate the adjustment when the metric is greater than 40 and less than or equal to 50, specify a lower bound of -10 and an upper bound of 0.
     ///
     ///
     /// There are a few rules for the step adjustments for your step policy:
@@ -4528,9 +4775,9 @@ extension ApplicationAutoScalingClientTypes {
     ///
     /// * The upper and lower bound can't be null in the same step adjustment.
     public struct StepAdjustment: Swift.Equatable {
-        /// The lower bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the lower bound is inclusive (the metric must be greater than or equal to the threshold plus the lower bound). Otherwise, it is exclusive (the metric must be greater than the threshold plus the lower bound). A null value indicates negative infinity.
+        /// The lower bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the lower bound is inclusive (the metric must be greater than or equal to the threshold plus the lower bound). Otherwise, it's exclusive (the metric must be greater than the threshold plus the lower bound). A null value indicates negative infinity.
         public var metricIntervalLowerBound: Swift.Double?
-        /// The upper bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the upper bound is exclusive (the metric must be less than the threshold plus the upper bound). Otherwise, it is inclusive (the metric must be less than or equal to the threshold plus the upper bound). A null value indicates positive infinity. The upper bound must be greater than the lower bound.
+        /// The upper bound for the difference between the alarm threshold and the CloudWatch metric. If the metric value is above the breach threshold, the upper bound is exclusive (the metric must be less than the threshold plus the upper bound). Otherwise, it's inclusive (the metric must be less than or equal to the threshold plus the upper bound). A null value indicates positive infinity. The upper bound must be greater than the lower bound.
         public var metricIntervalUpperBound: Swift.Double?
         /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity. For exact capacity, you must specify a positive value.
         /// This member is required.
@@ -4719,6 +4966,115 @@ extension ApplicationAutoScalingClientTypes {
         }
     }
 
+}
+
+extension TagResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceARN = "ResourceARN"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceARN = self.resourceARN {
+            try encodeContainer.encode(resourceARN, forKey: .resourceARN)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension TagResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct TagResourceInput: Swift.Equatable {
+    /// Identifies the Application Auto Scaling scalable target that you want to apply tags to. For example: arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123 To get the ARN for a scalable target, use [DescribeScalableTargets].
+    /// This member is required.
+    public var resourceARN: Swift.String?
+    /// The tags assigned to the resource. A tag is a label that you assign to an AWS resource. Each tag consists of a tag key and a tag value. You cannot have more than one tag on an Application Auto Scaling scalable target with the same tag key. If you specify an existing tag key with a different tag value, Application Auto Scaling replaces the current tag value with the specified one. For information about the rules that apply to tag keys and tag values, see [User-defined tag restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html) in the Amazon Web Services Billing and Cost Management User Guide.
+    /// This member is required.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init (
+        resourceARN: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.resourceARN = resourceARN
+        self.tags = tags
+    }
+}
+
+struct TagResourceInputBody: Swift.Equatable {
+    let resourceARN: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension TagResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceARN = "ResourceARN"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
+        resourceARN = resourceARNDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension TagResourceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension TagResourceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
+    case resourceNotFoundException(ResourceNotFoundException)
+    case tooManyTagsException(TooManyTagsException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct TagResourceOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension ApplicationAutoScalingClientTypes.TargetTrackingMetric: Swift.Codable {
@@ -4948,7 +5304,7 @@ extension ApplicationAutoScalingClientTypes {
         /// The CloudWatch metric to return, including the metric name, namespace, and dimensions. To get the exact metric name, namespace, and dimensions, inspect the [Metric](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html) object that is returned by a call to [ListMetrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html).
         /// This member is required.
         public var metric: ApplicationAutoScalingClientTypes.TargetTrackingMetric?
-        /// The statistic to return. It can include any CloudWatch statistic or extended statistic. For a list of valid values, see the table in [Statistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Statistic) in the Amazon CloudWatch User Guide. The most commonly used metrics for scaling is Average
+        /// The statistic to return. It can include any CloudWatch statistic or extended statistic. For a list of valid values, see the table in [Statistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Statistic) in the Amazon CloudWatch User Guide. The most commonly used metric for scaling is Average.
         /// This member is required.
         public var stat: Swift.String?
         /// The unit to use for the returned data points. For a complete list of the units that CloudWatch supports, see the [MetricDatum](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html) data type in the Amazon CloudWatch API Reference.
@@ -5110,6 +5466,175 @@ extension ApplicationAutoScalingClientTypes {
         }
     }
 
+}
+
+extension TooManyTagsException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+            self.resourceName = output.resourceName
+        } else {
+            self.message = nil
+            self.resourceName = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The request contains too many tags. Try the request again with fewer tags.
+public struct TooManyTagsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+    /// The name of the Application Auto Scaling resource. This value is an Amazon Resource Name (ARN).
+    public var resourceName: Swift.String?
+
+    public init (
+        message: Swift.String? = nil,
+        resourceName: Swift.String? = nil
+    )
+    {
+        self.message = message
+        self.resourceName = resourceName
+    }
+}
+
+struct TooManyTagsExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let resourceName: Swift.String?
+}
+
+extension TooManyTagsExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+        case resourceName = "ResourceName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
+    }
+}
+
+extension UntagResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceARN = "ResourceARN"
+        case tagKeys = "TagKeys"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceARN = self.resourceARN {
+            try encodeContainer.encode(resourceARN, forKey: .resourceARN)
+        }
+        if let tagKeys = tagKeys {
+            var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
+            }
+        }
+    }
+}
+
+extension UntagResourceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UntagResourceInput: Swift.Equatable {
+    /// Identifies the Application Auto Scaling scalable target from which to remove tags. For example: arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef1234567890ab123 To get the ARN for a scalable target, use [DescribeScalableTargets].
+    /// This member is required.
+    public var resourceARN: Swift.String?
+    /// One or more tag keys. Specify only the tag keys, not the tag values.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init (
+        resourceARN: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    )
+    {
+        self.resourceARN = resourceARN
+        self.tagKeys = tagKeys
+    }
+}
+
+struct UntagResourceInputBody: Swift.Equatable {
+    let resourceARN: Swift.String?
+    let tagKeys: [Swift.String]?
+}
+
+extension UntagResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceARN = "ResourceARN"
+        case tagKeys = "TagKeys"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
+        resourceARN = resourceARNDecoded
+        let tagKeysContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .tagKeys)
+        var tagKeysDecoded0:[Swift.String]? = nil
+        if let tagKeysContainer = tagKeysContainer {
+            tagKeysDecoded0 = [Swift.String]()
+            for string0 in tagKeysContainer {
+                if let string0 = string0 {
+                    tagKeysDecoded0?.append(string0)
+                }
+            }
+        }
+        tagKeys = tagKeysDecoded0
+    }
+}
+
+extension UntagResourceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UntagResourceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UntagResourceOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension ValidationException {

@@ -883,7 +883,7 @@ public struct BatchDetectSentimentInput: Swift.Equatable {
     /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
-    /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size of each document is 5 KB. Amazon Comprehend performs real-time sentiment analysis on the first 500 characters of the input text and ignores any additional text in the input.
+    /// A list containing the UTF-8 encoded text of the input documents. The list can contain a maximum of 25 documents. The maximum size of each document is 5 KB.
     /// This member is required.
     public var textList: [Swift.String]?
 
@@ -2898,7 +2898,7 @@ extension CreateDocumentClassifierInput: ClientRuntime.URLPathProvider {
 public struct CreateDocumentClassifierInput: Swift.Equatable {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// The name of the document classifier.
@@ -2912,21 +2912,21 @@ public struct CreateDocumentClassifierInput: Swift.Equatable {
     public var languageCode: ComprehendClientTypes.LanguageCode?
     /// Indicates the mode in which the classifier will be trained. The classifier can be trained in multi-class mode, which identifies one and only one class for each document, or multi-label mode, which identifies one or more labels for each document. In multi-label mode, multiple labels for an individual document are separated by a delimiter. The default delimiter between labels is a pipe (|).
     public var mode: ComprehendClientTypes.DocumentClassifierMode?
-    /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
+    /// ID for the KMS key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
     ///
     /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
     ///
     /// * Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
     public var modelKmsKeyId: Swift.String?
-    /// The resource-based policy to attach to your custom document classifier model. You can use this policy to allow another AWS account to import your custom model. Provide your policy as a JSON body that you enter as a UTF-8 encoded string without line breaks. To provide valid JSON, enclose the attribute names and values in double quotes. If the JSON body is also enclosed in double quotes, then you must escape the double quotes that are inside the policy: "{\"attribute\": \"value\", \"attribute\": [\"value\"]}" To avoid escaping quotes, you can use single quotes to enclose the policy and double quotes to enclose the JSON names and values: '{"attribute": "value", "attribute": ["value"]}'
+    /// The resource-based policy to attach to your custom document classifier model. You can use this policy to allow another Amazon Web Services account to import your custom model. Provide your policy as a JSON body that you enter as a UTF-8 encoded string without line breaks. To provide valid JSON, enclose the attribute names and values in double quotes. If the JSON body is also enclosed in double quotes, then you must escape the double quotes that are inside the policy: "{\"attribute\": \"value\", \"attribute\": [\"value\"]}" To avoid escaping quotes, you can use single quotes to enclose the policy and double quotes to enclose the JSON names and values: '{"attribute": "value", "attribute": ["value"]}'
     public var modelPolicy: Swift.String?
     /// Enables the addition of output results configuration parameters for custom classifier jobs.
     public var outputDataConfig: ComprehendClientTypes.DocumentClassifierOutputDataConfig?
     /// Tags to associate with the document classifier. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
-    /// The version name given to the newly created classifier. Version names can have a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The version name must be unique among all models with the same classifier name in the account/AWS Region.
+    /// The version name given to the newly created classifier. Version names can have a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The version name must be unique among all models with the same classifier name in the Amazon Web Services account/Amazon Web Services Region.
     public var versionName: Swift.String?
-    /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
+    /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
     ///
     /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
     ///
@@ -3166,7 +3166,7 @@ extension CreateEndpointInput: ClientRuntime.URLPathProvider {
 public struct CreateEndpointInput: Swift.Equatable {
     /// An idempotency token provided by the customer. If this token matches a previous endpoint creation request, Amazon Comprehend will not return a ResourceInUseException.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to trained custom models encrypted with a customer managed key (ModelKmsKeyId).
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to trained custom models encrypted with a customer managed key (ModelKmsKeyId).
     public var dataAccessRoleArn: Swift.String?
     /// The desired number of inference units to be used by the model using this endpoint. Each inference unit represents of a throughput of 100 characters per second.
     /// This member is required.
@@ -3402,31 +3402,31 @@ extension CreateEntityRecognizerInput: ClientRuntime.URLPathProvider {
 public struct CreateEntityRecognizerInput: Swift.Equatable {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
-    /// Specifies the format and location of the input data. The S3 bucket containing the input data must be located in the same region as the entity recognizer being created.
+    /// Specifies the format and location of the input data. The S3 bucket containing the input data must be located in the same Region as the entity recognizer being created.
     /// This member is required.
     public var inputDataConfig: ComprehendClientTypes.EntityRecognizerInputDataConfig?
     /// You can specify any of the following languages: English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), German ("de"), or Portuguese ("pt"). If you plan to use this entity recognizer with PDF, Word, or image input files, you must specify English as the language. All training documents must be in the same language.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
-    /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
+    /// ID for the KMS key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
     ///
     /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
     ///
     /// * Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
     public var modelKmsKeyId: Swift.String?
-    /// The JSON resource-based policy to attach to your custom entity recognizer model. You can use this policy to allow another AWS account to import your custom model. Provide your JSON as a UTF-8 encoded string without line breaks. To provide valid JSON for your policy, enclose the attribute names and values in double quotes. If the JSON body is also enclosed in double quotes, then you must escape the double quotes that are inside the policy: "{\"attribute\": \"value\", \"attribute\": [\"value\"]}" To avoid escaping quotes, you can use single quotes to enclose the policy and double quotes to enclose the JSON names and values: '{"attribute": "value", "attribute": ["value"]}'
+    /// The JSON resource-based policy to attach to your custom entity recognizer model. You can use this policy to allow another Amazon Web Services account to import your custom model. Provide your JSON as a UTF-8 encoded string without line breaks. To provide valid JSON for your policy, enclose the attribute names and values in double quotes. If the JSON body is also enclosed in double quotes, then you must escape the double quotes that are inside the policy: "{\"attribute\": \"value\", \"attribute\": [\"value\"]}" To avoid escaping quotes, you can use single quotes to enclose the policy and double quotes to enclose the JSON names and values: '{"attribute": "value", "attribute": ["value"]}'
     public var modelPolicy: Swift.String?
-    /// The name given to the newly created recognizer. Recognizer names can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The name must be unique in the account/region.
+    /// The name given to the newly created recognizer. Recognizer names can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The name must be unique in the account/Region.
     /// This member is required.
     public var recognizerName: Swift.String?
     /// Tags to associate with the entity recognizer. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
-    /// The version name given to the newly created recognizer. Version names can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The version name must be unique among all models with the same recognizer name in the account/ AWS Region.
+    /// The version name given to the newly created recognizer. Version names can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The version name must be unique among all models with the same recognizer name in the account/Region.
     public var versionName: Swift.String?
-    /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
+    /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
     ///
     /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
     ///
@@ -3664,7 +3664,7 @@ public struct CreateFlywheelInput: Swift.Equatable {
     public var activeModelArn: Swift.String?
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend the permissions required to access the flywheel data in the data lake.
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend the permissions required to access the flywheel data in the data lake.
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// Enter the S3 location for the data lake. You can specify a new S3 bucket or a new folder of an existing S3 bucket. The flywheel creates the data lake at this location.
@@ -3896,7 +3896,7 @@ extension ComprehendClientTypes {
     public struct DataSecurityConfig: Swift.Equatable {
         /// ID for the KMS key that Amazon Comprehend uses to encrypt the data in the data lake.
         public var dataLakeKmsKeyId: Swift.String?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
+        /// ID for the KMS key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
@@ -4074,7 +4074,7 @@ extension ComprehendClientTypes {
     public struct DatasetDocumentClassifierInputDataConfig: Swift.Equatable {
         /// Indicates the delimiter used to separate each label for training a multi-label classifier. The default delimiter between labels is a pipe (|). You can use a different character as a delimiter (if it's an allowed character) by specifying it under Delimiter for labels. If the training documents use a delimiter other than the default or the delimiter you specify, the labels on that line will be combined to make a single unique label, such as LABELLABELLABEL.
         public var labelDelimiter: Swift.String?
-        /// The Amazon S3 URI for the input data. The S3 bucket must be in the same region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files. For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input. This parameter is required if you set DataFormat to COMPREHEND_CSV.
+        /// The Amazon S3 URI for the input data. The S3 bucket must be in the same Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files. For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input. This parameter is required if you set DataFormat to COMPREHEND_CSV.
         /// This member is required.
         public var s3Uri: Swift.String?
 
@@ -4112,7 +4112,7 @@ extension ComprehendClientTypes.DatasetEntityRecognizerAnnotations: Swift.Codabl
 extension ComprehendClientTypes {
     /// Describes the annotations associated with a entity recognizer.
     public struct DatasetEntityRecognizerAnnotations: Swift.Equatable {
-        /// Specifies the Amazon S3 location where the training documents for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
+        /// Specifies the Amazon S3 location where the training documents for an entity recognizer are located. The URI must be in the same Region as the API endpoint that you are calling.
         /// This member is required.
         public var s3Uri: Swift.String?
 
@@ -7064,7 +7064,7 @@ extension DetectDominantLanguageOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct DetectDominantLanguageOutputResponse: Swift.Equatable {
-    /// The languages that Amazon Comprehend detected in the input text. For each language, the response returns the RFC 5646 language code and the level of confidence that Amazon Comprehend has in the accuracy of its inference. For more information about RFC 5646, see [Tags for Identifying Languages](https://tools.ietf.org/html/rfc5646) on the IETF Tools web site.
+    /// Array of languages that Amazon Comprehend detected in the input text. The array is sorted in descending order of the score (the dominant language is always the first element in the array). For each language, the response returns the RFC 5646 language code and the level of confidence that Amazon Comprehend has in the accuracy of its inference. For more information about RFC 5646, see [Tags for Identifying Languages](https://tools.ietf.org/html/rfc5646) on the IETF Tools web site.
     public var languages: [ComprehendClientTypes.DominantLanguage]?
 
     public init (
@@ -7674,7 +7674,7 @@ public struct DetectSentimentInput: Swift.Equatable {
     /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
     /// This member is required.
     public var languageCode: ComprehendClientTypes.LanguageCode?
-    /// A UTF-8 text string. The maximum string size is 5 KB. Amazon Comprehend performs real-time sentiment analysis on the first 500 characters of the input text and ignores any additional text in the input.
+    /// A UTF-8 text string. The maximum string size is 5 KB.
     /// This member is required.
     public var text: Swift.String?
 
@@ -8371,7 +8371,7 @@ extension ComprehendClientTypes.DocumentClassificationJobProperties: Swift.Codab
 extension ComprehendClientTypes {
     /// Provides information about a document classification job.
     public struct DocumentClassificationJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The Amazon Resource Name (ARN) that identifies the document classifier.
         public var documentClassifierArn: Swift.String?
@@ -8381,7 +8381,7 @@ extension ComprehendClientTypes {
         public var flywheelArn: Swift.String?
         /// The input data configuration that you supplied when you created the document classification job.
         public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
-        /// The Amazon Resource Name (ARN) of the document classification job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::document-classification-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:document-classification-job/1234abcd12ab34cd56ef1234567890ab
+        /// The Amazon Resource Name (ARN) of the document classification job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::document-classification-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:document-classification-job/1234abcd12ab34cd56ef1234567890ab
         public var jobArn: Swift.String?
         /// The identifier assigned to the document classification job.
         public var jobId: Swift.String?
@@ -8395,7 +8395,7 @@ extension ComprehendClientTypes {
         public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
         /// The time that the document classification job was submitted for processing.
         public var submitTime: ClientRuntime.Date?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
+        /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
@@ -8608,9 +8608,9 @@ extension ComprehendClientTypes {
         public var dataFormat: ComprehendClientTypes.DocumentClassifierDataFormat?
         /// Indicates the delimiter used to separate each label for training a multi-label classifier. The default delimiter between labels is a pipe (|). You can use a different character as a delimiter (if it's an allowed character) by specifying it under Delimiter for labels. If the training documents use a delimiter other than the default or the delimiter you specify, the labels on that line will be combined to make a single unique label, such as LABELLABELLABEL.
         public var labelDelimiter: Swift.String?
-        /// The Amazon S3 URI for the input data. The S3 bucket must be in the same region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files. For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input. This parameter is required if you set DataFormat to COMPREHEND_CSV.
+        /// The Amazon S3 URI for the input data. The S3 bucket must be in the same Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files. For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input. This parameter is required if you set DataFormat to COMPREHEND_CSV.
         public var s3Uri: Swift.String?
-        /// This specifies the Amazon S3 location where the test annotations for an entity recognizer are located. The URI must be in the same AWS Region as the API endpoint that you are calling.
+        /// This specifies the Amazon S3 location where the test annotations for an entity recognizer are located. The URI must be in the same Amazon Web Services Region as the API endpoint that you are calling.
         public var testS3Uri: Swift.String?
 
         public init (
@@ -8699,7 +8699,7 @@ extension ComprehendClientTypes {
     public struct DocumentClassifierOutputDataConfig: Swift.Equatable {
         /// The Amazon S3 prefix for the data lake location of the flywheel statistics.
         public var flywheelStatsS3Prefix: Swift.String?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. The KmsKeyId can be one of the following formats:
+        /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. The KmsKeyId can be one of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
@@ -8709,7 +8709,7 @@ extension ComprehendClientTypes {
         ///
         /// * ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"
         public var kmsKeyId: Swift.String?
-        /// When you use the OutputDataConfig object while creating a custom classifier, you specify the Amazon S3 location where you want to write the confusion matrix. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of this output file. When the custom classifier job is finished, the service creates the output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz. It is a compressed archive that contains the confusion matrix.
+        /// When you use the OutputDataConfig object while creating a custom classifier, you specify the Amazon S3 location where you want to write the confusion matrix. The URI must be in the same Region as the API endpoint that you are calling. The location is used as the prefix for the actual location of this output file. When the custom classifier job is finished, the service creates the output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz. It is a compressed archive that contains the confusion matrix.
         public var s3Uri: Swift.String?
 
         public init (
@@ -8863,7 +8863,7 @@ extension ComprehendClientTypes {
     public struct DocumentClassifierProperties: Swift.Equatable {
         /// Information about the document classifier, including the number of documents used for training the classifier, the number of documents used for test the classifier, and an accuracy rating.
         public var classifierMetadata: ComprehendClientTypes.ClassifierMetadata?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The Amazon Resource Name (ARN) that identifies the document classifier.
         public var documentClassifierArn: Swift.String?
@@ -8879,7 +8879,7 @@ extension ComprehendClientTypes {
         public var message: Swift.String?
         /// Indicates the mode in which the specific classifier was trained. This also indicates the format of input documents and the format of the confusion matrix. Each classifier can only be trained in one mode and this cannot be changed once the classifier is trained.
         public var mode: ComprehendClientTypes.DocumentClassifierMode?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
+        /// ID for the KMS key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
@@ -8887,7 +8887,7 @@ extension ComprehendClientTypes {
         public var modelKmsKeyId: Swift.String?
         /// Provides output results configuration parameters for custom classifier jobs.
         public var outputDataConfig: ComprehendClientTypes.DocumentClassifierOutputDataConfig?
-        /// The Amazon Resource Name (ARN) of the source model. This model was imported from a different AWS account to create the document classifier model in your AWS account.
+        /// The Amazon Resource Name (ARN) of the source model. This model was imported from a different Amazon Web Services account to create the document classifier model in your Amazon Web Services account.
         public var sourceModelArn: Swift.String?
         /// The status of the document classifier. If the status is TRAINED the classifier is ready to use. If the status is FAILED you can see additional information about why the classifier wasn't trained in the Message field.
         public var status: ComprehendClientTypes.ModelStatus?
@@ -8899,7 +8899,7 @@ extension ComprehendClientTypes {
         public var trainingStartTime: ClientRuntime.Date?
         /// The version name that you assigned to the document classifier.
         public var versionName: Swift.String?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
+        /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
@@ -9621,13 +9621,13 @@ extension ComprehendClientTypes.DominantLanguageDetectionJobProperties: Swift.Co
 extension ComprehendClientTypes {
     /// Provides information about a dominant language detection job.
     public struct DominantLanguageDetectionJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the dominant language detection job completed.
         public var endTime: ClientRuntime.Date?
         /// The input data configuration that you supplied when you created the dominant language detection job.
         public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
-        /// The Amazon Resource Name (ARN) of the dominant language detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::dominant-language-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:dominant-language-detection-job/1234abcd12ab34cd56ef1234567890ab
+        /// The Amazon Resource Name (ARN) of the dominant language detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::dominant-language-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:dominant-language-detection-job/1234abcd12ab34cd56ef1234567890ab
         public var jobArn: Swift.String?
         /// The identifier assigned to the dominant language detection job.
         public var jobId: Swift.String?
@@ -9641,7 +9641,7 @@ extension ComprehendClientTypes {
         public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
         /// The time that the dominant language detection job was submitted for processing.
         public var submitTime: ClientRuntime.Date?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
+        /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
@@ -9839,7 +9839,7 @@ extension ComprehendClientTypes {
         public var creationTime: ClientRuntime.Date?
         /// The number of inference units currently used by the model using this endpoint.
         public var currentInferenceUnits: Swift.Int?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to trained custom models encrypted with a customer managed key (ModelKmsKeyId).
+        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to trained custom models encrypted with a customer managed key (ModelKmsKeyId).
         public var dataAccessRoleArn: Swift.String?
         /// Data access role ARN to use in case the new model is encrypted with a customer KMS key.
         public var desiredDataAccessRoleArn: Swift.String?
@@ -10003,6 +10003,7 @@ extension ComprehendClientTypes.EntitiesDetectionJobProperties: Swift.Codable {
         case dataAccessRoleArn = "DataAccessRoleArn"
         case endTime = "EndTime"
         case entityRecognizerArn = "EntityRecognizerArn"
+        case flywheelArn = "FlywheelArn"
         case inputDataConfig = "InputDataConfig"
         case jobArn = "JobArn"
         case jobId = "JobId"
@@ -10026,6 +10027,9 @@ extension ComprehendClientTypes.EntitiesDetectionJobProperties: Swift.Codable {
         }
         if let entityRecognizerArn = self.entityRecognizerArn {
             try encodeContainer.encode(entityRecognizerArn, forKey: .entityRecognizerArn)
+        }
+        if let flywheelArn = self.flywheelArn {
+            try encodeContainer.encode(flywheelArn, forKey: .flywheelArn)
         }
         if let inputDataConfig = self.inputDataConfig {
             try encodeContainer.encode(inputDataConfig, forKey: .inputDataConfig)
@@ -10092,21 +10096,25 @@ extension ComprehendClientTypes.EntitiesDetectionJobProperties: Swift.Codable {
         volumeKmsKeyId = volumeKmsKeyIdDecoded
         let vpcConfigDecoded = try containerValues.decodeIfPresent(ComprehendClientTypes.VpcConfig.self, forKey: .vpcConfig)
         vpcConfig = vpcConfigDecoded
+        let flywheelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flywheelArn)
+        flywheelArn = flywheelArnDecoded
     }
 }
 
 extension ComprehendClientTypes {
     /// Provides information about an entities detection job.
     public struct EntitiesDetectionJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the entities detection job completed
         public var endTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
         public var entityRecognizerArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the flywheel associated with this job.
+        public var flywheelArn: Swift.String?
         /// The input data configuration that you supplied when you created the entities detection job.
         public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
-        /// The Amazon Resource Name (ARN) of the entities detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::entities-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:entities-detection-job/1234abcd12ab34cd56ef1234567890ab
+        /// The Amazon Resource Name (ARN) of the entities detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::entities-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:entities-detection-job/1234abcd12ab34cd56ef1234567890ab
         public var jobArn: Swift.String?
         /// The identifier assigned to the entities detection job.
         public var jobId: Swift.String?
@@ -10122,7 +10130,7 @@ extension ComprehendClientTypes {
         public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
         /// The time that the entities detection job was submitted for processing.
         public var submitTime: ClientRuntime.Date?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
+        /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
@@ -10135,6 +10143,7 @@ extension ComprehendClientTypes {
             dataAccessRoleArn: Swift.String? = nil,
             endTime: ClientRuntime.Date? = nil,
             entityRecognizerArn: Swift.String? = nil,
+            flywheelArn: Swift.String? = nil,
             inputDataConfig: ComprehendClientTypes.InputDataConfig? = nil,
             jobArn: Swift.String? = nil,
             jobId: Swift.String? = nil,
@@ -10151,6 +10160,7 @@ extension ComprehendClientTypes {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.entityRecognizerArn = entityRecognizerArn
+            self.flywheelArn = flywheelArn
             self.inputDataConfig = inputDataConfig
             self.jobArn = jobArn
             self.jobId = jobId
@@ -10385,10 +10395,10 @@ extension ComprehendClientTypes.EntityRecognizerAnnotations: Swift.Codable {
 extension ComprehendClientTypes {
     /// Describes the annotations associated with a entity recognizer.
     public struct EntityRecognizerAnnotations: Swift.Equatable {
-        /// Specifies the Amazon S3 location where the annotations for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
+        /// Specifies the Amazon S3 location where the annotations for an entity recognizer are located. The URI must be in the same Region as the API endpoint that you are calling.
         /// This member is required.
         public var s3Uri: Swift.String?
-        /// Specifies the Amazon S3 location where the test annotations for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
+        /// Specifies the Amazon S3 location where the test annotations for an entity recognizer are located. The URI must be in the same Region as the API endpoint that you are calling.
         public var testS3Uri: Swift.String?
 
         public init (
@@ -10471,10 +10481,10 @@ extension ComprehendClientTypes {
     public struct EntityRecognizerDocuments: Swift.Equatable {
         /// Specifies how the text in an input file should be processed. This is optional, and the default is ONE_DOC_PER_LINE. ONE_DOC_PER_FILE - Each file is considered a separate document. Use this option when you are processing large documents, such as newspaper articles or scientific papers. ONE_DOC_PER_LINE - Each line in a file is considered a separate document. Use this option when you are processing many short documents, such as text messages.
         public var inputFormat: ComprehendClientTypes.InputFormat?
-        /// Specifies the Amazon S3 location where the training documents for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
+        /// Specifies the Amazon S3 location where the training documents for an entity recognizer are located. The URI must be in the same Region as the API endpoint that you are calling.
         /// This member is required.
         public var s3Uri: Swift.String?
-        /// Specifies the Amazon S3 location where the test documents for an entity recognizer are located. The URI must be in the same AWS Region as the API endpoint that you are calling.
+        /// Specifies the Amazon S3 location where the test documents for an entity recognizer are located. The URI must be in the same Amazon Web Services Region as the API endpoint that you are calling.
         public var testS3Uri: Swift.String?
 
         public init (
@@ -10513,7 +10523,7 @@ extension ComprehendClientTypes.EntityRecognizerEntityList: Swift.Codable {
 extension ComprehendClientTypes {
     /// Describes the entity list submitted with an entity recognizer.
     public struct EntityRecognizerEntityList: Swift.Equatable {
-        /// Specifies the Amazon S3 location where the entity list is located. The URI must be in the same region as the API endpoint that you are calling.
+        /// Specifies the Amazon S3 location where the entity list is located. The URI must be in the same Region as the API endpoint that you are calling.
         /// This member is required.
         public var s3Uri: Swift.String?
 
@@ -11066,7 +11076,7 @@ extension ComprehendClientTypes.EntityRecognizerProperties: Swift.CustomDebugStr
 extension ComprehendClientTypes {
     /// Describes information about an entity recognizer.
     public struct EntityRecognizerProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the recognizer creation completed.
         public var endTime: ClientRuntime.Date?
@@ -11080,7 +11090,7 @@ extension ComprehendClientTypes {
         public var languageCode: ComprehendClientTypes.LanguageCode?
         /// A description of the status of the recognizer.
         public var message: Swift.String?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
+        /// ID for the KMS key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
@@ -11090,7 +11100,7 @@ extension ComprehendClientTypes {
         public var outputDataConfig: ComprehendClientTypes.EntityRecognizerOutputDataConfig?
         /// Provides information about an entity recognizer.
         public var recognizerMetadata: ComprehendClientTypes.EntityRecognizerMetadata?
-        /// The Amazon Resource Name (ARN) of the source model. This model was imported from a different AWS account to create the entity recognizer model in your AWS account.
+        /// The Amazon Resource Name (ARN) of the source model. This model was imported from a different Amazon Web Services account to create the entity recognizer model in your Amazon Web Services account.
         public var sourceModelArn: Swift.String?
         /// Provides the status of the entity recognizer.
         public var status: ComprehendClientTypes.ModelStatus?
@@ -11102,7 +11112,7 @@ extension ComprehendClientTypes {
         public var trainingStartTime: ClientRuntime.Date?
         /// The version name you assigned to the entity recognizer.
         public var versionName: Swift.String?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
+        /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
@@ -11604,13 +11614,13 @@ extension ComprehendClientTypes.EventsDetectionJobProperties: Swift.Codable {
 extension ComprehendClientTypes {
     /// Provides information about an events detection job.
     public struct EventsDetectionJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the events detection job completed.
         public var endTime: ClientRuntime.Date?
         /// The input data configuration that you supplied when you created the events detection job.
         public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
-        /// The Amazon Resource Name (ARN) of the events detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::events-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:events-detection-job/1234abcd12ab34cd56ef1234567890ab
+        /// The Amazon Resource Name (ARN) of the events detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::events-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:events-detection-job/1234abcd12ab34cd56ef1234567890ab
         public var jobArn: Swift.String?
         /// The identifier assigned to the events detection job.
         public var jobId: Swift.String?
@@ -12142,7 +12152,7 @@ extension ComprehendClientTypes {
         public var activeModelArn: Swift.String?
         /// Creation time of the flywheel.
         public var creationTime: ClientRuntime.Date?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend permission to access the flywheel data.
+        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend permission to access the flywheel data.
         public var dataAccessRoleArn: Swift.String?
         /// Amazon S3 URI of the data lake location.
         public var dataLakeS3Uri: Swift.String?
@@ -12451,9 +12461,9 @@ extension ImportModelInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ImportModelInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend permission to use Amazon Key Management Service (KMS) to encrypt or decrypt the custom model.
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend permission to use Amazon Key Management Service (KMS) to encrypt or decrypt the custom model.
     public var dataAccessRoleArn: Swift.String?
-    /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
+    /// ID for the KMS key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
     ///
     /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
     ///
@@ -12466,7 +12476,7 @@ public struct ImportModelInput: Swift.Equatable {
     public var sourceModelArn: Swift.String?
     /// Tags to associate with the custom model that is created by this import. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
-    /// The version name given to the custom model that is created by this import. Version names can have a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The version name must be unique among all models with the same classifier name in the account/AWS Region.
+    /// The version name given to the custom model that is created by this import. Version names can have a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The version name must be unique among all models with the same classifier name in the account/Region.
     public var versionName: Swift.String?
 
     public init (
@@ -12653,7 +12663,7 @@ extension ComprehendClientTypes {
         ///
         /// * ONE_DOC_PER_LINE - Each line in a file is considered a separate document. Use this option when you are processing many short documents, such as text messages.
         public var inputFormat: ComprehendClientTypes.InputFormat?
-        /// The Amazon S3 URI for the input data. The URI must be in same region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of data files. For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input.
+        /// The Amazon S3 URI for the input data. The URI must be in same Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of data files. For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input.
         /// This member is required.
         public var s3Uri: Swift.String?
 
@@ -13316,13 +13326,13 @@ extension ComprehendClientTypes.KeyPhrasesDetectionJobProperties: Swift.Codable 
 extension ComprehendClientTypes {
     /// Provides information about a key phrases detection job.
     public struct KeyPhrasesDetectionJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the key phrases detection job completed.
         public var endTime: ClientRuntime.Date?
         /// The input data configuration that you supplied when you created the key phrases detection job.
         public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
-        /// The Amazon Resource Name (ARN) of the key phrases detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::key-phrases-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:key-phrases-detection-job/1234abcd12ab34cd56ef1234567890ab
+        /// The Amazon Resource Name (ARN) of the key phrases detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::key-phrases-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:key-phrases-detection-job/1234abcd12ab34cd56ef1234567890ab
         public var jobArn: Swift.String?
         /// The identifier assigned to the key phrases detection job.
         public var jobId: Swift.String?
@@ -13338,7 +13348,7 @@ extension ComprehendClientTypes {
         public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
         /// The time that the key phrases detection job was submitted for processing.
         public var submitTime: ClientRuntime.Date?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
+        /// ID for the KMS key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
@@ -16384,6 +16394,7 @@ extension ComprehendClientTypes {
         case stopRequested
         case submitted
         case trained
+        case trainedWithWarning
         case training
         case sdkUnknown(Swift.String)
 
@@ -16395,6 +16406,7 @@ extension ComprehendClientTypes {
                 .stopRequested,
                 .submitted,
                 .trained,
+                .trainedWithWarning,
                 .training,
                 .sdkUnknown("")
             ]
@@ -16411,6 +16423,7 @@ extension ComprehendClientTypes {
             case .stopRequested: return "STOP_REQUESTED"
             case .submitted: return "SUBMITTED"
             case .trained: return "TRAINED"
+            case .trainedWithWarning: return "TRAINED_WITH_WARNING"
             case .training: return "TRAINING"
             case let .sdkUnknown(s): return s
             }
@@ -16483,7 +16496,7 @@ extension ComprehendClientTypes.OutputDataConfig: Swift.Codable {
 extension ComprehendClientTypes {
     /// Provides configuration parameters for the output of inference jobs.
     public struct OutputDataConfig: Swift.Equatable {
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. The KmsKeyId can be one of the following formats:
+        /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. The KmsKeyId can be one of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
@@ -16493,7 +16506,7 @@ extension ComprehendClientTypes {
         ///
         /// * ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"
         public var kmsKeyId: Swift.String?
-        /// When you use the OutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output file. When the topic detection job is finished, the service creates an output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz. It is a compressed archive that contains the ouput of the operation. For a PII entity detection job, the output file is plain text, not a compressed archive. The output file name is the same as the input file, with .out appended at the end.
+        /// When you use the OutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same Region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output file. When the topic detection job is finished, the service creates an output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz. It is a compressed archive that contains the ouput of the operation. For a PII entity detection job, the output file is plain text, not a compressed archive. The output file name is the same as the input file, with .out appended at the end.
         /// This member is required.
         public var s3Uri: Swift.String?
 
@@ -16834,13 +16847,13 @@ extension ComprehendClientTypes.PiiEntitiesDetectionJobProperties: Swift.Codable
 extension ComprehendClientTypes {
     /// Provides information about a PII entities detection job.
     public struct PiiEntitiesDetectionJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the PII entities detection job completed.
         public var endTime: ClientRuntime.Date?
         /// The input properties for a PII entities detection job.
         public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
-        /// The Amazon Resource Name (ARN) of the PII entities detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::pii-entities-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:pii-entities-detection-job/1234abcd12ab34cd56ef1234567890ab
+        /// The Amazon Resource Name (ARN) of the PII entities detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::pii-entities-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:pii-entities-detection-job/1234abcd12ab34cd56ef1234567890ab
         public var jobArn: Swift.String?
         /// The identifier assigned to the PII entities detection job.
         public var jobId: Swift.String?
@@ -17189,7 +17202,7 @@ extension ComprehendClientTypes.PiiOutputDataConfig: Swift.Codable {
 extension ComprehendClientTypes {
     /// Provides configuration parameters for the output of PII entity detection jobs.
     public struct PiiOutputDataConfig: Swift.Equatable {
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job.
+        /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job.
         public var kmsKeyId: Swift.String?
         /// When you use the PiiOutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. For a PII entity detection job, the output file is plain text, not a compressed archive. The output file name is the same as the input file, with .out appended at the end.
         /// This member is required.
@@ -17912,13 +17925,13 @@ extension ComprehendClientTypes.SentimentDetectionJobProperties: Swift.Codable {
 extension ComprehendClientTypes {
     /// Provides information about a sentiment detection job.
     public struct SentimentDetectionJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the sentiment detection job ended.
         public var endTime: ClientRuntime.Date?
         /// The input data configuration that you supplied when you created the sentiment detection job.
         public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
-        /// The Amazon Resource Name (ARN) of the sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::sentiment-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
+        /// The Amazon Resource Name (ARN) of the sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::sentiment-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
         public var jobArn: Swift.String?
         /// The identifier assigned to the sentiment detection job.
         public var jobId: Swift.String?
@@ -17934,7 +17947,7 @@ extension ComprehendClientTypes {
         public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
         /// The time that the sentiment detection job was submitted for processing.
         public var submitTime: ClientRuntime.Date?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
+        /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
@@ -18173,7 +18186,7 @@ extension StartDocumentClassificationJobInput: ClientRuntime.URLPathProvider {
 public struct StartDocumentClassificationJobInput: Swift.Equatable {
     /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the document classifier to use to process the job.
@@ -18190,7 +18203,7 @@ public struct StartDocumentClassificationJobInput: Swift.Equatable {
     public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
     /// Tags to associate with the document classification job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
-    /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
+    /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
     ///
     /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
     ///
@@ -18342,7 +18355,7 @@ extension StartDocumentClassificationJobOutputResponse: ClientRuntime.HttpRespon
 public struct StartDocumentClassificationJobOutputResponse: Swift.Equatable {
     /// The ARN of the custom classification model.
     public var documentClassifierArn: Swift.String?
-    /// The Amazon Resource Name (ARN) of the document classification job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::document-classification-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:document-classification-job/1234abcd12ab34cd56ef1234567890ab
+    /// The Amazon Resource Name (ARN) of the document classification job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::document-classification-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:document-classification-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
     /// The identifier generated for the job. To get the status of the job, use this identifier with the DescribeDocumentClassificationJob operation.
     public var jobId: Swift.String?
@@ -18456,7 +18469,7 @@ extension StartDominantLanguageDetectionJobInput: ClientRuntime.URLPathProvider 
 public struct StartDominantLanguageDetectionJobInput: Swift.Equatable {
     /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see [https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions).
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// Specifies the format and location of the input data for the job.
@@ -18469,7 +18482,7 @@ public struct StartDominantLanguageDetectionJobInput: Swift.Equatable {
     public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
     /// Tags to associate with the dominant language detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
-    /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
+    /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
     ///
     /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
     ///
@@ -18601,7 +18614,7 @@ extension StartDominantLanguageDetectionJobOutputResponse: ClientRuntime.HttpRes
 }
 
 public struct StartDominantLanguageDetectionJobOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the dominant language detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::dominant-language-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:dominant-language-detection-job/1234abcd12ab34cd56ef1234567890ab
+    /// The Amazon Resource Name (ARN) of the dominant language detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::dominant-language-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:dominant-language-detection-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
     /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
     public var jobId: Swift.String?
@@ -18717,7 +18730,7 @@ extension StartEntitiesDetectionJobInput: ClientRuntime.URLPathProvider {
 public struct StartEntitiesDetectionJobInput: Swift.Equatable {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see [https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions).
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// The Amazon Resource Name (ARN) that identifies the specific entity recognizer to be used by the StartEntitiesDetectionJob. This ARN is optional and is only used for a custom entity recognition job.
@@ -18737,7 +18750,7 @@ public struct StartEntitiesDetectionJobInput: Swift.Equatable {
     public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
     /// Tags to associate with the entities detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
-    /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
+    /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
     ///
     /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
     ///
@@ -18895,7 +18908,7 @@ extension StartEntitiesDetectionJobOutputResponse: ClientRuntime.HttpResponseBin
 public struct StartEntitiesDetectionJobOutputResponse: Swift.Equatable {
     /// The ARN of the custom entity recognition model.
     public var entityRecognizerArn: Swift.String?
-    /// The Amazon Resource Name (ARN) of the entities detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::entities-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:entities-detection-job/1234abcd12ab34cd56ef1234567890ab
+    /// The Amazon Resource Name (ARN) of the entities detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::entities-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:entities-detection-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
     /// The identifier generated for the job. To get the status of job, use this identifier with the operation.
     public var jobId: Swift.String?
@@ -19012,7 +19025,7 @@ extension StartEventsDetectionJobInput: ClientRuntime.URLPathProvider {
 public struct StartEventsDetectionJobInput: Swift.Equatable {
     /// An unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// Specifies the format and location of the input data for the job.
@@ -19164,7 +19177,7 @@ extension StartEventsDetectionJobOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 public struct StartEventsDetectionJobOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the events detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::events-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:events-detection-job/1234abcd12ab34cd56ef1234567890ab
+    /// The Amazon Resource Name (ARN) of the events detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::events-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:events-detection-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
     /// An unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var jobId: Swift.String?
@@ -19405,7 +19418,7 @@ extension StartKeyPhrasesDetectionJobInput: ClientRuntime.URLPathProvider {
 public struct StartKeyPhrasesDetectionJobInput: Swift.Equatable {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see [https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions).
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// Specifies the format and location of the input data for the job.
@@ -19421,7 +19434,7 @@ public struct StartKeyPhrasesDetectionJobInput: Swift.Equatable {
     public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
     /// Tags to associate with the key phrases detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
-    /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
+    /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
     ///
     /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
     ///
@@ -19559,7 +19572,7 @@ extension StartKeyPhrasesDetectionJobOutputResponse: ClientRuntime.HttpResponseB
 }
 
 public struct StartKeyPhrasesDetectionJobOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the key phrase detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::key-phrases-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:key-phrases-detection-job/1234abcd12ab34cd56ef1234567890ab
+    /// The Amazon Resource Name (ARN) of the key phrase detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::key-phrases-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:key-phrases-detection-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
     /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
     public var jobId: Swift.String?
@@ -19667,7 +19680,7 @@ extension StartPiiEntitiesDetectionJobInput: ClientRuntime.URLPathProvider {
 public struct StartPiiEntitiesDetectionJobInput: Swift.Equatable {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// The input properties for a PII entities detection job.
@@ -19818,7 +19831,7 @@ extension StartPiiEntitiesDetectionJobOutputResponse: ClientRuntime.HttpResponse
 }
 
 public struct StartPiiEntitiesDetectionJobOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the PII entity detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::pii-entities-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:pii-entities-detection-job/1234abcd12ab34cd56ef1234567890ab
+    /// The Amazon Resource Name (ARN) of the PII entity detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::pii-entities-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:pii-entities-detection-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
     /// The identifier generated for the job.
     public var jobId: Swift.String?
@@ -19918,7 +19931,7 @@ extension StartSentimentDetectionJobInput: ClientRuntime.URLPathProvider {
 public struct StartSentimentDetectionJobInput: Swift.Equatable {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see [https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions).
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// Specifies the format and location of the input data for the job.
@@ -19934,7 +19947,7 @@ public struct StartSentimentDetectionJobInput: Swift.Equatable {
     public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
     /// Tags to associate with the sentiment detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
-    /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
+    /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
     ///
     /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
     ///
@@ -20072,7 +20085,7 @@ extension StartSentimentDetectionJobOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 public struct StartSentimentDetectionJobOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::sentiment-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
+    /// The Amazon Resource Name (ARN) of the sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::sentiment-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
     /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
     public var jobId: Swift.String?
@@ -20180,7 +20193,7 @@ extension StartTargetedSentimentDetectionJobInput: ClientRuntime.URLPathProvider
 public struct StartTargetedSentimentDetectionJobInput: Swift.Equatable {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions).
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions).
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// The input properties for an inference job. The document reader config field applies only to non-text inputs for custom analysis.
@@ -20334,7 +20347,7 @@ extension StartTargetedSentimentDetectionJobOutputResponse: ClientRuntime.HttpRe
 }
 
 public struct StartTargetedSentimentDetectionJobOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the targeted sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::targeted-sentiment-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:targeted-sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
+    /// The Amazon Resource Name (ARN) of the targeted sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::targeted-sentiment-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:targeted-sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
     /// The identifier generated for the job. To get the status of a job, use this identifier with the DescribeTargetedSentimentDetectionJob operation.
     public var jobId: Swift.String?
@@ -20442,7 +20455,7 @@ extension StartTopicsDetectionJobInput: ClientRuntime.URLPathProvider {
 public struct StartTopicsDetectionJobInput: Swift.Equatable {
     /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
     public var clientRequestToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see [https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions).
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data. For more information, see [Role-based permissions](https://docs.aws.amazon.com/comprehend/latest/dg/security_iam_id-based-policy-examples.html#auth-role-permissions).
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
     /// Specifies the format and location of the input data for the job.
@@ -20457,7 +20470,7 @@ public struct StartTopicsDetectionJobInput: Swift.Equatable {
     public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
     /// Tags to associate with the topics detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     public var tags: [ComprehendClientTypes.Tag]?
-    /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
+    /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
     ///
     /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
     ///
@@ -20595,7 +20608,7 @@ extension StartTopicsDetectionJobOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 public struct StartTopicsDetectionJobOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the topics detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::topics-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:document-classification-job/1234abcd12ab34cd56ef1234567890ab
+    /// The Amazon Resource Name (ARN) of the topics detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::topics-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:document-classification-job/1234abcd12ab34cd56ef1234567890ab
     public var jobArn: Swift.String?
     /// The identifier generated for the job. To get the status of the job, use this identifier with the DescribeTopicDetectionJob operation.
     public var jobId: Swift.String?
@@ -22130,13 +22143,13 @@ extension ComprehendClientTypes.TargetedSentimentDetectionJobProperties: Swift.C
 extension ComprehendClientTypes {
     /// Provides information about a targeted sentiment detection job.
     public struct TargetedSentimentDetectionJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the targeted sentiment detection job ended.
         public var endTime: ClientRuntime.Date?
         /// The input properties for an inference job. The document reader config field applies only to non-text inputs for custom analysis.
         public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
-        /// The Amazon Resource Name (ARN) of the targeted sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::targeted-sentiment-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:targeted-sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
+        /// The Amazon Resource Name (ARN) of the targeted sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::targeted-sentiment-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:targeted-sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
         public var jobArn: Swift.String?
         /// The identifier assigned to the targeted sentiment detection job.
         public var jobId: Swift.String?
@@ -22859,13 +22872,13 @@ extension ComprehendClientTypes.TopicsDetectionJobProperties: Swift.Codable {
 extension ComprehendClientTypes {
     /// Provides information about a topic detection job.
     public struct TopicsDetectionJobProperties: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your job data.
+        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend read access to your job data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the topic detection job was completed.
         public var endTime: ClientRuntime.Date?
         /// The input data configuration supplied when you created the topic detection job.
         public var inputDataConfig: ComprehendClientTypes.InputDataConfig?
-        /// The Amazon Resource Name (ARN) of the topics detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::topics-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:topics-detection-job/1234abcd12ab34cd56ef1234567890ab
+        /// The Amazon Resource Name (ARN) of the topics detection job. It is a unique, fully qualified identifier for the job. It includes the Amazon Web Services account, Amazon Web Services Region, and the job ID. The format of the ARN is as follows: arn::comprehend:::topics-detection-job/ The following is an example job ARN: arn:aws:comprehend:us-west-2:111122223333:topics-detection-job/1234abcd12ab34cd56ef1234567890ab
         public var jobArn: Swift.String?
         /// The identifier assigned to the topic detection job.
         public var jobId: Swift.String?
@@ -22881,7 +22894,7 @@ extension ComprehendClientTypes {
         public var outputDataConfig: ComprehendClientTypes.OutputDataConfig?
         /// The time that the topic detection job was submitted for processing.
         public var submitTime: ClientRuntime.Date?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
+        /// ID for the Amazon Web Services Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
@@ -23123,7 +23136,7 @@ extension ComprehendClientTypes.UpdateDataSecurityConfig: Swift.Codable {
 extension ComprehendClientTypes {
     /// Data security configuration.
     public struct UpdateDataSecurityConfig: Swift.Equatable {
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
+        /// ID for the KMS key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:
         ///
         /// * KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
@@ -23353,7 +23366,7 @@ extension UpdateFlywheelInput: ClientRuntime.URLPathProvider {
 public struct UpdateFlywheelInput: Swift.Equatable {
     /// The Amazon Resource Number (ARN) of the active model version.
     public var activeModelArn: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend permission to access the flywheel data.
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend permission to access the flywheel data.
     public var dataAccessRoleArn: Swift.String?
     /// Flywheel data security configuration.
     public var dataSecurityConfig: ComprehendClientTypes.UpdateDataSecurityConfig?
@@ -23529,7 +23542,7 @@ extension ComprehendClientTypes {
         /// The ID number for a security group on an instance of your private VPC. Security groups on your VPC function serve as a virtual firewall to control inbound and outbound traffic and provides security for the resources that you’ll be accessing on the VPC. This ID number is preceded by "sg-", for instance: "sg-03b388029b0a285ea". For more information, see [Security Groups for your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html).
         /// This member is required.
         public var securityGroupIds: [Swift.String]?
-        /// The ID for each subnet being used in your private VPC. This subnet is a subset of the a range of IPv4 addresses used by the VPC and is specific to a given availability zone in the VPC’s region. This ID number is preceded by "subnet-", for instance: "subnet-04ccf456919e69055". For more information, see [VPCs and Subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html).
+        /// The ID for each subnet being used in your private VPC. This subnet is a subset of the a range of IPv4 addresses used by the VPC and is specific to a given availability zone in the VPC’s Region. This ID number is preceded by "subnet-", for instance: "subnet-04ccf456919e69055". For more information, see [VPCs and Subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html).
         /// This member is required.
         public var subnets: [Swift.String]?
 

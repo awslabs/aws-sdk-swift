@@ -229,8 +229,8 @@ extension SSOClient: SSOClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<GetRoleCredentialsInput, GetRoleCredentialsOutputResponse>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetRoleCredentialsInput, GetRoleCredentialsOutputResponse>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetRoleCredentialsOutputResponse, GetRoleCredentialsOutputError>(retryer: config.retryer))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRoleCredentialsOutputResponse, GetRoleCredentialsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRoleCredentialsOutputResponse, GetRoleCredentialsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRoleCredentialsOutputResponse, GetRoleCredentialsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -259,8 +259,8 @@ extension SSOClient: SSOClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListAccountRolesInput, ListAccountRolesOutputResponse>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAccountRolesInput, ListAccountRolesOutputResponse>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListAccountRolesOutputResponse, ListAccountRolesOutputError>(retryer: config.retryer))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAccountRolesOutputResponse, ListAccountRolesOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountRolesOutputResponse, ListAccountRolesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountRolesOutputResponse, ListAccountRolesOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -289,8 +289,8 @@ extension SSOClient: SSOClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<ListAccountsInput, ListAccountsOutputResponse>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAccountsInput, ListAccountsOutputResponse>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ListAccountsOutputResponse, ListAccountsOutputError>(retryer: config.retryer))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListAccountsOutputResponse, ListAccountsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAccountsOutputResponse, ListAccountsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAccountsOutputResponse, ListAccountsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -318,8 +318,8 @@ extension SSOClient: SSOClientProtocol {
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<LogoutInput, LogoutOutputResponse>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<LogoutOutputResponse, LogoutOutputError>(retryer: config.retryer))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<LogoutOutputResponse, LogoutOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<LogoutOutputResponse, LogoutOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<LogoutOutputResponse, LogoutOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }

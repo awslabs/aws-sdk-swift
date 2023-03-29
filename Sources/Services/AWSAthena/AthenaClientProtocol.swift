@@ -19,9 +19,9 @@ public protocol AthenaClientProtocol {
     func createNotebook(input: CreateNotebookInput) async throws -> CreateNotebookOutputResponse
     /// Creates a prepared statement for use with SQL queries in Athena.
     func createPreparedStatement(input: CreatePreparedStatementInput) async throws -> CreatePreparedStatementOutputResponse
-    /// Gets an authentication token and the URL at which the notebook can be accessed. During programmatic access, CreatePresignedNotebookUrl must be called every 10 minutes to refresh the authentication token.
+    /// Gets an authentication token and the URL at which the notebook can be accessed. During programmatic access, CreatePresignedNotebookUrl must be called every 10 minutes to refresh the authentication token. For information about granting programmatic access, see [Grant programmatic access](https://docs.aws.amazon.com/athena/latest/ug/setting-up.html#setting-up-grant-programmatic-access).
     func createPresignedNotebookUrl(input: CreatePresignedNotebookUrlInput) async throws -> CreatePresignedNotebookUrlOutputResponse
-    /// Creates a workgroup with the specified name. Only one of Configurations or Configuration can be specified; Configurations for a workgroup with multi engine support (for example, an Apache Spark enabled workgroup) or Configuration for an Athena SQL workgroup.
+    /// Creates a workgroup with the specified name. A workgroup can be an Apache Spark enabled workgroup or an Athena SQL workgroup.
     func createWorkGroup(input: CreateWorkGroupInput) async throws -> CreateWorkGroupOutputResponse
     /// Deletes a data catalog.
     func deleteDataCatalog(input: DeleteDataCatalogInput) async throws -> DeleteDataCatalogOutputResponse
@@ -37,7 +37,7 @@ public protocol AthenaClientProtocol {
     func exportNotebook(input: ExportNotebookInput) async throws -> ExportNotebookOutputResponse
     /// Describes a previously submitted calculation execution.
     func getCalculationExecution(input: GetCalculationExecutionInput) async throws -> GetCalculationExecutionOutputResponse
-    /// Retrieves a pre-signed URL to a copy of the code that was executed for the calculation.
+    /// Retrieves the unencrypted code that was executed for the calculation.
     func getCalculationExecutionCode(input: GetCalculationExecutionCodeInput) async throws -> GetCalculationExecutionCodeOutputResponse
     /// Gets the status of a current calculation.
     func getCalculationExecutionStatus(input: GetCalculationExecutionStatusInput) async throws -> GetCalculationExecutionStatusOutputResponse
@@ -53,7 +53,7 @@ public protocol AthenaClientProtocol {
     func getPreparedStatement(input: GetPreparedStatementInput) async throws -> GetPreparedStatementOutputResponse
     /// Returns information about a single execution of a query if you have access to the workgroup in which the query ran. Each time a query executes, information about the query execution is saved with a unique ID.
     func getQueryExecution(input: GetQueryExecutionInput) async throws -> GetQueryExecutionOutputResponse
-    /// Streams the results of a single query execution specified by QueryExecutionId from the Athena query results location in Amazon S3. For more information, see [Query Results](https://docs.aws.amazon.com/athena/latest/ug/querying.html) in the Amazon Athena User Guide. This request does not execute the query but returns results. Use [StartQueryExecution] to run a query. To stream query results successfully, the IAM principal with permission to call GetQueryResults also must have permissions to the Amazon S3 GetObject action for the Athena query results location. IAM principals with permission to the Amazon S3 GetObject action for the query results location are able to retrieve query results from Amazon S3 even if permission to the GetQueryResults action is denied. To restrict user or role access, ensure that Amazon S3 permissions to the Athena query location are denied.
+    /// Streams the results of a single query execution specified by QueryExecutionId from the Athena query results location in Amazon S3. For more information, see [Working with query results, recent queries, and output files](https://docs.aws.amazon.com/athena/latest/ug/querying.html) in the Amazon Athena User Guide. This request does not execute the query but returns results. Use [StartQueryExecution] to run a query. To stream query results successfully, the IAM principal with permission to call GetQueryResults also must have permissions to the Amazon S3 GetObject action for the Athena query results location. IAM principals with permission to the Amazon S3 GetObject action for the query results location are able to retrieve query results from Amazon S3 even if permission to the GetQueryResults action is denied. To restrict user or role access, ensure that Amazon S3 permissions to the Athena query location are denied.
     func getQueryResults(input: GetQueryResultsInput) async throws -> GetQueryResultsOutputResponse
     /// Returns query execution runtime statistics related to a single execution of a query if you have access to the workgroup in which the query ran. Query execution runtime statistics are returned only when [QueryExecutionStatus$State] is in a SUCCEEDED or FAILED state. Stage-level input and output row count and data size statistics are not shown when a query has row-level filters defined in Lake Formation.
     func getQueryRuntimeStatistics(input: GetQueryRuntimeStatisticsInput) async throws -> GetQueryRuntimeStatisticsOutputResponse
@@ -67,7 +67,7 @@ public protocol AthenaClientProtocol {
     func getWorkGroup(input: GetWorkGroupInput) async throws -> GetWorkGroupOutputResponse
     /// Imports a single ipynb file to a Spark enabled workgroup. The maximum file size that can be imported is 10 megabytes. If an ipynb file with the same name already exists in the workgroup, throws an error.
     func importNotebook(input: ImportNotebookInput) async throws -> ImportNotebookOutputResponse
-    /// Returns the supported DPU sizes for the supported application runtimes (for example, Jupyter 1.0).
+    /// Returns the supported DPU sizes for the supported application runtimes (for example, Athena notebook version 1).
     func listApplicationDPUSizes(input: ListApplicationDPUSizesInput) async throws -> ListApplicationDPUSizesOutputResponse
     /// Lists the calculations that have been submitted to a session in descending order. Newer calculations are listed first; older calculations are listed later.
     func listCalculationExecutions(input: ListCalculationExecutionsInput) async throws -> ListCalculationExecutionsOutputResponse
@@ -77,7 +77,7 @@ public protocol AthenaClientProtocol {
     func listDataCatalogs(input: ListDataCatalogsInput) async throws -> ListDataCatalogsOutputResponse
     /// Returns a list of engine versions that are available to choose from, including the Auto option.
     func listEngineVersions(input: ListEngineVersionsInput) async throws -> ListEngineVersionsOutputResponse
-    /// Lists, in descending order, the executors that have been submitted to a session. Newer executors are listed first; older executors are listed later. The result can be optionally filtered by state.
+    /// Lists, in descending order, the executors that joined a session. Newer executors are listed first; older executors are listed later. The result can be optionally filtered by state.
     func listExecutors(input: ListExecutorsInput) async throws -> ListExecutorsOutputResponse
     /// Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
     func listNamedQueries(input: ListNamedQueriesInput) async throws -> ListNamedQueriesOutputResponse
@@ -97,7 +97,7 @@ public protocol AthenaClientProtocol {
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Lists available workgroups for the account.
     func listWorkGroups(input: ListWorkGroupsInput) async throws -> ListWorkGroupsOutputResponse
-    /// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request or as an Amazon S3 URL.
+    /// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request.
     func startCalculationExecution(input: StartCalculationExecutionInput) async throws -> StartCalculationExecutionOutputResponse
     /// Runs the SQL query statements contained in the Query. Requires you to have access to the workgroup in which the query ran. Running queries against an external catalog requires [GetDataCatalog] permission to the catalog. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
     func startQueryExecution(input: StartQueryExecutionInput) async throws -> StartQueryExecutionOutputResponse
@@ -107,7 +107,7 @@ public protocol AthenaClientProtocol {
     func stopCalculationExecution(input: StopCalculationExecutionInput) async throws -> StopCalculationExecutionOutputResponse
     /// Stops a query execution. Requires you to have access to the workgroup in which the query ran. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
     func stopQueryExecution(input: StopQueryExecutionInput) async throws -> StopQueryExecutionOutputResponse
-    /// Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. In Athena, a resource can be a workgroup or data catalog. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups or data catalogs by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter workgroups or data catalogs in your account. For best practices, see [Tagging Best Practices](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/). Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
+    /// Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. In Athena, a resource can be a workgroup or data catalog. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups or data catalogs by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter workgroups or data catalogs in your account. For best practices, see [Tagging Best Practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html). Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Terminates an active session. A TerminateSession call on a session that is already inactive (for example, in a FAILED, TERMINATED or TERMINATING state) succeeds but has no effect. Calculations running in the session when TerminateSession is called are forcefully stopped, but may display as FAILED instead of STOPPED.
     func terminateSession(input: TerminateSessionInput) async throws -> TerminateSessionOutputResponse
@@ -123,7 +123,7 @@ public protocol AthenaClientProtocol {
     func updateNotebookMetadata(input: UpdateNotebookMetadataInput) async throws -> UpdateNotebookMetadataOutputResponse
     /// Updates a prepared statement.
     func updatePreparedStatement(input: UpdatePreparedStatementInput) async throws -> UpdatePreparedStatementOutputResponse
-    /// Updates the workgroup with the specified name. The workgroup's name cannot be changed. Only one of ConfigurationsUpdates or ConfigurationUpdates can be specified; ConfigurationsUpdates for a workgroup with multi engine support (for example, an Apache Spark enabled workgroup) or ConfigurationUpdates for an Athena SQL workgroup.
+    /// Updates the workgroup with the specified name. The workgroup's name cannot be changed. Only ConfigurationUpdates can be specified.
     func updateWorkGroup(input: UpdateWorkGroupInput) async throws -> UpdateWorkGroupOutputResponse
 }
 

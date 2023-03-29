@@ -8984,6 +8984,7 @@ extension DescribeInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             self.name = output.name
             self.networkSettings = output.networkSettings
             self.serialNumber = output.serialNumber
+            self.tags = output.tags
             self.type = output.type
             self.uhdDeviceSettings = output.uhdDeviceSettings
         } else {
@@ -8997,6 +8998,7 @@ extension DescribeInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             self.name = nil
             self.networkSettings = nil
             self.serialNumber = nil
+            self.tags = nil
             self.type = nil
             self.uhdDeviceSettings = nil
         }
@@ -9025,6 +9027,8 @@ public struct DescribeInputDeviceOutputResponse: Swift.Equatable {
     public var networkSettings: MediaLiveClientTypes.InputDeviceNetworkSettings?
     /// The unique serial number of the input device.
     public var serialNumber: Swift.String?
+    /// A collection of key-value pairs.
+    public var tags: [Swift.String:Swift.String]?
     /// The type of the input device.
     public var type: MediaLiveClientTypes.InputDeviceType?
     /// Settings that describe an input device that is type UHD.
@@ -9041,6 +9045,7 @@ public struct DescribeInputDeviceOutputResponse: Swift.Equatable {
         name: Swift.String? = nil,
         networkSettings: MediaLiveClientTypes.InputDeviceNetworkSettings? = nil,
         serialNumber: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
         type: MediaLiveClientTypes.InputDeviceType? = nil,
         uhdDeviceSettings: MediaLiveClientTypes.InputDeviceUhdSettings? = nil
     )
@@ -9055,6 +9060,7 @@ public struct DescribeInputDeviceOutputResponse: Swift.Equatable {
         self.name = name
         self.networkSettings = networkSettings
         self.serialNumber = serialNumber
+        self.tags = tags
         self.type = type
         self.uhdDeviceSettings = uhdDeviceSettings
     }
@@ -9073,6 +9079,7 @@ struct DescribeInputDeviceOutputResponseBody: Swift.Equatable {
     let serialNumber: Swift.String?
     let type: MediaLiveClientTypes.InputDeviceType?
     let uhdDeviceSettings: MediaLiveClientTypes.InputDeviceUhdSettings?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension DescribeInputDeviceOutputResponseBody: Swift.Decodable {
@@ -9087,6 +9094,7 @@ extension DescribeInputDeviceOutputResponseBody: Swift.Decodable {
         case name = "name"
         case networkSettings = "networkSettings"
         case serialNumber = "serialNumber"
+        case tags = "tags"
         case type = "type"
         case uhdDeviceSettings = "uhdDeviceSettings"
     }
@@ -9117,6 +9125,17 @@ extension DescribeInputDeviceOutputResponseBody: Swift.Decodable {
         type = typeDecoded
         let uhdDeviceSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceUhdSettings.self, forKey: .uhdDeviceSettings)
         uhdDeviceSettings = uhdDeviceSettingsDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -17733,11 +17752,15 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes.HlsId3SegmentTaggingScheduleActionSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case id3 = "id3"
         case tag = "tag"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let id3 = self.id3 {
+            try encodeContainer.encode(id3, forKey: .id3)
+        }
         if let tag = self.tag {
             try encodeContainer.encode(tag, forKey: .tag)
         }
@@ -17747,20 +17770,25 @@ extension MediaLiveClientTypes.HlsId3SegmentTaggingScheduleActionSettings: Swift
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tag)
         tag = tagDecoded
+        let id3Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id3)
+        id3 = id3Decoded
     }
 }
 
 extension MediaLiveClientTypes {
     /// Settings for the action to insert a user-defined ID3 tag in each HLS segment
     public struct HlsId3SegmentTaggingScheduleActionSettings: Swift.Equatable {
+        /// Base64 string formatted according to the ID3 specification: http://id3.org/id3v2.4.0-structure
+        public var id3: Swift.String?
         /// ID3 tag to insert into each segment. Supports special keyword identifiers to substitute in segment-related values.\nSupported keyword identifiers: https://docs.aws.amazon.com/medialive/latest/ug/variable-data-identifiers.html
-        /// This member is required.
         public var tag: Swift.String?
 
         public init (
+            id3: Swift.String? = nil,
             tag: Swift.String? = nil
         )
         {
+            self.id3 = id3
             self.tag = tag
         }
     }
@@ -20133,6 +20161,7 @@ extension MediaLiveClientTypes.InputDeviceSummary: Swift.Codable {
         case name = "name"
         case networkSettings = "networkSettings"
         case serialNumber = "serialNumber"
+        case tags = "tags"
         case type = "type"
         case uhdDeviceSettings = "uhdDeviceSettings"
     }
@@ -20169,6 +20198,12 @@ extension MediaLiveClientTypes.InputDeviceSummary: Swift.Codable {
         if let serialNumber = self.serialNumber {
             try encodeContainer.encode(serialNumber, forKey: .serialNumber)
         }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
         }
@@ -20203,6 +20238,17 @@ extension MediaLiveClientTypes.InputDeviceSummary: Swift.Codable {
         type = typeDecoded
         let uhdDeviceSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceUhdSettings.self, forKey: .uhdDeviceSettings)
         uhdDeviceSettings = uhdDeviceSettingsDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -20229,6 +20275,8 @@ extension MediaLiveClientTypes {
         public var networkSettings: MediaLiveClientTypes.InputDeviceNetworkSettings?
         /// The unique serial number of the input device.
         public var serialNumber: Swift.String?
+        /// A collection of key-value pairs.
+        public var tags: [Swift.String:Swift.String]?
         /// The type of the input device.
         public var type: MediaLiveClientTypes.InputDeviceType?
         /// Settings that describe an input device that is type UHD.
@@ -20245,6 +20293,7 @@ extension MediaLiveClientTypes {
             name: Swift.String? = nil,
             networkSettings: MediaLiveClientTypes.InputDeviceNetworkSettings? = nil,
             serialNumber: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
             type: MediaLiveClientTypes.InputDeviceType? = nil,
             uhdDeviceSettings: MediaLiveClientTypes.InputDeviceUhdSettings? = nil
         )
@@ -20259,6 +20308,7 @@ extension MediaLiveClientTypes {
             self.name = name
             self.networkSettings = networkSettings
             self.serialNumber = serialNumber
+            self.tags = tags
             self.type = type
             self.uhdDeviceSettings = uhdDeviceSettings
         }
@@ -35745,6 +35795,7 @@ extension UpdateInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             self.name = output.name
             self.networkSettings = output.networkSettings
             self.serialNumber = output.serialNumber
+            self.tags = output.tags
             self.type = output.type
             self.uhdDeviceSettings = output.uhdDeviceSettings
         } else {
@@ -35758,6 +35809,7 @@ extension UpdateInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             self.name = nil
             self.networkSettings = nil
             self.serialNumber = nil
+            self.tags = nil
             self.type = nil
             self.uhdDeviceSettings = nil
         }
@@ -35786,6 +35838,8 @@ public struct UpdateInputDeviceOutputResponse: Swift.Equatable {
     public var networkSettings: MediaLiveClientTypes.InputDeviceNetworkSettings?
     /// The unique serial number of the input device.
     public var serialNumber: Swift.String?
+    /// A collection of key-value pairs.
+    public var tags: [Swift.String:Swift.String]?
     /// The type of the input device.
     public var type: MediaLiveClientTypes.InputDeviceType?
     /// Settings that describe an input device that is type UHD.
@@ -35802,6 +35856,7 @@ public struct UpdateInputDeviceOutputResponse: Swift.Equatable {
         name: Swift.String? = nil,
         networkSettings: MediaLiveClientTypes.InputDeviceNetworkSettings? = nil,
         serialNumber: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
         type: MediaLiveClientTypes.InputDeviceType? = nil,
         uhdDeviceSettings: MediaLiveClientTypes.InputDeviceUhdSettings? = nil
     )
@@ -35816,6 +35871,7 @@ public struct UpdateInputDeviceOutputResponse: Swift.Equatable {
         self.name = name
         self.networkSettings = networkSettings
         self.serialNumber = serialNumber
+        self.tags = tags
         self.type = type
         self.uhdDeviceSettings = uhdDeviceSettings
     }
@@ -35834,6 +35890,7 @@ struct UpdateInputDeviceOutputResponseBody: Swift.Equatable {
     let serialNumber: Swift.String?
     let type: MediaLiveClientTypes.InputDeviceType?
     let uhdDeviceSettings: MediaLiveClientTypes.InputDeviceUhdSettings?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension UpdateInputDeviceOutputResponseBody: Swift.Decodable {
@@ -35848,6 +35905,7 @@ extension UpdateInputDeviceOutputResponseBody: Swift.Decodable {
         case name = "name"
         case networkSettings = "networkSettings"
         case serialNumber = "serialNumber"
+        case tags = "tags"
         case type = "type"
         case uhdDeviceSettings = "uhdDeviceSettings"
     }
@@ -35878,6 +35936,17 @@ extension UpdateInputDeviceOutputResponseBody: Swift.Decodable {
         type = typeDecoded
         let uhdDeviceSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceUhdSettings.self, forKey: .uhdDeviceSettings)
         uhdDeviceSettings = uhdDeviceSettingsDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 

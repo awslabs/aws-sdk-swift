@@ -78,7 +78,7 @@ extension AthenaClientTypes.ApplicationDPUSizes: Swift.Codable {
 extension AthenaClientTypes {
     /// Contains the application runtime IDs and their supported DPU sizes.
     public struct ApplicationDPUSizes: Swift.Equatable {
-        /// The name of the supported application runtime (for example, Jupyter 1.0).
+        /// The name of the supported application runtime (for example, Athena notebook version 1).
         public var applicationRuntimeId: Swift.String?
         /// A list of the supported DPU sizes that the application runtime supports.
         public var supportedDPUSizes: [Swift.Int]?
@@ -1949,7 +1949,7 @@ extension CreateWorkGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateWorkGroupInput: Swift.Equatable {
-    /// Contains configuration information for creating an Athena SQL workgroup, which includes the location in Amazon S3 where query results are stored, the encryption configuration, if any, used for encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
+    /// Contains configuration information for creating an Athena SQL workgroup or Spark enabled Athena workgroup. Athena SQL workgroup configuration includes the location in Amazon S3 where query and calculation results are stored, the encryption configuration, if any, used for encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
     public var configuration: AthenaClientTypes.WorkGroupConfiguration?
     /// The workgroup description.
     public var description: Swift.String?
@@ -2728,7 +2728,7 @@ extension DeleteWorkGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteWorkGroupInput: Swift.Equatable {
-    /// The option to delete the workgroup and its contents even if the workgroup contains any named queries or query executions.
+    /// The option to delete the workgroup and its contents even if the workgroup contains any named queries, query executions, or notebooks.
     public var recursiveDeleteOption: Swift.Bool?
     /// The unique name of the workgroup to delete.
     /// This member is required.
@@ -2824,7 +2824,7 @@ extension AthenaClientTypes.EncryptionConfiguration: Swift.Codable {
 }
 
 extension AthenaClientTypes {
-    /// If query results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE_KMS or CSE_KMS) and key information.
+    /// If query and calculation results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE_KMS or CSE_KMS) and key information.
     public struct EncryptionConfiguration: Swift.Equatable {
         /// Indicates whether Amazon S3 server-side encryption with Amazon S3-managed keys (SSE_S3), server-side encryption with KMS-managed keys (SSE_KMS), or client-side encryption with KMS-managed keys (CSE_KMS) is used. If a query runs in a workgroup and the workgroup overrides client-side settings, then the workgroup's setting for encryption is used. It specifies whether query results must be encrypted, for all queries that run in this workgroup.
         /// This member is required.
@@ -2931,7 +2931,7 @@ extension AthenaClientTypes.EngineConfiguration: Swift.Codable {
 extension AthenaClientTypes {
     /// Contains data processing unit (DPU) configuration settings and parameter mappings for a notebook engine.
     public struct EngineConfiguration: Swift.Equatable {
-        /// Contains additional notebook engine MAP parameter mappings in the form of key-value pairs. To specify an Amazon S3 URI that the Jupyter server will download and serve, specify a value for the [StartSessionRequest$NotebookVersion] field, and then add a key named NotebookFileURI to AdditionalConfigs that has value of the Amazon S3 URI.
+        /// Contains additional notebook engine MAP parameter mappings in the form of key-value pairs. To specify an Athena notebook that the Jupyter server will download and serve, specify a value for the [StartSessionRequest$NotebookVersion] field, and then add a key named NotebookId to AdditionalConfigs that has the value of the Athena notebook ID.
         public var additionalConfigs: [Swift.String:Swift.String]?
         /// The number of DPUs to use for the coordinator. A coordinator is a special executor that orchestrates processing work and manages other executors in a notebook session.
         public var coordinatorDpuSize: Swift.Int
@@ -3415,7 +3415,7 @@ extension GetCalculationExecutionCodeOutputResponse: ClientRuntime.HttpResponseB
 }
 
 public struct GetCalculationExecutionCodeOutputResponse: Swift.Equatable {
-    /// A pre-signed URL to the code that executed the calculation.
+    /// The unencrypted code that was executed for the calculation.
     public var codeBlock: Swift.String?
 
     public init (
@@ -5437,7 +5437,7 @@ extension ImportNotebookOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ImportNotebookOutputResponse: Swift.Equatable {
-    /// The ID of the notebook to import.
+    /// The ID assigned to the imported notebook.
     public var notebookId: Swift.String?
 
     public init (
@@ -8496,7 +8496,7 @@ extension AthenaClientTypes {
         public var queryExecutionContext: AthenaClientTypes.QueryExecutionContext?
         /// The unique identifier for each query execution.
         public var queryExecutionId: Swift.String?
-        /// The location in Amazon S3 where query results were stored and the encryption option, if any, used for query results. These are known as "client-side settings". If workgroup settings override client-side settings, then the query uses the location for the query results and the encryption configuration that are specified for the workgroup.
+        /// The location in Amazon S3 where query and calculation results are stored and the encryption option, if any, used for query results. These are known as "client-side settings". If workgroup settings override client-side settings, then the query uses the location for the query results and the encryption configuration that are specified for the workgroup.
         public var resultConfiguration: AthenaClientTypes.ResultConfiguration?
         /// Specifies the query result reuse behavior that was used for the query.
         public var resultReuseConfiguration: AthenaClientTypes.ResultReuseConfiguration?
@@ -9320,15 +9320,15 @@ extension AthenaClientTypes.ResultConfiguration: Swift.Codable {
 }
 
 extension AthenaClientTypes {
-    /// The location in Amazon S3 where query results are stored and the encryption option, if any, used for query results. These are known as "client-side settings". If workgroup settings override client-side settings, then the query uses the workgroup settings.
+    /// The location in Amazon S3 where query and calculation results are stored and the encryption option, if any, used for query and calculation results. These are known as "client-side settings". If workgroup settings override client-side settings, then the query uses the workgroup settings.
     public struct ResultConfiguration: Swift.Equatable {
         /// Indicates that an Amazon S3 canned ACL should be set to control ownership of stored query results. Currently the only supported canned ACL is BUCKET_OWNER_FULL_CONTROL. This is a client-side setting. If workgroup settings override client-side settings, then the query uses the ACL configuration that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. For more information, see [WorkGroupConfiguration$EnforceWorkGroupConfiguration] and [Workgroup Settings Override Client-Side Settings](https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html).
         public var aclConfiguration: AthenaClientTypes.AclConfiguration?
-        /// If query results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE_KMS or CSE_KMS) and key information. This is a client-side setting. If workgroup settings override client-side settings, then the query uses the encryption configuration that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration] and [Workgroup Settings Override Client-Side Settings](https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html).
+        /// If query and calculation results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE_KMS or CSE_KMS) and key information. This is a client-side setting. If workgroup settings override client-side settings, then the query uses the encryption configuration that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration] and [Workgroup Settings Override Client-Side Settings](https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html).
         public var encryptionConfiguration: AthenaClientTypes.EncryptionConfiguration?
         /// The Amazon Web Services account ID that you expect to be the owner of the Amazon S3 bucket specified by [ResultConfiguration$OutputLocation]. If set, Athena uses the value for ExpectedBucketOwner when it makes Amazon S3 calls to your specified output location. If the ExpectedBucketOwner Amazon Web Services account ID does not match the actual owner of the Amazon S3 bucket, the call fails with a permissions error. This is a client-side setting. If workgroup settings override client-side settings, then the query uses the ExpectedBucketOwner setting that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration] and [Workgroup Settings Override Client-Side Settings](https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html).
         public var expectedBucketOwner: Swift.String?
-        /// The location in Amazon S3 where your query results are stored, such as s3://path/to/query/bucket/. To run the query, you must specify the query results location using one of the ways: either for individual queries using either this setting (client-side), or in the workgroup, using [WorkGroupConfiguration]. If none of them is set, Athena issues an error that no output location is provided. For more information, see [Query Results](https://docs.aws.amazon.com/athena/latest/ug/querying.html). If workgroup settings override client-side settings, then the query uses the settings specified for the workgroup. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
+        /// The location in Amazon S3 where your query and calculation results are stored, such as s3://path/to/query/bucket/. To run the query, you must specify the query results location using one of the ways: either for individual queries using either this setting (client-side), or in the workgroup, using [WorkGroupConfiguration]. If none of them is set, Athena issues an error that no output location is provided. For more information, see [Working with query results, recent queries, and output files](https://docs.aws.amazon.com/athena/latest/ug/querying.html). If workgroup settings override client-side settings, then the query uses the settings specified for the workgroup. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
         public var outputLocation: Swift.String?
 
         public init (
@@ -9413,11 +9413,11 @@ extension AthenaClientTypes {
     public struct ResultConfigurationUpdates: Swift.Equatable {
         /// The ACL configuration for the query results.
         public var aclConfiguration: AthenaClientTypes.AclConfiguration?
-        /// The encryption configuration for the query results.
+        /// The encryption configuration for query and calculation results.
         public var encryptionConfiguration: AthenaClientTypes.EncryptionConfiguration?
         /// The Amazon Web Services account ID that you expect to be the owner of the Amazon S3 bucket specified by [ResultConfiguration$OutputLocation]. If set, Athena uses the value for ExpectedBucketOwner when it makes Amazon S3 calls to your specified output location. If the ExpectedBucketOwner Amazon Web Services account ID does not match the actual owner of the Amazon S3 bucket, the call fails with a permissions error. If workgroup settings override client-side settings, then the query uses the ExpectedBucketOwner setting that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration] and [Workgroup Settings Override Client-Side Settings](https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html).
         public var expectedBucketOwner: Swift.String?
-        /// The location in Amazon S3 where your query results are stored, such as s3://path/to/query/bucket/. For more information, see [Query Results](https://docs.aws.amazon.com/athena/latest/ug/querying.html) If workgroup settings override client-side settings, then the query uses the location for the query results and the encryption configuration that are specified for the workgroup. The "workgroup settings override" is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
+        /// The location in Amazon S3 where your query and calculation results are stored, such as s3://path/to/query/bucket/. For more information, see [Working with query results, recent queries, and output files](https://docs.aws.amazon.com/athena/latest/ug/querying.html). If workgroup settings override client-side settings, then the query uses the location for the query results and the encryption configuration that are specified for the workgroup. The "workgroup settings override" is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
         public var outputLocation: Swift.String?
         /// If set to true, indicates that the previously-specified ACL configuration for queries in this workgroup should be ignored and set to null. If set to false or not set, and a value is present in the AclConfiguration of ResultConfigurationUpdates, the AclConfiguration in the workgroup's ResultConfiguration is updated with the new value. For more information, see [Workgroup Settings Override Client-Side Settings](https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html).
         public var removeAclConfiguration: Swift.Bool?
@@ -9841,7 +9841,7 @@ extension AthenaClientTypes.SessionConfiguration: Swift.Codable {
 extension AthenaClientTypes {
     /// Contains session configuration information.
     public struct SessionConfiguration: Swift.Equatable {
-        /// If query results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE_KMS or CSE_KMS) and key information.
+        /// If query and calculation results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE_KMS or CSE_KMS) and key information.
         public var encryptionConfiguration: AthenaClientTypes.EncryptionConfiguration?
         /// The ARN of the execution role used for the session.
         public var executionRole: Swift.String?
@@ -9936,7 +9936,7 @@ extension AthenaClientTypes.SessionStatistics: Swift.Codable {
 }
 
 extension AthenaClientTypes {
-    /// Contains statistics for a notebook session.
+    /// Contains statistics for a session.
     public struct SessionStatistics: Swift.Equatable {
         /// The data processing unit execution time for a session in milliseconds.
         public var dpuExecutionInMillis: Swift.Int?
@@ -10001,7 +10001,7 @@ extension AthenaClientTypes.SessionStatus: Swift.Codable {
 }
 
 extension AthenaClientTypes {
-    /// Contains information about the status of a notebook session.
+    /// Contains information about the status of a session.
     public struct SessionStatus: Swift.Equatable {
         /// The date and time that the session ended.
         public var endDateTime: ClientRuntime.Date?
@@ -10080,7 +10080,7 @@ extension AthenaClientTypes.SessionSummary: Swift.Codable {
 }
 
 extension AthenaClientTypes {
-    /// Contains summary information about a notebook session.
+    /// Contains summary information about a session.
     public struct SessionSummary: Swift.Equatable {
         /// The session description.
         public var description: Swift.String?
@@ -10531,7 +10531,7 @@ public struct StartSessionInput: Swift.Equatable {
     /// Contains engine data processing unit (DPU) configuration settings and parameter mappings.
     /// This member is required.
     public var engineConfiguration: AthenaClientTypes.EngineConfiguration?
-    /// The notebook version. This value is required only when requesting that a notebook server be started for the session. The only valid notebook version is Jupyter1.0.
+    /// The notebook version. This value is supplied automatically for notebook sessions in the Athena console and is not required for programmatic session access. The only valid notebook version is Athena notebook version 1. If you specify a value for NotebookVersion, you must also specify a value for NotebookId. See [EngineConfiguration$AdditionalConfigs].
     public var notebookVersion: Swift.String?
     /// The idle timeout in minutes for the session.
     public var sessionIdleTimeoutInMinutes: Swift.Int?
@@ -11064,7 +11064,7 @@ extension AthenaClientTypes.Tag: Swift.Codable {
 }
 
 extension AthenaClientTypes {
-    /// A label that you assign to a resource. In Athena, a resource can be a workgroup or data catalog. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups or data catalogs by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter workgroups or data catalogs in your account. For best practices, see [Tagging Best Practices](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/). Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
+    /// A label that you assign to a resource. In Athena, a resource can be a workgroup or data catalog. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups or data catalogs by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter workgroups or data catalogs in your account. For best practices, see [Tagging Best Practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html). Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
     public struct Tag: Swift.Equatable {
         /// A tag key. The tag key length is from 1 to 128 Unicode characters in UTF-8. You can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys are case-sensitive and must be unique per resource.
         public var key: Swift.String?
@@ -11982,7 +11982,7 @@ public struct UpdateNotebookInput: Swift.Equatable {
     /// The updated content for the notebook.
     /// This member is required.
     public var payload: Swift.String?
-    /// The ID of the session in which the notebook will be updated.
+    /// The active notebook session ID. Required if the notebook has an active session.
     public var sessionId: Swift.String?
     /// The notebook content type. Currently, the only valid type is IPYNB.
     /// This member is required.
@@ -12467,7 +12467,7 @@ extension AthenaClientTypes.WorkGroup: Swift.Codable {
 extension AthenaClientTypes {
     /// A workgroup, which contains a name, description, creation time, state, and other configuration, listed under [WorkGroup$Configuration]. Each workgroup enables you to isolate queries for you or your group of users from other queries in the same account, to configure the query results location and the encryption configuration (known as workgroup settings), to enable sending query metrics to Amazon CloudWatch, and to establish per-query data usage control limits for all queries in a workgroup. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
     public struct WorkGroup: Swift.Equatable {
-        /// The configuration of the workgroup, which includes the location in Amazon S3 where query results are stored, the encryption configuration, if any, used for query results; whether the Amazon CloudWatch Metrics are enabled for the workgroup; whether workgroup settings override client-side settings; and the data usage limits for the amount of data scanned per query or per workgroup. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
+        /// The configuration of the workgroup, which includes the location in Amazon S3 where query and calculation results are stored, the encryption configuration, if any, used for query and calculation results; whether the Amazon CloudWatch Metrics are enabled for the workgroup; whether workgroup settings override client-side settings; and the data usage limits for the amount of data scanned per query or per workgroup. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
         public var configuration: AthenaClientTypes.WorkGroupConfiguration?
         /// The date and time the workgroup was created.
         public var creationTime: ClientRuntime.Date?
@@ -12502,6 +12502,7 @@ extension AthenaClientTypes.WorkGroupConfiguration: Swift.Codable {
         case additionalConfiguration = "AdditionalConfiguration"
         case bytesScannedCutoffPerQuery = "BytesScannedCutoffPerQuery"
         case customerContentEncryptionConfiguration = "CustomerContentEncryptionConfiguration"
+        case enableMinimumEncryptionConfiguration = "EnableMinimumEncryptionConfiguration"
         case enforceWorkGroupConfiguration = "EnforceWorkGroupConfiguration"
         case engineVersion = "EngineVersion"
         case executionRole = "ExecutionRole"
@@ -12520,6 +12521,9 @@ extension AthenaClientTypes.WorkGroupConfiguration: Swift.Codable {
         }
         if let customerContentEncryptionConfiguration = self.customerContentEncryptionConfiguration {
             try encodeContainer.encode(customerContentEncryptionConfiguration, forKey: .customerContentEncryptionConfiguration)
+        }
+        if let enableMinimumEncryptionConfiguration = self.enableMinimumEncryptionConfiguration {
+            try encodeContainer.encode(enableMinimumEncryptionConfiguration, forKey: .enableMinimumEncryptionConfiguration)
         }
         if let enforceWorkGroupConfiguration = self.enforceWorkGroupConfiguration {
             try encodeContainer.encode(enforceWorkGroupConfiguration, forKey: .enforceWorkGroupConfiguration)
@@ -12561,11 +12565,13 @@ extension AthenaClientTypes.WorkGroupConfiguration: Swift.Codable {
         executionRole = executionRoleDecoded
         let customerContentEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CustomerContentEncryptionConfiguration.self, forKey: .customerContentEncryptionConfiguration)
         customerContentEncryptionConfiguration = customerContentEncryptionConfigurationDecoded
+        let enableMinimumEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableMinimumEncryptionConfiguration)
+        enableMinimumEncryptionConfiguration = enableMinimumEncryptionConfigurationDecoded
     }
 }
 
 extension AthenaClientTypes {
-    /// The configuration of the workgroup, which includes the location in Amazon S3 where query results are stored, the encryption option, if any, used for query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup and whether workgroup settings override query settings, and the data usage limits for the amount of data scanned per query or per workgroup. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
+    /// The configuration of the workgroup, which includes the location in Amazon S3 where query and calculation results are stored, the encryption option, if any, used for query and calculation results, whether the Amazon CloudWatch Metrics are enabled for the workgroup and whether workgroup settings override query settings, and the data usage limits for the amount of data scanned per query or per workgroup. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
     public struct WorkGroupConfiguration: Swift.Equatable {
         /// Specifies a user defined JSON string that is passed to the notebook engine.
         public var additionalConfiguration: Swift.String?
@@ -12573,23 +12579,26 @@ extension AthenaClientTypes {
         public var bytesScannedCutoffPerQuery: Swift.Int?
         /// Specifies the KMS key that is used to encrypt the user's data stores in Athena.
         public var customerContentEncryptionConfiguration: AthenaClientTypes.CustomerContentEncryptionConfiguration?
+        /// Enforces a minimal level of encryption for the workgroup for query and calculation results that are written to Amazon S3. When enabled, workgroup users can set encryption only to the minimum level set by the administrator or higher when they submit queries. The EnforceWorkGroupConfiguration setting takes precedence over the EnableMinimumEncryptionConfiguration flag. This means that if EnforceWorkGroupConfiguration is true, the EnableMinimumEncryptionConfiguration flag is ignored, and the workgroup configuration for encryption is used.
+        public var enableMinimumEncryptionConfiguration: Swift.Bool?
         /// If set to "true", the settings for the workgroup override client-side settings. If set to "false", client-side settings are used. For more information, see [Workgroup Settings Override Client-Side Settings](https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html).
         public var enforceWorkGroupConfiguration: Swift.Bool?
         /// The engine version that all queries running on the workgroup use. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public var engineVersion: AthenaClientTypes.EngineVersion?
-        /// Role used in a notebook session for accessing the user's resources.
+        /// Role used in a session for accessing the user's resources.
         public var executionRole: Swift.String?
         /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
         public var publishCloudWatchMetricsEnabled: Swift.Bool?
         /// If set to true, allows members assigned to a workgroup to reference Amazon S3 Requester Pays buckets in queries. If set to false, workgroup members cannot query data from Requester Pays buckets, and queries that retrieve data from Requester Pays buckets cause an error. The default is false. For more information about Requester Pays buckets, see [Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html) in the Amazon Simple Storage Service Developer Guide.
         public var requesterPaysEnabled: Swift.Bool?
-        /// The configuration for the workgroup, which includes the location in Amazon S3 where query results are stored and the encryption option, if any, used for query results. To run the query, you must specify the query results location using one of the ways: either in the workgroup using this setting, or for individual queries (client-side), using [ResultConfiguration$OutputLocation]. If none of them is set, Athena issues an error that no output location is provided. For more information, see [Query Results](https://docs.aws.amazon.com/athena/latest/ug/querying.html).
+        /// The configuration for the workgroup, which includes the location in Amazon S3 where query and calculation results are stored and the encryption option, if any, used for query and calculation results. To run the query, you must specify the query results location using one of the ways: either in the workgroup using this setting, or for individual queries (client-side), using [ResultConfiguration$OutputLocation]. If none of them is set, Athena issues an error that no output location is provided. For more information, see [Working with query results, recent queries, and output files](https://docs.aws.amazon.com/athena/latest/ug/querying.html).
         public var resultConfiguration: AthenaClientTypes.ResultConfiguration?
 
         public init (
             additionalConfiguration: Swift.String? = nil,
             bytesScannedCutoffPerQuery: Swift.Int? = nil,
             customerContentEncryptionConfiguration: AthenaClientTypes.CustomerContentEncryptionConfiguration? = nil,
+            enableMinimumEncryptionConfiguration: Swift.Bool? = nil,
             enforceWorkGroupConfiguration: Swift.Bool? = nil,
             engineVersion: AthenaClientTypes.EngineVersion? = nil,
             executionRole: Swift.String? = nil,
@@ -12601,6 +12610,7 @@ extension AthenaClientTypes {
             self.additionalConfiguration = additionalConfiguration
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
             self.customerContentEncryptionConfiguration = customerContentEncryptionConfiguration
+            self.enableMinimumEncryptionConfiguration = enableMinimumEncryptionConfiguration
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
             self.engineVersion = engineVersion
             self.executionRole = executionRole
@@ -12617,6 +12627,7 @@ extension AthenaClientTypes.WorkGroupConfigurationUpdates: Swift.Codable {
         case additionalConfiguration = "AdditionalConfiguration"
         case bytesScannedCutoffPerQuery = "BytesScannedCutoffPerQuery"
         case customerContentEncryptionConfiguration = "CustomerContentEncryptionConfiguration"
+        case enableMinimumEncryptionConfiguration = "EnableMinimumEncryptionConfiguration"
         case enforceWorkGroupConfiguration = "EnforceWorkGroupConfiguration"
         case engineVersion = "EngineVersion"
         case executionRole = "ExecutionRole"
@@ -12637,6 +12648,9 @@ extension AthenaClientTypes.WorkGroupConfigurationUpdates: Swift.Codable {
         }
         if let customerContentEncryptionConfiguration = self.customerContentEncryptionConfiguration {
             try encodeContainer.encode(customerContentEncryptionConfiguration, forKey: .customerContentEncryptionConfiguration)
+        }
+        if let enableMinimumEncryptionConfiguration = self.enableMinimumEncryptionConfiguration {
+            try encodeContainer.encode(enableMinimumEncryptionConfiguration, forKey: .enableMinimumEncryptionConfiguration)
         }
         if let enforceWorkGroupConfiguration = self.enforceWorkGroupConfiguration {
             try encodeContainer.encode(enforceWorkGroupConfiguration, forKey: .enforceWorkGroupConfiguration)
@@ -12688,11 +12702,13 @@ extension AthenaClientTypes.WorkGroupConfigurationUpdates: Swift.Codable {
         executionRole = executionRoleDecoded
         let customerContentEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(AthenaClientTypes.CustomerContentEncryptionConfiguration.self, forKey: .customerContentEncryptionConfiguration)
         customerContentEncryptionConfiguration = customerContentEncryptionConfigurationDecoded
+        let enableMinimumEncryptionConfigurationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableMinimumEncryptionConfiguration)
+        enableMinimumEncryptionConfiguration = enableMinimumEncryptionConfigurationDecoded
     }
 }
 
 extension AthenaClientTypes {
-    /// The configuration information that will be updated for this workgroup, which includes the location in Amazon S3 where query results are stored, the encryption option, if any, used for query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, whether the workgroup settings override the client-side settings, and the data usage limit for the amount of bytes scanned per query, if it is specified.
+    /// The configuration information that will be updated for this workgroup, which includes the location in Amazon S3 where query and calculation results are stored, the encryption option, if any, used for query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, whether the workgroup settings override the client-side settings, and the data usage limit for the amount of bytes scanned per query, if it is specified.
     public struct WorkGroupConfigurationUpdates: Swift.Equatable {
         /// Contains a user defined string in JSON format for a Spark-enabled workgroup.
         public var additionalConfiguration: Swift.String?
@@ -12700,6 +12716,8 @@ extension AthenaClientTypes {
         public var bytesScannedCutoffPerQuery: Swift.Int?
         /// Specifies the KMS key that is used to encrypt the user's data stores in Athena.
         public var customerContentEncryptionConfiguration: AthenaClientTypes.CustomerContentEncryptionConfiguration?
+        /// Enforces a minimal level of encryption for the workgroup for query and calculation results that are written to Amazon S3. When enabled, workgroup users can set encryption only to the minimum level set by the administrator or higher when they submit queries. This setting does not apply to Spark-enabled workgroups. The EnforceWorkGroupConfiguration setting takes precedence over the EnableMinimumEncryptionConfiguration flag. This means that if EnforceWorkGroupConfiguration is true, the EnableMinimumEncryptionConfiguration flag is ignored, and the workgroup configuration for encryption is used.
+        public var enableMinimumEncryptionConfiguration: Swift.Bool?
         /// If set to "true", the settings for the workgroup override client-side settings. If set to "false" client-side settings are used. For more information, see [Workgroup Settings Override Client-Side Settings](https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html).
         public var enforceWorkGroupConfiguration: Swift.Bool?
         /// The engine version requested when a workgroup is updated. After the update, all queries on the workgroup run on the requested engine version. If no value was previously set, the default is Auto. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
@@ -12721,6 +12739,7 @@ extension AthenaClientTypes {
             additionalConfiguration: Swift.String? = nil,
             bytesScannedCutoffPerQuery: Swift.Int? = nil,
             customerContentEncryptionConfiguration: AthenaClientTypes.CustomerContentEncryptionConfiguration? = nil,
+            enableMinimumEncryptionConfiguration: Swift.Bool? = nil,
             enforceWorkGroupConfiguration: Swift.Bool? = nil,
             engineVersion: AthenaClientTypes.EngineVersion? = nil,
             executionRole: Swift.String? = nil,
@@ -12734,6 +12753,7 @@ extension AthenaClientTypes {
             self.additionalConfiguration = additionalConfiguration
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
             self.customerContentEncryptionConfiguration = customerContentEncryptionConfiguration
+            self.enableMinimumEncryptionConfiguration = enableMinimumEncryptionConfiguration
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
             self.engineVersion = engineVersion
             self.executionRole = executionRole

@@ -244,8 +244,8 @@ extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartCallAnalyticsStreamTranscriptionOutputResponse, StartCallAnalyticsStreamTranscriptionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartCallAnalyticsStreamTranscriptionOutputResponse, StartCallAnalyticsStreamTranscriptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartCallAnalyticsStreamTranscriptionOutputResponse, StartCallAnalyticsStreamTranscriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartCallAnalyticsStreamTranscriptionOutputResponse, StartCallAnalyticsStreamTranscriptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartCallAnalyticsStreamTranscriptionOutputResponse, StartCallAnalyticsStreamTranscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -289,8 +289,8 @@ extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartMedicalStreamTranscriptionOutputResponse, StartMedicalStreamTranscriptionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartMedicalStreamTranscriptionOutputResponse, StartMedicalStreamTranscriptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartMedicalStreamTranscriptionOutputResponse, StartMedicalStreamTranscriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMedicalStreamTranscriptionOutputResponse, StartMedicalStreamTranscriptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMedicalStreamTranscriptionOutputResponse, StartMedicalStreamTranscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -334,8 +334,8 @@ extension TranscribeStreamingClient: TranscribeStreamingClientProtocol {
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartStreamTranscriptionOutputResponse, StartStreamTranscriptionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartStreamTranscriptionOutputResponse, StartStreamTranscriptionOutputError>(config: sigv4Config))
-        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartStreamTranscriptionOutputResponse, StartStreamTranscriptionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartStreamTranscriptionOutputResponse, StartStreamTranscriptionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartStreamTranscriptionOutputResponse, StartStreamTranscriptionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }

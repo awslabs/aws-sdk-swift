@@ -5563,7 +5563,7 @@ public struct CreateTransitGatewayRouteTableAttachmentInput: Swift.Equatable {
     public var peeringId: Swift.String?
     /// The list of key-value tags associated with the request.
     public var tags: [NetworkManagerClientTypes.Tag]?
-    /// The ARN of the transit gateway route table for the attachment request.
+    /// The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456".
     /// This member is required.
     public var transitGatewayRouteTableArn: Swift.String?
 
