@@ -102,8 +102,8 @@ class RestJsonProtocolGeneratorTests {
                     self.config = config
                 }
             
-                public convenience init(region: Swift.String) throws {
-                    let config = try ExampleClientConfiguration(region: region)
+                public convenience init(region: Swift.String) async throws {
+                    let config = try await ExampleClientConfiguration(region: region)
                     self.init(config: config)
                 }
             
