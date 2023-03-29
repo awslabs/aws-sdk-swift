@@ -28,9 +28,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "name": "sigv4",
                         "signingRegion": "us-east-1",
-                        "signingName": "savingsplans"
+                        "signingName": "savingsplans",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -116,9 +116,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "name": "sigv4",
                         "signingRegion": "us-east-1",
-                        "signingName": "savingsplans"
+                        "signingName": "savingsplans",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]

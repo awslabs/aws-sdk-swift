@@ -28,8 +28,8 @@ public class S3Client {
         self.config = config
     }
 
-    public convenience init(region: Swift.String) throws {
-        let config = try S3ClientConfiguration(region: region)
+    public convenience init(region: Swift.String) async throws {
+        let config = try await S3ClientConfiguration(region: region)
         self.init(config: config)
     }
 
@@ -85,7 +85,7 @@ public class S3Client {
 
             let fileBasedConfigurationStore = try CRTFiledBasedConfigurationStore()
 
-            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver()
+            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver(fileBasedConfigurationProvider: fileBasedConfigurationStore)
 
             let resolvedRegion: String?
             if let region = region {

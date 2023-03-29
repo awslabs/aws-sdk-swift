@@ -26,8 +26,8 @@ public class WorkMailMessageFlowClient {
         self.config = config
     }
 
-    public convenience init(region: Swift.String) throws {
-        let config = try WorkMailMessageFlowClientConfiguration(region: region)
+    public convenience init(region: Swift.String) async throws {
+        let config = try await WorkMailMessageFlowClientConfiguration(region: region)
         self.init(config: config)
     }
 
@@ -73,7 +73,7 @@ public class WorkMailMessageFlowClient {
 
             let fileBasedConfigurationStore = try CRTFiledBasedConfigurationStore()
 
-            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver()
+            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver(fileBasedConfigurationProvider: fileBasedConfigurationStore)
 
             let resolvedRegion: String?
             if let region = region {

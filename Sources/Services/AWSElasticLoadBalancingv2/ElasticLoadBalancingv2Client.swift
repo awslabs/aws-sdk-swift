@@ -22,8 +22,8 @@ public class ElasticLoadBalancingv2Client {
         self.config = config
     }
 
-    public convenience init(region: Swift.String) throws {
-        let config = try ElasticLoadBalancingv2ClientConfiguration(region: region)
+    public convenience init(region: Swift.String) async throws {
+        let config = try await ElasticLoadBalancingv2ClientConfiguration(region: region)
         self.init(config: config)
     }
 
@@ -69,7 +69,7 @@ public class ElasticLoadBalancingv2Client {
 
             let fileBasedConfigurationStore = try CRTFiledBasedConfigurationStore()
 
-            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver()
+            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver(fileBasedConfigurationProvider: fileBasedConfigurationStore)
 
             let resolvedRegion: String?
             if let region = region {

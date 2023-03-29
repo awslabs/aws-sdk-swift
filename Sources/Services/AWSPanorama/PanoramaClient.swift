@@ -26,8 +26,8 @@ public class PanoramaClient {
         self.config = config
     }
 
-    public convenience init(region: Swift.String) throws {
-        let config = try PanoramaClientConfiguration(region: region)
+    public convenience init(region: Swift.String) async throws {
+        let config = try await PanoramaClientConfiguration(region: region)
         self.init(config: config)
     }
 
@@ -73,7 +73,7 @@ public class PanoramaClient {
 
             let fileBasedConfigurationStore = try CRTFiledBasedConfigurationStore()
 
-            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver()
+            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver(fileBasedConfigurationProvider: fileBasedConfigurationStore)
 
             let resolvedRegion: String?
             if let region = region {

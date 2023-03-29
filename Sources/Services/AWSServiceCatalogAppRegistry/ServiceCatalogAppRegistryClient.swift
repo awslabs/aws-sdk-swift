@@ -26,8 +26,8 @@ public class ServiceCatalogAppRegistryClient {
         self.config = config
     }
 
-    public convenience init(region: Swift.String) throws {
-        let config = try ServiceCatalogAppRegistryClientConfiguration(region: region)
+    public convenience init(region: Swift.String) async throws {
+        let config = try await ServiceCatalogAppRegistryClientConfiguration(region: region)
         self.init(config: config)
     }
 
@@ -73,7 +73,7 @@ public class ServiceCatalogAppRegistryClient {
 
             let fileBasedConfigurationStore = try CRTFiledBasedConfigurationStore()
 
-            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver()
+            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver(fileBasedConfigurationProvider: fileBasedConfigurationStore)
 
             let resolvedRegion: String?
             if let region = region {

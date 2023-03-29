@@ -26,8 +26,8 @@ public class EMRcontainersClient {
         self.config = config
     }
 
-    public convenience init(region: Swift.String) throws {
-        let config = try EMRcontainersClientConfiguration(region: region)
+    public convenience init(region: Swift.String) async throws {
+        let config = try await EMRcontainersClientConfiguration(region: region)
         self.init(config: config)
     }
 
@@ -73,7 +73,7 @@ public class EMRcontainersClient {
 
             let fileBasedConfigurationStore = try CRTFiledBasedConfigurationStore()
 
-            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver()
+            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver(fileBasedConfigurationProvider: fileBasedConfigurationStore)
 
             let resolvedRegion: String?
             if let region = region {

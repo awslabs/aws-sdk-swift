@@ -26,8 +26,8 @@ public class Route53RecoveryControlConfigClient {
         self.config = config
     }
 
-    public convenience init(region: Swift.String) throws {
-        let config = try Route53RecoveryControlConfigClientConfiguration(region: region)
+    public convenience init(region: Swift.String) async throws {
+        let config = try await Route53RecoveryControlConfigClientConfiguration(region: region)
         self.init(config: config)
     }
 
@@ -73,7 +73,7 @@ public class Route53RecoveryControlConfigClient {
 
             let fileBasedConfigurationStore = try CRTFiledBasedConfigurationStore()
 
-            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver()
+            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver(fileBasedConfigurationProvider: fileBasedConfigurationStore)
 
             let resolvedRegion: String?
             if let region = region {
