@@ -163,6 +163,7 @@ func generateCommonDependencies() {
 let releasedSDKs = try! FileManager.default
     .contentsOfDirectory(atPath: "Sources/Services")
     .sorted()
+    .filter { !$0.starts(with: ".") }
 
 guard let deps: PackageDeps = getPackageDependencies() else {
     print("Failed to get version dependencies")

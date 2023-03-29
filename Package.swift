@@ -375,7 +375,7 @@ let package = Package(
         .target(name: "AWSClientRuntime", dependencies: [awsCommonRuntimeKit, clientRuntime], path: "./Sources/Core/AWSClientRuntime"),
 
         // MARK: - Core Test Targets
-        .testTarget(name: "AWSClientRuntimeTests", dependencies: [clientRuntime, "AWSClientRuntime", smithyTestUtil], path: "./Tests/Core/AWSClientRuntimeTests"),
+        .testTarget(name: "AWSClientRuntimeTests", dependencies: [clientRuntime, "AWSClientRuntime", smithyTestUtil], path: "./Tests/Core/AWSClientRuntimeTests", resources: [.process("Resources")]),
 
         // MARK: - Service Targets
         .target(name: "AWSACM", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSACM"),
