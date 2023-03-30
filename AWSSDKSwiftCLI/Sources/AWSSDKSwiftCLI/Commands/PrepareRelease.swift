@@ -24,10 +24,14 @@ struct PrepareReleaseCommand: ParsableCommand {
     @Argument(help: "The path to the git repository.")
     var repoPath: String
     
+    @Argument(help: "The artifactId for the source code")
+    var sourceCodeArtifactId: String
+    
     func run() throws {
         let prepareRelease = PrepareRelease.standard(
             repoType: repoType,
-            repoPath: repoPath
+            repoPath: repoPath,
+            sourceCodeArtifactId: sourceCodeArtifactId
         )
         try prepareRelease.run()
     }
@@ -49,6 +53,8 @@ struct PrepareRelease {
     /// The path to the package repository
     let repoPath: String
     
+    let sourceCodeArtifactId: String
+    
     typealias DiffChecker = (_ branch: String, _ version: Version) throws -> Bool
     /// Returns true if the repsoitory has changes given the current branch and the version to compare, otherwise returns false
     let diffChecker: DiffChecker
@@ -65,6 +71,11 @@ struct PrepareRelease {
         try stageFiles()
         try commitChanges(newVersion)
         try tagVersion(newVersion)
+        try generateReleaseManifest(
+            newVersion: newVersion,
+            previousVersion: previousVersion,
+            sourceCodeArtifactId: sourceCodeArtifactId
+        )
     }
     
     // MARK: - Helpers
@@ -140,6 +151,43 @@ struct PrepareRelease {
     func tagVersion(_ newVersion: Version) throws {
         try _run(Process.git.tag(newVersion, "Release \(newVersion)"))
     }
+    
+    /// Generates the release manifest and saves it to `release_manifest.json`
+    /// The releaes manifest defines the metadata used to create a release on github.
+    ///
+    /// - Parameters:
+    ///   - newVersion: The version for this new release
+    ///   - previousVersion: The version of the previous release
+    ///   - sourceCodeArtifactId: The artifactId for the source code
+    func generateReleaseManifest(
+        newVersion: Version,
+        previousVersion: Version,
+        sourceCodeArtifactId: String
+    ) throws {
+        let commits = try Process.git.listOfCommitsBetween("\(newVersion)", "\(previousVersion)")
+        
+        let releaseNotes = ReleaseNotesBuilder(
+            previousVersion: previousVersion,
+            newVersion: newVersion,
+            commits: commits
+        ).build()
+        
+        let manifest = ReleaseManifest(
+            name: "\(newVersion)",
+            tagName: "\(newVersion)",
+            body: releaseNotes,
+            assets: [
+                .init(artifactId: sourceCodeArtifactId, name: "Source code")
+            ]
+        )
+        
+        let jsonData = try JSONEncoder().encode(manifest)
+        let savedReleaseManifest = FileManager.default.createFile(atPath: "release_manifest.json", contents: jsonData)
+        
+        guard savedReleaseManifest else {
+            throw Error("Failed to save release manifest to release_manifest.json")
+        }
+    }
 }
 
 // MARK: - Factory
@@ -151,15 +199,20 @@ extension PrepareRelease {
     /// - Parameters:
     ///   - repoType: The repository type to prepare the release
     ///   - repoPath: The path to the package repository
+    ///   - sourceCodeArtifactId: The artifactId for the source code
     ///
     /// - Returns: The standard release preparer
     static func standard(
         repoType: Repo,
-        repoPath: String
+        repoPath: String,
+        sourceCodeArtifactId: String
     ) -> Self {
-        PrepareRelease(repoType: repoType, repoPath: repoPath) { branch, version in
-            try Process.git.hasLocalChanges()
-                || Process.git.diffHasChanges(branch, "\(version)")
+        PrepareRelease(
+            repoType: repoType,
+            repoPath: repoPath,
+            sourceCodeArtifactId: sourceCodeArtifactId
+        ) { branch, version in
+            try Process.git.hasLocalChanges() || Process.git.diffHasChanges(branch, "\(version)")
         }
     }
 }

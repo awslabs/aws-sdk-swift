@@ -47,6 +47,21 @@ func _run(_ process: Process) throws {
     try ProcessRunner.standard.run(process)
 }
 
+func _runReturningStdOut(_ process: Process) throws -> String? {
+    let stdOut = Pipe()
+    process.standardOutput = stdOut
+    
+    var data = Data()
+    stdOut.fileHandleForReading.readabilityHandler = { handle in
+        data += handle.availableData
+    }
+    
+    try _run(process)
+    process.waitUntilExit()
+    
+    return String(data: data, encoding: .utf8)
+}
+
 /// A simple struct that runs a process
 struct ProcessRunner {
     let run: (Process) throws -> Void
