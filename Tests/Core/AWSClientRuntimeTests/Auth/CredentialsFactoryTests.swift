@@ -184,7 +184,7 @@ class CredentialsProviderFactoryTests: XCTestCase {
         
         XCTAssertEqual(counter, 1)
         
-        try! await Task.sleep(nanoseconds: 2 * NSEC_PER_SEC)
+        try! await Task.sleep(nanoseconds: 2 * 1_000_000_000)
         
         let credentials = try! await provider.getCredentials()
         
