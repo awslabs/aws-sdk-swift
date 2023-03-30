@@ -50,7 +50,7 @@ class FunctionCacheTests: XCTestCase {
         var counter: Int = 0
         
         let cache = FunctionCache<String, String> {
-            try! await Task.sleep(nanoseconds: 1 * NSEC_PER_SEC)
+            try! await Task.sleep(nanoseconds: 1 * 1_000_000_000)
             counter += 1
             return $0.uppercased()
         }
