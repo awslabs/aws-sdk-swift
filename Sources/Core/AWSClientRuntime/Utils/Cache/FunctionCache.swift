@@ -8,8 +8,8 @@
 import Foundation
 
 /// A cache that provides function memoization.
-/// The cache stores the ouputs of the provided function call and returns the cached output when given the same input again.
-/// If the function call throws an error, it s not cached.
+/// The cache stores the outputs of the provided function call and returns the cached output when given the same input again.
+/// If the function call throws an error, its not cached.
 actor FunctionCache<Input: Hashable, Output> {
     typealias Function = (Input) async throws -> Output
     private let f: Function
@@ -44,18 +44,15 @@ extension FunctionCache {
             return try await existingTask.value
         }
         
+        // Check if we have an output cached for the input
+        if let existingOutput = cache[input] {
+            // We have an output cached for the input, so return that
+            return existingOutput
+        }
+        
         // Create a task that handles performing the work
-        // It'll attempt to retrieve the ouput from the cache
-        // Otherwise it will execute the function and store the output in the cache.
+        // It will execute the function and store the output in the cache.
         let task = Task<Output, Error> {
-            // Check if we have an output cached for the input
-            if let existingOutput = cache[input] {
-                // Untrack the task
-                activeTasks[input] = nil
-                // We have an output cached for the input, so return that
-                return existingOutput
-            }
-            
             do {
                 // Execute the function passing in the input
                 let output = try await f(input)

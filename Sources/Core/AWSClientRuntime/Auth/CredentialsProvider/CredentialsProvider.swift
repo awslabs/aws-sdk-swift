@@ -10,7 +10,7 @@ import ClientRuntime
 public typealias AWSCredentialsProvider = CredentialsProvider
 
 /// An object responsible for providing credentials for an AWS service
-/// Direct initailization is not supported.
+/// Direct initialization is not supported.
 /// Create instances using its static functions.
 public struct CredentialsProvider {
     @_spi(Internal)
@@ -83,5 +83,33 @@ public extension CredentialsProvider {
         var resolvedCredentialsProvider = try credentialsProvider ?? .fromDefaultChain()
         try await resolvedCredentialsProvider.configure(configuration)
         return resolvedCredentialsProvider
+    }
+}
+
+extension CredentialsProvider {
+    /// Creates a credentials provider that sources credentials from a CRT credentials provider
+    ///
+    /// This is used to create credential providers from the CRT providers and allows us to inject in internal dependencies that we want to keep hidden.
+    /// For example, this pattern allows us to inject in the filebased configuration store from the client instance, which is used to retireve and cache file base configurations.
+    ///
+    /// - Parameter makeCRTProvider: A function that creates a credentials provider conforming to `CRTCredentialsProvding` given CredentialsProvider.options
+    ///
+    /// - Returns: A credentials provider using the provider returned by  `makeCRTProvider` to source the credentials.
+    static func makeWithCRTCredentialsProvider(
+        identifier: String,
+        _ makeCRTProvider: @escaping (Configuration) async throws -> CRTCredentialsProviding
+    ) -> Self {
+        self.init(identifier: identifier) { configuration in
+            let crtProvider = try await makeCRTProvider(configuration)
+            return CRTCredentialsProviderAdapter(crtProvider)
+        }
+    }
+}
+
+extension CredentialsProvider {
+    /// Returns the underlying `CRTCredentialsProvider` if it has one.
+    /// This returns `nil` if there is no underlying provider  or if the underlying provider is not a `CRTCredentialsProvider`.
+    func underlyingCRTCredentialsProvider() -> CRTCredentialsProvider? {
+        configuredProvider as? CRTCredentialsProvider
     }
 }

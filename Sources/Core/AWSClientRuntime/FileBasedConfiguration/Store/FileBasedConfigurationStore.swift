@@ -40,7 +40,7 @@ public struct FileBasedConfigurationStore<T: FileBasedConfiguration> {
 
 @_spi(Internal)
 extension FileBasedConfigurationStore: FileBasedConfigurationProviding {
-    public func fileBasedConfiguration(configFilePath: String?, credentialsFilePath: String?) async throws -> FileBasedConfigurationSectionProviding? {
+    public func fileBasedConfiguration(configFilePath: String?, credentialsFilePath: String?) async throws -> FileBasedConfiguration? {
         try await _fileBasedConfiguration(configFilePath: configFilePath, credentialsFilePath: credentialsFilePath)
     }
 }

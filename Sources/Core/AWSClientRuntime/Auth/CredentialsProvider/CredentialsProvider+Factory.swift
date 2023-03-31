@@ -25,7 +25,11 @@ public extension CredentialsProvider {
     ///
     /// - Returns: A credentials provider that uses the provided the object confirming to `CredentialsProviding` to source the credentials.
     static func custom(_ provider: CredentialsProviding) -> Self {
-        self.init(identifier: "Custom") { _ in provider }
+        .makeWithCRTCredentialsProvider(identifier: "Custom") { _ in
+            try CRTCredentialsProvider(
+                provider: CredentialsProviderCRTAdapter(credentialsProvider: provider)
+            )
+        }
     }
 }
 
@@ -144,7 +148,7 @@ public extension CredentialsProvider {
 // MARK: - STS Assume Role
 
 public extension CredentialsProvider {
-    ///  Options to connfigure a STS assume role credential provider
+    ///  Options to configure a STS assume role credential provider
     struct STSOptions {
         /// The underlying credentials provider to be used to sign the requests made to STS
         public let credentialsProvider: CredentialsProvider
