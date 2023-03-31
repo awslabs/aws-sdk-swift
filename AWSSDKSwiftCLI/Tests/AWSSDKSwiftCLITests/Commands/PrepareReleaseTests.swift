@@ -41,10 +41,15 @@ class PrepareReleaseTests: CLITestCase {
         let versionFromFile = try! Version.fromFile("Package.version")
         XCTAssertEqual(versionFromFile, newVersion)
         
-        XCTAssertEqual(commands.count, 3)
+        let releaseManifest = try! ReleaseManifest.fromFile("release_manifest.json")
+        XCTAssertEqual(releaseManifest.name, "\(newVersion)")
+        XCTAssertEqual(releaseManifest.tagName, "\(newVersion)")
+        
+        XCTAssertEqual(commands.count, 4)
         XCTAssertTrue(commands[0].contains("git add"))
         XCTAssertTrue(commands[1].contains("git commit"))
         XCTAssertTrue(commands[2].contains("git tag"))
+        XCTAssertTrue(commands[3].contains("git log"))
     }
     
     func testRunBailsEarlyIfThereAreNoChanges() {
@@ -119,11 +124,13 @@ extension PrepareRelease {
     static func mock(
         repoType: PrepareRelease.Repo = .awsSdkSwift,
         repoPath: String = ".",
+        sourceCodeArtifactId: String = "source-code-artifact-id",
         diffChecker: @escaping DiffChecker = { _,_ in true }
     ) -> Self {
         PrepareRelease(
             repoType: repoType,
             repoPath: repoPath,
+            sourceCodeArtifactId: sourceCodeArtifactId,
             diffChecker: diffChecker
         )
     }
