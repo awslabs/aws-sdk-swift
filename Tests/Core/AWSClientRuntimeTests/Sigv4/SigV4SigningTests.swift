@@ -16,7 +16,7 @@ class Sigv4SigningTests: XCTestCase {
         CommonRuntimeKit.initialize()
     }
 
-   class MyCustomCredentialsProvider: AWSClientRuntime.CredentialsProvding {
+   class MyCustomCredentialsProvider: AWSClientRuntime.CredentialsProviding {
        func getCredentials() async throws -> AWSCredentials {
            return AWSCredentials(
                accessKey: "AKIDEXAMPLE",
