@@ -86,6 +86,9 @@ func addCRTDependency(_ version: Version) {
 
 func addServiceTarget(_ name: String) {
     let testName = "\(name)Tests"
+    package.products += [
+        .library(name: name, targets: [name]),
+    ]
     package.targets += [
         .target(
             name: name,
