@@ -368,14 +368,14 @@ let package = Package(
         .library(name: "AWSXRay", targets: ["AWSXRay"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.6.1"))
+        .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.9.0"))
     ],
     targets: [
         // MARK: - Core Targets
         .target(name: "AWSClientRuntime", dependencies: [awsCommonRuntimeKit, clientRuntime], path: "./Sources/Core/AWSClientRuntime"),
 
         // MARK: - Core Test Targets
-        .testTarget(name: "AWSClientRuntimeTests", dependencies: [clientRuntime, "AWSClientRuntime", smithyTestUtil], path: "./Tests/Core/AWSClientRuntimeTests"),
+        .testTarget(name: "AWSClientRuntimeTests", dependencies: [clientRuntime, "AWSClientRuntime", smithyTestUtil], path: "./Tests/Core/AWSClientRuntimeTests", resources: [.process("Resources")]),
 
         // MARK: - Service Targets
         .target(name: "AWSACM", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSACM"),
@@ -1081,6 +1081,6 @@ case (false, true):
     ]
 case (false, false):
     package.dependencies += [
-        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.15.0"))
+        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.16.0"))
     ]
 }
