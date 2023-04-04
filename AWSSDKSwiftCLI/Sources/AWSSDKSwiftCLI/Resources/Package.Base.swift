@@ -42,7 +42,8 @@ let package = Package(
         .testTarget(
             name: "AWSClientRuntimeTests",
             dependencies: [.awsClientRuntime, .clientRuntime, .smithyTestUtils],
-            path: "./Tests/Core/AWSClientRuntimeTests"
+            path: "./Tests/Core/AWSClientRuntimeTests",
+            resources: [.process("Resources")]
         )
     ]
 )
