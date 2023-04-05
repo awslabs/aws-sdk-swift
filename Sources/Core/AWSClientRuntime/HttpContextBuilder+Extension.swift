@@ -8,13 +8,13 @@
 import ClientRuntime
 
 extension HttpContext {
-    static let credentialsProvider = AttributeKey<CredentialsProvider>(name: "CredentialsProvider")
+    static let credentialsProvider = AttributeKey<CredentialsProviding>(name: "CredentialsProvider")
     static let region = AttributeKey<String>(name: "Region")
     public static let signingName = AttributeKey<String>(name: "SigningName")
     public static let signingRegion = AttributeKey<String>(name: "SigningRegion")
     public static let signingAlgorithm = AttributeKey<String>(name: "SigningAlgorithm")
 
-    func getCredentialsProvider() -> CredentialsProvider? {
+    func getCredentialsProvider() -> CredentialsProviding? {
         return attributes.get(key: HttpContext.credentialsProvider)
     }
 
@@ -47,8 +47,8 @@ extension HttpContextBuilder {
     }
 
     @discardableResult
-    public func withCredentialsProvider(value: CredentialsProvider) -> HttpContextBuilder {
-        self.attributes.set(key: AttributeKey<CredentialsProvider>(name: "CredentialsProvider"), value: value)
+    public func withCredentialsProvider(value: CredentialsProviding) -> HttpContextBuilder {
+        self.attributes.set(key: AttributeKey<CredentialsProviding>(name: "CredentialsProvider"), value: value)
         return self
     }
 

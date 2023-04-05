@@ -2264,6 +2264,7 @@ extension CreateDeviceProfileInput: Swift.Encodable {
         case clientRequestToken = "ClientRequestToken"
         case loRaWAN = "LoRaWAN"
         case name = "Name"
+        case sidewalk = "Sidewalk"
         case tags = "Tags"
     }
 
@@ -2277,6 +2278,9 @@ extension CreateDeviceProfileInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let sidewalk = self.sidewalk {
+            try encodeContainer.encode(sidewalk, forKey: .sidewalk)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
@@ -2300,6 +2304,8 @@ public struct CreateDeviceProfileInput: Swift.Equatable {
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANDeviceProfile?
     /// The name of the new resource.
     public var name: Swift.String?
+    /// The Sidewalk-related information for creating the Sidewalk device profile.
+    public var sidewalk: IoTWirelessClientTypes.SidewalkCreateDeviceProfile?
     /// The tags to attach to the new device profile. Tags are metadata that you can use to manage a resource.
     public var tags: [IoTWirelessClientTypes.Tag]?
 
@@ -2307,12 +2313,14 @@ public struct CreateDeviceProfileInput: Swift.Equatable {
         clientRequestToken: Swift.String? = nil,
         loRaWAN: IoTWirelessClientTypes.LoRaWANDeviceProfile? = nil,
         name: Swift.String? = nil,
+        sidewalk: IoTWirelessClientTypes.SidewalkCreateDeviceProfile? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil
     )
     {
         self.clientRequestToken = clientRequestToken
         self.loRaWAN = loRaWAN
         self.name = name
+        self.sidewalk = sidewalk
         self.tags = tags
     }
 }
@@ -2322,6 +2330,7 @@ struct CreateDeviceProfileInputBody: Swift.Equatable {
     let loRaWAN: IoTWirelessClientTypes.LoRaWANDeviceProfile?
     let tags: [IoTWirelessClientTypes.Tag]?
     let clientRequestToken: Swift.String?
+    let sidewalk: IoTWirelessClientTypes.SidewalkCreateDeviceProfile?
 }
 
 extension CreateDeviceProfileInputBody: Swift.Decodable {
@@ -2329,6 +2338,7 @@ extension CreateDeviceProfileInputBody: Swift.Decodable {
         case clientRequestToken = "ClientRequestToken"
         case loRaWAN = "LoRaWAN"
         case name = "Name"
+        case sidewalk = "Sidewalk"
         case tags = "Tags"
     }
 
@@ -2351,6 +2361,8 @@ extension CreateDeviceProfileInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
         clientRequestToken = clientRequestTokenDecoded
+        let sidewalkDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.SidewalkCreateDeviceProfile.self, forKey: .sidewalk)
+        sidewalk = sidewalkDecoded
     }
 }
 
@@ -3399,6 +3411,7 @@ extension CreateWirelessDeviceInput: Swift.Encodable {
         case loRaWAN = "LoRaWAN"
         case name = "Name"
         case positioning = "Positioning"
+        case sidewalk = "Sidewalk"
         case tags = "Tags"
         case type = "Type"
     }
@@ -3422,6 +3435,9 @@ extension CreateWirelessDeviceInput: Swift.Encodable {
         }
         if let positioning = self.positioning {
             try encodeContainer.encode(positioning.rawValue, forKey: .positioning)
+        }
+        if let sidewalk = self.sidewalk {
+            try encodeContainer.encode(sidewalk, forKey: .sidewalk)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
@@ -3455,6 +3471,8 @@ public struct CreateWirelessDeviceInput: Swift.Equatable {
     public var name: Swift.String?
     /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
     public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
+    /// The device configuration information to use to create the Sidewalk device.
+    public var sidewalk: IoTWirelessClientTypes.SidewalkCreateWirelessDevice?
     /// The tags to attach to the new wireless device. Tags are metadata that you can use to manage a resource.
     public var tags: [IoTWirelessClientTypes.Tag]?
     /// The wireless device type.
@@ -3468,6 +3486,7 @@ public struct CreateWirelessDeviceInput: Swift.Equatable {
         loRaWAN: IoTWirelessClientTypes.LoRaWANDevice? = nil,
         name: Swift.String? = nil,
         positioning: IoTWirelessClientTypes.PositioningConfigStatus? = nil,
+        sidewalk: IoTWirelessClientTypes.SidewalkCreateWirelessDevice? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil,
         type: IoTWirelessClientTypes.WirelessDeviceType? = nil
     )
@@ -3478,6 +3497,7 @@ public struct CreateWirelessDeviceInput: Swift.Equatable {
         self.loRaWAN = loRaWAN
         self.name = name
         self.positioning = positioning
+        self.sidewalk = sidewalk
         self.tags = tags
         self.type = type
     }
@@ -3492,6 +3512,7 @@ struct CreateWirelessDeviceInputBody: Swift.Equatable {
     let loRaWAN: IoTWirelessClientTypes.LoRaWANDevice?
     let tags: [IoTWirelessClientTypes.Tag]?
     let positioning: IoTWirelessClientTypes.PositioningConfigStatus?
+    let sidewalk: IoTWirelessClientTypes.SidewalkCreateWirelessDevice?
 }
 
 extension CreateWirelessDeviceInputBody: Swift.Decodable {
@@ -3502,6 +3523,7 @@ extension CreateWirelessDeviceInputBody: Swift.Decodable {
         case loRaWAN = "LoRaWAN"
         case name = "Name"
         case positioning = "Positioning"
+        case sidewalk = "Sidewalk"
         case tags = "Tags"
         case type = "Type"
     }
@@ -3533,6 +3555,8 @@ extension CreateWirelessDeviceInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let positioningDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.PositioningConfigStatus.self, forKey: .positioning)
         positioning = positioningDecoded
+        let sidewalkDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.SidewalkCreateWirelessDevice.self, forKey: .sidewalk)
+        sidewalk = sidewalkDecoded
     }
 }
 
@@ -4217,6 +4241,82 @@ extension CreateWirelessGatewayTaskOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension IoTWirelessClientTypes.DakCertificateMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apId = "ApId"
+        case certificateId = "CertificateId"
+        case deviceTypeId = "DeviceTypeId"
+        case factorySupport = "FactorySupport"
+        case maxAllowedSignature = "MaxAllowedSignature"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let apId = self.apId {
+            try encodeContainer.encode(apId, forKey: .apId)
+        }
+        if let certificateId = self.certificateId {
+            try encodeContainer.encode(certificateId, forKey: .certificateId)
+        }
+        if let deviceTypeId = self.deviceTypeId {
+            try encodeContainer.encode(deviceTypeId, forKey: .deviceTypeId)
+        }
+        if let factorySupport = self.factorySupport {
+            try encodeContainer.encode(factorySupport, forKey: .factorySupport)
+        }
+        if let maxAllowedSignature = self.maxAllowedSignature {
+            try encodeContainer.encode(maxAllowedSignature, forKey: .maxAllowedSignature)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let certificateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateId)
+        certificateId = certificateIdDecoded
+        let maxAllowedSignatureDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxAllowedSignature)
+        maxAllowedSignature = maxAllowedSignatureDecoded
+        let factorySupportDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .factorySupport)
+        factorySupport = factorySupportDecoded
+        let apIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apId)
+        apId = apIdDecoded
+        let deviceTypeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceTypeId)
+        deviceTypeId = deviceTypeIdDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// The device attestation key (DAK) information.
+    public struct DakCertificateMetadata: Swift.Equatable {
+        /// The advertised product ID (APID) that's used for pre-production and production applications.
+        public var apId: Swift.String?
+        /// The certificate ID for the DAK.
+        /// This member is required.
+        public var certificateId: Swift.String?
+        /// The device type ID that's used for prototyping applications.
+        public var deviceTypeId: Swift.String?
+        /// Whether factory support has been enabled.
+        public var factorySupport: Swift.Bool?
+        /// The maximum number of signatures that the DAK can sign. A value of -1 indicates that there's no device limit.
+        public var maxAllowedSignature: Swift.Int?
+
+        public init (
+            apId: Swift.String? = nil,
+            certificateId: Swift.String? = nil,
+            deviceTypeId: Swift.String? = nil,
+            factorySupport: Swift.Bool? = nil,
+            maxAllowedSignature: Swift.Int? = nil
+        )
+        {
+            self.apId = apId
+            self.certificateId = certificateId
+            self.deviceTypeId = deviceTypeId
+            self.factorySupport = factorySupport
+            self.maxAllowedSignature = maxAllowedSignature
+        }
+    }
+
+}
+
 extension DeleteDestinationInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let name = name else {
@@ -4890,6 +4990,79 @@ public struct DeleteServiceProfileOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension DeleteWirelessDeviceImportTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let id = id else {
+            return nil
+        }
+        return "/wireless_device_import_task/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteWirelessDeviceImportTaskInput: Swift.Equatable {
+    /// The unique identifier of the import task to be deleted.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init (
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+struct DeleteWirelessDeviceImportTaskInputBody: Swift.Equatable {
+}
+
+extension DeleteWirelessDeviceImportTaskInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteWirelessDeviceImportTaskOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteWirelessDeviceImportTaskOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteWirelessDeviceImportTaskOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteWirelessDeviceImportTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteWirelessDeviceImportTaskOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension DeleteWirelessDeviceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let id = id else {
@@ -5250,6 +5423,92 @@ public struct DeleteWirelessGatewayTaskOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension DeregisterWirelessDeviceInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let wirelessDeviceType = wirelessDeviceType {
+                let wirelessDeviceTypeQueryItem = ClientRuntime.URLQueryItem(name: "WirelessDeviceType".urlPercentEncoding(), value: Swift.String(wirelessDeviceType.rawValue).urlPercentEncoding())
+                items.append(wirelessDeviceTypeQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension DeregisterWirelessDeviceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let identifier = identifier else {
+            return nil
+        }
+        return "/wireless-devices/\(identifier.urlPercentEncoding())/deregister"
+    }
+}
+
+public struct DeregisterWirelessDeviceInput: Swift.Equatable {
+    /// The identifier of the wireless device to deregister from AWS IoT Wireless.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The type of wireless device to deregister from AWS IoT Wireless, which can be LoRaWAN or Sidewalk.
+    public var wirelessDeviceType: IoTWirelessClientTypes.WirelessDeviceType?
+
+    public init (
+        identifier: Swift.String? = nil,
+        wirelessDeviceType: IoTWirelessClientTypes.WirelessDeviceType? = nil
+    )
+    {
+        self.identifier = identifier
+        self.wirelessDeviceType = wirelessDeviceType
+    }
+}
+
+struct DeregisterWirelessDeviceInputBody: Swift.Equatable {
+}
+
+extension DeregisterWirelessDeviceInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeregisterWirelessDeviceOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeregisterWirelessDeviceOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeregisterWirelessDeviceOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeregisterWirelessDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeregisterWirelessDeviceOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension IoTWirelessClientTypes.Destinations: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
@@ -5388,6 +5647,38 @@ extension IoTWirelessClientTypes {
         }
     }
 
+}
+
+extension IoTWirelessClientTypes {
+    public enum DeviceProfileType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case lorawan
+        case sidewalk
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeviceProfileType] {
+            return [
+                .lorawan,
+                .sidewalk,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .lorawan: return "LoRaWAN"
+            case .sidewalk: return "Sidewalk"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DeviceProfileType(rawValue: rawValue) ?? DeviceProfileType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension IoTWirelessClientTypes.DeviceRegistrationStateEventConfiguration: Swift.Codable {
@@ -7184,11 +7475,13 @@ extension GetDeviceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
             self.id = output.id
             self.loRaWAN = output.loRaWAN
             self.name = output.name
+            self.sidewalk = output.sidewalk
         } else {
             self.arn = nil
             self.id = nil
             self.loRaWAN = nil
             self.name = nil
+            self.sidewalk = nil
         }
     }
 }
@@ -7202,18 +7495,22 @@ public struct GetDeviceProfileOutputResponse: Swift.Equatable {
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANDeviceProfile?
     /// The name of the resource.
     public var name: Swift.String?
+    /// Information about the Sidewalk parameters in the device profile.
+    public var sidewalk: IoTWirelessClientTypes.SidewalkGetDeviceProfile?
 
     public init (
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         loRaWAN: IoTWirelessClientTypes.LoRaWANDeviceProfile? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        sidewalk: IoTWirelessClientTypes.SidewalkGetDeviceProfile? = nil
     )
     {
         self.arn = arn
         self.id = id
         self.loRaWAN = loRaWAN
         self.name = name
+        self.sidewalk = sidewalk
     }
 }
 
@@ -7222,6 +7519,7 @@ struct GetDeviceProfileOutputResponseBody: Swift.Equatable {
     let name: Swift.String?
     let id: Swift.String?
     let loRaWAN: IoTWirelessClientTypes.LoRaWANDeviceProfile?
+    let sidewalk: IoTWirelessClientTypes.SidewalkGetDeviceProfile?
 }
 
 extension GetDeviceProfileOutputResponseBody: Swift.Decodable {
@@ -7230,6 +7528,7 @@ extension GetDeviceProfileOutputResponseBody: Swift.Decodable {
         case id = "Id"
         case loRaWAN = "LoRaWAN"
         case name = "Name"
+        case sidewalk = "Sidewalk"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -7242,6 +7541,8 @@ extension GetDeviceProfileOutputResponseBody: Swift.Decodable {
         id = idDecoded
         let loRaWANDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.LoRaWANDeviceProfile.self, forKey: .loRaWAN)
         loRaWAN = loRaWANDecoded
+        let sidewalkDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.SidewalkGetDeviceProfile.self, forKey: .sidewalk)
+        sidewalk = sidewalkDecoded
     }
 }
 
@@ -9722,6 +10023,210 @@ extension GetServiceProfileOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetWirelessDeviceImportTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let id = id else {
+            return nil
+        }
+        return "/wireless_device_import_task/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct GetWirelessDeviceImportTaskInput: Swift.Equatable {
+    /// The identifier of the import task for which information is requested.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init (
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+struct GetWirelessDeviceImportTaskInputBody: Swift.Equatable {
+}
+
+extension GetWirelessDeviceImportTaskInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetWirelessDeviceImportTaskOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetWirelessDeviceImportTaskOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetWirelessDeviceImportTaskOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetWirelessDeviceImportTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetWirelessDeviceImportTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.creationTime = output.creationTime
+            self.destinationName = output.destinationName
+            self.failedImportedDeviceCount = output.failedImportedDeviceCount
+            self.id = output.id
+            self.initializedImportedDeviceCount = output.initializedImportedDeviceCount
+            self.onboardedImportedDeviceCount = output.onboardedImportedDeviceCount
+            self.pendingImportedDeviceCount = output.pendingImportedDeviceCount
+            self.sidewalk = output.sidewalk
+            self.status = output.status
+            self.statusReason = output.statusReason
+        } else {
+            self.arn = nil
+            self.creationTime = nil
+            self.destinationName = nil
+            self.failedImportedDeviceCount = nil
+            self.id = nil
+            self.initializedImportedDeviceCount = nil
+            self.onboardedImportedDeviceCount = nil
+            self.pendingImportedDeviceCount = nil
+            self.sidewalk = nil
+            self.status = nil
+            self.statusReason = nil
+        }
+    }
+}
+
+public struct GetWirelessDeviceImportTaskOutputResponse: Swift.Equatable {
+    /// The ARN (Amazon Resource Name) of the import task.
+    public var arn: Swift.String?
+    /// The time at which the import task was created.
+    public var creationTime: ClientRuntime.Date?
+    /// The name of the destination that's assigned to the wireless devices in the import task.
+    public var destinationName: Swift.String?
+    /// The number of devices in the import task that failed to onboard to the import task.
+    public var failedImportedDeviceCount: Swift.Int?
+    /// The identifier of the import task for which information is retrieved.
+    public var id: Swift.String?
+    /// The number of devices in the import task that are waiting for the control log to start processing.
+    public var initializedImportedDeviceCount: Swift.Int?
+    /// The number of devices in the import task that have been onboarded to the import task.
+    public var onboardedImportedDeviceCount: Swift.Int?
+    /// The number of devices in the import task that are waiting in the import task queue to be onboarded.
+    public var pendingImportedDeviceCount: Swift.Int?
+    /// The Sidewalk-related information about an import task.
+    public var sidewalk: IoTWirelessClientTypes.SidewalkGetStartImportInfo?
+    /// The import task status.
+    public var status: IoTWirelessClientTypes.ImportTaskStatus?
+    /// The reason for the provided status information, such as a validation error that causes the import task to fail.
+    public var statusReason: Swift.String?
+
+    public init (
+        arn: Swift.String? = nil,
+        creationTime: ClientRuntime.Date? = nil,
+        destinationName: Swift.String? = nil,
+        failedImportedDeviceCount: Swift.Int? = nil,
+        id: Swift.String? = nil,
+        initializedImportedDeviceCount: Swift.Int? = nil,
+        onboardedImportedDeviceCount: Swift.Int? = nil,
+        pendingImportedDeviceCount: Swift.Int? = nil,
+        sidewalk: IoTWirelessClientTypes.SidewalkGetStartImportInfo? = nil,
+        status: IoTWirelessClientTypes.ImportTaskStatus? = nil,
+        statusReason: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.creationTime = creationTime
+        self.destinationName = destinationName
+        self.failedImportedDeviceCount = failedImportedDeviceCount
+        self.id = id
+        self.initializedImportedDeviceCount = initializedImportedDeviceCount
+        self.onboardedImportedDeviceCount = onboardedImportedDeviceCount
+        self.pendingImportedDeviceCount = pendingImportedDeviceCount
+        self.sidewalk = sidewalk
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+struct GetWirelessDeviceImportTaskOutputResponseBody: Swift.Equatable {
+    let id: Swift.String?
+    let arn: Swift.String?
+    let destinationName: Swift.String?
+    let sidewalk: IoTWirelessClientTypes.SidewalkGetStartImportInfo?
+    let creationTime: ClientRuntime.Date?
+    let status: IoTWirelessClientTypes.ImportTaskStatus?
+    let statusReason: Swift.String?
+    let initializedImportedDeviceCount: Swift.Int?
+    let pendingImportedDeviceCount: Swift.Int?
+    let onboardedImportedDeviceCount: Swift.Int?
+    let failedImportedDeviceCount: Swift.Int?
+}
+
+extension GetWirelessDeviceImportTaskOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case creationTime = "CreationTime"
+        case destinationName = "DestinationName"
+        case failedImportedDeviceCount = "FailedImportedDeviceCount"
+        case id = "Id"
+        case initializedImportedDeviceCount = "InitializedImportedDeviceCount"
+        case onboardedImportedDeviceCount = "OnboardedImportedDeviceCount"
+        case pendingImportedDeviceCount = "PendingImportedDeviceCount"
+        case sidewalk = "Sidewalk"
+        case status = "Status"
+        case statusReason = "StatusReason"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let destinationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationName)
+        destinationName = destinationNameDecoded
+        let sidewalkDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.SidewalkGetStartImportInfo.self, forKey: .sidewalk)
+        sidewalk = sidewalkDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.ImportTaskStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
+        let initializedImportedDeviceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .initializedImportedDeviceCount)
+        initializedImportedDeviceCount = initializedImportedDeviceCountDecoded
+        let pendingImportedDeviceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pendingImportedDeviceCount)
+        pendingImportedDeviceCount = pendingImportedDeviceCountDecoded
+        let onboardedImportedDeviceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .onboardedImportedDeviceCount)
+        onboardedImportedDeviceCount = onboardedImportedDeviceCountDecoded
+        let failedImportedDeviceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedImportedDeviceCount)
+        failedImportedDeviceCount = failedImportedDeviceCountDecoded
+    }
+}
+
 extension GetWirelessDeviceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -11441,6 +11946,150 @@ extension IoTWirelessClientTypes {
     }
 }
 
+extension IoTWirelessClientTypes {
+    public enum ImportTaskStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case complete
+        case deleting
+        case failed
+        case initialized
+        case initializing
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImportTaskStatus] {
+            return [
+                .complete,
+                .deleting,
+                .failed,
+                .initialized,
+                .initializing,
+                .pending,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .initialized: return "INITIALIZED"
+            case .initializing: return "INITIALIZING"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ImportTaskStatus(rawValue: rawValue) ?? ImportTaskStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IoTWirelessClientTypes.ImportedSidewalkDevice: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastUpdateTime = "LastUpdateTime"
+        case onboardingStatus = "OnboardingStatus"
+        case onboardingStatusReason = "OnboardingStatusReason"
+        case sidewalkManufacturingSn = "SidewalkManufacturingSn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lastUpdateTime = self.lastUpdateTime {
+            try encodeContainer.encodeTimestamp(lastUpdateTime, format: .dateTime, forKey: .lastUpdateTime)
+        }
+        if let onboardingStatus = self.onboardingStatus {
+            try encodeContainer.encode(onboardingStatus.rawValue, forKey: .onboardingStatus)
+        }
+        if let onboardingStatusReason = self.onboardingStatusReason {
+            try encodeContainer.encode(onboardingStatusReason, forKey: .onboardingStatusReason)
+        }
+        if let sidewalkManufacturingSn = self.sidewalkManufacturingSn {
+            try encodeContainer.encode(sidewalkManufacturingSn, forKey: .sidewalkManufacturingSn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sidewalkManufacturingSnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sidewalkManufacturingSn)
+        sidewalkManufacturingSn = sidewalkManufacturingSnDecoded
+        let onboardingStatusDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.OnboardStatus.self, forKey: .onboardingStatus)
+        onboardingStatus = onboardingStatusDecoded
+        let onboardingStatusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .onboardingStatusReason)
+        onboardingStatusReason = onboardingStatusReasonDecoded
+        let lastUpdateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdateTime)
+        lastUpdateTime = lastUpdateTimeDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// Information about a Sidewalk device that has been added to an import task.
+    public struct ImportedSidewalkDevice: Swift.Equatable {
+        /// The time at which the status information was last updated.
+        public var lastUpdateTime: ClientRuntime.Date?
+        /// The onboarding status of the Sidewalk device in the import task.
+        public var onboardingStatus: IoTWirelessClientTypes.OnboardStatus?
+        /// The reason for the onboarding status information for the Sidewalk device.
+        public var onboardingStatusReason: Swift.String?
+        /// The Sidewalk manufacturing serial number (SMSN) of the Sidewalk device.
+        public var sidewalkManufacturingSn: Swift.String?
+
+        public init (
+            lastUpdateTime: ClientRuntime.Date? = nil,
+            onboardingStatus: IoTWirelessClientTypes.OnboardStatus? = nil,
+            onboardingStatusReason: Swift.String? = nil,
+            sidewalkManufacturingSn: Swift.String? = nil
+        )
+        {
+            self.lastUpdateTime = lastUpdateTime
+            self.onboardingStatus = onboardingStatus
+            self.onboardingStatusReason = onboardingStatusReason
+            self.sidewalkManufacturingSn = sidewalkManufacturingSn
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.ImportedWirelessDevice: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sidewalk = "Sidewalk"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sidewalk = self.sidewalk {
+            try encodeContainer.encode(sidewalk, forKey: .sidewalk)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sidewalkDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.ImportedSidewalkDevice.self, forKey: .sidewalk)
+        sidewalk = sidewalkDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// Information about a wireless device that has been added to an import task.
+    public struct ImportedWirelessDevice: Swift.Equatable {
+        /// The Sidewalk-related information about a device that has been added to an import task.
+        public var sidewalk: IoTWirelessClientTypes.ImportedSidewalkDevice?
+
+        public init (
+            sidewalk: IoTWirelessClientTypes.ImportedSidewalkDevice? = nil
+        )
+        {
+            self.sidewalk = sidewalk
+        }
+    }
+
+}
+
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -11774,6 +12423,10 @@ extension ListDeviceProfilesInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
+            if let deviceProfileType = deviceProfileType {
+                let deviceProfileTypeQueryItem = ClientRuntime.URLQueryItem(name: "deviceProfileType".urlPercentEncoding(), value: Swift.String(deviceProfileType.rawValue).urlPercentEncoding())
+                items.append(deviceProfileTypeQueryItem)
+            }
             if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
@@ -11790,16 +12443,20 @@ extension ListDeviceProfilesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListDeviceProfilesInput: Swift.Equatable {
+    /// A filter to list only device profiles that use this type, which can be LoRaWAN or Sidewalk.
+    public var deviceProfileType: IoTWirelessClientTypes.DeviceProfileType?
     /// The maximum number of results to return in this operation.
     public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
     public var nextToken: Swift.String?
 
     public init (
+        deviceProfileType: IoTWirelessClientTypes.DeviceProfileType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
+        self.deviceProfileType = deviceProfileType
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -11917,6 +12574,175 @@ extension ListDeviceProfilesOutputResponseBody: Swift.Decodable {
             }
         }
         deviceProfileList = deviceProfileListDecoded0
+    }
+}
+
+extension ListDevicesForWirelessDeviceImportTaskInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let status = status {
+                let statusQueryItem = ClientRuntime.URLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+                items.append(statusQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            guard let id = id else {
+                let message = "Creating a URL Query Item failed. id is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let idQueryItem = ClientRuntime.URLQueryItem(name: "id".urlPercentEncoding(), value: Swift.String(id).urlPercentEncoding())
+            items.append(idQueryItem)
+            return items
+        }
+    }
+}
+
+extension ListDevicesForWirelessDeviceImportTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/wireless_device_import_task"
+    }
+}
+
+public struct ListDevicesForWirelessDeviceImportTaskInput: Swift.Equatable {
+    /// The identifier of the import task for which wireless devices are listed.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The maximum number of results to return in this operation.
+    public var maxResults: Swift.Int?
+    /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+    public var nextToken: Swift.String?
+    /// The status of the devices in the import task.
+    public var status: IoTWirelessClientTypes.OnboardStatus?
+
+    public init (
+        id: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: IoTWirelessClientTypes.OnboardStatus? = nil
+    )
+    {
+        self.id = id
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+struct ListDevicesForWirelessDeviceImportTaskInputBody: Swift.Equatable {
+}
+
+extension ListDevicesForWirelessDeviceImportTaskInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListDevicesForWirelessDeviceImportTaskOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListDevicesForWirelessDeviceImportTaskOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListDevicesForWirelessDeviceImportTaskOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListDevicesForWirelessDeviceImportTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListDevicesForWirelessDeviceImportTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.destinationName = output.destinationName
+            self.importedWirelessDeviceList = output.importedWirelessDeviceList
+            self.nextToken = output.nextToken
+        } else {
+            self.destinationName = nil
+            self.importedWirelessDeviceList = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListDevicesForWirelessDeviceImportTaskOutputResponse: Swift.Equatable {
+    /// The name of the Sidewalk destination that describes the IoT rule to route messages received from devices in an import task that are onboarded to AWS IoT Wireless.
+    public var destinationName: Swift.String?
+    /// List of wireless devices in an import task and their onboarding status.
+    public var importedWirelessDeviceList: [IoTWirelessClientTypes.ImportedWirelessDevice]?
+    /// The token to use to get the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+
+    public init (
+        destinationName: Swift.String? = nil,
+        importedWirelessDeviceList: [IoTWirelessClientTypes.ImportedWirelessDevice]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.destinationName = destinationName
+        self.importedWirelessDeviceList = importedWirelessDeviceList
+        self.nextToken = nextToken
+    }
+}
+
+struct ListDevicesForWirelessDeviceImportTaskOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let destinationName: Swift.String?
+    let importedWirelessDeviceList: [IoTWirelessClientTypes.ImportedWirelessDevice]?
+}
+
+extension ListDevicesForWirelessDeviceImportTaskOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinationName = "DestinationName"
+        case importedWirelessDeviceList = "ImportedWirelessDeviceList"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let destinationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationName)
+        destinationName = destinationNameDecoded
+        let importedWirelessDeviceListContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.ImportedWirelessDevice?].self, forKey: .importedWirelessDeviceList)
+        var importedWirelessDeviceListDecoded0:[IoTWirelessClientTypes.ImportedWirelessDevice]? = nil
+        if let importedWirelessDeviceListContainer = importedWirelessDeviceListContainer {
+            importedWirelessDeviceListDecoded0 = [IoTWirelessClientTypes.ImportedWirelessDevice]()
+            for structure0 in importedWirelessDeviceListContainer {
+                if let structure0 = structure0 {
+                    importedWirelessDeviceListDecoded0?.append(structure0)
+                }
+            }
+        }
+        importedWirelessDeviceList = importedWirelessDeviceListDecoded0
     }
 }
 
@@ -13496,6 +14322,146 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+extension ListWirelessDeviceImportTasksInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListWirelessDeviceImportTasksInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/wireless_device_import_tasks"
+    }
+}
+
+public struct ListWirelessDeviceImportTasksInput: Swift.Equatable {
+    /// The maximum number of results to return in this operation.
+    public var maxResults: Swift.Int?
+    /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListWirelessDeviceImportTasksInputBody: Swift.Equatable {
+}
+
+extension ListWirelessDeviceImportTasksInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListWirelessDeviceImportTasksOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListWirelessDeviceImportTasksOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListWirelessDeviceImportTasksOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListWirelessDeviceImportTasksOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListWirelessDeviceImportTasksOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.wirelessDeviceImportTaskList = output.wirelessDeviceImportTaskList
+        } else {
+            self.nextToken = nil
+            self.wirelessDeviceImportTaskList = nil
+        }
+    }
+}
+
+public struct ListWirelessDeviceImportTasksOutputResponse: Swift.Equatable {
+    /// The token to use to get the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+    /// List of import tasks and summary information of onboarding status of devices in each import task.
+    public var wirelessDeviceImportTaskList: [IoTWirelessClientTypes.WirelessDeviceImportTask]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        wirelessDeviceImportTaskList: [IoTWirelessClientTypes.WirelessDeviceImportTask]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.wirelessDeviceImportTaskList = wirelessDeviceImportTaskList
+    }
+}
+
+struct ListWirelessDeviceImportTasksOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let wirelessDeviceImportTaskList: [IoTWirelessClientTypes.WirelessDeviceImportTask]?
+}
+
+extension ListWirelessDeviceImportTasksOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case wirelessDeviceImportTaskList = "WirelessDeviceImportTaskList"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let wirelessDeviceImportTaskListContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.WirelessDeviceImportTask?].self, forKey: .wirelessDeviceImportTaskList)
+        var wirelessDeviceImportTaskListDecoded0:[IoTWirelessClientTypes.WirelessDeviceImportTask]? = nil
+        if let wirelessDeviceImportTaskListContainer = wirelessDeviceImportTaskListContainer {
+            wirelessDeviceImportTaskListDecoded0 = [IoTWirelessClientTypes.WirelessDeviceImportTask]()
+            for structure0 in wirelessDeviceImportTaskListContainer {
+                if let structure0 = structure0 {
+                    wirelessDeviceImportTaskListDecoded0?.append(structure0)
+                }
+            }
+        }
+        wirelessDeviceImportTaskList = wirelessDeviceImportTaskListDecoded0
     }
 }
 
@@ -16314,6 +17280,44 @@ extension IoTWirelessClientTypes {
 
 }
 
+extension IoTWirelessClientTypes {
+    public enum OnboardStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case initialized
+        case onboarded
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OnboardStatus] {
+            return [
+                .failed,
+                .initialized,
+                .onboarded,
+                .pending,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .initialized: return "INITIALIZED"
+            case .onboarded: return "ONBOARDED"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OnboardStatus(rawValue: rawValue) ?? OnboardStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension IoTWirelessClientTypes.OtaaV1_0_x: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appEui = "AppEui"
@@ -18243,12 +19247,71 @@ extension IoTWirelessClientTypes {
 
 }
 
+extension IoTWirelessClientTypes.SidewalkCreateDeviceProfile: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// Sidewalk object for creating a device profile.
+    public struct SidewalkCreateDeviceProfile: Swift.Equatable {
+
+        public init () { }
+    }
+
+}
+
+extension IoTWirelessClientTypes.SidewalkCreateWirelessDevice: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deviceProfileId = "DeviceProfileId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deviceProfileId = self.deviceProfileId {
+            try encodeContainer.encode(deviceProfileId, forKey: .deviceProfileId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deviceProfileIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceProfileId)
+        deviceProfileId = deviceProfileIdDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// Sidewalk object for creating a wireless device.
+    public struct SidewalkCreateWirelessDevice: Swift.Equatable {
+        /// The ID of the Sidewalk device profile.
+        public var deviceProfileId: Swift.String?
+
+        public init (
+            deviceProfileId: Swift.String? = nil
+        )
+        {
+            self.deviceProfileId = deviceProfileId
+        }
+    }
+
+}
+
 extension IoTWirelessClientTypes.SidewalkDevice: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case amazonId = "AmazonId"
+        case certificateId = "CertificateId"
         case deviceCertificates = "DeviceCertificates"
+        case deviceProfileId = "DeviceProfileId"
+        case privateKeys = "PrivateKeys"
         case sidewalkId = "SidewalkId"
         case sidewalkManufacturingSn = "SidewalkManufacturingSn"
+        case status = "Status"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -18256,10 +19319,22 @@ extension IoTWirelessClientTypes.SidewalkDevice: Swift.Codable {
         if let amazonId = self.amazonId {
             try encodeContainer.encode(amazonId, forKey: .amazonId)
         }
+        if let certificateId = self.certificateId {
+            try encodeContainer.encode(certificateId, forKey: .certificateId)
+        }
         if let deviceCertificates = deviceCertificates {
             var deviceCertificatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceCertificates)
             for certificatelist0 in deviceCertificates {
                 try deviceCertificatesContainer.encode(certificatelist0)
+            }
+        }
+        if let deviceProfileId = self.deviceProfileId {
+            try encodeContainer.encode(deviceProfileId, forKey: .deviceProfileId)
+        }
+        if let privateKeys = privateKeys {
+            var privateKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .privateKeys)
+            for certificatelist0 in privateKeys {
+                try privateKeysContainer.encode(certificatelist0)
             }
         }
         if let sidewalkId = self.sidewalkId {
@@ -18267,6 +19342,9 @@ extension IoTWirelessClientTypes.SidewalkDevice: Swift.Codable {
         }
         if let sidewalkManufacturingSn = self.sidewalkManufacturingSn {
             try encodeContainer.encode(sidewalkManufacturingSn, forKey: .sidewalkManufacturingSn)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
         }
     }
 
@@ -18289,6 +19367,23 @@ extension IoTWirelessClientTypes.SidewalkDevice: Swift.Codable {
             }
         }
         deviceCertificates = deviceCertificatesDecoded0
+        let privateKeysContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.CertificateList?].self, forKey: .privateKeys)
+        var privateKeysDecoded0:[IoTWirelessClientTypes.CertificateList]? = nil
+        if let privateKeysContainer = privateKeysContainer {
+            privateKeysDecoded0 = [IoTWirelessClientTypes.CertificateList]()
+            for structure0 in privateKeysContainer {
+                if let structure0 = structure0 {
+                    privateKeysDecoded0?.append(structure0)
+                }
+            }
+        }
+        privateKeys = privateKeysDecoded0
+        let deviceProfileIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceProfileId)
+        deviceProfileId = deviceProfileIdDecoded
+        let certificateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateId)
+        certificateId = certificateIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.WirelessDeviceSidewalkStatus.self, forKey: .status)
+        status = statusDecoded
     }
 }
 
@@ -18297,24 +19392,40 @@ extension IoTWirelessClientTypes {
     public struct SidewalkDevice: Swift.Equatable {
         /// The Sidewalk Amazon ID.
         public var amazonId: Swift.String?
+        /// The ID of the Sidewalk device profile.
+        public var certificateId: Swift.String?
         /// The sidewalk device certificates for Ed25519 and P256r1.
         public var deviceCertificates: [IoTWirelessClientTypes.CertificateList]?
+        /// The ID of the Sidewalk device profile.
+        public var deviceProfileId: Swift.String?
+        /// The Sidewalk device private keys that will be used for onboarding the device.
+        public var privateKeys: [IoTWirelessClientTypes.CertificateList]?
         /// The sidewalk device identification.
         public var sidewalkId: Swift.String?
         /// The Sidewalk manufacturing series number.
         public var sidewalkManufacturingSn: Swift.String?
+        /// The Sidewalk device status, such as provisioned or registered.
+        public var status: IoTWirelessClientTypes.WirelessDeviceSidewalkStatus?
 
         public init (
             amazonId: Swift.String? = nil,
+            certificateId: Swift.String? = nil,
             deviceCertificates: [IoTWirelessClientTypes.CertificateList]? = nil,
+            deviceProfileId: Swift.String? = nil,
+            privateKeys: [IoTWirelessClientTypes.CertificateList]? = nil,
             sidewalkId: Swift.String? = nil,
-            sidewalkManufacturingSn: Swift.String? = nil
+            sidewalkManufacturingSn: Swift.String? = nil,
+            status: IoTWirelessClientTypes.WirelessDeviceSidewalkStatus? = nil
         )
         {
             self.amazonId = amazonId
+            self.certificateId = certificateId
             self.deviceCertificates = deviceCertificates
+            self.deviceProfileId = deviceProfileId
+            self.privateKeys = privateKeys
             self.sidewalkId = sidewalkId
             self.sidewalkManufacturingSn = sidewalkManufacturingSn
+            self.status = status
         }
     }
 
@@ -18420,12 +19531,143 @@ extension IoTWirelessClientTypes {
 
 }
 
+extension IoTWirelessClientTypes.SidewalkGetDeviceProfile: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationServerPublicKey = "ApplicationServerPublicKey"
+        case dakCertificateMetadata = "DakCertificateMetadata"
+        case qualificationStatus = "QualificationStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationServerPublicKey = self.applicationServerPublicKey {
+            try encodeContainer.encode(applicationServerPublicKey, forKey: .applicationServerPublicKey)
+        }
+        if let dakCertificateMetadata = dakCertificateMetadata {
+            var dakCertificateMetadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dakCertificateMetadata)
+            for dakcertificatemetadata0 in dakCertificateMetadata {
+                try dakCertificateMetadataContainer.encode(dakcertificatemetadata0)
+            }
+        }
+        if let qualificationStatus = self.qualificationStatus {
+            try encodeContainer.encode(qualificationStatus, forKey: .qualificationStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationServerPublicKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationServerPublicKey)
+        applicationServerPublicKey = applicationServerPublicKeyDecoded
+        let qualificationStatusDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .qualificationStatus)
+        qualificationStatus = qualificationStatusDecoded
+        let dakCertificateMetadataContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.DakCertificateMetadata?].self, forKey: .dakCertificateMetadata)
+        var dakCertificateMetadataDecoded0:[IoTWirelessClientTypes.DakCertificateMetadata]? = nil
+        if let dakCertificateMetadataContainer = dakCertificateMetadataContainer {
+            dakCertificateMetadataDecoded0 = [IoTWirelessClientTypes.DakCertificateMetadata]()
+            for structure0 in dakCertificateMetadataContainer {
+                if let structure0 = structure0 {
+                    dakCertificateMetadataDecoded0?.append(structure0)
+                }
+            }
+        }
+        dakCertificateMetadata = dakCertificateMetadataDecoded0
+    }
+}
+
+extension IoTWirelessClientTypes.SidewalkGetDeviceProfile: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SidewalkGetDeviceProfile(dakCertificateMetadata: \(Swift.String(describing: dakCertificateMetadata)), qualificationStatus: \(Swift.String(describing: qualificationStatus)), applicationServerPublicKey: \"CONTENT_REDACTED\")"}
+}
+
+extension IoTWirelessClientTypes {
+    /// Gets information about a Sidewalk device profile.
+    public struct SidewalkGetDeviceProfile: Swift.Equatable {
+        /// The Sidewalk application server public key.
+        public var applicationServerPublicKey: Swift.String?
+        /// The DAK certificate information of the Sidewalk device profile.
+        public var dakCertificateMetadata: [IoTWirelessClientTypes.DakCertificateMetadata]?
+        /// Gets information about the certification status of a Sidewalk device profile.
+        public var qualificationStatus: Swift.Bool?
+
+        public init (
+            applicationServerPublicKey: Swift.String? = nil,
+            dakCertificateMetadata: [IoTWirelessClientTypes.DakCertificateMetadata]? = nil,
+            qualificationStatus: Swift.Bool? = nil
+        )
+        {
+            self.applicationServerPublicKey = applicationServerPublicKey
+            self.dakCertificateMetadata = dakCertificateMetadata
+            self.qualificationStatus = qualificationStatus
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.SidewalkGetStartImportInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deviceCreationFileList = "DeviceCreationFileList"
+        case role = "Role"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deviceCreationFileList = deviceCreationFileList {
+            var deviceCreationFileListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceCreationFileList)
+            for devicecreationfile0 in deviceCreationFileList {
+                try deviceCreationFileListContainer.encode(devicecreationfile0)
+            }
+        }
+        if let role = self.role {
+            try encodeContainer.encode(role, forKey: .role)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deviceCreationFileListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .deviceCreationFileList)
+        var deviceCreationFileListDecoded0:[Swift.String]? = nil
+        if let deviceCreationFileListContainer = deviceCreationFileListContainer {
+            deviceCreationFileListDecoded0 = [Swift.String]()
+            for string0 in deviceCreationFileListContainer {
+                if let string0 = string0 {
+                    deviceCreationFileListDecoded0?.append(string0)
+                }
+            }
+        }
+        deviceCreationFileList = deviceCreationFileListDecoded0
+        let roleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .role)
+        role = roleDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// Sidewalk-related information for devices in an import task that are being onboarded.
+    public struct SidewalkGetStartImportInfo: Swift.Equatable {
+        /// List of Sidewalk devices that are added to the import task.
+        public var deviceCreationFileList: [Swift.String]?
+        /// The IAM role that allows AWS IoT Wireless to access the CSV file in the S3 bucket.
+        public var role: Swift.String?
+
+        public init (
+            deviceCreationFileList: [Swift.String]? = nil,
+            role: Swift.String? = nil
+        )
+        {
+            self.deviceCreationFileList = deviceCreationFileList
+            self.role = role
+        }
+    }
+
+}
+
 extension IoTWirelessClientTypes.SidewalkListDevice: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case amazonId = "AmazonId"
         case deviceCertificates = "DeviceCertificates"
+        case deviceProfileId = "DeviceProfileId"
         case sidewalkId = "SidewalkId"
         case sidewalkManufacturingSn = "SidewalkManufacturingSn"
+        case status = "Status"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -18439,11 +19681,17 @@ extension IoTWirelessClientTypes.SidewalkListDevice: Swift.Codable {
                 try deviceCertificatesContainer.encode(certificatelist0)
             }
         }
+        if let deviceProfileId = self.deviceProfileId {
+            try encodeContainer.encode(deviceProfileId, forKey: .deviceProfileId)
+        }
         if let sidewalkId = self.sidewalkId {
             try encodeContainer.encode(sidewalkId, forKey: .sidewalkId)
         }
         if let sidewalkManufacturingSn = self.sidewalkManufacturingSn {
             try encodeContainer.encode(sidewalkManufacturingSn, forKey: .sidewalkManufacturingSn)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
         }
     }
 
@@ -18466,6 +19714,10 @@ extension IoTWirelessClientTypes.SidewalkListDevice: Swift.Codable {
             }
         }
         deviceCertificates = deviceCertificatesDecoded0
+        let deviceProfileIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceProfileId)
+        deviceProfileId = deviceProfileIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.WirelessDeviceSidewalkStatus.self, forKey: .status)
+        status = statusDecoded
     }
 }
 
@@ -18476,22 +19728,30 @@ extension IoTWirelessClientTypes {
         public var amazonId: Swift.String?
         /// The sidewalk device certificates for Ed25519 and P256r1.
         public var deviceCertificates: [IoTWirelessClientTypes.CertificateList]?
+        /// Sidewalk object used by list functions.
+        public var deviceProfileId: Swift.String?
         /// The sidewalk device identification.
         public var sidewalkId: Swift.String?
         /// The Sidewalk manufacturing series number.
         public var sidewalkManufacturingSn: Swift.String?
+        /// The status of the Sidewalk devices, such as provisioned or registered.
+        public var status: IoTWirelessClientTypes.WirelessDeviceSidewalkStatus?
 
         public init (
             amazonId: Swift.String? = nil,
             deviceCertificates: [IoTWirelessClientTypes.CertificateList]? = nil,
+            deviceProfileId: Swift.String? = nil,
             sidewalkId: Swift.String? = nil,
-            sidewalkManufacturingSn: Swift.String? = nil
+            sidewalkManufacturingSn: Swift.String? = nil,
+            status: IoTWirelessClientTypes.WirelessDeviceSidewalkStatus? = nil
         )
         {
             self.amazonId = amazonId
             self.deviceCertificates = deviceCertificates
+            self.deviceProfileId = deviceProfileId
             self.sidewalkId = sidewalkId
             self.sidewalkManufacturingSn = sidewalkManufacturingSn
+            self.status = status
         }
     }
 
@@ -18587,6 +19847,86 @@ extension IoTWirelessClientTypes {
 
 }
 
+extension IoTWirelessClientTypes.SidewalkSingleStartImportInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sidewalkManufacturingSn = "SidewalkManufacturingSn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sidewalkManufacturingSn = self.sidewalkManufacturingSn {
+            try encodeContainer.encode(sidewalkManufacturingSn, forKey: .sidewalkManufacturingSn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sidewalkManufacturingSnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sidewalkManufacturingSn)
+        sidewalkManufacturingSn = sidewalkManufacturingSnDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// Information about an import task created for an individual Sidewalk device.
+    public struct SidewalkSingleStartImportInfo: Swift.Equatable {
+        /// The Sidewalk manufacturing serial number (SMSN) of the device added to the import task.
+        public var sidewalkManufacturingSn: Swift.String?
+
+        public init (
+            sidewalkManufacturingSn: Swift.String? = nil
+        )
+        {
+            self.sidewalkManufacturingSn = sidewalkManufacturingSn
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.SidewalkStartImportInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deviceCreationFile = "DeviceCreationFile"
+        case role = "Role"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deviceCreationFile = self.deviceCreationFile {
+            try encodeContainer.encode(deviceCreationFile, forKey: .deviceCreationFile)
+        }
+        if let role = self.role {
+            try encodeContainer.encode(role, forKey: .role)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deviceCreationFileDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceCreationFile)
+        deviceCreationFile = deviceCreationFileDecoded
+        let roleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .role)
+        role = roleDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// Information about an import task created for bulk provisioning.
+    public struct SidewalkStartImportInfo: Swift.Equatable {
+        /// The CSV file contained in an S3 bucket that's used for adding devices to an import task.
+        public var deviceCreationFile: Swift.String?
+        /// The IAM role that allows AWS IoT Wireless to access the CSV file in the S3 bucket.
+        public var role: Swift.String?
+
+        public init (
+            deviceCreationFile: Swift.String? = nil,
+            role: Swift.String? = nil
+        )
+        {
+            self.deviceCreationFile = deviceCreationFile
+            self.role = role
+        }
+    }
+
+}
+
 extension IoTWirelessClientTypes.SidewalkUpdateAccount: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appServerPrivateKey = "AppServerPrivateKey"
@@ -18622,6 +19962,41 @@ extension IoTWirelessClientTypes {
         )
         {
             self.appServerPrivateKey = appServerPrivateKey
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.SidewalkUpdateImportInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deviceCreationFile = "DeviceCreationFile"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deviceCreationFile = self.deviceCreationFile {
+            try encodeContainer.encode(deviceCreationFile, forKey: .deviceCreationFile)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deviceCreationFileDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceCreationFile)
+        deviceCreationFile = deviceCreationFileDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// Sidewalk object information for updating an import task.
+    public struct SidewalkUpdateImportInfo: Swift.Equatable {
+        /// The CSV file contained in an S3 bucket that's used for appending devices to an existing import task.
+        public var deviceCreationFile: Swift.String?
+
+        public init (
+            deviceCreationFile: Swift.String? = nil
+        )
+        {
+            self.deviceCreationFile = deviceCreationFile
         }
     }
 
@@ -19171,20 +20546,410 @@ public struct StartMulticastGroupSessionOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension StartSingleWirelessDeviceImportTaskInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case destinationName = "DestinationName"
+        case deviceName = "DeviceName"
+        case sidewalk = "Sidewalk"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let destinationName = self.destinationName {
+            try encodeContainer.encode(destinationName, forKey: .destinationName)
+        }
+        if let deviceName = self.deviceName {
+            try encodeContainer.encode(deviceName, forKey: .deviceName)
+        }
+        if let sidewalk = self.sidewalk {
+            try encodeContainer.encode(sidewalk, forKey: .sidewalk)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension StartSingleWirelessDeviceImportTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/wireless_single_device_import_task"
+    }
+}
+
+public struct StartSingleWirelessDeviceImportTaskInput: Swift.Equatable {
+    /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+    public var clientRequestToken: Swift.String?
+    /// The name of the Sidewalk destination that describes the IoT rule to route messages from the device in the import task that will be onboarded to AWS IoT Wireless.
+    /// This member is required.
+    public var destinationName: Swift.String?
+    /// The name of the wireless device for which an import task is being started.
+    public var deviceName: Swift.String?
+    /// The Sidewalk-related parameters for importing a single wireless device.
+    /// This member is required.
+    public var sidewalk: IoTWirelessClientTypes.SidewalkSingleStartImportInfo?
+    /// The tag to attach to the specified resource. Tags are metadata that you can use to manage a resource.
+    public var tags: [IoTWirelessClientTypes.Tag]?
+
+    public init (
+        clientRequestToken: Swift.String? = nil,
+        destinationName: Swift.String? = nil,
+        deviceName: Swift.String? = nil,
+        sidewalk: IoTWirelessClientTypes.SidewalkSingleStartImportInfo? = nil,
+        tags: [IoTWirelessClientTypes.Tag]? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.destinationName = destinationName
+        self.deviceName = deviceName
+        self.sidewalk = sidewalk
+        self.tags = tags
+    }
+}
+
+struct StartSingleWirelessDeviceImportTaskInputBody: Swift.Equatable {
+    let destinationName: Swift.String?
+    let clientRequestToken: Swift.String?
+    let deviceName: Swift.String?
+    let tags: [IoTWirelessClientTypes.Tag]?
+    let sidewalk: IoTWirelessClientTypes.SidewalkSingleStartImportInfo?
+}
+
+extension StartSingleWirelessDeviceImportTaskInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case destinationName = "DestinationName"
+        case deviceName = "DeviceName"
+        case sidewalk = "Sidewalk"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let destinationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationName)
+        destinationName = destinationNameDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+        let deviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceName)
+        deviceName = deviceNameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[IoTWirelessClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [IoTWirelessClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let sidewalkDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.SidewalkSingleStartImportInfo.self, forKey: .sidewalk)
+        sidewalk = sidewalkDecoded
+    }
+}
+
+extension StartSingleWirelessDeviceImportTaskOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartSingleWirelessDeviceImportTaskOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StartSingleWirelessDeviceImportTaskOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartSingleWirelessDeviceImportTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: StartSingleWirelessDeviceImportTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.id = output.id
+        } else {
+            self.arn = nil
+            self.id = nil
+        }
+    }
+}
+
+public struct StartSingleWirelessDeviceImportTaskOutputResponse: Swift.Equatable {
+    /// The ARN (Amazon Resource Name) of the import task.
+    public var arn: Swift.String?
+    /// The import task ID.
+    public var id: Swift.String?
+
+    public init (
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.id = id
+    }
+}
+
+struct StartSingleWirelessDeviceImportTaskOutputResponseBody: Swift.Equatable {
+    let id: Swift.String?
+    let arn: Swift.String?
+}
+
+extension StartSingleWirelessDeviceImportTaskOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case id = "Id"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+extension StartWirelessDeviceImportTaskInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case destinationName = "DestinationName"
+        case sidewalk = "Sidewalk"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let destinationName = self.destinationName {
+            try encodeContainer.encode(destinationName, forKey: .destinationName)
+        }
+        if let sidewalk = self.sidewalk {
+            try encodeContainer.encode(sidewalk, forKey: .sidewalk)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension StartWirelessDeviceImportTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/wireless_device_import_task"
+    }
+}
+
+public struct StartWirelessDeviceImportTaskInput: Swift.Equatable {
+    /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+    public var clientRequestToken: Swift.String?
+    /// The name of the Sidewalk destination that describes the IoT rule to route messages from the devices in the import task that are onboarded to AWS IoT Wireless.
+    /// This member is required.
+    public var destinationName: Swift.String?
+    /// The Sidewalk-related parameters for importing wireless devices that need to be provisioned in bulk.
+    /// This member is required.
+    public var sidewalk: IoTWirelessClientTypes.SidewalkStartImportInfo?
+    /// The tag to attach to the specified resource. Tags are metadata that you can use to manage a resource.
+    public var tags: [IoTWirelessClientTypes.Tag]?
+
+    public init (
+        clientRequestToken: Swift.String? = nil,
+        destinationName: Swift.String? = nil,
+        sidewalk: IoTWirelessClientTypes.SidewalkStartImportInfo? = nil,
+        tags: [IoTWirelessClientTypes.Tag]? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.destinationName = destinationName
+        self.sidewalk = sidewalk
+        self.tags = tags
+    }
+}
+
+struct StartWirelessDeviceImportTaskInputBody: Swift.Equatable {
+    let destinationName: Swift.String?
+    let clientRequestToken: Swift.String?
+    let tags: [IoTWirelessClientTypes.Tag]?
+    let sidewalk: IoTWirelessClientTypes.SidewalkStartImportInfo?
+}
+
+extension StartWirelessDeviceImportTaskInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case destinationName = "DestinationName"
+        case sidewalk = "Sidewalk"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let destinationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationName)
+        destinationName = destinationNameDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[IoTWirelessClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [IoTWirelessClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let sidewalkDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.SidewalkStartImportInfo.self, forKey: .sidewalk)
+        sidewalk = sidewalkDecoded
+    }
+}
+
+extension StartWirelessDeviceImportTaskOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartWirelessDeviceImportTaskOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StartWirelessDeviceImportTaskOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartWirelessDeviceImportTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: StartWirelessDeviceImportTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.id = output.id
+        } else {
+            self.arn = nil
+            self.id = nil
+        }
+    }
+}
+
+public struct StartWirelessDeviceImportTaskOutputResponse: Swift.Equatable {
+    /// The ARN (Amazon Resource Name) of the import task.
+    public var arn: Swift.String?
+    /// The import task ID.
+    public var id: Swift.String?
+
+    public init (
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.id = id
+    }
+}
+
+struct StartWirelessDeviceImportTaskOutputResponseBody: Swift.Equatable {
+    let id: Swift.String?
+    let arn: Swift.String?
+}
+
+extension StartWirelessDeviceImportTaskOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case id = "Id"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
 extension IoTWirelessClientTypes {
     /// Supported RfRegions
     public enum SupportedRfRegion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case as9231
+        case as9232
+        case as9233
+        case as9234
         case au915
+        case cn470
+        case cn779
+        case eu433
         case eu868
+        case in865
+        case kr920
+        case ru864
         case us915
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SupportedRfRegion] {
             return [
                 .as9231,
+                .as9232,
+                .as9233,
+                .as9234,
                 .au915,
+                .cn470,
+                .cn779,
+                .eu433,
                 .eu868,
+                .in865,
+                .kr920,
+                .ru864,
                 .us915,
                 .sdkUnknown("")
             ]
@@ -19196,8 +20961,17 @@ extension IoTWirelessClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .as9231: return "AS923-1"
+            case .as9232: return "AS923-2"
+            case .as9233: return "AS923-3"
+            case .as9234: return "AS923-4"
             case .au915: return "AU915"
+            case .cn470: return "CN470"
+            case .cn779: return "CN779"
+            case .eu433: return "EU433"
             case .eu868: return "EU868"
+            case .in865: return "IN865"
+            case .kr920: return "KR920"
+            case .ru864: return "RU864"
             case .us915: return "US915"
             case let .sdkUnknown(s): return s
             }
@@ -21834,6 +23608,104 @@ public struct UpdateResourcePositionOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension UpdateWirelessDeviceImportTaskInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sidewalk = "Sidewalk"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sidewalk = self.sidewalk {
+            try encodeContainer.encode(sidewalk, forKey: .sidewalk)
+        }
+    }
+}
+
+extension UpdateWirelessDeviceImportTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let id = id else {
+            return nil
+        }
+        return "/wireless_device_import_task/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateWirelessDeviceImportTaskInput: Swift.Equatable {
+    /// The identifier of the import task to be updated.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The Sidewalk-related parameters of the import task to be updated.
+    /// This member is required.
+    public var sidewalk: IoTWirelessClientTypes.SidewalkUpdateImportInfo?
+
+    public init (
+        id: Swift.String? = nil,
+        sidewalk: IoTWirelessClientTypes.SidewalkUpdateImportInfo? = nil
+    )
+    {
+        self.id = id
+        self.sidewalk = sidewalk
+    }
+}
+
+struct UpdateWirelessDeviceImportTaskInputBody: Swift.Equatable {
+    let sidewalk: IoTWirelessClientTypes.SidewalkUpdateImportInfo?
+}
+
+extension UpdateWirelessDeviceImportTaskInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sidewalk = "Sidewalk"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sidewalkDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.SidewalkUpdateImportInfo.self, forKey: .sidewalk)
+        sidewalk = sidewalkDecoded
+    }
+}
+
+extension UpdateWirelessDeviceImportTaskOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateWirelessDeviceImportTaskOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateWirelessDeviceImportTaskOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateWirelessDeviceImportTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateWirelessDeviceImportTaskOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension UpdateWirelessDeviceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -22623,7 +24495,7 @@ extension IoTWirelessClientTypes {
         /// Wi-Fi MAC Address.
         /// This member is required.
         public var macAddress: Swift.String?
-        /// Recived signal strength of the WLAN measurement data.
+        /// Received signal strength (dBm) of the WLAN measurement data.
         /// This member is required.
         public var rss: Swift.Int?
 
@@ -22799,6 +24671,141 @@ extension IoTWirelessClientTypes {
     }
 }
 
+extension IoTWirelessClientTypes.WirelessDeviceImportTask: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case creationTime = "CreationTime"
+        case destinationName = "DestinationName"
+        case failedImportedDeviceCount = "FailedImportedDeviceCount"
+        case id = "Id"
+        case initializedImportedDeviceCount = "InitializedImportedDeviceCount"
+        case onboardedImportedDeviceCount = "OnboardedImportedDeviceCount"
+        case pendingImportedDeviceCount = "PendingImportedDeviceCount"
+        case sidewalk = "Sidewalk"
+        case status = "Status"
+        case statusReason = "StatusReason"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .dateTime, forKey: .creationTime)
+        }
+        if let destinationName = self.destinationName {
+            try encodeContainer.encode(destinationName, forKey: .destinationName)
+        }
+        if let failedImportedDeviceCount = self.failedImportedDeviceCount {
+            try encodeContainer.encode(failedImportedDeviceCount, forKey: .failedImportedDeviceCount)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let initializedImportedDeviceCount = self.initializedImportedDeviceCount {
+            try encodeContainer.encode(initializedImportedDeviceCount, forKey: .initializedImportedDeviceCount)
+        }
+        if let onboardedImportedDeviceCount = self.onboardedImportedDeviceCount {
+            try encodeContainer.encode(onboardedImportedDeviceCount, forKey: .onboardedImportedDeviceCount)
+        }
+        if let pendingImportedDeviceCount = self.pendingImportedDeviceCount {
+            try encodeContainer.encode(pendingImportedDeviceCount, forKey: .pendingImportedDeviceCount)
+        }
+        if let sidewalk = self.sidewalk {
+            try encodeContainer.encode(sidewalk, forKey: .sidewalk)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusReason = self.statusReason {
+            try encodeContainer.encode(statusReason, forKey: .statusReason)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let destinationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationName)
+        destinationName = destinationNameDecoded
+        let sidewalkDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.SidewalkGetStartImportInfo.self, forKey: .sidewalk)
+        sidewalk = sidewalkDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.ImportTaskStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
+        statusReason = statusReasonDecoded
+        let initializedImportedDeviceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .initializedImportedDeviceCount)
+        initializedImportedDeviceCount = initializedImportedDeviceCountDecoded
+        let pendingImportedDeviceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pendingImportedDeviceCount)
+        pendingImportedDeviceCount = pendingImportedDeviceCountDecoded
+        let onboardedImportedDeviceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .onboardedImportedDeviceCount)
+        onboardedImportedDeviceCount = onboardedImportedDeviceCountDecoded
+        let failedImportedDeviceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedImportedDeviceCount)
+        failedImportedDeviceCount = failedImportedDeviceCountDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// Information about an import task for wireless devices.
+    public struct WirelessDeviceImportTask: Swift.Equatable {
+        /// The ARN (Amazon Resource Name) of the wireless device import task.
+        public var arn: Swift.String?
+        /// The time at which the import task was created.
+        public var creationTime: ClientRuntime.Date?
+        /// The name of the Sidewalk destination that that describes the IoT rule to route messages from the device in the import task that will be onboarded to AWS IoT Wireless
+        public var destinationName: Swift.String?
+        /// The summary information of count of wireless devices in an import task that failed to onboarded to the import task.
+        public var failedImportedDeviceCount: Swift.Int?
+        /// The ID of the wireless device import task.
+        public var id: Swift.String?
+        /// The summary information of count of wireless devices that are waiting for the control log to be added to an import task.
+        public var initializedImportedDeviceCount: Swift.Int?
+        /// The summary information of count of wireless devices in an import task that have been onboarded to the import task.
+        public var onboardedImportedDeviceCount: Swift.Int?
+        /// The summary information of count of wireless devices in an import task that are waiting in the queue to be onboarded.
+        public var pendingImportedDeviceCount: Swift.Int?
+        /// The Sidewalk-related information of the wireless device import task.
+        public var sidewalk: IoTWirelessClientTypes.SidewalkGetStartImportInfo?
+        /// The status information of the wireless device import task.
+        public var status: IoTWirelessClientTypes.ImportTaskStatus?
+        /// The reason that provides additional information about the import task status.
+        public var statusReason: Swift.String?
+
+        public init (
+            arn: Swift.String? = nil,
+            creationTime: ClientRuntime.Date? = nil,
+            destinationName: Swift.String? = nil,
+            failedImportedDeviceCount: Swift.Int? = nil,
+            id: Swift.String? = nil,
+            initializedImportedDeviceCount: Swift.Int? = nil,
+            onboardedImportedDeviceCount: Swift.Int? = nil,
+            pendingImportedDeviceCount: Swift.Int? = nil,
+            sidewalk: IoTWirelessClientTypes.SidewalkGetStartImportInfo? = nil,
+            status: IoTWirelessClientTypes.ImportTaskStatus? = nil,
+            statusReason: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.destinationName = destinationName
+            self.failedImportedDeviceCount = failedImportedDeviceCount
+            self.id = id
+            self.initializedImportedDeviceCount = initializedImportedDeviceCount
+            self.onboardedImportedDeviceCount = onboardedImportedDeviceCount
+            self.pendingImportedDeviceCount = pendingImportedDeviceCount
+            self.sidewalk = sidewalk
+            self.status = status
+            self.statusReason = statusReason
+        }
+    }
+
+}
+
 extension IoTWirelessClientTypes.WirelessDeviceLogOption: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case events = "Events"
@@ -22866,6 +24873,44 @@ extension IoTWirelessClientTypes {
         }
     }
 
+}
+
+extension IoTWirelessClientTypes {
+    public enum WirelessDeviceSidewalkStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case activated
+        case provisioned
+        case registered
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WirelessDeviceSidewalkStatus] {
+            return [
+                .activated,
+                .provisioned,
+                .registered,
+                .unknown,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .activated: return "ACTIVATED"
+            case .provisioned: return "PROVISIONED"
+            case .registered: return "REGISTERED"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = WirelessDeviceSidewalkStatus(rawValue: rawValue) ?? WirelessDeviceSidewalkStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension IoTWirelessClientTypes.WirelessDeviceStatistics: Swift.Codable {

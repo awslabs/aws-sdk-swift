@@ -169,6 +169,7 @@ let package = Package(
         .library(name: "AWSHealthLake", targets: ["AWSHealthLake"]),
         .library(name: "AWSHoneycode", targets: ["AWSHoneycode"]),
         .library(name: "AWSIAM", targets: ["AWSIAM"]),
+        .library(name: "AWSIVSRealTime", targets: ["AWSIVSRealTime"]),
         .library(name: "AWSIdentitystore", targets: ["AWSIdentitystore"]),
         .library(name: "AWSImagebuilder", targets: ["AWSImagebuilder"]),
         .library(name: "AWSInspector", targets: ["AWSInspector"]),
@@ -367,14 +368,14 @@ let package = Package(
         .library(name: "AWSXRay", targets: ["AWSXRay"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.6.1"))
+        .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.9.0"))
     ],
     targets: [
         // MARK: - Core Targets
         .target(name: "AWSClientRuntime", dependencies: [awsCommonRuntimeKit, clientRuntime], path: "./Sources/Core/AWSClientRuntime"),
 
         // MARK: - Core Test Targets
-        .testTarget(name: "AWSClientRuntimeTests", dependencies: [clientRuntime, "AWSClientRuntime", smithyTestUtil], path: "./Tests/Core/AWSClientRuntimeTests"),
+        .testTarget(name: "AWSClientRuntimeTests", dependencies: [clientRuntime, "AWSClientRuntime", smithyTestUtil], path: "./Tests/Core/AWSClientRuntimeTests", resources: [.process("Resources")]),
 
         // MARK: - Service Targets
         .target(name: "AWSACM", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSACM"),
@@ -521,6 +522,7 @@ let package = Package(
         .target(name: "AWSHealthLake", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSHealthLake"),
         .target(name: "AWSHoneycode", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSHoneycode"),
         .target(name: "AWSIAM", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSIAM"),
+        .target(name: "AWSIVSRealTime", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSIVSRealTime"),
         .target(name: "AWSIdentitystore", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSIdentitystore"),
         .target(name: "AWSImagebuilder", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSImagebuilder"),
         .target(name: "AWSInspector", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSInspector"),
@@ -863,6 +865,7 @@ let package = Package(
         .testTarget(name: "AWSHealthLakeTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSHealthLake", smithyTestUtil], path: "./Tests/Services/AWSHealthLakeTests"),
         .testTarget(name: "AWSHoneycodeTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSHoneycode", smithyTestUtil], path: "./Tests/Services/AWSHoneycodeTests"),
         .testTarget(name: "AWSIAMTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSIAM", smithyTestUtil], path: "./Tests/Services/AWSIAMTests"),
+        .testTarget(name: "AWSIVSRealTimeTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSIVSRealTime", smithyTestUtil], path: "./Tests/Services/AWSIVSRealTimeTests"),
         .testTarget(name: "AWSIdentitystoreTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSIdentitystore", smithyTestUtil], path: "./Tests/Services/AWSIdentitystoreTests"),
         .testTarget(name: "AWSImagebuilderTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSImagebuilder", smithyTestUtil], path: "./Tests/Services/AWSImagebuilderTests"),
         .testTarget(name: "AWSInspectorTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSInspector", smithyTestUtil], path: "./Tests/Services/AWSInspectorTests"),
@@ -1078,6 +1081,6 @@ case (false, true):
     ]
 case (false, false):
     package.dependencies += [
-        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.14.0"))
+        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.16.0"))
     ]
 }

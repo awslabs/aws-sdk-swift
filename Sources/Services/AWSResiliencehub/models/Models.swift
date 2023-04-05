@@ -520,7 +520,7 @@ extension ResiliencehubClientTypes.App: Swift.CustomDebugStringConvertible {
 }
 
 extension ResiliencehubClientTypes {
-    /// Defines an AWS Resilience Hub application.
+    /// Defines an Resilience Hub application.
     public struct App: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         /// This member is required.
@@ -1204,6 +1204,7 @@ extension ResiliencehubClientTypes {
 
 extension ResiliencehubClientTypes.AppInputSource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eksSourceClusterNamespace
         case importType
         case resourceCount
         case sourceArn
@@ -1213,6 +1214,9 @@ extension ResiliencehubClientTypes.AppInputSource: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eksSourceClusterNamespace = self.eksSourceClusterNamespace {
+            try encodeContainer.encode(eksSourceClusterNamespace, forKey: .eksSourceClusterNamespace)
+        }
         if let importType = self.importType {
             try encodeContainer.encode(importType.rawValue, forKey: .importType)
         }
@@ -1242,16 +1246,20 @@ extension ResiliencehubClientTypes.AppInputSource: Swift.Codable {
         terraformSource = terraformSourceDecoded
         let resourceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .resourceCount) ?? 0
         resourceCount = resourceCountDecoded
+        let eksSourceClusterNamespaceDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.EksSourceClusterNamespace.self, forKey: .eksSourceClusterNamespace)
+        eksSourceClusterNamespace = eksSourceClusterNamespaceDecoded
     }
 }
 
 extension ResiliencehubClientTypes {
-    /// The list of AWS Resilience Hub application input sources.
+    /// The list of Resilience Hub application input sources.
     public struct AppInputSource: Swift.Equatable {
+        /// The namespace on your Amazon Elastic Kubernetes Service cluster.
+        public var eksSourceClusterNamespace: ResiliencehubClientTypes.EksSourceClusterNamespace?
         /// The resource type of the input source.
         /// This member is required.
         public var importType: ResiliencehubClientTypes.ResourceMappingType?
-        /// The number of resources that were imported.
+        /// The number of resources.
         public var resourceCount: Swift.Int
         /// The Amazon Resource Name (ARN) of the input source. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
         public var sourceArn: Swift.String?
@@ -1261,6 +1269,7 @@ extension ResiliencehubClientTypes {
         public var terraformSource: ResiliencehubClientTypes.TerraformSource?
 
         public init (
+            eksSourceClusterNamespace: ResiliencehubClientTypes.EksSourceClusterNamespace? = nil,
             importType: ResiliencehubClientTypes.ResourceMappingType? = nil,
             resourceCount: Swift.Int = 0,
             sourceArn: Swift.String? = nil,
@@ -1268,6 +1277,7 @@ extension ResiliencehubClientTypes {
             terraformSource: ResiliencehubClientTypes.TerraformSource? = nil
         )
         {
+            self.eksSourceClusterNamespace = eksSourceClusterNamespace
             self.importType = importType
             self.resourceCount = resourceCount
             self.sourceArn = sourceArn
@@ -1600,7 +1610,7 @@ extension ResiliencehubClientTypes.ComponentRecommendation: Swift.Codable {
 }
 
 extension ResiliencehubClientTypes {
-    /// Defines recommendations for an AWS Resilience Hub Application Component, returned as an object. This object contains component names, configuration recommendations, and recommendation statuses.
+    /// Defines recommendations for an Resilience Hub Application Component, returned as an object. This object contains component names, configuration recommendations, and recommendation statuses.
     public struct ComponentRecommendation: Swift.Equatable {
         /// The name of the Application Component.
         /// This member is required.
@@ -2435,7 +2445,7 @@ public struct CreateAppVersionAppComponentOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// Defines an Application Component.
+    /// The list of Application Components that belong to this resource.
     public var appComponent: ResiliencehubClientTypes.AppComponent?
     /// The AWS Resilience Hub application version.
     /// This member is required.
@@ -3538,7 +3548,7 @@ public struct DeleteAppInput: Swift.Equatable {
     public var appArn: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
     public var clientToken: Swift.String?
-    /// A boolean option to force the deletion of an AWS Resilience Hub application.
+    /// A boolean option to force the deletion of an Resilience Hub application.
     public var forceDelete: Swift.Bool?
 
     public init (
@@ -3581,6 +3591,7 @@ extension DeleteAppInputSourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case clientToken
+        case eksSourceClusterNamespace
         case sourceArn
         case terraformSource
     }
@@ -3592,6 +3603,9 @@ extension DeleteAppInputSourceInput: Swift.Encodable {
         }
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let eksSourceClusterNamespace = self.eksSourceClusterNamespace {
+            try encodeContainer.encode(eksSourceClusterNamespace, forKey: .eksSourceClusterNamespace)
         }
         if let sourceArn = self.sourceArn {
             try encodeContainer.encode(sourceArn, forKey: .sourceArn)
@@ -3614,20 +3628,24 @@ public struct DeleteAppInputSourceInput: Swift.Equatable {
     public var appArn: Swift.String?
     /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters. You should not reuse the same client token for other API requests.
     public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the imported resource you want to remove from the AWS Resilience Hub application. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+    /// The namespace on your Amazon Elastic Kubernetes Service cluster that you want to delete from the Resilience Hub application.
+    public var eksSourceClusterNamespace: ResiliencehubClientTypes.EksSourceClusterNamespace?
+    /// The Amazon Resource Name (ARN) of the imported resource you want to remove from the Resilience Hub application. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     public var sourceArn: Swift.String?
-    /// The imported Terraform s3 state ﬁle you want to remove from the AWS Resilience Hub application.
+    /// The imported Terraform s3 state ﬁle you want to remove from the Resilience Hub application.
     public var terraformSource: ResiliencehubClientTypes.TerraformSource?
 
     public init (
         appArn: Swift.String? = nil,
         clientToken: Swift.String? = nil,
+        eksSourceClusterNamespace: ResiliencehubClientTypes.EksSourceClusterNamespace? = nil,
         sourceArn: Swift.String? = nil,
         terraformSource: ResiliencehubClientTypes.TerraformSource? = nil
     )
     {
         self.appArn = appArn
         self.clientToken = clientToken
+        self.eksSourceClusterNamespace = eksSourceClusterNamespace
         self.sourceArn = sourceArn
         self.terraformSource = terraformSource
     }
@@ -3638,12 +3656,14 @@ struct DeleteAppInputSourceInputBody: Swift.Equatable {
     let sourceArn: Swift.String?
     let terraformSource: ResiliencehubClientTypes.TerraformSource?
     let clientToken: Swift.String?
+    let eksSourceClusterNamespace: ResiliencehubClientTypes.EksSourceClusterNamespace?
 }
 
 extension DeleteAppInputSourceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case clientToken
+        case eksSourceClusterNamespace
         case sourceArn
         case terraformSource
     }
@@ -3658,6 +3678,8 @@ extension DeleteAppInputSourceInputBody: Swift.Decodable {
         terraformSource = terraformSourceDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let eksSourceClusterNamespaceDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.EksSourceClusterNamespace.self, forKey: .eksSourceClusterNamespace)
+        eksSourceClusterNamespace = eksSourceClusterNamespaceDecoded
     }
 }
 
@@ -4001,7 +4023,7 @@ public struct DeleteAppVersionAppComponentOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// Defines an Application Component.
+    /// The list of Application Components that belong to this resource.
     public var appComponent: ResiliencehubClientTypes.AppComponent?
     /// The AWS Resilience Hub application version.
     /// This member is required.
@@ -4705,7 +4727,7 @@ extension DescribeAppAssessmentOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 public struct DescribeAppAssessmentOutputResponse: Swift.Equatable {
-    /// The assessment for an AWS Resilience Hub application, returned as an object. This object includes Amazon Resource Names (ARNs), compliance information, compliance status, cost, messages, resiliency scores, and more.
+    /// The assessment for an Resilience Hub application, returned as an object. This object includes Amazon Resource Names (ARNs), compliance information, compliance status, cost, messages, resiliency scores, and more.
     /// This member is required.
     public var assessment: ResiliencehubClientTypes.AppAssessment?
 
@@ -5019,7 +5041,7 @@ public struct DescribeAppVersionAppComponentOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// Defines an Application Component.
+    /// The list of Application Components that belong to this resource.
     public var appComponent: ResiliencehubClientTypes.AppComponent?
     /// The AWS Resilience Hub application version.
     /// This member is required.
@@ -5826,7 +5848,7 @@ public struct DescribeAppVersionTemplateOutputResponse: Swift.Equatable {
     public var appArn: Swift.String?
     /// A JSON string that provides information about your application structure. To learn more about the appTemplateBody template, see the sample template provided in the Examples section. The appTemplateBody JSON string has the following structure:
     ///
-    /// * resources The list of logical resources that needs to be included in the application. Type: Array Don't add the resources that you want to exclude. Each resources array item includes the following fields:
+    /// * resources The list of logical resources that needs to be included in the Resilience Hub application. Type: Array Don't add the resources that you want to exclude. Each resources array item includes the following fields:
     ///
     /// * logicalResourceId The logical identifier of the resource. Type: Object Each logicalResourceId object includes the following fields:
     ///
@@ -5844,6 +5866,8 @@ public struct DescribeAppVersionTemplateOutputResponse: Swift.Equatable {
     /// * type The type of resource. Type: string
     ///
     /// * name The name of the resource. Type: String
+    ///
+    /// * additionalInfo Additional configuration parameters for an AWS Resilience Hub application. Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
     ///
     ///
     ///
@@ -5881,6 +5905,16 @@ public struct DescribeAppVersionTemplateOutputResponse: Swift.Equatable {
     /// * resourceGroupName The name of the resource group this resource belongs to. Type: String
     ///
     /// * terraformSourceName The name of the Terraform S3 state file this resource belongs to. Type: String
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// * version The AWS Resilience Hub application version.
+    ///
+    /// * additionalInfo Additional configuration parameters for an AWS Resilience Hub application. Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
     /// This member is required.
     public var appTemplateBody: Swift.String?
     /// The version of the application.
@@ -6408,6 +6442,112 @@ extension ResiliencehubClientTypes {
     }
 }
 
+extension ResiliencehubClientTypes.EksSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eksClusterArn
+        case namespaces
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eksClusterArn = self.eksClusterArn {
+            try encodeContainer.encode(eksClusterArn, forKey: .eksClusterArn)
+        }
+        if let namespaces = namespaces {
+            var namespacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .namespaces)
+            for eksnamespace0 in namespaces {
+                try namespacesContainer.encode(eksnamespace0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eksClusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eksClusterArn)
+        eksClusterArn = eksClusterArnDecoded
+        let namespacesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .namespaces)
+        var namespacesDecoded0:[Swift.String]? = nil
+        if let namespacesContainer = namespacesContainer {
+            namespacesDecoded0 = [Swift.String]()
+            for string0 in namespacesContainer {
+                if let string0 = string0 {
+                    namespacesDecoded0?.append(string0)
+                }
+            }
+        }
+        namespaces = namespacesDecoded0
+    }
+}
+
+extension ResiliencehubClientTypes {
+    /// The input source of the Amazon Elastic Kubernetes Service cluster.
+    public struct EksSource: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster. The format for this ARN is: arn:aws:eks:region:account-id:cluster/cluster-name. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// This member is required.
+        public var eksClusterArn: Swift.String?
+        /// The list of namespaces located on your Amazon Elastic Kubernetes Service cluster.
+        /// This member is required.
+        public var namespaces: [Swift.String]?
+
+        public init (
+            eksClusterArn: Swift.String? = nil,
+            namespaces: [Swift.String]? = nil
+        )
+        {
+            self.eksClusterArn = eksClusterArn
+            self.namespaces = namespaces
+        }
+    }
+
+}
+
+extension ResiliencehubClientTypes.EksSourceClusterNamespace: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eksClusterArn
+        case namespace
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eksClusterArn = self.eksClusterArn {
+            try encodeContainer.encode(eksClusterArn, forKey: .eksClusterArn)
+        }
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace, forKey: .namespace)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eksClusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eksClusterArn)
+        eksClusterArn = eksClusterArnDecoded
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
+    }
+}
+
+extension ResiliencehubClientTypes {
+    /// The input source of the namespace that is located on your Amazon Elastic Kubernetes Service cluster.
+    public struct EksSourceClusterNamespace: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the Amazon Elastic Kubernetes Service cluster. The format for this ARN is: arn:aws:eks:region:account-id:cluster/cluster-name. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
+        /// This member is required.
+        public var eksClusterArn: Swift.String?
+        /// Name of the namespace that is located on your Amazon Elastic Kubernetes Service cluster.
+        /// This member is required.
+        public var namespace: Swift.String?
+
+        public init (
+            eksClusterArn: Swift.String? = nil,
+            namespace: Swift.String? = nil
+        )
+        {
+            self.eksClusterArn = eksClusterArn
+            self.namespace = namespace
+        }
+    }
+
+}
+
 extension ResiliencehubClientTypes {
     public enum EstimatedCostTier: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case l1
@@ -6537,6 +6677,7 @@ extension ResiliencehubClientTypes {
 extension ImportResourcesToDraftAppVersionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
+        case eksSources
         case importStrategy
         case sourceArns
         case terraformSources
@@ -6546,6 +6687,12 @@ extension ImportResourcesToDraftAppVersionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let appArn = self.appArn {
             try encodeContainer.encode(appArn, forKey: .appArn)
+        }
+        if let eksSources = eksSources {
+            var eksSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eksSources)
+            for ekssource0 in eksSources {
+                try eksSourcesContainer.encode(ekssource0)
+            }
         }
         if let importStrategy = self.importStrategy {
             try encodeContainer.encode(importStrategy.rawValue, forKey: .importStrategy)
@@ -6575,21 +6722,25 @@ public struct ImportResourcesToDraftAppVersionInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// The import strategy you would like to set to import resources into AWS Resilience Hub application.
+    /// The input sources of the Amazon Elastic Kubernetes Service resources you need to import.
+    public var eksSources: [ResiliencehubClientTypes.EksSource]?
+    /// The import strategy you would like to set to import resources into Resilience Hub application.
     public var importStrategy: ResiliencehubClientTypes.ResourceImportStrategyType?
-    /// The Amazon Resource Names (ARNs) for the resources that you want to import.
+    /// The Amazon Resource Names (ARNs) for the resources.
     public var sourceArns: [Swift.String]?
     /// A list of terraform file s3 URLs you need to import.
     public var terraformSources: [ResiliencehubClientTypes.TerraformSource]?
 
     public init (
         appArn: Swift.String? = nil,
+        eksSources: [ResiliencehubClientTypes.EksSource]? = nil,
         importStrategy: ResiliencehubClientTypes.ResourceImportStrategyType? = nil,
         sourceArns: [Swift.String]? = nil,
         terraformSources: [ResiliencehubClientTypes.TerraformSource]? = nil
     )
     {
         self.appArn = appArn
+        self.eksSources = eksSources
         self.importStrategy = importStrategy
         self.sourceArns = sourceArns
         self.terraformSources = terraformSources
@@ -6601,11 +6752,13 @@ struct ImportResourcesToDraftAppVersionInputBody: Swift.Equatable {
     let sourceArns: [Swift.String]?
     let terraformSources: [ResiliencehubClientTypes.TerraformSource]?
     let importStrategy: ResiliencehubClientTypes.ResourceImportStrategyType?
+    let eksSources: [ResiliencehubClientTypes.EksSource]?
 }
 
 extension ImportResourcesToDraftAppVersionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
+        case eksSources
         case importStrategy
         case sourceArns
         case terraformSources
@@ -6639,6 +6792,17 @@ extension ImportResourcesToDraftAppVersionInputBody: Swift.Decodable {
         terraformSources = terraformSourcesDecoded0
         let importStrategyDecoded = try containerValues.decodeIfPresent(ResiliencehubClientTypes.ResourceImportStrategyType.self, forKey: .importStrategy)
         importStrategy = importStrategyDecoded
+        let eksSourcesContainer = try containerValues.decodeIfPresent([ResiliencehubClientTypes.EksSource?].self, forKey: .eksSources)
+        var eksSourcesDecoded0:[ResiliencehubClientTypes.EksSource]? = nil
+        if let eksSourcesContainer = eksSourcesContainer {
+            eksSourcesDecoded0 = [ResiliencehubClientTypes.EksSource]()
+            for structure0 in eksSourcesContainer {
+                if let structure0 = structure0 {
+                    eksSourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        eksSources = eksSourcesDecoded0
     }
 }
 
@@ -6702,12 +6866,14 @@ extension ImportResourcesToDraftAppVersionOutputResponse: ClientRuntime.HttpResp
             let output: ImportResourcesToDraftAppVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appArn = output.appArn
             self.appVersion = output.appVersion
+            self.eksSources = output.eksSources
             self.sourceArns = output.sourceArns
             self.status = output.status
             self.terraformSources = output.terraformSources
         } else {
             self.appArn = nil
             self.appVersion = nil
+            self.eksSources = nil
             self.sourceArns = nil
             self.status = nil
             self.terraformSources = nil
@@ -6722,17 +6888,20 @@ public struct ImportResourcesToDraftAppVersionOutputResponse: Swift.Equatable {
     /// The version of the application.
     /// This member is required.
     public var appVersion: Swift.String?
-    /// The Amazon Resource Names (ARNs) for the resources that you imported.
+    /// The input sources of the Amazon Elastic Kubernetes Service resources you have imported.
+    public var eksSources: [ResiliencehubClientTypes.EksSource]?
+    /// The Amazon Resource Names (ARNs) for the resources you have imported.
     public var sourceArns: [Swift.String]?
     /// The status of the action.
     /// This member is required.
     public var status: ResiliencehubClientTypes.ResourceImportStatusType?
-    /// A list of terraform file s3 URLs you need to import.
+    /// A list of terraform file s3 URLs you have imported.
     public var terraformSources: [ResiliencehubClientTypes.TerraformSource]?
 
     public init (
         appArn: Swift.String? = nil,
         appVersion: Swift.String? = nil,
+        eksSources: [ResiliencehubClientTypes.EksSource]? = nil,
         sourceArns: [Swift.String]? = nil,
         status: ResiliencehubClientTypes.ResourceImportStatusType? = nil,
         terraformSources: [ResiliencehubClientTypes.TerraformSource]? = nil
@@ -6740,6 +6909,7 @@ public struct ImportResourcesToDraftAppVersionOutputResponse: Swift.Equatable {
     {
         self.appArn = appArn
         self.appVersion = appVersion
+        self.eksSources = eksSources
         self.sourceArns = sourceArns
         self.status = status
         self.terraformSources = terraformSources
@@ -6752,12 +6922,14 @@ struct ImportResourcesToDraftAppVersionOutputResponseBody: Swift.Equatable {
     let sourceArns: [Swift.String]?
     let status: ResiliencehubClientTypes.ResourceImportStatusType?
     let terraformSources: [ResiliencehubClientTypes.TerraformSource]?
+    let eksSources: [ResiliencehubClientTypes.EksSource]?
 }
 
 extension ImportResourcesToDraftAppVersionOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appVersion
+        case eksSources
         case sourceArns
         case status
         case terraformSources
@@ -6793,6 +6965,17 @@ extension ImportResourcesToDraftAppVersionOutputResponseBody: Swift.Decodable {
             }
         }
         terraformSources = terraformSourcesDecoded0
+        let eksSourcesContainer = try containerValues.decodeIfPresent([ResiliencehubClientTypes.EksSource?].self, forKey: .eksSources)
+        var eksSourcesDecoded0:[ResiliencehubClientTypes.EksSource]? = nil
+        if let eksSourcesContainer = eksSourcesContainer {
+            eksSourcesDecoded0 = [ResiliencehubClientTypes.EksSource]()
+            for structure0 in eksSourcesContainer {
+                if let structure0 = structure0 {
+                    eksSourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        eksSources = eksSourcesDecoded0
     }
 }
 
@@ -6813,7 +6996,7 @@ extension InternalServerException {
     }
 }
 
-/// This exception occurs when there is an internal failure in the AWS Resilience Hub service.
+/// This exception occurs when there is an internal failure in the Resilience Hub service.
 public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -6988,7 +7171,7 @@ extension ListAlarmRecommendationsOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 public struct ListAlarmRecommendationsOutputResponse: Swift.Equatable {
-    /// The alarm recommendations for an AWS Resilience Hub application, returned as an object. This object includes Application Component names, descriptions, information about whether a recommendation has already been implemented or not, prerequisites, and more.
+    /// The alarm recommendations for an Resilience Hub application, returned as an object. This object includes Application Component names, descriptions, information about whether a recommendation has already been implemented or not, prerequisites, and more.
     /// This member is required.
     public var alarmRecommendations: [ResiliencehubClientTypes.AlarmRecommendation]?
     /// The token for the next set of results, or null if there are no more results.
@@ -7378,7 +7561,7 @@ extension ListAppComponentCompliancesOutputResponse: ClientRuntime.HttpResponseB
 }
 
 public struct ListAppComponentCompliancesOutputResponse: Swift.Equatable {
-    /// The compliances for an AWS Resilience Hub Application Component, returned as an object. This object contains the names of the Application Components, compliances, costs, resiliency scores, outage scores, and more.
+    /// The compliances for an Resilience Hub Application Component, returned as an object. This object contains the names of the Application Components, compliances, costs, resiliency scores, outage scores, and more.
     /// This member is required.
     public var componentCompliances: [ResiliencehubClientTypes.AppComponentCompliance]?
     /// The token for the next set of results, or null if there are no more results.
@@ -7560,7 +7743,7 @@ extension ListAppComponentRecommendationsOutputResponse: ClientRuntime.HttpRespo
 }
 
 public struct ListAppComponentRecommendationsOutputResponse: Swift.Equatable {
-    /// The recommendations for an AWS Resilience Hub Application Component, returned as an object. This object contains the names of the Application Components, configuration recommendations, and recommendation statuses.
+    /// The recommendations for an Resilience Hub Application Component, returned as an object. This object contains the names of the Application Components, configuration recommendations, and recommendation statuses.
     /// This member is required.
     public var componentRecommendations: [ResiliencehubClientTypes.ComponentRecommendation]?
     /// The token for the next set of results, or null if there are no more results.
@@ -7643,7 +7826,7 @@ public struct ListAppInputSourcesInput: Swift.Equatable {
     /// The AWS Resilience Hub application version.
     /// This member is required.
     public var appVersion: Swift.String?
-    /// Maximum number of input sources to be displayed per AWS Resilience Hub application.
+    /// Maximum number of input sources to be displayed per Resilience Hub application.
     public var maxResults: Swift.Int?
     /// Null, or the token from a previous call to get the next set of results.
     public var nextToken: Swift.String?
@@ -7755,7 +7938,7 @@ extension ListAppInputSourcesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListAppInputSourcesOutputResponse: Swift.Equatable {
-    /// The list of AWS Resilience Hub application input sources.
+    /// The list of Resilience Hub application input sources.
     /// This member is required.
     public var appInputSources: [ResiliencehubClientTypes.AppInputSource]?
     /// The token for the next set of results, or null if there are no more results.
@@ -8740,7 +8923,7 @@ extension ListAppsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListAppsOutputResponse: Swift.Equatable {
-    /// Summaries for the AWS Resilience Hub application.
+    /// Summaries for the Resilience Hub application.
     /// This member is required.
     public var appSummaries: [ResiliencehubClientTypes.AppSummary]?
     /// The token for the next set of results, or null if there are no more results.
@@ -8942,7 +9125,7 @@ extension ListRecommendationTemplatesOutputResponse: ClientRuntime.HttpResponseB
 public struct ListRecommendationTemplatesOutputResponse: Swift.Equatable {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
-    /// The recommendation templates for the AWS Resilience Hub applications.
+    /// The recommendation templates for the Resilience Hub applications.
     public var recommendationTemplates: [ResiliencehubClientTypes.RecommendationTemplate]?
 
     public init (
@@ -9107,7 +9290,7 @@ extension ListResiliencyPoliciesOutputResponse: ClientRuntime.HttpResponseBindin
 public struct ListResiliencyPoliciesOutputResponse: Swift.Equatable {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
-    /// The resiliency policies for the AWS Resilience Hub applications.
+    /// The resiliency policies for the Resilience Hub applications.
     /// This member is required.
     public var resiliencyPolicies: [ResiliencehubClientTypes.ResiliencyPolicy]?
 
@@ -9292,7 +9475,7 @@ extension ListSopRecommendationsOutputResponse: ClientRuntime.HttpResponseBindin
 public struct ListSopRecommendationsOutputResponse: Swift.Equatable {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
-    /// The standard operating procedure (SOP) recommendations for the AWS Resilience Hub applications.
+    /// The standard operating procedure (SOP) recommendations for the Resilience Hub applications.
     /// This member is required.
     public var sopRecommendations: [ResiliencehubClientTypes.SopRecommendation]?
 
@@ -9450,7 +9633,7 @@ extension ListSuggestedResiliencyPoliciesOutputResponse: ClientRuntime.HttpRespo
 public struct ListSuggestedResiliencyPoliciesOutputResponse: Swift.Equatable {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
-    /// The suggested resiliency policies for the AWS Resilience Hub applications.
+    /// The suggested resiliency policies for the Resilience Hub applications.
     /// This member is required.
     public var resiliencyPolicies: [ResiliencehubClientTypes.ResiliencyPolicy]?
 
@@ -9503,7 +9686,7 @@ extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTagsForResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) for a specific resource in your AWS Resilience Hub application.
+    /// The Amazon Resource Name (ARN) for a specific resource in your Resilience Hub application.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -9770,7 +9953,7 @@ extension ListTestRecommendationsOutputResponse: ClientRuntime.HttpResponseBindi
 public struct ListTestRecommendationsOutputResponse: Swift.Equatable {
     /// The token for the next set of results, or null if there are no more results.
     public var nextToken: Swift.String?
-    /// The test recommendations for the AWS Resilience Hub application.
+    /// The test recommendations for the Resilience Hub application.
     /// This member is required.
     public var testRecommendations: [ResiliencehubClientTypes.TestRecommendation]?
 
@@ -10036,6 +10219,7 @@ extension ListUnsupportedAppVersionResourcesOutputResponseBody: Swift.Decodable 
 
 extension ResiliencehubClientTypes.LogicalResourceId: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eksSourceName
         case identifier
         case logicalStackName
         case resourceGroupName
@@ -10044,6 +10228,9 @@ extension ResiliencehubClientTypes.LogicalResourceId: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eksSourceName = self.eksSourceName {
+            try encodeContainer.encode(eksSourceName, forKey: .eksSourceName)
+        }
         if let identifier = self.identifier {
             try encodeContainer.encode(identifier, forKey: .identifier)
         }
@@ -10068,12 +10255,16 @@ extension ResiliencehubClientTypes.LogicalResourceId: Swift.Codable {
         resourceGroupName = resourceGroupNameDecoded
         let terraformSourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .terraformSourceName)
         terraformSourceName = terraformSourceNameDecoded
+        let eksSourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eksSourceName)
+        eksSourceName = eksSourceNameDecoded
     }
 }
 
 extension ResiliencehubClientTypes {
     /// Defines a logical resource identifier.
     public struct LogicalResourceId: Swift.Equatable {
+        /// The name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format.
+        public var eksSourceName: Swift.String?
         /// The identifier of the resource.
         /// This member is required.
         public var identifier: Swift.String?
@@ -10085,12 +10276,14 @@ extension ResiliencehubClientTypes {
         public var terraformSourceName: Swift.String?
 
         public init (
+            eksSourceName: Swift.String? = nil,
             identifier: Swift.String? = nil,
             logicalStackName: Swift.String? = nil,
             resourceGroupName: Swift.String? = nil,
             terraformSourceName: Swift.String? = nil
         )
         {
+            self.eksSourceName = eksSourceName
             self.identifier = identifier
             self.logicalStackName = logicalStackName
             self.resourceGroupName = resourceGroupName
@@ -10222,7 +10415,7 @@ extension ResiliencehubClientTypes.PhysicalResource: Swift.Codable {
 }
 
 extension ResiliencehubClientTypes {
-    /// Defines a physical resource. A physical resource is a resource that exists in your account. It can be identified using an Amazon Resource Name (ARN) or an AWS Resilience Hub-native identifier.
+    /// Defines a physical resource. A physical resource is a resource that exists in your account. It can be identified using an Amazon Resource Name (ARN) or an Resilience Hub-native identifier.
     public struct PhysicalResource: Swift.Equatable {
         /// Additional configuration parameters for an AWS Resilience Hub application. Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
         public var additionalInfo: [Swift.String:[Swift.String]]?
@@ -10311,7 +10504,7 @@ extension ResiliencehubClientTypes {
         /// The identifier of the physical resource.
         /// This member is required.
         public var identifier: Swift.String?
-        /// Specifies the type of physical resource identifier. Arn The resource identifier is an Amazon Resource Name (ARN) . Native The resource identifier is an AWS Resilience Hub-native identifier.
+        /// Specifies the type of physical resource identifier. Arn The resource identifier is an Amazon Resource Name (ARN) . Native The resource identifier is an Resilience Hub-native identifier.
         /// This member is required.
         public var type: ResiliencehubClientTypes.PhysicalIdentifierType?
 
@@ -10512,7 +10705,7 @@ public struct PutDraftAppVersionTemplateInput: Swift.Equatable {
     public var appArn: Swift.String?
     /// A JSON string that provides information about your application structure. To learn more about the appTemplateBody template, see the sample template provided in the Examples section. The appTemplateBody JSON string has the following structure:
     ///
-    /// * resources The list of logical resources that needs to be included in the application. Type: Array Don't add the resources that you want to exclude. Each resources array item includes the following fields:
+    /// * resources The list of logical resources that needs to be included in the Resilience Hub application. Type: Array Don't add the resources that you want to exclude. Each resources array item includes the following fields:
     ///
     /// * logicalResourceId The logical identifier of the resource. Type: Object Each logicalResourceId object includes the following fields:
     ///
@@ -10530,6 +10723,8 @@ public struct PutDraftAppVersionTemplateInput: Swift.Equatable {
     /// * type The type of resource. Type: string
     ///
     /// * name The name of the resource. Type: String
+    ///
+    /// * additionalInfo Additional configuration parameters for an AWS Resilience Hub application. Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
     ///
     ///
     ///
@@ -10567,6 +10762,16 @@ public struct PutDraftAppVersionTemplateInput: Swift.Equatable {
     /// * resourceGroupName The name of the resource group this resource belongs to. Type: String
     ///
     /// * terraformSourceName The name of the Terraform S3 state file this resource belongs to. Type: String
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// * version The AWS Resilience Hub application version.
+    ///
+    /// * additionalInfo Additional configuration parameters for an AWS Resilience Hub application. Currently, this parameter accepts a key-value mapping (in a string format) of only one failover region and one associated account. Key: "failover-regions" Value: "[{"region":"<REGION>", "accounts":[{"id":"<ACCOUNT_ID>"}]}]"
     /// This member is required.
     public var appTemplateBody: Swift.String?
 
@@ -11133,6 +11338,7 @@ extension RemoveDraftAppVersionResourceMappingsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appRegistryAppNames
+        case eksSourceNames
         case logicalStackNames
         case resourceGroupNames
         case resourceNames
@@ -11148,6 +11354,12 @@ extension RemoveDraftAppVersionResourceMappingsInput: Swift.Encodable {
             var appRegistryAppNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .appRegistryAppNames)
             for entityname0 in appRegistryAppNames {
                 try appRegistryAppNamesContainer.encode(entityname0)
+            }
+        }
+        if let eksSourceNames = eksSourceNames {
+            var eksSourceNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eksSourceNames)
+            for string2550 in eksSourceNames {
+                try eksSourceNamesContainer.encode(string2550)
             }
         }
         if let logicalStackNames = logicalStackNames {
@@ -11189,6 +11401,8 @@ public struct RemoveDraftAppVersionResourceMappingsInput: Swift.Equatable {
     public var appArn: Swift.String?
     /// The names of the registered applications you want to remove from the resource mappings.
     public var appRegistryAppNames: [Swift.String]?
+    /// The names of the Amazon Elastic Kubernetes Service clusters and namespaces you want to remove from the resource mappings. This parameter accepts values in "eks-cluster/namespace" format.
+    public var eksSourceNames: [Swift.String]?
     /// The names of the CloudFormation stacks you want to remove from the resource mappings.
     public var logicalStackNames: [Swift.String]?
     /// The names of the resource groups you want to remove from the resource mappings.
@@ -11201,6 +11415,7 @@ public struct RemoveDraftAppVersionResourceMappingsInput: Swift.Equatable {
     public init (
         appArn: Swift.String? = nil,
         appRegistryAppNames: [Swift.String]? = nil,
+        eksSourceNames: [Swift.String]? = nil,
         logicalStackNames: [Swift.String]? = nil,
         resourceGroupNames: [Swift.String]? = nil,
         resourceNames: [Swift.String]? = nil,
@@ -11209,6 +11424,7 @@ public struct RemoveDraftAppVersionResourceMappingsInput: Swift.Equatable {
     {
         self.appArn = appArn
         self.appRegistryAppNames = appRegistryAppNames
+        self.eksSourceNames = eksSourceNames
         self.logicalStackNames = logicalStackNames
         self.resourceGroupNames = resourceGroupNames
         self.resourceNames = resourceNames
@@ -11223,12 +11439,14 @@ struct RemoveDraftAppVersionResourceMappingsInputBody: Swift.Equatable {
     let appRegistryAppNames: [Swift.String]?
     let resourceGroupNames: [Swift.String]?
     let terraformSourceNames: [Swift.String]?
+    let eksSourceNames: [Swift.String]?
 }
 
 extension RemoveDraftAppVersionResourceMappingsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn
         case appRegistryAppNames
+        case eksSourceNames
         case logicalStackNames
         case resourceGroupNames
         case resourceNames
@@ -11294,6 +11512,17 @@ extension RemoveDraftAppVersionResourceMappingsInputBody: Swift.Decodable {
             }
         }
         terraformSourceNames = terraformSourceNamesDecoded0
+        let eksSourceNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .eksSourceNames)
+        var eksSourceNamesDecoded0:[Swift.String]? = nil
+        if let eksSourceNamesContainer = eksSourceNamesContainer {
+            eksSourceNamesDecoded0 = [Swift.String]()
+            for string0 in eksSourceNamesContainer {
+                if let string0 = string0 {
+                    eksSourceNamesDecoded0?.append(string0)
+                }
+            }
+        }
+        eksSourceNames = eksSourceNamesDecoded0
     }
 }
 
@@ -12052,6 +12281,7 @@ extension ResiliencehubClientTypes {
 extension ResiliencehubClientTypes.ResourceMapping: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appRegistryAppName
+        case eksSourceName
         case logicalStackName
         case mappingType
         case physicalResourceId
@@ -12064,6 +12294,9 @@ extension ResiliencehubClientTypes.ResourceMapping: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let appRegistryAppName = self.appRegistryAppName {
             try encodeContainer.encode(appRegistryAppName, forKey: .appRegistryAppName)
+        }
+        if let eksSourceName = self.eksSourceName {
+            try encodeContainer.encode(eksSourceName, forKey: .eksSourceName)
         }
         if let logicalStackName = self.logicalStackName {
             try encodeContainer.encode(logicalStackName, forKey: .logicalStackName)
@@ -12101,6 +12334,8 @@ extension ResiliencehubClientTypes.ResourceMapping: Swift.Codable {
         physicalResourceId = physicalResourceIdDecoded
         let terraformSourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .terraformSourceName)
         terraformSourceName = terraformSourceNameDecoded
+        let eksSourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eksSourceName)
+        eksSourceName = eksSourceNameDecoded
     }
 }
 
@@ -12109,9 +12344,11 @@ extension ResiliencehubClientTypes {
     public struct ResourceMapping: Swift.Equatable {
         /// The name of the application this resource is mapped to.
         public var appRegistryAppName: Swift.String?
+        /// The name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. This parameter accepts values in "eks-cluster/namespace" format.
+        public var eksSourceName: Swift.String?
         /// The name of the CloudFormation stack this resource is mapped to.
         public var logicalStackName: Swift.String?
-        /// Specifies the type of resource mapping. AppRegistryApp The resource is mapped to another application. The name of the application is contained in the appRegistryAppName property. CfnStack The resource is mapped to a CloudFormation stack. The name of the CloudFormation stack is contained in the logicalStackName property. Resource The resource is mapped to another resource. The name of the resource is contained in the resourceName property. ResourceGroup The resource is mapped to a resource group. The name of the resource group is contained in the resourceGroupName property.
+        /// Specifies the type of resource mapping. AppRegistryApp The resource is mapped to another application. The name of the application is contained in the appRegistryAppName property. CfnStack The resource is mapped to a CloudFormation stack. The name of the CloudFormation stack is contained in the logicalStackName property. Resource The resource is mapped to another resource. The name of the resource is contained in the resourceName property. ResourceGroup The resource is mapped to an Resource Groups. The name of the resource group is contained in the resourceGroupName property.
         /// This member is required.
         public var mappingType: ResiliencehubClientTypes.ResourceMappingType?
         /// The identifier of this resource.
@@ -12126,6 +12363,7 @@ extension ResiliencehubClientTypes {
 
         public init (
             appRegistryAppName: Swift.String? = nil,
+            eksSourceName: Swift.String? = nil,
             logicalStackName: Swift.String? = nil,
             mappingType: ResiliencehubClientTypes.ResourceMappingType? = nil,
             physicalResourceId: ResiliencehubClientTypes.PhysicalResourceId? = nil,
@@ -12135,6 +12373,7 @@ extension ResiliencehubClientTypes {
         )
         {
             self.appRegistryAppName = appRegistryAppName
+            self.eksSourceName = eksSourceName
             self.logicalStackName = logicalStackName
             self.mappingType = mappingType
             self.physicalResourceId = physicalResourceId
@@ -12150,6 +12389,7 @@ extension ResiliencehubClientTypes {
     public enum ResourceMappingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case appRegistryApp
         case cfnStack
+        case eks
         case resource
         case resourceGroup
         case terraform
@@ -12159,6 +12399,7 @@ extension ResiliencehubClientTypes {
             return [
                 .appRegistryApp,
                 .cfnStack,
+                .eks,
                 .resource,
                 .resourceGroup,
                 .terraform,
@@ -12173,6 +12414,7 @@ extension ResiliencehubClientTypes {
             switch self {
             case .appRegistryApp: return "AppRegistryApp"
             case .cfnStack: return "CfnStack"
+            case .eks: return "EKS"
             case .resource: return "Resource"
             case .resourceGroup: return "ResourceGroup"
             case .terraform: return "Terraform"
@@ -12947,7 +13189,7 @@ extension ResiliencehubClientTypes.TerraformSource: Swift.Codable {
 extension ResiliencehubClientTypes {
     /// The Terraform s3 state file you need to import.
     public struct TerraformSource: Swift.Equatable {
-        /// The Terraform s3 state file you need to import.
+        /// The URL of the Terraform s3 state file you need to import.
         /// This member is required.
         public var s3StateFileUrl: Swift.String?
 
@@ -13264,6 +13506,7 @@ extension ResiliencehubClientTypes.UnsupportedResource: Swift.Codable {
         case logicalResourceId
         case physicalResourceId
         case resourceType
+        case unsupportedResourceStatus
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -13277,6 +13520,9 @@ extension ResiliencehubClientTypes.UnsupportedResource: Swift.Codable {
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType, forKey: .resourceType)
         }
+        if let unsupportedResourceStatus = self.unsupportedResourceStatus {
+            try encodeContainer.encode(unsupportedResourceStatus, forKey: .unsupportedResourceStatus)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -13287,11 +13533,13 @@ extension ResiliencehubClientTypes.UnsupportedResource: Swift.Codable {
         physicalResourceId = physicalResourceIdDecoded
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
+        let unsupportedResourceStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .unsupportedResourceStatus)
+        unsupportedResourceStatus = unsupportedResourceStatusDecoded
     }
 }
 
 extension ResiliencehubClientTypes {
-    /// Defines a resource that is not supported by AWS Resilience Hub.
+    /// Defines a resource that is not supported by Resilience Hub.
     public struct UnsupportedResource: Swift.Equatable {
         /// The logical resource identifier for the unsupported resource.
         /// This member is required.
@@ -13302,16 +13550,20 @@ extension ResiliencehubClientTypes {
         /// The type of resource.
         /// This member is required.
         public var resourceType: Swift.String?
+        /// The status of unsupported resource.
+        public var unsupportedResourceStatus: Swift.String?
 
         public init (
             logicalResourceId: ResiliencehubClientTypes.LogicalResourceId? = nil,
             physicalResourceId: ResiliencehubClientTypes.PhysicalResourceId? = nil,
-            resourceType: Swift.String? = nil
+            resourceType: Swift.String? = nil,
+            unsupportedResourceStatus: Swift.String? = nil
         )
         {
             self.logicalResourceId = logicalResourceId
             self.physicalResourceId = physicalResourceId
             self.resourceType = resourceType
+            self.unsupportedResourceStatus = unsupportedResourceStatus
         }
     }
 
@@ -13816,7 +14068,7 @@ public struct UpdateAppVersionAppComponentOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the AWS Resilience Hub application. The format for this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs, see [ Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the AWS General Reference guide.
     /// This member is required.
     public var appArn: Swift.String?
-    /// Defines an Application Component.
+    /// The list of Application Components that belong to this resource.
     public var appComponent: ResiliencehubClientTypes.AppComponent?
     /// The AWS Resilience Hub application version.
     /// This member is required.
@@ -14147,7 +14399,7 @@ public struct UpdateAppVersionResourceInput: Swift.Equatable {
     public var awsAccountId: Swift.String?
     /// The Amazon Web Services region that owns the physical resource.
     public var awsRegion: Swift.String?
-    /// Indicates if a resource is excluded from an AWS Resilience Hub application. You can exclude only imported resources from an AWS Resilience Hub application.
+    /// Indicates if a resource is excluded from an Resilience Hub application. You can exclude only imported resources from an Resilience Hub application.
     public var excluded: Swift.Bool?
     /// The logical identifier of the resource.
     public var logicalResourceId: ResiliencehubClientTypes.LogicalResourceId?

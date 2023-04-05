@@ -882,6 +882,101 @@ extension NeptuneClientTypes {
 
 }
 
+extension NeptuneClientTypes.ClusterPendingModifiedValues: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allocatedStorage = "AllocatedStorage"
+        case backupRetentionPeriod = "BackupRetentionPeriod"
+        case dbClusterIdentifier = "DBClusterIdentifier"
+        case engineVersion = "EngineVersion"
+        case iamDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
+        case iops = "Iops"
+        case pendingCloudwatchLogsExports = "PendingCloudwatchLogsExports"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let allocatedStorage = allocatedStorage {
+            try container.encode(allocatedStorage, forKey: ClientRuntime.Key("AllocatedStorage"))
+        }
+        if let backupRetentionPeriod = backupRetentionPeriod {
+            try container.encode(backupRetentionPeriod, forKey: ClientRuntime.Key("BackupRetentionPeriod"))
+        }
+        if let dbClusterIdentifier = dbClusterIdentifier {
+            try container.encode(dbClusterIdentifier, forKey: ClientRuntime.Key("DBClusterIdentifier"))
+        }
+        if let engineVersion = engineVersion {
+            try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
+        }
+        if let iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled {
+            try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
+        }
+        if let iops = iops {
+            try container.encode(iops, forKey: ClientRuntime.Key("Iops"))
+        }
+        if let pendingCloudwatchLogsExports = pendingCloudwatchLogsExports {
+            try container.encode(pendingCloudwatchLogsExports, forKey: ClientRuntime.Key("PendingCloudwatchLogsExports"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pendingCloudwatchLogsExportsDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.PendingCloudwatchLogsExports.self, forKey: .pendingCloudwatchLogsExports)
+        pendingCloudwatchLogsExports = pendingCloudwatchLogsExportsDecoded
+        let dbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterIdentifier)
+        dbClusterIdentifier = dbClusterIdentifierDecoded
+        let iamDatabaseAuthenticationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .iamDatabaseAuthenticationEnabled)
+        iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabledDecoded
+        let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
+        engineVersion = engineVersionDecoded
+        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
+        backupRetentionPeriod = backupRetentionPeriodDecoded
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
+        allocatedStorage = allocatedStorageDecoded
+        let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops)
+        iops = iopsDecoded
+    }
+}
+
+extension NeptuneClientTypes {
+    /// This data type is used as a response element in the ModifyDBCluster operation and contains changes that will be applied during the next maintenance window.
+    public struct ClusterPendingModifiedValues: Swift.Equatable {
+        /// The allocated storage size in gibibytes (GiB) for database engines. For Neptune, AllocatedStorage always returns 1, because Neptune DB cluster storage size isn't fixed, but instead automatically adjusts as needed.
+        public var allocatedStorage: Swift.Int?
+        /// The number of days for which automatic DB snapshots are retained.
+        public var backupRetentionPeriod: Swift.Int?
+        /// The DBClusterIdentifier value for the DB cluster.
+        public var dbClusterIdentifier: Swift.String?
+        /// The database engine version.
+        public var engineVersion: Swift.String?
+        /// A value that indicates whether mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled.
+        public var iamDatabaseAuthenticationEnabled: Swift.Bool?
+        /// The Provisioned IOPS (I/O operations per second) value. This setting is only for non-Aurora Multi-AZ DB clusters.
+        public var iops: Swift.Int?
+        /// This PendingCloudwatchLogsExports structure specifies pending changes to which CloudWatch logs are enabled and which are disabled.
+        public var pendingCloudwatchLogsExports: NeptuneClientTypes.PendingCloudwatchLogsExports?
+
+        public init (
+            allocatedStorage: Swift.Int? = nil,
+            backupRetentionPeriod: Swift.Int? = nil,
+            dbClusterIdentifier: Swift.String? = nil,
+            engineVersion: Swift.String? = nil,
+            iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
+            iops: Swift.Int? = nil,
+            pendingCloudwatchLogsExports: NeptuneClientTypes.PendingCloudwatchLogsExports? = nil
+        )
+        {
+            self.allocatedStorage = allocatedStorage
+            self.backupRetentionPeriod = backupRetentionPeriod
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.engineVersion = engineVersion
+            self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
+            self.iops = iops
+            self.pendingCloudwatchLogsExports = pendingCloudwatchLogsExports
+        }
+    }
+
+}
+
 extension CopyDBClusterParameterGroupInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -3123,6 +3218,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     /// True to copy all tags from the DB instance to snapshots of the DB instance, and otherwise false. The default is false.
     public var copyTagsToSnapshot: Swift.Bool?
     /// The identifier of the DB cluster that the instance will belong to. For information on creating a DB cluster, see [CreateDBCluster]. Type: String
+    /// This member is required.
     public var dbClusterIdentifier: Swift.String?
     /// The compute and memory capacity of the DB instance, for example, db.m4.large. Not all DB instance classes are available in all Amazon Regions.
     /// This member is required.
@@ -4620,12 +4716,14 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         case endpoint = "Endpoint"
         case engine = "Engine"
         case engineVersion = "EngineVersion"
+        case globalClusterIdentifier = "GlobalClusterIdentifier"
         case hostedZoneId = "HostedZoneId"
         case iamDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
         case kmsKeyId = "KmsKeyId"
         case latestRestorableTime = "LatestRestorableTime"
         case masterUsername = "MasterUsername"
         case multiAZ = "MultiAZ"
+        case pendingModifiedValues = "PendingModifiedValues"
         case percentProgress = "PercentProgress"
         case port = "Port"
         case preferredBackupWindow = "PreferredBackupWindow"
@@ -4758,6 +4856,9 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         if let engineVersion = engineVersion {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
         }
+        if let globalClusterIdentifier = globalClusterIdentifier {
+            try container.encode(globalClusterIdentifier, forKey: ClientRuntime.Key("GlobalClusterIdentifier"))
+        }
         if let hostedZoneId = hostedZoneId {
             try container.encode(hostedZoneId, forKey: ClientRuntime.Key("HostedZoneId"))
         }
@@ -4775,6 +4876,9 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         }
         if multiAZ != false {
             try container.encode(multiAZ, forKey: ClientRuntime.Key("MultiAZ"))
+        }
+        if let pendingModifiedValues = pendingModifiedValues {
+            try container.encode(pendingModifiedValues, forKey: ClientRuntime.Key("PendingModifiedValues"))
         }
         if let percentProgress = percentProgress {
             try container.encode(percentProgress, forKey: ClientRuntime.Key("PercentProgress"))
@@ -5024,6 +5128,8 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         } else {
             enabledCloudwatchLogsExports = nil
         }
+        let pendingModifiedValuesDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.ClusterPendingModifiedValues.self, forKey: .pendingModifiedValues)
+        pendingModifiedValues = pendingModifiedValuesDecoded
         let deletionProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtection)
         deletionProtection = deletionProtectionDecoded
         let crossAccountCloneDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .crossAccountClone)
@@ -5032,6 +5138,8 @@ extension NeptuneClientTypes.DBCluster: Swift.Codable {
         automaticRestartTime = automaticRestartTimeDecoded
         let serverlessV2ScalingConfigurationDecoded = try containerValues.decodeIfPresent(NeptuneClientTypes.ServerlessV2ScalingConfigurationInfo.self, forKey: .serverlessV2ScalingConfiguration)
         serverlessV2ScalingConfiguration = serverlessV2ScalingConfigurationDecoded
+        let globalClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalClusterIdentifier)
+        globalClusterIdentifier = globalClusterIdentifierDecoded
     }
 }
 
@@ -5086,6 +5194,8 @@ extension NeptuneClientTypes {
         public var engine: Swift.String?
         /// Indicates the database engine version.
         public var engineVersion: Swift.String?
+        /// Contains a user-supplied global database cluster identifier. This identifier is the unique key that identifies a global database.
+        public var globalClusterIdentifier: Swift.String?
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
         public var hostedZoneId: Swift.String?
         /// True if mapping of Amazon Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
@@ -5098,6 +5208,8 @@ extension NeptuneClientTypes {
         public var masterUsername: Swift.String?
         /// Specifies whether the DB cluster has instances in multiple Availability Zones.
         public var multiAZ: Swift.Bool
+        /// This data type is used as a response element in the ModifyDBCluster operation and contains changes that will be applied during the next maintenance window.
+        public var pendingModifiedValues: NeptuneClientTypes.ClusterPendingModifiedValues?
         /// Specifies the progress of the operation as a percentage.
         public var percentProgress: Swift.String?
         /// Specifies the port that the database engine is listening on.
@@ -5146,12 +5258,14 @@ extension NeptuneClientTypes {
             endpoint: Swift.String? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
+            globalClusterIdentifier: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
             iamDatabaseAuthenticationEnabled: Swift.Bool = false,
             kmsKeyId: Swift.String? = nil,
             latestRestorableTime: ClientRuntime.Date? = nil,
             masterUsername: Swift.String? = nil,
             multiAZ: Swift.Bool = false,
+            pendingModifiedValues: NeptuneClientTypes.ClusterPendingModifiedValues? = nil,
             percentProgress: Swift.String? = nil,
             port: Swift.Int? = nil,
             preferredBackupWindow: Swift.String? = nil,
@@ -5189,12 +5303,14 @@ extension NeptuneClientTypes {
             self.endpoint = endpoint
             self.engine = engine
             self.engineVersion = engineVersion
+            self.globalClusterIdentifier = globalClusterIdentifier
             self.hostedZoneId = hostedZoneId
             self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
             self.kmsKeyId = kmsKeyId
             self.latestRestorableTime = latestRestorableTime
             self.masterUsername = masterUsername
             self.multiAZ = multiAZ
+            self.pendingModifiedValues = pendingModifiedValues
             self.percentProgress = percentProgress
             self.port = port
             self.preferredBackupWindow = preferredBackupWindow

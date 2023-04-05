@@ -36512,9 +36512,11 @@ extension SSMClientTypes {
 
 extension SSMClientTypes {
     public enum OperatingSystem: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case almalinux
         case amazonlinux
         case amazonlinux2
         case amazonlinux2022
+        case amazonlinux2023
         case centos
         case debian
         case macos
@@ -36529,9 +36531,11 @@ extension SSMClientTypes {
 
         public static var allCases: [OperatingSystem] {
             return [
+                .almalinux,
                 .amazonlinux,
                 .amazonlinux2,
                 .amazonlinux2022,
+                .amazonlinux2023,
                 .centos,
                 .debian,
                 .macos,
@@ -36551,9 +36555,11 @@ extension SSMClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .almalinux: return "ALMA_LINUX"
             case .amazonlinux: return "AMAZON_LINUX"
             case .amazonlinux2: return "AMAZON_LINUX_2"
             case .amazonlinux2022: return "AMAZON_LINUX_2022"
+            case .amazonlinux2023: return "AMAZON_LINUX_2023"
             case .centos: return "CENTOS"
             case .debian: return "DEBIAN"
             case .macos: return "MACOS"
@@ -44082,6 +44088,8 @@ extension ResetServiceSettingInput: ClientRuntime.URLPathProvider {
 /// The request body of the ResetServiceSetting API operation.
 public struct ResetServiceSettingInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the service setting to reset. The setting ID can be one of the following.
+    ///
+    /// * /ssm/managed-instance/default-ec2-instance-management-role
     ///
     /// * /ssm/automation/customer-script-log-destination
     ///
@@ -54008,7 +54016,7 @@ extension UpdateServiceSettingInput: ClientRuntime.URLPathProvider {
 
 /// The request body of the UpdateServiceSetting API operation.
 public struct UpdateServiceSettingInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the service setting to reset. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled. The setting ID can be one of the following.
+    /// The Amazon Resource Name (ARN) of the service setting to update. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled. The setting ID can be one of the following.
     ///
     /// * /ssm/managed-instance/default-ec2-instance-management-role
     ///
@@ -54025,13 +54033,18 @@ public struct UpdateServiceSettingInput: Swift.Equatable {
     /// * /ssm/parameter-store/default-parameter-tier
     ///
     /// * /ssm/parameter-store/high-throughput-enabled
+    ///
+    ///
+    /// Permissions to update the /ssm/managed-instance/default-ec2-instance-management-role setting should only be provided to administrators. Implement least privilege access when allowing individuals to configure or modify the Default Host Management Configuration.
     /// This member is required.
     public var settingId: Swift.String?
     /// The new value to specify for the service setting. The following list specifies the available values for each setting.
     ///
+    /// * /ssm/managed-instance/default-ec2-instance-management-role: The name of an IAM role
+    ///
     /// * /ssm/automation/customer-script-log-destination: CloudWatch
     ///
-    /// * /ssm/automation/customer-script-log-group-name: the name of an Amazon CloudWatch Logs log group
+    /// * /ssm/automation/customer-script-log-group-name: The name of an Amazon CloudWatch Logs log group
     ///
     /// * /ssm/documents/console/public-sharing-permission: Enable or Disable
     ///

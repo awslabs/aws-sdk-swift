@@ -146,7 +146,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceAdmin: Swift.Codable {
 }
 
 extension ChimeSDKIdentityClientTypes {
-    /// The details of an AppInstanceAdmin.
+    /// The name and ARN of the admin for the AppInstance.
     public struct AppInstanceAdmin: Swift.Equatable {
         /// The AppInstanceAdmin data.
         public var admin: ChimeSDKIdentityClientTypes.Identity?
@@ -199,6 +199,156 @@ extension ChimeSDKIdentityClientTypes {
         )
         {
             self.admin = admin
+        }
+    }
+
+}
+
+extension ChimeSDKIdentityClientTypes.AppInstanceBot: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appInstanceBotArn = "AppInstanceBotArn"
+        case configuration = "Configuration"
+        case createdTimestamp = "CreatedTimestamp"
+        case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+        case metadata = "Metadata"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appInstanceBotArn = self.appInstanceBotArn {
+            try encodeContainer.encode(appInstanceBotArn, forKey: .appInstanceBotArn)
+        }
+        if let configuration = self.configuration {
+            try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .epochSeconds, forKey: .createdTimestamp)
+        }
+        if let lastUpdatedTimestamp = self.lastUpdatedTimestamp {
+            try encodeContainer.encodeTimestamp(lastUpdatedTimestamp, format: .epochSeconds, forKey: .lastUpdatedTimestamp)
+        }
+        if let metadata = self.metadata {
+            try encodeContainer.encode(metadata, forKey: .metadata)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appInstanceBotArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceBotArn)
+        appInstanceBotArn = appInstanceBotArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let configurationDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.Configuration.self, forKey: .configuration)
+        configuration = configurationDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let lastUpdatedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTimestamp)
+        lastUpdatedTimestamp = lastUpdatedTimestampDecoded
+        let metadataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metadata)
+        metadata = metadataDecoded
+    }
+}
+
+extension ChimeSDKIdentityClientTypes.AppInstanceBot: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AppInstanceBot(appInstanceBotArn: \(Swift.String(describing: appInstanceBotArn)), configuration: \(Swift.String(describing: configuration)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), lastUpdatedTimestamp: \(Swift.String(describing: lastUpdatedTimestamp)), metadata: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension ChimeSDKIdentityClientTypes {
+    /// An Amazon Lex V2 chat bot created under an AppInstance.
+    public struct AppInstanceBot: Swift.Equatable {
+        /// The ARN of the AppInstanceBot.
+        public var appInstanceBotArn: Swift.String?
+        /// The data processing instructions for an AppInstanceBot.
+        public var configuration: ChimeSDKIdentityClientTypes.Configuration?
+        /// The time at which the AppInstanceBot was created.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// The time at which the AppInstanceBot was last updated.
+        public var lastUpdatedTimestamp: ClientRuntime.Date?
+        /// The metadata for an AppInstanceBot.
+        public var metadata: Swift.String?
+        /// The name of the AppInstanceBot.
+        public var name: Swift.String?
+
+        public init (
+            appInstanceBotArn: Swift.String? = nil,
+            configuration: ChimeSDKIdentityClientTypes.Configuration? = nil,
+            createdTimestamp: ClientRuntime.Date? = nil,
+            lastUpdatedTimestamp: ClientRuntime.Date? = nil,
+            metadata: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.appInstanceBotArn = appInstanceBotArn
+            self.configuration = configuration
+            self.createdTimestamp = createdTimestamp
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.metadata = metadata
+            self.name = name
+        }
+    }
+
+}
+
+extension ChimeSDKIdentityClientTypes.AppInstanceBotSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appInstanceBotArn = "AppInstanceBotArn"
+        case metadata = "Metadata"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appInstanceBotArn = self.appInstanceBotArn {
+            try encodeContainer.encode(appInstanceBotArn, forKey: .appInstanceBotArn)
+        }
+        if let metadata = self.metadata {
+            try encodeContainer.encode(metadata, forKey: .metadata)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appInstanceBotArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceBotArn)
+        appInstanceBotArn = appInstanceBotArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let metadataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metadata)
+        metadata = metadataDecoded
+    }
+}
+
+extension ChimeSDKIdentityClientTypes.AppInstanceBotSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AppInstanceBotSummary(appInstanceBotArn: \(Swift.String(describing: appInstanceBotArn)), metadata: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension ChimeSDKIdentityClientTypes {
+    /// High-level information about an AppInstanceBot.
+    public struct AppInstanceBotSummary: Swift.Equatable {
+        /// The ARN of the AppInstanceBot.
+        public var appInstanceBotArn: Swift.String?
+        /// The metadata of the AppInstanceBot.
+        public var metadata: Swift.String?
+        /// The name of the AppInstanceBox.
+        public var name: Swift.String?
+
+        public init (
+            appInstanceBotArn: Swift.String? = nil,
+            metadata: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.appInstanceBotArn = appInstanceBotArn
+            self.metadata = metadata
+            self.name = name
         }
     }
 
@@ -303,6 +453,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceUser: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appInstanceUserArn = "AppInstanceUserArn"
         case createdTimestamp = "CreatedTimestamp"
+        case expirationSettings = "ExpirationSettings"
         case lastUpdatedTimestamp = "LastUpdatedTimestamp"
         case metadata = "Metadata"
         case name = "Name"
@@ -315,6 +466,9 @@ extension ChimeSDKIdentityClientTypes.AppInstanceUser: Swift.Codable {
         }
         if let createdTimestamp = self.createdTimestamp {
             try encodeContainer.encodeTimestamp(createdTimestamp, format: .epochSeconds, forKey: .createdTimestamp)
+        }
+        if let expirationSettings = self.expirationSettings {
+            try encodeContainer.encode(expirationSettings, forKey: .expirationSettings)
         }
         if let lastUpdatedTimestamp = self.lastUpdatedTimestamp {
             try encodeContainer.encodeTimestamp(lastUpdatedTimestamp, format: .epochSeconds, forKey: .lastUpdatedTimestamp)
@@ -339,12 +493,14 @@ extension ChimeSDKIdentityClientTypes.AppInstanceUser: Swift.Codable {
         createdTimestamp = createdTimestampDecoded
         let lastUpdatedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTimestamp)
         lastUpdatedTimestamp = lastUpdatedTimestampDecoded
+        let expirationSettingsDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.ExpirationSettings.self, forKey: .expirationSettings)
+        expirationSettings = expirationSettingsDecoded
     }
 }
 
 extension ChimeSDKIdentityClientTypes.AppInstanceUser: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AppInstanceUser(appInstanceUserArn: \(Swift.String(describing: appInstanceUserArn)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), lastUpdatedTimestamp: \(Swift.String(describing: lastUpdatedTimestamp)), metadata: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "AppInstanceUser(appInstanceUserArn: \(Swift.String(describing: appInstanceUserArn)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), expirationSettings: \(Swift.String(describing: expirationSettings)), lastUpdatedTimestamp: \(Swift.String(describing: lastUpdatedTimestamp)), metadata: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension ChimeSDKIdentityClientTypes {
@@ -354,6 +510,8 @@ extension ChimeSDKIdentityClientTypes {
         public var appInstanceUserArn: Swift.String?
         /// The time at which the AppInstanceUser was created.
         public var createdTimestamp: ClientRuntime.Date?
+        /// The interval after which an AppInstanceUser is automatically deleted.
+        public var expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings?
         /// The time at which the AppInstanceUser was last updated.
         public var lastUpdatedTimestamp: ClientRuntime.Date?
         /// The metadata of the AppInstanceUser.
@@ -364,6 +522,7 @@ extension ChimeSDKIdentityClientTypes {
         public init (
             appInstanceUserArn: Swift.String? = nil,
             createdTimestamp: ClientRuntime.Date? = nil,
+            expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings? = nil,
             lastUpdatedTimestamp: ClientRuntime.Date? = nil,
             metadata: Swift.String? = nil,
             name: Swift.String? = nil
@@ -371,6 +530,7 @@ extension ChimeSDKIdentityClientTypes {
         {
             self.appInstanceUserArn = appInstanceUserArn
             self.createdTimestamp = createdTimestamp
+            self.expirationSettings = expirationSettings
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
             self.metadata = metadata
             self.name = name
@@ -454,7 +614,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceUserEndpoint: Swift.Codable {
 
 extension ChimeSDKIdentityClientTypes.AppInstanceUserEndpoint: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AppInstanceUserEndpoint(allowMessages: \(Swift.String(describing: allowMessages)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), endpointAttributes: \(Swift.String(describing: endpointAttributes)), endpointState: \(Swift.String(describing: endpointState)), lastUpdatedTimestamp: \(Swift.String(describing: lastUpdatedTimestamp)), type: \(Swift.String(describing: type)), appInstanceUserArn: \"CONTENT_REDACTED\", endpointId: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", resourceArn: \"CONTENT_REDACTED\")"}
+        "AppInstanceUserEndpoint(allowMessages: \(Swift.String(describing: allowMessages)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), endpointAttributes: \(Swift.String(describing: endpointAttributes)), endpointState: \(Swift.String(describing: endpointState)), lastUpdatedTimestamp: \(Swift.String(describing: lastUpdatedTimestamp)), resourceArn: \(Swift.String(describing: resourceArn)), type: \(Swift.String(describing: type)), appInstanceUserArn: \"CONTENT_REDACTED\", endpointId: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension ChimeSDKIdentityClientTypes {
@@ -801,6 +961,42 @@ extension ChimeSDKIdentityClientTypes {
 
 }
 
+extension ChimeSDKIdentityClientTypes.Configuration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lex = "Lex"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lex = self.lex {
+            try encodeContainer.encode(lex, forKey: .lex)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lexDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.LexConfiguration.self, forKey: .lex)
+        lex = lexDecoded
+    }
+}
+
+extension ChimeSDKIdentityClientTypes {
+    /// A structure that contains configuration data.
+    public struct Configuration: Swift.Equatable {
+        /// The configuration for an Amazon Lex V2 bot.
+        /// This member is required.
+        public var lex: ChimeSDKIdentityClientTypes.LexConfiguration?
+
+        public init (
+            lex: ChimeSDKIdentityClientTypes.LexConfiguration? = nil
+        )
+        {
+            self.lex = lex
+        }
+    }
+
+}
+
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -995,7 +1191,7 @@ extension CreateAppInstanceAdminOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct CreateAppInstanceAdminOutputResponse: Swift.Equatable {
-    /// The name and ARN of the admin for the AppInstance.
+    /// The ARN and name of the administrator, the ARN of the AppInstance, and the created and last-updated timestamps. All timestamps use epoch milliseconds.
     public var appInstanceAdmin: ChimeSDKIdentityClientTypes.Identity?
     /// The ARN of the of the admin for the AppInstance.
     public var appInstanceArn: Swift.String?
@@ -1030,9 +1226,213 @@ extension CreateAppInstanceAdminOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateAppInstanceBotInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateAppInstanceBotInput(appInstanceArn: \(Swift.String(describing: appInstanceArn)), clientRequestToken: \(Swift.String(describing: clientRequestToken)), configuration: \(Swift.String(describing: configuration)), tags: \(Swift.String(describing: tags)), metadata: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateAppInstanceBotInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appInstanceArn = "AppInstanceArn"
+        case clientRequestToken = "ClientRequestToken"
+        case configuration = "Configuration"
+        case metadata = "Metadata"
+        case name = "Name"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appInstanceArn = self.appInstanceArn {
+            try encodeContainer.encode(appInstanceArn, forKey: .appInstanceArn)
+        }
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let configuration = self.configuration {
+            try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+        if let metadata = self.metadata {
+            try encodeContainer.encode(metadata, forKey: .metadata)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateAppInstanceBotInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/app-instance-bots"
+    }
+}
+
+public struct CreateAppInstanceBotInput: Swift.Equatable {
+    /// The ARN of the AppInstance request.
+    /// This member is required.
+    public var appInstanceArn: Swift.String?
+    /// The unique ID for the client making the request. Use different tokens for different AppInstanceBots.
+    /// This member is required.
+    public var clientRequestToken: Swift.String?
+    /// Configuration information about the Amazon Lex V2 V2 bot.
+    /// This member is required.
+    public var configuration: ChimeSDKIdentityClientTypes.Configuration?
+    /// The request metadata. Limited to a 1KB string in UTF-8.
+    public var metadata: Swift.String?
+    /// The user's name.
+    public var name: Swift.String?
+    /// The tags assigned to the AppInstanceBot.
+    public var tags: [ChimeSDKIdentityClientTypes.Tag]?
+
+    public init (
+        appInstanceArn: Swift.String? = nil,
+        clientRequestToken: Swift.String? = nil,
+        configuration: ChimeSDKIdentityClientTypes.Configuration? = nil,
+        metadata: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [ChimeSDKIdentityClientTypes.Tag]? = nil
+    )
+    {
+        self.appInstanceArn = appInstanceArn
+        self.clientRequestToken = clientRequestToken
+        self.configuration = configuration
+        self.metadata = metadata
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct CreateAppInstanceBotInputBody: Swift.Equatable {
+    let appInstanceArn: Swift.String?
+    let name: Swift.String?
+    let metadata: Swift.String?
+    let clientRequestToken: Swift.String?
+    let tags: [ChimeSDKIdentityClientTypes.Tag]?
+    let configuration: ChimeSDKIdentityClientTypes.Configuration?
+}
+
+extension CreateAppInstanceBotInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appInstanceArn = "AppInstanceArn"
+        case clientRequestToken = "ClientRequestToken"
+        case configuration = "Configuration"
+        case metadata = "Metadata"
+        case name = "Name"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceArn)
+        appInstanceArn = appInstanceArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let metadataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metadata)
+        metadata = metadataDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([ChimeSDKIdentityClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[ChimeSDKIdentityClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ChimeSDKIdentityClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let configurationDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.Configuration.self, forKey: .configuration)
+        configuration = configurationDecoded
+    }
+}
+
+extension CreateAppInstanceBotOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateAppInstanceBotOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateAppInstanceBotOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case resourceLimitExceededException(ResourceLimitExceededException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateAppInstanceBotOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateAppInstanceBotOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.appInstanceBotArn = output.appInstanceBotArn
+        } else {
+            self.appInstanceBotArn = nil
+        }
+    }
+}
+
+public struct CreateAppInstanceBotOutputResponse: Swift.Equatable {
+    /// The ARN of the AppinstanceBot.
+    public var appInstanceBotArn: Swift.String?
+
+    public init (
+        appInstanceBotArn: Swift.String? = nil
+    )
+    {
+        self.appInstanceBotArn = appInstanceBotArn
+    }
+}
+
+struct CreateAppInstanceBotOutputResponseBody: Swift.Equatable {
+    let appInstanceBotArn: Swift.String?
+}
+
+extension CreateAppInstanceBotOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appInstanceBotArn = "AppInstanceBotArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appInstanceBotArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceBotArn)
+        appInstanceBotArn = appInstanceBotArnDecoded
+    }
+}
+
 extension CreateAppInstanceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAppInstanceInput(tags: \(Swift.String(describing: tags)), clientRequestToken: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateAppInstanceInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), tags: \(Swift.String(describing: tags)), metadata: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateAppInstanceInput: Swift.Encodable {
@@ -1070,7 +1470,7 @@ extension CreateAppInstanceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateAppInstanceInput: Swift.Equatable {
-    /// The ClientRequestToken of the AppInstance.
+    /// The unique ID of the request. Use different tokens to create different AppInstances.
     /// This member is required.
     public var clientRequestToken: Swift.String?
     /// The metadata of the AppInstance. Limited to a 1KB string in UTF-8.
@@ -1078,7 +1478,7 @@ public struct CreateAppInstanceInput: Swift.Equatable {
     /// The name of the AppInstance.
     /// This member is required.
     public var name: Swift.String?
-    /// Tags assigned to the AppInstanceUser.
+    /// Tags assigned to the AppInstance.
     public var tags: [ChimeSDKIdentityClientTypes.Tag]?
 
     public init (
@@ -1233,7 +1633,7 @@ extension CreateAppInstanceOutputResponseBody: Swift.Decodable {
 
 extension CreateAppInstanceUserInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAppInstanceUserInput(appInstanceArn: \(Swift.String(describing: appInstanceArn)), tags: \(Swift.String(describing: tags)), appInstanceUserId: \"CONTENT_REDACTED\", clientRequestToken: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateAppInstanceUserInput(appInstanceArn: \(Swift.String(describing: appInstanceArn)), clientRequestToken: \(Swift.String(describing: clientRequestToken)), expirationSettings: \(Swift.String(describing: expirationSettings)), tags: \(Swift.String(describing: tags)), appInstanceUserId: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateAppInstanceUserInput: Swift.Encodable {
@@ -1241,6 +1641,7 @@ extension CreateAppInstanceUserInput: Swift.Encodable {
         case appInstanceArn = "AppInstanceArn"
         case appInstanceUserId = "AppInstanceUserId"
         case clientRequestToken = "ClientRequestToken"
+        case expirationSettings = "ExpirationSettings"
         case metadata = "Metadata"
         case name = "Name"
         case tags = "Tags"
@@ -1256,6 +1657,9 @@ extension CreateAppInstanceUserInput: Swift.Encodable {
         }
         if let clientRequestToken = self.clientRequestToken {
             try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let expirationSettings = self.expirationSettings {
+            try encodeContainer.encode(expirationSettings, forKey: .expirationSettings)
         }
         if let metadata = self.metadata {
             try encodeContainer.encode(metadata, forKey: .metadata)
@@ -1285,9 +1689,11 @@ public struct CreateAppInstanceUserInput: Swift.Equatable {
     /// The user ID of the AppInstance.
     /// This member is required.
     public var appInstanceUserId: Swift.String?
-    /// The token assigned to the user requesting an AppInstance.
+    /// The unique ID of the request. Use different tokens to request additional AppInstances.
     /// This member is required.
     public var clientRequestToken: Swift.String?
+    /// Settings that control the interval after which the AppInstanceUser is automatically deleted.
+    public var expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings?
     /// The request's metadata. Limited to a 1KB string in UTF-8.
     public var metadata: Swift.String?
     /// The user's name.
@@ -1300,6 +1706,7 @@ public struct CreateAppInstanceUserInput: Swift.Equatable {
         appInstanceArn: Swift.String? = nil,
         appInstanceUserId: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
+        expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings? = nil,
         metadata: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [ChimeSDKIdentityClientTypes.Tag]? = nil
@@ -1308,6 +1715,7 @@ public struct CreateAppInstanceUserInput: Swift.Equatable {
         self.appInstanceArn = appInstanceArn
         self.appInstanceUserId = appInstanceUserId
         self.clientRequestToken = clientRequestToken
+        self.expirationSettings = expirationSettings
         self.metadata = metadata
         self.name = name
         self.tags = tags
@@ -1321,6 +1729,7 @@ struct CreateAppInstanceUserInputBody: Swift.Equatable {
     let metadata: Swift.String?
     let clientRequestToken: Swift.String?
     let tags: [ChimeSDKIdentityClientTypes.Tag]?
+    let expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings?
 }
 
 extension CreateAppInstanceUserInputBody: Swift.Decodable {
@@ -1328,6 +1737,7 @@ extension CreateAppInstanceUserInputBody: Swift.Decodable {
         case appInstanceArn = "AppInstanceArn"
         case appInstanceUserId = "AppInstanceUserId"
         case clientRequestToken = "ClientRequestToken"
+        case expirationSettings = "ExpirationSettings"
         case metadata = "Metadata"
         case name = "Name"
         case tags = "Tags"
@@ -1356,6 +1766,8 @@ extension CreateAppInstanceUserInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let expirationSettingsDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.ExpirationSettings.self, forKey: .expirationSettings)
+        expirationSettings = expirationSettingsDecoded
     }
 }
 
@@ -1561,6 +1973,83 @@ extension DeleteAppInstanceAdminOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct DeleteAppInstanceAdminOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension DeleteAppInstanceBotInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let appInstanceBotArn = appInstanceBotArn else {
+            return nil
+        }
+        return "/app-instance-bots/\(appInstanceBotArn.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteAppInstanceBotInput: Swift.Equatable {
+    /// The ARN of the AppInstanceBot being deleted.
+    /// This member is required.
+    public var appInstanceBotArn: Swift.String?
+
+    public init (
+        appInstanceBotArn: Swift.String? = nil
+    )
+    {
+        self.appInstanceBotArn = appInstanceBotArn
+    }
+}
+
+struct DeleteAppInstanceBotInputBody: Swift.Equatable {
+}
+
+extension DeleteAppInstanceBotInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteAppInstanceBotOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteAppInstanceBotOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteAppInstanceBotOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case resourceLimitExceededException(ResourceLimitExceededException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteAppInstanceBotOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteAppInstanceBotOutputResponse: Swift.Equatable {
 
     public init () { }
 }
@@ -1995,6 +2484,112 @@ extension DescribeAppInstanceAdminOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let appInstanceAdminDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.AppInstanceAdmin.self, forKey: .appInstanceAdmin)
         appInstanceAdmin = appInstanceAdminDecoded
+    }
+}
+
+extension DescribeAppInstanceBotInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let appInstanceBotArn = appInstanceBotArn else {
+            return nil
+        }
+        return "/app-instance-bots/\(appInstanceBotArn.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeAppInstanceBotInput: Swift.Equatable {
+    /// The ARN of the AppInstanceBot.
+    /// This member is required.
+    public var appInstanceBotArn: Swift.String?
+
+    public init (
+        appInstanceBotArn: Swift.String? = nil
+    )
+    {
+        self.appInstanceBotArn = appInstanceBotArn
+    }
+}
+
+struct DescribeAppInstanceBotInputBody: Swift.Equatable {
+}
+
+extension DescribeAppInstanceBotInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeAppInstanceBotOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeAppInstanceBotOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "NotFoundException" : self = .notFoundException(try NotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeAppInstanceBotOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case notFoundException(NotFoundException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeAppInstanceBotOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DescribeAppInstanceBotOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.appInstanceBot = output.appInstanceBot
+        } else {
+            self.appInstanceBot = nil
+        }
+    }
+}
+
+public struct DescribeAppInstanceBotOutputResponse: Swift.Equatable {
+    /// The detials of the AppInstanceBot.
+    public var appInstanceBot: ChimeSDKIdentityClientTypes.AppInstanceBot?
+
+    public init (
+        appInstanceBot: ChimeSDKIdentityClientTypes.AppInstanceBot? = nil
+    )
+    {
+        self.appInstanceBot = appInstanceBot
+    }
+}
+
+struct DescribeAppInstanceBotOutputResponseBody: Swift.Equatable {
+    let appInstanceBot: ChimeSDKIdentityClientTypes.AppInstanceBot?
+}
+
+extension DescribeAppInstanceBotOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appInstanceBot = "AppInstanceBot"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appInstanceBotDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.AppInstanceBot.self, forKey: .appInstanceBot)
+        appInstanceBot = appInstanceBotDecoded
     }
 }
 
@@ -2623,6 +3218,82 @@ extension ChimeSDKIdentityClientTypes {
     }
 }
 
+extension ChimeSDKIdentityClientTypes {
+    public enum ExpirationCriterion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case createdTimestamp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExpirationCriterion] {
+            return [
+                .createdTimestamp,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .createdTimestamp: return "CREATED_TIMESTAMP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExpirationCriterion(rawValue: rawValue) ?? ExpirationCriterion.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ChimeSDKIdentityClientTypes.ExpirationSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expirationCriterion = "ExpirationCriterion"
+        case expirationDays = "ExpirationDays"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let expirationCriterion = self.expirationCriterion {
+            try encodeContainer.encode(expirationCriterion.rawValue, forKey: .expirationCriterion)
+        }
+        if let expirationDays = self.expirationDays {
+            try encodeContainer.encode(expirationDays, forKey: .expirationDays)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let expirationDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .expirationDays)
+        expirationDays = expirationDaysDecoded
+        let expirationCriterionDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.ExpirationCriterion.self, forKey: .expirationCriterion)
+        expirationCriterion = expirationCriterionDecoded
+    }
+}
+
+extension ChimeSDKIdentityClientTypes {
+    /// Determines the interval after which an AppInstanceUser is automatically deleted.
+    public struct ExpirationSettings: Swift.Equatable {
+        /// Specifies the conditions under which an AppInstanceUser will expire.
+        /// This member is required.
+        public var expirationCriterion: ChimeSDKIdentityClientTypes.ExpirationCriterion?
+        /// The period in days after which an AppInstanceUser will be automatically deleted.
+        /// This member is required.
+        public var expirationDays: Swift.Int?
+
+        public init (
+            expirationCriterion: ChimeSDKIdentityClientTypes.ExpirationCriterion? = nil,
+            expirationDays: Swift.Int? = nil
+        )
+        {
+            self.expirationCriterion = expirationCriterion
+            self.expirationDays = expirationDays
+        }
+    }
+
+}
+
 extension ForbiddenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2852,7 +3523,7 @@ extension ChimeSDKIdentityClientTypes.Identity: Swift.CustomDebugStringConvertib
 }
 
 extension ChimeSDKIdentityClientTypes {
-    /// The details of a user.
+    /// The details of a user or bot.
     public struct Identity: Swift.Equatable {
         /// The ARN in an Identity.
         public var arn: Swift.String?
@@ -2866,6 +3537,74 @@ extension ChimeSDKIdentityClientTypes {
         {
             self.arn = arn
             self.name = name
+        }
+    }
+
+}
+
+extension ChimeSDKIdentityClientTypes.LexConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lexBotAliasArn = "LexBotAliasArn"
+        case localeId = "LocaleId"
+        case respondsTo = "RespondsTo"
+        case welcomeIntent = "WelcomeIntent"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lexBotAliasArn = self.lexBotAliasArn {
+            try encodeContainer.encode(lexBotAliasArn, forKey: .lexBotAliasArn)
+        }
+        if let localeId = self.localeId {
+            try encodeContainer.encode(localeId, forKey: .localeId)
+        }
+        if let respondsTo = self.respondsTo {
+            try encodeContainer.encode(respondsTo.rawValue, forKey: .respondsTo)
+        }
+        if let welcomeIntent = self.welcomeIntent {
+            try encodeContainer.encode(welcomeIntent, forKey: .welcomeIntent)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let respondsToDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.RespondsTo.self, forKey: .respondsTo)
+        respondsTo = respondsToDecoded
+        let lexBotAliasArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lexBotAliasArn)
+        lexBotAliasArn = lexBotAliasArnDecoded
+        let localeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .localeId)
+        localeId = localeIdDecoded
+        let welcomeIntentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .welcomeIntent)
+        welcomeIntent = welcomeIntentDecoded
+    }
+}
+
+extension ChimeSDKIdentityClientTypes {
+    /// The configuration for an Amazon Lex V2 bot.
+    public struct LexConfiguration: Swift.Equatable {
+        /// The ARN of the Amazon Lex V2 bot's alias. The ARN uses this format: arn:aws:lex:REGION:ACCOUNT:bot-alias/MYBOTID/MYBOTALIAS
+        /// This member is required.
+        public var lexBotAliasArn: Swift.String?
+        /// Identifies the Amazon Lex V2 bot's language and locale. The string must match one of the supported locales in Amazon Lex V2. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html) in the Amazon Lex V2 Developer Guide.
+        /// This member is required.
+        public var localeId: Swift.String?
+        /// Determines whether the Amazon Lex V2 bot responds to all standard messages. Control messages are not supported.
+        /// This member is required.
+        public var respondsTo: ChimeSDKIdentityClientTypes.RespondsTo?
+        /// The name of the welcome intent configured in the Amazon Lex V2 bot.
+        public var welcomeIntent: Swift.String?
+
+        public init (
+            lexBotAliasArn: Swift.String? = nil,
+            localeId: Swift.String? = nil,
+            respondsTo: ChimeSDKIdentityClientTypes.RespondsTo? = nil,
+            welcomeIntent: Swift.String? = nil
+        )
+        {
+            self.lexBotAliasArn = lexBotAliasArn
+            self.localeId = localeId
+            self.respondsTo = respondsTo
+            self.welcomeIntent = welcomeIntent
         }
     }
 
@@ -3057,6 +3796,179 @@ extension ListAppInstanceAdminsOutputResponseBody: Swift.Decodable {
             }
         }
         appInstanceAdmins = appInstanceAdminsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListAppInstanceBotsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListAppInstanceBotsInput(appInstanceArn: \(Swift.String(describing: appInstanceArn)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \"CONTENT_REDACTED\")"}
+}
+
+extension ListAppInstanceBotsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            guard let appInstanceArn = appInstanceArn else {
+                let message = "Creating a URL Query Item failed. appInstanceArn is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let appInstanceArnQueryItem = ClientRuntime.URLQueryItem(name: "app-instance-arn".urlPercentEncoding(), value: Swift.String(appInstanceArn).urlPercentEncoding())
+            items.append(appInstanceArnQueryItem)
+            return items
+        }
+    }
+}
+
+extension ListAppInstanceBotsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/app-instance-bots"
+    }
+}
+
+public struct ListAppInstanceBotsInput: Swift.Equatable {
+    /// The ARN of the AppInstance.
+    /// This member is required.
+    public var appInstanceArn: Swift.String?
+    /// The maximum number of requests to return.
+    public var maxResults: Swift.Int?
+    /// The token passed by previous API calls until all requested bots are returned.
+    public var nextToken: Swift.String?
+
+    public init (
+        appInstanceArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.appInstanceArn = appInstanceArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAppInstanceBotsInputBody: Swift.Equatable {
+}
+
+extension ListAppInstanceBotsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListAppInstanceBotsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListAppInstanceBotsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListAppInstanceBotsOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case resourceLimitExceededException(ResourceLimitExceededException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListAppInstanceBotsOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListAppInstanceBotsOutputResponse(appInstanceArn: \(Swift.String(describing: appInstanceArn)), appInstanceBots: \(Swift.String(describing: appInstanceBots)), nextToken: \"CONTENT_REDACTED\")"}
+}
+
+extension ListAppInstanceBotsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListAppInstanceBotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.appInstanceArn = output.appInstanceArn
+            self.appInstanceBots = output.appInstanceBots
+            self.nextToken = output.nextToken
+        } else {
+            self.appInstanceArn = nil
+            self.appInstanceBots = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListAppInstanceBotsOutputResponse: Swift.Equatable {
+    /// The ARN of the AppInstance.
+    public var appInstanceArn: Swift.String?
+    /// The information for each requested AppInstanceBot.
+    public var appInstanceBots: [ChimeSDKIdentityClientTypes.AppInstanceBotSummary]?
+    /// The token passed by previous API calls until all requested bots are returned.
+    public var nextToken: Swift.String?
+
+    public init (
+        appInstanceArn: Swift.String? = nil,
+        appInstanceBots: [ChimeSDKIdentityClientTypes.AppInstanceBotSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.appInstanceArn = appInstanceArn
+        self.appInstanceBots = appInstanceBots
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAppInstanceBotsOutputResponseBody: Swift.Equatable {
+    let appInstanceArn: Swift.String?
+    let appInstanceBots: [ChimeSDKIdentityClientTypes.AppInstanceBotSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListAppInstanceBotsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appInstanceArn = "AppInstanceArn"
+        case appInstanceBots = "AppInstanceBots"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceArn)
+        appInstanceArn = appInstanceArnDecoded
+        let appInstanceBotsContainer = try containerValues.decodeIfPresent([ChimeSDKIdentityClientTypes.AppInstanceBotSummary?].self, forKey: .appInstanceBots)
+        var appInstanceBotsDecoded0:[ChimeSDKIdentityClientTypes.AppInstanceBotSummary]? = nil
+        if let appInstanceBotsContainer = appInstanceBotsContainer {
+            appInstanceBotsDecoded0 = [ChimeSDKIdentityClientTypes.AppInstanceBotSummary]()
+            for structure0 in appInstanceBotsContainer {
+                if let structure0 = structure0 {
+                    appInstanceBotsDecoded0?.append(structure0)
+                }
+            }
+        }
+        appInstanceBots = appInstanceBotsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -3746,6 +4658,67 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension NotFoundException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.code = output.code
+            self.message = output.message
+        } else {
+            self.code = nil
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// One or more of the resources in the request does not exist in the system.
+public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var code: ChimeSDKIdentityClientTypes.ErrorCode?
+    public var message: Swift.String?
+
+    public init (
+        code: ChimeSDKIdentityClientTypes.ErrorCode? = nil,
+        message: Swift.String? = nil
+    )
+    {
+        self.code = code
+        self.message = message
+    }
+}
+
+struct NotFoundExceptionBody: Swift.Equatable {
+    let code: ChimeSDKIdentityClientTypes.ErrorCode?
+    let message: Swift.String?
+}
+
+extension NotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code = "Code"
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.ErrorCode.self, forKey: .code)
+        code = codeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension PutAppInstanceRetentionSettingsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appInstanceRetentionSettings = "AppInstanceRetentionSettings"
@@ -3905,9 +4878,149 @@ extension PutAppInstanceRetentionSettingsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension PutAppInstanceUserExpirationSettingsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expirationSettings = "ExpirationSettings"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let expirationSettings = self.expirationSettings {
+            try encodeContainer.encode(expirationSettings, forKey: .expirationSettings)
+        }
+    }
+}
+
+extension PutAppInstanceUserExpirationSettingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let appInstanceUserArn = appInstanceUserArn else {
+            return nil
+        }
+        return "/app-instance-users/\(appInstanceUserArn.urlPercentEncoding())/expiration-settings"
+    }
+}
+
+public struct PutAppInstanceUserExpirationSettingsInput: Swift.Equatable {
+    /// The ARN of the AppInstanceUser.
+    /// This member is required.
+    public var appInstanceUserArn: Swift.String?
+    /// Settings that control the interval after which an AppInstanceUser is automatically deleted.
+    public var expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings?
+
+    public init (
+        appInstanceUserArn: Swift.String? = nil,
+        expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings? = nil
+    )
+    {
+        self.appInstanceUserArn = appInstanceUserArn
+        self.expirationSettings = expirationSettings
+    }
+}
+
+struct PutAppInstanceUserExpirationSettingsInputBody: Swift.Equatable {
+    let expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings?
+}
+
+extension PutAppInstanceUserExpirationSettingsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expirationSettings = "ExpirationSettings"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let expirationSettingsDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.ExpirationSettings.self, forKey: .expirationSettings)
+        expirationSettings = expirationSettingsDecoded
+    }
+}
+
+extension PutAppInstanceUserExpirationSettingsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutAppInstanceUserExpirationSettingsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PutAppInstanceUserExpirationSettingsOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutAppInstanceUserExpirationSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: PutAppInstanceUserExpirationSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.appInstanceUserArn = output.appInstanceUserArn
+            self.expirationSettings = output.expirationSettings
+        } else {
+            self.appInstanceUserArn = nil
+            self.expirationSettings = nil
+        }
+    }
+}
+
+public struct PutAppInstanceUserExpirationSettingsOutputResponse: Swift.Equatable {
+    /// The ARN of the AppInstanceUser.
+    public var appInstanceUserArn: Swift.String?
+    /// Settings that control the interval after which an AppInstanceUser is automatically deleted.
+    public var expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings?
+
+    public init (
+        appInstanceUserArn: Swift.String? = nil,
+        expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings? = nil
+    )
+    {
+        self.appInstanceUserArn = appInstanceUserArn
+        self.expirationSettings = expirationSettings
+    }
+}
+
+struct PutAppInstanceUserExpirationSettingsOutputResponseBody: Swift.Equatable {
+    let appInstanceUserArn: Swift.String?
+    let expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings?
+}
+
+extension PutAppInstanceUserExpirationSettingsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appInstanceUserArn = "AppInstanceUserArn"
+        case expirationSettings = "ExpirationSettings"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appInstanceUserArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceUserArn)
+        appInstanceUserArn = appInstanceUserArnDecoded
+        let expirationSettingsDecoded = try containerValues.decodeIfPresent(ChimeSDKIdentityClientTypes.ExpirationSettings.self, forKey: .expirationSettings)
+        expirationSettings = expirationSettingsDecoded
+    }
+}
+
 extension RegisterAppInstanceUserEndpointInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RegisterAppInstanceUserEndpointInput(allowMessages: \(Swift.String(describing: allowMessages)), endpointAttributes: \(Swift.String(describing: endpointAttributes)), type: \(Swift.String(describing: type)), appInstanceUserArn: \"CONTENT_REDACTED\", clientRequestToken: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", resourceArn: \"CONTENT_REDACTED\")"}
+        "RegisterAppInstanceUserEndpointInput(allowMessages: \(Swift.String(describing: allowMessages)), clientRequestToken: \(Swift.String(describing: clientRequestToken)), endpointAttributes: \(Swift.String(describing: endpointAttributes)), resourceArn: \(Swift.String(describing: resourceArn)), type: \(Swift.String(describing: type)), appInstanceUserArn: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension RegisterAppInstanceUserEndpointInput: Swift.Encodable {
@@ -3958,7 +5071,7 @@ public struct RegisterAppInstanceUserEndpointInput: Swift.Equatable {
     /// The ARN of the AppInstanceUser.
     /// This member is required.
     public var appInstanceUserArn: Swift.String?
-    /// The idempotency token for each client request.
+    /// The unique ID assigned to the request. Use different tokens to register other endpoints.
     /// This member is required.
     public var clientRequestToken: Swift.String?
     /// The attributes of an Endpoint.
@@ -4213,6 +5326,35 @@ extension ResourceLimitExceededExceptionBody: Swift.Decodable {
         code = codeDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension ChimeSDKIdentityClientTypes {
+    public enum RespondsTo: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case standardMessages
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RespondsTo] {
+            return [
+                .standardMessages,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .standardMessages: return "STANDARD_MESSAGES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RespondsTo(rawValue: rawValue) ?? RespondsTo.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -4815,6 +5957,157 @@ extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension UpdateAppInstanceBotInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateAppInstanceBotInput(appInstanceBotArn: \(Swift.String(describing: appInstanceBotArn)), metadata: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension UpdateAppInstanceBotInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metadata = "Metadata"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let metadata = self.metadata {
+            try encodeContainer.encode(metadata, forKey: .metadata)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension UpdateAppInstanceBotInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let appInstanceBotArn = appInstanceBotArn else {
+            return nil
+        }
+        return "/app-instance-bots/\(appInstanceBotArn.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateAppInstanceBotInput: Swift.Equatable {
+    /// The ARN of the AppInstanceBot.
+    /// This member is required.
+    public var appInstanceBotArn: Swift.String?
+    /// The metadata of the AppInstanceBot.
+    /// This member is required.
+    public var metadata: Swift.String?
+    /// The name of the AppInstanceBot.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init (
+        appInstanceBotArn: Swift.String? = nil,
+        metadata: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.appInstanceBotArn = appInstanceBotArn
+        self.metadata = metadata
+        self.name = name
+    }
+}
+
+struct UpdateAppInstanceBotInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let metadata: Swift.String?
+}
+
+extension UpdateAppInstanceBotInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case metadata = "Metadata"
+        case name = "Name"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let metadataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metadata)
+        metadata = metadataDecoded
+    }
+}
+
+extension UpdateAppInstanceBotOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateAppInstanceBotOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceLimitExceededException" : self = .resourceLimitExceededException(try ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceFailureException" : self = .serviceFailureException(try ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceUnavailableException" : self = .serviceUnavailableException(try ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottledClientException" : self = .throttledClientException(try ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnauthorizedClientException" : self = .unauthorizedClientException(try UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateAppInstanceBotOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case conflictException(ConflictException)
+    case forbiddenException(ForbiddenException)
+    case resourceLimitExceededException(ResourceLimitExceededException)
+    case serviceFailureException(ServiceFailureException)
+    case serviceUnavailableException(ServiceUnavailableException)
+    case throttledClientException(ThrottledClientException)
+    case unauthorizedClientException(UnauthorizedClientException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateAppInstanceBotOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateAppInstanceBotOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.appInstanceBotArn = output.appInstanceBotArn
+        } else {
+            self.appInstanceBotArn = nil
+        }
+    }
+}
+
+public struct UpdateAppInstanceBotOutputResponse: Swift.Equatable {
+    /// The ARN of the AppInstanceBot.
+    public var appInstanceBotArn: Swift.String?
+
+    public init (
+        appInstanceBotArn: Swift.String? = nil
+    )
+    {
+        self.appInstanceBotArn = appInstanceBotArn
+    }
+}
+
+struct UpdateAppInstanceBotOutputResponseBody: Swift.Equatable {
+    let appInstanceBotArn: Swift.String?
+}
+
+extension UpdateAppInstanceBotOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appInstanceBotArn = "AppInstanceBotArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let appInstanceBotArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appInstanceBotArn)
+        appInstanceBotArn = appInstanceBotArnDecoded
+    }
 }
 
 extension UpdateAppInstanceInput: Swift.CustomDebugStringConvertible {

@@ -224,6 +224,7 @@ extension CreateEndpointOutputError {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OutpostOfflineException" : self = .outpostOfflineException(try OutpostOfflineException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -236,6 +237,7 @@ public enum CreateEndpointOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
+    case outpostOfflineException(OutpostOfflineException)
     case resourceNotFoundException(ResourceNotFoundException)
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
@@ -370,6 +372,7 @@ extension DeleteEndpointOutputError {
         switch errorType {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OutpostOfflineException" : self = .outpostOfflineException(try OutpostOfflineException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -381,6 +384,7 @@ extension DeleteEndpointOutputError {
 public enum DeleteEndpointOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
+    case outpostOfflineException(OutpostOfflineException)
     case resourceNotFoundException(ResourceNotFoundException)
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
@@ -423,6 +427,7 @@ extension S3OutpostsClientTypes.Endpoint: Swift.Codable {
         case creationTime = "CreationTime"
         case customerOwnedIpv4Pool = "CustomerOwnedIpv4Pool"
         case endpointArn = "EndpointArn"
+        case failedReason = "FailedReason"
         case networkInterfaces = "NetworkInterfaces"
         case outpostsId = "OutpostsId"
         case securityGroupId = "SecurityGroupId"
@@ -447,6 +452,9 @@ extension S3OutpostsClientTypes.Endpoint: Swift.Codable {
         }
         if let endpointArn = self.endpointArn {
             try encodeContainer.encode(endpointArn, forKey: .endpointArn)
+        }
+        if let failedReason = self.failedReason {
+            try encodeContainer.encode(failedReason, forKey: .failedReason)
         }
         if let networkInterfaces = networkInterfaces {
             var networkInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaces)
@@ -504,6 +512,8 @@ extension S3OutpostsClientTypes.Endpoint: Swift.Codable {
         accessType = accessTypeDecoded
         let customerOwnedIpv4PoolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customerOwnedIpv4Pool)
         customerOwnedIpv4Pool = customerOwnedIpv4PoolDecoded
+        let failedReasonDecoded = try containerValues.decodeIfPresent(S3OutpostsClientTypes.FailedReason.self, forKey: .failedReason)
+        failedReason = failedReasonDecoded
     }
 }
 
@@ -520,6 +530,8 @@ extension S3OutpostsClientTypes {
         public var customerOwnedIpv4Pool: Swift.String?
         /// The Amazon Resource Name (ARN) of the endpoint.
         public var endpointArn: Swift.String?
+        /// The failure reason, if any, for a create or delete endpoint operation.
+        public var failedReason: S3OutpostsClientTypes.FailedReason?
         /// The network interface of the endpoint.
         public var networkInterfaces: [S3OutpostsClientTypes.NetworkInterface]?
         /// The ID of the Outposts.
@@ -539,6 +551,7 @@ extension S3OutpostsClientTypes {
             creationTime: ClientRuntime.Date? = nil,
             customerOwnedIpv4Pool: Swift.String? = nil,
             endpointArn: Swift.String? = nil,
+            failedReason: S3OutpostsClientTypes.FailedReason? = nil,
             networkInterfaces: [S3OutpostsClientTypes.NetworkInterface]? = nil,
             outpostsId: Swift.String? = nil,
             securityGroupId: Swift.String? = nil,
@@ -552,6 +565,7 @@ extension S3OutpostsClientTypes {
             self.creationTime = creationTime
             self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
             self.endpointArn = endpointArn
+            self.failedReason = failedReason
             self.networkInterfaces = networkInterfaces
             self.outpostsId = outpostsId
             self.securityGroupId = securityGroupId
@@ -598,6 +612,8 @@ extension S3OutpostsClientTypes {
 extension S3OutpostsClientTypes {
     public enum EndpointStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case available
+        case createFailed
+        case deleteFailed
         case deleting
         case pending
         case sdkUnknown(Swift.String)
@@ -605,6 +621,8 @@ extension S3OutpostsClientTypes {
         public static var allCases: [EndpointStatus] {
             return [
                 .available,
+                .createFailed,
+                .deleteFailed,
                 .deleting,
                 .pending,
                 .sdkUnknown("")
@@ -617,6 +635,8 @@ extension S3OutpostsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .available: return "Available"
+            case .createFailed: return "Create_Failed"
+            case .deleteFailed: return "Delete_Failed"
             case .deleting: return "Deleting"
             case .pending: return "Pending"
             case let .sdkUnknown(s): return s
@@ -628,6 +648,51 @@ extension S3OutpostsClientTypes {
             self = EndpointStatus(rawValue: rawValue) ?? EndpointStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension S3OutpostsClientTypes.FailedReason: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case message = "Message"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode, forKey: .errorCode)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension S3OutpostsClientTypes {
+    /// The failure reason, if any, for a create or delete endpoint operation.
+    public struct FailedReason: Swift.Equatable {
+        /// The failure code, if any, for a create or delete endpoint operation.
+        public var errorCode: Swift.String?
+        /// Additional error details describing the endpoint failure and recommended action.
+        public var message: Swift.String?
+
+        public init (
+            errorCode: Swift.String? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.message = message
+        }
+    }
+
 }
 
 extension InternalServerException {
@@ -1268,6 +1333,58 @@ extension S3OutpostsClientTypes {
         }
     }
 
+}
+
+extension OutpostOfflineException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: OutpostOfflineExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The service link connection to your Outposts home Region is down. Check your connection and try again.
+public struct OutpostOfflineException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct OutpostOfflineExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension OutpostOfflineExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension ResourceNotFoundException {

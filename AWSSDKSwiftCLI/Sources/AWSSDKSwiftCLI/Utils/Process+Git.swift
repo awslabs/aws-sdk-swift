@@ -52,6 +52,12 @@ extension Process {
         func diffIndex() -> Process {
             gitProcess(["diff-index", "--quiet", "HEAD", "--"])
         }
+        
+        /// Returns a process for executing `git log <a>..<b> --pretty=format:<format>`
+        /// This is used returning the list of commits between two tags.
+        func log(_ a: String, _ b: String, format: String) -> Process {
+            gitProcess(["log", "\(a)...\(b)", "--pretty=format:\(format.wrappedInQuotes())"])
+        }
     }
     
     static var git: Git { Git() }
@@ -76,5 +82,11 @@ extension Process.Git {
         try _run(diffIndexTask)
         diffIndexTask.waitUntilExit()
         return diffIndexTask.terminationStatus != 0
+    }
+    
+    func listOfCommitsBetween(_ a: String, _ b: String) throws -> [String] {
+        let log = log(a, b, format: "%s")
+        let result = try _runReturningStdOut(log)
+        return result?.components(separatedBy: .newlines) ?? []
     }
 }

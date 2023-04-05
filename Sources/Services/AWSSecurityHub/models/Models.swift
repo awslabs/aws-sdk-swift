@@ -858,6 +858,136 @@ extension SecurityHubClientTypes {
 
 }
 
+extension SecurityHubClientTypes.AssociationSetDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationState = "AssociationState"
+        case gatewayId = "GatewayId"
+        case main = "Main"
+        case routeTableAssociationId = "RouteTableAssociationId"
+        case routeTableId = "RouteTableId"
+        case subnetId = "SubnetId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associationState = self.associationState {
+            try encodeContainer.encode(associationState, forKey: .associationState)
+        }
+        if let gatewayId = self.gatewayId {
+            try encodeContainer.encode(gatewayId, forKey: .gatewayId)
+        }
+        if main != false {
+            try encodeContainer.encode(main, forKey: .main)
+        }
+        if let routeTableAssociationId = self.routeTableAssociationId {
+            try encodeContainer.encode(routeTableAssociationId, forKey: .routeTableAssociationId)
+        }
+        if let routeTableId = self.routeTableId {
+            try encodeContainer.encode(routeTableId, forKey: .routeTableId)
+        }
+        if let subnetId = self.subnetId {
+            try encodeContainer.encode(subnetId, forKey: .subnetId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let associationStateDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AssociationStateDetails.self, forKey: .associationState)
+        associationState = associationStateDecoded
+        let gatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayId)
+        gatewayId = gatewayIdDecoded
+        let mainDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .main) ?? false
+        main = mainDecoded
+        let routeTableAssociationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .routeTableAssociationId)
+        routeTableAssociationId = routeTableAssociationIdDecoded
+        let routeTableIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .routeTableId)
+        routeTableId = routeTableIdDecoded
+        let subnetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetId)
+        subnetId = subnetIdDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The associations between a route table and one or more subnets or a gateway.
+    public struct AssociationSetDetails: Swift.Equatable {
+        /// The state of the association between a route table and a subnet or gateway.
+        public var associationState: SecurityHubClientTypes.AssociationStateDetails?
+        /// The ID of the internet gateway or virtual private gateway.
+        public var gatewayId: Swift.String?
+        /// Indicates whether this is the main route table.
+        public var main: Swift.Bool
+        /// The ID of the association.
+        public var routeTableAssociationId: Swift.String?
+        /// The ID of the route table.
+        public var routeTableId: Swift.String?
+        /// The ID of the subnet. A subnet ID is not returned for an implicit association.
+        public var subnetId: Swift.String?
+
+        public init (
+            associationState: SecurityHubClientTypes.AssociationStateDetails? = nil,
+            gatewayId: Swift.String? = nil,
+            main: Swift.Bool = false,
+            routeTableAssociationId: Swift.String? = nil,
+            routeTableId: Swift.String? = nil,
+            subnetId: Swift.String? = nil
+        )
+        {
+            self.associationState = associationState
+            self.gatewayId = gatewayId
+            self.main = main
+            self.routeTableAssociationId = routeTableAssociationId
+            self.routeTableId = routeTableId
+            self.subnetId = subnetId
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AssociationStateDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case state = "State"
+        case statusMessage = "StatusMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let state = self.state {
+            try encodeContainer.encode(state, forKey: .state)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .state)
+        state = stateDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Describes the state of an association between a route table and a subnet or gateway.
+    public struct AssociationStateDetails: Swift.Equatable {
+        /// The state of the association.
+        public var state: Swift.String?
+        /// The status message, if applicable.
+        public var statusMessage: Swift.String?
+
+        public init (
+            state: Swift.String? = nil,
+            statusMessage: Swift.String? = nil
+        )
+        {
+            self.state = state
+            self.statusMessage = statusMessage
+        }
+    }
+
+}
+
 extension SecurityHubClientTypes {
     public enum AssociationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
@@ -8705,6 +8835,7 @@ extension SecurityHubClientTypes.AwsEc2InstanceDetails: Swift.Codable {
         case keyName = "KeyName"
         case launchedAt = "LaunchedAt"
         case metadataOptions = "MetadataOptions"
+        case monitoring = "Monitoring"
         case networkInterfaces = "NetworkInterfaces"
         case subnetId = "SubnetId"
         case type = "Type"
@@ -8740,6 +8871,9 @@ extension SecurityHubClientTypes.AwsEc2InstanceDetails: Swift.Codable {
         }
         if let metadataOptions = self.metadataOptions {
             try encodeContainer.encode(metadataOptions, forKey: .metadataOptions)
+        }
+        if let monitoring = self.monitoring {
+            try encodeContainer.encode(monitoring, forKey: .monitoring)
         }
         if let networkInterfaces = networkInterfaces {
             var networkInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaces)
@@ -8814,6 +8948,8 @@ extension SecurityHubClientTypes.AwsEc2InstanceDetails: Swift.Codable {
         virtualizationType = virtualizationTypeDecoded
         let metadataOptionsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2InstanceMetadataOptions.self, forKey: .metadataOptions)
         metadataOptions = metadataOptionsDecoded
+        let monitoringDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2InstanceMonitoringDetails.self, forKey: .monitoring)
+        monitoring = monitoringDecoded
     }
 }
 
@@ -8834,6 +8970,8 @@ extension SecurityHubClientTypes {
         public var launchedAt: Swift.String?
         /// Details about the metadata options for the Amazon EC2 instance.
         public var metadataOptions: SecurityHubClientTypes.AwsEc2InstanceMetadataOptions?
+        /// Describes the type of monitoring that’s turned on for an instance.
+        public var monitoring: SecurityHubClientTypes.AwsEc2InstanceMonitoringDetails?
         /// The identifiers of the network interfaces for the EC2 instance. The details for each network interface are in a corresponding AwsEc2NetworkInterfacesDetails object.
         public var networkInterfaces: [SecurityHubClientTypes.AwsEc2InstanceNetworkInterfacesDetails]?
         /// The identifier of the subnet that the instance was launched in.
@@ -8853,6 +8991,7 @@ extension SecurityHubClientTypes {
             keyName: Swift.String? = nil,
             launchedAt: Swift.String? = nil,
             metadataOptions: SecurityHubClientTypes.AwsEc2InstanceMetadataOptions? = nil,
+            monitoring: SecurityHubClientTypes.AwsEc2InstanceMonitoringDetails? = nil,
             networkInterfaces: [SecurityHubClientTypes.AwsEc2InstanceNetworkInterfacesDetails]? = nil,
             subnetId: Swift.String? = nil,
             type: Swift.String? = nil,
@@ -8867,6 +9006,7 @@ extension SecurityHubClientTypes {
             self.keyName = keyName
             self.launchedAt = launchedAt
             self.metadataOptions = metadataOptions
+            self.monitoring = monitoring
             self.networkInterfaces = networkInterfaces
             self.subnetId = subnetId
             self.type = type
@@ -8947,6 +9087,41 @@ extension SecurityHubClientTypes {
             self.httpPutResponseHopLimit = httpPutResponseHopLimit
             self.httpTokens = httpTokens
             self.instanceMetadataTags = instanceMetadataTags
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2InstanceMonitoringDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case state = "State"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let state = self.state {
+            try encodeContainer.encode(state, forKey: .state)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .state)
+        state = stateDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The type of monitoring that’s turned on for an Amazon EC2 instance.
+    public struct AwsEc2InstanceMonitoringDetails: Swift.Equatable {
+        /// Indicates whether detailed monitoring is turned on. Otherwise, basic monitoring is turned on.
+        public var state: Swift.String?
+
+        public init (
+            state: Swift.String? = nil
+        )
+        {
+            self.state = state
         }
     }
 
@@ -12195,6 +12370,127 @@ extension SecurityHubClientTypes {
         {
             self.groupId = groupId
             self.groupName = groupName
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsEc2RouteTableDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationSet = "AssociationSet"
+        case ownerId = "OwnerId"
+        case propagatingVgwSet = "PropagatingVgwSet"
+        case routeSet = "RouteSet"
+        case routeTableId = "RouteTableId"
+        case vpcId = "VpcId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associationSet = associationSet {
+            var associationSetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associationSet)
+            for associationsetdetails0 in associationSet {
+                try associationSetContainer.encode(associationsetdetails0)
+            }
+        }
+        if let ownerId = self.ownerId {
+            try encodeContainer.encode(ownerId, forKey: .ownerId)
+        }
+        if let propagatingVgwSet = propagatingVgwSet {
+            var propagatingVgwSetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propagatingVgwSet)
+            for propagatingvgwsetdetails0 in propagatingVgwSet {
+                try propagatingVgwSetContainer.encode(propagatingvgwsetdetails0)
+            }
+        }
+        if let routeSet = routeSet {
+            var routeSetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .routeSet)
+            for routesetdetails0 in routeSet {
+                try routeSetContainer.encode(routesetdetails0)
+            }
+        }
+        if let routeTableId = self.routeTableId {
+            try encodeContainer.encode(routeTableId, forKey: .routeTableId)
+        }
+        if let vpcId = self.vpcId {
+            try encodeContainer.encode(vpcId, forKey: .vpcId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let associationSetContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AssociationSetDetails?].self, forKey: .associationSet)
+        var associationSetDecoded0:[SecurityHubClientTypes.AssociationSetDetails]? = nil
+        if let associationSetContainer = associationSetContainer {
+            associationSetDecoded0 = [SecurityHubClientTypes.AssociationSetDetails]()
+            for structure0 in associationSetContainer {
+                if let structure0 = structure0 {
+                    associationSetDecoded0?.append(structure0)
+                }
+            }
+        }
+        associationSet = associationSetDecoded0
+        let ownerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerId)
+        ownerId = ownerIdDecoded
+        let propagatingVgwSetContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.PropagatingVgwSetDetails?].self, forKey: .propagatingVgwSet)
+        var propagatingVgwSetDecoded0:[SecurityHubClientTypes.PropagatingVgwSetDetails]? = nil
+        if let propagatingVgwSetContainer = propagatingVgwSetContainer {
+            propagatingVgwSetDecoded0 = [SecurityHubClientTypes.PropagatingVgwSetDetails]()
+            for structure0 in propagatingVgwSetContainer {
+                if let structure0 = structure0 {
+                    propagatingVgwSetDecoded0?.append(structure0)
+                }
+            }
+        }
+        propagatingVgwSet = propagatingVgwSetDecoded0
+        let routeTableIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .routeTableId)
+        routeTableId = routeTableIdDecoded
+        let routeSetContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.RouteSetDetails?].self, forKey: .routeSet)
+        var routeSetDecoded0:[SecurityHubClientTypes.RouteSetDetails]? = nil
+        if let routeSetContainer = routeSetContainer {
+            routeSetDecoded0 = [SecurityHubClientTypes.RouteSetDetails]()
+            for structure0 in routeSetContainer {
+                if let structure0 = structure0 {
+                    routeSetDecoded0?.append(structure0)
+                }
+            }
+        }
+        routeSet = routeSetDecoded0
+        let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
+        vpcId = vpcIdDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about a route table for the specified VPC.
+    public struct AwsEc2RouteTableDetails: Swift.Equatable {
+        /// The associations between a route table and one or more subnets or a gateway.
+        public var associationSet: [SecurityHubClientTypes.AssociationSetDetails]?
+        /// The ID of the Amazon Web Services account that owns the route table.
+        public var ownerId: Swift.String?
+        /// Describes a virtual private gateway propagating route.
+        public var propagatingVgwSet: [SecurityHubClientTypes.PropagatingVgwSetDetails]?
+        /// The routes in the route table.
+        public var routeSet: [SecurityHubClientTypes.RouteSetDetails]?
+        /// The ID of the route table.
+        public var routeTableId: Swift.String?
+        /// The ID of the virtual private cloud (VPC).
+        public var vpcId: Swift.String?
+
+        public init (
+            associationSet: [SecurityHubClientTypes.AssociationSetDetails]? = nil,
+            ownerId: Swift.String? = nil,
+            propagatingVgwSet: [SecurityHubClientTypes.PropagatingVgwSetDetails]? = nil,
+            routeSet: [SecurityHubClientTypes.RouteSetDetails]? = nil,
+            routeTableId: Swift.String? = nil,
+            vpcId: Swift.String? = nil
+        )
+        {
+            self.associationSet = associationSet
+            self.ownerId = ownerId
+            self.propagatingVgwSet = propagatingVgwSet
+            self.routeSet = routeSet
+            self.routeTableId = routeTableId
+            self.vpcId = vpcId
         }
     }
 
@@ -19339,12 +19635,16 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.AwsEksClusterResourcesVpcConfigDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endpointPublicAccess = "EndpointPublicAccess"
         case securityGroupIds = "SecurityGroupIds"
         case subnetIds = "SubnetIds"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if endpointPublicAccess != false {
+            try encodeContainer.encode(endpointPublicAccess, forKey: .endpointPublicAccess)
+        }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
             for nonemptystring0 in securityGroupIds {
@@ -19383,22 +19683,28 @@ extension SecurityHubClientTypes.AwsEksClusterResourcesVpcConfigDetails: Swift.C
             }
         }
         subnetIds = subnetIdsDecoded0
+        let endpointPublicAccessDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .endpointPublicAccess) ?? false
+        endpointPublicAccess = endpointPublicAccessDecoded
     }
 }
 
 extension SecurityHubClientTypes {
     /// Information about the VPC configuration used by the cluster control plane.
     public struct AwsEksClusterResourcesVpcConfigDetails: Swift.Equatable {
+        /// Indicates whether the Amazon EKS public API server endpoint is turned on. If the Amazon EKS public API server endpoint is turned off, your cluster's Kubernetes API server can only receive requests that originate from within the cluster VPC.
+        public var endpointPublicAccess: Swift.Bool
         /// The security groups that are associated with the cross-account elastic network interfaces that are used to allow communication between your nodes and the Amazon EKS control plane.
         public var securityGroupIds: [Swift.String]?
         /// The subnets that are associated with the cluster.
         public var subnetIds: [Swift.String]?
 
         public init (
+            endpointPublicAccess: Swift.Bool = false,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
         )
         {
+            self.endpointPublicAccess = endpointPublicAccess
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -30785,6 +31091,7 @@ extension SecurityHubClientTypes.AwsS3BucketDetails: Swift.Codable {
         case bucketVersioningConfiguration = "BucketVersioningConfiguration"
         case bucketWebsiteConfiguration = "BucketWebsiteConfiguration"
         case createdAt = "CreatedAt"
+        case objectLockConfiguration = "ObjectLockConfiguration"
         case ownerAccountId = "OwnerAccountId"
         case ownerId = "OwnerId"
         case ownerName = "OwnerName"
@@ -30814,6 +31121,9 @@ extension SecurityHubClientTypes.AwsS3BucketDetails: Swift.Codable {
         }
         if let createdAt = self.createdAt {
             try encodeContainer.encode(createdAt, forKey: .createdAt)
+        }
+        if let objectLockConfiguration = self.objectLockConfiguration {
+            try encodeContainer.encode(objectLockConfiguration, forKey: .objectLockConfiguration)
         }
         if let ownerAccountId = self.ownerAccountId {
             try encodeContainer.encode(ownerAccountId, forKey: .ownerAccountId)
@@ -30858,6 +31168,8 @@ extension SecurityHubClientTypes.AwsS3BucketDetails: Swift.Codable {
         bucketNotificationConfiguration = bucketNotificationConfigurationDecoded
         let bucketVersioningConfigurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsS3BucketBucketVersioningConfiguration.self, forKey: .bucketVersioningConfiguration)
         bucketVersioningConfiguration = bucketVersioningConfigurationDecoded
+        let objectLockConfigurationDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsS3BucketObjectLockConfiguration.self, forKey: .objectLockConfiguration)
+        objectLockConfiguration = objectLockConfigurationDecoded
     }
 }
 
@@ -30878,6 +31190,8 @@ extension SecurityHubClientTypes {
         public var bucketWebsiteConfiguration: SecurityHubClientTypes.AwsS3BucketWebsiteConfiguration?
         /// Indicates when the S3 bucket was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdAt: Swift.String?
+        /// Specifies which rule Amazon S3 applies by default to every new object placed in the specified bucket.
+        public var objectLockConfiguration: SecurityHubClientTypes.AwsS3BucketObjectLockConfiguration?
         /// The Amazon Web Services account identifier of the account that owns the S3 bucket.
         public var ownerAccountId: Swift.String?
         /// The canonical user ID of the owner of the S3 bucket.
@@ -30897,6 +31211,7 @@ extension SecurityHubClientTypes {
             bucketVersioningConfiguration: SecurityHubClientTypes.AwsS3BucketBucketVersioningConfiguration? = nil,
             bucketWebsiteConfiguration: SecurityHubClientTypes.AwsS3BucketWebsiteConfiguration? = nil,
             createdAt: Swift.String? = nil,
+            objectLockConfiguration: SecurityHubClientTypes.AwsS3BucketObjectLockConfiguration? = nil,
             ownerAccountId: Swift.String? = nil,
             ownerId: Swift.String? = nil,
             ownerName: Swift.String? = nil,
@@ -30911,6 +31226,7 @@ extension SecurityHubClientTypes {
             self.bucketVersioningConfiguration = bucketVersioningConfiguration
             self.bucketWebsiteConfiguration = bucketWebsiteConfiguration
             self.createdAt = createdAt
+            self.objectLockConfiguration = objectLockConfiguration
             self.ownerAccountId = ownerAccountId
             self.ownerId = ownerId
             self.ownerName = ownerName
@@ -31253,6 +31569,141 @@ extension SecurityHubClientTypes {
             self = AwsS3BucketNotificationConfigurationS3KeyFilterRuleName(rawValue: rawValue) ?? AwsS3BucketNotificationConfigurationS3KeyFilterRuleName.sdkUnknown(rawValue)
         }
     }
+}
+
+extension SecurityHubClientTypes.AwsS3BucketObjectLockConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case objectLockEnabled = "ObjectLockEnabled"
+        case rule = "Rule"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let objectLockEnabled = self.objectLockEnabled {
+            try encodeContainer.encode(objectLockEnabled, forKey: .objectLockEnabled)
+        }
+        if let rule = self.rule {
+            try encodeContainer.encode(rule, forKey: .rule)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let objectLockEnabledDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .objectLockEnabled)
+        objectLockEnabled = objectLockEnabledDecoded
+        let ruleDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsS3BucketObjectLockConfigurationRuleDetails.self, forKey: .rule)
+        rule = ruleDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The container element for S3 Object Lock configuration parameters. In Amazon S3, Object Lock can help prevent objects from being deleted or overwritten for a fixed amount of time or indefinitely.
+    public struct AwsS3BucketObjectLockConfiguration: Swift.Equatable {
+        /// Indicates whether the bucket has an Object Lock configuration enabled.
+        public var objectLockEnabled: Swift.String?
+        /// Specifies the Object Lock rule for the specified object.
+        public var rule: SecurityHubClientTypes.AwsS3BucketObjectLockConfigurationRuleDetails?
+
+        public init (
+            objectLockEnabled: Swift.String? = nil,
+            rule: SecurityHubClientTypes.AwsS3BucketObjectLockConfigurationRuleDetails? = nil
+        )
+        {
+            self.objectLockEnabled = objectLockEnabled
+            self.rule = rule
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case days = "Days"
+        case mode = "Mode"
+        case years = "Years"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if days != 0 {
+            try encodeContainer.encode(days, forKey: .days)
+        }
+        if let mode = self.mode {
+            try encodeContainer.encode(mode, forKey: .mode)
+        }
+        if years != 0 {
+            try encodeContainer.encode(years, forKey: .years)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days) ?? 0
+        days = daysDecoded
+        let modeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mode)
+        mode = modeDecoded
+        let yearsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .years) ?? 0
+        years = yearsDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// The default S3 Object Lock retention mode and period that you want to apply to new objects placed in the specified Amazon S3 bucket.
+    public struct AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails: Swift.Equatable {
+        /// The number of days that you want to specify for the default retention period.
+        public var days: Swift.Int
+        /// The default Object Lock retention mode you want to apply to new objects placed in the specified bucket.
+        public var mode: Swift.String?
+        /// The number of years that you want to specify for the default retention period.
+        public var years: Swift.Int
+
+        public init (
+            days: Swift.Int = 0,
+            mode: Swift.String? = nil,
+            years: Swift.Int = 0
+        )
+        {
+            self.days = days
+            self.mode = mode
+            self.years = years
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.AwsS3BucketObjectLockConfigurationRuleDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultRetention = "DefaultRetention"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultRetention = self.defaultRetention {
+            try encodeContainer.encode(defaultRetention, forKey: .defaultRetention)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let defaultRetentionDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails.self, forKey: .defaultRetention)
+        defaultRetention = defaultRetentionDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Specifies the S3 Object Lock rule for the specified object. In Amazon S3, Object Lock can help prevent objects from being deleted or overwritten for a fixed amount of time or indefinitely.
+    public struct AwsS3BucketObjectLockConfigurationRuleDetails: Swift.Equatable {
+        /// The default Object Lock retention mode and period that you want to apply to new objects placed in the specified bucket.
+        public var defaultRetention: SecurityHubClientTypes.AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails?
+
+        public init (
+            defaultRetention: SecurityHubClientTypes.AwsS3BucketObjectLockConfigurationRuleDefaultRetentionDetails? = nil
+        )
+        {
+            self.defaultRetention = defaultRetention
+        }
+    }
+
 }
 
 extension SecurityHubClientTypes.AwsS3BucketServerSideEncryptionByDefault: Swift.Codable {
@@ -34601,7 +35052,7 @@ extension SecurityHubClientTypes {
         public var processLaunchedAt: [SecurityHubClientTypes.DateFilter]?
         /// The name of the process.
         public var processName: [SecurityHubClientTypes.StringFilter]?
-        /// The parent process ID.
+        /// The parent process ID. This field accepts positive integers between O and 2147483647.
         public var processParentPid: [SecurityHubClientTypes.NumberFilter]?
         /// The path to the process executable.
         public var processPath: [SecurityHubClientTypes.StringFilter]?
@@ -41046,7 +41497,7 @@ extension DeclineInvitationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeclineInvitationsInput: Swift.Equatable {
-    /// The list of account IDs for the accounts from which to decline the invitations to Security Hub.
+    /// The list of prospective member account IDs for which to decline an invitation.
     /// This member is required.
     public var accountIds: [Swift.String]?
 
@@ -41536,7 +41987,7 @@ extension DeleteInvitationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteInvitationsInput: Swift.Equatable {
-    /// The list of the account IDs that sent the invitations to delete.
+    /// The list of member account IDs that received the invitations you want to delete.
     /// This member is required.
     public var accountIds: [Swift.String]?
 
@@ -42132,7 +42583,7 @@ extension DescribeHubOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DescribeHubOutputResponse: Swift.Equatable {
     /// Whether to automatically enable new controls when they are added to standards that are enabled. If set to true, then new controls for enabled standards are enabled automatically. If set to false, then new controls are not enabled.
     public var autoEnableControls: Swift.Bool
-    /// Specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub on or after February 9, 2023.
+    /// Specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub on or after February 23, 2023.
     public var controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?
     /// The ARN of the Hub resource that was retrieved.
     public var hubArn: Swift.String?
@@ -43659,7 +44110,7 @@ extension EnableSecurityHubInput: ClientRuntime.URLPathProvider {
 }
 
 public struct EnableSecurityHubInput: Swift.Equatable {
-    /// This field, used when enabling Security Hub, specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub on or after February 9, 2023.
+    /// This field, used when enabling Security Hub, specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub on or after February 23, 2023.
     public var controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?
     /// Whether to enable the security standards that Security Hub has designated as automatically enabled. If you do not provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false.
     public var enableDefaultStandards: Swift.Bool?
@@ -49574,7 +50025,7 @@ extension SecurityHubClientTypes {
         public var launchedAt: Swift.String?
         /// The name of the process.
         public var name: Swift.String?
-        /// The parent process ID.
+        /// The parent process ID. This field accepts positive integers between O and 2147483647.
         public var parentPid: Swift.Int
         /// The path to the process executable.
         public var path: Swift.String?
@@ -49744,6 +50195,41 @@ extension SecurityHubClientTypes {
             self.productArn = productArn
             self.productName = productName
             self.productSubscriptionResourcePolicy = productSubscriptionResourcePolicy
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.PropagatingVgwSetDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gatewayId = "GatewayId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let gatewayId = self.gatewayId {
+            try encodeContainer.encode(gatewayId, forKey: .gatewayId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayId)
+        gatewayId = gatewayIdDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Describes a virtual private gateway propagating route.
+    public struct PropagatingVgwSetDetails: Swift.Equatable {
+        /// The ID of the virtual private gateway.
+        public var gatewayId: Swift.String?
+
+        public init (
+            gatewayId: Swift.String? = nil
+        )
+        {
+            self.gatewayId = gatewayId
         }
     }
 
@@ -50246,6 +50732,7 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         case awsEc2LaunchTemplate = "AwsEc2LaunchTemplate"
         case awsEc2NetworkAcl = "AwsEc2NetworkAcl"
         case awsEc2NetworkInterface = "AwsEc2NetworkInterface"
+        case awsEc2RouteTable = "AwsEc2RouteTable"
         case awsEc2SecurityGroup = "AwsEc2SecurityGroup"
         case awsEc2Subnet = "AwsEc2Subnet"
         case awsEc2TransitGateway = "AwsEc2TransitGateway"
@@ -50374,6 +50861,9 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         }
         if let awsEc2NetworkInterface = self.awsEc2NetworkInterface {
             try encodeContainer.encode(awsEc2NetworkInterface, forKey: .awsEc2NetworkInterface)
+        }
+        if let awsEc2RouteTable = self.awsEc2RouteTable {
+            try encodeContainer.encode(awsEc2RouteTable, forKey: .awsEc2RouteTable)
         }
         if let awsEc2SecurityGroup = self.awsEc2SecurityGroup {
             try encodeContainer.encode(awsEc2SecurityGroup, forKey: .awsEc2SecurityGroup)
@@ -50743,6 +51233,8 @@ extension SecurityHubClientTypes.ResourceDetails: Swift.Codable {
         awsWafv2WebAcl = awsWafv2WebAclDecoded
         let awsWafv2RuleGroupDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsWafv2RuleGroupDetails.self, forKey: .awsWafv2RuleGroup)
         awsWafv2RuleGroup = awsWafv2RuleGroupDecoded
+        let awsEc2RouteTableDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AwsEc2RouteTableDetails.self, forKey: .awsEc2RouteTable)
+        awsEc2RouteTable = awsEc2RouteTableDecoded
     }
 }
 
@@ -50791,6 +51283,8 @@ extension SecurityHubClientTypes {
         public var awsEc2NetworkAcl: SecurityHubClientTypes.AwsEc2NetworkAclDetails?
         /// Details for an EC2 network interface.
         public var awsEc2NetworkInterface: SecurityHubClientTypes.AwsEc2NetworkInterfaceDetails?
+        /// Provides details about a route table. A route table contains a set of rules, called routes, that determine where to direct network traffic from your subnet or gateway.
+        public var awsEc2RouteTable: SecurityHubClientTypes.AwsEc2RouteTableDetails?
         /// Details for an EC2 security group.
         public var awsEc2SecurityGroup: SecurityHubClientTypes.AwsEc2SecurityGroupDetails?
         /// Details about a subnet in Amazon EC2.
@@ -50942,6 +51436,7 @@ extension SecurityHubClientTypes {
             awsEc2LaunchTemplate: SecurityHubClientTypes.AwsEc2LaunchTemplateDetails? = nil,
             awsEc2NetworkAcl: SecurityHubClientTypes.AwsEc2NetworkAclDetails? = nil,
             awsEc2NetworkInterface: SecurityHubClientTypes.AwsEc2NetworkInterfaceDetails? = nil,
+            awsEc2RouteTable: SecurityHubClientTypes.AwsEc2RouteTableDetails? = nil,
             awsEc2SecurityGroup: SecurityHubClientTypes.AwsEc2SecurityGroupDetails? = nil,
             awsEc2Subnet: SecurityHubClientTypes.AwsEc2SubnetDetails? = nil,
             awsEc2TransitGateway: SecurityHubClientTypes.AwsEc2TransitGatewayDetails? = nil,
@@ -51027,6 +51522,7 @@ extension SecurityHubClientTypes {
             self.awsEc2LaunchTemplate = awsEc2LaunchTemplate
             self.awsEc2NetworkAcl = awsEc2NetworkAcl
             self.awsEc2NetworkInterface = awsEc2NetworkInterface
+            self.awsEc2RouteTable = awsEc2RouteTable
             self.awsEc2SecurityGroup = awsEc2SecurityGroup
             self.awsEc2Subnet = awsEc2Subnet
             self.awsEc2TransitGateway = awsEc2TransitGateway
@@ -51198,6 +51694,191 @@ extension SecurityHubClientTypes {
         {
             self.accountId = accountId
             self.processingResult = processingResult
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.RouteSetDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case carrierGatewayId = "CarrierGatewayId"
+        case coreNetworkArn = "CoreNetworkArn"
+        case destinationCidrBlock = "DestinationCidrBlock"
+        case destinationIpv6CidrBlock = "DestinationIpv6CidrBlock"
+        case destinationPrefixListId = "DestinationPrefixListId"
+        case egressOnlyInternetGatewayId = "EgressOnlyInternetGatewayId"
+        case gatewayId = "GatewayId"
+        case instanceId = "InstanceId"
+        case instanceOwnerId = "InstanceOwnerId"
+        case localGatewayId = "LocalGatewayId"
+        case natGatewayId = "NatGatewayId"
+        case networkInterfaceId = "NetworkInterfaceId"
+        case origin = "Origin"
+        case state = "State"
+        case transitGatewayId = "TransitGatewayId"
+        case vpcPeeringConnectionId = "VpcPeeringConnectionId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let carrierGatewayId = self.carrierGatewayId {
+            try encodeContainer.encode(carrierGatewayId, forKey: .carrierGatewayId)
+        }
+        if let coreNetworkArn = self.coreNetworkArn {
+            try encodeContainer.encode(coreNetworkArn, forKey: .coreNetworkArn)
+        }
+        if let destinationCidrBlock = self.destinationCidrBlock {
+            try encodeContainer.encode(destinationCidrBlock, forKey: .destinationCidrBlock)
+        }
+        if let destinationIpv6CidrBlock = self.destinationIpv6CidrBlock {
+            try encodeContainer.encode(destinationIpv6CidrBlock, forKey: .destinationIpv6CidrBlock)
+        }
+        if let destinationPrefixListId = self.destinationPrefixListId {
+            try encodeContainer.encode(destinationPrefixListId, forKey: .destinationPrefixListId)
+        }
+        if let egressOnlyInternetGatewayId = self.egressOnlyInternetGatewayId {
+            try encodeContainer.encode(egressOnlyInternetGatewayId, forKey: .egressOnlyInternetGatewayId)
+        }
+        if let gatewayId = self.gatewayId {
+            try encodeContainer.encode(gatewayId, forKey: .gatewayId)
+        }
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let instanceOwnerId = self.instanceOwnerId {
+            try encodeContainer.encode(instanceOwnerId, forKey: .instanceOwnerId)
+        }
+        if let localGatewayId = self.localGatewayId {
+            try encodeContainer.encode(localGatewayId, forKey: .localGatewayId)
+        }
+        if let natGatewayId = self.natGatewayId {
+            try encodeContainer.encode(natGatewayId, forKey: .natGatewayId)
+        }
+        if let networkInterfaceId = self.networkInterfaceId {
+            try encodeContainer.encode(networkInterfaceId, forKey: .networkInterfaceId)
+        }
+        if let origin = self.origin {
+            try encodeContainer.encode(origin, forKey: .origin)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state, forKey: .state)
+        }
+        if let transitGatewayId = self.transitGatewayId {
+            try encodeContainer.encode(transitGatewayId, forKey: .transitGatewayId)
+        }
+        if let vpcPeeringConnectionId = self.vpcPeeringConnectionId {
+            try encodeContainer.encode(vpcPeeringConnectionId, forKey: .vpcPeeringConnectionId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let carrierGatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .carrierGatewayId)
+        carrierGatewayId = carrierGatewayIdDecoded
+        let coreNetworkArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .coreNetworkArn)
+        coreNetworkArn = coreNetworkArnDecoded
+        let destinationCidrBlockDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationCidrBlock)
+        destinationCidrBlock = destinationCidrBlockDecoded
+        let destinationIpv6CidrBlockDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationIpv6CidrBlock)
+        destinationIpv6CidrBlock = destinationIpv6CidrBlockDecoded
+        let destinationPrefixListIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationPrefixListId)
+        destinationPrefixListId = destinationPrefixListIdDecoded
+        let egressOnlyInternetGatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .egressOnlyInternetGatewayId)
+        egressOnlyInternetGatewayId = egressOnlyInternetGatewayIdDecoded
+        let gatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayId)
+        gatewayId = gatewayIdDecoded
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let instanceOwnerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceOwnerId)
+        instanceOwnerId = instanceOwnerIdDecoded
+        let localGatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .localGatewayId)
+        localGatewayId = localGatewayIdDecoded
+        let natGatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .natGatewayId)
+        natGatewayId = natGatewayIdDecoded
+        let networkInterfaceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkInterfaceId)
+        networkInterfaceId = networkInterfaceIdDecoded
+        let originDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .origin)
+        origin = originDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .state)
+        state = stateDecoded
+        let transitGatewayIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transitGatewayId)
+        transitGatewayId = transitGatewayIdDecoded
+        let vpcPeeringConnectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcPeeringConnectionId)
+        vpcPeeringConnectionId = vpcPeeringConnectionIdDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about the routes in the route table.
+    public struct RouteSetDetails: Swift.Equatable {
+        /// The ID of the carrier gateway.
+        public var carrierGatewayId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the core network.
+        public var coreNetworkArn: Swift.String?
+        /// The IPv4 CIDR block used for the destination match.
+        public var destinationCidrBlock: Swift.String?
+        /// The IPv6 CIDR block used for the destination match.
+        public var destinationIpv6CidrBlock: Swift.String?
+        /// The prefix of the destination Amazon Web Service.
+        public var destinationPrefixListId: Swift.String?
+        /// The ID of the egress-only internet gateway.
+        public var egressOnlyInternetGatewayId: Swift.String?
+        /// The ID of a gateway attached to your VPC.
+        public var gatewayId: Swift.String?
+        /// The ID of a NAT instance in your VPC.
+        public var instanceId: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the instance.
+        public var instanceOwnerId: Swift.String?
+        /// The ID of the local gateway.
+        public var localGatewayId: Swift.String?
+        /// The ID of a NAT gateway.
+        public var natGatewayId: Swift.String?
+        /// The ID of the network interface.
+        public var networkInterfaceId: Swift.String?
+        /// Describes how the route was created.
+        public var origin: Swift.String?
+        /// The state of the route.
+        public var state: Swift.String?
+        /// The ID of a transit gateway.
+        public var transitGatewayId: Swift.String?
+        /// The ID of a VPC peering connection.
+        public var vpcPeeringConnectionId: Swift.String?
+
+        public init (
+            carrierGatewayId: Swift.String? = nil,
+            coreNetworkArn: Swift.String? = nil,
+            destinationCidrBlock: Swift.String? = nil,
+            destinationIpv6CidrBlock: Swift.String? = nil,
+            destinationPrefixListId: Swift.String? = nil,
+            egressOnlyInternetGatewayId: Swift.String? = nil,
+            gatewayId: Swift.String? = nil,
+            instanceId: Swift.String? = nil,
+            instanceOwnerId: Swift.String? = nil,
+            localGatewayId: Swift.String? = nil,
+            natGatewayId: Swift.String? = nil,
+            networkInterfaceId: Swift.String? = nil,
+            origin: Swift.String? = nil,
+            state: Swift.String? = nil,
+            transitGatewayId: Swift.String? = nil,
+            vpcPeeringConnectionId: Swift.String? = nil
+        )
+        {
+            self.carrierGatewayId = carrierGatewayId
+            self.coreNetworkArn = coreNetworkArn
+            self.destinationCidrBlock = destinationCidrBlock
+            self.destinationIpv6CidrBlock = destinationIpv6CidrBlock
+            self.destinationPrefixListId = destinationPrefixListId
+            self.egressOnlyInternetGatewayId = egressOnlyInternetGatewayId
+            self.gatewayId = gatewayId
+            self.instanceId = instanceId
+            self.instanceOwnerId = instanceOwnerId
+            self.localGatewayId = localGatewayId
+            self.natGatewayId = natGatewayId
+            self.networkInterfaceId = networkInterfaceId
+            self.origin = origin
+            self.state = state
+            self.transitGatewayId = transitGatewayId
+            self.vpcPeeringConnectionId = vpcPeeringConnectionId
         }
     }
 

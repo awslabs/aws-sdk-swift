@@ -19,7 +19,7 @@ class ServiceGeneratorIntegration : SwiftIntegration {
     override val sectionWriters: List<SectionWriterBinding> =
         listOf(
             SectionWriterBinding(ServiceGenerator.ConfigurationProtocolSectionId) { writer, _ ->
-                writer.addImport(AWSClientRuntimeTypes.Core.AWSClientConfiguration)
+                writer.addImport(AWSClientRuntimeTypes.Core.AWSClientConfiguration, "Internal")
                 val protocolGenerationContext =
                     writer.getContext("protocolGenerationContext") as? ProtocolGenerator.GenerationContext
                 protocolGenerationContext?.let {
