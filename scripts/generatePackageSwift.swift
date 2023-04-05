@@ -149,7 +149,7 @@ func generateCoreTargets() {
     print(#"        .target(name: "AWSClientRuntime", dependencies: [awsCommonRuntimeKit, clientRuntime], path: "./Sources/Core/AWSClientRuntime"),"#)
     print()
     print("        // MARK: - Core Test Targets")
-    print(#"        .testTarget(name: "AWSClientRuntimeTests", dependencies: [clientRuntime, "AWSClientRuntime", smithyTestUtil], path: "./Tests/Core/AWSClientRuntimeTests"),"#)
+    print(#"        .testTarget(name: "AWSClientRuntimeTests", dependencies: [clientRuntime, "AWSClientRuntime", smithyTestUtil], path: "./Tests/Core/AWSClientRuntimeTests", resources: [.process("Resources")]),"#)
     print()
 }
 
@@ -163,6 +163,7 @@ func generateCommonDependencies() {
 let releasedSDKs = try! FileManager.default
     .contentsOfDirectory(atPath: "Sources/Services")
     .sorted()
+    .filter { !$0.starts(with: ".") }
 
 guard let deps: PackageDeps = getPackageDependencies() else {
     print("Failed to get version dependencies")

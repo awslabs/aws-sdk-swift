@@ -76,6 +76,11 @@ class RestJsonProtocolGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
+            @_spi(Internal) import AWSClientRuntime
+            import ClientRuntime
+            import Foundation
+            import Logging
+            
             public class ExampleClient {
                 public static let clientName = "ExampleClient"
                 let client: ClientRuntime.SdkHttpClient
@@ -97,8 +102,8 @@ class RestJsonProtocolGeneratorTests {
                     self.config = config
                 }
             
-                public convenience init(region: Swift.String) throws {
-                    let config = try ExampleClientConfiguration(region: region)
+                public convenience init(region: Swift.String) async throws {
+                    let config = try await ExampleClientConfiguration(region: region)
                     self.init(config: config)
                 }
             
@@ -133,28 +138,42 @@ class RestJsonProtocolGeneratorTests {
                         endpoint: Swift.String? = nil,
                         endpointResolver: EndpointResolver? = nil,
                         frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
-                        region: Swift.String,
+                        region: Swift.String? = nil,
                         regionResolver: AWSClientRuntime.RegionResolver? = nil,
-                        runtimeConfig: ClientRuntime.SDKRuntimeConfiguration,
+                        runtimeConfig: ClientRuntime.SDKRuntimeConfiguration? = nil,
                         signingRegion: Swift.String? = nil,
                         useDualStack: Swift.Bool? = nil,
                         useFIPS: Swift.Bool? = nil
-                    ) throws {
-                        if let credProvider = credentialsProvider {
-                            self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromCustom(credProvider)
+                    ) async throws {
+                        let runtimeConfig = try runtimeConfig ?? ClientRuntime.DefaultSDKRuntimeConfiguration("ExampleClient")
+
+                        let fileBasedConfigurationStore = try CRTFiledBasedConfigurationStore()
+
+                        let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver(fileBasedConfigurationProvider: fileBasedConfigurationStore)
+
+                        let resolvedRegion: String?
+                        if let region = region {
+                            resolvedRegion = region
                         } else {
-                            self.credentialsProvider = try AWSClientRuntime.AWSCredentialsProvider.fromChain()
+                            resolvedRegion = await resolvedRegionResolver.resolveRegion()
                         }
+            
+                        let resolvedSigningRegion = signingRegion ?? resolvedRegion
+            
+                        let resolvedCredentialProvider = try await AWSClientRuntime.AWSCredentialsProvider.resolvedProvider(
+                            credentialsProvider,
+                            configuration: .init(fileBasedConfigurationStore: fileBasedConfigurationStore)
+                        )
+            
+                        let resolvedEndpointsResolver = try endpointResolver ?? DefaultEndpointResolver()
+            
+                        self.credentialsProvider = resolvedCredentialProvider
                         self.endpoint = endpoint
-                        if let endpointResolver = endpointResolver {
-                            self.endpointResolver = endpointResolver
-                        } else {
-                            self.endpointResolver = try DefaultEndpointResolver()
-                        }
+                        self.endpointResolver = resolvedEndpointsResolver
                         self.frameworkMetadata = frameworkMetadata
-                        self.region = region
-                        self.regionResolver = try regionResolver ?? DefaultRegionResolver()
-                        self.signingRegion = signingRegion ?? region
+                        self.region = resolvedRegion
+                        self.regionResolver = resolvedRegionResolver
+                        self.signingRegion = resolvedSigningRegion
                         self.useDualStack = useDualStack
                         self.useFIPS = useFIPS
                         self.clientLogMode = runtimeConfig.clientLogMode
@@ -166,6 +185,7 @@ class RestJsonProtocolGeneratorTests {
                         self.logger = runtimeConfig.logger
                         self.retryStrategy = runtimeConfig.retryStrategy
                     }
+<<<<<<< HEAD
             
                     public convenience init(
                         credentialsProvider: AWSClientRuntime.CredentialsProvider? = nil,
@@ -255,6 +275,8 @@ class RestJsonProtocolGeneratorTests {
                             useFIPS: useFIPS
                         )
                     }
+=======
+>>>>>>> main
 
                     public var partitionID: String? {
                         return "ExampleClient - \(region ?? "")"

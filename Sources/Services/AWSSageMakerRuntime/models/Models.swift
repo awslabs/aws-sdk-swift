@@ -169,9 +169,9 @@ public struct InvokeEndpointAsyncInput: Swift.Equatable {
     /// The Amazon S3 URI where the inference request payload is stored.
     /// This member is required.
     public var inputLocation: Swift.String?
-    /// Maximum amount of time in seconds a request can be processed before it is marked as expired.
+    /// Maximum amount of time in seconds a request can be processed before it is marked as expired. The default is 15 minutes, or 900 seconds.
     public var invocationTimeoutSeconds: Swift.Int?
-    /// Maximum age in seconds a request can be in the queue before it is marked as expired.
+    /// Maximum age in seconds a request can be in the queue before it is marked as expired. The default is 6 hours, or 21,600 seconds.
     public var requestTTLSeconds: Swift.Int?
 
     public init (

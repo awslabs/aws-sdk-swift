@@ -2954,6 +2954,7 @@ extension BillingconductorClientTypes {
 
 extension BillingconductorClientTypes.CustomLineItemVersionListElement: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
         case associationSize = "AssociationSize"
         case billingGroupArn = "BillingGroupArn"
         case chargeDetails = "ChargeDetails"
@@ -2965,10 +2966,14 @@ extension BillingconductorClientTypes.CustomLineItemVersionListElement: Swift.Co
         case name = "Name"
         case productCode = "ProductCode"
         case startBillingPeriod = "StartBillingPeriod"
+        case startTime = "StartTime"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
         if associationSize != 0 {
             try encodeContainer.encode(associationSize, forKey: .associationSize)
         }
@@ -3002,6 +3007,9 @@ extension BillingconductorClientTypes.CustomLineItemVersionListElement: Swift.Co
         if let startBillingPeriod = self.startBillingPeriod {
             try encodeContainer.encode(startBillingPeriod, forKey: .startBillingPeriod)
         }
+        if startTime != 0 {
+            try encodeContainer.encode(startTime, forKey: .startTime)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -3028,17 +3036,23 @@ extension BillingconductorClientTypes.CustomLineItemVersionListElement: Swift.Co
         startBillingPeriod = startBillingPeriodDecoded
         let endBillingPeriodDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endBillingPeriod)
         endBillingPeriod = endBillingPeriodDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let startTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startTime) ?? 0
+        startTime = startTimeDecoded
     }
 }
 
 extension BillingconductorClientTypes.CustomLineItemVersionListElement: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CustomLineItemVersionListElement(associationSize: \(Swift.String(describing: associationSize)), billingGroupArn: \(Swift.String(describing: billingGroupArn)), chargeDetails: \(Swift.String(describing: chargeDetails)), creationTime: \(Swift.String(describing: creationTime)), currencyCode: \(Swift.String(describing: currencyCode)), endBillingPeriod: \(Swift.String(describing: endBillingPeriod)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), productCode: \(Swift.String(describing: productCode)), startBillingPeriod: \(Swift.String(describing: startBillingPeriod)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CustomLineItemVersionListElement(arn: \(Swift.String(describing: arn)), associationSize: \(Swift.String(describing: associationSize)), billingGroupArn: \(Swift.String(describing: billingGroupArn)), chargeDetails: \(Swift.String(describing: chargeDetails)), creationTime: \(Swift.String(describing: creationTime)), currencyCode: \(Swift.String(describing: currencyCode)), endBillingPeriod: \(Swift.String(describing: endBillingPeriod)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), productCode: \(Swift.String(describing: productCode)), startBillingPeriod: \(Swift.String(describing: startBillingPeriod)), startTime: \(Swift.String(describing: startTime)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension BillingconductorClientTypes {
     /// A representation of a custom line item version.
     public struct CustomLineItemVersionListElement: Swift.Equatable {
+        /// A list of custom line item Amazon Resource Names (ARNs) to retrieve information.
+        public var arn: Swift.String?
         /// The number of resources that are associated with the custom line item.
         public var associationSize: Swift.Int
         /// The Amazon Resource Name (ARN) of the billing group that the custom line item applies to.
@@ -3061,8 +3075,11 @@ extension BillingconductorClientTypes {
         public var productCode: Swift.String?
         /// The start billing period of the custom line item version.
         public var startBillingPeriod: Swift.String?
+        /// The inclusive start time.
+        public var startTime: Swift.Int
 
         public init (
+            arn: Swift.String? = nil,
             associationSize: Swift.Int = 0,
             billingGroupArn: Swift.String? = nil,
             chargeDetails: BillingconductorClientTypes.ListCustomLineItemChargeDetails? = nil,
@@ -3073,9 +3090,11 @@ extension BillingconductorClientTypes {
             lastModifiedTime: Swift.Int = 0,
             name: Swift.String? = nil,
             productCode: Swift.String? = nil,
-            startBillingPeriod: Swift.String? = nil
+            startBillingPeriod: Swift.String? = nil,
+            startTime: Swift.Int = 0
         )
         {
+            self.arn = arn
             self.associationSize = associationSize
             self.billingGroupArn = billingGroupArn
             self.chargeDetails = chargeDetails
@@ -3087,6 +3106,7 @@ extension BillingconductorClientTypes {
             self.name = name
             self.productCode = productCode
             self.startBillingPeriod = startBillingPeriod
+            self.startTime = startTime
         }
     }
 
@@ -4134,6 +4154,7 @@ extension InternalServerExceptionBody: Swift.Decodable {
 extension BillingconductorClientTypes.ListAccountAssociationsFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
+        case accountIds = "AccountIds"
         case association = "Association"
     }
 
@@ -4141,6 +4162,12 @@ extension BillingconductorClientTypes.ListAccountAssociationsFilter: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountId = self.accountId {
             try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let accountIds = accountIds {
+            var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
+            }
         }
         if let association = self.association {
             try encodeContainer.encode(association, forKey: .association)
@@ -4153,6 +4180,17 @@ extension BillingconductorClientTypes.ListAccountAssociationsFilter: Swift.Codab
         association = associationDecoded
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
+        let accountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Swift.String]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Swift.String]()
+            for string0 in accountIdsContainer {
+                if let string0 = string0 {
+                    accountIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
     }
 }
 
@@ -4161,15 +4199,19 @@ extension BillingconductorClientTypes {
     public struct ListAccountAssociationsFilter: Swift.Equatable {
         /// The Amazon Web Services account ID to filter on.
         public var accountId: Swift.String?
+        /// The list of Amazon Web Services IDs to retrieve their associated billing group for a given time range.
+        public var accountIds: [Swift.String]?
         /// MONITORED: linked accounts that are associated to billing groups. UNMONITORED: linked accounts that are not associated to billing groups. Billing Group Arn: linked accounts that are associated to the provided Billing Group Arn.
         public var association: Swift.String?
 
         public init (
             accountId: Swift.String? = nil,
+            accountIds: [Swift.String]? = nil,
             association: Swift.String? = nil
         )
         {
             self.accountId = accountId
+            self.accountIds = accountIds
             self.association = association
         }
     }
@@ -4599,6 +4641,7 @@ extension BillingconductorClientTypes.ListBillingGroupsFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arns = "Arns"
         case pricingPlan = "PricingPlan"
+        case statuses = "Statuses"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -4611,6 +4654,12 @@ extension BillingconductorClientTypes.ListBillingGroupsFilter: Swift.Codable {
         }
         if let pricingPlan = self.pricingPlan {
             try encodeContainer.encode(pricingPlan, forKey: .pricingPlan)
+        }
+        if let statuses = statuses {
+            var statusesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statuses)
+            for billinggroupstatus0 in statuses {
+                try statusesContainer.encode(billinggroupstatus0.rawValue)
+            }
         }
     }
 
@@ -4629,6 +4678,17 @@ extension BillingconductorClientTypes.ListBillingGroupsFilter: Swift.Codable {
         arns = arnsDecoded0
         let pricingPlanDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pricingPlan)
         pricingPlan = pricingPlanDecoded
+        let statusesContainer = try containerValues.decodeIfPresent([BillingconductorClientTypes.BillingGroupStatus?].self, forKey: .statuses)
+        var statusesDecoded0:[BillingconductorClientTypes.BillingGroupStatus]? = nil
+        if let statusesContainer = statusesContainer {
+            statusesDecoded0 = [BillingconductorClientTypes.BillingGroupStatus]()
+            for string0 in statusesContainer {
+                if let string0 = string0 {
+                    statusesDecoded0?.append(string0)
+                }
+            }
+        }
+        statuses = statusesDecoded0
     }
 }
 
@@ -4639,14 +4699,18 @@ extension BillingconductorClientTypes {
         public var arns: [Swift.String]?
         /// The pricing plan Amazon Resource Names (ARNs) to retrieve information.
         public var pricingPlan: Swift.String?
+        /// A list of billing groups to retrieve their current status for a specific time range
+        public var statuses: [BillingconductorClientTypes.BillingGroupStatus]?
 
         public init (
             arns: [Swift.String]? = nil,
-            pricingPlan: Swift.String? = nil
+            pricingPlan: Swift.String? = nil,
+            statuses: [BillingconductorClientTypes.BillingGroupStatus]? = nil
         )
         {
             self.arns = arns
             self.pricingPlan = pricingPlan
+            self.statuses = statuses
         }
     }
 
@@ -6978,10 +7042,12 @@ extension BillingconductorClientTypes.PricingRuleListElement: Swift.Codable {
         case lastModifiedTime = "LastModifiedTime"
         case modifierPercentage = "ModifierPercentage"
         case name = "Name"
+        case operation = "Operation"
         case scope = "Scope"
         case service = "Service"
         case tiering = "Tiering"
         case type = "Type"
+        case usageType = "UsageType"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -7010,6 +7076,9 @@ extension BillingconductorClientTypes.PricingRuleListElement: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if let operation = self.operation {
+            try encodeContainer.encode(operation, forKey: .operation)
+        }
         if let scope = self.scope {
             try encodeContainer.encode(scope.rawValue, forKey: .scope)
         }
@@ -7021,6 +7090,9 @@ extension BillingconductorClientTypes.PricingRuleListElement: Swift.Codable {
         }
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if let usageType = self.usageType {
+            try encodeContainer.encode(usageType, forKey: .usageType)
         }
     }
 
@@ -7050,12 +7122,16 @@ extension BillingconductorClientTypes.PricingRuleListElement: Swift.Codable {
         billingEntity = billingEntityDecoded
         let tieringDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.Tiering.self, forKey: .tiering)
         tiering = tieringDecoded
+        let usageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .usageType)
+        usageType = usageTypeDecoded
+        let operationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operation)
+        operation = operationDecoded
     }
 }
 
 extension BillingconductorClientTypes.PricingRuleListElement: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PricingRuleListElement(arn: \(Swift.String(describing: arn)), associatedPricingPlanCount: \(Swift.String(describing: associatedPricingPlanCount)), billingEntity: \(Swift.String(describing: billingEntity)), creationTime: \(Swift.String(describing: creationTime)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), scope: \(Swift.String(describing: scope)), service: \(Swift.String(describing: service)), tiering: \(Swift.String(describing: tiering)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "PricingRuleListElement(arn: \(Swift.String(describing: arn)), associatedPricingPlanCount: \(Swift.String(describing: associatedPricingPlanCount)), billingEntity: \(Swift.String(describing: billingEntity)), creationTime: \(Swift.String(describing: creationTime)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), operation: \(Swift.String(describing: operation)), scope: \(Swift.String(describing: scope)), service: \(Swift.String(describing: service)), tiering: \(Swift.String(describing: tiering)), type: \(Swift.String(describing: type)), usageType: \(Swift.String(describing: usageType)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension BillingconductorClientTypes {
@@ -7077,6 +7153,8 @@ extension BillingconductorClientTypes {
         public var modifierPercentage: Swift.Double?
         /// The name of a pricing rule.
         public var name: Swift.String?
+        /// Operation is the specific Amazon Web Services action covered by this line item. This describes the specific usage of the line item. If the Scope attribute is set to SKU, this attribute indicates which operation the PricingRule is modifying. For example, a value of RunInstances:0202 indicates the operation of running an Amazon EC2 instance.
+        public var operation: Swift.String?
         /// The scope of pricing rule that indicates if it is globally applicable, or if it is service-specific.
         public var scope: BillingconductorClientTypes.PricingRuleScope?
         /// If the Scope attribute is SERVICE, this attribute indicates which service the PricingRule is applicable for.
@@ -7085,6 +7163,8 @@ extension BillingconductorClientTypes {
         public var tiering: BillingconductorClientTypes.Tiering?
         /// The type of pricing rule.
         public var type: BillingconductorClientTypes.PricingRuleType?
+        /// Usage type is the unit that each service uses to measure the usage of a specific type of resource. If the Scope attribute is set to SKU, this attribute indicates which usage type the PricingRule is modifying. For example, USW2-BoxUsage:m2.2xlarge describes an M2 High Memory Double Extra Large instance in the US West (Oregon) Region.
+        public var usageType: Swift.String?
 
         public init (
             arn: Swift.String? = nil,
@@ -7095,10 +7175,12 @@ extension BillingconductorClientTypes {
             lastModifiedTime: Swift.Int = 0,
             modifierPercentage: Swift.Double? = nil,
             name: Swift.String? = nil,
+            operation: Swift.String? = nil,
             scope: BillingconductorClientTypes.PricingRuleScope? = nil,
             service: Swift.String? = nil,
             tiering: BillingconductorClientTypes.Tiering? = nil,
-            type: BillingconductorClientTypes.PricingRuleType? = nil
+            type: BillingconductorClientTypes.PricingRuleType? = nil,
+            usageType: Swift.String? = nil
         )
         {
             self.arn = arn
@@ -7109,10 +7191,12 @@ extension BillingconductorClientTypes {
             self.lastModifiedTime = lastModifiedTime
             self.modifierPercentage = modifierPercentage
             self.name = name
+            self.operation = operation
             self.scope = scope
             self.service = service
             self.tiering = tiering
             self.type = type
+            self.usageType = usageType
         }
     }
 
@@ -7123,6 +7207,7 @@ extension BillingconductorClientTypes {
         case billingEntity
         case global
         case service
+        case sku
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PricingRuleScope] {
@@ -7130,6 +7215,7 @@ extension BillingconductorClientTypes {
                 .billingEntity,
                 .global,
                 .service,
+                .sku,
                 .sdkUnknown("")
             ]
         }
@@ -7142,6 +7228,7 @@ extension BillingconductorClientTypes {
             case .billingEntity: return "BILLING_ENTITY"
             case .global: return "GLOBAL"
             case .service: return "SERVICE"
+            case .sku: return "SKU"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9127,6 +9214,7 @@ extension BillingconductorClientTypes {
         case illegalEndedBillinggroup
         case illegalExpression
         case illegalModifierPercentage
+        case illegalOperation
         case illegalPrimaryAccount
         case illegalResourceArns
         case illegalScope
@@ -9134,11 +9222,14 @@ extension BillingconductorClientTypes {
         case illegalTieringInput
         case illegalType
         case illegalUpdateChargeDetails
+        case illegalUsageType
         case invalidArn
         case invalidBillingviewArn
         case invalidBillingGroup
         case invalidBillingGroupStatus
         case invalidBillingPeriodForOperation
+        case invalidFilter
+        case invalidSkuCombo
         case invalidTimeRange
         case mismatchedBillinggroupArn
         case mismatchedBillingviewArn
@@ -9184,6 +9275,7 @@ extension BillingconductorClientTypes {
                 .illegalEndedBillinggroup,
                 .illegalExpression,
                 .illegalModifierPercentage,
+                .illegalOperation,
                 .illegalPrimaryAccount,
                 .illegalResourceArns,
                 .illegalScope,
@@ -9191,11 +9283,14 @@ extension BillingconductorClientTypes {
                 .illegalTieringInput,
                 .illegalType,
                 .illegalUpdateChargeDetails,
+                .illegalUsageType,
                 .invalidArn,
                 .invalidBillingviewArn,
                 .invalidBillingGroup,
                 .invalidBillingGroupStatus,
                 .invalidBillingPeriodForOperation,
+                .invalidFilter,
+                .invalidSkuCombo,
                 .invalidTimeRange,
                 .mismatchedBillinggroupArn,
                 .mismatchedBillingviewArn,
@@ -9246,6 +9341,7 @@ extension BillingconductorClientTypes {
             case .illegalEndedBillinggroup: return "ILLEGAL_ENDED_BILLINGGROUP"
             case .illegalExpression: return "ILLEGAL_EXPRESSION"
             case .illegalModifierPercentage: return "ILLEGAL_MODIFIER_PERCENTAGE"
+            case .illegalOperation: return "ILLEGAL_OPERATION"
             case .illegalPrimaryAccount: return "ILLEGAL_PRIMARY_ACCOUNT"
             case .illegalResourceArns: return "ILLEGAL_RESOURCE_ARNS"
             case .illegalScope: return "ILLEGAL_SCOPE"
@@ -9253,11 +9349,14 @@ extension BillingconductorClientTypes {
             case .illegalTieringInput: return "ILLEGAL_TIERING_INPUT"
             case .illegalType: return "ILLEGAL_TYPE"
             case .illegalUpdateChargeDetails: return "ILLEGAL_UPDATE_CHARGE_DETAILS"
+            case .illegalUsageType: return "ILLEGAL_USAGE_TYPE"
             case .invalidArn: return "INVALID_ARN"
             case .invalidBillingviewArn: return "INVALID_BILLINGVIEW_ARN"
             case .invalidBillingGroup: return "INVALID_BILLING_GROUP"
             case .invalidBillingGroupStatus: return "INVALID_BILLING_GROUP_STATUS"
             case .invalidBillingPeriodForOperation: return "INVALID_BILLING_PERIOD_FOR_OPERATION"
+            case .invalidFilter: return "INVALID_FILTER"
+            case .invalidSkuCombo: return "INVALID_SKU_COMBO"
             case .invalidTimeRange: return "INVALID_TIME_RANGE"
             case .mismatchedBillinggroupArn: return "MISMATCHED_BILLINGGROUP_ARN"
             case .mismatchedBillingviewArn: return "MISMATCHED_BILLINGVIEW_ARN"

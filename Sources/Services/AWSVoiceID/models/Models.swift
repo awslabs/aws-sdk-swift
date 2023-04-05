@@ -57,6 +57,160 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension AssociateFraudsterInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssociateFraudsterInput(domainId: \(Swift.String(describing: domainId)), watchlistId: \(Swift.String(describing: watchlistId)), fraudsterId: \"CONTENT_REDACTED\")"}
+}
+
+extension AssociateFraudsterInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainId = "DomainId"
+        case fraudsterId = "FraudsterId"
+        case watchlistId = "WatchlistId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let domainId = self.domainId {
+            try encodeContainer.encode(domainId, forKey: .domainId)
+        }
+        if let fraudsterId = self.fraudsterId {
+            try encodeContainer.encode(fraudsterId, forKey: .fraudsterId)
+        }
+        if let watchlistId = self.watchlistId {
+            try encodeContainer.encode(watchlistId, forKey: .watchlistId)
+        }
+    }
+}
+
+extension AssociateFraudsterInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct AssociateFraudsterInput: Swift.Equatable {
+    /// The identifier of the domain that contains the fraudster.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The identifier of the fraudster to be associated with the watchlist.
+    /// This member is required.
+    public var fraudsterId: Swift.String?
+    /// The identifier of the watchlist you want to associate with the fraudster.
+    /// This member is required.
+    public var watchlistId: Swift.String?
+
+    public init (
+        domainId: Swift.String? = nil,
+        fraudsterId: Swift.String? = nil,
+        watchlistId: Swift.String? = nil
+    )
+    {
+        self.domainId = domainId
+        self.fraudsterId = fraudsterId
+        self.watchlistId = watchlistId
+    }
+}
+
+struct AssociateFraudsterInputBody: Swift.Equatable {
+    let domainId: Swift.String?
+    let watchlistId: Swift.String?
+    let fraudsterId: Swift.String?
+}
+
+extension AssociateFraudsterInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainId = "DomainId"
+        case fraudsterId = "FraudsterId"
+        case watchlistId = "WatchlistId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainId)
+        domainId = domainIdDecoded
+        let watchlistIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .watchlistId)
+        watchlistId = watchlistIdDecoded
+        let fraudsterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fraudsterId)
+        fraudsterId = fraudsterIdDecoded
+    }
+}
+
+extension AssociateFraudsterOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension AssociateFraudsterOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum AssociateFraudsterOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension AssociateFraudsterOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: AssociateFraudsterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.fraudster = output.fraudster
+        } else {
+            self.fraudster = nil
+        }
+    }
+}
+
+public struct AssociateFraudsterOutputResponse: Swift.Equatable {
+    /// Contains all the information about a fraudster.
+    public var fraudster: VoiceIDClientTypes.Fraudster?
+
+    public init (
+        fraudster: VoiceIDClientTypes.Fraudster? = nil
+    )
+    {
+        self.fraudster = fraudster
+    }
+}
+
+struct AssociateFraudsterOutputResponseBody: Swift.Equatable {
+    let fraudster: VoiceIDClientTypes.Fraudster?
+}
+
+extension AssociateFraudsterOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fraudster = "Fraudster"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fraudsterDecoded = try containerValues.decodeIfPresent(VoiceIDClientTypes.Fraudster.self, forKey: .fraudster)
+        fraudster = fraudsterDecoded
+    }
+}
+
 extension VoiceIDClientTypes.AuthenticationConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceptanceThreshold = "AcceptanceThreshold"
@@ -209,9 +363,9 @@ extension VoiceIDClientTypes.AuthenticationResult: Swift.CustomDebugStringConver
 extension VoiceIDClientTypes {
     /// The authentication result produced by Voice ID, processed against the current session state and streamed audio of the speaker.
     public struct AuthenticationResult: Swift.Equatable {
-        /// A timestamp indicating when audio aggregation ended for this authentication result.
+        /// A timestamp of when audio aggregation ended for this authentication result.
         public var audioAggregationEndedAt: ClientRuntime.Date?
-        /// A timestamp indicating when audio aggregation started for this authentication result.
+        /// A timestamp of when audio aggregation started for this authentication result.
         public var audioAggregationStartedAt: ClientRuntime.Date?
         /// The unique identifier for this authentication result. Because there can be multiple authentications for a given session, this field helps to identify if the returned result is from a previous streaming activity or a new result. Note that in absence of any new streaming activity, AcceptanceThreshold changes, or SpeakerId changes, Voice ID always returns cached Authentication Result for this API.
         public var authenticationResultId: Swift.String?
@@ -331,10 +485,12 @@ extension VoiceIDClientTypes {
     public enum ConflictType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case anotherActiveStream
         case cannotChangeSpeakerAfterEnrollment
+        case cannotDeleteNonEmptyWatchlist
         case concurrentChanges
         case domainLockedFromEncryptionUpdates
         case domainNotActive
         case enrollmentAlreadyExists
+        case fraudsterMustBelongToAtLeastOneWatchlist
         case speakerNotSet
         case speakerOptedOut
         case sdkUnknown(Swift.String)
@@ -343,10 +499,12 @@ extension VoiceIDClientTypes {
             return [
                 .anotherActiveStream,
                 .cannotChangeSpeakerAfterEnrollment,
+                .cannotDeleteNonEmptyWatchlist,
                 .concurrentChanges,
                 .domainLockedFromEncryptionUpdates,
                 .domainNotActive,
                 .enrollmentAlreadyExists,
+                .fraudsterMustBelongToAtLeastOneWatchlist,
                 .speakerNotSet,
                 .speakerOptedOut,
                 .sdkUnknown("")
@@ -360,10 +518,12 @@ extension VoiceIDClientTypes {
             switch self {
             case .anotherActiveStream: return "ANOTHER_ACTIVE_STREAM"
             case .cannotChangeSpeakerAfterEnrollment: return "CANNOT_CHANGE_SPEAKER_AFTER_ENROLLMENT"
+            case .cannotDeleteNonEmptyWatchlist: return "CANNOT_DELETE_NON_EMPTY_WATCHLIST"
             case .concurrentChanges: return "CONCURRENT_CHANGES"
             case .domainLockedFromEncryptionUpdates: return "DOMAIN_LOCKED_FROM_ENCRYPTION_UPDATES"
             case .domainNotActive: return "DOMAIN_NOT_ACTIVE"
             case .enrollmentAlreadyExists: return "ENROLLMENT_ALREADY_EXISTS"
+            case .fraudsterMustBelongToAtLeastOneWatchlist: return "FRAUDSTER_MUST_BELONG_TO_AT_LEAST_ONE_WATCHLIST"
             case .speakerNotSet: return "SPEAKER_NOT_SET"
             case .speakerOptedOut: return "SPEAKER_OPTED_OUT"
             case let .sdkUnknown(s): return s
@@ -421,9 +581,9 @@ extension CreateDomainInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateDomainInput: Swift.Equatable {
-    /// The idempotency token for creating a new domain. If not provided, Amazon Web Services SDK populates this field.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// A brief description of the domain.
+    /// A brief description of this domain.
     public var description: Swift.String?
     /// The name of the domain.
     /// This member is required.
@@ -587,6 +747,171 @@ extension CreateDomainOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateWatchlistInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateWatchlistInput(clientToken: \(Swift.String(describing: clientToken)), domainId: \(Swift.String(describing: domainId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateWatchlistInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case description = "Description"
+        case domainId = "DomainId"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let domainId = self.domainId {
+            try encodeContainer.encode(domainId, forKey: .domainId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension CreateWatchlistInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateWatchlistInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// A brief description of this watchlist.
+    public var description: Swift.String?
+    /// The identifier of the domain that contains the watchlist.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The name of the watchlist.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.description = description
+        self.domainId = domainId
+        self.name = name
+    }
+}
+
+struct CreateWatchlistInputBody: Swift.Equatable {
+    let domainId: Swift.String?
+    let name: Swift.String?
+    let description: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension CreateWatchlistInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case description = "Description"
+        case domainId = "DomainId"
+        case name = "Name"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainId)
+        domainId = domainIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension CreateWatchlistOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateWatchlistOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateWatchlistOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateWatchlistOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateWatchlistOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.watchlist = output.watchlist
+        } else {
+            self.watchlist = nil
+        }
+    }
+}
+
+public struct CreateWatchlistOutputResponse: Swift.Equatable {
+    /// Information about the newly created watchlist.
+    public var watchlist: VoiceIDClientTypes.Watchlist?
+
+    public init (
+        watchlist: VoiceIDClientTypes.Watchlist? = nil
+    )
+    {
+        self.watchlist = watchlist
+    }
+}
+
+struct CreateWatchlistOutputResponseBody: Swift.Equatable {
+    let watchlist: VoiceIDClientTypes.Watchlist?
+}
+
+extension CreateWatchlistOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case watchlist = "Watchlist"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let watchlistDecoded = try containerValues.decodeIfPresent(VoiceIDClientTypes.Watchlist.self, forKey: .watchlist)
+        watchlist = watchlistDecoded
+    }
+}
+
 extension DeleteDomainInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domainId = "DomainId"
@@ -726,7 +1051,7 @@ extension DeleteFraudsterInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteFraudsterInput: Swift.Equatable {
-    /// The identifier of the domain containing the fraudster.
+    /// The identifier of the domain that contains the fraudster.
     /// This member is required.
     public var domainId: Swift.String?
     /// The identifier of the fraudster you want to delete.
@@ -854,7 +1179,7 @@ extension DeleteSpeakerInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteSpeakerInput: Swift.Equatable {
-    /// The identifier of the domain containing the speaker.
+    /// The identifier of the domain that contains the speaker.
     /// This member is required.
     public var domainId: Swift.String?
     /// The identifier of the speaker you want to delete.
@@ -953,6 +1278,109 @@ public struct DeleteSpeakerOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension DeleteWatchlistInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainId = "DomainId"
+        case watchlistId = "WatchlistId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let domainId = self.domainId {
+            try encodeContainer.encode(domainId, forKey: .domainId)
+        }
+        if let watchlistId = self.watchlistId {
+            try encodeContainer.encode(watchlistId, forKey: .watchlistId)
+        }
+    }
+}
+
+extension DeleteWatchlistInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteWatchlistInput: Swift.Equatable {
+    /// The identifier of the domain that contains the watchlist.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The identifier of the watchlist to be deleted.
+    /// This member is required.
+    public var watchlistId: Swift.String?
+
+    public init (
+        domainId: Swift.String? = nil,
+        watchlistId: Swift.String? = nil
+    )
+    {
+        self.domainId = domainId
+        self.watchlistId = watchlistId
+    }
+}
+
+struct DeleteWatchlistInputBody: Swift.Equatable {
+    let domainId: Swift.String?
+    let watchlistId: Swift.String?
+}
+
+extension DeleteWatchlistInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainId = "DomainId"
+        case watchlistId = "WatchlistId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainId)
+        domainId = domainIdDecoded
+        let watchlistIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .watchlistId)
+        watchlistId = watchlistIdDecoded
+    }
+}
+
+extension DeleteWatchlistOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteWatchlistOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteWatchlistOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteWatchlistOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteWatchlistOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension DescribeDomainInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domainId = "DomainId"
@@ -973,7 +1401,7 @@ extension DescribeDomainInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeDomainInput: Swift.Equatable {
-    /// The identifier of the domain you are describing.
+    /// The identifier of the domain that you are describing.
     /// This member is required.
     public var domainId: Swift.String?
 
@@ -1120,7 +1548,7 @@ extension DescribeFraudsterInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeFraudsterInput: Swift.Equatable {
-    /// The identifier of the domain containing the fraudster.
+    /// The identifier of the domain that contains the fraudster.
     /// This member is required.
     public var domainId: Swift.String?
     /// The identifier of the fraudster you are describing.
@@ -1271,10 +1699,10 @@ extension DescribeFraudsterRegistrationJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeFraudsterRegistrationJobInput: Swift.Equatable {
-    /// The identifier for the domain containing the fraudster registration job.
+    /// The identifier of the domain that contains the fraudster registration job.
     /// This member is required.
     public var domainId: Swift.String?
-    /// The identifier for the fraudster registration job you are describing.
+    /// The identifier of the fraudster registration job you are describing.
     /// This member is required.
     public var jobId: Swift.String?
 
@@ -1422,7 +1850,7 @@ extension DescribeSpeakerEnrollmentJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeSpeakerEnrollmentJobInput: Swift.Equatable {
-    /// The identifier of the domain containing the speaker enrollment job.
+    /// The identifier of the domain that contains the speaker enrollment job.
     /// This member is required.
     public var domainId: Swift.String?
     /// The identifier of the speaker enrollment job you are describing.
@@ -1705,6 +2133,290 @@ extension DescribeSpeakerOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeWatchlistInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainId = "DomainId"
+        case watchlistId = "WatchlistId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let domainId = self.domainId {
+            try encodeContainer.encode(domainId, forKey: .domainId)
+        }
+        if let watchlistId = self.watchlistId {
+            try encodeContainer.encode(watchlistId, forKey: .watchlistId)
+        }
+    }
+}
+
+extension DescribeWatchlistInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeWatchlistInput: Swift.Equatable {
+    /// The identifier of the domain that contains the watchlist.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The identifier of the watchlist that you are describing.
+    /// This member is required.
+    public var watchlistId: Swift.String?
+
+    public init (
+        domainId: Swift.String? = nil,
+        watchlistId: Swift.String? = nil
+    )
+    {
+        self.domainId = domainId
+        self.watchlistId = watchlistId
+    }
+}
+
+struct DescribeWatchlistInputBody: Swift.Equatable {
+    let domainId: Swift.String?
+    let watchlistId: Swift.String?
+}
+
+extension DescribeWatchlistInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainId = "DomainId"
+        case watchlistId = "WatchlistId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainId)
+        domainId = domainIdDecoded
+        let watchlistIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .watchlistId)
+        watchlistId = watchlistIdDecoded
+    }
+}
+
+extension DescribeWatchlistOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeWatchlistOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeWatchlistOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeWatchlistOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DescribeWatchlistOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.watchlist = output.watchlist
+        } else {
+            self.watchlist = nil
+        }
+    }
+}
+
+public struct DescribeWatchlistOutputResponse: Swift.Equatable {
+    /// Information about the specified watchlist.
+    public var watchlist: VoiceIDClientTypes.Watchlist?
+
+    public init (
+        watchlist: VoiceIDClientTypes.Watchlist? = nil
+    )
+    {
+        self.watchlist = watchlist
+    }
+}
+
+struct DescribeWatchlistOutputResponseBody: Swift.Equatable {
+    let watchlist: VoiceIDClientTypes.Watchlist?
+}
+
+extension DescribeWatchlistOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case watchlist = "Watchlist"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let watchlistDecoded = try containerValues.decodeIfPresent(VoiceIDClientTypes.Watchlist.self, forKey: .watchlist)
+        watchlist = watchlistDecoded
+    }
+}
+
+extension DisassociateFraudsterInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DisassociateFraudsterInput(domainId: \(Swift.String(describing: domainId)), watchlistId: \(Swift.String(describing: watchlistId)), fraudsterId: \"CONTENT_REDACTED\")"}
+}
+
+extension DisassociateFraudsterInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainId = "DomainId"
+        case fraudsterId = "FraudsterId"
+        case watchlistId = "WatchlistId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let domainId = self.domainId {
+            try encodeContainer.encode(domainId, forKey: .domainId)
+        }
+        if let fraudsterId = self.fraudsterId {
+            try encodeContainer.encode(fraudsterId, forKey: .fraudsterId)
+        }
+        if let watchlistId = self.watchlistId {
+            try encodeContainer.encode(watchlistId, forKey: .watchlistId)
+        }
+    }
+}
+
+extension DisassociateFraudsterInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DisassociateFraudsterInput: Swift.Equatable {
+    /// The identifier of the domain that contains the fraudster.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The identifier of the fraudster to be disassociated from the watchlist.
+    /// This member is required.
+    public var fraudsterId: Swift.String?
+    /// The identifier of the watchlist that you want to disassociate from the fraudster.
+    /// This member is required.
+    public var watchlistId: Swift.String?
+
+    public init (
+        domainId: Swift.String? = nil,
+        fraudsterId: Swift.String? = nil,
+        watchlistId: Swift.String? = nil
+    )
+    {
+        self.domainId = domainId
+        self.fraudsterId = fraudsterId
+        self.watchlistId = watchlistId
+    }
+}
+
+struct DisassociateFraudsterInputBody: Swift.Equatable {
+    let domainId: Swift.String?
+    let watchlistId: Swift.String?
+    let fraudsterId: Swift.String?
+}
+
+extension DisassociateFraudsterInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainId = "DomainId"
+        case fraudsterId = "FraudsterId"
+        case watchlistId = "WatchlistId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainId)
+        domainId = domainIdDecoded
+        let watchlistIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .watchlistId)
+        watchlistId = watchlistIdDecoded
+        let fraudsterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fraudsterId)
+        fraudsterId = fraudsterIdDecoded
+    }
+}
+
+extension DisassociateFraudsterOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DisassociateFraudsterOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DisassociateFraudsterOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisassociateFraudsterOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DisassociateFraudsterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.fraudster = output.fraudster
+        } else {
+            self.fraudster = nil
+        }
+    }
+}
+
+public struct DisassociateFraudsterOutputResponse: Swift.Equatable {
+    /// Contains all the information about a fraudster.
+    public var fraudster: VoiceIDClientTypes.Fraudster?
+
+    public init (
+        fraudster: VoiceIDClientTypes.Fraudster? = nil
+    )
+    {
+        self.fraudster = fraudster
+    }
+}
+
+struct DisassociateFraudsterOutputResponseBody: Swift.Equatable {
+    let fraudster: VoiceIDClientTypes.Fraudster?
+}
+
+extension DisassociateFraudsterOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fraudster = "Fraudster"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fraudsterDecoded = try containerValues.decodeIfPresent(VoiceIDClientTypes.Fraudster.self, forKey: .fraudster)
+        fraudster = fraudsterDecoded
+    }
+}
+
 extension VoiceIDClientTypes.Domain: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
@@ -1716,6 +2428,7 @@ extension VoiceIDClientTypes.Domain: Swift.Codable {
         case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
         case serverSideEncryptionUpdateDetails = "ServerSideEncryptionUpdateDetails"
         case updatedAt = "UpdatedAt"
+        case watchlistDetails = "WatchlistDetails"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1747,6 +2460,9 @@ extension VoiceIDClientTypes.Domain: Swift.Codable {
         if let updatedAt = self.updatedAt {
             try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
         }
+        if let watchlistDetails = self.watchlistDetails {
+            try encodeContainer.encode(watchlistDetails, forKey: .watchlistDetails)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -1769,12 +2485,14 @@ extension VoiceIDClientTypes.Domain: Swift.Codable {
         updatedAt = updatedAtDecoded
         let serverSideEncryptionUpdateDetailsDecoded = try containerValues.decodeIfPresent(VoiceIDClientTypes.ServerSideEncryptionUpdateDetails.self, forKey: .serverSideEncryptionUpdateDetails)
         serverSideEncryptionUpdateDetails = serverSideEncryptionUpdateDetailsDecoded
+        let watchlistDetailsDecoded = try containerValues.decodeIfPresent(VoiceIDClientTypes.WatchlistDetails.self, forKey: .watchlistDetails)
+        watchlistDetails = watchlistDetailsDecoded
     }
 }
 
 extension VoiceIDClientTypes.Domain: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Domain(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), domainId: \(Swift.String(describing: domainId)), domainStatus: \(Swift.String(describing: domainStatus)), serverSideEncryptionConfiguration: \(Swift.String(describing: serverSideEncryptionConfiguration)), serverSideEncryptionUpdateDetails: \(Swift.String(describing: serverSideEncryptionUpdateDetails)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "Domain(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), domainId: \(Swift.String(describing: domainId)), domainStatus: \(Swift.String(describing: domainStatus)), serverSideEncryptionConfiguration: \(Swift.String(describing: serverSideEncryptionConfiguration)), serverSideEncryptionUpdateDetails: \(Swift.String(describing: serverSideEncryptionUpdateDetails)), updatedAt: \(Swift.String(describing: updatedAt)), watchlistDetails: \(Swift.String(describing: watchlistDetails)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension VoiceIDClientTypes {
@@ -1782,22 +2500,24 @@ extension VoiceIDClientTypes {
     public struct Domain: Swift.Equatable {
         /// The Amazon Resource Name (ARN) for the domain.
         public var arn: Swift.String?
-        /// The timestamp at which the domain is created.
+        /// The timestamp of when the domain was created.
         public var createdAt: ClientRuntime.Date?
-        /// The client-provided description of the domain.
+        /// The description of the domain.
         public var description: Swift.String?
-        /// The service-generated identifier for the domain.
+        /// The identifier of the domain.
         public var domainId: Swift.String?
         /// The current status of the domain.
         public var domainStatus: VoiceIDClientTypes.DomainStatus?
-        /// The client-provided name for the domain.
+        /// The name for the domain.
         public var name: Swift.String?
         /// The server-side encryption configuration containing the KMS key identifier you want Voice ID to use to encrypt your data.
         public var serverSideEncryptionConfiguration: VoiceIDClientTypes.ServerSideEncryptionConfiguration?
         /// Details about the most recent server-side encryption configuration update. When the server-side encryption configuration is changed, dependency on the old KMS key is removed through an asynchronous process. When this update is complete, the domain's data can only be accessed using the new KMS key.
         public var serverSideEncryptionUpdateDetails: VoiceIDClientTypes.ServerSideEncryptionUpdateDetails?
-        /// The timestamp showing the domain's last update.
+        /// The timestamp of when the domain was last update.
         public var updatedAt: ClientRuntime.Date?
+        /// The watchlist details of a domain. Contains the default watchlist ID of the domain.
+        public var watchlistDetails: VoiceIDClientTypes.WatchlistDetails?
 
         public init (
             arn: Swift.String? = nil,
@@ -1808,7 +2528,8 @@ extension VoiceIDClientTypes {
             name: Swift.String? = nil,
             serverSideEncryptionConfiguration: VoiceIDClientTypes.ServerSideEncryptionConfiguration? = nil,
             serverSideEncryptionUpdateDetails: VoiceIDClientTypes.ServerSideEncryptionUpdateDetails? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: ClientRuntime.Date? = nil,
+            watchlistDetails: VoiceIDClientTypes.WatchlistDetails? = nil
         )
         {
             self.arn = arn
@@ -1820,6 +2541,7 @@ extension VoiceIDClientTypes {
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
             self.serverSideEncryptionUpdateDetails = serverSideEncryptionUpdateDetails
             self.updatedAt = updatedAt
+            self.watchlistDetails = watchlistDetails
         }
     }
 
@@ -1871,6 +2593,7 @@ extension VoiceIDClientTypes.DomainSummary: Swift.Codable {
         case serverSideEncryptionConfiguration = "ServerSideEncryptionConfiguration"
         case serverSideEncryptionUpdateDetails = "ServerSideEncryptionUpdateDetails"
         case updatedAt = "UpdatedAt"
+        case watchlistDetails = "WatchlistDetails"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1902,6 +2625,9 @@ extension VoiceIDClientTypes.DomainSummary: Swift.Codable {
         if let updatedAt = self.updatedAt {
             try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
         }
+        if let watchlistDetails = self.watchlistDetails {
+            try encodeContainer.encode(watchlistDetails, forKey: .watchlistDetails)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -1924,12 +2650,14 @@ extension VoiceIDClientTypes.DomainSummary: Swift.Codable {
         updatedAt = updatedAtDecoded
         let serverSideEncryptionUpdateDetailsDecoded = try containerValues.decodeIfPresent(VoiceIDClientTypes.ServerSideEncryptionUpdateDetails.self, forKey: .serverSideEncryptionUpdateDetails)
         serverSideEncryptionUpdateDetails = serverSideEncryptionUpdateDetailsDecoded
+        let watchlistDetailsDecoded = try containerValues.decodeIfPresent(VoiceIDClientTypes.WatchlistDetails.self, forKey: .watchlistDetails)
+        watchlistDetails = watchlistDetailsDecoded
     }
 }
 
 extension VoiceIDClientTypes.DomainSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DomainSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), domainId: \(Swift.String(describing: domainId)), domainStatus: \(Swift.String(describing: domainStatus)), serverSideEncryptionConfiguration: \(Swift.String(describing: serverSideEncryptionConfiguration)), serverSideEncryptionUpdateDetails: \(Swift.String(describing: serverSideEncryptionUpdateDetails)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "DomainSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), domainId: \(Swift.String(describing: domainId)), domainStatus: \(Swift.String(describing: domainStatus)), serverSideEncryptionConfiguration: \(Swift.String(describing: serverSideEncryptionConfiguration)), serverSideEncryptionUpdateDetails: \(Swift.String(describing: serverSideEncryptionUpdateDetails)), updatedAt: \(Swift.String(describing: updatedAt)), watchlistDetails: \(Swift.String(describing: watchlistDetails)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension VoiceIDClientTypes {
@@ -1937,11 +2665,11 @@ extension VoiceIDClientTypes {
     public struct DomainSummary: Swift.Equatable {
         /// The Amazon Resource Name (ARN) for the domain.
         public var arn: Swift.String?
-        /// The timestamp showing when the domain is created.
+        /// The timestamp of when the domain was created.
         public var createdAt: ClientRuntime.Date?
-        /// The client-provided description of the domain.
+        /// The description of the domain.
         public var description: Swift.String?
-        /// The service-generated identifier for the domain.
+        /// The identifier of the domain.
         public var domainId: Swift.String?
         /// The current status of the domain.
         public var domainStatus: VoiceIDClientTypes.DomainStatus?
@@ -1951,8 +2679,10 @@ extension VoiceIDClientTypes {
         public var serverSideEncryptionConfiguration: VoiceIDClientTypes.ServerSideEncryptionConfiguration?
         /// Details about the most recent server-side encryption configuration update. When the server-side encryption configuration is changed, dependency on the old KMS key is removed through an asynchronous process. When this update is complete, the domain's data can only be accessed using the new KMS key.
         public var serverSideEncryptionUpdateDetails: VoiceIDClientTypes.ServerSideEncryptionUpdateDetails?
-        /// The timestamp showing the domain's last update.
+        /// The timestamp of when the domain was last updated.
         public var updatedAt: ClientRuntime.Date?
+        /// Provides information about watchlistDetails and DefaultWatchlistID.
+        public var watchlistDetails: VoiceIDClientTypes.WatchlistDetails?
 
         public init (
             arn: Swift.String? = nil,
@@ -1963,7 +2693,8 @@ extension VoiceIDClientTypes {
             name: Swift.String? = nil,
             serverSideEncryptionConfiguration: VoiceIDClientTypes.ServerSideEncryptionConfiguration? = nil,
             serverSideEncryptionUpdateDetails: VoiceIDClientTypes.ServerSideEncryptionUpdateDetails? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: ClientRuntime.Date? = nil,
+            watchlistDetails: VoiceIDClientTypes.WatchlistDetails? = nil
         )
         {
             self.arn = arn
@@ -1975,6 +2706,7 @@ extension VoiceIDClientTypes {
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
             self.serverSideEncryptionUpdateDetails = serverSideEncryptionUpdateDetails
             self.updatedAt = updatedAt
+            self.watchlistDetails = watchlistDetails
         }
     }
 
@@ -2061,6 +2793,7 @@ extension VoiceIDClientTypes.EnrollmentJobFraudDetectionConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fraudDetectionAction = "FraudDetectionAction"
         case riskThreshold = "RiskThreshold"
+        case watchlistIds = "WatchlistIds"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2071,6 +2804,12 @@ extension VoiceIDClientTypes.EnrollmentJobFraudDetectionConfig: Swift.Codable {
         if let riskThreshold = self.riskThreshold {
             try encodeContainer.encode(riskThreshold, forKey: .riskThreshold)
         }
+        if let watchlistIds = watchlistIds {
+            var watchlistIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .watchlistIds)
+            for watchlistid0 in watchlistIds {
+                try watchlistIdsContainer.encode(watchlistid0)
+            }
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -2079,24 +2818,39 @@ extension VoiceIDClientTypes.EnrollmentJobFraudDetectionConfig: Swift.Codable {
         fraudDetectionAction = fraudDetectionActionDecoded
         let riskThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .riskThreshold)
         riskThreshold = riskThresholdDecoded
+        let watchlistIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .watchlistIds)
+        var watchlistIdsDecoded0:[Swift.String]? = nil
+        if let watchlistIdsContainer = watchlistIdsContainer {
+            watchlistIdsDecoded0 = [Swift.String]()
+            for string0 in watchlistIdsContainer {
+                if let string0 = string0 {
+                    watchlistIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        watchlistIds = watchlistIdsDecoded0
     }
 }
 
 extension VoiceIDClientTypes {
-    /// The configuration defining the action to take when a speaker is flagged by the fraud detection system during a batch speaker enrollment job, and the risk threshold to use for identification.
+    /// The fraud detection configuration to be used during the batch speaker enrollment job.
     public struct EnrollmentJobFraudDetectionConfig: Swift.Equatable {
         /// The action to take when the given speaker is flagged by the fraud detection system. The default value is FAIL, which fails the speaker enrollment. Changing this value to IGNORE results in the speaker being enrolled even if they are flagged by the fraud detection system.
         public var fraudDetectionAction: VoiceIDClientTypes.FraudDetectionAction?
         /// Threshold value for determining whether the speaker is a high risk to be fraudulent. If the detected risk score calculated by Voice ID is greater than or equal to the threshold, the speaker is considered a fraudster.
         public var riskThreshold: Swift.Int?
+        /// The identifier of watchlists against which fraud detection is performed.
+        public var watchlistIds: [Swift.String]?
 
         public init (
             fraudDetectionAction: VoiceIDClientTypes.FraudDetectionAction? = nil,
-            riskThreshold: Swift.Int? = nil
+            riskThreshold: Swift.Int? = nil,
+            watchlistIds: [Swift.String]? = nil
         )
         {
             self.fraudDetectionAction = fraudDetectionAction
             self.riskThreshold = riskThreshold
+            self.watchlistIds = watchlistIds
         }
     }
 
@@ -2241,7 +2995,7 @@ extension EvaluateSessionOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct EvaluateSessionOutputResponse: Swift.Equatable {
     /// Details resulting from the authentication process, such as authentication decision and authentication score.
     public var authenticationResult: VoiceIDClientTypes.AuthenticationResult?
-    /// The identifier of the domain containing the session.
+    /// The identifier of the domain that contains the session.
     public var domainId: Swift.String?
     /// Details resulting from the fraud detection process, such as fraud detection decision and risk score.
     public var fraudDetectionResult: VoiceIDClientTypes.FraudDetectionResult?
@@ -2418,6 +3172,7 @@ extension VoiceIDClientTypes {
 extension VoiceIDClientTypes.FraudDetectionConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case riskThreshold = "RiskThreshold"
+        case watchlistId = "WatchlistId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2425,12 +3180,17 @@ extension VoiceIDClientTypes.FraudDetectionConfiguration: Swift.Codable {
         if let riskThreshold = self.riskThreshold {
             try encodeContainer.encode(riskThreshold, forKey: .riskThreshold)
         }
+        if let watchlistId = self.watchlistId {
+            try encodeContainer.encode(watchlistId, forKey: .watchlistId)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let riskThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .riskThreshold)
         riskThreshold = riskThresholdDecoded
+        let watchlistIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .watchlistId)
+        watchlistId = watchlistIdDecoded
     }
 }
 
@@ -2438,14 +3198,17 @@ extension VoiceIDClientTypes {
     /// The configuration used for performing fraud detection over a speaker during a session.
     public struct FraudDetectionConfiguration: Swift.Equatable {
         /// Threshold value for determining whether the speaker is a fraudster. If the detected risk score calculated by Voice ID is higher than the threshold, the speaker is considered a fraudster.
-        /// This member is required.
         public var riskThreshold: Swift.Int?
+        /// The identifier of the watchlist against which fraud detection is performed.
+        public var watchlistId: Swift.String?
 
         public init (
-            riskThreshold: Swift.Int? = nil
+            riskThreshold: Swift.Int? = nil,
+            watchlistId: Swift.String? = nil
         )
         {
             self.riskThreshold = riskThreshold
+            self.watchlistId = watchlistId
         }
     }
 
@@ -2588,9 +3351,9 @@ extension VoiceIDClientTypes.FraudDetectionResult: Swift.Codable {
 extension VoiceIDClientTypes {
     /// The fraud detection result produced by Voice ID, processed against the current session state and streamed audio of the speaker.
     public struct FraudDetectionResult: Swift.Equatable {
-        /// A timestamp indicating when audio aggregation ended for this fraud detection result.
+        /// A timestamp of when audio aggregation ended for this fraud detection result.
         public var audioAggregationEndedAt: ClientRuntime.Date?
-        /// A timestamp indicating when audio aggregation started for this fraud detection result.
+        /// A timestamp of when audio aggregation started for this fraud detection result.
         public var audioAggregationStartedAt: ClientRuntime.Date?
         /// The FraudDetectionConfiguration used to generate this fraud detection result.
         public var configuration: VoiceIDClientTypes.FraudDetectionConfiguration?
@@ -2677,6 +3440,7 @@ extension VoiceIDClientTypes.Fraudster: Swift.Codable {
         case createdAt = "CreatedAt"
         case domainId = "DomainId"
         case generatedFraudsterId = "GeneratedFraudsterId"
+        case watchlistIds = "WatchlistIds"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2690,6 +3454,12 @@ extension VoiceIDClientTypes.Fraudster: Swift.Codable {
         if let generatedFraudsterId = self.generatedFraudsterId {
             try encodeContainer.encode(generatedFraudsterId, forKey: .generatedFraudsterId)
         }
+        if let watchlistIds = watchlistIds {
+            var watchlistIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .watchlistIds)
+            for watchlistid0 in watchlistIds {
+                try watchlistIdsContainer.encode(watchlistid0)
+            }
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -2700,28 +3470,43 @@ extension VoiceIDClientTypes.Fraudster: Swift.Codable {
         generatedFraudsterId = generatedFraudsterIdDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
         createdAt = createdAtDecoded
+        let watchlistIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .watchlistIds)
+        var watchlistIdsDecoded0:[Swift.String]? = nil
+        if let watchlistIdsContainer = watchlistIdsContainer {
+            watchlistIdsDecoded0 = [Swift.String]()
+            for string0 in watchlistIdsContainer {
+                if let string0 = string0 {
+                    watchlistIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        watchlistIds = watchlistIdsDecoded0
     }
 }
 
 extension VoiceIDClientTypes {
     /// Contains all the information about a fraudster.
     public struct Fraudster: Swift.Equatable {
-        /// The timestamp when Voice ID identified the fraudster.
+        /// The timestamp of when Voice ID identified the fraudster.
         public var createdAt: ClientRuntime.Date?
-        /// The identifier for the domain containing the fraudster.
+        /// The identifier of the domain that contains the fraudster.
         public var domainId: Swift.String?
         /// The service-generated identifier for the fraudster.
         public var generatedFraudsterId: Swift.String?
+        /// The identifier of the watchlists the fraudster is a part of.
+        public var watchlistIds: [Swift.String]?
 
         public init (
             createdAt: ClientRuntime.Date? = nil,
             domainId: Swift.String? = nil,
-            generatedFraudsterId: Swift.String? = nil
+            generatedFraudsterId: Swift.String? = nil,
+            watchlistIds: [Swift.String]? = nil
         )
         {
             self.createdAt = createdAt
             self.domainId = domainId
             self.generatedFraudsterId = generatedFraudsterId
+            self.watchlistIds = watchlistIds
         }
     }
 
@@ -2820,13 +3605,13 @@ extension VoiceIDClientTypes.FraudsterRegistrationJob: Swift.CustomDebugStringCo
 extension VoiceIDClientTypes {
     /// Contains all the information about a fraudster registration job.
     public struct FraudsterRegistrationJob: Swift.Equatable {
-        /// A timestamp showing the creation time of the fraudster registration job.
+        /// A timestamp of when the fraudster registration job was created.
         public var createdAt: ClientRuntime.Date?
         /// The IAM role Amazon Resource Name (ARN) that grants Voice ID permissions to access customer's buckets to read the input manifest file and write the job output file.
         public var dataAccessRoleArn: Swift.String?
-        /// The identifier of the domain containing the fraudster registration job.
+        /// The identifier of the domain that contains the fraudster registration job.
         public var domainId: Swift.String?
-        /// A timestamp showing when the fraudster registration job ended.
+        /// A timestamp of when the fraudster registration job ended.
         public var endedAt: ClientRuntime.Date?
         /// Contains details that are populated when an entire batch job fails. In cases of individual registration job failures, the batch job as a whole doesn't fail; it is completed with a JobStatus of COMPLETED_WITH_ERRORS. You can use the job output file to identify the individual registration requests that failed.
         public var failureDetails: VoiceIDClientTypes.FailureDetails?
@@ -2987,11 +3772,11 @@ extension VoiceIDClientTypes.FraudsterRegistrationJobSummary: Swift.CustomDebugS
 extension VoiceIDClientTypes {
     /// Contains a summary of information about a fraudster registration job.
     public struct FraudsterRegistrationJobSummary: Swift.Equatable {
-        /// A timestamp showing when the fraudster registration job is created.
+        /// A timestamp of when the fraudster registration job was created.
         public var createdAt: ClientRuntime.Date?
-        /// The identifier of the domain containing the fraudster registration job.
+        /// The identifier of the domain that contains the fraudster registration job.
         public var domainId: Swift.String?
-        /// A timestamp showing when the fraudster registration job ended.
+        /// A timestamp of when the fraudster registration job ended.
         public var endedAt: ClientRuntime.Date?
         /// Contains details that are populated when an entire batch job fails. In cases of individual registration job failures, the batch job as a whole doesn't fail; it is completed with a JobStatus of COMPLETED_WITH_ERRORS. You can use the job output file to identify the individual registration requests that failed.
         public var failureDetails: VoiceIDClientTypes.FailureDetails?
@@ -3023,6 +3808,83 @@ extension VoiceIDClientTypes {
             self.jobName = jobName
             self.jobProgress = jobProgress
             self.jobStatus = jobStatus
+        }
+    }
+
+}
+
+extension VoiceIDClientTypes.FraudsterSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAt = "CreatedAt"
+        case domainId = "DomainId"
+        case generatedFraudsterId = "GeneratedFraudsterId"
+        case watchlistIds = "WatchlistIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let domainId = self.domainId {
+            try encodeContainer.encode(domainId, forKey: .domainId)
+        }
+        if let generatedFraudsterId = self.generatedFraudsterId {
+            try encodeContainer.encode(generatedFraudsterId, forKey: .generatedFraudsterId)
+        }
+        if let watchlistIds = watchlistIds {
+            var watchlistIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .watchlistIds)
+            for watchlistid0 in watchlistIds {
+                try watchlistIdsContainer.encode(watchlistid0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainId)
+        domainId = domainIdDecoded
+        let generatedFraudsterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .generatedFraudsterId)
+        generatedFraudsterId = generatedFraudsterIdDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let watchlistIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .watchlistIds)
+        var watchlistIdsDecoded0:[Swift.String]? = nil
+        if let watchlistIdsContainer = watchlistIdsContainer {
+            watchlistIdsDecoded0 = [Swift.String]()
+            for string0 in watchlistIdsContainer {
+                if let string0 = string0 {
+                    watchlistIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        watchlistIds = watchlistIdsDecoded0
+    }
+}
+
+extension VoiceIDClientTypes {
+    /// Contains a summary of information about a fraudster.
+    public struct FraudsterSummary: Swift.Equatable {
+        /// The timestamp of when the fraudster summary was created.
+        public var createdAt: ClientRuntime.Date?
+        /// The identifier of the domain that contains the fraudster summary.
+        public var domainId: Swift.String?
+        /// The service-generated identifier for the fraudster.
+        public var generatedFraudsterId: Swift.String?
+        /// The identifier of the watchlists the fraudster is a part of.
+        public var watchlistIds: [Swift.String]?
+
+        public init (
+            createdAt: ClientRuntime.Date? = nil,
+            domainId: Swift.String? = nil,
+            generatedFraudsterId: Swift.String? = nil,
+            watchlistIds: [Swift.String]? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.domainId = domainId
+            self.generatedFraudsterId = generatedFraudsterId
+            self.watchlistIds = watchlistIds
         }
     }
 
@@ -3224,7 +4086,7 @@ extension ListDomainsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListDomainsInput: Swift.Equatable {
-    /// The maximum number of domains to list per API call.
+    /// The maximum number of results that are returned per call. You can use NextToken to obtain more pages of results. The default is 100; the maximum allowed page size is also 100.
     public var maxResults: Swift.Int?
     /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
     public var nextToken: Swift.String?
@@ -3397,12 +4259,12 @@ extension ListFraudsterRegistrationJobsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListFraudsterRegistrationJobsInput: Swift.Equatable {
-    /// The identifier of the domain containing the fraudster registration Jobs.
+    /// The identifier of the domain that contains the fraudster registration Jobs.
     /// This member is required.
     public var domainId: Swift.String?
     /// Provides the status of your fraudster registration job.
     public var jobStatus: VoiceIDClientTypes.FraudsterRegistrationJobStatus?
-    /// The maximum number of results that are returned per call. You can use NextToken to obtain further pages of results. The default is 100; the maximum allowed page size is also 100.
+    /// The maximum number of results that are returned per call. You can use NextToken to obtain more pages of results. The default is 100; the maximum allowed page size is also 100.
     public var maxResults: Swift.Int?
     /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
     public var nextToken: Swift.String?
@@ -3558,6 +4420,180 @@ extension ListFraudsterRegistrationJobsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListFraudstersInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainId = "DomainId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case watchlistId = "WatchlistId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let domainId = self.domainId {
+            try encodeContainer.encode(domainId, forKey: .domainId)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let watchlistId = self.watchlistId {
+            try encodeContainer.encode(watchlistId, forKey: .watchlistId)
+        }
+    }
+}
+
+extension ListFraudstersInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListFraudstersInput: Swift.Equatable {
+    /// The identifier of the domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The maximum number of results that are returned per call. You can use NextToken to obtain more pages of results. The default is 100; the maximum allowed page size is also 100.
+    public var maxResults: Swift.Int?
+    /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
+    public var nextToken: Swift.String?
+    /// The identifier of the watchlist. If provided, all fraudsters in the watchlist are listed. If not provided, all fraudsters in the domain are listed.
+    public var watchlistId: Swift.String?
+
+    public init (
+        domainId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        watchlistId: Swift.String? = nil
+    )
+    {
+        self.domainId = domainId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.watchlistId = watchlistId
+    }
+}
+
+struct ListFraudstersInputBody: Swift.Equatable {
+    let domainId: Swift.String?
+    let watchlistId: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListFraudstersInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainId = "DomainId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case watchlistId = "WatchlistId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainId)
+        domainId = domainIdDecoded
+        let watchlistIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .watchlistId)
+        watchlistId = watchlistIdDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListFraudstersOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListFraudstersOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListFraudstersOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListFraudstersOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListFraudstersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.fraudsterSummaries = output.fraudsterSummaries
+            self.nextToken = output.nextToken
+        } else {
+            self.fraudsterSummaries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListFraudstersOutputResponse: Swift.Equatable {
+    /// A list that contains details about each fraudster in the Amazon Web Services account.
+    public var fraudsterSummaries: [VoiceIDClientTypes.FraudsterSummary]?
+    /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init (
+        fraudsterSummaries: [VoiceIDClientTypes.FraudsterSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.fraudsterSummaries = fraudsterSummaries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListFraudstersOutputResponseBody: Swift.Equatable {
+    let fraudsterSummaries: [VoiceIDClientTypes.FraudsterSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListFraudstersOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fraudsterSummaries = "FraudsterSummaries"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fraudsterSummariesContainer = try containerValues.decodeIfPresent([VoiceIDClientTypes.FraudsterSummary?].self, forKey: .fraudsterSummaries)
+        var fraudsterSummariesDecoded0:[VoiceIDClientTypes.FraudsterSummary]? = nil
+        if let fraudsterSummariesContainer = fraudsterSummariesContainer {
+            fraudsterSummariesDecoded0 = [VoiceIDClientTypes.FraudsterSummary]()
+            for structure0 in fraudsterSummariesContainer {
+                if let structure0 = structure0 {
+                    fraudsterSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        fraudsterSummaries = fraudsterSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListSpeakerEnrollmentJobsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domainId = "DomainId"
@@ -3590,12 +4626,12 @@ extension ListSpeakerEnrollmentJobsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListSpeakerEnrollmentJobsInput: Swift.Equatable {
-    /// The identifier of the domain containing the speaker enrollment jobs.
+    /// The identifier of the domain that contains the speaker enrollment jobs.
     /// This member is required.
     public var domainId: Swift.String?
     /// Provides the status of your speaker enrollment Job.
     public var jobStatus: VoiceIDClientTypes.SpeakerEnrollmentJobStatus?
-    /// The maximum number of results that are returned per call. You can use NextToken to obtain further pages of results. The default is 100; the maximum allowed page size is also 100.
+    /// The maximum number of results that are returned per call. You can use NextToken to obtain more pages of results. The default is 100; the maximum allowed page size is also 100.
     public var maxResults: Swift.Int?
     /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
     public var nextToken: Swift.String?
@@ -3782,7 +4818,7 @@ public struct ListSpeakersInput: Swift.Equatable {
     /// The identifier of the domain.
     /// This member is required.
     public var domainId: Swift.String?
-    /// The maximum number of results that are returned per call. You can use NextToken to obtain further pages of results. The default is 100; the maximum allowed page size is also 100.
+    /// The maximum number of results that are returned per call. You can use NextToken to obtain more pages of results. The default is 100; the maximum allowed page size is also 100.
     public var maxResults: Swift.Int?
     /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
     public var nextToken: Swift.String?
@@ -4079,6 +5115,168 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListWatchlistsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainId = "DomainId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let domainId = self.domainId {
+            try encodeContainer.encode(domainId, forKey: .domainId)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListWatchlistsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListWatchlistsInput: Swift.Equatable {
+    /// The identifier of the domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The maximum number of results that are returned per call. You can use NextToken to obtain more pages of results. The default is 100; the maximum allowed page size is also 100.
+    public var maxResults: Swift.Int?
+    /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init (
+        domainId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.domainId = domainId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListWatchlistsInputBody: Swift.Equatable {
+    let domainId: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListWatchlistsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainId = "DomainId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainId)
+        domainId = domainIdDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListWatchlistsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListWatchlistsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListWatchlistsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListWatchlistsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListWatchlistsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.watchlistSummaries = output.watchlistSummaries
+        } else {
+            self.nextToken = nil
+            self.watchlistSummaries = nil
+        }
+    }
+}
+
+public struct ListWatchlistsOutputResponse: Swift.Equatable {
+    /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
+    public var nextToken: Swift.String?
+    /// A list that contains details about each watchlist in the Amazon Web Services account.
+    public var watchlistSummaries: [VoiceIDClientTypes.WatchlistSummary]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        watchlistSummaries: [VoiceIDClientTypes.WatchlistSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.watchlistSummaries = watchlistSummaries
+    }
+}
+
+struct ListWatchlistsOutputResponseBody: Swift.Equatable {
+    let watchlistSummaries: [VoiceIDClientTypes.WatchlistSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListWatchlistsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case watchlistSummaries = "WatchlistSummaries"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let watchlistSummariesContainer = try containerValues.decodeIfPresent([VoiceIDClientTypes.WatchlistSummary?].self, forKey: .watchlistSummaries)
+        var watchlistSummariesDecoded0:[VoiceIDClientTypes.WatchlistSummary]? = nil
+        if let watchlistSummariesContainer = watchlistSummariesContainer {
+            watchlistSummariesDecoded0 = [VoiceIDClientTypes.WatchlistSummary]()
+            for structure0 in watchlistSummariesContainer {
+                if let structure0 = structure0 {
+                    watchlistSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        watchlistSummaries = watchlistSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension OptOutSpeakerInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "OptOutSpeakerInput(domainId: \(Swift.String(describing: domainId)), speakerId: \"CONTENT_REDACTED\")"}
@@ -4108,7 +5306,7 @@ extension OptOutSpeakerInput: ClientRuntime.URLPathProvider {
 }
 
 public struct OptOutSpeakerInput: Swift.Equatable {
-    /// The identifier of the domain containing the speaker.
+    /// The identifier of the domain that contains the speaker.
     /// This member is required.
     public var domainId: Swift.String?
     /// The identifier of the speaker you want opted-out.
@@ -4291,6 +5489,7 @@ extension VoiceIDClientTypes.RegistrationConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case duplicateRegistrationAction = "DuplicateRegistrationAction"
         case fraudsterSimilarityThreshold = "FraudsterSimilarityThreshold"
+        case watchlistIds = "WatchlistIds"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -4301,6 +5500,12 @@ extension VoiceIDClientTypes.RegistrationConfig: Swift.Codable {
         if let fraudsterSimilarityThreshold = self.fraudsterSimilarityThreshold {
             try encodeContainer.encode(fraudsterSimilarityThreshold, forKey: .fraudsterSimilarityThreshold)
         }
+        if let watchlistIds = watchlistIds {
+            var watchlistIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .watchlistIds)
+            for watchlistid0 in watchlistIds {
+                try watchlistIdsContainer.encode(watchlistid0)
+            }
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -4309,24 +5514,39 @@ extension VoiceIDClientTypes.RegistrationConfig: Swift.Codable {
         duplicateRegistrationAction = duplicateRegistrationActionDecoded
         let fraudsterSimilarityThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fraudsterSimilarityThreshold)
         fraudsterSimilarityThreshold = fraudsterSimilarityThresholdDecoded
+        let watchlistIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .watchlistIds)
+        var watchlistIdsDecoded0:[Swift.String]? = nil
+        if let watchlistIdsContainer = watchlistIdsContainer {
+            watchlistIdsDecoded0 = [Swift.String]()
+            for string0 in watchlistIdsContainer {
+                if let string0 = string0 {
+                    watchlistIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        watchlistIds = watchlistIdsDecoded0
     }
 }
 
 extension VoiceIDClientTypes {
-    /// The configuration defining the action to take when a duplicate fraudster is detected, and the similarity threshold to use for detecting a duplicate fraudster during a batch fraudster registration job.
+    /// The registration configuration to be used during the batch fraudster registration job.
     public struct RegistrationConfig: Swift.Equatable {
         /// The action to take when a fraudster is identified as a duplicate. The default action is SKIP, which skips registering the duplicate fraudster. Setting the value to REGISTER_AS_NEW always registers a new fraudster into the specified domain.
         public var duplicateRegistrationAction: VoiceIDClientTypes.DuplicateRegistrationAction?
         /// The minimum similarity score between the new and old fraudsters in order to consider the new fraudster a duplicate.
         public var fraudsterSimilarityThreshold: Swift.Int?
+        /// The identifiers of watchlists that a fraudster is registered to. If a watchlist isn't provided, the fraudsters are registered to the default watchlist.
+        public var watchlistIds: [Swift.String]?
 
         public init (
             duplicateRegistrationAction: VoiceIDClientTypes.DuplicateRegistrationAction? = nil,
-            fraudsterSimilarityThreshold: Swift.Int? = nil
+            fraudsterSimilarityThreshold: Swift.Int? = nil,
+            watchlistIds: [Swift.String]? = nil
         )
         {
             self.duplicateRegistrationAction = duplicateRegistrationAction
             self.fraudsterSimilarityThreshold = fraudsterSimilarityThreshold
+            self.watchlistIds = watchlistIds
         }
     }
 
@@ -4405,6 +5625,7 @@ extension VoiceIDClientTypes {
         case fraudster
         case session
         case speaker
+        case watchlist
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceType] {
@@ -4415,6 +5636,7 @@ extension VoiceIDClientTypes {
                 .fraudster,
                 .session,
                 .speaker,
+                .watchlist,
                 .sdkUnknown("")
             ]
         }
@@ -4430,6 +5652,7 @@ extension VoiceIDClientTypes {
             case .fraudster: return "FRAUDSTER"
             case .session: return "SESSION"
             case .speaker: return "SPEAKER"
+            case .watchlist: return "WATCHLIST"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4685,7 +5908,7 @@ extension VoiceIDClientTypes.Speaker: Swift.CustomDebugStringConvertible {
 extension VoiceIDClientTypes {
     /// Contains all the information about a speaker.
     public struct Speaker: Swift.Equatable {
-        /// A timestamp showing when the speaker is created.
+        /// A timestamp of when the speaker was created.
         public var createdAt: ClientRuntime.Date?
         /// The client-provided identifier for the speaker.
         public var customerSpeakerId: Swift.String?
@@ -4693,11 +5916,11 @@ extension VoiceIDClientTypes {
         public var domainId: Swift.String?
         /// The service-generated identifier for the speaker.
         public var generatedSpeakerId: Swift.String?
-        /// The timestamp when the speaker was last accessed for enrollment, re-enrollment or a successful authentication. This timestamp is accurate to one hour.
+        /// The timestamp of when the speaker was last accessed for enrollment, re-enrollment or a successful authentication. This timestamp is accurate to one hour.
         public var lastAccessedAt: ClientRuntime.Date?
         /// The current status of the speaker.
         public var status: VoiceIDClientTypes.SpeakerStatus?
-        /// A timestamp showing the speaker's last update.
+        /// A timestamp of the speaker's last update.
         public var updatedAt: ClientRuntime.Date?
 
         public init (
@@ -4815,13 +6038,13 @@ extension VoiceIDClientTypes.SpeakerEnrollmentJob: Swift.CustomDebugStringConver
 extension VoiceIDClientTypes {
     /// Contains all the information about a speaker enrollment job.
     public struct SpeakerEnrollmentJob: Swift.Equatable {
-        /// A timestamp showing the creation of the speaker enrollment job.
+        /// A timestamp of when the speaker enrollment job was created.
         public var createdAt: ClientRuntime.Date?
         /// The IAM role Amazon Resource Name (ARN) that grants Voice ID permissions to access customer's buckets to read the input manifest file and write the job output file.
         public var dataAccessRoleArn: Swift.String?
         /// The identifier of the domain that contains the speaker enrollment job.
         public var domainId: Swift.String?
-        /// A timestamp showing when the speaker enrollment job ended.
+        /// A timestamp of when the speaker enrollment job ended.
         public var endedAt: ClientRuntime.Date?
         /// The configuration that defines the action to take when the speaker is already enrolled in Voice ID, and the FraudDetectionConfig to use.
         public var enrollmentConfig: VoiceIDClientTypes.EnrollmentConfig?
@@ -4982,11 +6205,11 @@ extension VoiceIDClientTypes.SpeakerEnrollmentJobSummary: Swift.CustomDebugStrin
 extension VoiceIDClientTypes {
     /// Contains a summary of information about a speaker enrollment job.
     public struct SpeakerEnrollmentJobSummary: Swift.Equatable {
-        /// A timestamp showing the creation time of the speaker enrollment job.
+        /// A timestamp of when of the speaker enrollment job was created.
         public var createdAt: ClientRuntime.Date?
         /// The identifier of the domain that contains the speaker enrollment job.
         public var domainId: Swift.String?
-        /// A timestamp showing when the speaker enrollment job ended.
+        /// A timestamp of when the speaker enrollment job ended.
         public var endedAt: ClientRuntime.Date?
         /// Contains details that are populated when an entire batch job fails. In cases of individual registration job failures, the batch job as a whole doesn't fail; it is completed with a JobStatus of COMPLETED_WITH_ERRORS. You can use the job output file to identify the individual registration requests that failed.
         public var failureDetails: VoiceIDClientTypes.FailureDetails?
@@ -5210,12 +6433,12 @@ extension StartFraudsterRegistrationJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartFraudsterRegistrationJobInput: Swift.Equatable {
-    /// The idempotency token for starting a new fraudster registration job. If not provided, Amazon Web Services SDK populates this field.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The IAM role Amazon Resource Name (ARN) that grants Voice ID permissions to access customer's buckets to read the input manifest file and write the Job output file. Refer to the [Create and edit a fraudster watchlist](https://docs.aws.amazon.com/connect/latest/adminguide/voiceid-fraudster-watchlist.html) documentation for the permissions needed in this role.
     /// This member is required.
     public var dataAccessRoleArn: Swift.String?
-    /// The identifier of the domain containing the fraudster registration job and in which the fraudsters are registered.
+    /// The identifier of the domain that contains the fraudster registration job and in which the fraudsters are registered.
     /// This member is required.
     public var domainId: Swift.String?
     /// The input data config containing an S3 URI for the input manifest file that contains the list of fraudster registration requests.
@@ -5434,7 +6657,7 @@ extension StartSpeakerEnrollmentJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartSpeakerEnrollmentJobInput: Swift.Equatable {
-    /// The idempotency token for starting a new speaker enrollment Job. If not provided, Amazon Web Services SDK populates this field.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The IAM role Amazon Resource Name (ARN) that grants Voice ID permissions to access customer's buckets to read the input manifest file and write the job output file. Refer to [Batch enrollment using audio data from prior calls](https://docs.aws.amazon.com/connect/latest/adminguide/voiceid-batch-enrollment.html) for the permissions needed in this role.
     /// This member is required.
@@ -6058,7 +7281,7 @@ extension UpdateDomainInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateDomainInput: Swift.Equatable {
-    /// A brief description of the domain.
+    /// A brief description about this domain.
     public var description: Swift.String?
     /// The identifier of the domain to be updated.
     /// This member is required.
@@ -6205,6 +7428,169 @@ extension UpdateDomainOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateWatchlistInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateWatchlistInput(domainId: \(Swift.String(describing: domainId)), watchlistId: \(Swift.String(describing: watchlistId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension UpdateWatchlistInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case domainId = "DomainId"
+        case name = "Name"
+        case watchlistId = "WatchlistId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let domainId = self.domainId {
+            try encodeContainer.encode(domainId, forKey: .domainId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let watchlistId = self.watchlistId {
+            try encodeContainer.encode(watchlistId, forKey: .watchlistId)
+        }
+    }
+}
+
+extension UpdateWatchlistInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateWatchlistInput: Swift.Equatable {
+    /// A brief description about this watchlist.
+    public var description: Swift.String?
+    /// The identifier of the domain that contains the watchlist.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The name of the watchlist.
+    public var name: Swift.String?
+    /// The identifier of the watchlist to be updated.
+    /// This member is required.
+    public var watchlistId: Swift.String?
+
+    public init (
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        watchlistId: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.domainId = domainId
+        self.name = name
+        self.watchlistId = watchlistId
+    }
+}
+
+struct UpdateWatchlistInputBody: Swift.Equatable {
+    let domainId: Swift.String?
+    let watchlistId: Swift.String?
+    let name: Swift.String?
+    let description: Swift.String?
+}
+
+extension UpdateWatchlistInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case domainId = "DomainId"
+        case name = "Name"
+        case watchlistId = "WatchlistId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainId)
+        domainId = domainIdDecoded
+        let watchlistIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .watchlistId)
+        watchlistId = watchlistIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension UpdateWatchlistOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateWatchlistOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateWatchlistOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateWatchlistOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateWatchlistOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.watchlist = output.watchlist
+        } else {
+            self.watchlist = nil
+        }
+    }
+}
+
+public struct UpdateWatchlistOutputResponse: Swift.Equatable {
+    /// Details about the updated watchlist.
+    public var watchlist: VoiceIDClientTypes.Watchlist?
+
+    public init (
+        watchlist: VoiceIDClientTypes.Watchlist? = nil
+    )
+    {
+        self.watchlist = watchlist
+    }
+}
+
+struct UpdateWatchlistOutputResponseBody: Swift.Equatable {
+    let watchlist: VoiceIDClientTypes.Watchlist?
+}
+
+extension UpdateWatchlistOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case watchlist = "Watchlist"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let watchlistDecoded = try containerValues.decodeIfPresent(VoiceIDClientTypes.Watchlist.self, forKey: .watchlist)
+        watchlist = watchlistDecoded
+    }
+}
+
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -6291,6 +7677,242 @@ extension VoiceIDClientTypes {
         )
         {
             self.riskScore = riskScore
+        }
+    }
+
+}
+
+extension VoiceIDClientTypes.Watchlist: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAt = "CreatedAt"
+        case defaultWatchlist = "DefaultWatchlist"
+        case description = "Description"
+        case domainId = "DomainId"
+        case name = "Name"
+        case updatedAt = "UpdatedAt"
+        case watchlistId = "WatchlistId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if defaultWatchlist != false {
+            try encodeContainer.encode(defaultWatchlist, forKey: .defaultWatchlist)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let domainId = self.domainId {
+            try encodeContainer.encode(domainId, forKey: .domainId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
+        }
+        if let watchlistId = self.watchlistId {
+            try encodeContainer.encode(watchlistId, forKey: .watchlistId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainId)
+        domainId = domainIdDecoded
+        let watchlistIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .watchlistId)
+        watchlistId = watchlistIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let defaultWatchlistDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultWatchlist) ?? false
+        defaultWatchlist = defaultWatchlistDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+    }
+}
+
+extension VoiceIDClientTypes.Watchlist: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Watchlist(createdAt: \(Swift.String(describing: createdAt)), defaultWatchlist: \(Swift.String(describing: defaultWatchlist)), domainId: \(Swift.String(describing: domainId)), updatedAt: \(Swift.String(describing: updatedAt)), watchlistId: \(Swift.String(describing: watchlistId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension VoiceIDClientTypes {
+    /// Contains all the information about a watchlist.
+    public struct Watchlist: Swift.Equatable {
+        /// The timestamp of when the watchlist was created.
+        public var createdAt: ClientRuntime.Date?
+        /// Whether the specified watchlist is the default watchlist of a domain.
+        public var defaultWatchlist: Swift.Bool
+        /// The description of the watchlist.
+        public var description: Swift.String?
+        /// The identifier of the domain that contains the watchlist.
+        public var domainId: Swift.String?
+        /// The name for the watchlist.
+        public var name: Swift.String?
+        /// The timestamp of when the watchlist was updated.
+        public var updatedAt: ClientRuntime.Date?
+        /// The identifier of the watchlist.
+        public var watchlistId: Swift.String?
+
+        public init (
+            createdAt: ClientRuntime.Date? = nil,
+            defaultWatchlist: Swift.Bool = false,
+            description: Swift.String? = nil,
+            domainId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            updatedAt: ClientRuntime.Date? = nil,
+            watchlistId: Swift.String? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.defaultWatchlist = defaultWatchlist
+            self.description = description
+            self.domainId = domainId
+            self.name = name
+            self.updatedAt = updatedAt
+            self.watchlistId = watchlistId
+        }
+    }
+
+}
+
+extension VoiceIDClientTypes.WatchlistDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultWatchlistId = "DefaultWatchlistId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultWatchlistId = self.defaultWatchlistId {
+            try encodeContainer.encode(defaultWatchlistId, forKey: .defaultWatchlistId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let defaultWatchlistIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultWatchlistId)
+        defaultWatchlistId = defaultWatchlistIdDecoded
+    }
+}
+
+extension VoiceIDClientTypes {
+    /// Details of the watchlists in a domain.
+    public struct WatchlistDetails: Swift.Equatable {
+        /// The identifier of the default watchlist.
+        /// This member is required.
+        public var defaultWatchlistId: Swift.String?
+
+        public init (
+            defaultWatchlistId: Swift.String? = nil
+        )
+        {
+            self.defaultWatchlistId = defaultWatchlistId
+        }
+    }
+
+}
+
+extension VoiceIDClientTypes.WatchlistSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAt = "CreatedAt"
+        case defaultWatchlist = "DefaultWatchlist"
+        case description = "Description"
+        case domainId = "DomainId"
+        case name = "Name"
+        case updatedAt = "UpdatedAt"
+        case watchlistId = "WatchlistId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if defaultWatchlist != false {
+            try encodeContainer.encode(defaultWatchlist, forKey: .defaultWatchlist)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let domainId = self.domainId {
+            try encodeContainer.encode(domainId, forKey: .domainId)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
+        }
+        if let watchlistId = self.watchlistId {
+            try encodeContainer.encode(watchlistId, forKey: .watchlistId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainId)
+        domainId = domainIdDecoded
+        let watchlistIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .watchlistId)
+        watchlistId = watchlistIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let defaultWatchlistDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultWatchlist) ?? false
+        defaultWatchlist = defaultWatchlistDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+    }
+}
+
+extension VoiceIDClientTypes.WatchlistSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WatchlistSummary(createdAt: \(Swift.String(describing: createdAt)), defaultWatchlist: \(Swift.String(describing: defaultWatchlist)), domainId: \(Swift.String(describing: domainId)), updatedAt: \(Swift.String(describing: updatedAt)), watchlistId: \(Swift.String(describing: watchlistId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension VoiceIDClientTypes {
+    /// Contains a summary of information about a watchlist.
+    public struct WatchlistSummary: Swift.Equatable {
+        /// The timestamp of when the watchlist was created.
+        public var createdAt: ClientRuntime.Date?
+        /// Whether the specified watchlist is the default watchlist of a domain.
+        public var defaultWatchlist: Swift.Bool
+        /// The description of the watchlist.
+        public var description: Swift.String?
+        /// The identifier of the domain that contains the watchlist.
+        public var domainId: Swift.String?
+        /// The name for the watchlist.
+        public var name: Swift.String?
+        /// The timestamp of when the watchlist was last updated.
+        public var updatedAt: ClientRuntime.Date?
+        /// The identifier of the watchlist.
+        public var watchlistId: Swift.String?
+
+        public init (
+            createdAt: ClientRuntime.Date? = nil,
+            defaultWatchlist: Swift.Bool = false,
+            description: Swift.String? = nil,
+            domainId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            updatedAt: ClientRuntime.Date? = nil,
+            watchlistId: Swift.String? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.defaultWatchlist = defaultWatchlist
+            self.description = description
+            self.domainId = domainId
+            self.name = name
+            self.updatedAt = updatedAt
+            self.watchlistId = watchlistId
         }
     }
 

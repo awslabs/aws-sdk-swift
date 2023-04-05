@@ -22,7 +22,7 @@ extension ServiceCatalogAppRegistryClientTypes.AppRegistryConfiguration: Swift.C
 }
 
 extension ServiceCatalogAppRegistryClientTypes {
-    /// Includes all of the Service Catalog AppRegistry settings.
+    /// Includes all of the AppRegistry settings.
     public struct AppRegistryConfiguration: Swift.Equatable {
         /// Includes the definition of a tagQuery.
         public var tagQueryConfiguration: ServiceCatalogAppRegistryClientTypes.TagQueryConfiguration?
@@ -242,10 +242,10 @@ extension AssociateAttributeGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateAttributeGroupInput: Swift.Equatable {
-    /// The name or ID of the application.
+    /// The name, ID, or ARN of the application.
     /// This member is required.
     public var application: Swift.String?
-    /// The name or ID of the attribute group that holds the attributes to describe the application.
+    /// The name, ID, or ARN of the attribute group that holds the attributes to describe the application.
     /// This member is required.
     public var attributeGroup: Swift.String?
 
@@ -384,7 +384,7 @@ extension AssociateResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateResourceInput: Swift.Equatable {
-    /// The name or ID of the application.
+    /// The name, ID, or ARN of the application.
     /// This member is required.
     public var application: Swift.String?
     /// The name or ID of the resource of which the application will be associated.
@@ -430,6 +430,7 @@ extension AssociateResourceOutputError {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -441,6 +442,7 @@ public enum AssociateResourceOutputError: Swift.Error, Swift.Equatable {
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -625,6 +627,7 @@ extension ServiceCatalogAppRegistryClientTypes {
 extension ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
+        case createdBy
         case id
         case name
     }
@@ -633,6 +636,9 @@ extension ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails: Swift.Coda
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let createdBy = self.createdBy {
+            try encodeContainer.encode(createdBy, forKey: .createdBy)
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
@@ -650,6 +656,8 @@ extension ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails: Swift.Coda
         arn = arnDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdBy)
+        createdBy = createdByDecoded
     }
 }
 
@@ -658,6 +666,8 @@ extension ServiceCatalogAppRegistryClientTypes {
     public struct AttributeGroupDetails: Swift.Equatable {
         /// The Amazon resource name (ARN) that specifies the attribute group.
         public var arn: Swift.String?
+        /// The service principal that created the attribute group.
+        public var createdBy: Swift.String?
         /// The unique identifier of the attribute group.
         public var id: Swift.String?
         /// This field is no longer supported. We recommend you don't use the field when using ListAttributeGroupsForApplication. The name of the attribute group.
@@ -666,11 +676,13 @@ extension ServiceCatalogAppRegistryClientTypes {
 
         public init (
             arn: Swift.String? = nil,
+            createdBy: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil
         )
         {
             self.arn = arn
+            self.createdBy = createdBy
             self.id = id
             self.name = name
         }
@@ -681,6 +693,7 @@ extension ServiceCatalogAppRegistryClientTypes {
 extension ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
+        case createdBy
         case creationTime
         case description
         case id
@@ -692,6 +705,9 @@ extension ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary: Swift.Coda
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let createdBy = self.createdBy {
+            try encodeContainer.encode(createdBy, forKey: .createdBy)
         }
         if let creationTime = self.creationTime {
             try encodeContainer.encodeTimestamp(creationTime, format: .dateTime, forKey: .creationTime)
@@ -724,6 +740,8 @@ extension ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary: Swift.Coda
         creationTime = creationTimeDecoded
         let lastUpdateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdateTime)
         lastUpdateTime = lastUpdateTimeDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdBy)
+        createdBy = createdByDecoded
     }
 }
 
@@ -732,6 +750,8 @@ extension ServiceCatalogAppRegistryClientTypes {
     public struct AttributeGroupSummary: Swift.Equatable {
         /// The Amazon resource name (ARN) that specifies the attribute group across services.
         public var arn: Swift.String?
+        /// The service principal that created the attribute group.
+        public var createdBy: Swift.String?
         /// The ISO-8601 formatted timestamp of the moment the attribute group was created.
         public var creationTime: ClientRuntime.Date?
         /// The description of the attribute group that the user provides.
@@ -745,6 +765,7 @@ extension ServiceCatalogAppRegistryClientTypes {
 
         public init (
             arn: Swift.String? = nil,
+            createdBy: Swift.String? = nil,
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -753,6 +774,7 @@ extension ServiceCatalogAppRegistryClientTypes {
         )
         {
             self.arn = arn
+            self.createdBy = createdBy
             self.creationTime = creationTime
             self.description = description
             self.id = id
@@ -929,6 +951,7 @@ extension CreateApplicationOutputError {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -939,6 +962,7 @@ public enum CreateApplicationOutputError: Swift.Error, Swift.Equatable {
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
     case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -1209,7 +1233,7 @@ extension DeleteApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteApplicationInput: Swift.Equatable {
-    /// The name or ID of the application.
+    /// The name, ID, or ARN of the application.
     /// This member is required.
     public var application: Swift.String?
 
@@ -1324,7 +1348,7 @@ extension DeleteAttributeGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAttributeGroupInput: Swift.Equatable {
-    /// The name or ID of the attribute group that holds the attributes to describe the application.
+    /// The name, ID, or ARN of the attribute group that holds the attributes to describe the application.
     /// This member is required.
     public var attributeGroup: Swift.String?
 
@@ -1442,10 +1466,10 @@ extension DisassociateAttributeGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DisassociateAttributeGroupInput: Swift.Equatable {
-    /// The name or ID of the application.
+    /// The name, ID, or ARN of the application.
     /// This member is required.
     public var application: Swift.String?
-    /// The name or ID of the attribute group that holds the attributes to describe the application.
+    /// The name, ID, or ARN of the attribute group that holds the attributes to describe the application.
     /// This member is required.
     public var attributeGroup: Swift.String?
 
@@ -1622,6 +1646,7 @@ extension DisassociateResourceOutputError {
         switch errorType {
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -1631,6 +1656,7 @@ extension DisassociateResourceOutputError {
 public enum DisassociateResourceOutputError: Swift.Error, Swift.Equatable {
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -1713,7 +1739,7 @@ extension GetApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetApplicationInput: Swift.Equatable {
-    /// The name or ID of the application.
+    /// The name, ID, or ARN of the application.
     /// This member is required.
     public var application: Swift.String?
 
@@ -1926,7 +1952,7 @@ extension GetAssociatedResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetAssociatedResourceInput: Swift.Equatable {
-    /// The name or ID of the application.
+    /// The name, ID, or ARN of the application.
     /// This member is required.
     public var application: Swift.String?
     /// The name or ID of the resource associated with the application.
@@ -2051,7 +2077,7 @@ extension GetAttributeGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetAttributeGroupInput: Swift.Equatable {
-    /// The name or ID of the attribute group that holds the attributes to describe the application.
+    /// The name, ID, or ARN of the attribute group that holds the attributes to describe the application.
     /// This member is required.
     public var attributeGroup: Swift.String?
 
@@ -2126,6 +2152,7 @@ extension GetAttributeGroupOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: GetAttributeGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.attributes = output.attributes
+            self.createdBy = output.createdBy
             self.creationTime = output.creationTime
             self.description = output.description
             self.id = output.id
@@ -2135,6 +2162,7 @@ extension GetAttributeGroupOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.arn = nil
             self.attributes = nil
+            self.createdBy = nil
             self.creationTime = nil
             self.description = nil
             self.id = nil
@@ -2150,6 +2178,8 @@ public struct GetAttributeGroupOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// A JSON string in the form of nested key-value pairs that represent the attributes in the group and describes an application and its components.
     public var attributes: Swift.String?
+    /// The service principal that created the attribute group.
+    public var createdBy: Swift.String?
     /// The ISO-8601 formatted timestamp of the moment the attribute group was created.
     public var creationTime: ClientRuntime.Date?
     /// The description of the attribute group that the user provides.
@@ -2166,6 +2196,7 @@ public struct GetAttributeGroupOutputResponse: Swift.Equatable {
     public init (
         arn: Swift.String? = nil,
         attributes: Swift.String? = nil,
+        createdBy: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
@@ -2176,6 +2207,7 @@ public struct GetAttributeGroupOutputResponse: Swift.Equatable {
     {
         self.arn = arn
         self.attributes = attributes
+        self.createdBy = createdBy
         self.creationTime = creationTime
         self.description = description
         self.id = id
@@ -2194,12 +2226,14 @@ struct GetAttributeGroupOutputResponseBody: Swift.Equatable {
     let creationTime: ClientRuntime.Date?
     let lastUpdateTime: ClientRuntime.Date?
     let tags: [Swift.String:Swift.String]?
+    let createdBy: Swift.String?
 }
 
 extension GetAttributeGroupOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case attributes
+        case createdBy
         case creationTime
         case description
         case id
@@ -2235,6 +2269,8 @@ extension GetAttributeGroupOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let createdByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdBy)
+        createdBy = createdByDecoded
     }
 }
 
@@ -2760,7 +2796,7 @@ extension ListAssociatedResourcesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAssociatedResourcesInput: Swift.Equatable {
-    /// The name or ID of the application.
+    /// The name, ID, or ARN of the application.
     /// This member is required.
     public var application: Swift.String?
     /// The upper bound of the number of results to return (cannot exceed 25). If this parameter is omitted, it defaults to 25. This value is optional.
@@ -3950,6 +3986,8 @@ extension SyncResourceOutputError {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -3959,6 +3997,8 @@ public enum SyncResourceOutputError: Swift.Error, Swift.Equatable {
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -4196,6 +4236,70 @@ public struct TagResourceOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension ThrottlingException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+            self.serviceCode = output.serviceCode
+        } else {
+            self.message = nil
+            self.serviceCode = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The maximum number of API requests has been exceeded.
+public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// A message associated with the Throttling exception.
+    /// This member is required.
+    public var message: Swift.String?
+    /// The originating service code.
+    public var serviceCode: Swift.String?
+
+    public init (
+        message: Swift.String? = nil,
+        serviceCode: Swift.String? = nil
+    )
+    {
+        self.message = message
+        self.serviceCode = serviceCode
+    }
+}
+
+struct ThrottlingExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let serviceCode: Swift.String?
+}
+
+extension ThrottlingExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case serviceCode
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let serviceCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceCode)
+        serviceCode = serviceCodeDecoded
+    }
+}
+
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -4329,7 +4433,7 @@ extension UpdateApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateApplicationInput: Swift.Equatable {
-    /// The name or ID of the application that will be updated.
+    /// The name, ID, or ARN of the application that will be updated.
     /// This member is required.
     public var application: Swift.String?
     /// The new description of the application.
@@ -4384,6 +4488,7 @@ extension UpdateApplicationOutputError {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -4394,6 +4499,7 @@ public enum UpdateApplicationOutputError: Swift.Error, Swift.Equatable {
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -4488,7 +4594,7 @@ extension UpdateAttributeGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateAttributeGroupInput: Swift.Equatable {
-    /// The name or ID of the attribute group that holds the attributes to describe the application.
+    /// The name, ID, or ARN of the attribute group that holds the attributes to describe the application.
     /// This member is required.
     public var attributeGroup: Swift.String?
     /// A JSON string in the form of nested key-value pairs that represent the attributes in the group and describes an application and its components.

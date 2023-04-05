@@ -1223,7 +1223,7 @@ extension DeleteAlarmsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAlarmsInput: Swift.Equatable {
-    /// The alarms to be deleted.
+    /// The alarms to be deleted. Do not enclose the alarm names in quote marks.
     /// This member is required.
     public var alarmNames: [Swift.String]?
 
@@ -3176,10 +3176,10 @@ extension CloudWatchClientTypes.Dimension: Swift.Codable {
 extension CloudWatchClientTypes {
     /// A dimension is a name/value pair that is part of the identity of a metric. Because dimensions are part of the unique identifier for a metric, whenever you add a unique name/value pair to one of your metrics, you are creating a new variation of that metric. For example, many Amazon EC2 metrics publish InstanceId as a dimension name, and the actual instance ID as the value for that dimension. You can assign up to 30 dimensions to a metric.
     public struct Dimension: Swift.Equatable {
-        /// The name of the dimension. Dimension names must contain only ASCII characters, must include at least one non-whitespace character, and cannot start with a colon (:).
+        /// The name of the dimension. Dimension names must contain only ASCII characters, must include at least one non-whitespace character, and cannot start with a colon (:). ASCII control characters are not supported as part of dimension names.
         /// This member is required.
         public var name: Swift.String?
-        /// The value of the dimension. Dimension values must contain only ASCII characters and must include at least one non-whitespace character.
+        /// The value of the dimension. Dimension values must contain only ASCII characters and must include at least one non-whitespace character. ASCII control characters are not supported as part of dimension values.
         /// This member is required.
         public var value: Swift.String?
 
@@ -6744,7 +6744,7 @@ extension ListMetricsInput: Swift.Encodable {
                 try dimensionsContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if includeLinkedAccounts != false {
+        if let includeLinkedAccounts = includeLinkedAccounts {
             try container.encode(includeLinkedAccounts, forKey: ClientRuntime.Key("IncludeLinkedAccounts"))
         }
         if let metricName = metricName {
@@ -6777,7 +6777,7 @@ public struct ListMetricsInput: Swift.Equatable {
     /// The dimensions to filter against. Only the dimensions that match exactly will be returned.
     public var dimensions: [CloudWatchClientTypes.DimensionFilter]?
     /// If you are using this operation in a monitoring account, specify true to include metrics from source accounts in the returned data. The default is false.
-    public var includeLinkedAccounts: Swift.Bool
+    public var includeLinkedAccounts: Swift.Bool?
     /// The name of the metric to filter against. Only the metrics with names that match exactly will be returned.
     public var metricName: Swift.String?
     /// The metric namespace to filter against. Only the namespace that matches exactly will be returned.
@@ -6791,7 +6791,7 @@ public struct ListMetricsInput: Swift.Equatable {
 
     public init (
         dimensions: [CloudWatchClientTypes.DimensionFilter]? = nil,
-        includeLinkedAccounts: Swift.Bool = false,
+        includeLinkedAccounts: Swift.Bool? = nil,
         metricName: Swift.String? = nil,
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -6815,7 +6815,7 @@ struct ListMetricsInputBody: Swift.Equatable {
     let dimensions: [CloudWatchClientTypes.DimensionFilter]?
     let nextToken: Swift.String?
     let recentlyActive: CloudWatchClientTypes.RecentlyActive?
-    let includeLinkedAccounts: Swift.Bool
+    let includeLinkedAccounts: Swift.Bool?
     let owningAccount: Swift.String?
 }
 
@@ -6859,7 +6859,7 @@ extension ListMetricsInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let recentlyActiveDecoded = try containerValues.decodeIfPresent(CloudWatchClientTypes.RecentlyActive.self, forKey: .recentlyActive)
         recentlyActive = recentlyActiveDecoded
-        let includeLinkedAccountsDecoded = try containerValues.decode(Swift.Bool.self, forKey: .includeLinkedAccounts)
+        let includeLinkedAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeLinkedAccounts)
         includeLinkedAccounts = includeLinkedAccountsDecoded
         let owningAccountDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owningAccount)
         owningAccount = owningAccountDecoded
@@ -8607,7 +8607,7 @@ extension CloudWatchClientTypes.MetricStreamFilter: Swift.Codable {
 }
 
 extension CloudWatchClientTypes {
-    /// This structure contains the name of one of the metric namespaces that is listed in a filter of a metric stream.
+    /// This structure contains the name of one of the metric namespaces that is listed in a filter of a metric stream. The namespace can contain only ASCII printable characters (ASCII range 32 through 126). It must contain at least one non-whitespace character.
     public struct MetricStreamFilter: Swift.Equatable {
         /// The name of the metric namespace in the filter.
         public var namespace: Swift.String?
@@ -10095,11 +10095,44 @@ extension PutMetricAlarmInput: ClientRuntime.URLPathProvider {
 public struct PutMetricAlarmInput: Swift.Equatable {
     /// Indicates whether actions should be executed during any changes to the alarm state. The default is TRUE.
     public var actionsEnabled: Swift.Bool?
-    /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name  | arn:aws:ssm:region:account-id:opsitem:severity  | arn:aws:ssm-incidents::account-id:response-plan:response-plan-name  Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0
+    /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid values: EC2 actions:
+    ///
+    /// * arn:aws:automate:region:ec2:stop
+    ///
+    /// * arn:aws:automate:region:ec2:terminate
+    ///
+    /// * arn:aws:automate:region:ec2:reboot
+    ///
+    /// * arn:aws:automate:region:ec2:recover
+    ///
+    /// * arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0
+    ///
+    /// * arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0
+    ///
+    /// * arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0
+    ///
+    /// * arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0
+    ///
+    ///
+    /// Autoscaling action:
+    ///
+    /// * arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
+    ///
+    ///
+    /// SSN notification action:
+    ///
+    /// * arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
+    ///
+    ///
+    /// SSM integration actions:
+    ///
+    /// * arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name
+    ///
+    /// * arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
     public var alarmActions: [Swift.String]?
     /// The description for the alarm.
     public var alarmDescription: Swift.String?
-    /// The name for the alarm. This name must be unique within the Region.
+    /// The name for the alarm. This name must be unique within the Region. The name must contain only UTF-8 characters, and can't contain ASCII control characters
     /// This member is required.
     public var alarmName: Swift.String?
     /// The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand. The values LessThanLowerOrGreaterThanUpperThreshold, LessThanLowerThreshold, and GreaterThanUpperThreshold are used only for alarms based on anomaly detection models.
@@ -10116,7 +10149,40 @@ public struct PutMetricAlarmInput: Swift.Equatable {
     public var evaluationPeriods: Swift.Int?
     /// The percentile statistic for the metric specified in MetricName. Specify a value between p0.0 and p100. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
     public var extendedStatistic: Swift.String?
-    /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name  Valid Values (for use with IAM roles): >arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0
+    /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid values: EC2 actions:
+    ///
+    /// * arn:aws:automate:region:ec2:stop
+    ///
+    /// * arn:aws:automate:region:ec2:terminate
+    ///
+    /// * arn:aws:automate:region:ec2:reboot
+    ///
+    /// * arn:aws:automate:region:ec2:recover
+    ///
+    /// * arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0
+    ///
+    /// * arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0
+    ///
+    /// * arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0
+    ///
+    /// * arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0
+    ///
+    ///
+    /// Autoscaling action:
+    ///
+    /// * arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
+    ///
+    ///
+    /// SSN notification action:
+    ///
+    /// * arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
+    ///
+    ///
+    /// SSM integration actions:
+    ///
+    /// * arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name
+    ///
+    /// * arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
     public var insufficientDataActions: [Swift.String]?
     /// The name for the metric associated with the alarm. For each PutMetricAlarm operation, you must specify either MetricName or a Metrics array. If you are creating an alarm based on a math expression, you cannot specify this parameter, or any of the Dimensions, Period, Namespace, Statistic, or ExtendedStatistic parameters. Instead, you specify all this information in the Metrics array.
     public var metricName: Swift.String?
@@ -10124,7 +10190,40 @@ public struct PutMetricAlarmInput: Swift.Equatable {
     public var metrics: [CloudWatchClientTypes.MetricDataQuery]?
     /// The namespace for the metric associated specified in MetricName.
     public var namespace: Swift.String?
-    /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name  Valid Values (for use with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 | arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0
+    /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid values: EC2 actions:
+    ///
+    /// * arn:aws:automate:region:ec2:stop
+    ///
+    /// * arn:aws:automate:region:ec2:terminate
+    ///
+    /// * arn:aws:automate:region:ec2:reboot
+    ///
+    /// * arn:aws:automate:region:ec2:recover
+    ///
+    /// * arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0
+    ///
+    /// * arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0
+    ///
+    /// * arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0
+    ///
+    /// * arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0
+    ///
+    ///
+    /// Autoscaling action:
+    ///
+    /// * arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
+    ///
+    ///
+    /// SSN notification action:
+    ///
+    /// * arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
+    ///
+    ///
+    /// SSM integration actions:
+    ///
+    /// * arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name
+    ///
+    /// * arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
     public var okActions: [Swift.String]?
     /// The length, in seconds, used each time the metric specified in MetricName is evaluated. Valid values are 10, 30, and any multiple of 60. Period is required for alarms based on static thresholds. If you are creating an alarm based on a metric math expression, you specify the period for each metric within the objects in the Metrics array. Be sure to specify 10 or 30 only for metrics that are stored by a PutMetricData call with a StorageResolution of 1. If you specify a period of 10 or 30 for a metric that does not have sub-minute resolution, the alarm still attempts to gather data at the period rate that you specify. In this case, it does not receive data for the attempts that do not correspond to a one-minute data resolution, and the alarm might often lapse into INSUFFICENT_DATA status. Specifying 10 or 30 also sets this alarm as a high-resolution alarm, which has a higher charge than other alarms. For more information about pricing, see [Amazon CloudWatch Pricing](https://aws.amazon.com/cloudwatch/pricing/). An alarm's total current evaluation period can be no longer than one day, so Period multiplied by EvaluationPeriods cannot be more than 86,400 seconds.
     public var period: Swift.Int?
@@ -10472,7 +10571,7 @@ public struct PutMetricDataInput: Swift.Equatable {
     /// The data for the metric. The array can include no more than 1000 metrics per call.
     /// This member is required.
     public var metricData: [CloudWatchClientTypes.MetricDatum]?
-    /// The namespace for the metric data. To avoid conflicts with Amazon Web Services service namespaces, you should not specify a namespace that begins with AWS/
+    /// The namespace for the metric data. You can use ASCII characters for the namespace, except for control characters which are not supported. To avoid conflicts with Amazon Web Services service namespaces, you should not specify a namespace that begins with AWS/
     /// This member is required.
     public var namespace: Swift.String?
 

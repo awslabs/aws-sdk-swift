@@ -3,6 +3,77 @@
 import ClientRuntime
 
 extension WorkDocsClient {
+    /// Paginate over `[DescribeActivitiesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeActivitiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeActivitiesOutputResponse`
+    public func describeActivitiesPaginated(input: DescribeActivitiesInput) -> ClientRuntime.PaginatorSequence<DescribeActivitiesInput, DescribeActivitiesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeActivitiesInput, DescribeActivitiesOutputResponse>(input: input, inputKey: \DescribeActivitiesInput.marker, outputKey: \DescribeActivitiesOutputResponse.marker, paginationFunction: self.describeActivities(input:))
+    }
+}
+
+extension DescribeActivitiesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeActivitiesInput {
+        return DescribeActivitiesInput(
+            activityTypes: self.activityTypes,
+            authenticationToken: self.authenticationToken,
+            endTime: self.endTime,
+            includeIndirectActivities: self.includeIndirectActivities,
+            limit: self.limit,
+            marker: token,
+            organizationId: self.organizationId,
+            resourceId: self.resourceId,
+            startTime: self.startTime,
+            userId: self.userId
+        )}
+}
+
+extension PaginatorSequence where Input == DescribeActivitiesInput, Output == DescribeActivitiesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeActivitiesPaginated`
+    /// to access the nested member `[WorkDocsClientTypes.Activity]`
+    /// - Returns: `[WorkDocsClientTypes.Activity]`
+    public func userActivities() async throws -> [WorkDocsClientTypes.Activity] {
+        return try await self.asyncCompactMap { item in item.userActivities }
+    }
+}
+extension WorkDocsClient {
+    /// Paginate over `[DescribeCommentsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeCommentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCommentsOutputResponse`
+    public func describeCommentsPaginated(input: DescribeCommentsInput) -> ClientRuntime.PaginatorSequence<DescribeCommentsInput, DescribeCommentsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeCommentsInput, DescribeCommentsOutputResponse>(input: input, inputKey: \DescribeCommentsInput.marker, outputKey: \DescribeCommentsOutputResponse.marker, paginationFunction: self.describeComments(input:))
+    }
+}
+
+extension DescribeCommentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeCommentsInput {
+        return DescribeCommentsInput(
+            authenticationToken: self.authenticationToken,
+            documentId: self.documentId,
+            limit: self.limit,
+            marker: token,
+            versionId: self.versionId
+        )}
+}
+
+extension PaginatorSequence where Input == DescribeCommentsInput, Output == DescribeCommentsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeCommentsPaginated`
+    /// to access the nested member `[WorkDocsClientTypes.Comment]`
+    /// - Returns: `[WorkDocsClientTypes.Comment]`
+    public func comments() async throws -> [WorkDocsClientTypes.Comment] {
+        return try await self.asyncCompactMap { item in item.comments }
+    }
+}
+extension WorkDocsClient {
     /// Paginate over `[DescribeDocumentVersionsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -64,6 +135,134 @@ extension DescribeFolderContentsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension WorkDocsClient {
+    /// Paginate over `[DescribeGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeGroupsOutputResponse`
+    public func describeGroupsPaginated(input: DescribeGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeGroupsInput, DescribeGroupsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeGroupsInput, DescribeGroupsOutputResponse>(input: input, inputKey: \DescribeGroupsInput.marker, outputKey: \DescribeGroupsOutputResponse.marker, paginationFunction: self.describeGroups(input:))
+    }
+}
+
+extension DescribeGroupsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeGroupsInput {
+        return DescribeGroupsInput(
+            authenticationToken: self.authenticationToken,
+            limit: self.limit,
+            marker: token,
+            organizationId: self.organizationId,
+            searchQuery: self.searchQuery
+        )}
+}
+
+extension PaginatorSequence where Input == DescribeGroupsInput, Output == DescribeGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeGroupsPaginated`
+    /// to access the nested member `[WorkDocsClientTypes.GroupMetadata]`
+    /// - Returns: `[WorkDocsClientTypes.GroupMetadata]`
+    public func groups() async throws -> [WorkDocsClientTypes.GroupMetadata] {
+        return try await self.asyncCompactMap { item in item.groups }
+    }
+}
+extension WorkDocsClient {
+    /// Paginate over `[DescribeNotificationSubscriptionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeNotificationSubscriptionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeNotificationSubscriptionsOutputResponse`
+    public func describeNotificationSubscriptionsPaginated(input: DescribeNotificationSubscriptionsInput) -> ClientRuntime.PaginatorSequence<DescribeNotificationSubscriptionsInput, DescribeNotificationSubscriptionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeNotificationSubscriptionsInput, DescribeNotificationSubscriptionsOutputResponse>(input: input, inputKey: \DescribeNotificationSubscriptionsInput.marker, outputKey: \DescribeNotificationSubscriptionsOutputResponse.marker, paginationFunction: self.describeNotificationSubscriptions(input:))
+    }
+}
+
+extension DescribeNotificationSubscriptionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeNotificationSubscriptionsInput {
+        return DescribeNotificationSubscriptionsInput(
+            limit: self.limit,
+            marker: token,
+            organizationId: self.organizationId
+        )}
+}
+
+extension PaginatorSequence where Input == DescribeNotificationSubscriptionsInput, Output == DescribeNotificationSubscriptionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeNotificationSubscriptionsPaginated`
+    /// to access the nested member `[WorkDocsClientTypes.Subscription]`
+    /// - Returns: `[WorkDocsClientTypes.Subscription]`
+    public func subscriptions() async throws -> [WorkDocsClientTypes.Subscription] {
+        return try await self.asyncCompactMap { item in item.subscriptions }
+    }
+}
+extension WorkDocsClient {
+    /// Paginate over `[DescribeResourcePermissionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeResourcePermissionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeResourcePermissionsOutputResponse`
+    public func describeResourcePermissionsPaginated(input: DescribeResourcePermissionsInput) -> ClientRuntime.PaginatorSequence<DescribeResourcePermissionsInput, DescribeResourcePermissionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeResourcePermissionsInput, DescribeResourcePermissionsOutputResponse>(input: input, inputKey: \DescribeResourcePermissionsInput.marker, outputKey: \DescribeResourcePermissionsOutputResponse.marker, paginationFunction: self.describeResourcePermissions(input:))
+    }
+}
+
+extension DescribeResourcePermissionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeResourcePermissionsInput {
+        return DescribeResourcePermissionsInput(
+            authenticationToken: self.authenticationToken,
+            limit: self.limit,
+            marker: token,
+            principalId: self.principalId,
+            resourceId: self.resourceId
+        )}
+}
+
+extension PaginatorSequence where Input == DescribeResourcePermissionsInput, Output == DescribeResourcePermissionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeResourcePermissionsPaginated`
+    /// to access the nested member `[WorkDocsClientTypes.Principal]`
+    /// - Returns: `[WorkDocsClientTypes.Principal]`
+    public func principals() async throws -> [WorkDocsClientTypes.Principal] {
+        return try await self.asyncCompactMap { item in item.principals }
+    }
+}
+extension WorkDocsClient {
+    /// Paginate over `[DescribeRootFoldersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeRootFoldersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRootFoldersOutputResponse`
+    public func describeRootFoldersPaginated(input: DescribeRootFoldersInput) -> ClientRuntime.PaginatorSequence<DescribeRootFoldersInput, DescribeRootFoldersOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeRootFoldersInput, DescribeRootFoldersOutputResponse>(input: input, inputKey: \DescribeRootFoldersInput.marker, outputKey: \DescribeRootFoldersOutputResponse.marker, paginationFunction: self.describeRootFolders(input:))
+    }
+}
+
+extension DescribeRootFoldersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeRootFoldersInput {
+        return DescribeRootFoldersInput(
+            authenticationToken: self.authenticationToken,
+            limit: self.limit,
+            marker: token
+        )}
+}
+
+extension PaginatorSequence where Input == DescribeRootFoldersInput, Output == DescribeRootFoldersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeRootFoldersPaginated`
+    /// to access the nested member `[WorkDocsClientTypes.FolderMetadata]`
+    /// - Returns: `[WorkDocsClientTypes.FolderMetadata]`
+    public func folders() async throws -> [WorkDocsClientTypes.FolderMetadata] {
+        return try await self.asyncCompactMap { item in item.folders }
+    }
+}
+extension WorkDocsClient {
     /// Paginate over `[DescribeUsersOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -99,5 +298,42 @@ extension PaginatorSequence where Input == DescribeUsersInput, Output == Describ
     /// - Returns: `[WorkDocsClientTypes.User]`
     public func users() async throws -> [WorkDocsClientTypes.User] {
         return try await self.asyncCompactMap { item in item.users }
+    }
+}
+extension WorkDocsClient {
+    /// Paginate over `[SearchResourcesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchResourcesOutputResponse`
+    public func searchResourcesPaginated(input: SearchResourcesInput) -> ClientRuntime.PaginatorSequence<SearchResourcesInput, SearchResourcesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<SearchResourcesInput, SearchResourcesOutputResponse>(input: input, inputKey: \SearchResourcesInput.marker, outputKey: \SearchResourcesOutputResponse.marker, paginationFunction: self.searchResources(input:))
+    }
+}
+
+extension SearchResourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchResourcesInput {
+        return SearchResourcesInput(
+            additionalResponseFields: self.additionalResponseFields,
+            authenticationToken: self.authenticationToken,
+            filters: self.filters,
+            limit: self.limit,
+            marker: token,
+            orderBy: self.orderBy,
+            organizationId: self.organizationId,
+            queryScopes: self.queryScopes,
+            queryText: self.queryText
+        )}
+}
+
+extension PaginatorSequence where Input == SearchResourcesInput, Output == SearchResourcesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `searchResourcesPaginated`
+    /// to access the nested member `[WorkDocsClientTypes.ResponseItem]`
+    /// - Returns: `[WorkDocsClientTypes.ResponseItem]`
+    public func items() async throws -> [WorkDocsClientTypes.ResponseItem] {
+        return try await self.asyncCompactMap { item in item.items }
     }
 }

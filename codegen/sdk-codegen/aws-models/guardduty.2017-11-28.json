@@ -277,8 +277,18 @@
                 "DataSources": {
                     "target": "com.amazonaws.guardduty#DataSourcesFreeTrial",
                     "traits": {
+                        "smithy.api#deprecated": {
+                            "message": "This parameter is deprecated, use Features instead"
+                        },
                         "smithy.api#documentation": "<p>Describes the data source enabled for the GuardDuty member account.</p>",
                         "smithy.api#jsonName": "dataSources"
+                    }
+                },
+                "Features": {
+                    "target": "com.amazonaws.guardduty#FreeTrialFeatureConfigurationsResults",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of features enabled for the GuardDuty account.</p>",
+                        "smithy.api#jsonName": "features"
                     }
                 }
             },
@@ -371,6 +381,13 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Information about the Kubernetes API call action described in this finding.</p>",
                         "smithy.api#jsonName": "kubernetesApiCallAction"
+                    }
+                },
+                "RdsLoginAttemptAction": {
+                    "target": "com.amazonaws.guardduty#RdsLoginAttemptAction",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Information about <code>RDS_LOGIN_ATTEMPT</code> action described in this finding.</p>",
+                        "smithy.api#jsonName": "rdsLoginAttemptAction"
                     }
                 }
             },
@@ -535,6 +552,29 @@
             "members": {},
             "traits": {
                 "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.guardduty#AutoEnableMembers": {
+            "type": "enum",
+            "members": {
+                "NEW": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "NEW"
+                    }
+                },
+                "ALL": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ALL"
+                    }
+                },
+                "NONE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "NONE"
+                    }
+                }
             }
         },
         "com.amazonaws.guardduty#AwsApiCallAction": {
@@ -1026,6 +1066,9 @@
                 "DataSources": {
                     "target": "com.amazonaws.guardduty#DataSourceConfigurations",
                     "traits": {
+                        "smithy.api#deprecated": {
+                            "message": "This parameter is deprecated, use Features instead"
+                        },
                         "smithy.api#documentation": "<p>Describes which data sources will be enabled for the detector.</p>\n         <p>There might be regional differences because some data sources might not be \n      available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more \n      information, see <a href=\"https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html\">Regions and endpoints</a>.</p>",
                         "smithy.api#jsonName": "dataSources"
                     }
@@ -1035,6 +1078,13 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The tags to be added to a new detector resource.</p>",
                         "smithy.api#jsonName": "tags"
+                    }
+                },
+                "Features": {
+                    "target": "com.amazonaws.guardduty#DetectorFeatureConfigurations",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of features that will be configured for the detector.</p>",
+                        "smithy.api#jsonName": "features"
                     }
                 }
             },
@@ -1081,7 +1131,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Creates a filter using the specified finding criteria.</p>",
+                "smithy.api#documentation": "<p>Creates a filter using the specified finding criteria. The maximum number of saved filters \n      per Amazon Web Services account per Region is 100. For more information, see <a href=\"https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_limits.html\">Quotas for GuardDuty</a>.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/detector/{DetectorId}/filter",
@@ -1112,7 +1162,7 @@
                 "Description": {
                     "target": "com.amazonaws.guardduty#FilterDescription",
                     "traits": {
-                        "smithy.api#documentation": "<p>The description of the filter. Valid characters include alphanumeric characters, and special \n      characters such as <code>-</code>, <code>.</code>, <code>:</code>, <code>{ }</code>, <code>[ ]</code>, \n      <code>( )</code>, <code>/</code>, <code>\\t</code>, <code>\\n</code>, <code>\\x0B</code>, <code>\\f</code>, \n      <code>\\r</code>, <code>_</code>, and whitespace.</p>",
+                        "smithy.api#documentation": "<p>The description of the filter. Valid characters include alphanumeric characters, and special \n      characters such as hyphen, period, colon, underscore, parentheses (<code>{ }</code>, <code>[ ]</code>, and \n      <code>( )</code>), forward slash, horizontal tab, vertical tab, newline, form feed, return, and whitespace.</p>",
                         "smithy.api#jsonName": "description"
                     }
                 },
@@ -2194,7 +2244,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Deletes GuardDuty member accounts (to the current GuardDuty administrator account) specified by\n      the account IDs.</p>",
+                "smithy.api#documentation": "<p>Deletes GuardDuty member accounts (to the current GuardDuty administrator account) specified by\n      the account IDs.</p>\n         <p>With <code>autoEnableOrganizationMembers</code> configuration for your organization set to <code>ALL</code>, you'll \n      receive an error if you attempt to disable GuardDuty for a member account in your organization.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/detector/{DetectorId}/member/delete",
@@ -2481,6 +2531,11 @@
                     "method": "GET",
                     "uri": "/detector/{DetectorId}/admin",
                     "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "pageSize": "MaxResults"
                 }
             }
         },
@@ -2495,6 +2550,23 @@
                         "smithy.api#jsonName": "detectorId",
                         "smithy.api#required": {}
                     }
+                },
+                "MaxResults": {
+                    "target": "com.amazonaws.guardduty#MaxResults",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>You can use this parameter to indicate the maximum number of items \n      that you want in the response.</p>",
+                        "smithy.api#httpQuery": "maxResults",
+                        "smithy.api#jsonName": "maxResults"
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.guardduty#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>You can use this parameter when paginating results. Set the value of this parameter to null on your\n      first call to the list action. For subsequent calls to the action, fill <code>nextToken</code> \n      in the request with the\n      value of <code>NextToken</code> from the previous response to continue listing data.</p>",
+                        "smithy.api#httpQuery": "nextToken",
+                        "smithy.api#jsonName": "nextToken"
+                    }
                 }
             },
             "traits": {
@@ -2508,9 +2580,11 @@
                     "target": "com.amazonaws.guardduty#Boolean",
                     "traits": {
                         "smithy.api#default": false,
+                        "smithy.api#deprecated": {
+                            "message": "This field is deprecated, use AutoEnableOrganizationMembers instead"
+                        },
                         "smithy.api#documentation": "<p>Indicates whether GuardDuty is automatically enabled for accounts added to the\n      organization.</p>",
-                        "smithy.api#jsonName": "autoEnable",
-                        "smithy.api#required": {}
+                        "smithy.api#jsonName": "autoEnable"
                     }
                 },
                 "MemberAccountLimitReached": {
@@ -2525,8 +2599,32 @@
                 "DataSources": {
                     "target": "com.amazonaws.guardduty#OrganizationDataSourceConfigurationsResult",
                     "traits": {
+                        "smithy.api#deprecated": {
+                            "message": "This parameter is deprecated, use Features instead"
+                        },
                         "smithy.api#documentation": "<p>Describes which data sources are enabled automatically for member\n      accounts.</p>",
                         "smithy.api#jsonName": "dataSources"
+                    }
+                },
+                "Features": {
+                    "target": "com.amazonaws.guardduty#OrganizationFeaturesConfigurationsResults",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of features that are configured for this organization.</p>",
+                        "smithy.api#jsonName": "features"
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.guardduty#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The pagination parameter to be used on the next list operation to retrieve more items.</p>",
+                        "smithy.api#jsonName": "nextToken"
+                    }
+                },
+                "AutoEnableOrganizationMembers": {
+                    "target": "com.amazonaws.guardduty#AutoEnableMembers",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>NEW</code>: Indicates that new accounts joining the organization are configured to have GuardDuty enabled automatically.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ALL</code>: Indicates that all accounts (new and existing members) in the organization are \n        configured to have GuardDuty enabled automatically.</p>\n            </li>\n            <li>\n               <p>\n                  <code>NONE</code>: Indicates that no account in the organization will be configured to have GuardDuty enabled automatically.</p>\n            </li>\n         </ul>",
+                        "smithy.api#jsonName": "autoEnableOrganizationMembers"
                     }
                 }
             },
@@ -2711,6 +2809,145 @@
                 "target": "com.amazonaws.guardduty#Destination"
             }
         },
+        "com.amazonaws.guardduty#DetectorFeature": {
+            "type": "enum",
+            "members": {
+                "S3_DATA_EVENTS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "S3_DATA_EVENTS"
+                    }
+                },
+                "EKS_AUDIT_LOGS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EKS_AUDIT_LOGS"
+                    }
+                },
+                "EBS_MALWARE_PROTECTION": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EBS_MALWARE_PROTECTION"
+                    }
+                },
+                "RDS_LOGIN_EVENTS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "RDS_LOGIN_EVENTS"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.guardduty#DetectorFeatureConfiguration": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.guardduty#DetectorFeature",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the feature.</p>",
+                        "smithy.api#jsonName": "name"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.guardduty#FeatureStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status of the feature.</p>",
+                        "smithy.api#jsonName": "status"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains information about a GuardDuty feature.</p>"
+            }
+        },
+        "com.amazonaws.guardduty#DetectorFeatureConfigurationResult": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.guardduty#DetectorFeatureResult",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates the name of the feature that can be enabled for the detector.</p>",
+                        "smithy.api#jsonName": "name"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.guardduty#FeatureStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates the status of the feature that is enabled for the detector.</p>",
+                        "smithy.api#jsonName": "status"
+                    }
+                },
+                "UpdatedAt": {
+                    "target": "com.amazonaws.guardduty#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The timestamp at which the feature object was updated.</p>",
+                        "smithy.api#jsonName": "updatedAt"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains information about a GuardDuty feature.</p>"
+            }
+        },
+        "com.amazonaws.guardduty#DetectorFeatureConfigurations": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.guardduty#DetectorFeatureConfiguration"
+            }
+        },
+        "com.amazonaws.guardduty#DetectorFeatureConfigurationsResults": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.guardduty#DetectorFeatureConfigurationResult"
+            }
+        },
+        "com.amazonaws.guardduty#DetectorFeatureResult": {
+            "type": "enum",
+            "members": {
+                "FLOW_LOGS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "FLOW_LOGS"
+                    }
+                },
+                "CLOUD_TRAIL": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CLOUD_TRAIL"
+                    }
+                },
+                "DNS_LOGS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DNS_LOGS"
+                    }
+                },
+                "S3_DATA_EVENTS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "S3_DATA_EVENTS"
+                    }
+                },
+                "EKS_AUDIT_LOGS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EKS_AUDIT_LOGS"
+                    }
+                },
+                "EBS_MALWARE_PROTECTION": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EBS_MALWARE_PROTECTION"
+                    }
+                },
+                "RDS_LOGIN_EVENTS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "RDS_LOGIN_EVENTS"
+                    }
+                }
+            }
+        },
         "com.amazonaws.guardduty#DetectorId": {
             "type": "string",
             "traits": {
@@ -2820,7 +3057,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Disassociates the current GuardDuty member account from its administrator account.</p>",
+                "smithy.api#documentation": "<p>Disassociates the current GuardDuty member account from its administrator account.</p>\n         <p>With <code>autoEnableOrganizationMembers</code> configuration for your organization set to <code>ALL</code>, you'll \n      receive an error if you attempt to disable GuardDuty in a member account.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/detector/{DetectorId}/administrator/disassociate",
@@ -2927,7 +3164,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Disassociates GuardDuty member accounts (to the current administrator account) specified by the account IDs.</p>",
+                "smithy.api#documentation": "<p>Disassociates GuardDuty member accounts (to the current administrator account) specified by the account IDs.</p>\n         <p>With <code>autoEnableOrganizationMembers</code> configuration for your organization set to <code>ALL</code>, you'll \n      receive an error if you attempt to disassociate a member account before removing them from your Amazon Web Services organization.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/detector/{DetectorId}/member/disassociate",
@@ -3417,6 +3654,23 @@
                 "smithy.api#documentation": "<p>Contains information about the reason that the finding was generated.</p>"
             }
         },
+        "com.amazonaws.guardduty#FeatureStatus": {
+            "type": "enum",
+            "members": {
+                "ENABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ENABLED"
+                    }
+                },
+                "DISABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DISABLED"
+                    }
+                }
+            }
+        },
         "com.amazonaws.guardduty#Feedback": {
             "type": "enum",
             "members": {
@@ -3852,6 +4106,82 @@
                 "smithy.api#documentation": "<p>Contains information on the status of VPC flow logs as a data source.</p>"
             }
         },
+        "com.amazonaws.guardduty#FreeTrialFeatureConfigurationResult": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.guardduty#FreeTrialFeatureResult",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the feature for which the free trial is configured.</p>",
+                        "smithy.api#jsonName": "name"
+                    }
+                },
+                "FreeTrialDaysRemaining": {
+                    "target": "com.amazonaws.guardduty#Integer",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>The number of the remaining free trial days for the feature.</p>",
+                        "smithy.api#jsonName": "freeTrialDaysRemaining"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains information about the free trial period for a feature.</p>"
+            }
+        },
+        "com.amazonaws.guardduty#FreeTrialFeatureConfigurationsResults": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.guardduty#FreeTrialFeatureConfigurationResult"
+            }
+        },
+        "com.amazonaws.guardduty#FreeTrialFeatureResult": {
+            "type": "enum",
+            "members": {
+                "FLOW_LOGS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "FLOW_LOGS"
+                    }
+                },
+                "CLOUD_TRAIL": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CLOUD_TRAIL"
+                    }
+                },
+                "DNS_LOGS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DNS_LOGS"
+                    }
+                },
+                "S3_DATA_EVENTS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "S3_DATA_EVENTS"
+                    }
+                },
+                "EKS_AUDIT_LOGS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EKS_AUDIT_LOGS"
+                    }
+                },
+                "EBS_MALWARE_PROTECTION": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EBS_MALWARE_PROTECTION"
+                    }
+                },
+                "RDS_LOGIN_EVENTS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "RDS_LOGIN_EVENTS"
+                    }
+                }
+            }
+        },
         "com.amazonaws.guardduty#GeoLocation": {
             "type": "structure",
             "members": {
@@ -4019,6 +4349,9 @@
                 "DataSources": {
                     "target": "com.amazonaws.guardduty#DataSourceConfigurationsResult",
                     "traits": {
+                        "smithy.api#deprecated": {
+                            "message": "This parameter is deprecated, use Features instead"
+                        },
                         "smithy.api#documentation": "<p>Describes which data sources are enabled for the detector.</p>",
                         "smithy.api#jsonName": "dataSources"
                     }
@@ -4028,6 +4361,13 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The tags of the detector resource.</p>",
                         "smithy.api#jsonName": "tags"
+                    }
+                },
+                "Features": {
+                    "target": "com.amazonaws.guardduty#DetectorFeatureConfigurationsResults",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Describes the features that have been enabled for the detector.</p>",
+                        "smithy.api#jsonName": "features"
                     }
                 }
             },
@@ -5592,9 +5932,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "af-south-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "af-south-1"
                             }
                         },
                         {
@@ -5605,9 +5945,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "ap-east-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "ap-east-1"
                             }
                         },
                         {
@@ -5618,9 +5958,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "ap-northeast-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "ap-northeast-1"
                             }
                         },
                         {
@@ -5631,9 +5971,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "ap-northeast-2",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "ap-northeast-2"
                             }
                         },
                         {
@@ -5644,9 +5984,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "ap-northeast-3",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "ap-northeast-3"
                             }
                         },
                         {
@@ -5657,9 +5997,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "ap-south-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "ap-south-1"
                             }
                         },
                         {
@@ -5670,9 +6010,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "ap-southeast-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "ap-southeast-1"
                             }
                         },
                         {
@@ -5683,9 +6023,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "ap-southeast-2",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "ap-southeast-2"
                             }
                         },
                         {
@@ -5696,9 +6036,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "ap-southeast-3",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "ap-southeast-3"
                             }
                         },
                         {
@@ -5709,9 +6049,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "ca-central-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "ca-central-1"
                             }
                         },
                         {
@@ -5722,9 +6062,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "eu-central-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "eu-central-1"
                             }
                         },
                         {
@@ -5735,9 +6075,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "eu-north-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "eu-north-1"
                             }
                         },
                         {
@@ -5748,9 +6088,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "eu-south-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "eu-south-1"
                             }
                         },
                         {
@@ -5761,9 +6101,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "eu-west-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "eu-west-1"
                             }
                         },
                         {
@@ -5774,9 +6114,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "eu-west-2",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "eu-west-2"
                             }
                         },
                         {
@@ -5787,9 +6127,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "eu-west-3",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "eu-west-3"
                             }
                         },
                         {
@@ -5800,9 +6140,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "me-south-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "me-south-1"
                             }
                         },
                         {
@@ -5813,9 +6153,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "sa-east-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "sa-east-1"
                             }
                         },
                         {
@@ -5826,9 +6166,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-east-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "us-east-1"
                             }
                         },
                         {
@@ -5839,9 +6179,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-east-1",
                                 "UseFIPS": true,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "us-east-1"
                             }
                         },
                         {
@@ -5852,9 +6192,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-east-2",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "us-east-2"
                             }
                         },
                         {
@@ -5865,9 +6205,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-east-2",
                                 "UseFIPS": true,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "us-east-2"
                             }
                         },
                         {
@@ -5878,9 +6218,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-west-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "us-west-1"
                             }
                         },
                         {
@@ -5891,9 +6231,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-west-1",
                                 "UseFIPS": true,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "us-west-1"
                             }
                         },
                         {
@@ -5904,9 +6244,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-west-2",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "us-west-2"
                             }
                         },
                         {
@@ -5917,9 +6257,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-west-2",
                                 "UseFIPS": true,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "us-west-2"
                             }
                         },
                         {
@@ -5930,9 +6270,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-east-1",
                                 "UseFIPS": true,
-                                "UseDualStack": true
+                                "UseDualStack": true,
+                                "Region": "us-east-1"
                             }
                         },
                         {
@@ -5943,9 +6283,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-east-1",
                                 "UseFIPS": false,
-                                "UseDualStack": true
+                                "UseDualStack": true,
+                                "Region": "us-east-1"
                             }
                         },
                         {
@@ -5956,9 +6296,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "cn-north-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "cn-north-1"
                             }
                         },
                         {
@@ -5969,9 +6309,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "cn-northwest-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "cn-northwest-1"
                             }
                         },
                         {
@@ -5982,9 +6322,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "cn-north-1",
                                 "UseFIPS": true,
-                                "UseDualStack": true
+                                "UseDualStack": true,
+                                "Region": "cn-north-1"
                             }
                         },
                         {
@@ -5995,9 +6335,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "cn-north-1",
                                 "UseFIPS": true,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "cn-north-1"
                             }
                         },
                         {
@@ -6008,9 +6348,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "cn-north-1",
                                 "UseFIPS": false,
-                                "UseDualStack": true
+                                "UseDualStack": true,
+                                "Region": "cn-north-1"
                             }
                         },
                         {
@@ -6021,9 +6361,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-gov-east-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "us-gov-east-1"
                             }
                         },
                         {
@@ -6034,9 +6374,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-gov-east-1",
                                 "UseFIPS": true,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "us-gov-east-1"
                             }
                         },
                         {
@@ -6047,9 +6387,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-gov-west-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "us-gov-west-1"
                             }
                         },
                         {
@@ -6060,9 +6400,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-gov-west-1",
                                 "UseFIPS": true,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "us-gov-west-1"
                             }
                         },
                         {
@@ -6073,9 +6413,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-gov-east-1",
                                 "UseFIPS": true,
-                                "UseDualStack": true
+                                "UseDualStack": true,
+                                "Region": "us-gov-east-1"
                             }
                         },
                         {
@@ -6086,9 +6426,20 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-gov-east-1",
                                 "UseFIPS": false,
-                                "UseDualStack": true
+                                "UseDualStack": true,
+                                "Region": "us-gov-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
+                            },
+                            "params": {
+                                "UseFIPS": true,
+                                "UseDualStack": true,
+                                "Region": "us-iso-east-1"
                             }
                         },
                         {
@@ -6099,9 +6450,20 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-iso-east-1",
                                 "UseFIPS": true,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "us-iso-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "error": "DualStack is enabled but this partition does not support DualStack"
+                            },
+                            "params": {
+                                "UseFIPS": false,
+                                "UseDualStack": true,
+                                "Region": "us-iso-east-1"
                             }
                         },
                         {
@@ -6112,9 +6474,20 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-iso-east-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "us-iso-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
+                            },
+                            "params": {
+                                "UseFIPS": true,
+                                "UseDualStack": true,
+                                "Region": "us-isob-east-1"
                             }
                         },
                         {
@@ -6125,9 +6498,20 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-isob-east-1",
                                 "UseFIPS": true,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "us-isob-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "error": "DualStack is enabled but this partition does not support DualStack"
+                            },
+                            "params": {
+                                "UseFIPS": false,
+                                "UseDualStack": true,
+                                "Region": "us-isob-east-1"
                             }
                         },
                         {
@@ -6138,9 +6522,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-isob-east-1",
                                 "UseFIPS": false,
-                                "UseDualStack": false
+                                "UseDualStack": false,
+                                "Region": "us-isob-east-1"
                             }
                         },
                         {
@@ -6151,9 +6535,9 @@
                                 }
                             },
                             "params": {
-                                "Region": "us-east-1",
                                 "UseFIPS": false,
                                 "UseDualStack": false,
+                                "Region": "us-east-1",
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -6176,9 +6560,9 @@
                                 "error": "Invalid Configuration: FIPS and custom endpoint are not supported"
                             },
                             "params": {
-                                "Region": "us-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false,
+                                "Region": "us-east-1",
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -6188,10 +6572,16 @@
                                 "error": "Invalid Configuration: Dualstack and custom endpoint are not supported"
                             },
                             "params": {
-                                "Region": "us-east-1",
                                 "UseFIPS": false,
                                 "UseDualStack": true,
+                                "Region": "us-east-1",
                                 "Endpoint": "https://example.com"
+                            }
+                        },
+                        {
+                            "documentation": "Missing region",
+                            "expect": {
+                                "error": "Invalid Configuration: Missing Region"
                             }
                         }
                     ],
@@ -7795,6 +8185,50 @@
                 }
             }
         },
+        "com.amazonaws.guardduty#LoginAttribute": {
+            "type": "structure",
+            "members": {
+                "User": {
+                    "target": "com.amazonaws.guardduty#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates the user name which attempted to log in.</p>",
+                        "smithy.api#jsonName": "user"
+                    }
+                },
+                "Application": {
+                    "target": "com.amazonaws.guardduty#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates the application name used to attempt log in.</p>",
+                        "smithy.api#jsonName": "application"
+                    }
+                },
+                "FailedLoginAttempts": {
+                    "target": "com.amazonaws.guardduty#Integer",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>Represents the sum of failed (unsuccessful) login attempts made to establish a connection \n      to the database instance.</p>",
+                        "smithy.api#jsonName": "failedLoginAttempts"
+                    }
+                },
+                "SuccessfulLoginAttempts": {
+                    "target": "com.amazonaws.guardduty#Integer",
+                    "traits": {
+                        "smithy.api#default": 0,
+                        "smithy.api#documentation": "<p>Represents the sum of successful connections (a correct combination of login attributes) \n    made to the database instance by the actor.</p>",
+                        "smithy.api#jsonName": "successfulLoginAttempts"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information about the login attempts.</p>"
+            }
+        },
+        "com.amazonaws.guardduty#LoginAttributes": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.guardduty#LoginAttribute"
+            }
+        },
         "com.amazonaws.guardduty#Long": {
             "type": "long",
             "traits": {
@@ -7994,9 +8428,18 @@
                 "DataSources": {
                     "target": "com.amazonaws.guardduty#DataSourceConfigurationsResult",
                     "traits": {
+                        "smithy.api#deprecated": {
+                            "message": "This parameter is deprecated, use Features instead"
+                        },
                         "smithy.api#documentation": "<p>Contains information on the status of data sources for the account.</p>",
-                        "smithy.api#jsonName": "dataSources",
-                        "smithy.api#required": {}
+                        "smithy.api#jsonName": "dataSources"
+                    }
+                },
+                "Features": {
+                    "target": "com.amazonaws.guardduty#MemberFeaturesConfigurationsResults",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Contains information about the status of the features for the member account.</p>",
+                        "smithy.api#jsonName": "features"
                     }
                 }
             },
@@ -8014,6 +8457,69 @@
                     "min": 1,
                     "max": 50
                 }
+            }
+        },
+        "com.amazonaws.guardduty#MemberFeaturesConfiguration": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.guardduty#OrgFeature",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the feature.</p>",
+                        "smithy.api#jsonName": "name"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.guardduty#FeatureStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status of the feature.</p>",
+                        "smithy.api#jsonName": "status"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains information about the features for the member account.</p>"
+            }
+        },
+        "com.amazonaws.guardduty#MemberFeaturesConfigurationResult": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.guardduty#OrgFeature",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates the name of the feature that is enabled for the detector.</p>",
+                        "smithy.api#jsonName": "name"
+                    }
+                },
+                "Status": {
+                    "target": "com.amazonaws.guardduty#FeatureStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates the status of the feature that is enabled for the detector.</p>",
+                        "smithy.api#jsonName": "status"
+                    }
+                },
+                "UpdatedAt": {
+                    "target": "com.amazonaws.guardduty#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The timestamp at which the feature object was updated.</p>",
+                        "smithy.api#jsonName": "updatedAt"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains information about the features for the member account.</p>"
+            }
+        },
+        "com.amazonaws.guardduty#MemberFeaturesConfigurations": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.guardduty#MemberFeaturesConfiguration"
+            }
+        },
+        "com.amazonaws.guardduty#MemberFeaturesConfigurationsResults": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.guardduty#MemberFeaturesConfigurationResult"
             }
         },
         "com.amazonaws.guardduty#Members": {
@@ -8217,6 +8723,52 @@
                 }
             }
         },
+        "com.amazonaws.guardduty#OrgFeature": {
+            "type": "enum",
+            "members": {
+                "S3_DATA_EVENTS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "S3_DATA_EVENTS"
+                    }
+                },
+                "EKS_AUDIT_LOGS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EKS_AUDIT_LOGS"
+                    }
+                },
+                "EBS_MALWARE_PROTECTION": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EBS_MALWARE_PROTECTION"
+                    }
+                },
+                "RDS_LOGIN_EVENTS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "RDS_LOGIN_EVENTS"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.guardduty#OrgFeatureStatus": {
+            "type": "enum",
+            "members": {
+                "NEW": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "NEW"
+                    }
+                },
+                "NONE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "NONE"
+                    }
+                }
+            }
+        },
         "com.amazonaws.guardduty#Organization": {
             "type": "structure",
             "members": {
@@ -8342,6 +8894,62 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>An object that contains information on the status of whether EBS volumes scanning will be enabled as a data source for an organization.</p>"
+            }
+        },
+        "com.amazonaws.guardduty#OrganizationFeatureConfiguration": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.guardduty#OrgFeature",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the feature that will be configured for the organization.</p>",
+                        "smithy.api#jsonName": "name"
+                    }
+                },
+                "AutoEnable": {
+                    "target": "com.amazonaws.guardduty#OrgFeatureStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status of the feature that will be configured for the organization.</p>",
+                        "smithy.api#jsonName": "autoEnable"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A list of features which will be configured for the organization.</p>"
+            }
+        },
+        "com.amazonaws.guardduty#OrganizationFeatureConfigurationResult": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.guardduty#OrgFeature",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the feature that is configured for the member accounts within the \n      organization.</p>",
+                        "smithy.api#jsonName": "name"
+                    }
+                },
+                "AutoEnable": {
+                    "target": "com.amazonaws.guardduty#OrgFeatureStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Describes how The status of the feature that are configured for the member accounts within the \n      organization.</p>\n         <p>If you set <code>AutoEnable</code> to <code>NEW</code>, a feature will be configured for \n    only the new accounts when they join the organization.</p>\n         <p>If you set <code>AutoEnable</code> to <code>NONE</code>, no feature will be configured for \n      the accounts when they join the organization.</p>",
+                        "smithy.api#jsonName": "autoEnable"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A list of features which will be configured for the organization.</p>"
+            }
+        },
+        "com.amazonaws.guardduty#OrganizationFeaturesConfigurations": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.guardduty#OrganizationFeatureConfiguration"
+            }
+        },
+        "com.amazonaws.guardduty#OrganizationFeaturesConfigurationsResults": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.guardduty#OrganizationFeatureConfigurationResult"
             }
         },
         "com.amazonaws.guardduty#OrganizationKubernetesAuditLogsConfiguration": {
@@ -8721,6 +9329,119 @@
                 }
             }
         },
+        "com.amazonaws.guardduty#RdsDbInstanceDetails": {
+            "type": "structure",
+            "members": {
+                "DbInstanceIdentifier": {
+                    "target": "com.amazonaws.guardduty#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier associated to the database instance that was involved in the finding.</p>",
+                        "smithy.api#jsonName": "dbInstanceIdentifier"
+                    }
+                },
+                "Engine": {
+                    "target": "com.amazonaws.guardduty#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The database engine of the database instance involved in the finding.</p>",
+                        "smithy.api#jsonName": "engine"
+                    }
+                },
+                "EngineVersion": {
+                    "target": "com.amazonaws.guardduty#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The version of the database engine that was involved in the finding.</p>",
+                        "smithy.api#jsonName": "engineVersion"
+                    }
+                },
+                "DbClusterIdentifier": {
+                    "target": "com.amazonaws.guardduty#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The identifier of the database cluster that contains the database instance ID involved in the \n    finding.</p>",
+                        "smithy.api#jsonName": "dbClusterIdentifier"
+                    }
+                },
+                "DbInstanceArn": {
+                    "target": "com.amazonaws.guardduty#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) that identifies the database instance involved in the finding.</p>",
+                        "smithy.api#jsonName": "dbInstanceArn"
+                    }
+                },
+                "Tags": {
+                    "target": "com.amazonaws.guardduty#Tags",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Instance tag key-value pairs associated with the database instance ID.</p>",
+                        "smithy.api#jsonName": "tags"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains information about the resource type <code>RDSDBInstance</code> involved in a GuardDuty \n    finding.</p>"
+            }
+        },
+        "com.amazonaws.guardduty#RdsDbUserDetails": {
+            "type": "structure",
+            "members": {
+                "User": {
+                    "target": "com.amazonaws.guardduty#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The user name used in the anomalous login attempt.</p>",
+                        "smithy.api#jsonName": "user"
+                    }
+                },
+                "Application": {
+                    "target": "com.amazonaws.guardduty#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The application name used in the anomalous login attempt.</p>",
+                        "smithy.api#jsonName": "application"
+                    }
+                },
+                "Database": {
+                    "target": "com.amazonaws.guardduty#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the database instance involved in the anomalous login attempt.</p>",
+                        "smithy.api#jsonName": "database"
+                    }
+                },
+                "Ssl": {
+                    "target": "com.amazonaws.guardduty#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The version of the Secure Socket Layer (SSL) used for the network.</p>",
+                        "smithy.api#jsonName": "ssl"
+                    }
+                },
+                "AuthMethod": {
+                    "target": "com.amazonaws.guardduty#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The authentication method used by the user involved in the finding.</p>",
+                        "smithy.api#jsonName": "authMethod"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains information about the user and authentication details for a database instance \n    involved in the finding.</p>"
+            }
+        },
+        "com.amazonaws.guardduty#RdsLoginAttemptAction": {
+            "type": "structure",
+            "members": {
+                "RemoteIpDetails": {
+                    "target": "com.amazonaws.guardduty#RemoteIpDetails",
+                    "traits": {
+                        "smithy.api#jsonName": "remoteIpDetails"
+                    }
+                },
+                "LoginAttributes": {
+                    "target": "com.amazonaws.guardduty#LoginAttributes",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates the login attributes used in the login attempt.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Indicates that a login attempt was made to the potentially compromised database from \n    a remote IP address.</p>"
+            }
+        },
         "com.amazonaws.guardduty#RemoteAccountDetails": {
             "type": "structure",
             "members": {
@@ -8873,6 +9594,20 @@
                     "target": "com.amazonaws.guardduty#Container",
                     "traits": {
                         "smithy.api#jsonName": "containerDetails"
+                    }
+                },
+                "RdsDbInstanceDetails": {
+                    "target": "com.amazonaws.guardduty#RdsDbInstanceDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Contains information about the database instance to which an anomalous login attempt was made.</p>",
+                        "smithy.api#jsonName": "rdsDbInstanceDetails"
+                    }
+                },
+                "RdsDbUserDetails": {
+                    "target": "com.amazonaws.guardduty#RdsDbUserDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Contains information about the user details through which anomalous login attempt was made.</p>",
+                        "smithy.api#jsonName": "rdsDbUserDetails"
                     }
                 }
             },
@@ -9656,7 +10391,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Turns on GuardDuty monitoring of the specified member accounts. Use this operation to\n      restart monitoring of accounts that you stopped monitoring with the\n        <code>StopMonitoringMembers</code> operation.</p>",
+                "smithy.api#documentation": "<p>Turns on GuardDuty monitoring of the specified member accounts. Use this operation to\n      restart monitoring of accounts that you stopped monitoring with the <a href=\"https://docs.aws.amazon.com/guardduty/latest/APIReference/API_StopMonitoringMembers.html\">StopMonitoringMembers</a>\n       operation.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/detector/{DetectorId}/member/start",
@@ -9722,7 +10457,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Stops GuardDuty monitoring for the specified member accounts. Use the\n        <code>StartMonitoringMembers</code> operation to restart monitoring for those\n      accounts.</p>",
+                "smithy.api#documentation": "<p>Stops GuardDuty monitoring for the specified member accounts. Use the\n        <code>StartMonitoringMembers</code> operation to restart monitoring for those\n      accounts.</p>\n         <p>With <code>autoEnableOrganizationMembers</code> configuration for your organization set to <code>ALL</code>, you'll \n      receive an error if you attempt to stop monitoring the member accounts in your organization.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/detector/{DetectorId}/member/stop",
@@ -10373,8 +11108,18 @@
                 "DataSources": {
                     "target": "com.amazonaws.guardduty#DataSourceConfigurations",
                     "traits": {
+                        "smithy.api#deprecated": {
+                            "message": "This parameter is deprecated, use Features instead"
+                        },
                         "smithy.api#documentation": "<p>Describes which data sources will be updated.</p>\n         <p>There might be regional differences because some data sources might not be \n      available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more \n      information, see <a href=\"https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html\">Regions and endpoints</a>.</p>",
                         "smithy.api#jsonName": "dataSources"
+                    }
+                },
+                "Features": {
+                    "target": "com.amazonaws.guardduty#DetectorFeatureConfigurations",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Provides the features that will be updated for the detector.</p>",
+                        "smithy.api#jsonName": "features"
                     }
                 }
             },
@@ -10748,8 +11493,18 @@
                 "DataSources": {
                     "target": "com.amazonaws.guardduty#DataSourceConfigurations",
                     "traits": {
+                        "smithy.api#deprecated": {
+                            "message": "This parameter is deprecated, use Features instead"
+                        },
                         "smithy.api#documentation": "<p>Describes which data sources will be updated.</p>",
                         "smithy.api#jsonName": "dataSources"
+                    }
+                },
+                "Features": {
+                    "target": "com.amazonaws.guardduty#MemberFeaturesConfigurations",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of features that will be updated for the specified member accounts.</p>",
+                        "smithy.api#jsonName": "features"
                     }
                 }
             },
@@ -10790,7 +11545,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Updates the delegated administrator account with the values provided.</p>\n         <p>There might be regional differences because some data sources might not be \n      available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more \n      information, see <a href=\"https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html\">Regions and endpoints</a>.</p>",
+                "smithy.api#documentation": "<p>Configures the delegated administrator account with the provided values. You must provide the value for either \n      <code>autoEnableOrganizationMembers</code> or <code>autoEnable</code>. </p>\n         <p>There might be regional differences because some data sources might not be \n      available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more \n      information, see <a href=\"https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html\">Regions and endpoints</a>.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/detector/{DetectorId}/admin",
@@ -10804,7 +11559,7 @@
                 "DetectorId": {
                     "target": "com.amazonaws.guardduty#DetectorId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The ID of the detector to update the delegated administrator for.</p>",
+                        "smithy.api#documentation": "<p>The ID of the detector that configures the delegated administrator.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#jsonName": "detectorId",
                         "smithy.api#required": {}
@@ -10814,16 +11569,35 @@
                     "target": "com.amazonaws.guardduty#Boolean",
                     "traits": {
                         "smithy.api#default": false,
+                        "smithy.api#deprecated": {
+                            "message": "This field is deprecated, use AutoEnableOrganizationMembers instead"
+                        },
                         "smithy.api#documentation": "<p>Indicates whether to automatically enable member accounts in the organization.</p>",
-                        "smithy.api#jsonName": "autoEnable",
-                        "smithy.api#required": {}
+                        "smithy.api#jsonName": "autoEnable"
                     }
                 },
                 "DataSources": {
                     "target": "com.amazonaws.guardduty#OrganizationDataSourceConfigurations",
                     "traits": {
+                        "smithy.api#deprecated": {
+                            "message": "This parameter is deprecated, use Features instead"
+                        },
                         "smithy.api#documentation": "<p>Describes which data sources will be updated.</p>",
                         "smithy.api#jsonName": "dataSources"
+                    }
+                },
+                "Features": {
+                    "target": "com.amazonaws.guardduty#OrganizationFeaturesConfigurations",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of features that will be configured for the organization.</p>",
+                        "smithy.api#jsonName": "features"
+                    }
+                },
+                "AutoEnableOrganizationMembers": {
+                    "target": "com.amazonaws.guardduty#AutoEnableMembers",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization. </p>\n         <ul>\n            <li>\n               <p>\n                  <code>NEW</code>: Indicates that new accounts joining the organization are configured to have GuardDuty enabled automatically.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ALL</code>: Indicates that all accounts (new and existing members) in the organization are \n        configured to have GuardDuty enabled automatically.</p>\n            </li>\n            <li>\n               <p>\n                  <code>NONE</code>: Indicates that no account in the organization will be configured to have GuardDuty enabled automatically.</p>\n            </li>\n         </ul>",
+                        "smithy.api#jsonName": "autoEnableOrganizationMembers"
                     }
                 }
             },
@@ -11024,9 +11798,11 @@
                 "DataSources": {
                     "target": "com.amazonaws.guardduty#DataSourceList",
                     "traits": {
+                        "smithy.api#deprecated": {
+                            "message": "This parameter is deprecated, use Features instead"
+                        },
                         "smithy.api#documentation": "<p>The data sources to aggregate usage statistics from.</p>",
-                        "smithy.api#jsonName": "dataSources",
-                        "smithy.api#required": {}
+                        "smithy.api#jsonName": "dataSources"
                     }
                 },
                 "Resources": {
@@ -11034,6 +11810,13 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The resources to aggregate usage statistics from. Only accepts exact resource\n      names.</p>",
                         "smithy.api#jsonName": "resources"
+                    }
+                },
+                "Features": {
+                    "target": "com.amazonaws.guardduty#UsageFeatureList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The features to aggregate usage statistics from.</p>",
+                        "smithy.api#jsonName": "features"
                     }
                 }
             },
@@ -11067,6 +11850,98 @@
             "type": "list",
             "member": {
                 "target": "com.amazonaws.guardduty#UsageDataSourceResult"
+            }
+        },
+        "com.amazonaws.guardduty#UsageFeature": {
+            "type": "enum",
+            "members": {
+                "FLOW_LOGS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "FLOW_LOGS"
+                    }
+                },
+                "CLOUD_TRAIL": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CLOUD_TRAIL"
+                    }
+                },
+                "DNS_LOGS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DNS_LOGS"
+                    }
+                },
+                "S3_DATA_EVENTS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "S3_DATA_EVENTS"
+                    }
+                },
+                "EKS_AUDIT_LOGS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EKS_AUDIT_LOGS"
+                    }
+                },
+                "EBS_MALWARE_PROTECTION": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EBS_MALWARE_PROTECTION"
+                    }
+                },
+                "RDS_LOGIN_EVENTS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "RDS_LOGIN_EVENTS"
+                    }
+                },
+                "LAMBDA_NETWORK_LOGS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "LAMBDA_NETWORK_LOGS"
+                    }
+                },
+                "EKS_RUNTIME_MONITORING": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EKS_RUNTIME_MONITORING"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.guardduty#UsageFeatureList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.guardduty#UsageFeature"
+            }
+        },
+        "com.amazonaws.guardduty#UsageFeatureResult": {
+            "type": "structure",
+            "members": {
+                "Feature": {
+                    "target": "com.amazonaws.guardduty#UsageFeature",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The feature that generated the usage cost.</p>",
+                        "smithy.api#jsonName": "feature"
+                    }
+                },
+                "Total": {
+                    "target": "com.amazonaws.guardduty#Total",
+                    "traits": {
+                        "smithy.api#jsonName": "total"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains information about the result of the total usage based on the feature.</p>"
+            }
+        },
+        "com.amazonaws.guardduty#UsageFeatureResultList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.guardduty#UsageFeatureResult"
             }
         },
         "com.amazonaws.guardduty#UsageResourceResult": {
@@ -11123,6 +11998,12 @@
                     "traits": {
                         "smithy.api#enumValue": "TOP_RESOURCES"
                     }
+                },
+                "SUM_BY_FEATURES": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SUM_BY_FEATURES"
+                    }
                 }
             }
         },
@@ -11155,6 +12036,13 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Lists the top 50 resources that have generated the most GuardDuty usage, in order from\n      most to least expensive.</p>",
                         "smithy.api#jsonName": "topResources"
+                    }
+                },
+                "SumByFeature": {
+                    "target": "com.amazonaws.guardduty#UsageFeatureResultList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The usage statistic sum organized by feature.</p>",
+                        "smithy.api#jsonName": "sumByFeature"
                     }
                 }
             },

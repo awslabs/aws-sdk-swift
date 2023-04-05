@@ -4230,7 +4230,7 @@ extension BatchGetAssetPropertyValueInput: ClientRuntime.URLPathProvider {
 }
 
 public struct BatchGetAssetPropertyValueInput: Swift.Equatable {
-    /// The list of asset property value entries for the batch get request. You can specify up to 16 entries per request.
+    /// The list of asset property value entries for the batch get request. You can specify up to 128 entries per request.
     /// This member is required.
     public var entries: [IoTSiteWiseClientTypes.BatchGetAssetPropertyValueEntry]?
     /// The token to be used for the next set of paginated results.
@@ -8486,7 +8486,7 @@ extension DescribeAssetInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if excludeProperties != false {
+            if let excludeProperties = excludeProperties {
                 let excludePropertiesQueryItem = ClientRuntime.URLQueryItem(name: "excludeProperties".urlPercentEncoding(), value: Swift.String(excludeProperties).urlPercentEncoding())
                 items.append(excludePropertiesQueryItem)
             }
@@ -8509,11 +8509,11 @@ public struct DescribeAssetInput: Swift.Equatable {
     /// This member is required.
     public var assetId: Swift.String?
     /// Whether or not to exclude asset properties from the response.
-    public var excludeProperties: Swift.Bool
+    public var excludeProperties: Swift.Bool?
 
     public init (
         assetId: Swift.String? = nil,
-        excludeProperties: Swift.Bool = false
+        excludeProperties: Swift.Bool? = nil
     )
     {
         self.assetId = assetId
@@ -8534,7 +8534,7 @@ extension DescribeAssetModelInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if excludeProperties != false {
+            if let excludeProperties = excludeProperties {
                 let excludePropertiesQueryItem = ClientRuntime.URLQueryItem(name: "excludeProperties".urlPercentEncoding(), value: Swift.String(excludeProperties).urlPercentEncoding())
                 items.append(excludePropertiesQueryItem)
             }
@@ -8557,11 +8557,11 @@ public struct DescribeAssetModelInput: Swift.Equatable {
     /// This member is required.
     public var assetModelId: Swift.String?
     /// Whether or not to exclude asset model properties from the response.
-    public var excludeProperties: Swift.Bool
+    public var excludeProperties: Swift.Bool?
 
     public init (
         assetModelId: Swift.String? = nil,
-        excludeProperties: Swift.Bool = false
+        excludeProperties: Swift.Bool? = nil
     )
     {
         self.assetModelId = assetModelId
@@ -10984,6 +10984,7 @@ extension DescribeTimeSeriesOutputResponse: ClientRuntime.HttpResponseBinding {
             self.dataType = output.dataType
             self.dataTypeSpec = output.dataTypeSpec
             self.propertyId = output.propertyId
+            self.timeSeriesArn = output.timeSeriesArn
             self.timeSeriesCreationDate = output.timeSeriesCreationDate
             self.timeSeriesId = output.timeSeriesId
             self.timeSeriesLastUpdateDate = output.timeSeriesLastUpdateDate
@@ -10993,6 +10994,7 @@ extension DescribeTimeSeriesOutputResponse: ClientRuntime.HttpResponseBinding {
             self.dataType = nil
             self.dataTypeSpec = nil
             self.propertyId = nil
+            self.timeSeriesArn = nil
             self.timeSeriesCreationDate = nil
             self.timeSeriesId = nil
             self.timeSeriesLastUpdateDate = nil
@@ -11012,6 +11014,9 @@ public struct DescribeTimeSeriesOutputResponse: Swift.Equatable {
     public var dataTypeSpec: Swift.String?
     /// The ID of the asset property.
     public var propertyId: Swift.String?
+    /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the time series, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:time-series/${TimeSeriesId}
+    /// This member is required.
+    public var timeSeriesArn: Swift.String?
     /// The date that the time series was created, in Unix epoch time.
     /// This member is required.
     public var timeSeriesCreationDate: ClientRuntime.Date?
@@ -11028,6 +11033,7 @@ public struct DescribeTimeSeriesOutputResponse: Swift.Equatable {
         dataType: IoTSiteWiseClientTypes.PropertyDataType? = nil,
         dataTypeSpec: Swift.String? = nil,
         propertyId: Swift.String? = nil,
+        timeSeriesArn: Swift.String? = nil,
         timeSeriesCreationDate: ClientRuntime.Date? = nil,
         timeSeriesId: Swift.String? = nil,
         timeSeriesLastUpdateDate: ClientRuntime.Date? = nil
@@ -11038,6 +11044,7 @@ public struct DescribeTimeSeriesOutputResponse: Swift.Equatable {
         self.dataType = dataType
         self.dataTypeSpec = dataTypeSpec
         self.propertyId = propertyId
+        self.timeSeriesArn = timeSeriesArn
         self.timeSeriesCreationDate = timeSeriesCreationDate
         self.timeSeriesId = timeSeriesId
         self.timeSeriesLastUpdateDate = timeSeriesLastUpdateDate
@@ -11053,6 +11060,7 @@ struct DescribeTimeSeriesOutputResponseBody: Swift.Equatable {
     let dataTypeSpec: Swift.String?
     let timeSeriesCreationDate: ClientRuntime.Date?
     let timeSeriesLastUpdateDate: ClientRuntime.Date?
+    let timeSeriesArn: Swift.String?
 }
 
 extension DescribeTimeSeriesOutputResponseBody: Swift.Decodable {
@@ -11062,6 +11070,7 @@ extension DescribeTimeSeriesOutputResponseBody: Swift.Decodable {
         case dataType
         case dataTypeSpec
         case propertyId
+        case timeSeriesArn
         case timeSeriesCreationDate
         case timeSeriesId
         case timeSeriesLastUpdateDate
@@ -11085,6 +11094,8 @@ extension DescribeTimeSeriesOutputResponseBody: Swift.Decodable {
         timeSeriesCreationDate = timeSeriesCreationDateDecoded
         let timeSeriesLastUpdateDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .timeSeriesLastUpdateDate)
         timeSeriesLastUpdateDate = timeSeriesLastUpdateDateDecoded
+        let timeSeriesArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timeSeriesArn)
+        timeSeriesArn = timeSeriesArnDecoded
     }
 }
 
@@ -18817,6 +18828,7 @@ extension IoTSiteWiseClientTypes.TimeSeriesSummary: Swift.Codable {
         case dataType
         case dataTypeSpec
         case propertyId
+        case timeSeriesArn
         case timeSeriesCreationDate
         case timeSeriesId
         case timeSeriesLastUpdateDate
@@ -18838,6 +18850,9 @@ extension IoTSiteWiseClientTypes.TimeSeriesSummary: Swift.Codable {
         }
         if let propertyId = self.propertyId {
             try encodeContainer.encode(propertyId, forKey: .propertyId)
+        }
+        if let timeSeriesArn = self.timeSeriesArn {
+            try encodeContainer.encode(timeSeriesArn, forKey: .timeSeriesArn)
         }
         if let timeSeriesCreationDate = self.timeSeriesCreationDate {
             try encodeContainer.encodeTimestamp(timeSeriesCreationDate, format: .epochSeconds, forKey: .timeSeriesCreationDate)
@@ -18868,6 +18883,8 @@ extension IoTSiteWiseClientTypes.TimeSeriesSummary: Swift.Codable {
         timeSeriesCreationDate = timeSeriesCreationDateDecoded
         let timeSeriesLastUpdateDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .timeSeriesLastUpdateDate)
         timeSeriesLastUpdateDate = timeSeriesLastUpdateDateDecoded
+        let timeSeriesArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timeSeriesArn)
+        timeSeriesArn = timeSeriesArnDecoded
     }
 }
 
@@ -18885,6 +18902,9 @@ extension IoTSiteWiseClientTypes {
         public var dataTypeSpec: Swift.String?
         /// The ID of the asset property.
         public var propertyId: Swift.String?
+        /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the time series, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:time-series/${TimeSeriesId}
+        /// This member is required.
+        public var timeSeriesArn: Swift.String?
         /// The date that the time series was created, in Unix epoch time.
         /// This member is required.
         public var timeSeriesCreationDate: ClientRuntime.Date?
@@ -18901,6 +18921,7 @@ extension IoTSiteWiseClientTypes {
             dataType: IoTSiteWiseClientTypes.PropertyDataType? = nil,
             dataTypeSpec: Swift.String? = nil,
             propertyId: Swift.String? = nil,
+            timeSeriesArn: Swift.String? = nil,
             timeSeriesCreationDate: ClientRuntime.Date? = nil,
             timeSeriesId: Swift.String? = nil,
             timeSeriesLastUpdateDate: ClientRuntime.Date? = nil
@@ -18911,6 +18932,7 @@ extension IoTSiteWiseClientTypes {
             self.dataType = dataType
             self.dataTypeSpec = dataTypeSpec
             self.propertyId = propertyId
+            self.timeSeriesArn = timeSeriesArn
             self.timeSeriesCreationDate = timeSeriesCreationDate
             self.timeSeriesId = timeSeriesId
             self.timeSeriesLastUpdateDate = timeSeriesLastUpdateDate

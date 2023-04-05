@@ -540,7 +540,7 @@ extension CreateParticipantConnectionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateParticipantConnectionInput: Swift.Equatable {
-    /// Amazon Connect Participant is used to mark the participant as connected for message streaming.
+    /// Amazon Connect Participant is used to mark the participant as connected for customer participant in message streaming, as well as for agent or manager participant in non-streaming chats.
     public var connectParticipant: Swift.Bool?
     /// This is a header parameter. The ParticipantToken as obtained from [StartChatContact](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartChatContact.html) API response.
     /// This member is required.
@@ -1834,9 +1834,11 @@ public struct SendMessageInput: Swift.Equatable {
     /// * For text/plain and text/markdown, the Length Constraints are Minimum of 1, Maximum of 1024.
     ///
     /// * For application/json, the Length Constraints are Minimum of 1, Maximum of 12000.
+    ///
+    /// * For application/vnd.amazonaws.connect.message.interactive.response, the Length Constraints are Minimum of 1, Maximum of 12288.
     /// This member is required.
     public var content: Swift.String?
-    /// The type of the content. Supported types are text/plain, text/markdown, and application/json.
+    /// The type of the content. Supported types are text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response.
     /// This member is required.
     public var contentType: Swift.String?
 
