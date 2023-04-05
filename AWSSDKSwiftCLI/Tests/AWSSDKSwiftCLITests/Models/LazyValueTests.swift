@@ -12,7 +12,7 @@ class LazyValueTests: XCTestCase {
     
     func testLazyValue() {
         var count: Int = 0
-        let subject = LazyValue {
+        let subject = LazyValue<Int> {
             count += 1
             return 1
         }

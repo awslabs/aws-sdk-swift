@@ -113,7 +113,7 @@ struct GeneratePackageManifest {
     /// - Returns: The versions for ClientRuntime and CRT.
     func resolveVersions() throws -> (clientRuntime: Version, crt: Version) {
         log("Resolving versions of dependencies...")
-        let packageDependencies = LazyValue {
+        let packageDependencies = LazyValue<PackageDependencies> {
             do {
                 return try PackageDependencies.load()
             } catch let error as Error {
