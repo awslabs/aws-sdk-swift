@@ -33,5 +33,6 @@ extension FileManager {
         try FileManager.default
             .contentsOfDirectory(atPath: "Sources/Services")
             .sorted()
+            .filter { !$0.hasPrefix(".") }
     }
 }
