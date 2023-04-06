@@ -134,7 +134,14 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
 
         // Handle the runtime config properties
         runtimeConfigs.forEach {
-            writer.write("self.\$L = \$L.\$L", it.memberName, RUNTIME_CONFIG_NAME, it.memberName)
+            when (it.memberName) {
+                "retryOptions" -> {
+                    writer.write("self.\$L = AWSRetryOptions(retryOptions: \$L.\$L)", it.memberName, RUNTIME_CONFIG_NAME, it.memberName)
+                }
+                else -> {
+                    writer.write("self.\$L = \$L.\$L", it.memberName, RUNTIME_CONFIG_NAME, it.memberName)
+                }
+            }
         }
 
         writer.dedent().write("}")
