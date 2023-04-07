@@ -17001,9 +17001,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "ap-northeast-1"
+=======
+                                "Region": "ap-northeast-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17014,9 +17020,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "ap-northeast-2"
+=======
+                                "Region": "ap-northeast-2",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17027,9 +17039,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "ap-south-1"
+=======
+                                "Region": "ap-south-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17040,9 +17058,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "ap-southeast-1"
+=======
+                                "Region": "ap-southeast-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17053,9 +17077,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "ap-southeast-2"
+=======
+                                "Region": "ap-southeast-2",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17066,9 +17096,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "ca-central-1"
+=======
+                                "Region": "ca-central-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17079,9 +17115,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true,
                                 "Region": "ca-central-1"
+=======
+                                "Region": "ca-central-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17092,9 +17134,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "eu-central-1"
+=======
+                                "Region": "eu-central-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17105,9 +17153,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "eu-north-1"
+=======
+                                "Region": "eu-north-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17118,9 +17172,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "eu-west-1"
+=======
+                                "Region": "eu-west-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17131,9 +17191,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "eu-west-2"
+=======
+                                "Region": "eu-west-2",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17144,9 +17210,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "eu-west-3"
+=======
+                                "Region": "eu-west-3",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17157,9 +17229,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "sa-east-1"
+=======
+                                "Region": "sa-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17170,9 +17248,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "us-east-1"
+=======
+                                "Region": "us-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17183,9 +17267,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true,
                                 "Region": "us-east-1"
+=======
+                                "Region": "us-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17196,9 +17286,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "us-east-2"
+=======
+                                "Region": "us-east-2",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17209,9 +17305,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true,
                                 "Region": "us-east-2"
+=======
+                                "Region": "us-east-2",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17222,9 +17324,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "us-west-1"
+=======
+                                "Region": "us-west-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17235,9 +17343,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true,
                                 "Region": "us-west-1"
+=======
+                                "Region": "us-west-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17248,9 +17362,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "us-west-2"
+=======
+                                "Region": "us-west-2",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17261,9 +17381,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true,
                                 "Region": "us-west-2"
+=======
+                                "Region": "us-west-2",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17274,9 +17400,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": true,
                                 "Region": "us-east-1"
+=======
+                                "Region": "us-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17287,9 +17419,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": false,
                                 "Region": "us-east-1"
+=======
+                                "Region": "us-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17300,9 +17438,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "cn-northwest-1"
+=======
+                                "Region": "cn-northwest-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17313,9 +17457,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": true,
                                 "Region": "cn-north-1"
+=======
+                                "Region": "cn-north-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17326,9 +17476,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true,
                                 "Region": "cn-north-1"
+=======
+                                "Region": "cn-north-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17339,9 +17495,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": false,
                                 "Region": "cn-north-1"
+=======
+                                "Region": "cn-north-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17352,9 +17514,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "cn-north-1"
+=======
+                                "Region": "cn-north-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17365,9 +17533,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "us-gov-west-1"
+=======
+                                "Region": "us-gov-west-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17378,9 +17552,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true,
                                 "Region": "us-gov-west-1"
+=======
+                                "Region": "us-gov-west-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17391,9 +17571,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": true,
                                 "Region": "us-gov-east-1"
+=======
+                                "Region": "us-gov-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17404,9 +17590,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true,
                                 "Region": "us-gov-east-1"
+=======
+                                "Region": "us-gov-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17417,9 +17609,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": false,
                                 "Region": "us-gov-east-1"
+=======
+                                "Region": "us-gov-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17430,9 +17628,26 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "us-gov-east-1"
+=======
+                                "Region": "us-gov-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
+                            },
+                            "params": {
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17454,9 +17669,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true,
                                 "Region": "us-iso-east-1"
+=======
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17465,9 +17686,15 @@
                                 "error": "DualStack is enabled but this partition does not support DualStack"
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": false,
                                 "Region": "us-iso-east-1"
+=======
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17478,9 +17705,26 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "us-iso-east-1"
+=======
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+                            }
+                        },
+                        {
+                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
+                            },
+                            "params": {
+                                "Region": "us-isob-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17502,9 +17746,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true,
                                 "Region": "us-isob-east-1"
+=======
+                                "Region": "us-isob-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17513,9 +17763,15 @@
                                 "error": "DualStack is enabled but this partition does not support DualStack"
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": false,
                                 "Region": "us-isob-east-1"
+=======
+                                "Region": "us-isob-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17526,9 +17782,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "us-isob-east-1"
+=======
+                                "Region": "us-isob-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -17539,9 +17801,15 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
                                 "Region": "us-east-1",
+=======
+                                "Region": "us-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -17564,9 +17832,15 @@
                                 "error": "Invalid Configuration: FIPS and custom endpoint are not supported"
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true,
                                 "Region": "us-east-1",
+=======
+                                "Region": "us-east-1",
+                                "UseFIPS": true,
+                                "UseDualStack": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -17576,9 +17850,15 @@
                                 "error": "Invalid Configuration: Dualstack and custom endpoint are not supported"
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": false,
                                 "Region": "us-east-1",
+=======
+                                "Region": "us-east-1",
+                                "UseFIPS": false,
+                                "UseDualStack": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "Endpoint": "https://example.com"
                             }
                         },

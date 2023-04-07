@@ -47,18 +47,24 @@
                     "target": "com.amazonaws.marketplacecatalog#CancelChangeSet"
                 },
                 {
+<<<<<<< HEAD
                     "target": "com.amazonaws.marketplacecatalog#DeleteResourcePolicy"
                 },
                 {
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                     "target": "com.amazonaws.marketplacecatalog#DescribeChangeSet"
                 },
                 {
                     "target": "com.amazonaws.marketplacecatalog#DescribeEntity"
                 },
                 {
+<<<<<<< HEAD
                     "target": "com.amazonaws.marketplacecatalog#GetResourcePolicy"
                 },
                 {
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                     "target": "com.amazonaws.marketplacecatalog#ListChangeSets"
                 },
                 {
@@ -68,9 +74,12 @@
                     "target": "com.amazonaws.marketplacecatalog#ListTagsForResource"
                 },
                 {
+<<<<<<< HEAD
                     "target": "com.amazonaws.marketplacecatalog#PutResourcePolicy"
                 },
                 {
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                     "target": "com.amazonaws.marketplacecatalog#StartChangeSet"
                 },
                 {
@@ -92,7 +101,11 @@
                     "name": "aws-marketplace"
                 },
                 "aws.protocols#restJson1": {},
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Catalog API actions allow you to manage your entities through list, describe, and\n            update capabilities. An entity can be a product or an offer on AWS Marketplace. </p>\n         <p>You can automate your entity update process by integrating the AWS Marketplace Catalog\n            API with your AWS Marketplace product build or deployment pipelines. You can also create\n            your own applications on top of the Catalog API to manage your products on AWS\n            Marketplace.</p>",
+=======
+                "smithy.api#documentation": "<p>Catalog API actions allow you to manage your entities through list, describe, and\n            update capabilities. An entity can be a product or an offer on AWS Marketplace. </p>\n        <p>You can automate your entity update process by integrating the AWS Marketplace Catalog\n            API with your AWS Marketplace product build or deployment pipelines. You can also create\n            your own applications on top of the Catalog API to manage your products on AWS\n            Marketplace.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                 "smithy.api#title": "AWS Marketplace Catalog Service",
                 "smithy.rules#endpointRuleSet": {
                     "version": "1.0",
@@ -768,7 +781,11 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Access is denied.</p>\n         <p>HTTP status code: 403</p>",
+=======
+                "smithy.api#documentation": "<p>Access is denied.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 403
             }
@@ -829,9 +846,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.marketplacecatalog#CancelChangeSetResponse": {
@@ -849,9 +869,12 @@
                         "smithy.api#documentation": "<p>The ARN associated with the change set referenced in this request.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.marketplacecatalog#Catalog": {
@@ -870,7 +893,11 @@
                 "ChangeType": {
                     "target": "com.amazonaws.marketplacecatalog#ChangeType",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>Change types are single string values that describe your intention for the change.\n            Each change type is unique for each <code>EntityType</code> provided in the change's\n            scope. For more information on change types available for single-AMI products, see\n                <a href=\"https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products\">Working with single-AMI products</a>. Also, for more information on change\n            types available for container-based products, see <a href=\"https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products\">Working with container products</a>.</p>",
+=======
+                        "smithy.api#documentation": "<p>Change types are single string values that describe your intention for the change.\n            Each change type is unique for each <code>EntityType</code> provided in the change's\n            scope.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
@@ -890,7 +917,11 @@
                 "Details": {
                     "target": "com.amazonaws.marketplacecatalog#Json",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>This object contains details specific to the change type of the requested\n            change. For more\n            information on change types available for single-AMI products, see <a href=\"https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products\">Working with single-AMI products</a>. Also, for more information on change\n            types available for container-based products, see <a href=\"https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products\">Working with container products</a>.</p>",
+=======
+                        "smithy.api#documentation": "<p>This object contains details specific to the change type of the requested\n            change.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
@@ -1096,6 +1127,7 @@
                 "smithy.api#pattern": "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$"
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.marketplacecatalog#DeleteResourcePolicy": {
             "type": "operation",
             "input": {
@@ -1153,6 +1185,8 @@
                 "smithy.api#output": {}
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.marketplacecatalog#DescribeChangeSet": {
             "type": "operation",
             "input": {
@@ -1206,9 +1240,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.marketplacecatalog#DescribeChangeSetResponse": {
@@ -1268,9 +1305,12 @@
                         "smithy.api#documentation": "<p>An array of <code>ChangeSummary</code> objects.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.marketplacecatalog#DescribeEntity": {
@@ -1329,9 +1369,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.marketplacecatalog#DescribeEntityResponse": {
@@ -1367,9 +1410,12 @@
                         "smithy.api#documentation": "<p>This stringified JSON object includes the details of the entity.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.marketplacecatalog#Entity": {
@@ -1532,13 +1578,21 @@
                 "Name": {
                     "target": "com.amazonaws.marketplacecatalog#FilterName",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>For <code>ListEntities</code>, the supported value for this is an\n                <code>EntityId</code>.</p>\n         <p>For <code>ListChangeSets</code>, the supported values are as follows:</p>"
+=======
+                        "smithy.api#documentation": "<p>For <code>ListEntities</code>, the supported value for this is an\n                <code>EntityId</code>.</p>\n        <p>For <code>ListChangeSets</code>, the supported values are as follows:</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "ValueList": {
                     "target": "com.amazonaws.marketplacecatalog#ValueList",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>\n            <code>ListEntities</code> - This is a list of unique <code>EntityId</code>s.</p>\n         <p>\n            <code>ListChangeSets</code> - The supported filter names and associated\n                <code>ValueList</code>s is as follows:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>ChangeSetName</code> - The supported <code>ValueList</code> is a list of\n                    non-unique <code>ChangeSetName</code>s. These are defined when you call the\n                        <code>StartChangeSet</code> action.</p>\n            </li>\n            <li>\n               <p>\n                  <code>Status</code> - The supported <code>ValueList</code> is a list of\n                    statuses for all change set requests.</p>\n            </li>\n            <li>\n               <p>\n                  <code>EntityId</code> - The supported <code>ValueList</code> is a list of\n                    unique <code>EntityId</code>s.</p>\n            </li>\n            <li>\n               <p>\n                  <code>BeforeStartTime</code> - The supported <code>ValueList</code> is a list\n                    of all change sets that started before the filter value.</p>\n            </li>\n            <li>\n               <p>\n                  <code>AfterStartTime</code> - The supported <code>ValueList</code> is a list\n                    of all change sets that started after the filter value.</p>\n            </li>\n            <li>\n               <p>\n                  <code>BeforeEndTime</code> - The supported <code>ValueList</code> is a list of\n                    all change sets that ended before the filter value.</p>\n            </li>\n            <li>\n               <p>\n                  <code>AfterEndTime</code> - The supported <code>ValueList</code> is a list of\n                    all change sets that ended after the filter value.</p>\n            </li>\n         </ul>"
+=======
+                        "smithy.api#documentation": "<p>\n            <code>ListEntities</code> - This is a list of unique <code>EntityId</code>s.</p>\n        <p>\n            <code>ListChangeSets</code> - The supported filter names and associated\n                <code>ValueList</code>s is as follows:</p>\n        <ul>\n            <li>\n                <p>\n                  <code>ChangeSetName</code> - The supported <code>ValueList</code> is a list of\n                    non-unique <code>ChangeSetName</code>s. These are defined when you call the\n                        <code>StartChangeSet</code> action.</p>\n            </li>\n            <li>\n                <p>\n                  <code>Status</code> - The supported <code>ValueList</code> is a list of\n                    statuses for all change set requests.</p>\n            </li>\n            <li>\n                <p>\n                  <code>EntityId</code> - The supported <code>ValueList</code> is a list of\n                    unique <code>EntityId</code>s.</p>\n            </li>\n            <li>\n                <p>\n                  <code>BeforeStartTime</code> - The supported <code>ValueList</code> is a list\n                    of all change sets that started before the filter value.</p>\n            </li>\n            <li>\n                <p>\n                  <code>AfterStartTime</code> - The supported <code>ValueList</code> is a list\n                    of all change sets that started after the filter value.</p>\n            </li>\n            <li>\n                <p>\n                  <code>BeforeEndTime</code> - The supported <code>ValueList</code> is a list of\n                    all change sets that ended before the filter value.</p>\n            </li>\n            <li>\n                <p>\n                  <code>AfterEndTime</code> - The supported <code>ValueList</code> is a list of\n                    all change sets that ended after the filter value.</p>\n            </li>\n         </ul>"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 }
             },
@@ -1578,6 +1632,7 @@
                 "smithy.api#pattern": "^(.)+$"
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.marketplacecatalog#GetResourcePolicy": {
             "type": "operation",
             "input": {
@@ -1642,6 +1697,8 @@
                 "smithy.api#output": {}
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.marketplacecatalog#Identifier": {
             "type": "string",
             "traits": {
@@ -1660,7 +1717,11 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>There was an internal service exception.</p>\n         <p>HTTP status code: 500</p>",
+=======
+                "smithy.api#documentation": "<p>There was an internal service exception.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                 "smithy.api#error": "server",
                 "smithy.api#httpError": 500
             }
@@ -1698,7 +1759,11 @@
                 }
             ],
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Returns the list of change sets owned by the account being used to make the call. You\n            can filter this list by providing any combination of <code>entityId</code>,\n                <code>ChangeSetName</code>, and status. If you provide more than one filter, the API\n            operation applies a logical AND between the filters.</p>\n         <p>You can describe a change during the 60-day request history retention period for API\n            calls.</p>",
+=======
+                "smithy.api#documentation": "<p>Returns the list of change sets owned by the account being used to make the call. You\n            can filter this list by providing any combination of <code>entityId</code>,\n                <code>ChangeSetName</code>, and status. If you provide more than one filter, the API\n            operation applies a logical AND between the filters.</p>\n        <p>You can describe a change during the 60-day request history retention period for API\n            calls.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/ListChangeSets",
@@ -1711,6 +1776,7 @@
                 }
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.marketplacecatalog#ListChangeSetsMaxResultInteger": {
             "type": "integer",
             "traits": {
@@ -1720,6 +1786,8 @@
                 }
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.marketplacecatalog#ListChangeSetsRequest": {
             "type": "structure",
             "members": {
@@ -1743,7 +1811,11 @@
                     }
                 },
                 "MaxResults": {
+<<<<<<< HEAD
                     "target": "com.amazonaws.marketplacecatalog#ListChangeSetsMaxResultInteger",
+=======
+                    "target": "com.amazonaws.marketplacecatalog#MaxResultInteger",
+>>>>>>> e9e9f86da6 (chore: regen models)
                     "traits": {
                         "smithy.api#documentation": "<p>The maximum number of results returned by a single call. This value must be provided\n            in the next call to retrieve the next set of results. By default, this value is\n            20.</p>"
                     }
@@ -1754,9 +1826,12 @@
                         "smithy.api#documentation": "<p>The token value retrieved from a previous call to access the next page of\n            results.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.marketplacecatalog#ListChangeSetsResponse": {
@@ -1774,9 +1849,12 @@
                         "smithy.api#documentation": "<p>The value of the next token, if it exists. Null if there are no more results.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.marketplacecatalog#ListEntities": {
@@ -1818,6 +1896,7 @@
                 }
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.marketplacecatalog#ListEntitiesMaxResultInteger": {
             "type": "integer",
             "traits": {
@@ -1827,6 +1906,8 @@
                 }
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.marketplacecatalog#ListEntitiesRequest": {
             "type": "structure",
             "members": {
@@ -1863,6 +1944,7 @@
                     }
                 },
                 "MaxResults": {
+<<<<<<< HEAD
                     "target": "com.amazonaws.marketplacecatalog#ListEntitiesMaxResultInteger",
                     "traits": {
                         "smithy.api#documentation": "<p>Specifies the upper limit of the elements on a single page. If a value isn't provided,\n            the default value is 20.</p>"
@@ -1874,6 +1956,13 @@
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+                    "target": "com.amazonaws.marketplacecatalog#MaxResultInteger",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the upper limit of the elements on a single page. If a value isn't provided,\n            the default value is 20.</p>"
+                    }
+                }
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.marketplacecatalog#ListEntitiesResponse": {
@@ -1891,9 +1980,12 @@
                         "smithy.api#documentation": "<p>The value of the next token if it exists. Null if there is no more result.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.marketplacecatalog#ListTagsForResource": {
@@ -1940,9 +2032,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.marketplacecatalog#ListTagsForResourceResponse": {
@@ -1960,9 +2055,21 @@
                         "smithy.api#documentation": "<p>Required. A list of objects specifying each key name and value. Number of objects\n            allowed: 1-50.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+            }
+        },
+        "com.amazonaws.marketplacecatalog#MaxResultInteger": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 1,
+                    "max": 20
+                }
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.marketplacecatalog#NextToken": {
@@ -1975,6 +2082,7 @@
                 "smithy.api#pattern": "^[\\w+=.:@\\-\\/]$"
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.marketplacecatalog#OwnershipType": {
             "type": "enum",
             "members": {
@@ -2055,6 +2163,8 @@
                 "smithy.api#output": {}
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.marketplacecatalog#RequestedChangeList": {
             "type": "list",
             "member": {
@@ -2114,7 +2224,11 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The specified resource wasn't found.</p>\n         <p>HTTP status code: 404</p>",
+=======
+                "smithy.api#documentation": "<p>The specified resource wasn't found.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 404
             }
@@ -2132,6 +2246,7 @@
                 "smithy.api#httpError": 415
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.marketplacecatalog#ResourcePolicyJson": {
             "type": "string",
             "traits": {
@@ -2142,6 +2257,8 @@
                 "smithy.api#pattern": "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$"
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.marketplacecatalog#ServiceQuotaExceededException": {
             "type": "structure",
             "members": {
@@ -2161,7 +2278,11 @@
                 "SortBy": {
                     "target": "com.amazonaws.marketplacecatalog#SortBy",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>For <code>ListEntities</code>, supported attributes include\n                <code>LastModifiedDate</code> (default), <code>Visibility</code>,\n                <code>EntityId</code>, and <code>Name</code>.</p>\n         <p>For <code>ListChangeSets</code>, supported attributes include <code>StartTime</code>\n            and <code>EndTime</code>.</p>"
+=======
+                        "smithy.api#documentation": "<p>For <code>ListEntities</code>, supported attributes include\n                <code>LastModifiedDate</code> (default), <code>Visibility</code>,\n                <code>EntityId</code>, and <code>Name</code>.</p>\n        <p>For <code>ListChangeSets</code>, supported attributes include <code>StartTime</code>\n            and <code>EndTime</code>.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "SortOrder": {
@@ -2234,7 +2355,11 @@
                 }
             ],
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Allows you to request changes for your entities. Within a single\n                <code>ChangeSet</code>, you can't start the same change type against the same entity\n            multiple times. Additionally, when a <code>ChangeSet</code> is running, all the entities\n            targeted by the different changes are locked until the change set has completed (either\n            succeeded, cancelled, or failed). If you try to start a change set containing a change\n            against an entity that is already locked, you will receive a\n                <code>ResourceInUseException</code> error.</p>\n         <p>For example, you can't start the <code>ChangeSet</code> described in the <a href=\"https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/API_StartChangeSet.html#API_StartChangeSet_Examples\">example</a> later in this topic because it contains two changes to run the same\n            change type (<code>AddRevisions</code>) against the same entity\n                (<code>entity-id@1</code>).</p>\n         <p>For more information about working with change sets, see <a href=\"https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets\"> Working with change sets</a>. For information on change types for single-AMI\n            products, see <a href=\"https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products\">Working with single-AMI products</a>. Als, for more information on change types\n            available for container-based products, see <a href=\"https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products\">Working with container products</a>.</p>",
+=======
+                "smithy.api#documentation": "<p>Allows you to request changes for your entities. Within a single\n                <code>ChangeSet</code>, you can't start the same change type against the same entity\n            multiple times. Additionally, when a <code>ChangeSet</code> is running, all the entities\n            targeted by the different changes are locked until the change set has completed (either\n            succeeded, cancelled, or failed). If you try to start a change set containing a change\n            against an entity that is already locked, you will receive a\n                <code>ResourceInUseException</code> error.</p>\n        <p>For example, you can't start the <code>ChangeSet</code> described in the <a href=\"https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/API_StartChangeSet.html#API_StartChangeSet_Examples\">example</a> later in this topic because it contains two changes to run the same\n            change type (<code>AddRevisions</code>) against the same entity\n                (<code>entity-id@1</code>).</p>\n        <p>For more information about working with change sets, see <a href=\"https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets\"> Working with change sets</a>.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/StartChangeSet",
@@ -2278,9 +2403,12 @@
                         "smithy.api#documentation": "<p>A list of objects specifying each key name and value for the\n                <code>ChangeSetTags</code> property.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.marketplacecatalog#StartChangeSetResponse": {
@@ -2298,9 +2426,12 @@
                         "smithy.api#documentation": "<p>The ARN associated to the unique identifier generated for the request.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.marketplacecatalog#Tag": {
@@ -2343,7 +2474,11 @@
             "traits": {
                 "smithy.api#length": {
                     "min": 1,
+<<<<<<< HEAD
                     "max": 200
+=======
+                    "max": 50
+>>>>>>> e9e9f86da6 (chore: regen models)
                 }
             }
         },
@@ -2355,7 +2490,11 @@
             "traits": {
                 "smithy.api#length": {
                     "min": 1,
+<<<<<<< HEAD
                     "max": 200
+=======
+                    "max": 50
+>>>>>>> e9e9f86da6 (chore: regen models)
                 }
             }
         },
@@ -2410,17 +2549,24 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.marketplacecatalog#TagResourceResponse": {
             "type": "structure",
+<<<<<<< HEAD
             "members": {},
             "traits": {
                 "smithy.api#output": {}
             }
+=======
+            "members": {}
+>>>>>>> e9e9f86da6 (chore: regen models)
         },
         "com.amazonaws.marketplacecatalog#TagValue": {
             "type": "string",
@@ -2440,7 +2586,11 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Too many requests.</p>\n         <p>HTTP status code: 429</p>",
+=======
+                "smithy.api#documentation": "<p>Too many requests.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 429
             }
@@ -2496,17 +2646,24 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.marketplacecatalog#UntagResourceResponse": {
             "type": "structure",
+<<<<<<< HEAD
             "members": {},
             "traits": {
                 "smithy.api#output": {}
             }
+=======
+            "members": {}
+>>>>>>> e9e9f86da6 (chore: regen models)
         },
         "com.amazonaws.marketplacecatalog#ValidationException": {
             "type": "structure",
@@ -2516,7 +2673,11 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>An error occurred during validation.</p>\n         <p>HTTP status code: 422</p>",
+=======
+                "smithy.api#documentation": "<p>An error occurred during validation.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 422
             }

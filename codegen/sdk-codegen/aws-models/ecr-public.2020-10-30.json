@@ -146,9 +146,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#BatchCheckLayerAvailabilityResponse": {
@@ -166,9 +169,12 @@
                         "smithy.api#documentation": "<p>Any failures associated with the call.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#BatchDeleteImage": {
@@ -201,9 +207,15 @@
             "type": "structure",
             "members": {
                 "registryId": {
+<<<<<<< HEAD
                     "target": "com.amazonaws.ecrpublic#RegistryIdOrAlias",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Web Services account ID, or registry alias, that's associated with the registry that\n         contains the image to delete. If you do not specify a registry, the default public registry is assumed.</p>"
+=======
+                    "target": "com.amazonaws.ecrpublic#RegistryId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Web Services account ID that's associated with the registry that contains the image to\n         delete. If you do not specify a registry, the default public registry is assumed.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "repositoryName": {
@@ -220,9 +232,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#BatchDeleteImageResponse": {
@@ -240,9 +255,12 @@
                         "smithy.api#documentation": "<p>Any failures associated with the call.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#BatchedOperationLayerDigest": {
@@ -340,9 +358,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#CompleteLayerUploadResponse": {
@@ -372,9 +393,12 @@
                         "smithy.api#documentation": "<p>The <code>sha256</code> digest of the image layer.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#CreateRepository": {
@@ -434,9 +458,12 @@
                         "smithy.api#documentation": "<p>The metadata that you apply to each repository to help categorize and organize your\n         repositories. Each tag consists of a key and an optional value. You define both of them.\n         Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#CreateRepositoryResponse": {
@@ -451,9 +478,12 @@
                 "catalogData": {
                     "target": "com.amazonaws.ecrpublic#RepositoryCatalogData"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#CreationTimestamp": {
@@ -539,9 +569,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#DeleteRepositoryPolicyResponse": {
@@ -565,9 +598,12 @@
                         "smithy.api#documentation": "<p>The JSON repository policy that was deleted from the repository.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#DeleteRepositoryRequest": {
@@ -593,9 +629,12 @@
                         "smithy.api#documentation": "<p> The force option can be used to delete a repository that contains images. If the force\n         option is not used, the repository must be empty prior to deletion.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#DeleteRepositoryResponse": {
@@ -607,9 +646,12 @@
                         "smithy.api#documentation": "<p>The repository that was deleted.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#DescribeImageTags": {
@@ -672,9 +714,12 @@
                         "smithy.api#documentation": "<p>The maximum number of repository results that's returned by\n            <code>DescribeImageTags</code> in paginated output. When this parameter is used,\n            <code>DescribeImageTags</code> only returns <code>maxResults</code> results in a single\n         page along with a <code>nextToken</code> response element. You can see the remaining\n         results of the initial request by sending another <code>DescribeImageTags</code> request\n         with the returned <code>nextToken</code> value. This value can be between 1\n         and 1000. If this parameter isn't used, then <code>DescribeImageTags</code>\n         returns up to 100 results and a <code>nextToken</code> value, if\n         applicable. If you specify images with <code>imageIds</code>, you can't use this\n         option.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#DescribeImageTagsResponse": {
@@ -692,9 +737,12 @@
                         "smithy.api#documentation": "<p>The <code>nextToken</code> value to include in a future <code>DescribeImageTags</code>\n         request. When the results of a <code>DescribeImageTags</code> request exceed\n            <code>maxResults</code>, you can use this value to retrieve the next page of results. If\n         there are no more results to return, this value is <code>null</code>.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#DescribeImages": {
@@ -766,9 +814,12 @@
                         "smithy.api#documentation": "<p>The maximum number of repository results that's returned by <code>DescribeImages</code>\n         in paginated output. When this parameter is used, <code>DescribeImages</code> only returns\n            <code>maxResults</code> results in a single page along with a <code>nextToken</code>\n         response element. You can see the remaining results of the initial request by sending\n         another <code>DescribeImages</code> request with the returned <code>nextToken</code> value.\n         This value can be between 1 and 1000. If this parameter isn't\n         used, then <code>DescribeImages</code> returns up to 100 results and a\n            <code>nextToken</code> value, if applicable. If you specify images with\n            <code>imageIds</code>, you can't use this option.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#DescribeImagesResponse": {
@@ -786,9 +837,12 @@
                         "smithy.api#documentation": "<p>The <code>nextToken</code> value to include in a future <code>DescribeImages</code>\n         request. When the results of a <code>DescribeImages</code> request exceed\n            <code>maxResults</code>, you can use this value to retrieve the next page of results. If\n         there are no more results to return, this value is <code>null</code>.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#DescribeRegistries": {
@@ -835,9 +889,12 @@
                         "smithy.api#documentation": "<p>The maximum number of repository results that's returned by\n            <code>DescribeRegistries</code> in paginated output. When this parameter is used,\n            <code>DescribeRegistries</code> only returns <code>maxResults</code> results in a single\n         page along with a <code>nextToken</code> response element. The remaining results of the\n         initial request can be seen by sending another <code>DescribeRegistries</code> request with\n         the returned <code>nextToken</code> value. This value can be between 1 and\n         1000. If this parameter isn't used, then <code>DescribeRegistries</code>\n         returns up to 100 results and a <code>nextToken</code> value, if\n         applicable.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#DescribeRegistriesResponse": {
@@ -856,9 +913,12 @@
                         "smithy.api#documentation": "<p>The <code>nextToken</code> value to include in a future\n            <code>DescribeRepositories</code> request. If the results of a\n            <code>DescribeRepositories</code> request exceed <code>maxResults</code>, you can use\n         this value to retrieve the next page of results. If there are no more results, this value\n         is <code>null</code>.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#DescribeRepositories": {
@@ -920,9 +980,12 @@
                         "smithy.api#documentation": "<p>The maximum number of repository results that's returned by\n            <code>DescribeRepositories</code> in paginated output. When this parameter is used,\n            <code>DescribeRepositories</code> only returns <code>maxResults</code> results in a\n         single page along with a <code>nextToken</code> response element. You can see the remaining\n         results of the initial request by sending another <code>DescribeRepositories</code> request\n         with the returned <code>nextToken</code> value. This value can be between 1\n         and 1000. If this parameter isn't used, then <code>DescribeRepositories</code>\n         returns up to 100 results and a <code>nextToken</code> value, if\n         applicable. If you specify repositories with <code>repositoryNames</code>, you can't use\n         this option.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#DescribeRepositoriesResponse": {
@@ -940,9 +1003,12 @@
                         "smithy.api#documentation": "<p>The <code>nextToken</code> value to include in a future\n            <code>DescribeRepositories</code> request. When the results of a\n            <code>DescribeRepositories</code> request exceed <code>maxResults</code>, this value can\n         be used to retrieve the next page of results. If there are no more results to return, this\n         value is <code>null</code>.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#EmptyUploadException": {
@@ -994,10 +1060,14 @@
         },
         "com.amazonaws.ecrpublic#GetAuthorizationTokenRequest": {
             "type": "structure",
+<<<<<<< HEAD
             "members": {},
             "traits": {
                 "smithy.api#input": {}
             }
+=======
+            "members": {}
+>>>>>>> e9e9f86da6 (chore: regen models)
         },
         "com.amazonaws.ecrpublic#GetAuthorizationTokenResponse": {
             "type": "structure",
@@ -1008,9 +1078,12 @@
                         "smithy.api#documentation": "<p>An authorization token data object that corresponds to a public registry.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#GetRegistryCatalogData": {
@@ -1035,10 +1108,14 @@
         },
         "com.amazonaws.ecrpublic#GetRegistryCatalogDataRequest": {
             "type": "structure",
+<<<<<<< HEAD
             "members": {},
             "traits": {
                 "smithy.api#input": {}
             }
+=======
+            "members": {}
+>>>>>>> e9e9f86da6 (chore: regen models)
         },
         "com.amazonaws.ecrpublic#GetRegistryCatalogDataResponse": {
             "type": "structure",
@@ -1050,9 +1127,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#GetRepositoryCatalogData": {
@@ -1100,9 +1180,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#GetRepositoryCatalogDataResponse": {
@@ -1114,9 +1197,12 @@
                         "smithy.api#documentation": "<p>The catalog metadata for the repository.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#GetRepositoryPolicy": {
@@ -1164,9 +1250,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#GetRepositoryPolicyResponse": {
@@ -1190,9 +1279,12 @@
                         "smithy.api#documentation": "<p>The repository policy text that's associated with the repository. The policy text will\n         be in JSON format.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#Image": {
@@ -1564,9 +1656,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#InitiateLayerUploadResponse": {
@@ -1584,9 +1679,12 @@
                         "smithy.api#documentation": "<p>The size, in bytes, that Amazon ECR expects future layer part uploads to be.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#InvalidLayerException": {
@@ -1882,9 +1980,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#ListTagsForResourceResponse": {
@@ -1896,9 +1997,12 @@
                         "smithy.api#documentation": "<p>The tags for the resource.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#LogoImageBlob": {
@@ -2010,7 +2114,11 @@
                 }
             ],
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Creates or updates the image manifest and tags that are associated with an image.</p>\n         <p>When an image is pushed and all new image layers have been uploaded, the PutImage API is\n         called once to create or update the image manifest and the tags that are associated with\n         the image.</p>\n         <note>\n            <p>This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the <code>docker</code> CLI to pull, tag, and push images.</p>\n         </note>"
+=======
+                "smithy.api#documentation": "<p>Creates or updates the image manifest and tags that are associated with an image.</p>\n         <p>When an image is pushed and all new image layers have been uploaded, the PutImage API is\n         called once to create or update the image manifest and the tags that are associated with\n         the image.</p>\n      \n         <note>\n            <p>This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the <code>docker</code> CLI to pull, tag, and push images.</p>\n         </note>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#PutImageRequest": {
@@ -2054,9 +2162,12 @@
                         "smithy.api#documentation": "<p>The image digest of the image manifest that corresponds to the image.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#PutImageResponse": {
@@ -2068,9 +2179,12 @@
                         "smithy.api#documentation": "<p>Details of the image uploaded.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#PutRegistryCatalogData": {
@@ -2105,9 +2219,12 @@
                         "smithy.api#documentation": "<p>The display name for a public registry. The display name is shown as the repository\n         author in the Amazon ECR Public Gallery.</p>\n         <note>\n            <p>The registry display name is only publicly visible in the Amazon ECR Public Gallery for\n            verified accounts.</p>\n         </note>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#PutRegistryCatalogDataResponse": {
@@ -2120,9 +2237,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#PutRepositoryCatalogData": {
@@ -2174,9 +2294,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#PutRepositoryCatalogDataResponse": {
@@ -2188,9 +2311,12 @@
                         "smithy.api#documentation": "<p>The catalog data for the repository.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#ReferencedImageDetail": {
@@ -2737,9 +2863,12 @@
                         "smithy.api#documentation": "<p>If the policy that you want to set on a repository policy would prevent you from setting\n         another policy in the future, you must force the <a>SetRepositoryPolicy</a>\n         operation. This prevents accidental repository lockouts.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#SetRepositoryPolicyResponse": {
@@ -2763,9 +2892,12 @@
                         "smithy.api#documentation": "<p>The JSON repository policy text that's applied to the repository.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#SpencerFrontendService": {
@@ -3220,8 +3352,13 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3233,8 +3370,13 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3246,8 +3388,13 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3259,8 +3406,13 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3272,8 +3424,13 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3285,8 +3442,13 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3298,8 +3460,13 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3311,8 +3478,13 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3324,8 +3496,13 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3337,8 +3514,13 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3350,8 +3532,13 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3363,8 +3550,13 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3374,8 +3566,13 @@
                             },
                             "params": {
                                 "Region": "us-iso-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3387,8 +3584,13 @@
                             },
                             "params": {
                                 "Region": "us-iso-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3398,8 +3600,13 @@
                             },
                             "params": {
                                 "Region": "us-iso-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3411,8 +3618,13 @@
                             },
                             "params": {
                                 "Region": "us-iso-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3422,8 +3634,13 @@
                             },
                             "params": {
                                 "Region": "us-isob-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3435,8 +3652,13 @@
                             },
                             "params": {
                                 "Region": "us-isob-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3446,8 +3668,13 @@
                             },
                             "params": {
                                 "Region": "us-isob-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3459,8 +3686,13 @@
                             },
                             "params": {
                                 "Region": "us-isob-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -3472,8 +3704,13 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -3485,8 +3722,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -3497,8 +3739,13 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true,
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -3509,8 +3756,13 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": false,
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -3627,17 +3879,24 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#TagResourceResponse": {
             "type": "structure",
+<<<<<<< HEAD
             "members": {},
             "traits": {
                 "smithy.api#output": {}
             }
+=======
+            "members": {}
+>>>>>>> e9e9f86da6 (chore: regen models)
         },
         "com.amazonaws.ecrpublic#TagValue": {
             "type": "string",
@@ -3721,17 +3980,24 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#UntagResourceResponse": {
             "type": "structure",
+<<<<<<< HEAD
             "members": {},
             "traits": {
                 "smithy.api#output": {}
             }
+=======
+            "members": {}
+>>>>>>> e9e9f86da6 (chore: regen models)
         },
         "com.amazonaws.ecrpublic#UploadId": {
             "type": "string",
@@ -3821,9 +4087,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#UploadLayerPartResponse": {
@@ -3853,9 +4122,12 @@
                         "smithy.api#documentation": "<p>The integer value of the last byte that's received in the request.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.ecrpublic#UploadNotFoundException": {

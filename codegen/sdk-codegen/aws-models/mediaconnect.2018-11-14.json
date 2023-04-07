@@ -29,6 +29,7 @@
         ]
     },
     "shapes": {
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#AddBridgeFlowSourceRequest": {
             "type": "structure",
             "members": {
@@ -392,6 +393,8 @@
                 }
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#AddFlowMediaStreams": {
             "type": "operation",
             "input": {
@@ -451,8 +454,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "A request to add media streams to the flow.",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "A request to add media streams to the flow."
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#AddFlowMediaStreamsResponse": {
@@ -472,9 +479,12 @@
                         "smithy.api#jsonName": "mediaStreams"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#AddFlowOutputs": {
@@ -543,7 +553,11 @@
                     "traits": {
                         "smithy.api#documentation": "The flow that you want to add outputs to.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:flow:.+$",
+=======
+                        "smithy.api#pattern": "^arn:.*",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
@@ -557,8 +571,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "A request to add outputs to the specified flow.",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "A request to add outputs to the specified flow."
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#AddFlowOutputsResponse": {
@@ -578,9 +596,12 @@
                         "smithy.api#jsonName": "outputs"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#AddFlowSources": {
@@ -628,7 +649,11 @@
                     "traits": {
                         "smithy.api#documentation": "The flow that you want to mutate.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:flow:.+$",
+=======
+                        "smithy.api#pattern": "^arn:.*",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
@@ -642,8 +667,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "A request to add sources to the flow.",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "A request to add sources to the flow."
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#AddFlowSourcesResponse": {
@@ -663,9 +692,12 @@
                         "smithy.api#jsonName": "sources"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#AddFlowVpcInterfaces": {
@@ -713,7 +745,11 @@
                     "traits": {
                         "smithy.api#documentation": "The flow that you want to mutate.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:flow:.+$",
+=======
+                        "smithy.api#pattern": "^arn:.*",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
@@ -727,8 +763,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "A request to add VPC interfaces to the flow.",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "A request to add VPC interfaces to the flow."
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#AddFlowVpcInterfacesResponse": {
@@ -748,6 +788,7 @@
                         "smithy.api#jsonName": "vpcInterfaces"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
@@ -774,6 +815,8 @@
                         "smithy.api#required": {}
                     }
                 }
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#AddMaintenance": {
@@ -889,7 +932,11 @@
                 "Encryption": {
                     "target": "com.amazonaws.mediaconnect#Encryption",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Allowable encryption types: static-key.",
+=======
+                        "smithy.api#documentation": "The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key).",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#jsonName": "encryption"
                     }
                 },
@@ -965,7 +1012,11 @@
                 "StreamId": {
                     "target": "com.amazonaws.mediaconnect#__string",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.",
+=======
+                        "smithy.api#documentation": "The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#jsonName": "streamId"
                     }
                 },
@@ -1022,6 +1073,7 @@
                 "smithy.api#httpError": 400
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#Bridge": {
             "type": "structure",
             "members": {
@@ -1410,6 +1462,8 @@
                 }
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#Colorimetry": {
             "type": "enum",
             "members": {
@@ -1457,6 +1511,7 @@
                 }
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#ConflictException": {
             "type": "structure",
             "members": {
@@ -1625,6 +1680,8 @@
                 "smithy.api#output": {}
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#CreateFlow": {
             "type": "operation",
             "input": {
@@ -1752,8 +1809,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50)."
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#CreateFlowResponse": {
@@ -1765,6 +1826,7 @@
                         "smithy.api#jsonName": "flow"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
@@ -1945,6 +2007,8 @@
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#DeleteFlow": {
@@ -1992,6 +2056,7 @@
                     "traits": {
                         "smithy.api#documentation": "The ARN of the flow that you want to delete.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:flow:.+$",
                         "smithy.api#required": {}
                     }
@@ -1999,6 +2064,11 @@
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+                        "smithy.api#required": {}
+                    }
+                }
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#DeleteFlowResponse": {
@@ -2018,6 +2088,7 @@
                         "smithy.api#jsonName": "status"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
@@ -2251,6 +2322,8 @@
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#DescribeFlow": {
@@ -2450,6 +2523,7 @@
                     "traits": {
                         "smithy.api#documentation": "The ARN of the flow that you want to describe.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:flow:.+$",
                         "smithy.api#required": {}
                     }
@@ -2457,6 +2531,11 @@
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+                        "smithy.api#required": {}
+                    }
+                }
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#DescribeFlowResponse": {
@@ -2474,6 +2553,7 @@
                         "smithy.api#jsonName": "messages"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
@@ -2619,6 +2699,8 @@
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#DescribeOffering": {
@@ -2666,9 +2748,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#DescribeOfferingResponse": {
@@ -2680,9 +2765,12 @@
                         "smithy.api#jsonName": "offering"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#DescribeReservation": {
@@ -2730,9 +2818,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#DescribeReservationResponse": {
@@ -2744,6 +2835,7 @@
                         "smithy.api#jsonName": "reservation"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
@@ -2770,6 +2862,8 @@
                         "smithy.api#enumValue": "DELETED"
                     }
                 }
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#DestinationConfiguration": {
@@ -2857,6 +2951,7 @@
                 }
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#EgressGatewayBridge": {
             "type": "structure",
             "members": {
@@ -2878,6 +2973,8 @@
                 }
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#EncoderProfile": {
             "type": "enum",
             "members": {
@@ -3213,7 +3310,11 @@
                 "FlowArn": {
                     "target": "com.amazonaws.mediaconnect#__string",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "The Amazon Resource Name (ARN) of the flow.",
+=======
+                        "smithy.api#documentation": "The Amazon Resource Name (ARN), a unique identifier for any AWS resource, of the flow.",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#jsonName": "flowArn",
                         "smithy.api#required": {}
                     }
@@ -3418,6 +3519,7 @@
                 "smithy.api#httpError": 403
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#Gateway": {
             "type": "structure",
             "members": {
@@ -3630,6 +3732,8 @@
                 }
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#GrantEntitlementRequest": {
             "type": "structure",
             "members": {
@@ -3651,7 +3755,11 @@
                 "Encryption": {
                     "target": "com.amazonaws.mediaconnect#Encryption",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "The type of encryption that will be used on the output that is associated with this entitlement. Allowable encryption types: static-key, speke.",
+=======
+                        "smithy.api#documentation": "The type of encryption that will be used on the output that is associated with this entitlement.",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#jsonName": "encryption"
                     }
                 },
@@ -3756,14 +3864,22 @@
                     "traits": {
                         "smithy.api#documentation": "The flow that you want to grant entitlements on.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:flow:.+$",
+=======
+                        "smithy.api#pattern": "^arn:.*",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "A request to grant entitlements on a flow.",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "A request to grant entitlements on a flow."
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#GrantFlowEntitlementsResponse": {
@@ -3783,6 +3899,7 @@
                         "smithy.api#jsonName": "flowArn"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
@@ -3816,6 +3933,8 @@
                         "smithy.api#required": {}
                     }
                 }
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#InputConfiguration": {
@@ -3876,6 +3995,7 @@
                 "smithy.api#documentation": "The transport parameters that you want to associate with an incoming media stream."
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#InstanceState": {
             "type": "enum",
             "members": {
@@ -3917,6 +4037,8 @@
                 }
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#Interface": {
             "type": "structure",
             "members": {
@@ -3990,6 +4112,7 @@
                 }
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#ListBridges": {
             "type": "operation",
             "input": {
@@ -4082,6 +4205,8 @@
                 "smithy.api#output": {}
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#ListEntitlements": {
             "type": "operation",
             "input": {
@@ -4137,9 +4262,12 @@
                         "smithy.api#httpQuery": "nextToken"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#ListEntitlementsResponse": {
@@ -4159,9 +4287,12 @@
                         "smithy.api#jsonName": "nextToken"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#ListFlows": {
@@ -4219,9 +4350,12 @@
                         "smithy.api#httpQuery": "nextToken"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#ListFlowsResponse": {
@@ -4241,6 +4375,7 @@
                         "smithy.api#jsonName": "nextToken"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
@@ -4421,6 +4556,8 @@
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#ListOfferings": {
@@ -4478,9 +4615,12 @@
                         "smithy.api#httpQuery": "nextToken"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#ListOfferingsResponse": {
@@ -4500,9 +4640,12 @@
                         "smithy.api#jsonName": "offerings"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#ListReservations": {
@@ -4560,9 +4703,12 @@
                         "smithy.api#httpQuery": "nextToken"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#ListReservationsResponse": {
@@ -4582,9 +4728,12 @@
                         "smithy.api#jsonName": "reservations"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#ListTagsForResource": {
@@ -4626,9 +4775,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#ListTagsForResourceResponse": {
@@ -4641,6 +4793,7 @@
                         "smithy.api#jsonName": "tags"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
@@ -4691,6 +4844,8 @@
             },
             "traits": {
                 "smithy.api#documentation": "Displays details of the selected bridge."
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#ListedEntitlement": {
@@ -4787,6 +4942,7 @@
                 "smithy.api#documentation": "Provides a summary of a flow, including its ARN, Availability Zone, and source type."
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#ListedGateway": {
             "type": "structure",
             "members": {
@@ -4857,6 +5013,8 @@
                 "smithy.api#documentation": "Provides a summary of an instance."
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#Maintenance": {
             "type": "structure",
             "members": {
@@ -4955,12 +5113,15 @@
             "version": "2018-11-14",
             "operations": [
                 {
+<<<<<<< HEAD
                     "target": "com.amazonaws.mediaconnect#AddBridgeOutputs"
                 },
                 {
                     "target": "com.amazonaws.mediaconnect#AddBridgeSources"
                 },
                 {
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                     "target": "com.amazonaws.mediaconnect#AddFlowMediaStreams"
                 },
                 {
@@ -4973,6 +5134,7 @@
                     "target": "com.amazonaws.mediaconnect#AddFlowVpcInterfaces"
                 },
                 {
+<<<<<<< HEAD
                     "target": "com.amazonaws.mediaconnect#CreateBridge"
                 },
                 {
@@ -5006,6 +5168,17 @@
                     "target": "com.amazonaws.mediaconnect#DescribeGatewayInstance"
                 },
                 {
+=======
+                    "target": "com.amazonaws.mediaconnect#CreateFlow"
+                },
+                {
+                    "target": "com.amazonaws.mediaconnect#DeleteFlow"
+                },
+                {
+                    "target": "com.amazonaws.mediaconnect#DescribeFlow"
+                },
+                {
+>>>>>>> e9e9f86da6 (chore: regen models)
                     "target": "com.amazonaws.mediaconnect#DescribeOffering"
                 },
                 {
@@ -5015,21 +5188,27 @@
                     "target": "com.amazonaws.mediaconnect#GrantFlowEntitlements"
                 },
                 {
+<<<<<<< HEAD
                     "target": "com.amazonaws.mediaconnect#ListBridges"
                 },
                 {
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                     "target": "com.amazonaws.mediaconnect#ListEntitlements"
                 },
                 {
                     "target": "com.amazonaws.mediaconnect#ListFlows"
                 },
                 {
+<<<<<<< HEAD
                     "target": "com.amazonaws.mediaconnect#ListGatewayInstances"
                 },
                 {
                     "target": "com.amazonaws.mediaconnect#ListGateways"
                 },
                 {
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                     "target": "com.amazonaws.mediaconnect#ListOfferings"
                 },
                 {
@@ -5042,12 +5221,15 @@
                     "target": "com.amazonaws.mediaconnect#PurchaseOffering"
                 },
                 {
+<<<<<<< HEAD
                     "target": "com.amazonaws.mediaconnect#RemoveBridgeOutput"
                 },
                 {
                     "target": "com.amazonaws.mediaconnect#RemoveBridgeSource"
                 },
                 {
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                     "target": "com.amazonaws.mediaconnect#RemoveFlowMediaStream"
                 },
                 {
@@ -5075,6 +5257,7 @@
                     "target": "com.amazonaws.mediaconnect#UntagResource"
                 },
                 {
+<<<<<<< HEAD
                     "target": "com.amazonaws.mediaconnect#UpdateBridge"
                 },
                 {
@@ -5087,6 +5270,8 @@
                     "target": "com.amazonaws.mediaconnect#UpdateBridgeState"
                 },
                 {
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                     "target": "com.amazonaws.mediaconnect#UpdateFlow"
                 },
                 {
@@ -5100,9 +5285,12 @@
                 },
                 {
                     "target": "com.amazonaws.mediaconnect#UpdateFlowSource"
+<<<<<<< HEAD
                 },
                 {
                     "target": "com.amazonaws.mediaconnect#UpdateGatewayInstance"
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                 }
             ],
             "traits": {
@@ -6257,6 +6445,7 @@
                 }
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#MessageDetail": {
             "type": "structure",
             "members": {
@@ -6285,6 +6474,8 @@
                 }
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#Messages": {
             "type": "structure",
             "members": {
@@ -6506,6 +6697,7 @@
                         "smithy.api#documentation": "The name of the VPC interface attachment to use for this output.",
                         "smithy.api#jsonName": "vpcInterfaceAttachment"
                     }
+<<<<<<< HEAD
                 },
                 "BridgeArn": {
                     "target": "com.amazonaws.mediaconnect#__string",
@@ -6520,6 +6712,8 @@
                         "smithy.api#documentation": "The bridge output ports currently in use.",
                         "smithy.api#jsonName": "bridgePorts"
                     }
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                 }
             },
             "traits": {
@@ -6599,12 +6793,15 @@
                     "traits": {
                         "smithy.api#enumValue": "fujitsu-qos"
                     }
+<<<<<<< HEAD
                 },
                 "udp": {
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "udp"
                     }
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                 }
             }
         },
@@ -6674,8 +6871,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "A request to purchase a offering.",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "A request to purchase a offering."
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#PurchaseOfferingResponse": {
@@ -6687,9 +6888,12 @@
                         "smithy.api#jsonName": "reservation"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#Range": {
@@ -6715,6 +6919,7 @@
                 }
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#RemoveBridgeOutput": {
             "type": "operation",
             "input": {
@@ -6885,6 +7090,8 @@
                 "smithy.api#output": {}
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#RemoveFlowMediaStream": {
             "type": "operation",
             "input": {
@@ -6942,9 +7149,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#RemoveFlowMediaStreamResponse": {
@@ -6964,9 +7174,12 @@
                         "smithy.api#jsonName": "mediaStreamName"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#RemoveFlowOutput": {
@@ -7014,7 +7227,10 @@
                     "traits": {
                         "smithy.api#documentation": "The flow that you want to remove an output from.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:flow:.+$",
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
@@ -7023,6 +7239,7 @@
                     "traits": {
                         "smithy.api#documentation": "The ARN of the output that you want to remove.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:output:.+$",
                         "smithy.api#required": {}
                     }
@@ -7030,6 +7247,11 @@
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+                        "smithy.api#required": {}
+                    }
+                }
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#RemoveFlowOutputResponse": {
@@ -7049,9 +7271,12 @@
                         "smithy.api#jsonName": "outputArn"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#RemoveFlowSource": {
@@ -7099,7 +7324,10 @@
                     "traits": {
                         "smithy.api#documentation": "The flow that you want to remove a source from.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:flow:.+$",
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
@@ -7108,6 +7336,7 @@
                     "traits": {
                         "smithy.api#documentation": "The ARN of the source that you want to remove.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:source:.+$",
                         "smithy.api#required": {}
                     }
@@ -7115,6 +7344,11 @@
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+                        "smithy.api#required": {}
+                    }
+                }
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#RemoveFlowSourceResponse": {
@@ -7134,9 +7368,12 @@
                         "smithy.api#jsonName": "sourceArn"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#RemoveFlowVpcInterface": {
@@ -7184,7 +7421,10 @@
                     "traits": {
                         "smithy.api#documentation": "The flow that you want to remove a VPC interface from.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:flow:.+$",
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
@@ -7196,9 +7436,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#RemoveFlowVpcInterfaceResponse": {
@@ -7225,9 +7468,12 @@
                         "smithy.api#jsonName": "vpcInterfaceName"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#Reservation": {
@@ -7452,7 +7698,10 @@
                     "traits": {
                         "smithy.api#documentation": "The ARN of the entitlement that you want to revoke.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:entitlement:.+$",
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
@@ -7461,6 +7710,7 @@
                     "traits": {
                         "smithy.api#documentation": "The flow that you want to revoke an entitlement from.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:flow:.+$",
                         "smithy.api#required": {}
                     }
@@ -7468,6 +7718,11 @@
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+                        "smithy.api#required": {}
+                    }
+                }
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#RevokeFlowEntitlementResponse": {
@@ -7487,9 +7742,12 @@
                         "smithy.api#jsonName": "flowArn"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#ScanMode": {
@@ -7533,6 +7791,7 @@
                 "smithy.api#httpError": 503
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#SetGatewayBridgeSourceRequest": {
             "type": "structure",
             "members": {
@@ -7557,13 +7816,19 @@
                 "smithy.api#documentation": "The source configuration for cloud flows receiving a stream from a bridge."
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#SetSourceRequest": {
             "type": "structure",
             "members": {
                 "Decryption": {
                     "target": "com.amazonaws.mediaconnect#Encryption",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "The type of encryption that is used on the content ingested from this source. Allowable encryption types: static-key.",
+=======
+                        "smithy.api#documentation": "The type of encryption that is used on the content ingested from this source.",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#jsonName": "decryption"
                     }
                 },
@@ -7578,8 +7843,12 @@
                     "target": "com.amazonaws.mediaconnect#__string",
                     "traits": {
                         "smithy.api#documentation": "The ARN of the entitlement that allows you to subscribe to this flow. The entitlement is set by the flow originator, and the ARN is generated as part of the originator's flow.",
+<<<<<<< HEAD
                         "smithy.api#jsonName": "entitlementArn",
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:entitlement:.+$"
+=======
+                        "smithy.api#jsonName": "entitlementArn"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "IngestPort": {
@@ -7594,7 +7863,11 @@
                     "target": "com.amazonaws.mediaconnect#__integer",
                     "traits": {
                         "smithy.api#default": 0,
+<<<<<<< HEAD
                         "smithy.api#documentation": "The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.",
+=======
+                        "smithy.api#documentation": "The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#jsonName": "maxBitrate"
                     }
                 },
@@ -7676,7 +7949,11 @@
                 "StreamId": {
                     "target": "com.amazonaws.mediaconnect#__string",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.",
+=======
+                        "smithy.api#documentation": "The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#jsonName": "streamId"
                     }
                 },
@@ -7693,6 +7970,7 @@
                         "smithy.api#documentation": "The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.",
                         "smithy.api#jsonName": "whitelistCidr"
                     }
+<<<<<<< HEAD
                 },
                 "GatewayBridgeSource": {
                     "target": "com.amazonaws.mediaconnect#SetGatewayBridgeSourceRequest",
@@ -7700,6 +7978,8 @@
                         "smithy.api#documentation": "The source configuration for cloud flows receiving a stream from a bridge.",
                         "smithy.api#jsonName": "gatewayBridgeSource"
                     }
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                 }
             },
             "traits": {
@@ -7811,6 +8091,7 @@
                         "smithy.api#documentation": "The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.",
                         "smithy.api#jsonName": "whitelistCidr"
                     }
+<<<<<<< HEAD
                 },
                 "GatewayBridgeSource": {
                     "target": "com.amazonaws.mediaconnect#GatewayBridgeSource",
@@ -7818,6 +8099,8 @@
                         "smithy.api#documentation": "The source configuration for cloud flows receiving a stream from a bridge.",
                         "smithy.api#jsonName": "gatewayBridgeSource"
                     }
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                 }
             },
             "traits": {
@@ -7901,6 +8184,7 @@
                     "traits": {
                         "smithy.api#documentation": "The ARN of the flow that you want to start.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:flow:.+$",
                         "smithy.api#required": {}
                     }
@@ -7908,6 +8192,12 @@
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+                        "smithy.api#pattern": "^arn:.*",
+                        "smithy.api#required": {}
+                    }
+                }
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#StartFlowResponse": {
@@ -7927,9 +8217,12 @@
                         "smithy.api#jsonName": "status"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#State": {
@@ -8041,6 +8334,7 @@
                     "traits": {
                         "smithy.api#documentation": "The ARN of the flow that you want to stop.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:flow:.+$",
                         "smithy.api#required": {}
                     }
@@ -8048,6 +8342,12 @@
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+                        "smithy.api#pattern": "^arn:.*",
+                        "smithy.api#required": {}
+                    }
+                }
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#StopFlowResponse": {
@@ -8067,9 +8367,12 @@
                         "smithy.api#jsonName": "status"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#TagResource": {
@@ -8121,8 +8424,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters."
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#Tcs": {
@@ -8216,7 +8523,11 @@
                     "target": "com.amazonaws.mediaconnect#__integer",
                     "traits": {
                         "smithy.api#default": 0,
+<<<<<<< HEAD
                         "smithy.api#documentation": "The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.",
+=======
+                        "smithy.api#documentation": "The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#jsonName": "maxBitrate"
                     }
                 },
@@ -8300,7 +8611,11 @@
                 "StreamId": {
                     "target": "com.amazonaws.mediaconnect#__string",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.",
+=======
+                        "smithy.api#documentation": "The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#jsonName": "streamId"
                     }
                 }
@@ -8356,6 +8671,7 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
@@ -8847,6 +9163,8 @@
                         "smithy.api#jsonName": "maxBitrate"
                     }
                 }
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#UpdateEncryption": {
@@ -9043,7 +9361,11 @@
                 "Encryption": {
                     "target": "com.amazonaws.mediaconnect#UpdateEncryption",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "The type of encryption that will be used on the output associated with this entitlement. Allowable encryption types: static-key, speke.",
+=======
+                        "smithy.api#documentation": "The type of encryption that will be used on the output associated with this entitlement.",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#jsonName": "encryption"
                     }
                 },
@@ -9052,7 +9374,10 @@
                     "traits": {
                         "smithy.api#documentation": "The ARN of the entitlement that you want to update.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:entitlement:.+$",
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
@@ -9068,7 +9393,10 @@
                     "traits": {
                         "smithy.api#documentation": "The flow that is associated with the entitlement that you want to update.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:flow:.+$",
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
@@ -9081,8 +9409,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "The entitlement fields that you want to update.",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "The entitlement fields that you want to update."
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#UpdateFlowEntitlementResponse": {
@@ -9102,9 +9434,12 @@
                         "smithy.api#jsonName": "flowArn"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#UpdateFlowMediaStream": {
@@ -9202,8 +9537,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "The fields that you want to update in the media stream.",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "The fields that you want to update in the media stream."
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#UpdateFlowMediaStreamResponse": {
@@ -9223,9 +9562,12 @@
                         "smithy.api#jsonName": "mediaStream"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#UpdateFlowOutput": {
@@ -9292,7 +9634,11 @@
                 "Encryption": {
                     "target": "com.amazonaws.mediaconnect#UpdateEncryption",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Allowable encryption types: static-key.",
+=======
+                        "smithy.api#documentation": "The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key).",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#jsonName": "encryption"
                     }
                 },
@@ -9301,7 +9647,10 @@
                     "traits": {
                         "smithy.api#documentation": "The flow that is associated with the output that you want to update.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:flow:.+$",
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
@@ -9333,7 +9682,10 @@
                     "traits": {
                         "smithy.api#documentation": "The ARN of the output that you want to update.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:output:.+$",
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
@@ -9385,7 +9737,11 @@
                 "StreamId": {
                     "target": "com.amazonaws.mediaconnect#__string",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.",
+=======
+                        "smithy.api#documentation": "The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#jsonName": "streamId"
                     }
                 },
@@ -9398,8 +9754,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "The fields that you want to update in the output.",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "The fields that you want to update in the output."
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#UpdateFlowOutputResponse": {
@@ -9419,9 +9779,12 @@
                         "smithy.api#jsonName": "output"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#UpdateFlowRequest": {
@@ -9432,7 +9795,10 @@
                     "traits": {
                         "smithy.api#documentation": "The flow that you want to update.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:flow:.+$",
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
@@ -9450,8 +9816,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "A request to update flow.",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "A request to update flow."
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#UpdateFlowResponse": {
@@ -9463,9 +9833,12 @@
                         "smithy.api#jsonName": "flow"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#UpdateFlowSource": {
@@ -9511,7 +9884,11 @@
                 "Decryption": {
                     "target": "com.amazonaws.mediaconnect#UpdateEncryption",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "The type of encryption used on the content ingested from this source. Allowable encryption types: static-key.",
+=======
+                        "smithy.api#documentation": "The type of encryption used on the content ingested from this source.",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#jsonName": "decryption"
                     }
                 },
@@ -9526,8 +9903,12 @@
                     "target": "com.amazonaws.mediaconnect#__string",
                     "traits": {
                         "smithy.api#documentation": "The ARN of the entitlement that allows you to subscribe to this flow. The entitlement is set by the flow originator, and the ARN is generated as part of the originator's flow.",
+<<<<<<< HEAD
                         "smithy.api#jsonName": "entitlementArn",
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:entitlement:.+$"
+=======
+                        "smithy.api#jsonName": "entitlementArn"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "FlowArn": {
@@ -9535,7 +9916,10 @@
                     "traits": {
                         "smithy.api#documentation": "The flow that is associated with the source that you want to update.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:flow:.+$",
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
@@ -9551,7 +9935,11 @@
                     "target": "com.amazonaws.mediaconnect#__integer",
                     "traits": {
                         "smithy.api#default": 0,
+<<<<<<< HEAD
                         "smithy.api#documentation": "The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.",
+=======
+                        "smithy.api#documentation": "The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#jsonName": "maxBitrate"
                     }
                 },
@@ -9613,7 +10001,10 @@
                     "traits": {
                         "smithy.api#documentation": "The ARN of the source that you want to update.",
                         "smithy.api#httpLabel": {},
+<<<<<<< HEAD
                         "smithy.api#pattern": "^arn:.+:mediaconnect.+:source:.+$",
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
@@ -9635,7 +10026,11 @@
                 "StreamId": {
                     "target": "com.amazonaws.mediaconnect#__string",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.",
+=======
+                        "smithy.api#documentation": "The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#jsonName": "streamId"
                     }
                 },
@@ -9652,6 +10047,7 @@
                         "smithy.api#documentation": "The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.",
                         "smithy.api#jsonName": "whitelistCidr"
                     }
+<<<<<<< HEAD
                 },
                 "GatewayBridgeSource": {
                     "target": "com.amazonaws.mediaconnect#UpdateGatewayBridgeSourceRequest",
@@ -9664,6 +10060,12 @@
             "traits": {
                 "smithy.api#documentation": "A request to update the source of a flow.",
                 "smithy.api#input": {}
+=======
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "A request to update the source of a flow."
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#UpdateFlowSourceResponse": {
@@ -9683,6 +10085,7 @@
                         "smithy.api#jsonName": "source"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
@@ -9817,6 +10220,8 @@
                         "smithy.api#jsonName": "maxOutputs"
                     }
                 }
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#UpdateMaintenance": {
@@ -9910,13 +10315,21 @@
                 "VpcInterfaceName": {
                     "target": "com.amazonaws.mediaconnect#__string",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "The name of the VPC interface to use for this resource.",
+=======
+                        "smithy.api#documentation": "The name of the VPC interface to use for this output.",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#jsonName": "vpcInterfaceName"
                     }
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "The settings for attaching a VPC interface to an resource."
+=======
+                "smithy.api#documentation": "The settings for attaching a VPC interface to an output."
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.mediaconnect#VpcInterfaceRequest": {
@@ -9966,12 +10379,15 @@
                 "smithy.api#documentation": "Desired VPC Interface for a Flow"
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#__boolean": {
             "type": "boolean",
             "traits": {
                 "smithy.api#default": false
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#__double": {
             "type": "double",
             "traits": {
@@ -9984,6 +10400,7 @@
                 "smithy.api#default": 0
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#__listOfAddBridgeOutputRequest": {
             "type": "list",
             "member": {
@@ -9996,6 +10413,8 @@
                 "target": "com.amazonaws.mediaconnect#AddBridgeSourceRequest"
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#__listOfAddMediaStreamRequest": {
             "type": "list",
             "member": {
@@ -10008,6 +10427,7 @@
                 "target": "com.amazonaws.mediaconnect#AddOutputRequest"
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#__listOfBridgeOutput": {
             "type": "list",
             "member": {
@@ -10020,6 +10440,8 @@
                 "target": "com.amazonaws.mediaconnect#BridgeSource"
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#__listOfDestinationConfiguration": {
             "type": "list",
             "member": {
@@ -10038,12 +10460,15 @@
                 "target": "com.amazonaws.mediaconnect#Entitlement"
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#__listOfGatewayNetwork": {
             "type": "list",
             "member": {
                 "target": "com.amazonaws.mediaconnect#GatewayNetwork"
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#__listOfGrantEntitlementRequest": {
             "type": "list",
             "member": {
@@ -10062,12 +10487,15 @@
                 "target": "com.amazonaws.mediaconnect#InputConfigurationRequest"
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#__listOfListedBridge": {
             "type": "list",
             "member": {
                 "target": "com.amazonaws.mediaconnect#ListedBridge"
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#__listOfListedEntitlement": {
             "type": "list",
             "member": {
@@ -10080,6 +10508,7 @@
                 "target": "com.amazonaws.mediaconnect#ListedFlow"
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#__listOfListedGateway": {
             "type": "list",
             "member": {
@@ -10092,6 +10521,8 @@
                 "target": "com.amazonaws.mediaconnect#ListedGatewayInstance"
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#__listOfMediaStream": {
             "type": "list",
             "member": {
@@ -10122,12 +10553,15 @@
                 "target": "com.amazonaws.mediaconnect#MediaStreamSourceConfigurationRequest"
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#__listOfMessageDetail": {
             "type": "list",
             "member": {
                 "target": "com.amazonaws.mediaconnect#MessageDetail"
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#__listOfOffering": {
             "type": "list",
             "member": {
@@ -10170,12 +10604,15 @@
                 "target": "com.amazonaws.mediaconnect#VpcInterfaceRequest"
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.mediaconnect#__listOf__integer": {
             "type": "list",
             "member": {
                 "target": "com.amazonaws.mediaconnect#__integer"
             }
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.mediaconnect#__listOf__string": {
             "type": "list",
             "member": {

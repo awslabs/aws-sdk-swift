@@ -542,8 +542,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "af-south-1",
+=======
+                                "Region": "af-south-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -555,8 +560,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "ap-east-1",
+=======
+                                "Region": "ap-east-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -568,8 +578,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "ap-northeast-1",
+=======
+                                "Region": "ap-northeast-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -581,8 +596,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "ap-northeast-2",
+=======
+                                "Region": "ap-northeast-2",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -594,8 +614,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "ap-northeast-3",
+=======
+                                "Region": "ap-northeast-3",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -607,8 +632,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "ap-south-1",
+=======
+                                "Region": "ap-south-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -620,8 +650,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "ap-southeast-1",
+=======
+                                "Region": "ap-southeast-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -633,8 +668,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "ap-southeast-2",
+=======
+                                "Region": "ap-southeast-2",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -646,8 +686,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "ca-central-1",
+=======
+                                "Region": "ca-central-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -659,8 +704,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "Region": "ca-central-1",
+=======
+                                "Region": "ca-central-1",
+                                "UseFIPS": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -672,8 +722,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "eu-central-1",
+=======
+                                "Region": "eu-central-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -685,8 +740,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "eu-north-1",
+=======
+                                "Region": "eu-north-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -698,8 +758,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "eu-south-1",
+=======
+                                "Region": "eu-south-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -711,8 +776,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "eu-west-1",
+=======
+                                "Region": "eu-west-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -724,8 +794,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "eu-west-2",
+=======
+                                "Region": "eu-west-2",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -737,8 +812,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "eu-west-3",
+=======
+                                "Region": "eu-west-3",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -750,8 +830,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "me-south-1",
+=======
+                                "Region": "me-south-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -763,8 +848,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "sa-east-1",
+=======
+                                "Region": "sa-east-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -776,8 +866,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "us-east-1",
+=======
+                                "Region": "us-east-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -789,8 +884,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "Region": "us-east-1",
+=======
+                                "Region": "us-east-1",
+                                "UseFIPS": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -802,8 +902,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "us-east-2",
+=======
+                                "Region": "us-east-2",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -815,8 +920,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "Region": "us-east-2",
+=======
+                                "Region": "us-east-2",
+                                "UseFIPS": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -828,8 +938,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "us-west-1",
+=======
+                                "Region": "us-west-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -841,8 +956,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "Region": "us-west-1",
+=======
+                                "Region": "us-west-1",
+                                "UseFIPS": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -854,8 +974,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "us-west-2",
+=======
+                                "Region": "us-west-2",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -867,8 +992,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "Region": "us-west-2",
+=======
+                                "Region": "us-west-2",
+                                "UseFIPS": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -880,8 +1010,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "Region": "us-east-1",
+=======
+                                "Region": "us-east-1",
+                                "UseFIPS": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": true
                             }
                         },
@@ -893,8 +1028,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "us-east-1",
+=======
+                                "Region": "us-east-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": true
                             }
                         },
@@ -906,8 +1046,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "cn-north-1",
+=======
+                                "Region": "cn-north-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -919,8 +1064,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "cn-northwest-1",
+=======
+                                "Region": "cn-northwest-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -932,8 +1082,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "Region": "cn-north-1",
+=======
+                                "Region": "cn-north-1",
+                                "UseFIPS": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": true
                             }
                         },
@@ -945,8 +1100,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "Region": "cn-north-1",
+=======
+                                "Region": "cn-north-1",
+                                "UseFIPS": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -958,8 +1118,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "cn-north-1",
+=======
+                                "Region": "cn-north-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": true
                             }
                         },
@@ -971,8 +1136,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "us-gov-east-1",
+=======
+                                "Region": "us-gov-east-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -984,8 +1154,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "Region": "us-gov-east-1",
+=======
+                                "Region": "us-gov-east-1",
+                                "UseFIPS": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -997,8 +1172,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "us-gov-west-1",
+=======
+                                "Region": "us-gov-west-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -1010,8 +1190,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "Region": "us-gov-west-1",
+=======
+                                "Region": "us-gov-west-1",
+                                "UseFIPS": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -1023,8 +1208,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "Region": "us-gov-east-1",
+=======
+                                "Region": "us-gov-east-1",
+                                "UseFIPS": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": true
                             }
                         },
@@ -1036,8 +1226,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "us-gov-east-1",
+=======
+                                "Region": "us-gov-east-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": true
                             }
                         },
@@ -1047,8 +1242,13 @@
                                 "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "Region": "us-iso-east-1",
+=======
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": true
                             }
                         },
@@ -1060,8 +1260,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "Region": "us-iso-east-1",
+=======
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -1071,8 +1276,13 @@
                                 "error": "DualStack is enabled but this partition does not support DualStack"
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "us-iso-east-1",
+=======
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": true
                             }
                         },
@@ -1084,8 +1294,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "us-iso-east-1",
+=======
+                                "Region": "us-iso-east-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -1095,8 +1310,13 @@
                                 "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "Region": "us-isob-east-1",
+=======
+                                "Region": "us-isob-east-1",
+                                "UseFIPS": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": true
                             }
                         },
@@ -1108,8 +1328,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "Region": "us-isob-east-1",
+=======
+                                "Region": "us-isob-east-1",
+                                "UseFIPS": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -1119,8 +1344,13 @@
                                 "error": "DualStack is enabled but this partition does not support DualStack"
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "us-isob-east-1",
+=======
+                                "Region": "us-isob-east-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": true
                             }
                         },
@@ -1132,8 +1362,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "us-isob-east-1",
+=======
+                                "Region": "us-isob-east-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false
                             }
                         },
@@ -1145,8 +1380,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "us-east-1",
+=======
+                                "Region": "us-east-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
@@ -1170,8 +1410,13 @@
                                 "error": "Invalid Configuration: FIPS and custom endpoint are not supported"
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": true,
                                 "Region": "us-east-1",
+=======
+                                "Region": "us-east-1",
+                                "UseFIPS": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": false,
                                 "Endpoint": "https://example.com"
                             }
@@ -1182,8 +1427,13 @@
                                 "error": "Invalid Configuration: Dualstack and custom endpoint are not supported"
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseFIPS": false,
                                 "Region": "us-east-1",
+=======
+                                "Region": "us-east-1",
+                                "UseFIPS": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "UseDualStack": true,
                                 "Endpoint": "https://example.com"
                             }
@@ -1574,8 +1824,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The request object specifying one or more DNS alias names to associate with an Amazon FSx for Windows File Server file system.</p>",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "<p>The request object specifying one or more DNS alias names to associate with an Amazon FSx for Windows File Server file system.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#AssociateFileSystemAliasesResponse": {
@@ -1589,8 +1843,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The system generated response showing the DNS aliases that \n            Amazon FSx is attempting to associate with the file system. \n            Use the  API \n            operation to monitor the status of the aliases Amazon FSx is \n            associating with the file system. It can take up to 2.5 minutes for \n        the alias status to change from <code>CREATING</code> to <code>AVAILABLE</code>. </p>",
                 "smithy.api#output": {}
+=======
+                "smithy.api#documentation": "<p>The system generated response showing the DNS aliases that \n            Amazon FSx is attempting to associate with the file system. \n            Use the  API \n            operation to monitor the status of the aliases Amazon FSx is \n            associating with the file system. It can take up to 2.5 minutes for \n        the alias status to change from <code>CREATING</code> to <code>AVAILABLE</code>. </p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#AutoExportPolicy": {
@@ -1604,7 +1862,11 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Describes a data repository association's automatic export policy. The\n            <code>AutoExportPolicy</code> defines the types of updated objects on the\n            file system that will be automatically exported to the data repository.\n            As you create, modify, or delete files, Amazon FSx for Lustre \n            automatically exports the defined changes asynchronously once your application finishes\n            modifying the file.</p>\n         <p>The <code>AutoExportPolicy</code> is only supported on Amazon FSx for Lustre file systems\n            with a data repository association.</p>"
+=======
+                "smithy.api#documentation": "<p>Describes a data repository association's automatic export policy. The\n            <code>AutoExportPolicy</code> defines the types of updated objects on the\n            file system that will be automatically exported to the data repository.\n            As you create, modify, or delete files, Amazon FSx for Lustre \n            automatically exports the defined changes asynchronously once your application finishes\n            modifying the file.</p>\n         <p>This <code>AutoExportPolicy</code> is supported only for Amazon FSx for Lustre\n            file systems with the <code>Persistent_2</code> deployment type.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#AutoImportPolicy": {
@@ -1618,7 +1880,11 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Describes the data repository association's automatic import policy.\n            The AutoImportPolicy defines how Amazon FSx keeps your file metadata and directory\n            listings up to date by importing changes to your Amazon FSx for Lustre file system\n            as you modify objects in a linked S3 bucket.</p>\n         <p>The <code>AutoImportPolicy</code> is only supported on Amazon FSx for Lustre file systems\n            with a data repository association.</p>"
+=======
+                "smithy.api#documentation": "<p>Describes the data repository association's automatic import policy.\n            The AutoImportPolicy defines how Amazon FSx keeps your file metadata and directory\n            listings up to date by importing changes to your Amazon FSx for Lustre file system\n            as you modify objects in a linked S3 bucket.</p>\n         <p>The <code>AutoImportPolicy</code> is supported only for Amazon FSx for Lustre\n            file systems with the <code>Persistent_2</code> deployment type.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#AutoImportPolicyType": {
@@ -1998,8 +2264,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Cancels a data repository task.</p>",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "<p>Cancels a data repository task.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CancelDataRepositoryTaskResponse": {
@@ -2017,9 +2287,12 @@
                         "smithy.api#documentation": "<p>The ID of the task being canceled.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CapacityToRelease": {
@@ -2034,7 +2307,11 @@
         "com.amazonaws.fsx#ClientRequestToken": {
             "type": "string",
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>(Optional) An idempotency token for resource creation, in a string of up to 63\n            ASCII characters. This token is automatically filled on your behalf when you use the\n            Command Line Interface (CLI) or an Amazon Web Services SDK.</p>",
+=======
+                "smithy.api#documentation": "<p>(Optional) An idempotency token for resource creation, in a string of up to 64\n            ASCII characters. This token is automatically filled on your behalf when you use the\n            Command Line Interface (CLI) or an Amazon Web Services SDK.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                 "smithy.api#length": {
                     "min": 1,
                     "max": 63
@@ -2055,7 +2332,11 @@
                 "Path": {
                     "target": "com.amazonaws.fsx#ArchivePath",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>Required if <code>Enabled</code> is set to <code>true</code>. Specifies the location of the report on the file system's linked S3 data repository. An absolute path that defines where the completion report will be stored in the destination location. \n            The <code>Path</code> you provide must be located within the file system’s ExportPath. \n            An example <code>Path</code> value is \"s3://myBucket/myExportPath/optionalPrefix\". The report provides the following information for each file in the report:\n            FilePath, FileStatus, and ErrorCode.</p>"
+=======
+                        "smithy.api#documentation": "<p>Required if <code>Enabled</code> is set to <code>true</code>. Specifies the location of the report on the file system's linked S3 data repository. An absolute path that defines where the completion report will be stored in the destination location. \n            The <code>Path</code> you provide must be located within the file system’s ExportPath. \n            An example <code>Path</code> value is \"s3://myBucket/myExportPath/optionalPrefix\". The report provides the following information for each file in the report:\n            FilePath, FileStatus, and ErrorCode. To learn more about a file system's <code>ExportPath</code>, see .\n            </p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "Format": {
@@ -2166,9 +2447,12 @@
                 "Tags": {
                     "target": "com.amazonaws.fsx#Tags"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CopyBackupResponse": {
@@ -2177,9 +2461,12 @@
                 "Backup": {
                     "target": "com.amazonaws.fsx#Backup"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CopyTagsToDataRepositoryAssociations": {
@@ -2236,7 +2523,11 @@
                 "ClientRequestToken": {
                     "target": "com.amazonaws.fsx#ClientRequestToken",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>(Optional) A string of up to 63 ASCII characters that Amazon FSx uses to\n            ensure idempotent creation. This string is automatically filled on your behalf when you\n            use the Command Line Interface (CLI) or an Amazon Web Services SDK.</p>",
+=======
+                        "smithy.api#documentation": "<p>(Optional) A string of up to 64 ASCII characters that Amazon FSx uses to\n            ensure idempotent creation. This string is automatically filled on your behalf when you\n            use the Command Line Interface (CLI) or an Amazon Web Services SDK.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#idempotencyToken": {}
                     }
                 },
@@ -2254,8 +2545,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The request object for the <code>CreateBackup</code> operation.</p>",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "<p>The request object for the <code>CreateBackup</code> operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateBackupResponse": {
@@ -2269,8 +2564,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The response object for the <code>CreateBackup</code> operation.</p>",
                 "smithy.api#output": {}
+=======
+                "smithy.api#documentation": "<p>The response object for the <code>CreateBackup</code> operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateDataRepositoryAssociation": {
@@ -2302,7 +2601,11 @@
                 }
             ],
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Creates an Amazon FSx for Lustre data repository association (DRA). A data\n            repository association is a link between a directory on the file system and\n            an Amazon S3 bucket or prefix. You can have a maximum of 8 data repository\n            associations on a file system. Data repository associations are supported\n            for all file systems except for <code>Scratch_1</code> deployment type.</p>\n         <p>Each data repository association must have a unique Amazon FSx file\n            system directory and a unique S3 bucket or prefix associated with it. You\n            can configure a data repository association for automatic import only,\n            for automatic export only, or for both. To learn more about linking a\n            data repository to your file system, see \n            <a href=\"https://docs.aws.amazon.com/fsx/latest/LustreGuide/create-dra-linked-data-repo.html\">Linking your file system to an S3 bucket</a>.</p>\n         <note>\n            <p>\n               <code>CreateDataRepositoryAssociation</code> isn't supported\n            on Amazon File Cache resources. To create a DRA on Amazon File Cache,\n            use the <code>CreateFileCache</code> operation.</p>\n         </note>",
+=======
+                "smithy.api#documentation": "<p>Creates an Amazon FSx for Lustre data repository association (DRA). A data\n            repository association is a link between a directory on the file system and\n            an Amazon S3 bucket or prefix. You can have a maximum of 8 data repository\n            associations on a file system. Data repository associations are supported only\n            for file systems with the <code>Persistent_2</code> deployment type.</p>\n         <p>Each data repository association must have a unique Amazon FSx file\n            system directory and a unique S3 bucket or prefix associated with it. You\n            can configure a data repository association for automatic import only,\n            for automatic export only, or for both. To learn more about linking a\n            data repository to your file system, see \n            <a href=\"https://docs.aws.amazon.com/fsx/latest/LustreGuide/create-dra-linked-data-repo.html\">Linking your file system to an S3 bucket</a>.</p>\n         <note>\n            <p>\n               <code>CreateDataRepositoryAssociation</code> isn't supported\n            on Amazon File Cache resources. To create a DRA on Amazon File Cache,\n            use the <code>CreateFileCache</code> operation.</p>\n         </note>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                 "smithy.api#idempotent": {}
             }
         },
@@ -2355,9 +2658,12 @@
                 "Tags": {
                     "target": "com.amazonaws.fsx#Tags"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateDataRepositoryAssociationResponse": {
@@ -2369,9 +2675,12 @@
                         "smithy.api#documentation": "<p>The response object returned after the data repository association is created.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateDataRepositoryTask": {
@@ -2454,9 +2763,12 @@
                         "smithy.api#documentation": "<p>Specifies the amount of data to release, in GiB, by an Amazon File Cache\n            <code>AUTO_RELEASE_DATA</code> task that automatically releases files from the cache.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateDataRepositoryTaskResponse": {
@@ -2468,9 +2780,12 @@
                         "smithy.api#documentation": "<p>The description of the data repository task that you just created.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateFileCache": {
@@ -2559,7 +2874,11 @@
                 "ClientRequestToken": {
                     "target": "com.amazonaws.fsx#ClientRequestToken",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>An idempotency token for resource creation, in a string of up to 63\n            ASCII characters. This token is automatically filled on your behalf when you use the\n            Command Line Interface (CLI) or an Amazon Web Services SDK.</p>\n         <p>By using the idempotent operation, you can retry a <code>CreateFileCache</code>\n            operation without the risk of creating an extra cache. This approach can be useful\n            when an initial call fails in a way that makes it unclear whether a cache was created.\n            Examples are if a transport level timeout occurred, or your connection was reset.\n            If you use the same client request token and the initial call created a cache, the\n            client receives success as long as the parameters are the same.</p>",
+=======
+                        "smithy.api#documentation": "<p>An idempotency token for resource creation, in a string of up to 64\n            ASCII characters. This token is automatically filled on your behalf when you use the\n            Command Line Interface (CLI) or an Amazon Web Services SDK.</p>\n         <p>By using the idempotent operation, you can retry a <code>CreateFileCache</code>\n            operation without the risk of creating an extra cache. This approach can be useful\n            when an initial call fails in a way that makes it unclear whether a cache was created.\n            Examples are if a transport level timeout occurred, or your connection was reset.\n            If you use the same client request token and the initial call created a cache, the\n            client receives success as long as the parameters are the same.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#idempotencyToken": {}
                     }
                 },
@@ -2623,9 +2942,12 @@
                         "smithy.api#documentation": "<p>A list of up to 8 configurations for data repository associations (DRAs) to\n            be created during the cache creation. The DRAs link the cache to either an\n            Amazon S3 data repository or a Network File System (NFS) data repository that supports the NFSv3 protocol.</p>\n         <p>The DRA configurations must meet the following requirements:</p>\n         <ul>\n            <li>\n               <p>All configurations on the list must be of the\n                same data repository type, either all S3 or all NFS. A cache\n                can't link to different data repository types at the same time.</p>\n            </li>\n            <li>\n               <p>An NFS DRA must link to an NFS file system that\n                supports the NFSv3 protocol.</p>\n            </li>\n         </ul>\n         <p>DRA automatic import and automatic export is not supported.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateFileCacheResponse": {
@@ -2637,9 +2959,12 @@
                         "smithy.api#documentation": "<p>A description of the cache that was created.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateFileSystem": {
@@ -2739,7 +3064,11 @@
                 "ClientRequestToken": {
                     "target": "com.amazonaws.fsx#ClientRequestToken",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>A string of up to 63 ASCII characters that Amazon FSx uses to ensure\n            idempotent creation. This string is automatically filled on your behalf when you use the\n                Command Line Interface (CLI) or an Amazon Web Services SDK.</p>",
+=======
+                        "smithy.api#documentation": "<p>A string of up to 64 ASCII characters that Amazon FSx uses to ensure\n            idempotent creation. This string is automatically filled on your behalf when you use the\n                Command Line Interface (CLI) or an Amazon Web Services SDK.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#idempotencyToken": {}
                     }
                 },
@@ -2800,8 +3129,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The request object for the <code>CreateFileSystemFromBackup</code>\n            operation.</p>",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "<p>The request object for the <code>CreateFileSystemFromBackup</code>\n            operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateFileSystemFromBackupResponse": {
@@ -2815,8 +3148,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The response object for the <code>CreateFileSystemFromBackup</code>\n            operation.</p>",
                 "smithy.api#output": {}
+=======
+                "smithy.api#documentation": "<p>The response object for the <code>CreateFileSystemFromBackup</code>\n            operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateFileSystemLustreConfiguration": {
@@ -2831,31 +3168,51 @@
                 "ImportPath": {
                     "target": "com.amazonaws.fsx#ArchivePath",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>(Optional) The path to the Amazon S3 bucket (including the optional prefix) that\n            you're using as the data repository for your Amazon FSx for Lustre file system.\n            The root of your FSx for Lustre file system will\n            be mapped to the root of the Amazon S3 bucket you select. An\n            example is <code>s3://import-bucket/optional-prefix</code>. If you specify a prefix\n            after the Amazon S3 bucket name, only object keys with that prefix are loaded into the\n            file system.</p>\n         <note>\n            <p>This parameter is not supported for file systems with a data repository association.</p>\n         </note>"
+=======
+                        "smithy.api#documentation": "<p>(Optional) The path to the Amazon S3 bucket (including the optional prefix) that\n            you're using as the data repository for your Amazon FSx for Lustre file system.\n            The root of your FSx for Lustre file system will\n            be mapped to the root of the Amazon S3 bucket you select. An\n            example is <code>s3://import-bucket/optional-prefix</code>. If you specify a prefix\n            after the Amazon S3 bucket name, only object keys with that prefix are loaded into the\n            file system.</p>\n         <note>\n            <p>This parameter is not supported for file systems with the <code>Persistent_2</code> deployment type.\n            Instead, use <code>CreateDataRepositoryAssociation</code> to create\n            a data repository association to link your Lustre file system to a data repository.</p>\n         </note>"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "ExportPath": {
                     "target": "com.amazonaws.fsx#ArchivePath",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>(Optional) Specifies the path in the Amazon S3 bucket where the root of your\n            Amazon FSx file system is exported. The path must use the same Amazon S3\n            bucket as specified in ImportPath. You can provide an optional prefix to which new and\n            changed data is to be exported from your Amazon FSx for Lustre file system. If\n            an <code>ExportPath</code> value is not provided, Amazon FSx sets a default export path,\n            <code>s3://import-bucket/FSxLustre[creation-timestamp]</code>. The timestamp is in\n            UTC format, for example\n            <code>s3://import-bucket/FSxLustre20181105T222312Z</code>.</p>\n         <p>The Amazon S3 export bucket must be the same as the import bucket specified by\n                <code>ImportPath</code>. If you specify only a bucket name, such as\n                <code>s3://import-bucket</code>, you get a 1:1 mapping of file system objects to S3\n            bucket objects. This mapping means that the input data in S3 is overwritten on export.\n            If you provide a custom prefix in the export path, such as\n            <code>s3://import-bucket/[custom-optional-prefix]</code>, Amazon FSx exports the contents of your file \n            system to that export prefix in the Amazon S3 bucket.</p>\n         <note>\n            <p>This parameter is not supported for file systems with a data repository association.</p>\n         </note>"
+=======
+                        "smithy.api#documentation": "<p>(Optional) Available with <code>Scratch</code> and <code>Persistent_1</code> deployment types. \n            Specifies the path in the Amazon S3 bucket where the root of your Amazon FSx file system is exported. \n            The path must use the same Amazon S3 bucket as specified in ImportPath. You can provide an optional prefix to which\n            new and changed data is to be exported from your Amazon FSx for Lustre file system. If\n            an <code>ExportPath</code> value is not provided, Amazon FSx sets a default export path,\n            <code>s3://import-bucket/FSxLustre[creation-timestamp]</code>. The timestamp is in\n            UTC format, for example\n            <code>s3://import-bucket/FSxLustre20181105T222312Z</code>.</p>\n         <p>The Amazon S3 export bucket must be the same as the import bucket specified by\n                <code>ImportPath</code>. If you specify only a bucket name, such as\n                <code>s3://import-bucket</code>, you get a 1:1 mapping of file system objects to S3\n            bucket objects. This mapping means that the input data in S3 is overwritten on export.\n            If you provide a custom prefix in the export path, such as\n            <code>s3://import-bucket/[custom-optional-prefix]</code>, Amazon FSx exports the contents of your file \n            system to that export prefix in the Amazon S3 bucket.</p>\n         <note>\n            <p>This parameter is not supported for file systems with the <code>Persistent_2</code> deployment type.\n            Instead, use <code>CreateDataRepositoryAssociation</code> to create\n            a data repository association to link your Lustre file system to a data repository.</p>\n         </note>"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "ImportedFileChunkSize": {
                     "target": "com.amazonaws.fsx#Megabytes",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>(Optional) For files imported from a data repository, this value determines the stripe\n            count and maximum amount of data per file (in MiB) stored on a single physical disk. The\n            maximum number of disks that a single file can be striped across is limited by the total\n            number of disks that make up the file system.</p>\n         <p>The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500\n            GiB). Amazon S3  objects have a maximum size of 5 TB.</p>\n         <note>\n            <p>This parameter is not supported for file systems with a data repository association.</p>\n         </note>"
+=======
+                        "smithy.api#documentation": "<p>(Optional) For files imported from a data repository, this value determines the stripe\n            count and maximum amount of data per file (in MiB) stored on a single physical disk. The\n            maximum number of disks that a single file can be striped across is limited by the total\n            number of disks that make up the file system.</p>\n         <p>The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500\n            GiB). Amazon S3  objects have a maximum size of 5 TB.</p>\n         <p>This parameter is not supported for file systems with the <code>Persistent_2</code> deployment type.\n            Instead, use <code>CreateDataRepositoryAssociation</code> to create\n            a data repository association to link your Lustre file system to a data repository.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "DeploymentType": {
                     "target": "com.amazonaws.fsx#LustreDeploymentType",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>(Optional) Choose <code>SCRATCH_1</code> and <code>SCRATCH_2</code> deployment \n            types when you need temporary storage and shorter-term processing of data. \n            The <code>SCRATCH_2</code> deployment type provides in-transit encryption of data and higher burst \n            throughput capacity than <code>SCRATCH_1</code>.</p>\n         <p>Choose <code>PERSISTENT_1</code> for longer-term storage and for throughput-focused \n            workloads that aren’t latency-sensitive.\n            <code>PERSISTENT_1</code> supports encryption of data in transit, and is available in all \n            Amazon Web Services Regions in which FSx for Lustre is available.</p>\n         <p>Choose <code>PERSISTENT_2</code> for longer-term storage and for latency-sensitive workloads \n            that require the highest levels of IOPS/throughput. <code>PERSISTENT_2</code> supports \n            SSD storage, and offers higher <code>PerUnitStorageThroughput</code> (up to 1000 MB/s/TiB). <code>PERSISTENT_2</code> \n            is available in a limited number of Amazon Web Services Regions. \n            For more information, and an up-to-date list of Amazon Web Services Regions in which \n            <code>PERSISTENT_2</code> is available, see \n            <a href=\"https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-fsx-lustre.html#lustre-deployment-types\">File \n                system deployment options for FSx for Lustre</a> in the <i>Amazon FSx for Lustre User Guide</i>.</p>\n         <note>\n            <p>If you choose <code>PERSISTENT_2</code>, and you set <code>FileSystemTypeVersion</code> to\n                    <code>2.10</code>, the <code>CreateFileSystem</code> operation fails.</p>\n         </note>\n         <p>Encryption of data in transit is automatically turned on when you access\n                <code>SCRATCH_2</code>, <code>PERSISTENT_1</code> and <code>PERSISTENT_2</code> file\n                systems from Amazon EC2 instances that support automatic encryption in\n                the Amazon Web Services Regions where they are available. For more information about\n                encryption in transit for FSx for Lustre file systems, see <a href=\"https://docs.aws.amazon.com/fsx/latest/LustreGuide/encryption-in-transit-fsxl.html\">Encrypting data in\n                transit</a> in the <i>Amazon FSx for Lustre User Guide</i>. </p>\n         <p>(Default = <code>SCRATCH_1</code>)</p>"
+=======
+                        "smithy.api#documentation": "<p>(Optional) Choose <code>SCRATCH_1</code> and <code>SCRATCH_2</code> deployment \n            types when you need temporary storage and shorter-term processing of data. \n            The <code>SCRATCH_2</code> deployment type provides in-transit encryption of data and higher burst \n            throughput capacity than <code>SCRATCH_1</code>.</p>\n         <p>Choose <code>PERSISTENT_1</code> for longer-term storage and for throughput-focused \n            workloads that aren’t latency-sensitive.\n            <code>PERSISTENT_1</code> supports encryption of data in transit, and is available in all \n            Amazon Web Services Regions in which FSx for Lustre is available.</p>\n         <p>Choose <code>PERSISTENT_2</code> for longer-term storage and for latency-sensitive workloads \n            that require the highest levels of IOPS/throughput. <code>PERSISTENT_2</code> supports \n            SSD storage, and offers higher <code>PerUnitStorageThroughput</code> (up to 1000 MB/s/TiB). <code>PERSISTENT_2</code> \n            is available in a limited number of Amazon Web Services Regions. \n            For more information, and an up-to-date list of Amazon Web Services Regions in which \n            <code>PERSISTENT_2</code> is available, see \n            <a href=\"https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-fsx-lustre.html#lustre-deployment-types\">File \n                system deployment options for FSx for Lustre</a> in the <i>Amazon FSx for Lustre User Guide</i>.</p>\n         <note>\n            <p>If you choose <code>PERSISTENT_2</code>, and you set <code>FileSystemTypeVersion</code> to\n                    <code>2.10</code>, the <code>CreateFileSystem</code> operation fails.</p>\n         </note>\n         <p>Encryption of data in transit is automatically turned on when you access\n                <code>SCRATCH_2</code>, <code>PERSISTENT_1</code> and <code>PERSISTENT_2</code> file\n            systems from Amazon EC2 instances that <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/data-                 protection.html\">support\n                automatic encryption</a> in the Amazon Web Services Regions where they are\n            available. For more information about encryption in transit for FSx for Lustre\n            file systems, see <a href=\"https://docs.aws.amazon.com/fsx/latest/LustreGuide/encryption-in-transit-fsxl.html\">Encrypting data in\n                transit</a>  in the <i>Amazon FSx for Lustre User Guide</i>. </p>\n         <p>(Default = <code>SCRATCH_1</code>)</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "AutoImportPolicy": {
                     "target": "com.amazonaws.fsx#AutoImportPolicyType",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p> (Optional) When you create your file system, your existing S3 objects appear as file and\n            directory listings.  Use this parameter to choose how Amazon FSx keeps your file and directory\n            listings up to date as you add or modify objects in your linked S3 bucket. <code>AutoImportPolicy</code>\n            can have the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>NONE</code> - (Default) AutoImport is off. Amazon FSx only updates \n                file and directory listings from the linked S3 bucket \n                when the file system is created. FSx does not update file and directory \n                listings for any new or changed objects after choosing this option.</p>\n            </li>\n            <li>\n               <p>\n                  <code>NEW</code> - AutoImport is on. Amazon FSx automatically imports\n                directory listings of any new objects added to the linked S3 bucket that \n                do not currently exist in the FSx file system. </p>\n            </li>\n            <li>\n               <p>\n                  <code>NEW_CHANGED</code> - AutoImport is on. Amazon FSx automatically imports \n                file and directory listings of any new objects added to the S3 bucket and any \n                existing objects that are changed in the S3 bucket after you choose this option.</p>\n            </li>\n            <li>\n               <p>\n                  <code>NEW_CHANGED_DELETED</code> - AutoImport is on. Amazon FSx automatically\n                imports file and directory listings of any new objects added to the S3 bucket, any \n                existing objects that are changed in the S3 bucket, and any objects that were deleted\n                in the S3 bucket.</p>\n            </li>\n         </ul>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/fsx/latest/LustreGuide/older-deployment-types.html#legacy-auto-import-from-s3\">\n            Automatically import updates from your S3 bucket</a>.</p>\n         <note>\n            <p>This parameter is not supported for file systems with a data repository association.</p>\n         </note>"
+=======
+                        "smithy.api#documentation": "<p> (Optional) Available with <code>Scratch</code> and <code>Persistent_1</code> deployment types. When you \n            create your file system, your existing S3 objects appear as file and directory listings. \n            Use this property to choose how Amazon FSx keeps your file and directory listings up to date \n            as you add or modify objects in your linked S3 bucket. <code>AutoImportPolicy</code> can\n            have the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>NONE</code> - (Default) AutoImport is off. Amazon FSx only updates \n                file and directory listings from the linked S3 bucket \n                when the file system is created. FSx does not update file and directory \n                listings for any new or changed objects after choosing this option.</p>\n            </li>\n            <li>\n               <p>\n                  <code>NEW</code> - AutoImport is on. Amazon FSx automatically imports\n                directory listings of any new objects added to the linked S3 bucket that \n                do not currently exist in the FSx file system. </p>\n            </li>\n            <li>\n               <p>\n                  <code>NEW_CHANGED</code> - AutoImport is on. Amazon FSx automatically imports \n                file and directory listings of any new objects added to the S3 bucket and any \n                existing objects that are changed in the S3 bucket after you choose this option.</p>\n            </li>\n            <li>\n               <p>\n                  <code>NEW_CHANGED_DELETED</code> - AutoImport is on. Amazon FSx automatically\n                imports file and directory listings of any new objects added to the S3 bucket, any \n                existing objects that are changed in the S3 bucket, and any objects that were deleted\n                in the S3 bucket.</p>\n            </li>\n         </ul>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/fsx/latest/LustreGuide/older-deployment-types.html#legacy-auto-import-from-s3\">\n            Automatically import updates from your S3 bucket</a>.</p>\n         <note>\n            <p>This parameter is not supported for file systems with the <code>Persistent_2</code> deployment type.\n            Instead, use <code>CreateDataRepositoryAssociation</code> to create\n            a data repository association to link your Lustre file system to a data repository.</p>\n         </note>"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "PerUnitStorageThroughput": {
@@ -2902,7 +3259,11 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The Lustre configuration for the file system being created.</p>\n         <note>\n            <p>The following parameters are not supported for file systems\n            with a data repository association created with\n            .</p>\n            <ul>\n               <li>\n                  <p>\n                     <code>AutoImportPolicy</code>\n                  </p>\n               </li>\n               <li>\n                  <p>\n                     <code>ExportPath</code>\n                  </p>\n               </li>\n               <li>\n                  <p>\n                     <code>ImportedChunkSize</code>\n                  </p>\n               </li>\n               <li>\n                  <p>\n                     <code>ImportPath</code>\n                  </p>\n               </li>\n            </ul>\n         </note>"
+=======
+                "smithy.api#documentation": "<p>The Lustre configuration for the file system being created.</p>\n         <note>\n            <p>The following parameters are not supported for file systems with the <code>Persistent_2</code>\n            deployment type. Instead, use <code>CreateDataRepositoryAssociation</code> \n            to create a data repository association to link your Lustre file system to a data repository.</p>\n            <ul>\n               <li>\n                  <p>\n                     <code>AutoImportPolicy</code>\n                  </p>\n               </li>\n               <li>\n                  <p>\n                     <code>ExportPath</code>\n                  </p>\n               </li>\n               <li>\n                  <p>\n                     <code>ImportedChunkSize</code>\n                  </p>\n               </li>\n               <li>\n                  <p>\n                     <code>ImportPath</code>\n                  </p>\n               </li>\n            </ul>\n         </note>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateFileSystemOntapConfiguration": {
@@ -2924,7 +3285,11 @@
                 "EndpointIpAddressRange": {
                     "target": "com.amazonaws.fsx#IpAddressRange",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>(Multi-AZ only) Specifies the IP address range in which the endpoints to access your\n            file system will be created. By default in the Amazon FSx  API, Amazon FSx\n            selects an unused IP address range for you from the 198.19.* range. By default in the \n            Amazon FSx  console, Amazon FSx  chooses the last 64 IP addresses from\n            the VPC’s primary CIDR range to use as the endpoint IP address range for the file system.\n            You can have overlapping endpoint IP addresses for file systems deployed in the\n            same VPC/route tables, as long as they don't overlap with any subnet.</p>"
+=======
+                        "smithy.api#documentation": "<p>(Multi-AZ only) Specifies the IP address range in which the endpoints to access your\n            file system will be created. By default in the Amazon FSx  API, Amazon FSx\n            selects an unused IP address range for you from the 198.19.* range. By default in the \n            Amazon FSx  console, Amazon FSx  chooses the last 64 IP addresses from\n            the VPC’s primary CIDR range to use as the endpoint IP address range for the file system.\n            You can have overlapping endpoint IP addresses for file systems deployed in the\n            same VPC/route tables.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "FsxAdminPassword": {
@@ -3024,7 +3389,11 @@
                 "ClientRequestToken": {
                     "target": "com.amazonaws.fsx#ClientRequestToken",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>A string of up to 63 ASCII characters that Amazon FSx uses to ensure\n            idempotent creation. This string is automatically filled on your behalf when you use the\n                Command Line Interface (CLI) or an Amazon Web Services SDK.</p>",
+=======
+                        "smithy.api#documentation": "<p>A string of up to 64 ASCII characters that Amazon FSx uses to ensure\n            idempotent creation. This string is automatically filled on your behalf when you use the\n                Command Line Interface (CLI) or an Amazon Web Services SDK.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#idempotencyToken": {}
                     }
                 },
@@ -3096,8 +3465,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The request object used to create a new Amazon FSx file system.</p>",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "<p>The request object used to create a new Amazon FSx file system.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateFileSystemResponse": {
@@ -3111,8 +3484,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The response object returned after the file system is created.</p>",
                 "smithy.api#output": {}
+=======
+                "smithy.api#documentation": "<p>The response object returned after the file system is created.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateFileSystemWindowsConfiguration": {
@@ -3193,7 +3570,11 @@
                 "JunctionPath": {
                     "target": "com.amazonaws.fsx#JunctionPath",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>Specifies the location in the SVM's namespace where the volume is mounted.\n            This parameter is required. The <code>JunctionPath</code> must have a leading\n            forward slash, such as <code>/vol3</code>.</p>"
+=======
+                        "smithy.api#documentation": "<p>Specifies the location in the SVM's namespace where the volume is mounted. \n            The <code>JunctionPath</code> must have a leading forward slash, such as <code>/vol3</code>.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "SecurityStyle": {
@@ -3205,14 +3586,22 @@
                 "SizeInMegabytes": {
                     "target": "com.amazonaws.fsx#VolumeCapacity",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>Specifies the size of the volume, in megabytes (MB), that you are creating.\n            Provide any whole number in the range of 20–104857600 to specify the size of\n            the volume.</p>",
+=======
+                        "smithy.api#documentation": "<p>Specifies the size of the volume, in megabytes (MB), that you are creating.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
                 "StorageEfficiencyEnabled": {
                     "target": "com.amazonaws.fsx#Flag",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>Set to true to enable deduplication, compression, and compaction storage\n            efficiency features on the volume, or set to false to disable them.\n            This parameter is required.</p>"
+=======
+                        "smithy.api#documentation": "<p>Set to true to enable deduplication, compression, and\n            compaction storage efficiency features on the volume.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "StorageVirtualMachineId": {
@@ -3391,9 +3780,12 @@
                 "Tags": {
                     "target": "com.amazonaws.fsx#Tags"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateSnapshotResponse": {
@@ -3405,9 +3797,12 @@
                         "smithy.api#documentation": "<p>A description of the snapshot.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateStorageVirtualMachine": {
@@ -3488,9 +3883,12 @@
                         "smithy.api#documentation": "<p>The security style of the root volume of the SVM. Specify one of the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>UNIX</code> if the file system is managed by a UNIX\n                administrator, the majority of users are NFS clients, and an application\n                accessing the data uses a UNIX user as the service account.</p>\n            </li>\n            <li>\n               <p>\n                  <code>NTFS</code> if the file system is managed by a Windows\n                administrator, the majority of users are SMB clients, and an application\n                accessing the data uses a Windows user as the service account.</p>\n            </li>\n            <li>\n               <p>\n                  <code>MIXED</code> if the file system is managed by both UNIX\n                and Windows administrators and users consist of both NFS and SMB clients.</p>\n            </li>\n         </ul>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateStorageVirtualMachineResponse": {
@@ -3502,9 +3900,12 @@
                         "smithy.api#documentation": "<p>Returned after a successful <code>CreateStorageVirtualMachine</code> operation; describes the SVM just created.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateSvmActiveDirectoryConfiguration": {
@@ -3632,9 +4033,12 @@
                 "Tags": {
                     "target": "com.amazonaws.fsx#Tags"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateVolumeFromBackupResponse": {
@@ -3646,9 +4050,12 @@
                         "smithy.api#documentation": "<p>Returned after a successful <code>CreateVolumeFromBackup</code> API operation,\n            describing the volume just created.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateVolumeRequest": {
@@ -3689,9 +4096,12 @@
                         "smithy.api#documentation": "<p>Specifies the configuration to use when creating the OpenZFS volume.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreateVolumeResponse": {
@@ -3703,9 +4113,12 @@
                         "smithy.api#documentation": "<p>Returned after a successful <code>CreateVolume</code> API operation, describing the volume just created.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#CreationTime": {
@@ -3839,7 +4252,11 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The configuration of a data repository association that links\n            an Amazon FSx for Lustre file system to an Amazon S3 bucket\n            or an Amazon File Cache resource to an Amazon S3 bucket or an NFS file system.\n            The data repository association configuration object is returned\n            in the response of the following operations:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CreateDataRepositoryAssociation</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>UpdateDataRepositoryAssociation</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DescribeDataRepositoryAssociations</code>\n               </p>\n            </li>\n         </ul>\n         <p>Data repository associations are supported on Amazon File Cache resources and\n            all Amazon FSx for Lustre file systems excluding <code>Scratch_1</code> deployment\n            types.</p>"
+=======
+                "smithy.api#documentation": "<p>The configuration of a data repository association that links\n            an Amazon FSx for Lustre file system to an Amazon S3 bucket\n            or an Amazon File Cache resource to an Amazon S3 bucket or an NFS file system.\n            The data repository association configuration object is returned\n            in the response of the following operations:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CreateDataRepositoryAssociation</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>UpdateDataRepositoryAssociation</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DescribeDataRepositoryAssociations</code>\n               </p>\n            </li>\n         </ul>\n         <p>Data repository associations are supported only for an Amazon FSx for Lustre\n            file system with the <code>Persistent_2</code> deployment type and for an\n            Amazon File Cache resource.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DataRepositoryAssociationId": {
@@ -3926,7 +4343,11 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The data repository configuration object for Lustre file systems returned in the response of\n            the <code>CreateFileSystem</code> operation.</p>\n         <p>This data type is not supported on file systems with a data repository association.\n            For file systems with a data repository association,\n            see .</p>"
+=======
+                "smithy.api#documentation": "<p>The data repository configuration object for Lustre file systems returned in the response of\n            the <code>CreateFileSystem</code> operation.</p>\n         <p>This data type is not supported for file systems with the <code>Persistent_2</code> deployment type.\n            Instead, use .</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DataRepositoryFailureDetails": {
@@ -4001,7 +4422,11 @@
                 "Type": {
                     "target": "com.amazonaws.fsx#DataRepositoryTaskType",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>The type of data repository task.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>EXPORT_TO_REPOSITORY</code> tasks export from your\n                Amazon FSx for Lustre file system to a linked data repository.</p>\n            </li>\n            <li>\n               <p>\n                  <code>IMPORT_METADATA_FROM_REPOSITORY</code> tasks import metadata\n                changes from a linked S3 bucket to your Amazon FSx for Lustre file system.</p>\n            </li>\n            <li>\n               <p>\n                  <code>AUTO_RELEASE_DATA</code> tasks automatically release files from\n                an Amazon File Cache resource.</p>\n            </li>\n            <li>\n               <p>\n                  <code>RELEASE_DATA_FROM_FILESYSTEM</code> tasks are not supported.</p>\n            </li>\n         </ul>",
+=======
+                        "smithy.api#documentation": "<p>The type of data repository task.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>EXPORT_TO_REPOSITORY</code> tasks export from your\n                Amazon FSx for Lustre file system to a linked data repository.</p>\n            </li>\n            <li>\n               <p>\n                  <code>IMPORT_METADATA_FROM_REPOSITORY</code> tasks import metadata\n                changes from a linked S3 bucket to your Amazon FSx for Lustre file system.</p>\n            </li>\n            <li>\n               <p>\n                  <code>AUTO_RELEASE_DATA</code> tasks automatically release files from\n                an Amazon File Cache resource.</p>\n            </li>\n         </ul>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#required": {}
                     }
                 },
@@ -4394,14 +4819,22 @@
                 "ClientRequestToken": {
                     "target": "com.amazonaws.fsx#ClientRequestToken",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>A string of up to 63 ASCII characters that Amazon FSx uses to ensure\n            idempotent deletion. This parameter is automatically filled on your behalf when using\n            the CLI or SDK.</p>",
+=======
+                        "smithy.api#documentation": "<p>A string of up to 64 ASCII characters that Amazon FSx uses to ensure\n            idempotent deletion. This parameter is automatically filled on your behalf when using\n            the CLI or SDK.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#idempotencyToken": {}
                     }
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The request object for the <code>DeleteBackup</code> operation.</p>",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "<p>The request object for the <code>DeleteBackup</code> operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DeleteBackupResponse": {
@@ -4421,8 +4854,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The response object for the <code>DeleteBackup</code> operation.</p>",
                 "smithy.api#output": {}
+=======
+                "smithy.api#documentation": "<p>The response object for the <code>DeleteBackup</code> operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DeleteDataInFileSystem": {
@@ -4454,7 +4891,11 @@
                 }
             ],
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Deletes a data repository association on an Amazon FSx for Lustre\n            file system. Deleting the data repository association unlinks the\n            file system from the Amazon S3 bucket. When deleting a data repository\n            association, you have the option of deleting the data in the file system\n            that corresponds to the data repository association. Data repository\n            associations are supported for all file systems except for <code>Scratch_1</code>\n            deployment type.</p>",
+=======
+                "smithy.api#documentation": "<p>Deletes a data repository association on an Amazon FSx for Lustre\n            file system. Deleting the data repository association unlinks the\n            file system from the Amazon S3 bucket. When deleting a data repository\n            association, you have the option of deleting the data in the file system\n            that corresponds to the data repository association. Data repository\n            associations are supported only for file systems with the\n            <code>Persistent_2</code> deployment type.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                 "smithy.api#idempotent": {}
             }
         },
@@ -4480,9 +4921,12 @@
                         "smithy.api#documentation": "<p>Set to <code>true</code> to delete the data in the file system that corresponds\n            to the data repository association.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DeleteDataRepositoryAssociationResponse": {
@@ -4506,9 +4950,12 @@
                         "smithy.api#documentation": "<p>Indicates whether data in the file system that corresponds to the data\n            repository association is being deleted. Default is <code>false</code>.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DeleteFileCache": {
@@ -4557,9 +5004,12 @@
                         "smithy.api#idempotencyToken": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DeleteFileCacheResponse": {
@@ -4577,9 +5027,12 @@
                         "smithy.api#documentation": "<p>The cache lifecycle for the deletion request. If the\n            <code>DeleteFileCache</code> operation is successful, this status is\n            <code>DELETING</code>.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DeleteFileSystem": {
@@ -4728,7 +5181,11 @@
                 "ClientRequestToken": {
                     "target": "com.amazonaws.fsx#ClientRequestToken",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>A string of up to 63 ASCII characters that Amazon FSx uses to ensure\n            idempotent deletion. This token is automatically filled on your behalf when using the\n                Command Line Interface (CLI) or an Amazon Web Services SDK.</p>",
+=======
+                        "smithy.api#documentation": "<p>A string of up to 64 ASCII characters that Amazon FSx uses to ensure\n            idempotent deletion. This token is automatically filled on your behalf when using the\n                Command Line Interface (CLI) or an Amazon Web Services SDK.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#idempotencyToken": {}
                     }
                 },
@@ -4746,8 +5203,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The request object for <code>DeleteFileSystem</code> operation.</p>",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "<p>The request object for <code>DeleteFileSystem</code> operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DeleteFileSystemResponse": {
@@ -4779,8 +5240,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The response object for the <code>DeleteFileSystem</code> operation.</p>",
                 "smithy.api#output": {}
+=======
+                "smithy.api#documentation": "<p>The response object for the <code>DeleteFileSystem</code> operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DeleteFileSystemWindowsConfiguration": {
@@ -4886,9 +5351,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DeleteSnapshotResponse": {
@@ -4906,9 +5374,12 @@
                         "smithy.api#documentation": "<p>The lifecycle status of the snapshot. If the <code>DeleteSnapshot</code> operation is\n            successful, this status is <code>DELETING</code>.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DeleteStorageVirtualMachine": {
@@ -4953,9 +5424,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DeleteStorageVirtualMachineResponse": {
@@ -4973,9 +5447,12 @@
                         "smithy.api#documentation": "<p>Describes the lifecycle state of the SVM being deleted.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DeleteVolume": {
@@ -5077,9 +5554,12 @@
                         "smithy.api#documentation": "<p>For Amazon FSx for OpenZFS volumes, specify whether to delete all child\n            volumes and snapshots.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DeleteVolumeResponse": {
@@ -5103,9 +5583,12 @@
                         "smithy.api#documentation": "<p>Returned after a <code>DeleteVolume</code> request, showing the status of the delete\n            request.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DescribeBackups": {
@@ -5171,8 +5654,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The request object for the <code>DescribeBackups</code> operation.</p>",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "<p>The request object for the <code>DescribeBackups</code> operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DescribeBackupsResponse": {
@@ -5192,8 +5679,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Response object for the <code>DescribeBackups</code> operation.</p>",
                 "smithy.api#output": {}
+=======
+                "smithy.api#documentation": "<p>Response object for the <code>DescribeBackups</code> operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DescribeDataRepositoryAssociations": {
@@ -5222,7 +5713,11 @@
                 }
             ],
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Returns the description of specific Amazon FSx for Lustre or Amazon File Cache\n            data repository associations, if one or more <code>AssociationIds</code> values\n            are provided in the request, or if filters are used in the request. Data repository\n            associations are supported on Amazon File Cache resources and all Amazon FSx for\n            Lustre file systems excluding <code>Scratch_1</code> deployment types.</p>\n         <p>You can use filters to narrow the response to include just data repository\n            associations for specific file systems (use the <code>file-system-id</code> filter with\n            the ID of the file system) or caches (use the <code>file-cache-id</code> filter with\n            the ID of the cache), or data repository associations for a specific repository type\n            (use the <code>data-repository-type</code> filter with a value of <code>S3</code>\n            or <code>NFS</code>). If you don't use filters, the response returns all data\n            repository associations owned by your Amazon Web Services account in the Amazon Web Services Region\n            of the endpoint that you're calling.</p>\n         <p>When retrieving all data repository associations, you can paginate the response by using\n            the optional <code>MaxResults</code> parameter to limit the number of data repository associations\n            returned in a response. If more data repository associations remain, a\n            <code>NextToken</code> value is returned in the response. In this case, send a later\n            request with the <code>NextToken</code> request parameter set to the value of\n            <code>NextToken</code> from the last response.</p>",
+=======
+                "smithy.api#documentation": "<p>Returns the description of specific Amazon FSx for Lustre or Amazon File Cache\n            data repository associations, if one or more <code>AssociationIds</code> values\n            are provided in the request, or if filters are used in the request. Data repository\n            associations are supported only for Amazon FSx for Lustre file systems with the\n            <code>Persistent_2</code> deployment type and for Amazon File Cache resources.</p>\n         <p>You can use filters to narrow the response to include just data repository\n            associations for specific file systems (use the <code>file-system-id</code> filter with\n            the ID of the file system) or caches (use the <code>file-cache-id</code> filter with\n            the ID of the cache), or data repository associations for a specific repository type\n            (use the <code>data-repository-type</code> filter with a value of <code>S3</code>\n            or <code>NFS</code>). If you don't use filters, the response returns all data\n            repository associations owned by your Amazon Web Services account in the Amazon Web Services Region\n            of the endpoint that you're calling.</p>\n         <p>When retrieving all data repository associations, you can paginate the response by using\n            the optional <code>MaxResults</code> parameter to limit the number of data repository associations\n            returned in a response. If more data repository associations remain, a\n            <code>NextToken</code> value is returned in the response. In this case, send a later\n            request with the <code>NextToken</code> request parameter set to the value of\n            <code>NextToken</code> from the last response.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                 "smithy.api#idempotent": {},
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
@@ -5252,9 +5747,12 @@
                 "NextToken": {
                     "target": "com.amazonaws.fsx#NextToken"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DescribeDataRepositoryAssociationsResponse": {
@@ -5269,9 +5767,12 @@
                 "NextToken": {
                     "target": "com.amazonaws.fsx#NextToken"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DescribeDataRepositoryTasks": {
@@ -5326,9 +5827,12 @@
                 "NextToken": {
                     "target": "com.amazonaws.fsx#NextToken"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DescribeDataRepositoryTasksResponse": {
@@ -5343,9 +5847,12 @@
                 "NextToken": {
                     "target": "com.amazonaws.fsx#NextToken"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DescribeFileCaches": {
@@ -5392,9 +5899,12 @@
                 "NextToken": {
                     "target": "com.amazonaws.fsx#NextToken"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DescribeFileCachesResponse": {
@@ -5409,9 +5919,12 @@
                 "NextToken": {
                     "target": "com.amazonaws.fsx#NextToken"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DescribeFileSystemAliases": {
@@ -5472,8 +5985,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The request object for <code>DescribeFileSystemAliases</code> operation.</p>",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "<p>The request object for <code>DescribeFileSystemAliases</code> operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DescribeFileSystemAliasesResponse": {
@@ -5493,8 +6010,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The response object for <code>DescribeFileSystemAliases</code> operation.</p>",
                 "smithy.api#output": {}
+=======
+                "smithy.api#documentation": "<p>The response object for <code>DescribeFileSystemAliases</code> operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DescribeFileSystems": {
@@ -5548,8 +6069,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The request object for <code>DescribeFileSystems</code> operation.</p>",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "<p>The request object for <code>DescribeFileSystems</code> operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DescribeFileSystemsResponse": {
@@ -5569,8 +6094,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The response object for <code>DescribeFileSystems</code> operation.</p>",
                 "smithy.api#output": {}
+=======
+                "smithy.api#documentation": "<p>The response object for <code>DescribeFileSystems</code> operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DescribeSnapshots": {
@@ -5622,9 +6151,12 @@
                 "NextToken": {
                     "target": "com.amazonaws.fsx#NextToken"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DescribeSnapshotsResponse": {
@@ -5639,9 +6171,12 @@
                 "NextToken": {
                     "target": "com.amazonaws.fsx#NextToken"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DescribeStorageVirtualMachines": {
@@ -5694,9 +6229,12 @@
                 "NextToken": {
                     "target": "com.amazonaws.fsx#NextToken"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DescribeStorageVirtualMachinesResponse": {
@@ -5711,9 +6249,12 @@
                 "NextToken": {
                     "target": "com.amazonaws.fsx#NextToken"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DescribeVolumes": {
@@ -5766,9 +6307,12 @@
                 "NextToken": {
                     "target": "com.amazonaws.fsx#NextToken"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DescribeVolumesResponse": {
@@ -5783,9 +6327,12 @@
                 "NextToken": {
                     "target": "com.amazonaws.fsx#NextToken"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DirectoryId": {
@@ -5867,8 +6414,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The request object of DNS aliases to disassociate from an Amazon FSx for Windows File Server file system.</p>",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "<p>The request object of DNS aliases to disassociate from an Amazon FSx for Windows File Server file system.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DisassociateFileSystemAliasesResponse": {
@@ -5882,8 +6433,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The system generated response showing the DNS aliases that Amazon FSx is attempting to disassociate from the file system. \n        Use the  API operation to monitor the status of the aliases Amazon FSx is removing from the file system.</p>",
                 "smithy.api#output": {}
+=======
+                "smithy.api#documentation": "<p>The system generated response showing the DNS aliases that Amazon FSx is attempting to disassociate from the file system. \n        Use the  API operation to monitor the status of the aliases Amazon FSx is removing from the file system.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#DiskIopsConfiguration": {
@@ -6418,7 +6973,11 @@
                 "OwnerId": {
                     "target": "com.amazonaws.fsx#AWSAccountId",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>The Amazon Web Services account that created the file system. If the file system was created by a\n            user in IAM Identity Center, the Amazon Web Services account to which the\n            IAM user belongs is the owner.</p>"
+=======
+                        "smithy.api#documentation": "<p>The Amazon Web Services account that created the file system. If the file system was created by an\n            Identity and Access Management (IAM) user, the Amazon Web Services account to which the\n            IAM user belongs is the owner.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "CreationTime": {
@@ -7253,8 +7812,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The request object for <code>ListTagsForResource</code> operation.</p>",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "<p>The request object for <code>ListTagsForResource</code> operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#ListTagsForResourceResponse": {
@@ -7274,8 +7837,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The response object for <code>ListTagsForResource</code> operation.</p>",
                 "smithy.api#output": {}
+=======
+                "smithy.api#documentation": "<p>The response object for <code>ListTagsForResource</code> operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#LustreAccessAuditLogLevel": {
@@ -7744,7 +8311,11 @@
                 "EndpointIpAddressRange": {
                     "target": "com.amazonaws.fsx#IpAddressRange",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>(Multi-AZ only) Specifies the IP address range in which the endpoints to access your\n            file system will be created. By default in the Amazon FSx  API, Amazon FSx\n            selects an unused IP address range for you from the 198.19.* range. By default in the \n            Amazon FSx  console, Amazon FSx  chooses the last 64 IP addresses from\n            the VPC’s primary CIDR range to use as the endpoint IP address range for the file system.\n            You can have overlapping endpoint IP addresses for file systems deployed in the\n            same VPC/route tables.</p>"
+=======
+                        "smithy.api#documentation": "<p>(Multi-AZ only) The IP address range in which the endpoints to access your file system\n            are created.</p>\n         <important>\n            <p>The Endpoint IP address range you select for your file system\n            must exist outside the VPC's CIDR range and must be at least /30 or larger.\n            If you do not specify this optional parameter, Amazon FSx will automatically\n            select a CIDR block for you.</p>\n         </important>"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "Endpoints": {
@@ -8389,9 +8960,12 @@
                         "smithy.api#idempotencyToken": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#ReleaseFileSystemNfsV3LocksResponse": {
@@ -8400,9 +8974,12 @@
                 "FileSystem": {
                     "target": "com.amazonaws.fsx#FileSystem"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#ReleasedCapacity": {
@@ -8593,9 +9170,12 @@
                         "smithy.api#documentation": "<p>The settings used when restoring the specified volume from snapshot.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>DELETE_INTERMEDIATE_SNAPSHOTS</code> - Deletes snapshots between the\n                    current state and the specified snapshot. If there are intermediate snapshots\n                    and this option isn't used, <code>RestoreVolumeFromSnapshot</code> fails.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DELETE_CLONED_VOLUMES</code> - Deletes any dependent clone volumes \n                    created from intermediate snapshots. If there are any dependent clone volumes and this \n                    option isn't used, <code>RestoreVolumeFromSnapshot</code> fails.</p>\n            </li>\n         </ul>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#RestoreVolumeFromSnapshotResponse": {
@@ -8619,9 +9199,12 @@
                         "smithy.api#documentation": "<p>A list of administrative actions for the file system that are in process or waiting to\n            be processed. Administrative actions describe changes to the Amazon FSx\n            system.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#RouteTableId": {
@@ -9708,16 +10291,24 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The request object for the <code>TagResource</code> operation.</p>",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "<p>The request object for the <code>TagResource</code> operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#TagResourceResponse": {
             "type": "structure",
             "members": {},
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The response object for the <code>TagResource</code> operation.</p>",
                 "smithy.api#output": {}
+=======
+                "smithy.api#documentation": "<p>The response object for the <code>TagResource</code> operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#TagValue": {
@@ -9889,16 +10480,24 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The request object for <code>UntagResource</code> action.</p>",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "<p>The request object for <code>UntagResource</code> action.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#UntagResourceResponse": {
             "type": "structure",
             "members": {},
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The response object for <code>UntagResource</code> action.</p>",
                 "smithy.api#output": {}
+=======
+                "smithy.api#documentation": "<p>The response object for <code>UntagResource</code> action.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#UpdateDataRepositoryAssociation": {
@@ -9927,7 +10526,11 @@
                 }
             ],
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Updates the configuration of an existing data repository association\n            on an Amazon FSx for Lustre file system. Data repository associations\n            are supported for all file systems except for <code>Scratch_1</code>\n            deployment type.</p>",
+=======
+                "smithy.api#documentation": "<p>Updates the configuration of an existing data repository association\n            on an Amazon FSx for Lustre file system. Data repository associations are\n            supported only for file systems with the <code>Persistent_2</code> deployment type.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                 "smithy.api#idempotent": {}
             }
         },
@@ -9959,9 +10562,12 @@
                         "smithy.api#documentation": "<p>The configuration for an Amazon S3 data repository linked to an\n            Amazon FSx Lustre file system with a data repository association.\n            The configuration defines which file events (new, changed, or\n            deleted files or directories) are automatically imported from\n            the linked data repository to the file system or automatically\n            exported from the file system to the data repository.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#UpdateDataRepositoryAssociationResponse": {
@@ -9973,9 +10579,12 @@
                         "smithy.api#documentation": "<p>The response object returned after the data repository association is updated.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#UpdateFileCache": {
@@ -10047,9 +10656,12 @@
                         "smithy.api#documentation": "<p>The configuration updates for an Amazon File Cache resource.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#UpdateFileCacheResponse": {
@@ -10061,9 +10673,12 @@
                         "smithy.api#documentation": "<p>A description of the cache that was updated.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#UpdateFileSystem": {
@@ -10101,7 +10716,11 @@
                 }
             ],
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Use this operation to update the configuration of an existing Amazon FSx file\n      system. You can update multiple properties in a single request.</p>\n         <p>For FSx for Windows File Server file systems, you can update the following\n      properties:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>AuditLogConfiguration</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>AutomaticBackupRetentionDays</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DailyAutomaticBackupStartTime</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>SelfManagedActiveDirectoryConfiguration</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>StorageCapacity</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>ThroughputCapacity</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>WeeklyMaintenanceStartTime</code>\n               </p>\n            </li>\n         </ul>\n         <p>For FSx for Lustre file systems, you can update the following\n      properties:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>AutoImportPolicy</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>AutomaticBackupRetentionDays</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DailyAutomaticBackupStartTime</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DataCompressionType</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>LustreRootSquashConfiguration</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>StorageCapacity</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>WeeklyMaintenanceStartTime</code>\n               </p>\n            </li>\n         </ul>\n         <p>For FSx for ONTAP file systems, you can update the following\n      properties:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>AddRouteTableIds</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>AutomaticBackupRetentionDays</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DailyAutomaticBackupStartTime</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DiskIopsConfiguration</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>FsxAdminPassword</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>RemoveRouteTableIds</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>StorageCapacity</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>ThroughputCapacity</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>WeeklyMaintenanceStartTime</code>\n               </p>\n            </li>\n         </ul>\n         <p>For FSx for OpenZFS file systems, you can update the following\n      properties:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>AutomaticBackupRetentionDays</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>CopyTagsToBackups</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>CopyTagsToVolumes</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DailyAutomaticBackupStartTime</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DiskIopsConfiguration</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>StorageCapacity</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>ThroughputCapacity</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>WeeklyMaintenanceStartTime</code>\n               </p>\n            </li>\n         </ul>"
+=======
+                "smithy.api#documentation": "<p>Use this operation to update the configuration of an existing Amazon FSx file\n      system. You can update multiple properties in a single request.</p>\n         <p>For Amazon FSx for Windows File Server file systems, you can update the following\n      properties:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>AuditLogConfiguration</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>AutomaticBackupRetentionDays</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DailyAutomaticBackupStartTime</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>SelfManagedActiveDirectoryConfiguration</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>StorageCapacity</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>ThroughputCapacity</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>WeeklyMaintenanceStartTime</code>\n               </p>\n            </li>\n         </ul>\n         <p>For Amazon FSx for Lustre file systems, you can update the following\n      properties:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>AutoImportPolicy</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>AutomaticBackupRetentionDays</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DailyAutomaticBackupStartTime</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DataCompressionType</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>LustreRootSquashConfiguration</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>StorageCapacity</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>WeeklyMaintenanceStartTime</code>\n               </p>\n            </li>\n         </ul>\n         <p>For Amazon FSx for NetApp ONTAP file systems, you can update the following\n      properties:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>AutomaticBackupRetentionDays</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DailyAutomaticBackupStartTime</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DiskIopsConfiguration</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>FsxAdminPassword</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>StorageCapacity</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>ThroughputCapacity</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>WeeklyMaintenanceStartTime</code>\n               </p>\n            </li>\n         </ul>\n         <p>For the Amazon FSx for OpenZFS file systems, you can update the following\n      properties:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>AutomaticBackupRetentionDays</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>CopyTagsToBackups</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>CopyTagsToVolumes</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>DailyAutomaticBackupStartTime</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>ThroughputCapacity</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>WeeklyMaintenanceStartTime</code>\n               </p>\n            </li>\n         </ul>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#UpdateFileSystemLustreConfiguration": {
@@ -10122,7 +10741,11 @@
                 "AutoImportPolicy": {
                     "target": "com.amazonaws.fsx#AutoImportPolicyType",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p> (Optional) When you create your file system, your existing S3 objects appear as file and directory listings. \n            Use this property to choose how Amazon FSx keeps your file and directory listing up to date \n            as you add or modify objects in your linked S3 bucket. <code>AutoImportPolicy</code> can\n            have the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>NONE</code> - (Default) AutoImport is off. Amazon FSx only updates \n                file and directory listings from the linked S3 bucket \n                when the file system is created. FSx does not update the file and directory \n                listing for any new or changed objects after choosing this option.</p>\n            </li>\n            <li>\n               <p>\n                  <code>NEW</code> - AutoImport is on. Amazon FSx automatically imports\n                directory listings of any new objects added to the linked S3 bucket that \n                do not currently exist in the FSx file system. </p>\n            </li>\n            <li>\n               <p>\n                  <code>NEW_CHANGED</code> - AutoImport is on. Amazon FSx automatically imports \n                file and directory listings of any new objects added to the S3 bucket and any \n                existing objects that are changed in the S3 bucket after you choose this option.</p>\n            </li>\n            <li>\n               <p>\n                  <code>NEW_CHANGED_DELETED</code> - AutoImport is on. Amazon FSx automatically\n                imports file and directory listings of any new objects added to the S3 bucket, any \n                existing objects that are changed in the S3 bucket, and any objects that were deleted\n                in the S3 bucket.</p>\n            </li>\n         </ul>\n         <p>This parameter is not supported for file systems with a data repository association.</p>"
+=======
+                        "smithy.api#documentation": "<p> (Optional) When you create your file system, your existing S3 objects appear as file and directory listings. \n            Use this property to choose how Amazon FSx keeps your file and directory listing up to date \n            as you add or modify objects in your linked S3 bucket. <code>AutoImportPolicy</code> can\n            have the following values:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>NONE</code> - (Default) AutoImport is off. Amazon FSx only updates \n                file and directory listings from the linked S3 bucket \n                when the file system is created. FSx does not update the file and directory \n                listing for any new or changed objects after choosing this option.</p>\n            </li>\n            <li>\n               <p>\n                  <code>NEW</code> - AutoImport is on. Amazon FSx automatically imports\n                directory listings of any new objects added to the linked S3 bucket that \n                do not currently exist in the FSx file system. </p>\n            </li>\n            <li>\n               <p>\n                  <code>NEW_CHANGED</code> - AutoImport is on. Amazon FSx automatically imports \n                file and directory listings of any new objects added to the S3 bucket and any \n                existing objects that are changed in the S3 bucket after you choose this option.</p>\n            </li>\n            <li>\n               <p>\n                  <code>NEW_CHANGED_DELETED</code> - AutoImport is on. Amazon FSx automatically\n                imports file and directory listings of any new objects added to the S3 bucket, any \n                existing objects that are changed in the S3 bucket, and any objects that were deleted\n                in the S3 bucket.</p>\n            </li>\n         </ul>\n         <p>The <code>AutoImportPolicy</code> parameter is not supported for Lustre file systems with\n            the <code>Persistent_2</code> deployment type. Instead, use  \n            to update a data repository association on your <code>Persistent_2</code> file system.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "DataCompressionType": {
@@ -10246,20 +10869,32 @@
                 "ClientRequestToken": {
                     "target": "com.amazonaws.fsx#ClientRequestToken",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>A string of up to 63 ASCII characters that Amazon FSx uses to ensure\n      idempotent updates. This string is automatically filled on your behalf when you use the\n        Command Line Interface (CLI) or an Amazon Web Services SDK.</p>",
+=======
+                        "smithy.api#documentation": "<p>A string of up to 64 ASCII characters that Amazon FSx uses to ensure\n      idempotent updates. This string is automatically filled on your behalf when you use the\n        Command Line Interface (CLI) or an Amazon Web Services SDK.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                         "smithy.api#idempotencyToken": {}
                     }
                 },
                 "StorageCapacity": {
                     "target": "com.amazonaws.fsx#StorageCapacity",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>Use this parameter to increase the storage capacity of an FSx for Windows File Server,\n      FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system.\n      Specifies the storage capacity target value, in GiB, to increase the storage capacity for\n      the file system that you're updating. </p>\n         <note>\n            <p>You can't make a storage capacity increase request if there is an existing storage\n        capacity increase request in progress.</p>\n         </note>\n         <p>For Lustre file systems, the storage capacity target value can be the following:</p>\n         <ul>\n            <li>\n               <p>For <code>SCRATCH_2</code>, <code>PERSISTENT_1</code>, and <code>PERSISTENT_2 SSD</code> deployment types, valid values\n        are in multiples of 2400 GiB. The value must be greater than the current storage capacity.</p>\n            </li>\n            <li>\n               <p>For <code>PERSISTENT HDD</code> file systems, valid values are multiples of 6000 GiB for\n        12-MBps throughput per TiB file systems and multiples of 1800 GiB for 40-MBps throughput\n        per TiB file systems. The values must be greater than the current storage capacity.</p>\n            </li>\n            <li>\n               <p>For <code>SCRATCH_1</code> file systems, you can't increase the storage capacity.</p>\n            </li>\n         </ul>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html\">Managing storage and throughput\n      capacity</a> in the <i>FSx for Lustre User Guide</i>.</p>\n         <p>For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent\n      greater than the current storage capacity value. For more information, see\n      <a href=\"https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-storage-capacity.html\">Managing storage capacity</a> in the <i>FSx for OpenZFS User\n          Guide</i>.</p>\n         <p>For Windows file systems, the storage capacity target value must be at least 10 percent\n      greater than the current storage capacity value. To increase storage capacity, the file system\n      must have at least 16 MBps of throughput capacity. For more information, see <a href=\"https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html\">Managing storage\n        capacity</a> in the <i>Amazon FSx for Windows File Server User\n          Guide</i>.</p>\n         <p>For ONTAP file systems, the storage capacity target value must be at least 10 percent\n      greater than the current storage capacity value.  For more information, see\n      <a href=\"https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-storage-capacity.html\">Managing storage capacity and provisioned IOPS</a> in the <i>Amazon FSx for NetApp ONTAP User\n          Guide</i>.</p>"
+=======
+                        "smithy.api#documentation": "<p>Use this parameter to increase the storage capacity of an Amazon FSx for Windows\n      File Server, Amazon FSx for Lustre, or Amazon FSx for NetApp ONTAP file system.\n      Specifies the storage capacity target value, in GiB, to increase the storage capacity for\n      the file system that you're updating. </p>\n         <note>\n            <p>You can't make a storage capacity increase request if there is an existing storage\n        capacity increase request in progress.</p>\n         </note>\n         <p>For Windows file systems, the storage capacity target value must be at least 10 percent\n      greater than the current storage capacity value. To increase storage capacity, the file system\n      must have at least 16 MBps of throughput capacity. For more information, see <a href=\"https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html\">Managing storage\n        capacity</a> in the <i>Amazon FSx for Windows File Server User\n          Guide</i>.</p>\n         <p>For Lustre file systems, the storage capacity target value can be the following:</p>\n         <ul>\n            <li>\n               <p>For <code>SCRATCH_2</code>, <code>PERSISTENT_1</code>, and <code>PERSISTENT_2 SSD</code> deployment types, valid values\n          are in multiples of 2400 GiB. The value must be greater than the current storage capacity.</p>\n            </li>\n            <li>\n               <p>For <code>PERSISTENT HDD</code> file systems, valid values are multiples of 6000 GiB for\n          12-MBps throughput per TiB file systems and multiples of 1800 GiB for 40-MBps throughput\n          per TiB file systems. The values must be greater than the current storage capacity.</p>\n            </li>\n            <li>\n               <p>For <code>SCRATCH_1</code> file systems, you can't increase the storage capacity.</p>\n            </li>\n         </ul>\n         <p>For more information, see <a href=\"https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html\">Managing storage and throughput\n          capacity</a> in the <i>Amazon FSx for Lustre User Guide</i>.</p>\n         <p>For ONTAP file systems, the storage capacity target value must be at least 10 percent\n      greater than the current storage capacity value.  For more information, see\n      <a href=\"https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-storage-capacity.html\">Managing storage capacity and provisioned IOPS</a> in the <i>Amazon FSx for NetApp ONTAP User\n          Guide</i>.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "WindowsConfiguration": {
                     "target": "com.amazonaws.fsx#UpdateFileSystemWindowsConfiguration",
                     "traits": {
+<<<<<<< HEAD
                         "smithy.api#documentation": "<p>The configuration updates for an Amazon FSx for Windows File Server file system.</p>"
+=======
+                        "smithy.api#documentation": "<p>The configuration updates for an Amazon FSx for Windows File Server file\n      system.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
                     }
                 },
                 "LustreConfiguration": {
@@ -10276,8 +10911,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The request object for the <code>UpdateFileSystem</code> operation.</p>",
                 "smithy.api#input": {}
+=======
+                "smithy.api#documentation": "<p>The request object for the <code>UpdateFileSystem</code> operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#UpdateFileSystemResponse": {
@@ -10291,8 +10930,12 @@
                 }
             },
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>The response object for the <code>UpdateFileSystem</code> operation.</p>",
                 "smithy.api#output": {}
+=======
+                "smithy.api#documentation": "<p>The response object for the <code>UpdateFileSystem</code> operation.</p>"
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#UpdateFileSystemWindowsConfiguration": {
@@ -10486,9 +11129,12 @@
                         "smithy.api#required": {}
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#UpdateSnapshotResponse": {
@@ -10500,9 +11146,12 @@
                         "smithy.api#documentation": "<p>Returned after a successful <code>UpdateSnapshot</code> operation, describing the\n            snapshot that you updated.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#UpdateStorageVirtualMachine": {
@@ -10562,9 +11211,12 @@
                         "smithy.api#documentation": "<p>Enter a new SvmAdminPassword if you are updating it.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#UpdateStorageVirtualMachineResponse": {
@@ -10573,9 +11225,12 @@
                 "StorageVirtualMachine": {
                     "target": "com.amazonaws.fsx#StorageVirtualMachine"
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#UpdateSvmActiveDirectoryConfiguration": {
@@ -10652,9 +11307,12 @@
                         "smithy.api#documentation": "<p>The configuration of the OpenZFS volume that you are updating.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#input": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#UpdateVolumeResponse": {
@@ -10666,9 +11324,12 @@
                         "smithy.api#documentation": "<p>A description of the volume just updated. Returned after a successful\n                <code>UpdateVolume</code> API operation.</p>"
                     }
                 }
+<<<<<<< HEAD
             },
             "traits": {
                 "smithy.api#output": {}
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
             }
         },
         "com.amazonaws.fsx#Volume": {

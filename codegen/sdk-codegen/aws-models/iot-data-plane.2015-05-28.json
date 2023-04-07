@@ -167,7 +167,11 @@
                 }
             ],
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Gets the details of a single retained message for the specified topic.</p>\n         <p>This action returns the message payload of the retained message, which can \n      incur messaging costs. To list only the topic names of the retained messages, call\n      <a href=\"https://docs.aws.amazon.com/iot/latest/apireference/API_iotdata_ListRetainedMessages.html\">ListRetainedMessages</a>.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotfleethubfordevicemanagement.html#awsiotfleethubfordevicemanagement-actions-as-permissions\">GetRetainedMessage</a> action.</p>\n         <p>For more information about messaging costs, see <a href=\"http://aws.amazon.com/iot-core/pricing/#Messaging\">Amazon Web Services IoT Core\n      pricing - Messaging</a>.</p>",
+=======
+                "smithy.api#documentation": "<p>Gets the details of a single retained message for the specified topic.</p>\n         <p>This action returns the message payload of the retained message, which can \n      incur messaging costs. To list only the topic names of the retained messages, call\n      <a href=\"/iot/latest/developerguide/API_iotdata_ListRetainedMessages.html\">ListRetainedMessages</a>.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotfleethubfordevicemanagement.html#awsiotfleethubfordevicemanagement-actions-as-permissions\">GetRetainedMessage</a> action.</p>\n         <p>For more information about messaging costs, see <a href=\"http://aws.amazon.com/iot-core/pricing/#Messaging\">Amazon Web Services IoT Core\n      pricing - Messaging</a>.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                 "smithy.api#http": {
                     "method": "GET",
                     "uri": "/retainedMessage/{topic}",
@@ -220,12 +224,15 @@
                         "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The Epoch date and time, in milliseconds, when the retained message was stored by IoT.</p>"
                     }
+<<<<<<< HEAD
                 },
                 "userProperties": {
                     "target": "com.amazonaws.iotdataplane#UserPropertiesBlob",
                     "traits": {
                         "smithy.api#documentation": "<p>A base64-encoded JSON string that includes an array of JSON objects, or null if the\n      retained message doesn't include any user properties.</p>\n         <p>The following example <code>userProperties</code> parameter is a JSON string that\n      represents two user properties. Note that it will be base64-encoded:</p>\n         <p>\n            <code>[{\"deviceName\": \"alpha\"}, {\"deviceCnt\": \"45\"}]</code>\n         </p>"
                     }
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
                 }
             },
             "traits": {
@@ -976,8 +983,13 @@
                             },
                             "params": {
                                 "Region": "ap-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -989,8 +1001,13 @@
                             },
                             "params": {
                                 "Region": "ap-northeast-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1002,8 +1019,13 @@
                             },
                             "params": {
                                 "Region": "ap-northeast-2",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1015,8 +1037,13 @@
                             },
                             "params": {
                                 "Region": "ap-south-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1028,8 +1055,13 @@
                             },
                             "params": {
                                 "Region": "ap-southeast-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1041,8 +1073,13 @@
                             },
                             "params": {
                                 "Region": "ap-southeast-2",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1054,8 +1091,13 @@
                             },
                             "params": {
                                 "Region": "ca-central-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1067,8 +1109,13 @@
                             },
                             "params": {
                                 "Region": "ca-central-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1080,8 +1127,13 @@
                             },
                             "params": {
                                 "Region": "eu-central-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1093,8 +1145,13 @@
                             },
                             "params": {
                                 "Region": "eu-north-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1106,8 +1163,13 @@
                             },
                             "params": {
                                 "Region": "eu-west-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1119,8 +1181,13 @@
                             },
                             "params": {
                                 "Region": "eu-west-2",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1132,8 +1199,13 @@
                             },
                             "params": {
                                 "Region": "eu-west-3",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1145,8 +1217,13 @@
                             },
                             "params": {
                                 "Region": "me-south-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1158,8 +1235,13 @@
                             },
                             "params": {
                                 "Region": "sa-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1171,8 +1253,13 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1184,8 +1271,13 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1197,8 +1289,13 @@
                             },
                             "params": {
                                 "Region": "us-east-2",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1210,8 +1307,13 @@
                             },
                             "params": {
                                 "Region": "us-east-2",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1223,8 +1325,13 @@
                             },
                             "params": {
                                 "Region": "us-west-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1236,8 +1343,13 @@
                             },
                             "params": {
                                 "Region": "us-west-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1249,8 +1361,13 @@
                             },
                             "params": {
                                 "Region": "us-west-2",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1262,8 +1379,13 @@
                             },
                             "params": {
                                 "Region": "us-west-2",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1275,8 +1397,13 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1288,8 +1415,13 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1301,8 +1433,13 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1314,8 +1451,13 @@
                             },
                             "params": {
                                 "Region": "cn-northwest-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1327,8 +1469,13 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1340,8 +1487,13 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1353,8 +1505,13 @@
                             },
                             "params": {
                                 "Region": "cn-north-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1366,8 +1523,13 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1379,8 +1541,13 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1392,8 +1559,13 @@
                             },
                             "params": {
                                 "Region": "us-gov-west-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1405,8 +1577,13 @@
                             },
                             "params": {
                                 "Region": "us-gov-west-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1418,8 +1595,13 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1431,8 +1613,13 @@
                             },
                             "params": {
                                 "Region": "us-gov-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1442,8 +1629,13 @@
                             },
                             "params": {
                                 "Region": "us-iso-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1455,8 +1647,13 @@
                             },
                             "params": {
                                 "Region": "us-iso-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1466,8 +1663,13 @@
                             },
                             "params": {
                                 "Region": "us-iso-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1479,8 +1681,13 @@
                             },
                             "params": {
                                 "Region": "us-iso-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1490,8 +1697,13 @@
                             },
                             "params": {
                                 "Region": "us-isob-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1503,8 +1715,13 @@
                             },
                             "params": {
                                 "Region": "us-isob-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1514,8 +1731,13 @@
                             },
                             "params": {
                                 "Region": "us-isob-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": true
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1527,8 +1749,13 @@
                             },
                             "params": {
                                 "Region": "us-isob-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false
+>>>>>>> e9e9f86da6 (chore: regen models)
                             }
                         },
                         {
@@ -1540,8 +1767,13 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -1553,8 +1785,13 @@
                                 }
                             },
                             "params": {
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": false,
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -1565,8 +1802,13 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": false,
                                 "UseFIPS": true,
+=======
+                                "UseFIPS": true,
+                                "UseDualStack": false,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -1577,8 +1819,13 @@
                             },
                             "params": {
                                 "Region": "us-east-1",
+<<<<<<< HEAD
                                 "UseDualStack": true,
                                 "UseFIPS": false,
+=======
+                                "UseFIPS": false,
+                                "UseDualStack": true,
+>>>>>>> e9e9f86da6 (chore: regen models)
                                 "Endpoint": "https://example.com"
                             }
                         },
@@ -1722,7 +1969,11 @@
                 }
             ],
             "traits": {
+<<<<<<< HEAD
                 "smithy.api#documentation": "<p>Lists summary information about the retained messages stored for the account.</p>\n         <p>This action returns only the topic names of the retained messages. It doesn't \n      return any message payloads. Although this action doesn't return a message payload,\n      it can still incur messaging costs.</p>\n         <p>To get the message payload of a retained message, call\n      <a href=\"https://docs.aws.amazon.com/iot/latest/apireference/API_iotdata_GetRetainedMessage.html\">GetRetainedMessage</a>\n      with the topic name of the retained message.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotfleethubfordevicemanagement.html#awsiotfleethubfordevicemanagement-actions-as-permissions\">ListRetainedMessages</a> action.</p>\n         <p>For more information about messaging costs, see <a href=\"http://aws.amazon.com/iot-core/pricing/#Messaging\">Amazon Web Services IoT Core\n      pricing - Messaging</a>.</p>",
+=======
+                "smithy.api#documentation": "<p>Lists summary information about the retained messages stored for the account.</p>\n         <p>This action returns only the topic names of the retained messages. It doesn't \n      return any message payloads. Although this action doesn't return a message payload,\n      it can still incur messaging costs.</p>\n         <p>To get the message payload of a retained message, call\n      <a href=\"https://docs.aws.amazon.com/iot/latest/developerguide/API_iotdata_GetRetainedMessage.html\">GetRetainedMessage</a>\n      with the topic name of the retained message.</p>\n         <p>Requires permission to access the <a href=\"https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotfleethubfordevicemanagement.html#awsiotfleethubfordevicemanagement-actions-as-permissions\">ListRetainedMessages</a> action.</p>\n         <p>For more information about messaging costs, see <a href=\"http://aws.amazon.com/iot-core/pricing/#Messaging\">Amazon Web Services IoT Core\n      pricing - Messaging</a>.</p>",
+>>>>>>> e9e9f86da6 (chore: regen models)
                 "smithy.api#http": {
                     "method": "GET",
                     "uri": "/retainedMessage",
@@ -2257,9 +2508,12 @@
                 "smithy.api#output": {}
             }
         },
+<<<<<<< HEAD
         "com.amazonaws.iotdataplane#UserPropertiesBlob": {
             "type": "blob"
         },
+=======
+>>>>>>> e9e9f86da6 (chore: regen models)
         "com.amazonaws.iotdataplane#errorMessage": {
             "type": "string"
         }
