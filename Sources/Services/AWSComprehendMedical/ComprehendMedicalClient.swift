@@ -162,12 +162,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEntitiesDetectionV2JobOutputResponse, DescribeEntitiesDetectionV2JobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEntitiesDetectionV2JobOutputResponse, DescribeEntitiesDetectionV2JobOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEntitiesDetectionV2JobOutputResponse, DescribeEntitiesDetectionV2JobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -203,12 +199,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeICD10CMInferenceJobOutputResponse, DescribeICD10CMInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeICD10CMInferenceJobOutputResponse, DescribeICD10CMInferenceJobOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeICD10CMInferenceJobOutputResponse, DescribeICD10CMInferenceJobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -244,12 +236,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribePHIDetectionJobOutputResponse, DescribePHIDetectionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribePHIDetectionJobOutputResponse, DescribePHIDetectionJobOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribePHIDetectionJobOutputResponse, DescribePHIDetectionJobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -285,12 +273,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRxNormInferenceJobOutputResponse, DescribeRxNormInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRxNormInferenceJobOutputResponse, DescribeRxNormInferenceJobOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRxNormInferenceJobOutputResponse, DescribeRxNormInferenceJobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -326,12 +310,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeSNOMEDCTInferenceJobOutputResponse, DescribeSNOMEDCTInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeSNOMEDCTInferenceJobOutputResponse, DescribeSNOMEDCTInferenceJobOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeSNOMEDCTInferenceJobOutputResponse, DescribeSNOMEDCTInferenceJobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -368,12 +348,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectEntitiesOutputResponse, DetectEntitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectEntitiesOutputResponse, DetectEntitiesOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectEntitiesOutputResponse, DetectEntitiesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -409,12 +385,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectEntitiesV2OutputResponse, DetectEntitiesV2OutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectEntitiesV2OutputResponse, DetectEntitiesV2OutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectEntitiesV2OutputResponse, DetectEntitiesV2OutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -450,12 +422,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DetectPHIOutputResponse, DetectPHIOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DetectPHIOutputResponse, DetectPHIOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DetectPHIOutputResponse, DetectPHIOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -491,12 +459,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InferICD10CMOutputResponse, InferICD10CMOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InferICD10CMOutputResponse, InferICD10CMOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InferICD10CMOutputResponse, InferICD10CMOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -532,12 +496,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InferRxNormOutputResponse, InferRxNormOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InferRxNormOutputResponse, InferRxNormOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InferRxNormOutputResponse, InferRxNormOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -573,12 +533,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InferSNOMEDCTOutputResponse, InferSNOMEDCTOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InferSNOMEDCTOutputResponse, InferSNOMEDCTOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InferSNOMEDCTOutputResponse, InferSNOMEDCTOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -614,12 +570,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEntitiesDetectionV2JobsOutputResponse, ListEntitiesDetectionV2JobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEntitiesDetectionV2JobsOutputResponse, ListEntitiesDetectionV2JobsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEntitiesDetectionV2JobsOutputResponse, ListEntitiesDetectionV2JobsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -655,12 +607,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListICD10CMInferenceJobsOutputResponse, ListICD10CMInferenceJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListICD10CMInferenceJobsOutputResponse, ListICD10CMInferenceJobsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListICD10CMInferenceJobsOutputResponse, ListICD10CMInferenceJobsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -696,12 +644,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPHIDetectionJobsOutputResponse, ListPHIDetectionJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPHIDetectionJobsOutputResponse, ListPHIDetectionJobsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPHIDetectionJobsOutputResponse, ListPHIDetectionJobsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -737,12 +681,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRxNormInferenceJobsOutputResponse, ListRxNormInferenceJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRxNormInferenceJobsOutputResponse, ListRxNormInferenceJobsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRxNormInferenceJobsOutputResponse, ListRxNormInferenceJobsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -778,12 +718,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSNOMEDCTInferenceJobsOutputResponse, ListSNOMEDCTInferenceJobsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSNOMEDCTInferenceJobsOutputResponse, ListSNOMEDCTInferenceJobsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSNOMEDCTInferenceJobsOutputResponse, ListSNOMEDCTInferenceJobsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -827,12 +763,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartEntitiesDetectionV2JobOutputResponse, StartEntitiesDetectionV2JobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartEntitiesDetectionV2JobOutputResponse, StartEntitiesDetectionV2JobOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartEntitiesDetectionV2JobOutputResponse, StartEntitiesDetectionV2JobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -876,12 +808,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartICD10CMInferenceJobOutputResponse, StartICD10CMInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartICD10CMInferenceJobOutputResponse, StartICD10CMInferenceJobOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartICD10CMInferenceJobOutputResponse, StartICD10CMInferenceJobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -925,12 +853,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartPHIDetectionJobOutputResponse, StartPHIDetectionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartPHIDetectionJobOutputResponse, StartPHIDetectionJobOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartPHIDetectionJobOutputResponse, StartPHIDetectionJobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -974,12 +898,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartRxNormInferenceJobOutputResponse, StartRxNormInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartRxNormInferenceJobOutputResponse, StartRxNormInferenceJobOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartRxNormInferenceJobOutputResponse, StartRxNormInferenceJobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1023,12 +943,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSNOMEDCTInferenceJobOutputResponse, StartSNOMEDCTInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSNOMEDCTInferenceJobOutputResponse, StartSNOMEDCTInferenceJobOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSNOMEDCTInferenceJobOutputResponse, StartSNOMEDCTInferenceJobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1064,12 +980,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopEntitiesDetectionV2JobOutputResponse, StopEntitiesDetectionV2JobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopEntitiesDetectionV2JobOutputResponse, StopEntitiesDetectionV2JobOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopEntitiesDetectionV2JobOutputResponse, StopEntitiesDetectionV2JobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1105,12 +1017,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopICD10CMInferenceJobOutputResponse, StopICD10CMInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopICD10CMInferenceJobOutputResponse, StopICD10CMInferenceJobOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopICD10CMInferenceJobOutputResponse, StopICD10CMInferenceJobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1146,12 +1054,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopPHIDetectionJobOutputResponse, StopPHIDetectionJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopPHIDetectionJobOutputResponse, StopPHIDetectionJobOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopPHIDetectionJobOutputResponse, StopPHIDetectionJobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1187,12 +1091,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopRxNormInferenceJobOutputResponse, StopRxNormInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopRxNormInferenceJobOutputResponse, StopRxNormInferenceJobOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopRxNormInferenceJobOutputResponse, StopRxNormInferenceJobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1228,12 +1128,8 @@ extension ComprehendMedicalClient: ComprehendMedicalClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopSNOMEDCTInferenceJobOutputResponse, StopSNOMEDCTInferenceJobOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopSNOMEDCTInferenceJobOutputResponse, StopSNOMEDCTInferenceJobOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopSNOMEDCTInferenceJobOutputResponse, StopSNOMEDCTInferenceJobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

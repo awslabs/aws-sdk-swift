@@ -157,12 +157,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CloneReceiptRuleSetOutputResponse, CloneReceiptRuleSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CloneReceiptRuleSetOutputResponse, CloneReceiptRuleSetOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CloneReceiptRuleSetOutputResponse, CloneReceiptRuleSetOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -197,12 +193,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConfigurationSetOutputResponse, CreateConfigurationSetOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -237,12 +229,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConfigurationSetEventDestinationOutputResponse, CreateConfigurationSetEventDestinationOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -277,12 +265,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateConfigurationSetTrackingOptionsOutputResponse, CreateConfigurationSetTrackingOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateConfigurationSetTrackingOptionsOutputResponse, CreateConfigurationSetTrackingOptionsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateConfigurationSetTrackingOptionsOutputResponse, CreateConfigurationSetTrackingOptionsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -317,12 +301,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateCustomVerificationEmailTemplateOutputResponse, CreateCustomVerificationEmailTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCustomVerificationEmailTemplateOutputResponse, CreateCustomVerificationEmailTemplateOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCustomVerificationEmailTemplateOutputResponse, CreateCustomVerificationEmailTemplateOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -357,12 +337,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReceiptFilterOutputResponse, CreateReceiptFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReceiptFilterOutputResponse, CreateReceiptFilterOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateReceiptFilterOutputResponse, CreateReceiptFilterOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -397,12 +373,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReceiptRuleOutputResponse, CreateReceiptRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReceiptRuleOutputResponse, CreateReceiptRuleOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateReceiptRuleOutputResponse, CreateReceiptRuleOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -437,12 +409,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateReceiptRuleSetOutputResponse, CreateReceiptRuleSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateReceiptRuleSetOutputResponse, CreateReceiptRuleSetOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateReceiptRuleSetOutputResponse, CreateReceiptRuleSetOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -477,12 +445,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateTemplateOutputResponse, CreateTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateTemplateOutputResponse, CreateTemplateOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateTemplateOutputResponse, CreateTemplateOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -517,12 +481,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigurationSetOutputResponse, DeleteConfigurationSetOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -557,12 +517,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigurationSetEventDestinationOutputResponse, DeleteConfigurationSetEventDestinationOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -597,12 +553,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteConfigurationSetTrackingOptionsOutputResponse, DeleteConfigurationSetTrackingOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteConfigurationSetTrackingOptionsOutputResponse, DeleteConfigurationSetTrackingOptionsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteConfigurationSetTrackingOptionsOutputResponse, DeleteConfigurationSetTrackingOptionsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -637,12 +589,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCustomVerificationEmailTemplateOutputResponse, DeleteCustomVerificationEmailTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCustomVerificationEmailTemplateOutputResponse, DeleteCustomVerificationEmailTemplateOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCustomVerificationEmailTemplateOutputResponse, DeleteCustomVerificationEmailTemplateOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -677,12 +625,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIdentityOutputResponse, DeleteIdentityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIdentityOutputResponse, DeleteIdentityOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIdentityOutputResponse, DeleteIdentityOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -717,12 +661,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteIdentityPolicyOutputResponse, DeleteIdentityPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteIdentityPolicyOutputResponse, DeleteIdentityPolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteIdentityPolicyOutputResponse, DeleteIdentityPolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -757,12 +697,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReceiptFilterOutputResponse, DeleteReceiptFilterOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReceiptFilterOutputResponse, DeleteReceiptFilterOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteReceiptFilterOutputResponse, DeleteReceiptFilterOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -797,12 +733,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReceiptRuleOutputResponse, DeleteReceiptRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReceiptRuleOutputResponse, DeleteReceiptRuleOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteReceiptRuleOutputResponse, DeleteReceiptRuleOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -837,12 +769,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReceiptRuleSetOutputResponse, DeleteReceiptRuleSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteReceiptRuleSetOutputResponse, DeleteReceiptRuleSetOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteReceiptRuleSetOutputResponse, DeleteReceiptRuleSetOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -877,12 +805,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteTemplateOutputResponse, DeleteTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteTemplateOutputResponse, DeleteTemplateOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteTemplateOutputResponse, DeleteTemplateOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -917,12 +841,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVerifiedEmailAddressOutputResponse, DeleteVerifiedEmailAddressOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVerifiedEmailAddressOutputResponse, DeleteVerifiedEmailAddressOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVerifiedEmailAddressOutputResponse, DeleteVerifiedEmailAddressOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -957,12 +877,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeActiveReceiptRuleSetOutputResponse, DescribeActiveReceiptRuleSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeActiveReceiptRuleSetOutputResponse, DescribeActiveReceiptRuleSetOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeActiveReceiptRuleSetOutputResponse, DescribeActiveReceiptRuleSetOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -997,12 +913,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeConfigurationSetOutputResponse, DescribeConfigurationSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeConfigurationSetOutputResponse, DescribeConfigurationSetOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeConfigurationSetOutputResponse, DescribeConfigurationSetOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1037,12 +949,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReceiptRuleOutputResponse, DescribeReceiptRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReceiptRuleOutputResponse, DescribeReceiptRuleOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReceiptRuleOutputResponse, DescribeReceiptRuleOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1077,12 +985,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReceiptRuleSetOutputResponse, DescribeReceiptRuleSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReceiptRuleSetOutputResponse, DescribeReceiptRuleSetOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeReceiptRuleSetOutputResponse, DescribeReceiptRuleSetOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1117,12 +1021,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAccountSendingEnabledOutputResponse, GetAccountSendingEnabledOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAccountSendingEnabledOutputResponse, GetAccountSendingEnabledOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAccountSendingEnabledOutputResponse, GetAccountSendingEnabledOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1157,12 +1057,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCustomVerificationEmailTemplateOutputResponse, GetCustomVerificationEmailTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCustomVerificationEmailTemplateOutputResponse, GetCustomVerificationEmailTemplateOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCustomVerificationEmailTemplateOutputResponse, GetCustomVerificationEmailTemplateOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1206,12 +1102,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityDkimAttributesOutputResponse, GetIdentityDkimAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityDkimAttributesOutputResponse, GetIdentityDkimAttributesOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdentityDkimAttributesOutputResponse, GetIdentityDkimAttributesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1246,12 +1138,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityMailFromDomainAttributesOutputResponse, GetIdentityMailFromDomainAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityMailFromDomainAttributesOutputResponse, GetIdentityMailFromDomainAttributesOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdentityMailFromDomainAttributesOutputResponse, GetIdentityMailFromDomainAttributesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1286,12 +1174,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityNotificationAttributesOutputResponse, GetIdentityNotificationAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityNotificationAttributesOutputResponse, GetIdentityNotificationAttributesOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdentityNotificationAttributesOutputResponse, GetIdentityNotificationAttributesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1326,12 +1210,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityPoliciesOutputResponse, GetIdentityPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityPoliciesOutputResponse, GetIdentityPoliciesOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdentityPoliciesOutputResponse, GetIdentityPoliciesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1366,12 +1246,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetIdentityVerificationAttributesOutputResponse, GetIdentityVerificationAttributesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetIdentityVerificationAttributesOutputResponse, GetIdentityVerificationAttributesOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetIdentityVerificationAttributesOutputResponse, GetIdentityVerificationAttributesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1406,12 +1282,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSendQuotaOutputResponse, GetSendQuotaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSendQuotaOutputResponse, GetSendQuotaOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSendQuotaOutputResponse, GetSendQuotaOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1446,12 +1318,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSendStatisticsOutputResponse, GetSendStatisticsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSendStatisticsOutputResponse, GetSendStatisticsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSendStatisticsOutputResponse, GetSendStatisticsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1486,12 +1354,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetTemplateOutputResponse, GetTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetTemplateOutputResponse, GetTemplateOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetTemplateOutputResponse, GetTemplateOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1526,12 +1390,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListConfigurationSetsOutputResponse, ListConfigurationSetsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1566,12 +1426,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListCustomVerificationEmailTemplatesOutputResponse, ListCustomVerificationEmailTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCustomVerificationEmailTemplatesOutputResponse, ListCustomVerificationEmailTemplatesOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCustomVerificationEmailTemplatesOutputResponse, ListCustomVerificationEmailTemplatesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1606,12 +1462,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentitiesOutputResponse, ListIdentitiesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentitiesOutputResponse, ListIdentitiesOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentitiesOutputResponse, ListIdentitiesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1646,12 +1498,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListIdentityPoliciesOutputResponse, ListIdentityPoliciesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListIdentityPoliciesOutputResponse, ListIdentityPoliciesOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListIdentityPoliciesOutputResponse, ListIdentityPoliciesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1686,12 +1534,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReceiptFiltersOutputResponse, ListReceiptFiltersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReceiptFiltersOutputResponse, ListReceiptFiltersOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListReceiptFiltersOutputResponse, ListReceiptFiltersOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1726,12 +1570,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListReceiptRuleSetsOutputResponse, ListReceiptRuleSetsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListReceiptRuleSetsOutputResponse, ListReceiptRuleSetsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListReceiptRuleSetsOutputResponse, ListReceiptRuleSetsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1766,12 +1606,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTemplatesOutputResponse, ListTemplatesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTemplatesOutputResponse, ListTemplatesOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTemplatesOutputResponse, ListTemplatesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1806,12 +1642,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVerifiedEmailAddressesOutputResponse, ListVerifiedEmailAddressesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVerifiedEmailAddressesOutputResponse, ListVerifiedEmailAddressesOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVerifiedEmailAddressesOutputResponse, ListVerifiedEmailAddressesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1846,12 +1678,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutConfigurationSetDeliveryOptionsOutputResponse, PutConfigurationSetDeliveryOptionsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1886,12 +1714,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutIdentityPolicyOutputResponse, PutIdentityPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutIdentityPolicyOutputResponse, PutIdentityPolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutIdentityPolicyOutputResponse, PutIdentityPolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1926,12 +1750,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ReorderReceiptRuleSetOutputResponse, ReorderReceiptRuleSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReorderReceiptRuleSetOutputResponse, ReorderReceiptRuleSetOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReorderReceiptRuleSetOutputResponse, ReorderReceiptRuleSetOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1966,12 +1786,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendBounceOutputResponse, SendBounceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendBounceOutputResponse, SendBounceOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendBounceOutputResponse, SendBounceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2020,12 +1836,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendBulkTemplatedEmailOutputResponse, SendBulkTemplatedEmailOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendBulkTemplatedEmailOutputResponse, SendBulkTemplatedEmailOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendBulkTemplatedEmailOutputResponse, SendBulkTemplatedEmailOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2060,12 +1872,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendCustomVerificationEmailOutputResponse, SendCustomVerificationEmailOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendCustomVerificationEmailOutputResponse, SendCustomVerificationEmailOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendCustomVerificationEmailOutputResponse, SendCustomVerificationEmailOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2113,12 +1921,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendEmailOutputResponse, SendEmailOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendEmailOutputResponse, SendEmailOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendEmailOutputResponse, SendEmailOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2185,12 +1989,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendRawEmailOutputResponse, SendRawEmailOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendRawEmailOutputResponse, SendRawEmailOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendRawEmailOutputResponse, SendRawEmailOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2240,12 +2040,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendTemplatedEmailOutputResponse, SendTemplatedEmailOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendTemplatedEmailOutputResponse, SendTemplatedEmailOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendTemplatedEmailOutputResponse, SendTemplatedEmailOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2280,12 +2076,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetActiveReceiptRuleSetOutputResponse, SetActiveReceiptRuleSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetActiveReceiptRuleSetOutputResponse, SetActiveReceiptRuleSetOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetActiveReceiptRuleSetOutputResponse, SetActiveReceiptRuleSetOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2320,12 +2112,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetIdentityDkimEnabledOutputResponse, SetIdentityDkimEnabledOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetIdentityDkimEnabledOutputResponse, SetIdentityDkimEnabledOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetIdentityDkimEnabledOutputResponse, SetIdentityDkimEnabledOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2360,12 +2148,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetIdentityFeedbackForwardingEnabledOutputResponse, SetIdentityFeedbackForwardingEnabledOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetIdentityFeedbackForwardingEnabledOutputResponse, SetIdentityFeedbackForwardingEnabledOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetIdentityFeedbackForwardingEnabledOutputResponse, SetIdentityFeedbackForwardingEnabledOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2400,12 +2184,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetIdentityHeadersInNotificationsEnabledOutputResponse, SetIdentityHeadersInNotificationsEnabledOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetIdentityHeadersInNotificationsEnabledOutputResponse, SetIdentityHeadersInNotificationsEnabledOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetIdentityHeadersInNotificationsEnabledOutputResponse, SetIdentityHeadersInNotificationsEnabledOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2440,12 +2220,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetIdentityMailFromDomainOutputResponse, SetIdentityMailFromDomainOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetIdentityMailFromDomainOutputResponse, SetIdentityMailFromDomainOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetIdentityMailFromDomainOutputResponse, SetIdentityMailFromDomainOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2480,12 +2256,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetIdentityNotificationTopicOutputResponse, SetIdentityNotificationTopicOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetIdentityNotificationTopicOutputResponse, SetIdentityNotificationTopicOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetIdentityNotificationTopicOutputResponse, SetIdentityNotificationTopicOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2520,12 +2292,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetReceiptRulePositionOutputResponse, SetReceiptRulePositionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetReceiptRulePositionOutputResponse, SetReceiptRulePositionOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetReceiptRulePositionOutputResponse, SetReceiptRulePositionOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2560,12 +2328,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TestRenderTemplateOutputResponse, TestRenderTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestRenderTemplateOutputResponse, TestRenderTemplateOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestRenderTemplateOutputResponse, TestRenderTemplateOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2600,12 +2364,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAccountSendingEnabledOutputResponse, UpdateAccountSendingEnabledOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAccountSendingEnabledOutputResponse, UpdateAccountSendingEnabledOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAccountSendingEnabledOutputResponse, UpdateAccountSendingEnabledOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2640,12 +2400,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConfigurationSetEventDestinationOutputResponse, UpdateConfigurationSetEventDestinationOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2680,12 +2436,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConfigurationSetReputationMetricsEnabledOutputResponse, UpdateConfigurationSetReputationMetricsEnabledOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConfigurationSetReputationMetricsEnabledOutputResponse, UpdateConfigurationSetReputationMetricsEnabledOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConfigurationSetReputationMetricsEnabledOutputResponse, UpdateConfigurationSetReputationMetricsEnabledOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2720,12 +2472,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConfigurationSetSendingEnabledOutputResponse, UpdateConfigurationSetSendingEnabledOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConfigurationSetSendingEnabledOutputResponse, UpdateConfigurationSetSendingEnabledOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConfigurationSetSendingEnabledOutputResponse, UpdateConfigurationSetSendingEnabledOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2760,12 +2508,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateConfigurationSetTrackingOptionsOutputResponse, UpdateConfigurationSetTrackingOptionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateConfigurationSetTrackingOptionsOutputResponse, UpdateConfigurationSetTrackingOptionsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateConfigurationSetTrackingOptionsOutputResponse, UpdateConfigurationSetTrackingOptionsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2800,12 +2544,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateCustomVerificationEmailTemplateOutputResponse, UpdateCustomVerificationEmailTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCustomVerificationEmailTemplateOutputResponse, UpdateCustomVerificationEmailTemplateOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCustomVerificationEmailTemplateOutputResponse, UpdateCustomVerificationEmailTemplateOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2840,12 +2580,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateReceiptRuleOutputResponse, UpdateReceiptRuleOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateReceiptRuleOutputResponse, UpdateReceiptRuleOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateReceiptRuleOutputResponse, UpdateReceiptRuleOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2880,12 +2616,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateTemplateOutputResponse, UpdateTemplateOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateTemplateOutputResponse, UpdateTemplateOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateTemplateOutputResponse, UpdateTemplateOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2929,12 +2661,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifyDomainDkimOutputResponse, VerifyDomainDkimOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifyDomainDkimOutputResponse, VerifyDomainDkimOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifyDomainDkimOutputResponse, VerifyDomainDkimOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -2969,12 +2697,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifyDomainIdentityOutputResponse, VerifyDomainIdentityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifyDomainIdentityOutputResponse, VerifyDomainIdentityOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifyDomainIdentityOutputResponse, VerifyDomainIdentityOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3009,12 +2733,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifyEmailAddressOutputResponse, VerifyEmailAddressOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifyEmailAddressOutputResponse, VerifyEmailAddressOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifyEmailAddressOutputResponse, VerifyEmailAddressOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -3049,12 +2769,8 @@ extension SESClient: SESClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<VerifyEmailIdentityOutputResponse, VerifyEmailIdentityOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<VerifyEmailIdentityOutputResponse, VerifyEmailIdentityOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<VerifyEmailIdentityOutputResponse, VerifyEmailIdentityOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

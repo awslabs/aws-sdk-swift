@@ -147,6 +147,12 @@ public protocol ServiceCatalogClientProtocol {
     func listStackInstancesForProvisionedProduct(input: ListStackInstancesForProvisionedProductInput) async throws -> ListStackInstancesForProvisionedProductOutputResponse
     /// Lists the specified TagOptions or all TagOptions.
     func listTagOptions(input: ListTagOptionsInput) async throws -> ListTagOptionsOutputResponse
+    /// Notifies the result of the provisioning engine execution.
+    func notifyProvisionProductEngineWorkflowResult(input: NotifyProvisionProductEngineWorkflowResultInput) async throws -> NotifyProvisionProductEngineWorkflowResultOutputResponse
+    /// Notifies the result of the terminate engine execution.
+    func notifyTerminateProvisionedProductEngineWorkflowResult(input: NotifyTerminateProvisionedProductEngineWorkflowResultInput) async throws -> NotifyTerminateProvisionedProductEngineWorkflowResultOutputResponse
+    /// Notifies the result of the update engine execution.
+    func notifyUpdateProvisionedProductEngineWorkflowResult(input: NotifyUpdateProvisionedProductEngineWorkflowResultInput) async throws -> NotifyUpdateProvisionedProductEngineWorkflowResultOutputResponse
     /// Provisions the specified product. A provisioned product is a resourced instance of a product. For example, provisioning a product that's based on an CloudFormation template launches an CloudFormation stack and its underlying resources. You can check the status of this request using [DescribeRecord]. If the request contains a tag key with an empty list of values, there's a tag conflict for that key. Don't include conflicted keys as tags, or this will cause the error "Parameter validation failed: Missing required parameter in Tags[N]:Value". When provisioning a product that's been added to a portfolio, you must grant your user, group, or role access to the portfolio. For more information, see [Granting users access](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/catalogs_portfolios_users.html) in the Service Catalog User Guide.
     func provisionProduct(input: ProvisionProductInput) async throws -> ProvisionProductOutputResponse
     /// Rejects an offer to share the specified portfolio.

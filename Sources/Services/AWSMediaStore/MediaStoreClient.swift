@@ -162,12 +162,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateContainerOutputResponse, CreateContainerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateContainerOutputResponse, CreateContainerOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateContainerOutputResponse, CreateContainerOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -203,12 +199,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteContainerOutputResponse, DeleteContainerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteContainerOutputResponse, DeleteContainerOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteContainerOutputResponse, DeleteContainerOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -244,12 +236,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteContainerPolicyOutputResponse, DeleteContainerPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteContainerPolicyOutputResponse, DeleteContainerPolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteContainerPolicyOutputResponse, DeleteContainerPolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -285,12 +273,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteCorsPolicyOutputResponse, DeleteCorsPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCorsPolicyOutputResponse, DeleteCorsPolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCorsPolicyOutputResponse, DeleteCorsPolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -326,12 +310,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLifecyclePolicyOutputResponse, DeleteLifecyclePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLifecyclePolicyOutputResponse, DeleteLifecyclePolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLifecyclePolicyOutputResponse, DeleteLifecyclePolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -367,12 +347,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMetricPolicyOutputResponse, DeleteMetricPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMetricPolicyOutputResponse, DeleteMetricPolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMetricPolicyOutputResponse, DeleteMetricPolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -408,12 +384,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeContainerOutputResponse, DescribeContainerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeContainerOutputResponse, DescribeContainerOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeContainerOutputResponse, DescribeContainerOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -449,12 +421,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContainerPolicyOutputResponse, GetContainerPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetContainerPolicyOutputResponse, GetContainerPolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetContainerPolicyOutputResponse, GetContainerPolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -490,12 +458,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetCorsPolicyOutputResponse, GetCorsPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCorsPolicyOutputResponse, GetCorsPolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCorsPolicyOutputResponse, GetCorsPolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -531,12 +495,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetLifecyclePolicyOutputResponse, GetLifecyclePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetLifecyclePolicyOutputResponse, GetLifecyclePolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetLifecyclePolicyOutputResponse, GetLifecyclePolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -572,12 +532,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMetricPolicyOutputResponse, GetMetricPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMetricPolicyOutputResponse, GetMetricPolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMetricPolicyOutputResponse, GetMetricPolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -613,12 +569,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListContainersOutputResponse, ListContainersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListContainersOutputResponse, ListContainersOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListContainersOutputResponse, ListContainersOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -654,12 +606,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -695,12 +643,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutContainerPolicyOutputResponse, PutContainerPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutContainerPolicyOutputResponse, PutContainerPolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutContainerPolicyOutputResponse, PutContainerPolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -736,12 +680,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutCorsPolicyOutputResponse, PutCorsPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutCorsPolicyOutputResponse, PutCorsPolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutCorsPolicyOutputResponse, PutCorsPolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -777,12 +717,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutLifecyclePolicyOutputResponse, PutLifecyclePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutLifecyclePolicyOutputResponse, PutLifecyclePolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutLifecyclePolicyOutputResponse, PutLifecyclePolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -818,12 +754,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutMetricPolicyOutputResponse, PutMetricPolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutMetricPolicyOutputResponse, PutMetricPolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutMetricPolicyOutputResponse, PutMetricPolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -859,12 +791,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartAccessLoggingOutputResponse, StartAccessLoggingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartAccessLoggingOutputResponse, StartAccessLoggingOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartAccessLoggingOutputResponse, StartAccessLoggingOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -900,12 +828,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopAccessLoggingOutputResponse, StopAccessLoggingOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopAccessLoggingOutputResponse, StopAccessLoggingOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopAccessLoggingOutputResponse, StopAccessLoggingOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -941,12 +865,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -982,12 +902,8 @@ extension MediaStoreClient: MediaStoreClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

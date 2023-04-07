@@ -47,7 +47,8 @@ public protocol DrsClientProtocol {
     func listStagingAccounts(input: ListStagingAccountsInput) async throws -> ListStagingAccountsOutputResponse
     /// List all tags for your Elastic Disaster Recovery resources.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
-    /// Causes the data replication initiation sequence to begin immediately upon next Handshake for the specified Source Server ID, regardless of when the previous initiation started. This command will work only if the Source Server is stalled or is in a DISCONNECTED or STOPPED state.
+    /// WARNING: RetryDataReplication is deprecated. Causes the data replication initiation sequence to begin immediately upon next Handshake for the specified Source Server ID, regardless of when the previous initiation started. This command will work only if the Source Server is stalled or is in a DISCONNECTED or STOPPED state.
+    @available(*, deprecated, message: "WARNING: RetryDataReplication is deprecated")
     func retryDataReplication(input: RetryDataReplicationInput) async throws -> RetryDataReplicationOutputResponse
     /// Start replication to origin / target region - applies only to protected instances that originated in EC2. For recovery instances on target region - starts replication back to origin region. For failback instances on origin region - starts replication to target region to re-protect them.
     func reverseReplication(input: ReverseReplicationInput) async throws -> ReverseReplicationOutputResponse

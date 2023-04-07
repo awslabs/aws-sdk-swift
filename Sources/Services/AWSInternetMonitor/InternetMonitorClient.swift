@@ -130,7 +130,7 @@ public struct InternetMonitorClientLogHandlerFactory: ClientRuntime.SDKLogHandle
 }
 
 extension InternetMonitorClient: InternetMonitorClientProtocol {
-    /// Creates a monitor in Amazon CloudWatch Internet Monitor. A monitor is built based on information from the application resources that you add: Virtual Private Clouds (VPCs), Amazon CloudFront distributions, and WorkSpaces directories. After you create a monitor, you can view the internet performance for your application, scoped to a location, as well as any health events that are impairing traffic. Internet Monitor can also diagnose whether the impairment is on the Amazon Web Services network or is an issue with an internet service provider (ISP).
+    /// Creates a monitor in Amazon CloudWatch Internet Monitor. A monitor is built based on information from the application resources that you add: Amazon Virtual Private Clouds (VPCs), Amazon CloudFront distributions, and WorkSpaces directories. Internet Monitor then publishes internet measurements from Amazon Web Services that are specific to the city-networks, that is, the locations and ASNs (typically internet service providers or ISPs), where clients access your application. For more information, see [Using Amazon CloudWatch Internet Monitor](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-InternetMonitor.html) in the Amazon CloudWatch User Guide. When you create a monitor, you set a maximum limit for the number of city-networks where client traffic is monitored. The city-network maximum that you choose is the limit, but you only pay for the number of city-networks that are actually monitored. You can change the maximum at any time by updating your monitor. For more information, see [Choosing a city-network maximum value](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch User Guide.
     public func createMonitor(input: CreateMonitorInput) async throws -> CreateMonitorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -146,6 +146,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "internetmonitor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateMonitorInput, CreateMonitorOutputResponse, CreateMonitorOutputError>(id: "createMonitor")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateMonitorOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -169,7 +170,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMonitorOutputResponse, CreateMonitorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMonitorOutputResponse, CreateMonitorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMonitorOutputResponse, CreateMonitorOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -189,6 +190,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "internetmonitor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteMonitorInput, DeleteMonitorOutputResponse, DeleteMonitorOutputError>(id: "deleteMonitor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMonitorInput, DeleteMonitorOutputResponse, DeleteMonitorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMonitorInput, DeleteMonitorOutputResponse>())
@@ -201,7 +203,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMonitorOutputResponse, DeleteMonitorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMonitorOutputResponse, DeleteMonitorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMonitorOutputResponse, DeleteMonitorOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -221,6 +223,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "internetmonitor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetHealthEventInput, GetHealthEventOutputResponse, GetHealthEventOutputError>(id: "getHealthEvent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetHealthEventInput, GetHealthEventOutputResponse, GetHealthEventOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetHealthEventInput, GetHealthEventOutputResponse>())
@@ -233,7 +236,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHealthEventOutputResponse, GetHealthEventOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHealthEventOutputResponse, GetHealthEventOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHealthEventOutputResponse, GetHealthEventOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -253,6 +256,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "internetmonitor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetMonitorInput, GetMonitorOutputResponse, GetMonitorOutputError>(id: "getMonitor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMonitorInput, GetMonitorOutputResponse, GetMonitorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMonitorInput, GetMonitorOutputResponse>())
@@ -265,7 +269,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMonitorOutputResponse, GetMonitorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMonitorOutputResponse, GetMonitorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMonitorOutputResponse, GetMonitorOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -285,6 +289,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "internetmonitor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListHealthEventsInput, ListHealthEventsOutputResponse, ListHealthEventsOutputError>(id: "listHealthEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListHealthEventsInput, ListHealthEventsOutputResponse, ListHealthEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListHealthEventsInput, ListHealthEventsOutputResponse>())
@@ -298,7 +303,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListHealthEventsOutputResponse, ListHealthEventsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListHealthEventsOutputResponse, ListHealthEventsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListHealthEventsOutputResponse, ListHealthEventsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -318,6 +323,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "internetmonitor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListMonitorsInput, ListMonitorsOutputResponse, ListMonitorsOutputError>(id: "listMonitors")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMonitorsInput, ListMonitorsOutputResponse, ListMonitorsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMonitorsInput, ListMonitorsOutputResponse>())
@@ -331,7 +337,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMonitorsOutputResponse, ListMonitorsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMonitorsOutputResponse, ListMonitorsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMonitorsOutputResponse, ListMonitorsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -351,6 +357,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "internetmonitor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -363,7 +370,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -383,6 +390,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "internetmonitor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -398,7 +406,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -418,6 +426,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "internetmonitor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -431,11 +440,11 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
-    /// Updates a monitor. You can update a monitor to add or remove resources, or to change the status of the monitor. You can't change the name of a monitor.
+    /// Updates a monitor. You can update a monitor to change the maximum number of city-networks (locations and ASNs or internet service providers), to add or remove resources, or to change the status of the monitor. Note that you can't change the name of a monitor. The city-network maximum that you choose is the limit, but you only pay for the number of city-networks that are actually monitored. For more information, see [Choosing a city-network maximum value](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch User Guide.
     public func updateMonitor(input: UpdateMonitorInput) async throws -> UpdateMonitorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -451,6 +460,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "internetmonitor")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateMonitorInput, UpdateMonitorOutputResponse, UpdateMonitorOutputError>(id: "updateMonitor")
         operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<UpdateMonitorOutputResponse> in
             let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
@@ -474,7 +484,7 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMonitorOutputResponse, UpdateMonitorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMonitorOutputResponse, UpdateMonitorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMonitorOutputResponse, UpdateMonitorOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

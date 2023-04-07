@@ -12,7 +12,7 @@ import ClientRuntime
 /// * For descriptions of Network Firewall features, including and step-by-step instructions on how to use them through the Network Firewall console, see the [Network Firewall Developer Guide](https://docs.aws.amazon.com/network-firewall/latest/developerguide/).
 ///
 ///
-/// Network Firewall is a stateful, managed, network firewall and intrusion detection and prevention service for Amazon Virtual Private Cloud (Amazon VPC). With Network Firewall, you can filter traffic at the perimeter of your VPC. This includes filtering traffic going to and coming from an internet gateway, NAT gateway, or over VPN or Direct Connect. Network Firewall uses rules that are compatible with Suricata, a free, open source network analysis and threat detection engine. Network Firewall supports Suricata version 5.0.2. For information about Suricata, see the [Suricata website](https://suricata.io/). You can use Network Firewall to monitor and protect your VPC traffic in a number of ways. The following are just a few examples:
+/// Network Firewall is a stateful, managed, network firewall and intrusion detection and prevention service for Amazon Virtual Private Cloud (Amazon VPC). With Network Firewall, you can filter traffic at the perimeter of your VPC. This includes filtering traffic going to and coming from an internet gateway, NAT gateway, or over VPN or Direct Connect. Network Firewall uses rules that are compatible with Suricata, a free, open source network analysis and threat detection engine. Network Firewall supports Suricata version 6.0.9. For information about Suricata, see the [Suricata website](https://suricata.io/). You can use Network Firewall to monitor and protect your VPC traffic in a number of ways. The following are just a few examples:
 ///
 /// * Allow domains or IP addresses for known Amazon Web Services service endpoints, such as Amazon S3, and block all other forms of traffic.
 ///
@@ -47,6 +47,8 @@ public protocol NetworkFirewallClientProtocol {
     func createFirewallPolicy(input: CreateFirewallPolicyInput) async throws -> CreateFirewallPolicyOutputResponse
     /// Creates the specified stateless or stateful rule group, which includes the rules for network traffic inspection, a capacity setting, and tags. You provide your rule group specification in your request using either RuleGroup or Rules.
     func createRuleGroup(input: CreateRuleGroupInput) async throws -> CreateRuleGroupOutputResponse
+    /// Creates an Network Firewall TLS inspection configuration. A TLS inspection configuration contains the Certificate Manager certificate references that Network Firewall uses to decrypt and re-encrypt inbound traffic. After you create a TLS inspection configuration, you associate it with a firewall policy. To update the settings for a TLS inspection configuration, use [UpdateTLSInspectionConfiguration]. To manage a TLS inspection configuration's tags, use the standard Amazon Web Services resource tagging operations, [ListTagsForResource], [TagResource], and [UntagResource]. To retrieve information about TLS inspection configurations, use [ListTLSInspectionConfigurations] and [DescribeTLSInspectionConfiguration]. For more information about TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
+    func createTLSInspectionConfiguration(input: CreateTLSInspectionConfigurationInput) async throws -> CreateTLSInspectionConfigurationOutputResponse
     /// Deletes the specified [Firewall] and its [FirewallStatus]. This operation requires the firewall's DeleteProtection flag to be FALSE. You can't revert this operation. You can check whether a firewall is in use by reviewing the route tables for the Availability Zones where you have firewall subnet mappings. Retrieve the subnet mappings by calling [DescribeFirewall]. You define and update the route tables through Amazon VPC. As needed, update the route tables for the zones to remove the firewall endpoints. When the route tables no longer use the firewall endpoints, you can remove the firewall safely. To delete a firewall, remove the delete protection if you need to using [UpdateFirewallDeleteProtection], then delete the firewall by calling [DeleteFirewall].
     func deleteFirewall(input: DeleteFirewallInput) async throws -> DeleteFirewallOutputResponse
     /// Deletes the specified [FirewallPolicy].
@@ -55,6 +57,8 @@ public protocol NetworkFirewallClientProtocol {
     func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
     /// Deletes the specified [RuleGroup].
     func deleteRuleGroup(input: DeleteRuleGroupInput) async throws -> DeleteRuleGroupOutputResponse
+    /// Deletes the specified [TLSInspectionConfiguration].
+    func deleteTLSInspectionConfiguration(input: DeleteTLSInspectionConfigurationInput) async throws -> DeleteTLSInspectionConfigurationOutputResponse
     /// Returns the data objects for the specified firewall.
     func describeFirewall(input: DescribeFirewallInput) async throws -> DescribeFirewallOutputResponse
     /// Returns the data objects for the specified firewall policy.
@@ -67,6 +71,8 @@ public protocol NetworkFirewallClientProtocol {
     func describeRuleGroup(input: DescribeRuleGroupInput) async throws -> DescribeRuleGroupOutputResponse
     /// High-level information about a rule group, returned by operations like create and describe. You can use the information provided in the metadata to retrieve and manage a rule group. You can retrieve all objects for a rule group by calling [DescribeRuleGroup].
     func describeRuleGroupMetadata(input: DescribeRuleGroupMetadataInput) async throws -> DescribeRuleGroupMetadataOutputResponse
+    /// Returns the data objects for the specified TLS inspection configuration.
+    func describeTLSInspectionConfiguration(input: DescribeTLSInspectionConfigurationInput) async throws -> DescribeTLSInspectionConfigurationOutputResponse
     /// Removes the specified subnet associations from the firewall. This removes the firewall endpoints from the subnets and removes any network filtering protections that the endpoints were providing.
     func disassociateSubnets(input: DisassociateSubnetsInput) async throws -> DisassociateSubnetsOutputResponse
     /// Retrieves the metadata for the firewall policies that you have defined. Depending on your setting for max results and the number of firewall policies, a single call might not return the full list.
@@ -77,6 +83,8 @@ public protocol NetworkFirewallClientProtocol {
     func listRuleGroups(input: ListRuleGroupsInput) async throws -> ListRuleGroupsOutputResponse
     /// Retrieves the tags associated with the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall policies, and rule groups.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    /// Retrieves the metadata for the TLS inspection configurations that you have defined. Depending on your setting for max results and the number of TLS inspection configurations, a single call might not return the full list.
+    func listTLSInspectionConfigurations(input: ListTLSInspectionConfigurationsInput) async throws -> ListTLSInspectionConfigurationsOutputResponse
     /// Creates or updates an IAM policy for your rule group or firewall policy. Use this to share rule groups and firewall policies between accounts. This operation works in conjunction with the Amazon Web Services Resource Access Manager (RAM) service to manage resource sharing for Network Firewall. Use this operation to create or update a resource policy for your rule group or firewall policy. In the policy, you specify the accounts that you want to share the resource with and the operations that you want the accounts to be able to perform. When you add an account in the resource policy, you then run the following Resource Access Manager (RAM) operations to access and accept the shared rule group or firewall policy.
     ///
     /// * [GetResourceShareInvitations](https://docs.aws.amazon.com/ram/latest/APIReference/API_GetResourceShareInvitations.html) - Returns the Amazon Resource Names (ARNs) of the resource share invitations.
@@ -115,6 +123,8 @@ public protocol NetworkFirewallClientProtocol {
     func updateRuleGroup(input: UpdateRuleGroupInput) async throws -> UpdateRuleGroupOutputResponse
     ///
     func updateSubnetChangeProtection(input: UpdateSubnetChangeProtectionInput) async throws -> UpdateSubnetChangeProtectionOutputResponse
+    /// Updates the TLS inspection configuration settings for the specified TLS inspection configuration. You use a TLS inspection configuration by reference in one or more firewall policies. When you modify a TLS inspection configuration, you modify all firewall policies that use the TLS inspection configuration. To update a TLS inspection configuration, first call [DescribeTLSInspectionConfiguration] to retrieve the current [TLSInspectionConfiguration] object, update the object as needed, and then provide the updated object to this call.
+    func updateTLSInspectionConfiguration(input: UpdateTLSInspectionConfigurationInput) async throws -> UpdateTLSInspectionConfigurationOutputResponse
 }
 
 public protocol NetworkFirewallClientConfigurationProtocol : AWSClientRuntime.AWSClientConfiguration {

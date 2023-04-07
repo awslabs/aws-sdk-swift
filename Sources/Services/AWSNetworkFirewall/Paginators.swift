@@ -127,3 +127,33 @@ extension PaginatorSequence where Input == ListTagsForResourceInput, Output == L
         return try await self.asyncCompactMap { item in item.tags }
     }
 }
+extension NetworkFirewallClient {
+    /// Paginate over `[ListTLSInspectionConfigurationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTLSInspectionConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTLSInspectionConfigurationsOutputResponse`
+    public func listTLSInspectionConfigurationsPaginated(input: ListTLSInspectionConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutputResponse>(input: input, inputKey: \ListTLSInspectionConfigurationsInput.nextToken, outputKey: \ListTLSInspectionConfigurationsOutputResponse.nextToken, paginationFunction: self.listTLSInspectionConfigurations(input:))
+    }
+}
+
+extension ListTLSInspectionConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTLSInspectionConfigurationsInput {
+        return ListTLSInspectionConfigurationsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListTLSInspectionConfigurationsInput, Output == ListTLSInspectionConfigurationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listTLSInspectionConfigurationsPaginated`
+    /// to access the nested member `[NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata]`
+    /// - Returns: `[NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata]`
+    public func tlsInspectionConfigurations() async throws -> [NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata] {
+        return try await self.asyncCompactMap { item in item.tlsInspectionConfigurations }
+    }
+}

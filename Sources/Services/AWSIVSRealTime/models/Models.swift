@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.exceptionMessage = output.exceptionMessage
         } else {
@@ -20,7 +19,7 @@ extension AccessDeniedException {
 }
 
 ///
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -57,9 +56,8 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.exceptionMessage = output.exceptionMessage
         } else {
@@ -73,7 +71,7 @@ extension ConflictException {
 }
 
 ///
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -260,9 +258,8 @@ public enum CreateParticipantTokenOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateParticipantTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateParticipantTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.participantToken = output.participantToken
         } else {
@@ -424,9 +421,8 @@ public enum CreateStageOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateStageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateStageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.participantTokens = output.participantTokens
             self.stage = output.stage
@@ -757,9 +753,8 @@ public enum GetStageOutputError: Swift.Error, Swift.Equatable {
 
 extension GetStageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetStageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stage = output.stage
         } else {
@@ -798,9 +793,8 @@ extension GetStageOutputResponseBody: Swift.Decodable {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.exceptionMessage = output.exceptionMessage
         } else {
@@ -814,7 +808,7 @@ extension InternalServerException {
 }
 
 ///
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -936,9 +930,8 @@ public enum ListStagesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListStagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListStagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.stages = output.stages
@@ -1054,9 +1047,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -1132,7 +1124,7 @@ extension IVSRealTimeClientTypes.ParticipantToken: Swift.Codable {
             try encodeContainer.encode(duration, forKey: .duration)
         }
         if let expirationTime = self.expirationTime {
-            try encodeContainer.encodeTimestamp(expirationTime, format: .epochSeconds, forKey: .expirationTime)
+            try encodeContainer.encodeTimestamp(expirationTime, format: .dateTime, forKey: .expirationTime)
         }
         if let participantId = self.participantId {
             try encodeContainer.encode(participantId, forKey: .participantId)
@@ -1177,9 +1169,14 @@ extension IVSRealTimeClientTypes.ParticipantToken: Swift.Codable {
             }
         }
         capabilities = capabilitiesDecoded0
-        let expirationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .expirationTime)
+        let expirationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .expirationTime)
         expirationTime = expirationTimeDecoded
     }
+}
+
+extension IVSRealTimeClientTypes.ParticipantToken: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ParticipantToken(attributes: \(Swift.String(describing: attributes)), capabilities: \(Swift.String(describing: capabilities)), duration: \(Swift.String(describing: duration)), expirationTime: \(Swift.String(describing: expirationTime)), participantId: \(Swift.String(describing: participantId)), userId: \(Swift.String(describing: userId)), token: \"CONTENT_REDACTED\")"}
 }
 
 extension IVSRealTimeClientTypes {
@@ -1345,9 +1342,8 @@ extension IVSRealTimeClientTypes {
 
 extension PendingVerification {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PendingVerificationBody = try responseDecoder.decode(responseBody: data)
             self.exceptionMessage = output.exceptionMessage
         } else {
@@ -1361,7 +1357,7 @@ extension PendingVerification {
 }
 
 ///
-public struct PendingVerification: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct PendingVerification: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1398,9 +1394,8 @@ extension PendingVerificationBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.exceptionMessage = output.exceptionMessage
         } else {
@@ -1414,7 +1409,7 @@ extension ResourceNotFoundException {
 }
 
 ///
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1451,9 +1446,8 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.exceptionMessage = output.exceptionMessage
         } else {
@@ -1467,7 +1461,7 @@ extension ServiceQuotaExceededException {
 }
 
 ///
-public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1943,9 +1937,8 @@ public enum UpdateStageOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateStageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateStageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stage = output.stage
         } else {
@@ -1984,9 +1977,8 @@ extension UpdateStageOutputResponseBody: Swift.Decodable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.exceptionMessage = output.exceptionMessage
         } else {
@@ -2000,7 +1992,7 @@ extension ValidationException {
 }
 
 ///
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

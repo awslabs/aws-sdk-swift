@@ -150,10 +150,7 @@ extension LexRuntimeV2Client: LexRuntimeV2ClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteSessionInput, DeleteSessionOutputResponse, DeleteSessionOutputError>(id: "deleteSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSessionInput, DeleteSessionOutputResponse, DeleteSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSessionInput, DeleteSessionOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteSessionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSessionOutputResponse, DeleteSessionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -161,12 +158,8 @@ extension LexRuntimeV2Client: LexRuntimeV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSessionOutputResponse, DeleteSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSessionOutputResponse, DeleteSessionOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSessionOutputResponse, DeleteSessionOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -190,10 +183,7 @@ extension LexRuntimeV2Client: LexRuntimeV2ClientProtocol {
         var operation = ClientRuntime.OperationStack<GetSessionInput, GetSessionOutputResponse, GetSessionOutputError>(id: "getSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSessionInput, GetSessionOutputResponse, GetSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSessionInput, GetSessionOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetSessionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSessionOutputResponse, GetSessionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -201,12 +191,8 @@ extension LexRuntimeV2Client: LexRuntimeV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSessionOutputResponse, GetSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSessionOutputResponse, GetSessionOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSessionOutputResponse, GetSessionOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -230,10 +216,7 @@ extension LexRuntimeV2Client: LexRuntimeV2ClientProtocol {
         var operation = ClientRuntime.OperationStack<PutSessionInput, PutSessionOutputResponse, PutSessionOutputError>(id: "putSession")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSessionInput, PutSessionOutputResponse, PutSessionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSessionInput, PutSessionOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<PutSessionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutSessionOutputResponse, PutSessionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -245,12 +228,8 @@ extension LexRuntimeV2Client: LexRuntimeV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSessionOutputResponse, PutSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSessionOutputResponse, PutSessionOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSessionOutputResponse, PutSessionOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -283,10 +262,7 @@ extension LexRuntimeV2Client: LexRuntimeV2ClientProtocol {
         var operation = ClientRuntime.OperationStack<RecognizeTextInput, RecognizeTextOutputResponse, RecognizeTextOutputError>(id: "recognizeText")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RecognizeTextInput, RecognizeTextOutputResponse, RecognizeTextOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RecognizeTextInput, RecognizeTextOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<RecognizeTextOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RecognizeTextOutputResponse, RecognizeTextOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -297,12 +273,8 @@ extension LexRuntimeV2Client: LexRuntimeV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RecognizeTextOutputResponse, RecognizeTextOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RecognizeTextOutputResponse, RecognizeTextOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RecognizeTextOutputResponse, RecognizeTextOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -355,10 +327,7 @@ extension LexRuntimeV2Client: LexRuntimeV2ClientProtocol {
         var operation = ClientRuntime.OperationStack<RecognizeUtteranceInput, RecognizeUtteranceOutputResponse, RecognizeUtteranceOutputError>(id: "recognizeUtterance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RecognizeUtteranceInput, RecognizeUtteranceOutputResponse, RecognizeUtteranceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RecognizeUtteranceInput, RecognizeUtteranceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<RecognizeUtteranceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RecognizeUtteranceOutputResponse, RecognizeUtteranceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -370,12 +339,8 @@ extension LexRuntimeV2Client: LexRuntimeV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: true, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RecognizeUtteranceOutputResponse, RecognizeUtteranceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RecognizeUtteranceOutputResponse, RecognizeUtteranceOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RecognizeUtteranceOutputResponse, RecognizeUtteranceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -411,14 +376,11 @@ extension LexRuntimeV2Client: LexRuntimeV2ClientProtocol {
                       .withSigningName(value: "lex")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        context.setupBidirectionalStreaming()
+        try context.setupBidirectionalStreaming()
         var operation = ClientRuntime.OperationStack<StartConversationInput, StartConversationOutputResponse, StartConversationOutputError>(id: "startConversation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartConversationInput, StartConversationOutputResponse, StartConversationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartConversationInput, StartConversationOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<StartConversationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartConversationOutputResponse, StartConversationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -430,12 +392,8 @@ extension LexRuntimeV2Client: LexRuntimeV2ClientProtocol {
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartConversationOutputResponse, StartConversationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartConversationOutputResponse, StartConversationOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartConversationOutputResponse, StartConversationOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

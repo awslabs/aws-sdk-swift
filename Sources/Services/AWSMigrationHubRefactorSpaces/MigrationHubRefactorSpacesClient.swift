@@ -158,10 +158,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         }
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateApplicationInput, CreateApplicationOutputResponse, CreateApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateApplicationInput, CreateApplicationOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateApplicationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateApplicationOutputResponse, CreateApplicationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -172,12 +169,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateApplicationOutputResponse, CreateApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateApplicationOutputResponse, CreateApplicationOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateApplicationOutputResponse, CreateApplicationOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -209,10 +202,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         }
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEnvironmentInput, CreateEnvironmentOutputResponse, CreateEnvironmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEnvironmentInput, CreateEnvironmentOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateEnvironmentOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateEnvironmentOutputResponse, CreateEnvironmentOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -223,12 +213,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateEnvironmentOutputResponse, CreateEnvironmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEnvironmentOutputResponse, CreateEnvironmentOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEnvironmentOutputResponse, CreateEnvironmentOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -269,10 +255,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         }
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRouteInput, CreateRouteOutputResponse, CreateRouteOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRouteInput, CreateRouteOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateRouteOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRouteOutputResponse, CreateRouteOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -283,12 +266,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRouteOutputResponse, CreateRouteOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRouteOutputResponse, CreateRouteOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRouteOutputResponse, CreateRouteOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -320,10 +299,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         }
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateServiceInput, CreateServiceOutputResponse, CreateServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateServiceInput, CreateServiceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateServiceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateServiceOutputResponse, CreateServiceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -334,12 +310,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateServiceOutputResponse, CreateServiceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateServiceOutputResponse, CreateServiceOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateServiceOutputResponse, CreateServiceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -363,10 +335,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<DeleteApplicationInput, DeleteApplicationOutputResponse, DeleteApplicationOutputError>(id: "deleteApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteApplicationInput, DeleteApplicationOutputResponse, DeleteApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteApplicationInput, DeleteApplicationOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteApplicationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteApplicationOutputResponse, DeleteApplicationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -374,12 +343,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteApplicationOutputResponse, DeleteApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteApplicationOutputResponse, DeleteApplicationOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteApplicationOutputResponse, DeleteApplicationOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -403,10 +368,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<DeleteEnvironmentInput, DeleteEnvironmentOutputResponse, DeleteEnvironmentOutputError>(id: "deleteEnvironment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutputResponse, DeleteEnvironmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteEnvironmentOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEnvironmentOutputResponse, DeleteEnvironmentOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -414,12 +376,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteEnvironmentOutputResponse, DeleteEnvironmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEnvironmentOutputResponse, DeleteEnvironmentOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEnvironmentOutputResponse, DeleteEnvironmentOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -443,10 +401,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(id: "deleteResourcePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteResourcePolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -454,12 +409,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -483,10 +434,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<DeleteRouteInput, DeleteRouteOutputResponse, DeleteRouteOutputError>(id: "deleteRoute")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRouteInput, DeleteRouteOutputResponse, DeleteRouteOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRouteInput, DeleteRouteOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteRouteOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRouteOutputResponse, DeleteRouteOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -494,12 +442,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRouteOutputResponse, DeleteRouteOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRouteOutputResponse, DeleteRouteOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRouteOutputResponse, DeleteRouteOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -523,10 +467,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<DeleteServiceInput, DeleteServiceOutputResponse, DeleteServiceOutputError>(id: "deleteService")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteServiceInput, DeleteServiceOutputResponse, DeleteServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteServiceInput, DeleteServiceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteServiceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteServiceOutputResponse, DeleteServiceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -534,12 +475,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteServiceOutputResponse, DeleteServiceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteServiceOutputResponse, DeleteServiceOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteServiceOutputResponse, DeleteServiceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -563,10 +500,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<GetApplicationInput, GetApplicationOutputResponse, GetApplicationOutputError>(id: "getApplication")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetApplicationInput, GetApplicationOutputResponse, GetApplicationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetApplicationInput, GetApplicationOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetApplicationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetApplicationOutputResponse, GetApplicationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -574,12 +508,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetApplicationOutputResponse, GetApplicationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetApplicationOutputResponse, GetApplicationOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetApplicationOutputResponse, GetApplicationOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -603,10 +533,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<GetEnvironmentInput, GetEnvironmentOutputResponse, GetEnvironmentOutputError>(id: "getEnvironment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEnvironmentInput, GetEnvironmentOutputResponse, GetEnvironmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEnvironmentInput, GetEnvironmentOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetEnvironmentOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEnvironmentOutputResponse, GetEnvironmentOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -614,12 +541,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEnvironmentOutputResponse, GetEnvironmentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEnvironmentOutputResponse, GetEnvironmentOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEnvironmentOutputResponse, GetEnvironmentOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -643,10 +566,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<GetResourcePolicyInput, GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(id: "getResourcePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetResourcePolicyInput, GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetResourcePolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -654,12 +574,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -683,10 +599,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<GetRouteInput, GetRouteOutputResponse, GetRouteOutputError>(id: "getRoute")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetRouteInput, GetRouteOutputResponse, GetRouteOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRouteInput, GetRouteOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetRouteOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRouteOutputResponse, GetRouteOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -694,12 +607,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRouteOutputResponse, GetRouteOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetRouteOutputResponse, GetRouteOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetRouteOutputResponse, GetRouteOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -723,10 +632,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<GetServiceInput, GetServiceOutputResponse, GetServiceOutputError>(id: "getService")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServiceInput, GetServiceOutputResponse, GetServiceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServiceInput, GetServiceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetServiceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServiceOutputResponse, GetServiceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -734,12 +640,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetServiceOutputResponse, GetServiceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetServiceOutputResponse, GetServiceOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetServiceOutputResponse, GetServiceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -763,10 +665,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<ListApplicationsInput, ListApplicationsOutputResponse, ListApplicationsOutputError>(id: "listApplications")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApplicationsInput, ListApplicationsOutputResponse, ListApplicationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApplicationsInput, ListApplicationsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListApplicationsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListApplicationsOutputResponse, ListApplicationsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -775,12 +674,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListApplicationsOutputResponse, ListApplicationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListApplicationsOutputResponse, ListApplicationsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListApplicationsOutputResponse, ListApplicationsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -804,10 +699,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<ListEnvironmentVpcsInput, ListEnvironmentVpcsOutputResponse, ListEnvironmentVpcsOutputError>(id: "listEnvironmentVpcs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEnvironmentVpcsInput, ListEnvironmentVpcsOutputResponse, ListEnvironmentVpcsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEnvironmentVpcsInput, ListEnvironmentVpcsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListEnvironmentVpcsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEnvironmentVpcsOutputResponse, ListEnvironmentVpcsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -816,12 +708,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEnvironmentVpcsOutputResponse, ListEnvironmentVpcsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEnvironmentVpcsOutputResponse, ListEnvironmentVpcsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEnvironmentVpcsOutputResponse, ListEnvironmentVpcsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -845,10 +733,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<ListEnvironmentsInput, ListEnvironmentsOutputResponse, ListEnvironmentsOutputError>(id: "listEnvironments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEnvironmentsInput, ListEnvironmentsOutputResponse, ListEnvironmentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEnvironmentsInput, ListEnvironmentsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListEnvironmentsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEnvironmentsOutputResponse, ListEnvironmentsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -857,12 +742,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListEnvironmentsOutputResponse, ListEnvironmentsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEnvironmentsOutputResponse, ListEnvironmentsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEnvironmentsOutputResponse, ListEnvironmentsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -886,10 +767,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<ListRoutesInput, ListRoutesOutputResponse, ListRoutesOutputError>(id: "listRoutes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRoutesInput, ListRoutesOutputResponse, ListRoutesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRoutesInput, ListRoutesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListRoutesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRoutesOutputResponse, ListRoutesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -898,12 +776,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRoutesOutputResponse, ListRoutesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRoutesOutputResponse, ListRoutesOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRoutesOutputResponse, ListRoutesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -927,10 +801,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<ListServicesInput, ListServicesOutputResponse, ListServicesOutputError>(id: "listServices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListServicesInput, ListServicesOutputResponse, ListServicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListServicesInput, ListServicesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListServicesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListServicesOutputResponse, ListServicesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -939,12 +810,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListServicesOutputResponse, ListServicesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListServicesOutputResponse, ListServicesOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListServicesOutputResponse, ListServicesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -968,10 +835,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListTagsForResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -979,12 +843,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1008,10 +868,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<PutResourcePolicyInput, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(id: "putResourcePolicy")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<PutResourcePolicyOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1022,12 +879,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1051,10 +904,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<TagResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1065,12 +915,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1094,10 +940,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UntagResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1106,12 +949,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1135,10 +974,7 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         var operation = ClientRuntime.OperationStack<UpdateRouteInput, UpdateRouteOutputResponse, UpdateRouteOutputError>(id: "updateRoute")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRouteInput, UpdateRouteOutputResponse, UpdateRouteOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRouteInput, UpdateRouteOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateRouteOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRouteOutputResponse, UpdateRouteOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1149,12 +985,8 @@ extension MigrationHubRefactorSpacesClient: MigrationHubRefactorSpacesClientProt
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRouteOutputResponse, UpdateRouteOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRouteOutputResponse, UpdateRouteOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRouteOutputResponse, UpdateRouteOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

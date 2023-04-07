@@ -9,7 +9,7 @@ public protocol SSMIncidentsClientProtocol {
     func createReplicationSet(input: CreateReplicationSetInput) async throws -> CreateReplicationSetOutputResponse
     /// Creates a response plan that automates the initial response to incidents. A response plan engages contacts, starts chat channel collaboration, and initiates runbooks at the beginning of an incident.
     func createResponsePlan(input: CreateResponsePlanInput) async throws -> CreateResponsePlanOutputResponse
-    /// Creates a custom timeline event on the incident details page of an incident record. Timeline events are automatically created by Incident Manager, marking key moment during an incident. You can create custom timeline events to mark important events that are automatically detected by Incident Manager.
+    /// Creates a custom timeline event on the incident details page of an incident record. Incident Manager automatically creates timeline events that mark key moments during an incident. You can create custom timeline events to mark important events that Incident Manager can detect automatically.
     func createTimelineEvent(input: CreateTimelineEventInput) async throws -> CreateTimelineEventOutputResponse
     /// Delete an incident record from Incident Manager.
     func deleteIncidentRecord(input: DeleteIncidentRecordInput) async throws -> DeleteIncidentRecordOutputResponse

@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20,7 +19,7 @@ extension AccessDeniedException {
 }
 
 /// You don't have sufficient permission to perform this action.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -86,13 +85,13 @@ extension InternetMonitorClientTypes.AvailabilityMeasurement: Swift.Codable {
 }
 
 extension InternetMonitorClientTypes {
-    /// Measurements about the availability for your application on the internet, calculated by Amazon CloudWatch Internet Monitor. Amazon Web Services has substantial historical data about internet performance and availability between Amazon Web Services services and different network providers and geographies. By applying statistical analysis to the data, Internet Monitor can detect when the performance and availability for your application has dropped, compared to an estimated baseline that's already calculated. To make it easier to see those drops, we report that information to you in the form of health scores: a performance score and an availability score. Availability in Internet Monitor represents the estimated percentage of traffic that is not seeing an availability drop. For example, an availability score of 99% for an end user and service location pair is equivalent to 1% of the traffic experiencing an availability drop for that pair. For more information, see [ How Internet Monitor calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User Guide.
+    /// Measurements about the availability for your application on the internet, calculated by Amazon CloudWatch Internet Monitor. Amazon Web Services has substantial historical data about internet performance and availability between Amazon Web Services services and different network providers and geographies. By applying statistical analysis to the data, Internet Monitor can detect when the performance and availability for your application has dropped, compared to an estimated baseline that's already calculated. To make it easier to see those drops, we report that information to you in the form of health scores: a performance score and an availability score. Availability in Internet Monitor represents the estimated percentage of traffic that is not seeing an availability drop. For example, an availability score of 99% for an end user and service location pair is equivalent to 1% of the traffic experiencing an availability drop for that pair. For more information, see [How Internet Monitor calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User Guide.
     public struct AvailabilityMeasurement: Swift.Equatable {
-        /// Experience scores, or health scores are calculated for different geographic and network provider combinations (that is, different granularities) and also summed into global scores. If you view performance or availability scores without filtering for any specific geography or service provider, Amazon CloudWatch Internet Monitor provides global health scores. The Amazon CloudWatch Internet Monitor chapter in the CloudWatch User Guide includes detailed information about how Internet Monitor calculates health scores, including performance and availability scores, and when it creates and resolves health events. For more information, see [ How Amazon Web Services calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
+        /// Experience scores, or health scores are calculated for different geographic and network provider combinations (that is, different granularities) and also summed into global scores. If you view performance or availability scores without filtering for any specific geography or service provider, Amazon CloudWatch Internet Monitor provides global health scores. The Amazon CloudWatch Internet Monitor chapter in the CloudWatch User Guide includes detailed information about how Internet Monitor calculates health scores, including performance and availability scores, and when it creates and resolves health events. For more information, see [How Amazon Web Services calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public var experienceScore: Swift.Double?
-        /// The percentage of impact caused by a health event for client location traffic globally. For information about how Internet Monitor calculates impact, see [ Inside Internet Monitor](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html) in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User Guide.
+        /// The percentage of impact caused by a health event for client location traffic globally. For information about how Internet Monitor calculates impact, see [Inside Internet Monitor](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html) in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User Guide.
         public var percentOfClientLocationImpacted: Swift.Double?
-        /// The percentage of impact caused by a health event for total traffic globally. For information about how Internet Monitor calculates impact, see [ Inside Internet Monitor](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html) in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User Guide.
+        /// The percentage of impact caused by a health event for total traffic globally. For information about how Internet Monitor calculates impact, see [Inside Internet Monitor](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html) in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User Guide.
         public var percentOfTotalTrafficImpacted: Swift.Double?
 
         public init (
@@ -111,9 +110,8 @@ extension InternetMonitorClientTypes {
 
 extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -127,7 +125,7 @@ extension BadRequestException {
 }
 
 /// A bad request was received.
-public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct BadRequestException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -163,9 +161,8 @@ extension BadRequestExceptionBody: Swift.Decodable {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -179,7 +176,7 @@ extension ConflictException {
 }
 
 /// The requested resource is in use.
-public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -216,6 +213,7 @@ extension ConflictExceptionBody: Swift.Decodable {
 extension CreateMonitorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
+        case internetMeasurementsLogDelivery = "InternetMeasurementsLogDelivery"
         case maxCityNetworksToMonitor = "MaxCityNetworksToMonitor"
         case monitorName = "MonitorName"
         case resources = "Resources"
@@ -226,6 +224,9 @@ extension CreateMonitorInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let internetMeasurementsLogDelivery = self.internetMeasurementsLogDelivery {
+            try encodeContainer.encode(internetMeasurementsLogDelivery, forKey: .internetMeasurementsLogDelivery)
         }
         if maxCityNetworksToMonitor != 0 {
             try encodeContainer.encode(maxCityNetworksToMonitor, forKey: .maxCityNetworksToMonitor)
@@ -257,7 +258,9 @@ extension CreateMonitorInput: ClientRuntime.URLPathProvider {
 public struct CreateMonitorInput: Swift.Equatable {
     /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests.
     public var clientToken: Swift.String?
-    /// The maximum number of city-network combinations (that is, combinations of a city location and network, such as an ISP) to be monitored for your resources.
+    /// Publish internet measurements for Internet Monitor to another location, such as an Amazon S3 bucket. The measurements are also published to Amazon CloudWatch Logs.
+    public var internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
+    /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and the network or ASN, such as an internet service provider (ISP), that clients access the resources through. This limit helps control billing costs. To learn more, see [Choosing a city-network maximum value ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
     /// This member is required.
     public var maxCityNetworksToMonitor: Swift.Int
     /// The name of the monitor.
@@ -270,6 +273,7 @@ public struct CreateMonitorInput: Swift.Equatable {
 
     public init (
         clientToken: Swift.String? = nil,
+        internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery? = nil,
         maxCityNetworksToMonitor: Swift.Int = 0,
         monitorName: Swift.String? = nil,
         resources: [Swift.String]? = nil,
@@ -277,6 +281,7 @@ public struct CreateMonitorInput: Swift.Equatable {
     )
     {
         self.clientToken = clientToken
+        self.internetMeasurementsLogDelivery = internetMeasurementsLogDelivery
         self.maxCityNetworksToMonitor = maxCityNetworksToMonitor
         self.monitorName = monitorName
         self.resources = resources
@@ -290,11 +295,13 @@ struct CreateMonitorInputBody: Swift.Equatable {
     let clientToken: Swift.String?
     let tags: [Swift.String:Swift.String]?
     let maxCityNetworksToMonitor: Swift.Int
+    let internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
 }
 
 extension CreateMonitorInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
+        case internetMeasurementsLogDelivery = "InternetMeasurementsLogDelivery"
         case maxCityNetworksToMonitor = "MaxCityNetworksToMonitor"
         case monitorName = "MonitorName"
         case resources = "Resources"
@@ -331,6 +338,8 @@ extension CreateMonitorInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let maxCityNetworksToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCityNetworksToMonitor) ?? 0
         maxCityNetworksToMonitor = maxCityNetworksToMonitorDecoded
+        let internetMeasurementsLogDeliveryDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.InternetMeasurementsLogDelivery.self, forKey: .internetMeasurementsLogDelivery)
+        internetMeasurementsLogDelivery = internetMeasurementsLogDeliveryDecoded
     }
 }
 
@@ -368,9 +377,8 @@ public enum CreateMonitorOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateMonitorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateMonitorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.status = output.status
@@ -557,9 +565,8 @@ public enum GetHealthEventOutputError: Swift.Error, Swift.Equatable {
 
 extension GetHealthEventOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetHealthEventOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
             self.endedAt = output.endedAt
@@ -763,11 +770,11 @@ public enum GetMonitorOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMonitorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMonitorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
+            self.internetMeasurementsLogDelivery = output.internetMeasurementsLogDelivery
             self.maxCityNetworksToMonitor = output.maxCityNetworksToMonitor
             self.modifiedAt = output.modifiedAt
             self.monitorArn = output.monitorArn
@@ -779,6 +786,7 @@ extension GetMonitorOutputResponse: ClientRuntime.HttpResponseBinding {
             self.tags = output.tags
         } else {
             self.createdAt = nil
+            self.internetMeasurementsLogDelivery = nil
             self.maxCityNetworksToMonitor = 0
             self.modifiedAt = nil
             self.monitorArn = nil
@@ -796,7 +804,9 @@ public struct GetMonitorOutputResponse: Swift.Equatable {
     /// The time when the monitor was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
-    /// The maximum number of city-network combinations (that is, combinations of a city location and network, such as an ISP) to be monitored for your resources.
+    /// Publish internet measurements for Internet Monitor to another location, such as an Amazon S3 bucket. The measurements are also published to Amazon CloudWatch Logs.
+    public var internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
+    /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and the network or ASN, such as an internet service provider (ISP), that clients access the resources through. This limit helps control billing costs. To learn more, see [Choosing a city-network maximum value ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
     /// This member is required.
     public var maxCityNetworksToMonitor: Swift.Int
     /// The last time that the monitor was modified.
@@ -823,6 +833,7 @@ public struct GetMonitorOutputResponse: Swift.Equatable {
 
     public init (
         createdAt: ClientRuntime.Date? = nil,
+        internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery? = nil,
         maxCityNetworksToMonitor: Swift.Int = 0,
         modifiedAt: ClientRuntime.Date? = nil,
         monitorArn: Swift.String? = nil,
@@ -835,6 +846,7 @@ public struct GetMonitorOutputResponse: Swift.Equatable {
     )
     {
         self.createdAt = createdAt
+        self.internetMeasurementsLogDelivery = internetMeasurementsLogDelivery
         self.maxCityNetworksToMonitor = maxCityNetworksToMonitor
         self.modifiedAt = modifiedAt
         self.monitorArn = monitorArn
@@ -858,11 +870,13 @@ struct GetMonitorOutputResponseBody: Swift.Equatable {
     let processingStatusInfo: Swift.String?
     let tags: [Swift.String:Swift.String]?
     let maxCityNetworksToMonitor: Swift.Int
+    let internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
 }
 
 extension GetMonitorOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createdAt = "CreatedAt"
+        case internetMeasurementsLogDelivery = "InternetMeasurementsLogDelivery"
         case maxCityNetworksToMonitor = "MaxCityNetworksToMonitor"
         case modifiedAt = "ModifiedAt"
         case monitorArn = "MonitorArn"
@@ -914,6 +928,8 @@ extension GetMonitorOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let maxCityNetworksToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCityNetworksToMonitor) ?? 0
         maxCityNetworksToMonitor = maxCityNetworksToMonitorDecoded
+        let internetMeasurementsLogDeliveryDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.InternetMeasurementsLogDelivery.self, forKey: .internetMeasurementsLogDelivery)
+        internetMeasurementsLogDelivery = internetMeasurementsLogDeliveryDecoded
     }
 }
 
@@ -1296,9 +1312,8 @@ extension InternetMonitorClientTypes {
 
 extension InternalServerErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1312,7 +1327,7 @@ extension InternalServerErrorException {
 }
 
 /// There was an internal server error.
-public struct InternalServerErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalServerErrorException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1348,9 +1363,8 @@ extension InternalServerErrorExceptionBody: Swift.Decodable {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1364,7 +1378,7 @@ extension InternalServerException {
 }
 
 /// An internal error occurred.
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1426,9 +1440,9 @@ extension InternetMonitorClientTypes.InternetHealth: Swift.Codable {
 extension InternetMonitorClientTypes {
     /// Internet health includes measurements calculated by Amazon CloudWatch Internet Monitor about the performance and availability for your application on the internet. Amazon Web Services has substantial historical data about internet performance and availability between Amazon Web Services services and different network providers and geographies. By applying statistical analysis to the data, Internet Monitor can detect when the performance and availability for your application has dropped, compared to an estimated baseline that's already calculated. To make it easier to see those drops, we report that information to you in the form of health scores: a performance score and an availability score.
     public struct InternetHealth: Swift.Equatable {
-        /// Availability in Internet Monitor represents the estimated percentage of traffic that is not seeing an availability drop. For example, an availability score of 99% for an end user and service location pair is equivalent to 1% of the traffic experiencing an availability drop for that pair. For more information, see [ How Internet Monitor calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User Guide.
+        /// Availability in Internet Monitor represents the estimated percentage of traffic that is not seeing an availability drop. For example, an availability score of 99% for an end user and service location pair is equivalent to 1% of the traffic experiencing an availability drop for that pair. For more information, see [How Internet Monitor calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public var availability: InternetMonitorClientTypes.AvailabilityMeasurement?
-        /// Performance in Internet Monitor represents the estimated percentage of traffic that is not seeing a performance drop. For example, a performance score of 99% for an end user and service location pair is equivalent to 1% of the traffic experiencing a performance drop for that pair. For more information, see [ How Internet Monitor calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User Guide.
+        /// Performance in Internet Monitor represents the estimated percentage of traffic that is not seeing a performance drop. For example, a performance score of 99% for an end user and service location pair is equivalent to 1% of the traffic experiencing a performance drop for that pair. For more information, see [How Internet Monitor calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public var performance: InternetMonitorClientTypes.PerformanceMeasurement?
 
         public init (
@@ -1443,11 +1457,45 @@ extension InternetMonitorClientTypes {
 
 }
 
+extension InternetMonitorClientTypes.InternetMeasurementsLogDelivery: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3Config = "S3Config"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let s3Config = self.s3Config {
+            try encodeContainer.encode(s3Config, forKey: .s3Config)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3ConfigDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.S3Config.self, forKey: .s3Config)
+        s3Config = s3ConfigDecoded
+    }
+}
+
+extension InternetMonitorClientTypes {
+    /// Configuration information for other locations that you choose to publish Amazon CloudWatch Internet Monitor internet measurements to, such as Amazon S3. The measurements are also published to Amazon CloudWatch Logs.
+    public struct InternetMeasurementsLogDelivery: Swift.Equatable {
+        /// The configuration information for publishing Internet Monitor internet measurements to Amazon S3. The configuration includes the bucket name and (optionally) prefix for the S3 bucket to store the measurements, and the delivery status. The delivery status is ENABLED or DISABLED, depending on whether you choose to deliver internet measurements to S3 logs.
+        public var s3Config: InternetMonitorClientTypes.S3Config?
+
+        public init (
+            s3Config: InternetMonitorClientTypes.S3Config? = nil
+        )
+        {
+            self.s3Config = s3Config
+        }
+    }
+
+}
+
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1461,7 +1509,7 @@ extension LimitExceededException {
 }
 
 /// The request exceeded a service quota.
-public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -1605,9 +1653,8 @@ public enum ListHealthEventsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListHealthEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListHealthEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.healthEvents = output.healthEvents
             self.nextToken = output.nextToken
@@ -1750,9 +1797,8 @@ public enum ListMonitorsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListMonitorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListMonitorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.monitors = output.monitors
             self.nextToken = output.nextToken
@@ -1872,9 +1918,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -1917,6 +1962,38 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+extension InternetMonitorClientTypes {
+    public enum LogDeliveryStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogDeliveryStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LogDeliveryStatus(rawValue: rawValue) ?? LogDeliveryStatus.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -2201,9 +2278,8 @@ extension InternetMonitorClientTypes {
 
 extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2217,7 +2293,7 @@ extension NotFoundException {
 }
 
 /// The request specifies something that doesn't exist.
-public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct NotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2289,15 +2365,15 @@ extension InternetMonitorClientTypes.PerformanceMeasurement: Swift.Codable {
 }
 
 extension InternetMonitorClientTypes {
-    /// Measurements about the performance for your application on the internet calculated by Amazon CloudWatch Internet Monitor. Amazon Web Services has substantial historical data about internet performance and availability between Amazon Web Services services and different network providers and geographies. By applying statistical analysis to the data, Internet Monitor can detect when the performance and availability for your application has dropped, compared to an estimated baseline that's already calculated. To make it easier to see those drops, we report that information to you in the form of health scores: a performance score and an availability score. Performance in Internet Monitor represents the estimated percentage of traffic that is not seeing a performance drop. For example, a performance score of 99% for an end user and service location pair is equivalent to 1% of the traffic experiencing a performance drop for that pair. For more information, see [ How Internet Monitor calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User Guide.
+    /// Measurements about the performance for your application on the internet calculated by Amazon CloudWatch Internet Monitor. Amazon Web Services has substantial historical data about internet performance and availability between Amazon Web Services services and different network providers and geographies. By applying statistical analysis to the data, Internet Monitor can detect when the performance and availability for your application has dropped, compared to an estimated baseline that's already calculated. To make it easier to see those drops, we report that information to you in the form of health scores: a performance score and an availability score. Performance in Internet Monitor represents the estimated percentage of traffic that is not seeing a performance drop. For example, a performance score of 99% for an end user and service location pair is equivalent to 1% of the traffic experiencing a performance drop for that pair. For more information, see [How Internet Monitor calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
     public struct PerformanceMeasurement: Swift.Equatable {
-        /// Experience scores, or health scores, are calculated for different geographic and network provider combinations (that is, different granularities) and also totaled into global scores. If you view performance or availability scores without filtering for any specific geography or service provider, Amazon CloudWatch Internet Monitor provides global health scores. The Amazon CloudWatch Internet Monitor chapter in the CloudWatch User Guide includes detailed information about how Internet Monitor calculates health scores, including performance and availability scores, and when it creates and resolves health events. For more information, see [ How Amazon Web Services calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
+        /// Experience scores, or health scores, are calculated for different geographic and network provider combinations (that is, different granularities) and also totaled into global scores. If you view performance or availability scores without filtering for any specific geography or service provider, Amazon CloudWatch Internet Monitor provides global health scores. The Amazon CloudWatch Internet Monitor chapter in the CloudWatch User Guide includes detailed information about how Internet Monitor calculates health scores, including performance and availability scores, and when it creates and resolves health events. For more information, see [How Amazon Web Services calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public var experienceScore: Swift.Double?
-        /// How much performance impact was caused by a health event at a client location. For performance, this is the percentage of how much latency increased during the event compared to typical performance for traffic, from this client location to an Amazon Web Services location, using a specific client network. For more information, see [ When Amazon Web Services creates and resolves health events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMHealthEventStartStop) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
+        /// How much performance impact was caused by a health event at a client location. For performance, this is the percentage of how much latency increased during the event compared to typical performance for traffic, from this client location to an Amazon Web Services location, using a specific client network. For more information, see [When Amazon Web Services creates and resolves health events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMHealthEventStartStop) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public var percentOfClientLocationImpacted: Swift.Double?
-        /// How much performance impact was caused by a health event for total traffic globally. For performance, this is the percentage of how much latency increased during the event compared to typical performance for your application traffic globally. For more information, see [ When Amazon Web Services creates and resolves health events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMHealthEventStartStop) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
+        /// How much performance impact was caused by a health event for total traffic globally. For performance, this is the percentage of how much latency increased during the event compared to typical performance for your application traffic globally. For more information, see [When Amazon Web Services creates and resolves health events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMHealthEventStartStop) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public var percentOfTotalTrafficImpacted: Swift.Double?
-        /// This is the percentage of how much round-trip time increased during the event compared to typical round-trip time for your application for traffic. For more information, see [ When Amazon Web Services creates and resolves health events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMHealthEventStartStop) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
+        /// This is the percentage of how much round-trip time increased during the event compared to typical round-trip time for your application for traffic. For more information, see [When Amazon Web Services creates and resolves health events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMHealthEventStartStop) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public var roundTripTime: InternetMonitorClientTypes.RoundTripTime?
 
         public init (
@@ -2318,9 +2394,8 @@ extension InternetMonitorClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2334,7 +2409,7 @@ extension ResourceNotFoundException {
 }
 
 /// The request specifies a resource that doesn't exist.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2418,6 +2493,61 @@ extension InternetMonitorClientTypes {
             self.p50 = p50
             self.p90 = p90
             self.p95 = p95
+        }
+    }
+
+}
+
+extension InternetMonitorClientTypes.S3Config: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucketName = "BucketName"
+        case bucketPrefix = "BucketPrefix"
+        case logDeliveryStatus = "LogDeliveryStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucketName = self.bucketName {
+            try encodeContainer.encode(bucketName, forKey: .bucketName)
+        }
+        if let bucketPrefix = self.bucketPrefix {
+            try encodeContainer.encode(bucketPrefix, forKey: .bucketPrefix)
+        }
+        if let logDeliveryStatus = self.logDeliveryStatus {
+            try encodeContainer.encode(logDeliveryStatus.rawValue, forKey: .logDeliveryStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
+        bucketName = bucketNameDecoded
+        let bucketPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketPrefix)
+        bucketPrefix = bucketPrefixDecoded
+        let logDeliveryStatusDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.LogDeliveryStatus.self, forKey: .logDeliveryStatus)
+        logDeliveryStatus = logDeliveryStatusDecoded
+    }
+}
+
+extension InternetMonitorClientTypes {
+    /// The configuration for publishing Amazon CloudWatch Internet Monitor internet measurements to Amazon S3. The configuration includes the bucket name and (optionally) prefix for the S3 bucket to store the measurements, and the delivery status. The delivery status is ENABLED or DISABLED, depending on whether you choose to deliver internet measurements to S3 logs.
+    public struct S3Config: Swift.Equatable {
+        /// The Amazon S3 bucket name.
+        public var bucketName: Swift.String?
+        /// The Amazon S3 bucket prefix.
+        public var bucketPrefix: Swift.String?
+        /// The status of publishing Internet Monitor internet measurements to an Amazon S3 bucket.
+        public var logDeliveryStatus: InternetMonitorClientTypes.LogDeliveryStatus?
+
+        public init (
+            bucketName: Swift.String? = nil,
+            bucketPrefix: Swift.String? = nil,
+            logDeliveryStatus: InternetMonitorClientTypes.LogDeliveryStatus? = nil
+        )
+        {
+            self.bucketName = bucketName
+            self.bucketPrefix = bucketPrefix
+            self.logDeliveryStatus = logDeliveryStatus
         }
     }
 
@@ -2533,9 +2663,8 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2549,7 +2678,7 @@ extension ThrottlingException {
 }
 
 /// The request was denied due to request throttling.
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2585,9 +2714,8 @@ extension ThrottlingExceptionBody: Swift.Decodable {
 
 extension TooManyRequestsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyRequestsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2601,7 +2729,7 @@ extension TooManyRequestsException {
 }
 
 /// There were too many requests.
-public struct TooManyRequestsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct TooManyRequestsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -2763,6 +2891,7 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
 extension UpdateMonitorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
+        case internetMeasurementsLogDelivery = "InternetMeasurementsLogDelivery"
         case maxCityNetworksToMonitor = "MaxCityNetworksToMonitor"
         case resourcesToAdd = "ResourcesToAdd"
         case resourcesToRemove = "ResourcesToRemove"
@@ -2773,6 +2902,9 @@ extension UpdateMonitorInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let internetMeasurementsLogDelivery = self.internetMeasurementsLogDelivery {
+            try encodeContainer.encode(internetMeasurementsLogDelivery, forKey: .internetMeasurementsLogDelivery)
         }
         if maxCityNetworksToMonitor != 0 {
             try encodeContainer.encode(maxCityNetworksToMonitor, forKey: .maxCityNetworksToMonitor)
@@ -2807,7 +2939,9 @@ extension UpdateMonitorInput: ClientRuntime.URLPathProvider {
 public struct UpdateMonitorInput: Swift.Equatable {
     /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. You should not reuse the same client token for other API requests.
     public var clientToken: Swift.String?
-    /// The maximum number of city-network combinations (that is, combinations of a city location and network, such as an ISP) to be monitored for your resources.
+    /// Publish internet measurements for Internet Monitor to another location, such as an Amazon S3 bucket. The measurements are also published to Amazon CloudWatch Logs.
+    public var internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
+    /// The maximum number of city-networks to monitor for your resources. A city-network is the location (city) where clients access your application resources from and the network or ASN, such as an internet service provider, that clients access the resources through.
     public var maxCityNetworksToMonitor: Swift.Int
     /// The name of the monitor.
     /// This member is required.
@@ -2821,6 +2955,7 @@ public struct UpdateMonitorInput: Swift.Equatable {
 
     public init (
         clientToken: Swift.String? = nil,
+        internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery? = nil,
         maxCityNetworksToMonitor: Swift.Int = 0,
         monitorName: Swift.String? = nil,
         resourcesToAdd: [Swift.String]? = nil,
@@ -2829,6 +2964,7 @@ public struct UpdateMonitorInput: Swift.Equatable {
     )
     {
         self.clientToken = clientToken
+        self.internetMeasurementsLogDelivery = internetMeasurementsLogDelivery
         self.maxCityNetworksToMonitor = maxCityNetworksToMonitor
         self.monitorName = monitorName
         self.resourcesToAdd = resourcesToAdd
@@ -2843,11 +2979,13 @@ struct UpdateMonitorInputBody: Swift.Equatable {
     let status: InternetMonitorClientTypes.MonitorConfigState?
     let clientToken: Swift.String?
     let maxCityNetworksToMonitor: Swift.Int
+    let internetMeasurementsLogDelivery: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?
 }
 
 extension UpdateMonitorInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
+        case internetMeasurementsLogDelivery = "InternetMeasurementsLogDelivery"
         case maxCityNetworksToMonitor = "MaxCityNetworksToMonitor"
         case resourcesToAdd = "ResourcesToAdd"
         case resourcesToRemove = "ResourcesToRemove"
@@ -2884,6 +3022,8 @@ extension UpdateMonitorInputBody: Swift.Decodable {
         clientToken = clientTokenDecoded
         let maxCityNetworksToMonitorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCityNetworksToMonitor) ?? 0
         maxCityNetworksToMonitor = maxCityNetworksToMonitorDecoded
+        let internetMeasurementsLogDeliveryDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.InternetMeasurementsLogDelivery.self, forKey: .internetMeasurementsLogDelivery)
+        internetMeasurementsLogDelivery = internetMeasurementsLogDeliveryDecoded
     }
 }
 
@@ -2921,9 +3061,8 @@ public enum UpdateMonitorOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateMonitorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateMonitorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.monitorArn = output.monitorArn
             self.status = output.status
@@ -2974,9 +3113,8 @@ extension UpdateMonitorOutputResponseBody: Swift.Decodable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2990,7 +3128,7 @@ extension ValidationException {
 }
 
 /// Invalid request.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

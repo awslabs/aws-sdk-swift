@@ -67,6 +67,10 @@ public protocol ImagebuilderClientProtocol {
     func getImageRecipePolicy(input: GetImageRecipePolicyInput) async throws -> GetImageRecipePolicyOutputResponse
     /// Gets an infrastructure configuration.
     func getInfrastructureConfiguration(input: GetInfrastructureConfigurationInput) async throws -> GetInfrastructureConfigurationOutputResponse
+    /// Get the runtime information that was logged for a specific runtime instance of the workflow.
+    func getWorkflowExecution(input: GetWorkflowExecutionInput) async throws -> GetWorkflowExecutionOutputResponse
+    /// Get the runtime information that was logged for a specific runtime instance of the workflow step.
+    func getWorkflowStepExecution(input: GetWorkflowStepExecutionInput) async throws -> GetWorkflowStepExecutionOutputResponse
     /// Imports a component and transforms its data into a component document.
     func importComponent(input: ImportComponentInput) async throws -> ImportComponentOutputResponse
     /// When you export your virtual machine (VM) from its virtualization environment, that process creates a set of one or more disk container files that act as snapshots of your VM’s environment, settings, and data. The Amazon EC2 API [ImportImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportImage.html) action uses those files to import your VM and create an AMI. To import using the CLI command, see [import-image](https://docs.aws.amazon.com/cli/latest/reference/ec2/import-image.html) You can reference the task ID from the VM import to pull in the AMI that the import created as the base image for your Image Builder recipe.
@@ -91,10 +95,26 @@ public protocol ImagebuilderClientProtocol {
     func listImageRecipes(input: ListImageRecipesInput) async throws -> ListImageRecipesOutputResponse
     /// Returns the list of images that you have access to. Newly created images can take up to two minutes to appear in the ListImages API Results.
     func listImages(input: ListImagesInput) async throws -> ListImagesOutputResponse
+    /// Returns a list of image scan aggregations for your account. You can filter by the type of key that Image Builder uses to group results. For example, if you want to get a list of findings by severity level for one of your pipelines, you might specify your pipeline with the imagePipelineArn filter. If you don't specify a filter, Image Builder returns an aggregation for your account. To streamline results, you can use the following filters in your request:
+    ///
+    /// * accountId
+    ///
+    /// * imageBuildVersionArn
+    ///
+    /// * imagePipelineArn
+    ///
+    /// * vulnerabilityId
+    func listImageScanFindingAggregations(input: ListImageScanFindingAggregationsInput) async throws -> ListImageScanFindingAggregationsOutputResponse
+    /// Returns a list of image scan findings for your account.
+    func listImageScanFindings(input: ListImageScanFindingsInput) async throws -> ListImageScanFindingsOutputResponse
     /// Returns a list of infrastructure configurations.
     func listInfrastructureConfigurations(input: ListInfrastructureConfigurationsInput) async throws -> ListInfrastructureConfigurationsOutputResponse
     /// Returns the list of tags for the specified resource.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    /// Returns a list of workflow runtime instance metadata objects for a specific image build version.
+    func listWorkflowExecutions(input: ListWorkflowExecutionsInput) async throws -> ListWorkflowExecutionsOutputResponse
+    /// Shows runtime data for each step in a runtime instance of the workflow that you specify in the request.
+    func listWorkflowStepExecutions(input: ListWorkflowStepExecutionsInput) async throws -> ListWorkflowStepExecutionsOutputResponse
     /// Applies a policy to a component. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutComponentPolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
     func putComponentPolicy(input: PutComponentPolicyInput) async throws -> PutComponentPolicyOutputResponse
     /// Applies a policy to a container image. We recommend that you call the RAM API CreateResourceShare (https://docs.aws.amazon.com//ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutContainerImagePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy (https://docs.aws.amazon.com//ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.

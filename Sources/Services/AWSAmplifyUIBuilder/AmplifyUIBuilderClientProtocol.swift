@@ -39,7 +39,7 @@ public protocol AmplifyUIBuilderClientProtocol {
     func listForms(input: ListFormsInput) async throws -> ListFormsOutputResponse
     /// Retrieves a list of themes for a specified Amplify app and backend environment.
     func listThemes(input: ListThemesInput) async throws -> ListThemesOutputResponse
-    /// Stores the metadata information about a feature on a form or view.
+    /// Stores the metadata information about a feature on a form.
     func putMetadataFlag(input: PutMetadataFlagInput) async throws -> PutMetadataFlagOutputResponse
     /// Refreshes a previously issued access token that might have expired.
     func refreshToken(input: RefreshTokenInput) async throws -> RefreshTokenOutputResponse

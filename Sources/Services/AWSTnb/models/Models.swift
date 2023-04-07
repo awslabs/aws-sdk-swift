@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -20,7 +19,7 @@ extension AccessDeniedException {
 }
 
 /// Insufficient permissions to make request.
-public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -227,9 +226,8 @@ extension CreateSolFunctionPackageOutputResponse: Swift.CustomDebugStringConvert
 
 extension CreateSolFunctionPackageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSolFunctionPackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -471,9 +469,8 @@ extension CreateSolNetworkInstanceOutputResponse: Swift.CustomDebugStringConvert
 
 extension CreateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSolNetworkInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -664,9 +661,8 @@ extension CreateSolNetworkPackageOutputResponse: Swift.CustomDebugStringConverti
 
 extension CreateSolNetworkPackageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSolNetworkPackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -1216,9 +1212,8 @@ extension GetSolFunctionInstanceOutputResponse: Swift.CustomDebugStringConvertib
 
 extension GetSolFunctionInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSolFunctionInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -1464,9 +1459,12 @@ extension GetSolFunctionPackageContentOutputResponse: ClientRuntime.HttpResponse
         } else {
             self.contentType = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
+        switch httpResponse.body {
+        case .data(let data):
             self.packageContent = data
-        } else {
+        case .stream(let stream):
+            self.packageContent = try stream.readToEnd()
+        case .none:
             self.packageContent = nil
         }
     }
@@ -1587,9 +1585,12 @@ extension GetSolFunctionPackageDescriptorOutputResponse: ClientRuntime.HttpRespo
         } else {
             self.contentType = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
+        switch httpResponse.body {
+        case .data(let data):
             self.vnfd = data
-        } else {
+        case .stream(let stream):
+            self.vnfd = try stream.readToEnd()
+        case .none:
             self.vnfd = nil
         }
     }
@@ -1752,9 +1753,8 @@ extension GetSolFunctionPackageOutputResponse: Swift.CustomDebugStringConvertibl
 
 extension GetSolFunctionPackageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSolFunctionPackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -2055,9 +2055,8 @@ extension GetSolNetworkInstanceOutputResponse: Swift.CustomDebugStringConvertibl
 
 extension GetSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSolNetworkInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -2315,9 +2314,8 @@ extension GetSolNetworkOperationOutputResponse: Swift.CustomDebugStringConvertib
 
 extension GetSolNetworkOperationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSolNetworkOperationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.error = output.error
@@ -2633,9 +2631,12 @@ extension GetSolNetworkPackageContentOutputResponse: ClientRuntime.HttpResponseB
         } else {
             self.contentType = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
+        switch httpResponse.body {
+        case .data(let data):
             self.nsdContent = data
-        } else {
+        case .stream(let stream):
+            self.nsdContent = try stream.readToEnd()
+        case .none:
             self.nsdContent = nil
         }
     }
@@ -2741,9 +2742,12 @@ extension GetSolNetworkPackageDescriptorOutputResponse: ClientRuntime.HttpRespon
         } else {
             self.contentType = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
+        switch httpResponse.body {
+        case .data(let data):
             self.nsd = data
-        } else {
+        case .stream(let stream):
+            self.nsd = try stream.readToEnd()
+        case .none:
             self.nsd = nil
         }
     }
@@ -2906,9 +2910,8 @@ extension GetSolNetworkPackageOutputResponse: Swift.CustomDebugStringConvertible
 
 extension GetSolNetworkPackageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSolNetworkPackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -3360,9 +3363,8 @@ extension InstantiateSolNetworkInstanceOutputResponse: Swift.CustomDebugStringCo
 
 extension InstantiateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InstantiateSolNetworkInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nsLcmOpOccId = output.nsLcmOpOccId
             self.tags = output.tags
@@ -3421,9 +3423,8 @@ extension InstantiateSolNetworkInstanceOutputResponseBody: Swift.Decodable {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3437,7 +3438,7 @@ extension InternalServerException {
 }
 
 /// Unexpected error occurred. Problem on the server.
-public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -3779,9 +3780,8 @@ public enum ListSolFunctionInstancesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSolFunctionInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSolFunctionInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.functionInstances = output.functionInstances
             self.nextToken = output.nextToken
@@ -4092,9 +4092,8 @@ public enum ListSolFunctionPackagesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSolFunctionPackagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSolFunctionPackagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.functionPackages = output.functionPackages
             self.nextToken = output.nextToken
@@ -4389,9 +4388,8 @@ public enum ListSolNetworkInstancesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSolNetworkInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSolNetworkInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkInstances = output.networkInstances
             self.nextToken = output.nextToken
@@ -4672,9 +4670,8 @@ public enum ListSolNetworkOperationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSolNetworkOperationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSolNetworkOperationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkOperations = output.networkOperations
             self.nextToken = output.nextToken
@@ -5018,9 +5015,8 @@ public enum ListSolNetworkPackagesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSolNetworkPackagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSolNetworkPackagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkPackages = output.networkPackages
             self.nextToken = output.nextToken
@@ -5145,9 +5141,8 @@ extension ListTagsForResourceOutputResponse: Swift.CustomDebugStringConvertible 
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -5587,9 +5582,9 @@ public struct PutSolFunctionPackageContentInputBodyMiddleware: ClientRuntime.Mid
     Self.Context == H.Context
     {
         if let file = input.operationInput.file {
-            let filedata = file
-            let filebody = ClientRuntime.HttpBody.data(filedata)
-            input.builder.withBody(filebody)
+            let fileData = file
+            let fileBody = ClientRuntime.HttpBody.data(fileData)
+            input.builder.withBody(fileBody)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -5736,9 +5731,8 @@ public enum PutSolFunctionPackageContentOutputError: Swift.Error, Swift.Equatabl
 
 extension PutSolFunctionPackageContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutSolFunctionPackageContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.metadata = output.metadata
@@ -5845,9 +5839,9 @@ public struct PutSolNetworkPackageContentInputBodyMiddleware: ClientRuntime.Midd
     Self.Context == H.Context
     {
         if let file = input.operationInput.file {
-            let filedata = file
-            let filebody = ClientRuntime.HttpBody.data(filedata)
-            input.builder.withBody(filebody)
+            let fileData = file
+            let fileBody = ClientRuntime.HttpBody.data(fileData)
+            input.builder.withBody(fileBody)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -5994,9 +5988,8 @@ public enum PutSolNetworkPackageContentOutputError: Swift.Error, Swift.Equatable
 
 extension PutSolNetworkPackageContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutSolNetworkPackageContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -6111,9 +6104,8 @@ extension PutSolNetworkPackageContentOutputResponseBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6127,7 +6119,7 @@ extension ResourceNotFoundException {
 }
 
 /// Request references a resource that doesn't exist.
-public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6164,9 +6156,8 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6180,7 +6171,7 @@ extension ServiceQuotaExceededException {
 }
 
 /// Service quotas have been exceeded.
-public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6486,9 +6477,8 @@ extension TerminateSolNetworkInstanceOutputResponse: Swift.CustomDebugStringConv
 
 extension TerminateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TerminateSolNetworkInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nsLcmOpOccId = output.nsLcmOpOccId
             self.tags = output.tags
@@ -6546,9 +6536,8 @@ extension TerminateSolNetworkInstanceOutputResponseBody: Swift.Decodable {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6562,7 +6551,7 @@ extension ThrottlingException {
 }
 
 /// Exception caused by throttling.
-public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?
@@ -6823,9 +6812,8 @@ public enum UpdateSolFunctionPackageOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateSolFunctionPackageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateSolFunctionPackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationalState = output.operationalState
         } else {
@@ -6999,9 +6987,8 @@ extension UpdateSolNetworkInstanceOutputResponse: Swift.CustomDebugStringConvert
 
 extension UpdateSolNetworkInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateSolNetworkInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nsLcmOpOccId = output.nsLcmOpOccId
             self.tags = output.tags
@@ -7192,9 +7179,8 @@ public enum UpdateSolNetworkPackageOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateSolNetworkPackageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateSolNetworkPackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nsdOperationalState = output.nsdOperationalState
         } else {
@@ -7307,9 +7293,9 @@ public struct ValidateSolFunctionPackageContentInputBodyMiddleware: ClientRuntim
     Self.Context == H.Context
     {
         if let file = input.operationInput.file {
-            let filedata = file
-            let filebody = ClientRuntime.HttpBody.data(filedata)
-            input.builder.withBody(filebody)
+            let fileData = file
+            let fileBody = ClientRuntime.HttpBody.data(fileData)
+            input.builder.withBody(fileBody)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -7456,9 +7442,8 @@ public enum ValidateSolFunctionPackageContentOutputError: Swift.Error, Swift.Equ
 
 extension ValidateSolFunctionPackageContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidateSolFunctionPackageContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.metadata = output.metadata
@@ -7565,9 +7550,9 @@ public struct ValidateSolNetworkPackageContentInputBodyMiddleware: ClientRuntime
     Self.Context == H.Context
     {
         if let file = input.operationInput.file {
-            let filedata = file
-            let filebody = ClientRuntime.HttpBody.data(filedata)
-            input.builder.withBody(filebody)
+            let fileData = file
+            let fileBody = ClientRuntime.HttpBody.data(fileData)
+            input.builder.withBody(fileBody)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -7714,9 +7699,8 @@ public enum ValidateSolNetworkPackageContentOutputError: Swift.Error, Swift.Equa
 
 extension ValidateSolNetworkPackageContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidateSolNetworkPackageContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -7831,9 +7815,8 @@ extension ValidateSolNetworkPackageContentOutputResponseBody: Swift.Decodable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7847,7 +7830,7 @@ extension ValidationException {
 }
 
 /// Unable to process the request because the client provided input failed to satisfy request constraints.
-public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable, Swift.Error {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
     public var _message: Swift.String?

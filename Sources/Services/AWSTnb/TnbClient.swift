@@ -146,6 +146,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutputResponse, CancelSolNetworkOperationOutputError>(id: "cancelSolNetworkOperation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutputResponse, CancelSolNetworkOperationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelSolNetworkOperationInput, CancelSolNetworkOperationOutputResponse>())
@@ -158,7 +159,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CancelSolNetworkOperationOutputResponse, CancelSolNetworkOperationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CancelSolNetworkOperationOutputResponse, CancelSolNetworkOperationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CancelSolNetworkOperationOutputResponse, CancelSolNetworkOperationOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -178,6 +179,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutputResponse, CreateSolFunctionPackageOutputError>(id: "createSolFunctionPackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutputResponse, CreateSolFunctionPackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSolFunctionPackageInput, CreateSolFunctionPackageOutputResponse>())
@@ -193,7 +195,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSolFunctionPackageOutputResponse, CreateSolFunctionPackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSolFunctionPackageOutputResponse, CreateSolFunctionPackageOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSolFunctionPackageOutputResponse, CreateSolFunctionPackageOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -213,6 +215,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutputResponse, CreateSolNetworkInstanceOutputError>(id: "createSolNetworkInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutputResponse, CreateSolNetworkInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSolNetworkInstanceInput, CreateSolNetworkInstanceOutputResponse>())
@@ -228,7 +231,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSolNetworkInstanceOutputResponse, CreateSolNetworkInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSolNetworkInstanceOutputResponse, CreateSolNetworkInstanceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSolNetworkInstanceOutputResponse, CreateSolNetworkInstanceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -248,6 +251,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutputResponse, CreateSolNetworkPackageOutputError>(id: "createSolNetworkPackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutputResponse, CreateSolNetworkPackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSolNetworkPackageInput, CreateSolNetworkPackageOutputResponse>())
@@ -263,7 +267,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateSolNetworkPackageOutputResponse, CreateSolNetworkPackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSolNetworkPackageOutputResponse, CreateSolNetworkPackageOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSolNetworkPackageOutputResponse, CreateSolNetworkPackageOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -283,6 +287,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutputResponse, DeleteSolFunctionPackageOutputError>(id: "deleteSolFunctionPackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutputResponse, DeleteSolFunctionPackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSolFunctionPackageInput, DeleteSolFunctionPackageOutputResponse>())
@@ -295,7 +300,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSolFunctionPackageOutputResponse, DeleteSolFunctionPackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSolFunctionPackageOutputResponse, DeleteSolFunctionPackageOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSolFunctionPackageOutputResponse, DeleteSolFunctionPackageOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -315,6 +320,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutputResponse, DeleteSolNetworkInstanceOutputError>(id: "deleteSolNetworkInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutputResponse, DeleteSolNetworkInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSolNetworkInstanceInput, DeleteSolNetworkInstanceOutputResponse>())
@@ -327,7 +333,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSolNetworkInstanceOutputResponse, DeleteSolNetworkInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSolNetworkInstanceOutputResponse, DeleteSolNetworkInstanceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSolNetworkInstanceOutputResponse, DeleteSolNetworkInstanceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -347,6 +353,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutputResponse, DeleteSolNetworkPackageOutputError>(id: "deleteSolNetworkPackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutputResponse, DeleteSolNetworkPackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSolNetworkPackageInput, DeleteSolNetworkPackageOutputResponse>())
@@ -359,7 +366,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteSolNetworkPackageOutputResponse, DeleteSolNetworkPackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSolNetworkPackageOutputResponse, DeleteSolNetworkPackageOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSolNetworkPackageOutputResponse, DeleteSolNetworkPackageOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -379,6 +386,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutputResponse, GetSolFunctionInstanceOutputError>(id: "getSolFunctionInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutputResponse, GetSolFunctionInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolFunctionInstanceInput, GetSolFunctionInstanceOutputResponse>())
@@ -391,7 +399,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolFunctionInstanceOutputResponse, GetSolFunctionInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolFunctionInstanceOutputResponse, GetSolFunctionInstanceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolFunctionInstanceOutputResponse, GetSolFunctionInstanceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -411,6 +419,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSolFunctionPackageInput, GetSolFunctionPackageOutputResponse, GetSolFunctionPackageOutputError>(id: "getSolFunctionPackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolFunctionPackageInput, GetSolFunctionPackageOutputResponse, GetSolFunctionPackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolFunctionPackageInput, GetSolFunctionPackageOutputResponse>())
@@ -423,7 +432,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolFunctionPackageOutputResponse, GetSolFunctionPackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolFunctionPackageOutputResponse, GetSolFunctionPackageOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolFunctionPackageOutputResponse, GetSolFunctionPackageOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -443,6 +452,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutputResponse, GetSolFunctionPackageContentOutputError>(id: "getSolFunctionPackageContent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutputResponse, GetSolFunctionPackageContentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolFunctionPackageContentInput, GetSolFunctionPackageContentOutputResponse>())
@@ -456,7 +466,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolFunctionPackageContentOutputResponse, GetSolFunctionPackageContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolFunctionPackageContentOutputResponse, GetSolFunctionPackageContentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolFunctionPackageContentOutputResponse, GetSolFunctionPackageContentOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -476,6 +486,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutputResponse, GetSolFunctionPackageDescriptorOutputError>(id: "getSolFunctionPackageDescriptor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutputResponse, GetSolFunctionPackageDescriptorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolFunctionPackageDescriptorInput, GetSolFunctionPackageDescriptorOutputResponse>())
@@ -489,7 +500,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolFunctionPackageDescriptorOutputResponse, GetSolFunctionPackageDescriptorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolFunctionPackageDescriptorOutputResponse, GetSolFunctionPackageDescriptorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolFunctionPackageDescriptorOutputResponse, GetSolFunctionPackageDescriptorOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -509,6 +520,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutputResponse, GetSolNetworkInstanceOutputError>(id: "getSolNetworkInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutputResponse, GetSolNetworkInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolNetworkInstanceInput, GetSolNetworkInstanceOutputResponse>())
@@ -521,7 +533,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolNetworkInstanceOutputResponse, GetSolNetworkInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkInstanceOutputResponse, GetSolNetworkInstanceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkInstanceOutputResponse, GetSolNetworkInstanceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -541,6 +553,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSolNetworkOperationInput, GetSolNetworkOperationOutputResponse, GetSolNetworkOperationOutputError>(id: "getSolNetworkOperation")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkOperationInput, GetSolNetworkOperationOutputResponse, GetSolNetworkOperationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolNetworkOperationInput, GetSolNetworkOperationOutputResponse>())
@@ -553,7 +566,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolNetworkOperationOutputResponse, GetSolNetworkOperationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkOperationOutputResponse, GetSolNetworkOperationOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkOperationOutputResponse, GetSolNetworkOperationOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -573,6 +586,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSolNetworkPackageInput, GetSolNetworkPackageOutputResponse, GetSolNetworkPackageOutputError>(id: "getSolNetworkPackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkPackageInput, GetSolNetworkPackageOutputResponse, GetSolNetworkPackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolNetworkPackageInput, GetSolNetworkPackageOutputResponse>())
@@ -585,7 +599,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolNetworkPackageOutputResponse, GetSolNetworkPackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkPackageOutputResponse, GetSolNetworkPackageOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkPackageOutputResponse, GetSolNetworkPackageOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -605,6 +619,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutputResponse, GetSolNetworkPackageContentOutputError>(id: "getSolNetworkPackageContent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutputResponse, GetSolNetworkPackageContentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolNetworkPackageContentInput, GetSolNetworkPackageContentOutputResponse>())
@@ -618,7 +633,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolNetworkPackageContentOutputResponse, GetSolNetworkPackageContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkPackageContentOutputResponse, GetSolNetworkPackageContentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkPackageContentOutputResponse, GetSolNetworkPackageContentOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -638,6 +653,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutputResponse, GetSolNetworkPackageDescriptorOutputError>(id: "getSolNetworkPackageDescriptor")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutputResponse, GetSolNetworkPackageDescriptorOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSolNetworkPackageDescriptorInput, GetSolNetworkPackageDescriptorOutputResponse>())
@@ -650,7 +666,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSolNetworkPackageDescriptorOutputResponse, GetSolNetworkPackageDescriptorOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSolNetworkPackageDescriptorOutputResponse, GetSolNetworkPackageDescriptorOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSolNetworkPackageDescriptorOutputResponse, GetSolNetworkPackageDescriptorOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -670,6 +686,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutputResponse, InstantiateSolNetworkInstanceOutputError>(id: "instantiateSolNetworkInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutputResponse, InstantiateSolNetworkInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InstantiateSolNetworkInstanceInput, InstantiateSolNetworkInstanceOutputResponse>())
@@ -686,7 +703,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InstantiateSolNetworkInstanceOutputResponse, InstantiateSolNetworkInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InstantiateSolNetworkInstanceOutputResponse, InstantiateSolNetworkInstanceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InstantiateSolNetworkInstanceOutputResponse, InstantiateSolNetworkInstanceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -706,6 +723,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutputResponse, ListSolFunctionInstancesOutputError>(id: "listSolFunctionInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutputResponse, ListSolFunctionInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSolFunctionInstancesInput, ListSolFunctionInstancesOutputResponse>())
@@ -719,7 +737,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSolFunctionInstancesOutputResponse, ListSolFunctionInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolFunctionInstancesOutputResponse, ListSolFunctionInstancesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolFunctionInstancesOutputResponse, ListSolFunctionInstancesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -739,6 +757,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutputResponse, ListSolFunctionPackagesOutputError>(id: "listSolFunctionPackages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutputResponse, ListSolFunctionPackagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSolFunctionPackagesInput, ListSolFunctionPackagesOutputResponse>())
@@ -752,7 +771,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSolFunctionPackagesOutputResponse, ListSolFunctionPackagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolFunctionPackagesOutputResponse, ListSolFunctionPackagesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolFunctionPackagesOutputResponse, ListSolFunctionPackagesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -772,6 +791,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutputResponse, ListSolNetworkInstancesOutputError>(id: "listSolNetworkInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutputResponse, ListSolNetworkInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSolNetworkInstancesInput, ListSolNetworkInstancesOutputResponse>())
@@ -785,7 +805,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSolNetworkInstancesOutputResponse, ListSolNetworkInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolNetworkInstancesOutputResponse, ListSolNetworkInstancesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolNetworkInstancesOutputResponse, ListSolNetworkInstancesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -805,6 +825,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutputResponse, ListSolNetworkOperationsOutputError>(id: "listSolNetworkOperations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutputResponse, ListSolNetworkOperationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSolNetworkOperationsInput, ListSolNetworkOperationsOutputResponse>())
@@ -818,7 +839,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSolNetworkOperationsOutputResponse, ListSolNetworkOperationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolNetworkOperationsOutputResponse, ListSolNetworkOperationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolNetworkOperationsOutputResponse, ListSolNetworkOperationsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -838,6 +859,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutputResponse, ListSolNetworkPackagesOutputError>(id: "listSolNetworkPackages")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutputResponse, ListSolNetworkPackagesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSolNetworkPackagesInput, ListSolNetworkPackagesOutputResponse>())
@@ -851,7 +873,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSolNetworkPackagesOutputResponse, ListSolNetworkPackagesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSolNetworkPackagesOutputResponse, ListSolNetworkPackagesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSolNetworkPackagesOutputResponse, ListSolNetworkPackagesOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -871,6 +893,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
@@ -883,7 +906,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -903,6 +926,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutputResponse, PutSolFunctionPackageContentOutputError>(id: "putSolFunctionPackageContent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutputResponse, PutSolFunctionPackageContentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSolFunctionPackageContentInput, PutSolFunctionPackageContentOutputResponse>())
@@ -919,7 +943,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSolFunctionPackageContentOutputResponse, PutSolFunctionPackageContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSolFunctionPackageContentOutputResponse, PutSolFunctionPackageContentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSolFunctionPackageContentOutputResponse, PutSolFunctionPackageContentOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -939,6 +963,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutputResponse, PutSolNetworkPackageContentOutputError>(id: "putSolNetworkPackageContent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutputResponse, PutSolNetworkPackageContentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutSolNetworkPackageContentInput, PutSolNetworkPackageContentOutputResponse>())
@@ -955,7 +980,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutSolNetworkPackageContentOutputResponse, PutSolNetworkPackageContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutSolNetworkPackageContentOutputResponse, PutSolNetworkPackageContentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutSolNetworkPackageContentOutputResponse, PutSolNetworkPackageContentOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -975,6 +1000,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
@@ -990,7 +1016,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TagResourceOutputResponse, TagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TagResourceOutputResponse, TagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TagResourceOutputResponse, TagResourceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1010,6 +1036,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutputResponse, TerminateSolNetworkInstanceOutputError>(id: "terminateSolNetworkInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutputResponse, TerminateSolNetworkInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TerminateSolNetworkInstanceInput, TerminateSolNetworkInstanceOutputResponse>())
@@ -1025,7 +1052,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<TerminateSolNetworkInstanceOutputResponse, TerminateSolNetworkInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TerminateSolNetworkInstanceOutputResponse, TerminateSolNetworkInstanceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TerminateSolNetworkInstanceOutputResponse, TerminateSolNetworkInstanceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1045,6 +1072,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
@@ -1058,7 +1086,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UntagResourceOutputResponse, UntagResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1078,6 +1106,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutputResponse, UpdateSolFunctionPackageOutputError>(id: "updateSolFunctionPackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutputResponse, UpdateSolFunctionPackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSolFunctionPackageInput, UpdateSolFunctionPackageOutputResponse>())
@@ -1093,7 +1122,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSolFunctionPackageOutputResponse, UpdateSolFunctionPackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSolFunctionPackageOutputResponse, UpdateSolFunctionPackageOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSolFunctionPackageOutputResponse, UpdateSolFunctionPackageOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1113,6 +1142,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutputResponse, UpdateSolNetworkInstanceOutputError>(id: "updateSolNetworkInstance")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutputResponse, UpdateSolNetworkInstanceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSolNetworkInstanceInput, UpdateSolNetworkInstanceOutputResponse>())
@@ -1128,7 +1158,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSolNetworkInstanceOutputResponse, UpdateSolNetworkInstanceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSolNetworkInstanceOutputResponse, UpdateSolNetworkInstanceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSolNetworkInstanceOutputResponse, UpdateSolNetworkInstanceOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1148,6 +1178,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutputResponse, UpdateSolNetworkPackageOutputError>(id: "updateSolNetworkPackage")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutputResponse, UpdateSolNetworkPackageOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSolNetworkPackageInput, UpdateSolNetworkPackageOutputResponse>())
@@ -1163,7 +1194,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateSolNetworkPackageOutputResponse, UpdateSolNetworkPackageOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSolNetworkPackageOutputResponse, UpdateSolNetworkPackageOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSolNetworkPackageOutputResponse, UpdateSolNetworkPackageOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1183,6 +1214,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutputResponse, ValidateSolFunctionPackageContentOutputError>(id: "validateSolFunctionPackageContent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutputResponse, ValidateSolFunctionPackageContentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ValidateSolFunctionPackageContentInput, ValidateSolFunctionPackageContentOutputResponse>())
@@ -1199,7 +1231,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ValidateSolFunctionPackageContentOutputResponse, ValidateSolFunctionPackageContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ValidateSolFunctionPackageContentOutputResponse, ValidateSolFunctionPackageContentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ValidateSolFunctionPackageContentOutputResponse, ValidateSolFunctionPackageContentOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 
@@ -1219,6 +1251,7 @@ extension TnbClient: TnbClientProtocol {
                       .withRegion(value: config.region)
                       .withSigningName(value: "tnb")
                       .withSigningRegion(value: config.signingRegion)
+                      .build()
         var operation = ClientRuntime.OperationStack<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutputResponse, ValidateSolNetworkPackageContentOutputError>(id: "validateSolNetworkPackageContent")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutputResponse, ValidateSolNetworkPackageContentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ValidateSolNetworkPackageContentInput, ValidateSolNetworkPackageContentOutputResponse>())
@@ -1235,7 +1268,7 @@ extension TnbClient: TnbClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ValidateSolNetworkPackageContentOutputResponse, ValidateSolNetworkPackageContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ValidateSolNetworkPackageContentOutputResponse, ValidateSolNetworkPackageContentOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ValidateSolNetworkPackageContentOutputResponse, ValidateSolNetworkPackageContentOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
 

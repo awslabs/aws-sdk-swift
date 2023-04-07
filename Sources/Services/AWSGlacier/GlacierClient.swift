@@ -168,12 +168,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AbortMultipartUploadOutputResponse, AbortMultipartUploadOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<AbortMultipartUploadOutputResponse, AbortMultipartUploadOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AbortMultipartUploadOutputResponse, AbortMultipartUploadOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AbortMultipartUploadOutputResponse, AbortMultipartUploadOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -215,12 +211,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AbortVaultLockOutputResponse, AbortVaultLockOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<AbortVaultLockOutputResponse, AbortVaultLockOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AbortVaultLockOutputResponse, AbortVaultLockOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AbortVaultLockOutputResponse, AbortVaultLockOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -266,12 +258,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AddTagsToVaultOutputResponse, AddTagsToVaultOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<AddTagsToVaultOutputResponse, AddTagsToVaultOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AddTagsToVaultOutputResponse, AddTagsToVaultOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AddTagsToVaultOutputResponse, AddTagsToVaultOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -314,12 +302,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CompleteMultipartUploadOutputResponse, CompleteMultipartUploadOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<CompleteMultipartUploadOutputResponse, CompleteMultipartUploadOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompleteMultipartUploadOutputResponse, CompleteMultipartUploadOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CompleteMultipartUploadOutputResponse, CompleteMultipartUploadOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -361,12 +345,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CompleteVaultLockOutputResponse, CompleteVaultLockOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<CompleteVaultLockOutputResponse, CompleteVaultLockOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CompleteVaultLockOutputResponse, CompleteVaultLockOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CompleteVaultLockOutputResponse, CompleteVaultLockOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -415,12 +395,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateVaultOutputResponse, CreateVaultOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<CreateVaultOutputResponse, CreateVaultOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateVaultOutputResponse, CreateVaultOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateVaultOutputResponse, CreateVaultOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -469,12 +445,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteArchiveOutputResponse, DeleteArchiveOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<DeleteArchiveOutputResponse, DeleteArchiveOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteArchiveOutputResponse, DeleteArchiveOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteArchiveOutputResponse, DeleteArchiveOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -516,12 +488,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVaultOutputResponse, DeleteVaultOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<DeleteVaultOutputResponse, DeleteVaultOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVaultOutputResponse, DeleteVaultOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVaultOutputResponse, DeleteVaultOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -563,12 +531,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVaultAccessPolicyOutputResponse, DeleteVaultAccessPolicyOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<DeleteVaultAccessPolicyOutputResponse, DeleteVaultAccessPolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVaultAccessPolicyOutputResponse, DeleteVaultAccessPolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVaultAccessPolicyOutputResponse, DeleteVaultAccessPolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -610,12 +574,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteVaultNotificationsOutputResponse, DeleteVaultNotificationsOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<DeleteVaultNotificationsOutputResponse, DeleteVaultNotificationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteVaultNotificationsOutputResponse, DeleteVaultNotificationsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteVaultNotificationsOutputResponse, DeleteVaultNotificationsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -657,12 +617,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeJobOutputResponse, DescribeJobOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<DescribeJobOutputResponse, DescribeJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeJobOutputResponse, DescribeJobOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeJobOutputResponse, DescribeJobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -704,12 +660,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeVaultOutputResponse, DescribeVaultOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<DescribeVaultOutputResponse, DescribeVaultOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeVaultOutputResponse, DescribeVaultOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeVaultOutputResponse, DescribeVaultOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -751,12 +703,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetDataRetrievalPolicyOutputResponse, GetDataRetrievalPolicyOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<GetDataRetrievalPolicyOutputResponse, GetDataRetrievalPolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetDataRetrievalPolicyOutputResponse, GetDataRetrievalPolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetDataRetrievalPolicyOutputResponse, GetDataRetrievalPolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -799,12 +747,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetJobOutputOutputResponse, GetJobOutputOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<GetJobOutputOutputResponse, GetJobOutputOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetJobOutputOutputResponse, GetJobOutputOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetJobOutputOutputResponse, GetJobOutputOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -846,12 +790,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVaultAccessPolicyOutputResponse, GetVaultAccessPolicyOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<GetVaultAccessPolicyOutputResponse, GetVaultAccessPolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVaultAccessPolicyOutputResponse, GetVaultAccessPolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVaultAccessPolicyOutputResponse, GetVaultAccessPolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -904,12 +844,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVaultLockOutputResponse, GetVaultLockOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<GetVaultLockOutputResponse, GetVaultLockOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVaultLockOutputResponse, GetVaultLockOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVaultLockOutputResponse, GetVaultLockOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -951,12 +887,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVaultNotificationsOutputResponse, GetVaultNotificationsOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<GetVaultNotificationsOutputResponse, GetVaultNotificationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVaultNotificationsOutputResponse, GetVaultNotificationsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVaultNotificationsOutputResponse, GetVaultNotificationsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1001,12 +933,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InitiateJobOutputResponse, InitiateJobOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<InitiateJobOutputResponse, InitiateJobOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InitiateJobOutputResponse, InitiateJobOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InitiateJobOutputResponse, InitiateJobOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1049,12 +977,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InitiateMultipartUploadOutputResponse, InitiateMultipartUploadOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<InitiateMultipartUploadOutputResponse, InitiateMultipartUploadOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InitiateMultipartUploadOutputResponse, InitiateMultipartUploadOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InitiateMultipartUploadOutputResponse, InitiateMultipartUploadOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1108,12 +1032,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<InitiateVaultLockOutputResponse, InitiateVaultLockOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<InitiateVaultLockOutputResponse, InitiateVaultLockOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<InitiateVaultLockOutputResponse, InitiateVaultLockOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<InitiateVaultLockOutputResponse, InitiateVaultLockOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1156,12 +1076,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListJobsOutputResponse, ListJobsOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<ListJobsOutputResponse, ListJobsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListJobsOutputResponse, ListJobsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListJobsOutputResponse, ListJobsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1204,12 +1120,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMultipartUploadsOutputResponse, ListMultipartUploadsOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<ListMultipartUploadsOutputResponse, ListMultipartUploadsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMultipartUploadsOutputResponse, ListMultipartUploadsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMultipartUploadsOutputResponse, ListMultipartUploadsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1252,12 +1164,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListPartsOutputResponse, ListPartsOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<ListPartsOutputResponse, ListPartsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListPartsOutputResponse, ListPartsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListPartsOutputResponse, ListPartsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1299,12 +1207,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProvisionedCapacityOutputResponse, ListProvisionedCapacityOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<ListProvisionedCapacityOutputResponse, ListProvisionedCapacityOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProvisionedCapacityOutputResponse, ListProvisionedCapacityOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProvisionedCapacityOutputResponse, ListProvisionedCapacityOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1346,12 +1250,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForVaultOutputResponse, ListTagsForVaultOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<ListTagsForVaultOutputResponse, ListTagsForVaultOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForVaultOutputResponse, ListTagsForVaultOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForVaultOutputResponse, ListTagsForVaultOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1394,12 +1294,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVaultsOutputResponse, ListVaultsOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<ListVaultsOutputResponse, ListVaultsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVaultsOutputResponse, ListVaultsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVaultsOutputResponse, ListVaultsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1441,12 +1337,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurchaseProvisionedCapacityOutputResponse, PurchaseProvisionedCapacityOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<PurchaseProvisionedCapacityOutputResponse, PurchaseProvisionedCapacityOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurchaseProvisionedCapacityOutputResponse, PurchaseProvisionedCapacityOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PurchaseProvisionedCapacityOutputResponse, PurchaseProvisionedCapacityOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1492,12 +1384,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<RemoveTagsFromVaultOutputResponse, RemoveTagsFromVaultOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<RemoveTagsFromVaultOutputResponse, RemoveTagsFromVaultOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RemoveTagsFromVaultOutputResponse, RemoveTagsFromVaultOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RemoveTagsFromVaultOutputResponse, RemoveTagsFromVaultOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1542,12 +1430,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetDataRetrievalPolicyOutputResponse, SetDataRetrievalPolicyOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<SetDataRetrievalPolicyOutputResponse, SetDataRetrievalPolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetDataRetrievalPolicyOutputResponse, SetDataRetrievalPolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetDataRetrievalPolicyOutputResponse, SetDataRetrievalPolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1592,12 +1476,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetVaultAccessPolicyOutputResponse, SetVaultAccessPolicyOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<SetVaultAccessPolicyOutputResponse, SetVaultAccessPolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetVaultAccessPolicyOutputResponse, SetVaultAccessPolicyOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetVaultAccessPolicyOutputResponse, SetVaultAccessPolicyOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1649,12 +1529,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SetVaultNotificationsOutputResponse, SetVaultNotificationsOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<SetVaultNotificationsOutputResponse, SetVaultNotificationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SetVaultNotificationsOutputResponse, SetVaultNotificationsOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SetVaultNotificationsOutputResponse, SetVaultNotificationsOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1700,12 +1576,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadArchiveOutputResponse, UploadArchiveOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<UploadArchiveOutputResponse, UploadArchiveOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadArchiveOutputResponse, UploadArchiveOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadArchiveOutputResponse, UploadArchiveOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 
@@ -1760,12 +1632,8 @@ extension GlacierClient: GlacierClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UploadMultipartPartOutputResponse, UploadMultipartPartOutputError>(config: sigv4Config))
         operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.Sha256TreeHashMiddleware<UploadMultipartPartOutputResponse, UploadMultipartPartOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UploadMultipartPartOutputResponse, UploadMultipartPartOutputError>())
-<<<<<<< HEAD
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UploadMultipartPartOutputResponse, UploadMultipartPartOutputError>(clientLogMode: config.clientLogMode))
-        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
-=======
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
->>>>>>> b36b3a7d69 (feat: codegen and integration (#925))
         return result
     }
 

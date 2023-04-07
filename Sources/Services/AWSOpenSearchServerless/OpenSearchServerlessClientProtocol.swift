@@ -57,7 +57,7 @@ public protocol OpenSearchServerlessClientProtocol {
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates an OpenSearch Serverless access policy. For more information, see [Data access control for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html).
     func updateAccessPolicy(input: UpdateAccessPolicyInput) async throws -> UpdateAccessPolicyOutputResponse
-    /// Update the OpenSearch Serverless settings for the current Amazon Web Services account. For more information, see [Autoscaling](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-overview.html#serverless-scaling).
+    /// Update the OpenSearch Serverless settings for the current Amazon Web Services account. For more information, see [Managing capacity limits for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-scaling.html).
     func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutputResponse
     /// Updates an OpenSearch Serverless collection.
     func updateCollection(input: UpdateCollectionInput) async throws -> UpdateCollectionOutputResponse
